@@ -9,6 +9,10 @@ cache:
   directories:
     - $HOME/.pub-cache
 
+stages:
+  - "Test"
+  - "Analytics"
+
 jobs:
   include:
     - stage: "Test"
@@ -36,6 +40,7 @@ jobs:
       script:
         - ./flutter/bin/flutter test --coverage
 
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+    - stage: "Analytics"
+      name: "Codecov"
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
