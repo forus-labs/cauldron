@@ -1,3 +1,7 @@
+## 1.0.5
+- Change minimum Dart version from `2.7.0` to `2.8.4`
+- Move Flint to Cauldron
+
 ## 1.0.4 - Moar Fixes
 
 - Fix `parameter_assignment` being enabled
