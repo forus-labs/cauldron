@@ -30,12 +30,13 @@ jobs:
             - fonts-noto
       install: true
       before_script:
-        - cd $TRAVIS_BUILD_DIR/out_of_context/
+        - cd $TRAVIS_BUILD_DIR/../
         - git clone https://github.com/flutter/flutter.git -b stable --depth 1
+        - cd $TRAVIS_BUILD_DIR/out_of_context/
 
 
       script:
-        - ./flutter/bin/flutter test --coverage
+        - $TRAVIS_BUILD_DIR/../flutter/bin/flutter test --coverage
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
