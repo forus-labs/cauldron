@@ -11,8 +11,9 @@ jobs:
       name: "Flint"
       before_script:
         - cd $TRAVIS_BUILD_DIR/flint/
+        - pub get
       script:
-        - dartanalyzer lib --fatal-warnings auto_updater
+        - dartanalyzer lib auto_updater --fatal-warnings
 
 
 after_success:
