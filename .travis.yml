@@ -26,8 +26,8 @@ jobs:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - libstdc++6
-            - fonts-droid
+            - lib32stdc++6
+            - fonts-noto
       install: true
       before_script:
         - cd $TRAVIS_BUILD_DIR/out_of_context/
