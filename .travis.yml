@@ -11,7 +11,7 @@ cache:
 
 stages:
   - "Test"
-  - "Analytics"
+  - "Reports"
 
 jobs:
   include:
@@ -40,7 +40,7 @@ jobs:
       script:
         - ./flutter/bin/flutter test --coverage
 
-    - stage: "Analytics"
+    - stage: "Reports"
       name: "Codecov"
       after_success:
         - bash <(curl -s https://codecov.io/bash)
