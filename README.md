@@ -23,3 +23,11 @@ dev_dependencies:
 ***
 ### Out of Context - Context-free navigation, scaffolds & snackbars
 
+[![Pub Dev](https://img.shields.io/pub/v/out_of_context)](https://pub.dev/packages/out_of_context)
+
+```YAML
+dev_dependencies:
+  out_of_context: ^1.0.0
+```
+
+

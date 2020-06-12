@@ -5,6 +5,10 @@ dist: bionic
 dart:
   - stable
 
+cache:
+  directories:
+    - $HOME/.pub-cache
+
 jobs:
   include:
     - stage: "Test"
@@ -14,6 +18,23 @@ jobs:
         - pub get
       script:
         - dartanalyzer lib auto_updater --fatal-warnings
+
+    - stage: "Test"
+      name: "Out of Context"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - libstdc++6
+            - fonts-droid
+      install: true
+      before_script:
+        - cd $TRAVIS_BUILD_DIR/out_of_context/
+        - git clone https://github.com/flutter/flutter.git -b stable --depth 1
+
+      script:
+        - ./flutter/bin/flutter test
 
 
 after_success:
