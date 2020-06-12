@@ -1,5 +1,5 @@
 language: dart
-sudo: required
+sudo: false
 dist: bionic
 
 dart:
@@ -9,9 +9,10 @@ jobs:
   include:
     - stage: "Test"
       name: "Flint"
-      script:
+      before_script:
         - cd $TRAVIS_BUILD_DIR/flint/
-        - dartanalyzer --fatal-warnings auto_updater
+      script:
+        - dartanalyzer lib --fatal-warnings auto_updater
 
 
 after_success:
