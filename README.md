@@ -1,6 +1,8 @@
 # Cauldron
 
-**Forus Labs' mono-repository for Dart & Flutter.** 
+Forus Labs' mono-repository for Dart & Flutter.
+* Sets of `dartanalyzer` lints that we use internally in our Dart & Flutter projects.
+* Context-free navigation, scaffolds & snackbars.
 
 **Please view the [stable brunch](https://github.com/forus-labs/cauldron/tree/stable) for a production version.**
 
@@ -17,4 +19,7 @@
 dev_dependencies:
   flint: ^1.0.5
 ```
+
+***
+### Out of Context - Context-free navigation, scaffolds & snackbars
 

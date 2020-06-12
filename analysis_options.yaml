@@ -1,1 +1,1 @@
-include: flint/lib/dart/dev/analysis_options.yaml
+include: flint/lib/src/dart/dev/analysis_options.yaml
