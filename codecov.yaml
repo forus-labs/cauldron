@@ -1,0 +1,13 @@
+coverage:
+  range: 80..100
+  status:
+    project:
+      default: off
+      flint:
+        flags: flint
+
+flags:
+  # filter the folder(s) you wish to measure by that flag
+  flint:
+    paths:
+      - flint/lib/

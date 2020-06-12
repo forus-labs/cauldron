@@ -1,0 +1,6 @@
+include: ../dev/analysis_options.1.0.0.yaml
+
+linter:
+  rules:
+    - package_api_docs
+    - public_member_api_docs

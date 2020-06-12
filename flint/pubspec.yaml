@@ -1,0 +1,12 @@
+name: flint
+description: This package contains Forus Labs' different sets of dartanalyzer lints that we use internally in our Dart & Flutter projects.
+version: 1.0.4
+homepage: https://github.com/forus-labs/flint
+repository: https://github.com/forus-labs/flint
+
+environment:
+  sdk: '>=2.7.0 <3.0.0'
+
+dev_dependencies:
+  meta: ^1.1.7
+  yaml: ^2.2.0

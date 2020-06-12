@@ -1,0 +1,18 @@
+language: dart
+sudo: required
+dist: bionic
+
+dart:
+  - stable
+
+jobs:
+  include:
+    - stage: "Test"
+      name: "Flint"
+      script:
+        - cd $TRAVIS_BUILD_DIR/flint/
+        - dartanalyzer --fatal-warnings auto_updater
+
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
