@@ -20,8 +20,5 @@ dev_dependencies:
   flint: ^1.0.7
 
 dependency_overrides:
-  out_of_context:
-    path: ../out_of_context
-
   flint:
     path: ../flint
