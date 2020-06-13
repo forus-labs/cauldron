@@ -42,4 +42,3 @@ class Fancy with RouterMixin {
 Mock of Context is a companion project that provides mocks to simplify testing. 
 
 **Please see the project [here](https://pub.dev/packages/mock_of_context).**
-
