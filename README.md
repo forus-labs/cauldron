@@ -34,14 +34,14 @@ dependencies:
 
 <br>
 
-**Companion Project for Testing**
+_**Companion project for testing**_
 
 [![Pub Dev](https://img.shields.io/pub/v/mock_of_context)](https://pub.dev/packages/mock_of_context)
 [![Documentation](https://img.shields.io/badge/documentation-1.0.0-brightgreen.svg)](https://pub.dev/documentation/mock_of_context/latest/)
 
 ```YAML
 dev_dependencies:
-    mock_of_context; ^1.0.0
+    mock_of_context: ^1.0.0
 ```
 
 
