@@ -5,7 +5,7 @@
 [![Pub Dev](https://img.shields.io/pub/v/flint)](https://pub.dev/packages/cauldron)
 [![Documentation](https://img.shields.io/badge/documentation-1.0.5-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)
 
-**Forus Labs' sets of `dartanalyzer` lints that is used internally in our Dart & Flutter projects.**
+**Forus Labs' `dartanalyzer` configurations that are used internally in our Dart & Flutter projects.**
 
 **Please view the [stable brunch](https://github.com/forus-labs/cauldron/tree/stable/flint/) for a production version.**
 
@@ -19,21 +19,21 @@ dev_dependencies:
   flint: ^1.0.5  
 ```
 
-Then, add a set of lints to your `analysis_options.yaml`. The following will always include the latest version of said set.
+Then, add a configuration to your `analysis_options.yaml`. The following will always include the latest version of said set.
 
 ```yaml
 include: package:flint/dart/dev/analysis_options.yaml
 ```
 
-A specific version of a set of lints can be used via:
+A specific configuration version can be used via:
 ```yaml
 include: package:flint/dart/dev/analysis_options.1.0.5.yaml
 ```
 
 ***
-### Lint Sets
+### Configurations
 
-| Lint                                                 | Description                                        |
+| Configuration                                                 | Description                                        |
 | :--------------------------------------------------- | :------------------------------------------------- |
 | `package:flint/dart/dev/analysis_options.yaml`       | `master` branch of a Dart project                  |
 | `package:flint/dart/stable/analysis_options.yaml`    | `staging` and `stable` branch of a Dart project    |

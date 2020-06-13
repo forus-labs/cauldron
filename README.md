@@ -1,7 +1,7 @@
 # Cauldron
 
 Forus Labs' mono-repository for Dart & Flutter.
-* Sets of `dartanalyzer` lints that we use internally in our Dart & Flutter projects.
+* Dart Analyzer configurations that we use internally in our Dart & Flutter projects.
 * Context-free navigation, scaffolds & snackbars.
 
 **Please view the [stable brunch](https://github.com/forus-labs/cauldron/tree/stable) for a production version.**
@@ -25,10 +25,10 @@ dev_dependencies:
 ### Out of Context - Context-free navigation, scaffolds & snackbars
 
 [![Pub Dev](https://img.shields.io/pub/v/out_of_context)](https://pub.dev/packages/out_of_context)
-[![Documentation](https://img.shields.io/badge/documentation-1.0.5-brightgreen.svg)](https://pub.dev/documentation/out_of_context/latest/)
+[![Documentation](https://img.shields.io/badge/documentation-1.0.0-brightgreen.svg)](https://pub.dev/documentation/out_of_context/latest/)
 
 ```YAML
-dev_dependencies:
+dependencies:
   out_of_context: ^1.0.0
 ```
 
