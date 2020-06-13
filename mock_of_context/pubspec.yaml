@@ -18,5 +18,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flint: ^1.0.7
+
+dependency_overrides:
   flint:
     path: ../flint
