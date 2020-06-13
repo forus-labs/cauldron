@@ -1,1 +1,1 @@
-include: lib/src/dart/dev/analysis_options.yaml
+include: lib/src/dart/stable/analysis_options.yaml
