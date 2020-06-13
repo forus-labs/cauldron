@@ -1,1 +1,1 @@
-include: ../flint/lib/src/flutter/stable/analysis_options.yaml
+include: package:flint/dart/stable/analysis_options.yaml
