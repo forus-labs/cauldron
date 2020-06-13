@@ -9,7 +9,7 @@ Navigation in Flutter involves a great deal of ceremony as a `BuilderContext` mu
 A `BuilContext` must be passed down from a Widget to the calling method, which is needlessly verbose. It also makes testing
 hard as the navigation methods are static and cannot be mocked.
 
-`Out of Context` provides (over-glorified) wrappers for context-free navigation and scaffolds.
+Out of Context provides (over-glorified) wrappers for context-free navigation and scaffolds.
 
 **Please view the [stable brunch](https://github.com/forus-labs/cauldron/tree/stable/out_of_context/) for a production version.**
 
@@ -35,4 +35,11 @@ class Fancy with RouterMixin {
 
 }
 ```
+
+***
+###  Mock of Context
+
+Mock of Context is a companion project that provides mocks to simplify testing. 
+
+**Please see the project [here](https://pub.dev/packages/mock_of_context).**
 

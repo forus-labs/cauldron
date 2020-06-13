@@ -36,7 +36,7 @@ jobs:
 
       script:
         - cd $TRAVIS_BUILD_DIR/out_of_context/
-        - flutter analyze --fatal-warnings
+        - flutter analyze
         - flutter test --coverage
 
 after_success:
