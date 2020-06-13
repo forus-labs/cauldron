@@ -5,6 +5,7 @@ import 'package:out_of_context/src/keyed.dart';
 
 mixin RouterMixin {
 
+  @visibleForTesting
   @protected final Router router = const Router();
 
 }
@@ -30,7 +31,7 @@ class Router extends Keyed<NavigatorState> {
 
   void replace<T>({@required Route<dynamic> old, @required Route<T> route}) => state.replace(oldRoute: old, newRoute: route);
 
-  void replaceRouteBelow<T>({@required Route<dynamic> anchor, @required  Route<T> route}) => state.replaceRouteBelow(anchorRoute: anchor, newRoute: route);
+  void replaceRouteBelow<T>({@required Route<dynamic> anchor, @required Route<T> route}) => state.replaceRouteBelow(anchorRoute: anchor, newRoute: route);
 
 
   bool canPop() => state.canPop();

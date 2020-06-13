@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 
-abstract class Keyed<T extends State> {
+class Keyed<T extends State> {
 
   const Keyed();
 

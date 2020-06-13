@@ -14,6 +14,7 @@ Forus Labs' mono-repository for Dart & Flutter.
 ### Flint - Because Pedantic wasn't strict enough
 
 [![Pub Dev](https://img.shields.io/pub/v/flint)](https://pub.dev/packages/flint)
+[![Documentation](https://img.shields.io/badge/documentation-1.0.5-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)
 
 ```YAML
 dev_dependencies:
@@ -24,6 +25,7 @@ dev_dependencies:
 ### Out of Context - Context-free navigation, scaffolds & snackbars
 
 [![Pub Dev](https://img.shields.io/pub/v/out_of_context)](https://pub.dev/packages/out_of_context)
+[![Documentation](https://img.shields.io/badge/documentation-1.0.5-brightgreen.svg)](https://pub.dev/documentation/out_of_context/latest/)
 
 ```YAML
 dev_dependencies:

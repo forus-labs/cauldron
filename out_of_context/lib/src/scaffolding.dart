@@ -7,6 +7,7 @@ final _scaffold = GlobalKey<ScaffoldState>();
 
 mixin ScaffoldMixin {
 
+  @visibleForTesting
   @protected ScaffoldState get scaffold => _scaffold.currentState;
 
 }
