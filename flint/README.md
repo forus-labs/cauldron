@@ -1,8 +1,8 @@
 # Flint - Because Pedantic wasn't strict enough
 
-[![Travis CI](https://img.shields.io/travis/forus-labs/flint/master?logo=travis)](https://travis-ci.com/forus-labs/cauldron)
+[![Travis CI](https://img.shields.io/travis/forus-labs/cauldron/master?logo=travis)](https://travis-ci.com/forus-labs/cauldron)
 [![Codecov](https://codecov.io/gh/forus-labs/cauldron/branch/master/graph/badge.svg)](https://codecov.io/gh/forus-labs/cauldron)
-[![Pub Dev](https://img.shields.io/pub/v/flint)](https://pub.dev/packages/cauldron)
+[![Pub Dev](https://img.shields.io/pub/v/flint)](https://pub.dev/packages/flint)
 [![Documentation](https://img.shields.io/badge/documentation-1.0.5-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)
 
 **Forus Labs' `dartanalyzer` configurations that are used internally in our Dart & Flutter projects.**

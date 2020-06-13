@@ -1,4 +1,4 @@
-## 1.0.0 - Initial Launch! 🚀
+## 1.0.0 - How can mirrors be real if our eyes aren't real?
 
 - Add `Keyed`
 - Add `Router`

@@ -28,15 +28,16 @@ jobs:
           packages:
             - lib32stdc++6
             - fonts-noto
-      install: true
+
       before_script:
         - cd $TRAVIS_BUILD_DIR/../
         - git clone https://github.com/flutter/flutter.git -b stable --depth 1
-        - cd $TRAVIS_BUILD_DIR/out_of_context/
-
+        - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
 
       script:
-        - $TRAVIS_BUILD_DIR/../flutter/bin/flutter test --coverage
+        - cd $TRAVIS_BUILD_DIR/out_of_context/
+        - flutter analyze --fatal-warnings
+        - flutter test --coverage
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

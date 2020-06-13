@@ -1,5 +1,5 @@
 name: out_of_context
-description: Context-free navigation, scaffolds & snackbars in Flutter
+description: Context-free navigation & scaffolds in Flutter
 version: 1.0.0
 homepage: https://github.com/forus-labs/cauldron
 repository: https://github.com/forus-labs/cauldron
@@ -8,9 +8,9 @@ environment:
   sdk: '>=2.8.4 <3.0.0'
 
 dependencies:
-  meta: ^1.1.8
   flutter:
     sdk: flutter
+  meta: ^1.1.8
 
 dev_dependencies:
   flutter_test:
