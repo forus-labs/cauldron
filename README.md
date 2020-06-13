@@ -14,11 +14,11 @@ Forus Labs' mono-repository for Dart & Flutter.
 ### Flint - Because Pedantic wasn't strict enough
 
 [![Pub Dev](https://img.shields.io/pub/v/flint)](https://pub.dev/packages/flint)
-[![Documentation](https://img.shields.io/badge/documentation-1.0.5-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)
+[![Documentation](https://img.shields.io/badge/documentation-1.0.6-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)
 
 ```YAML
 dev_dependencies:
-  flint: ^1.0.5
+  flint: ^1.0.6
 ```
 
 ***
