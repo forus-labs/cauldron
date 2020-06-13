@@ -5,9 +5,17 @@ coverage:
       default: off
       flint:
         flags: flint
+      out_of_context:
+        flags: out_of_context
+
+ignore:
+  - "**/flutter-tools"
 
 flags:
   # filter the folder(s) you wish to measure by that flag
   flint:
     paths:
       - flint/lib/
+  out_of_context:
+    pths:
+      - out_of_context/lib/
