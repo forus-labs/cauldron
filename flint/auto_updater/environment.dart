@@ -23,10 +23,10 @@ YamlMap loadYamlFile(String relativePath) => loadYamlDocument(File.fromUri(Uri.p
 
 
 const List<String> folders = [
-  'dart/dev',
-  'dart/stable',
-  'flutter/dev',
-  'flutter/stable',
+  'src/dart/dev',
+  'src/dart/stable',
+  'src/flutter/dev',
+  'src/flutter/stable',
 ];
 
 
