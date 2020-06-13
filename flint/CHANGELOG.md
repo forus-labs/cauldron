@@ -1,3 +1,6 @@
+## 1.0.7 - Flint City (13/06/2020)
+- Fix analysis_options not getting exported
+
 ## 1.0.6 - The Flintstones (13/06/2020)
 - Add library directive
 

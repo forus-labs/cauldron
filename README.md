@@ -25,11 +25,11 @@ dev_dependencies:
 ### Out of Context - Context-free navigation & scaffolds
 
 [![Pub Dev](https://img.shields.io/pub/v/out_of_context)](https://pub.dev/packages/out_of_context)
-[![Documentation](https://img.shields.io/badge/documentation-1.0.0-brightgreen.svg)](https://pub.dev/documentation/out_of_context/latest/)
+[![Documentation](https://img.shields.io/badge/documentation-1.0.1-brightgreen.svg)](https://pub.dev/documentation/out_of_context/latest/)
 
 ```YAML
 dependencies:
-  out_of_context: ^1.0.0
+  out_of_context: ^1.0.1
 ```
 
 <br>
