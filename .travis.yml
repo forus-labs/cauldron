@@ -20,7 +20,7 @@ jobs:
         - dartanalyzer lib auto_updater --fatal-warnings
 
     - stage: "Test"
-      name: "Out of Context"
+      name: "Out of Context & Mock of Context"
       addons:
         apt:
           sources:
@@ -36,6 +36,10 @@ jobs:
 
       script:
         - cd $TRAVIS_BUILD_DIR/out_of_context/
+        - flutter analyze
+        - flutter test --coverage
+
+        - cd $TRAVIS_BUILD_DIR/mock_of_context/
         - flutter analyze
         - flutter test --coverage
 

@@ -1,6 +1,6 @@
-name: out_of_context
-description: Context-free navigation & scaffolds in Flutter
-version: 1.0.1
+name: mock_of_context
+description: Companion project for testing out_of_context
+version: 1.0.0
 homepage: https://github.com/forus-labs/cauldron
 repository: https://github.com/forus-labs/cauldron
 
@@ -11,10 +11,12 @@ dependencies:
   flutter:
     sdk: flutter
   meta: ^1.1.8
+  mockito: ^4.1.1
+  out_of_context:
+    path: ../out_of_context
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flint:
     path: ../flint
-  mockito: ^4.1.1
