@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:meta/meta.dart';
 import 'package:yaml/yaml.dart';
 
-import 'package:lingua/src/tree/element.dart';
-import 'package:lingua/src/tree/parser/identifier.dart';
+import 'file:///C:/Users/Matthias/Documents/NetBeansProjects/cauldron/lingua/lib/src/old/element.dart';
+import 'file:///C:/Users/Matthias/Documents/NetBeansProjects/cauldron/lingua/lib/src/old/identifier.dart';
 
 
 final _range = RegExp(r'((\s*(<)|(<=)|(>=)|(>))?(\s*\d+(\.\d+)?)(\s*&&\s*((<)|(<=)|(>=)|(>))(\s*\d+(\.\d+)?))?)');
@@ -22,7 +22,7 @@ class YamlParser {
   @visibleForTesting
   Element element(Context context, YamlNode node) {
     if (node is !YamlMap) {
-      return ErrorElement('${context.message} is invalid, should be a map');
+      return ErrorElement(context.key, ['${context.message} is invalid, should be a map']);
     }
 
     final mapping = node as YamlMap;
@@ -39,13 +39,13 @@ class YamlParser {
       return gender(context, mapping);
 
     } else {
-      return ErrorElement('${context.message} is invalid, cannot contain both "$_plural" and "$_gender"');
+      return ErrorElement(context.key, ['${context.message} is invalid, cannot contain both "$_plural" and "$_gender"']);
     }
   }
 
   @visibleForTesting
   Element map(Context context, YamlMap mapping) {
-    final map = MapElement(Type.map);
+    final map = MapElement(context.key, Type.map);
     for (final entry in mapping.entries) {
       if (entry.value is YamlNode) {
         map.children[entry.key] = element(context.descend(entry.key), entry.value);
@@ -54,7 +54,7 @@ class YamlParser {
         map.children[entry.key] = value(context.descend(entry.key), entry.value);
 
       } else {
-        map.children[entry.key] = ErrorElement('${context.descend(entry.key).message} is invalid, should be either a map or string');
+        map.children[entry.key] = ErrorElement(context.key, ['${context.descend(entry.key).message} is invalid, should be either a map or string']);
       }
     }
 
@@ -63,11 +63,11 @@ class YamlParser {
 
   @visibleForTesting
   Element plural(Context context, YamlMap map) {
-    final element = MapElement(Type.plural);
+    final element = MapElement(context.key, Type.plural);
 
     for (final entry in map.entries) {
       if (entry.value is !String) {
-         element.children[entry.key] = ErrorElement('${context.descend(entry.key).message} is invalid, should contain only strings');
+         element.children[entry.key] = ErrorElement(entry.key, ['${context.descend(entry.key).message} is invalid, should contain only strings']);
 
       } else if (_range.stringMatch(entry.key) == entry.key) {
         element.children[entry.key] = value(context.descend(entry.key), entry.value);
@@ -80,13 +80,13 @@ class YamlParser {
   @visibleForTesting
   Element gender(Context context, YamlMap map) {
     if (map.keys.length > 3) {
-      return ErrorElement('${context.message} is invalid, should not contain more than 3 fields');
+      return ErrorElement(context.key, ['${context.message} is invalid, should not contain more than 3 fields']);
     }
     
-    final element = MapElement(Type.gender);
+    final element = MapElement(context.key, Type.gender);
     for (final entry in map.entries) {
       if (entry.value is !String) {
-        element.children[entry.key] = ErrorElement('${context.message} is invalid, should be string');
+        element.children[entry.key] = ErrorElement(context.key, ['${context.message} is invalid, should be string']);
         continue;
       }
 
@@ -98,7 +98,7 @@ class YamlParser {
           break;
 
         default:
-          element.children[entry.key] = ErrorElement('${context.descend(entry.key).message} is invalid, key should match "male", "female" or "$_gender"');
+          element.children[entry.key] = ErrorElement(context.key, ['${context.descend(entry.key).message} is invalid, key should match "male", "female" or "$_gender"']);
       }
     }
 
@@ -108,21 +108,24 @@ class YamlParser {
   @visibleForTesting
   Element value(Context context, String value) {
     final variables = <String>{};
-    final errors = <String>{};
+    final errors = <String>[];
 
-    for (final match in identifier.allMatches(value)) {
-      final raw = match.group(0);
-      final argument = raw.substring(2, raw.length);
+    for (final match in interpolation.allMatches(value)) {
+      final literal = match.group(0);
+      final name = literal.substring(2, literal.length);
 
-      keywords.contains(argument) ? errors.add(raw) : variables.add(argument);
+      if (identifier.matchAsPrefix(name) == null) {
+        errors.add('"$literal" in ${context.message} is invalid, should be a valid Dart identifier');
+
+      } else if (keywords.contains(name)) {
+        errors.add('"$literal" in ${context.message} is invalid, should not be a reserved keyword');
+
+      } else {
+        variables.add(name);
+      }
     }
 
-    if (errors.isEmpty) {
-      return ValueElement(value, variables);
-
-    } else {
-      return ErrorElement('"${errors.join('", "')}" in ${context.message} ${errors.length <= 1 ? 'is' : 'are'} invalid, should not be a reserved keyword');
-    }
+    return errors.isEmpty ? ValueElement(context.key, value, variables) : ErrorElement(context.key, errors);
   }
 
 }

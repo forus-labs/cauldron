@@ -1,58 +1,62 @@
-mixin Element {
+import 'package:lingua/src/tree/gender.dart';
+import 'package:lingua/src/tree/range/expression.dart';
+import 'package:lingua/src/tree/visitor.dart';
+
+
+abstract class Element {
+
+  final String key;
+  final String lexeme;
+
+  Element(this.key, this.lexeme);
 
   R visit<T, R>(Visitor<T, R> visitor, T parameter);
 
 }
 
-class MapElement with Element {
+mixin Mapped<K> on Element {
 
-  final Type type;
-  final Map<String, Element> children = {};
+  final Map<K, Element> children = {};
 
-  MapElement(this.type);
+}
+
+
+class MapElement extends Element with Mapped<String> {
+
+  MapElement(String key, String lexeme): super(key, lexeme);
 
   @override
   R visit<T, R>(Visitor<T, R> visitor, T parameter) => visitor.visitMap(this, parameter);
 
 }
 
-enum Type {
-  map, plural, gender
+class PluralElement extends Element with Mapped<Expression> {
+
+  PluralElement(String key, String lexeme): super(key, lexeme);
+
+  @override
+  R visit<T, R>(Visitor<T, R> visitor, T parameter) => visitor.visitPlural(this, parameter);
+
+}
+
+class GenderElement extends Element with Mapped<Gender> {
+
+  GenderElement(String key, String lexeme) : super(key, lexeme);
+
+  @override
+  R visit<T, R>(Visitor<T, R> visitor, T parameter) => visitor.visitGender(this, parameter);
+
 }
 
 
-class ValueElement with Element {
+class ValueElement extends Element {
 
   final String value;
-  final Set<String> variables;
+  final List<String> parameters = [];
 
-  ValueElement(this.value, this.variables);
-
-  @override
-  R visit<T, R>(Visitor<T, R> visitor, T parameter) => visitor.visitField(this, parameter);
-
-}
-
-class ErrorElement with Element {
-
-  final List<String> messages;
-
-  ErrorElement(String message): messages = [message];
+  ValueElement(String key, String lexeme, this.value): super(key, lexeme);
 
   @override
-  R visit<T, R>(Visitor<T, R> visitor, T parameter) => visitor.visitError(this, parameter);
-
-}
-
-
-abstract class Visitor<T, R> {
-
-  R visitMap(MapElement map, T parameter) => visitUnknown(map, parameter);
-
-  R visitField(ValueElement field, T parameter) => visitUnknown(field, parameter);
-
-  R visitError(ErrorElement error, T parameter) => visitUnknown(error, parameter);
-
-  R visitUnknown(Element element, T parameter) => null;
+  R visit<T, R>(Visitor<T, R> visitor, T parameter) => visitor.visitValue(this, parameter);
 
 }
