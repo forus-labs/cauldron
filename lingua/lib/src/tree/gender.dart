@@ -14,7 +14,7 @@ extension Genders on Gender {
       case r'$others':
         return Gender.others;
       default:
-        return Gender.error;
+        return null;
     }
   }
 

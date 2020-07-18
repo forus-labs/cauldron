@@ -1,8 +1,9 @@
-final RegExp interpolation = RegExp(r'\${.*}');
+final RegExp interpolation = RegExp(r'\${{.*}}');
 final RegExp identifier = RegExp(r'([a-zA-Z$_][a-zA-Z\d$_]+)');
 
-// Dart 2.8.4
-const keywords = {
+bool isIdentifier(String name) => identifier.matchAsPrefix(name) != null && !reserved.contains(name);
+
+const reserved = {
   'abstract',
   'as',
   'assert',

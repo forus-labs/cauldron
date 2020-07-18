@@ -5,43 +5,46 @@ import 'package:lingua/src/tree/visitor.dart';
 
 abstract class Element {
 
-  final String key;
   final String lexeme;
 
-  Element(this.key, this.lexeme);
+  Element(this.lexeme);
 
   R visit<T, R>(Visitor<T, R> visitor, T parameter);
 
 }
 
-mixin Mapped<K> on Element {
+mixin Mapped<K, V extends Element> on Element {
 
-  final Map<K, Element> children = {};
+  final Map<K, V> children = {};
 
 }
 
 
-class MapElement extends Element with Mapped<String> {
+class MapElement extends Element with Mapped<String, Element> {
 
-  MapElement(String key, String lexeme): super(key, lexeme);
+  MapElement(String lexeme): super(lexeme);
 
   @override
   R visit<T, R>(Visitor<T, R> visitor, T parameter) => visitor.visitMap(this, parameter);
 
 }
 
-class PluralElement extends Element with Mapped<Expression> {
 
-  PluralElement(String key, String lexeme): super(key, lexeme);
+class PluralElement extends Element with Mapped<Expression, ValueElement> {
+
+  final ValueElement defaultValue;
+
+  PluralElement(String lexeme, this.defaultValue): super(lexeme);
 
   @override
   R visit<T, R>(Visitor<T, R> visitor, T parameter) => visitor.visitPlural(this, parameter);
 
 }
 
-class GenderElement extends Element with Mapped<Gender> {
 
-  GenderElement(String key, String lexeme) : super(key, lexeme);
+class GenderElement extends Element with Mapped<Gender, ValueElement> {
+
+  GenderElement(String lexeme) : super(lexeme);
 
   @override
   R visit<T, R>(Visitor<T, R> visitor, T parameter) => visitor.visitGender(this, parameter);
@@ -52,9 +55,9 @@ class GenderElement extends Element with Mapped<Gender> {
 class ValueElement extends Element {
 
   final String value;
-  final List<String> parameters = [];
+  final List<String> parameters;
 
-  ValueElement(String key, String lexeme, this.value): super(key, lexeme);
+  ValueElement(String lexeme, this.value, this.parameters): super(lexeme);
 
   @override
   R visit<T, R>(Visitor<T, R> visitor, T parameter) => visitor.visitValue(this, parameter);

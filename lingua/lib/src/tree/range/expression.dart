@@ -1,15 +1,13 @@
 import 'dart:ui';
 
 import 'package:lingua/src/tree/range/operator.dart';
-import 'package:lingua/src/tree/range/visitor.dart';
+
 
 abstract class Expression {
 
   const Expression();
 
   bool evaluate(num value);
-
-  R visit<T, R>(Visitor<T, R> visitor, T parameter);
 
   String syntax(String variable);
 
@@ -27,9 +25,6 @@ class Range extends Expression {
   @override
   bool evaluate(num value) => operator == Bitwise.and ? min.evaluate(value) && max.evaluate(value)
                                                        : min.evaluate(value) || max.evaluate(value);
-
-  @override
-  R visit<T, R>(Visitor<T, R> visitor, T parameter) => visitor.visitRange(this, parameter);
 
   @override
   String syntax(String variable) => '${min.syntax(variable)} ${operator.syntax} ${max.syntax(variable)}';
@@ -57,9 +52,6 @@ class Bound extends Expression {
   bool evaluate(num other) => operator.evaluate(other, value);
 
   @override
-  R visit<T, R>(Visitor<T, R> visitor, T parameter) => visitor.visitBound(this, parameter);
-
-  @override
   String syntax(String variable) => '$variable ${operator.syntax} $value';
 
   bool get isMinimum => operator == Comparison.greater || operator == Comparison.greaterEqual;
@@ -84,9 +76,6 @@ class Literal extends Expression {
 
   @override
   bool evaluate(num other) => value == other;
-
-  @override
-  R visit<T, R>(Visitor<T, R> visitor, T parameter) => visitor.visitValue(this, parameter);
 
   @override
   String syntax(String variable) => '$variable == $value';

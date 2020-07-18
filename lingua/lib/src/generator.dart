@@ -7,8 +7,6 @@ import 'package:meta/meta.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:yaml/yaml.dart';
 
-import 'file:///C:/Users/Matthias/Documents/NetBeansProjects/cauldron/lingua/lib/src/old/locale.dart';
-
 
 const _defaultAssets = 'assets/languages/**.yaml';
 

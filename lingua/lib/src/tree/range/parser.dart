@@ -9,7 +9,7 @@ List<dynamic> lex(Context context, String expression) {
   expression = expression.trim();
   final tokens = [];
 
-  for (final part in expression.split(RegExp('r\s+'))) {
+  for (final part in expression.split(RegExp(r'\s+'))) {
     final literal = num.tryParse(part);
     if (literal != null) {
       tokens.add(literal);
@@ -60,10 +60,10 @@ List<dynamic> bound(List<dynamic> tokens) {
     }
 
     if (token is Literal && tokens[0] is Comparison) {
-      results.add(Bound(tokens.removeAt(0).flip(lhs: false), token.value));
+      results.add(Bound((tokens.removeAt(0) as Comparison).flip(lhs: false), token.value));
 
     } else if (token is Comparison && tokens[0] is Literal) {
-      results.add(Bound(token.flip(lhs: true), tokens.removeAt(0)).value);
+      results.add(Bound(token.flip(lhs: true), tokens.removeAt(0).value));
 
     } else {
       results.add(token);
