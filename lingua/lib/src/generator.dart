@@ -7,6 +7,8 @@ import 'package:meta/meta.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:yaml/yaml.dart';
 
+import 'locales.dart';
+
 
 const _defaultAssets = 'assets/languages/**.yaml';
 
@@ -16,7 +18,7 @@ class LanguageGenerator extends Generator {
   final String _assets;
   final Locale _fallback;
 
-  LanguageGenerator(Map<String, dynamic> configuration): _assets = configuration['assets'] ?? _defaultAssets, _fallback = parseTag(configuration['fallback']) {
+  LanguageGenerator(Map<String, dynamic> configuration): _assets = configuration['assets'] ?? _defaultAssets, _fallback = Locales.parse(configuration['fallback']) {
     if (_fallback == null) {
       throw LocaleError('"$_fallback" in build.yaml is an invalid fallback locale tag, should be "languageCode-countryCode"');
     }
@@ -33,7 +35,7 @@ class LanguageGenerator extends Generator {
     final invalid = <String>{};
 
     await for (final asset in step.findAssets(Glob(_assets)).where((asset) => asset.path.endsWith('.yaml'))) {
-      final tag = parseTag(asset.pathSegments.last.replaceAll('.yaml', ''));
+      final tag = Locales.parse(asset.pathSegments.last.replaceAll('.yaml', ''));
       if (tag != null) {
         if (invalid.isEmpty) {
           files[tag] = loadYamlNode(await step.readAsString(asset));
@@ -59,5 +61,13 @@ class LanguageGenerator extends Generator {
       throw LocaleError('Locale file for "$_fallback" is missing, project should contain a local file for the fallback locale');
     }
   }
+
+}
+
+class LocaleError extends Error {
+
+  String message;
+
+  LocaleError(this.message);
 
 }
