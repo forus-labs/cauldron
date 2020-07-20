@@ -1,6 +1,5 @@
 # Out of Context - Context-free navigation & scaffolds
 
-[![Travis CI](https://img.shields.io/travis/forus-labs/cauldron/master?logo=travis)](https://travis-ci.com/forus-labs/cauldron)
 [![Codecov](https://codecov.io/gh/forus-labs/cauldron/branch/master/graph/badge.svg)](https://codecov.io/gh/forus-labs/cauldron)
 [![Pub Dev](https://img.shields.io/pub/v/out_of_context)](https://pub.dev/packages/out_of_context)
 [![Documentation](https://img.shields.io/badge/documentation-1.0.1-brightgreen.svg)](https://pub.dev/documentation/out_of_context/latest/)
