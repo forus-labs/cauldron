@@ -37,6 +37,3 @@ jobs:
       uses: axel-op/dart-package-analyzer@v2
       with:
         githubToken: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: Send test coverage to Codecov
-      run: bash <(curl -s https://codecov.io/bash)
