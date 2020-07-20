@@ -24,7 +24,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       
-    - uses: subosito/flutter-action@v1.3.2
+    - name: Install flutter
+      uses: subosito/flutter-action@v1.3.2
       
     - name: Install dependencies
       run: flutter pub get
@@ -35,7 +36,8 @@ jobs:
     - name: Run tests
       run: flutter test --coverage
     
-    - uses: axel-op/dart-package-analyzer@v2
+    - name: Generate package analyzer report
+      uses: axel-op/dart-package-analyzer@v2
       with:
         githubToken: ${{ secrets.GITHUB_TOKEN }}
         relativePath: out_of_context
