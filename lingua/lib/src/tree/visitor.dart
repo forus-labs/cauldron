@@ -1,7 +1,7 @@
 import 'package:lingua/src/tree/element.dart';
 
 
-abstract class Visitor<T, R> {
+mixin Visitor<T, R> {
 
   R visitMap(MapElement element, T parameter) => visitElement(element, parameter);
 
