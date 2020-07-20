@@ -1,6 +1,6 @@
 # Mock of Context - Companion project for Out Of Context
 
-[![Travis CI](https://img.shields.io/travis/forus-labs/cauldron/master?logo=travis)](https://travis-ci.com/forus-labs/cauldron)
+![Mock of Context CI](https://github.com/forus-labs/cauldron/workflows/Mock%20of%20Context%20CI/badge.svg)
 [![Codecov](https://codecov.io/gh/forus-labs/cauldron/branch/master/graph/badge.svg)](https://codecov.io/gh/forus-labs/cauldron)
 [![Pub Dev](https://img.shields.io/pub/v/mock_of_context)](https://pub.dev/packages/mock_of_context)
 [![Documentation](https://img.shields.io/badge/documentation-1.0.0-brightgreen.svg)](https://pub.dev/documentation/mock_of_context/latest/)
