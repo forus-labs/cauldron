@@ -1,0 +1,30 @@
+name: Out of Context CI
+
+
+on:
+  push:
+    paths: [ out_of_context/** ]
+    branches: [ master, staging, stable, fix/**, feature/** ]
+    
+  pull_request:
+    paths: [ out_of_context/** ]
+    branches: [ master, staging, stable ]
+
+
+jobs:
+  tests:
+    name: Automated tests
+    
+    runs-on: ubuntu-latest
+
+    container:
+      image:  google/dart:latest
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Install dependencies
+      run: pub get
+      
+    - name: Run tests
+      run: pub run test
