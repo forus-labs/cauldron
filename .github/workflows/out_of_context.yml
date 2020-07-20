@@ -9,8 +9,6 @@ on:
   pull_request:
     paths: [ out_of_context/** ]
     branches: [ master, staging, stable ]
-  
-  workflow_dispatch:
 
 
 jobs:
