@@ -3,11 +3,11 @@ name: Out of Context CI
 
 on:
   push:
-    paths: [ out_of_context/** ]
+    paths: [ out_of_context/**, .github/workflows/out_of_context.yml ]
     branches: [ master, staging, stable, fix/**, feature/** ]
     
   pull_request:
-    paths: [ out_of_context/** ]
+    paths: [ out_of_context/**, .github/workflows/out_of_context.yml ]
     branches: [ master, staging, stable ]
 
 
