@@ -27,14 +27,11 @@ jobs:
     - name: Install flutter
       uses: subosito/flutter-action@v1.3.2
       
-    - name: Install dependencies
-      run: flutter pub get
+    - name: Run tests
+      run: flutter test --coverage
     
     - name: Analyze code
       run: flutter analyze
-      
-    - name: Run tests
-      run: flutter test --coverage
     
     - name: Generate package analyzer report
       uses: axel-op/dart-package-analyzer@v2
