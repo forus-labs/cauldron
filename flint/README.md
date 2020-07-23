@@ -1,6 +1,6 @@
 # Flint - Because Pedantic wasn't strict enough
 
-[![Travis CI](https://img.shields.io/travis/forus-labs/cauldron/master?logo=travis)](https://travis-ci.com/forus-labs/cauldron)
+![Flint Build](https://github.com/forus-labs/cauldron/workflows/Flint%20Build/badge.svg)
 [![Codecov](https://codecov.io/gh/forus-labs/cauldron/branch/master/graph/badge.svg)](https://codecov.io/gh/forus-labs/cauldron)
 [![Pub Dev](https://img.shields.io/pub/v/flint)](https://pub.dev/packages/flint)
 [![Documentation](https://img.shields.io/badge/documentation-1.0.6-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)

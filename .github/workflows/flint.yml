@@ -1,0 +1,39 @@
+name: Flint Build
+
+
+on:
+  push:
+    paths: [ flint/**, .github/workflows/flint.yml ]
+    branches: [ master, staging, stable, fix/**, feature/** ]
+    
+  pull_request:
+    paths: [ flint/**, .github/workflows/flint.yml ]
+    branches: [ master, staging, stable ]
+
+
+jobs:
+  tests:
+    name: Automated tests
+    
+    runs-on: ubuntu-latest
+    
+    container:
+      image:  google/dart:latest
+    
+    defaults:
+      run:
+        working-directory: flint
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: pub get
+      
+    - name: Analyze code
+      run: dartanalyzer lib auto_updater --fatal-warnings
+    
+    - name: Generate package analyzer report
+      uses: axel-op/dart-package-analyzer@v2
+      with:
+        githubToken: ${{ secrets.GITHUB_TOKEN }}
