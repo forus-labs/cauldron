@@ -12,7 +12,7 @@ Forus Labs' mono-repository for Dart & Flutter.
 ***
 ### Flint - Because Pedantic wasn't strict enough
 
-![Flint CI](https://github.com/forus-labs/cauldron/workflows/Flint%20CI/badge.svg)
+![Flint Build](https://github.com/forus-labs/cauldron/workflows/Flint%20Build/badge.svg)
 [![Pub Dev](https://img.shields.io/pub/v/flint)](https://pub.dev/packages/flint)
 [![Documentation](https://img.shields.io/badge/documentation-1.0.6-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)
 
@@ -24,7 +24,7 @@ dev_dependencies:
 ***
 ### Out of Context - Context-free navigation & scaffolds
 
-![Out of Context CI](https://github.com/forus-labs/cauldron/workflows/Out%20of%20Context%20CI/badge.svg)
+![Out of Context Build](https://github.com/forus-labs/cauldron/workflows/Out%20of%20Context%20Build/badge.svg)
 [![Pub Dev](https://img.shields.io/pub/v/out_of_context)](https://pub.dev/packages/out_of_context)
 [![Documentation](https://img.shields.io/badge/documentation-1.0.1-brightgreen.svg)](https://pub.dev/documentation/out_of_context/latest/)
 
@@ -37,7 +37,7 @@ dependencies:
 
 _**Companion project for testing**_
 
-![Mock of Context CI](https://github.com/forus-labs/cauldron/workflows/Mock%20of%20Context%20CI/badge.svg)
+![Mock of Context Build](https://github.com/forus-labs/cauldron/workflows/Mock%20of%20Context%20Build/badge.svg)
 [![Pub Dev](https://img.shields.io/pub/v/mock_of_context)](https://pub.dev/packages/mock_of_context)
 [![Documentation](https://img.shields.io/badge/documentation-1.0.0-brightgreen.svg)](https://pub.dev/documentation/mock_of_context/latest/)
 
