@@ -1,4 +1,0 @@
-include: package:flint/flutter/dev/analysis_options.yaml
-analyzer:
-  errors:
-    avoid_print: ignore
