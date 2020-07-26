@@ -1,26 +1,3 @@
-ignore:
-  - always_declare_return_types
-  - always_put_required_named_parameters
-  - always_specify_types
-  - avoid_as
-  - avoid_equals_and_hash_code_on_mutable_classes
-  - avoid_renaming_method_parameters
-  - avoid_web_libraries_in_flutter
-  - flutter_style_todos
-  - lines_longer_than_80_chars
-  - no_logic_in_create_state
-  - omit_local_variable_types
-  - package_api_docs
-  - parameter_assignments
-  - public_member_api_docs
-  - prefer_double_quotes
-  - prefer_mixin
-  - prefer_relative_imports
-  - sort_constructors_first
-  - unnecessary_final
-  - use_full_hex_values_for_flutter_colors
-  - use_key_in_widget_constructors
-  - use_to_and_as_if_applicable
 linter:
   rules:
     - always_declare_return_types
@@ -28,13 +5,13 @@ linter:
     - always_put_required_named_parameters_first
     - always_require_non_null_named_parameters
     - annotate_overrides
-    - avoid_annotating_with_dynamic
     - avoid_bool_literals_in_conditional_expressions
     - avoid_catches_without_on_clauses
     - avoid_catching_errors
     - avoid_classes_with_only_static_members
     - avoid_double_and_int_checks
     - avoid_empty_else
+    - avoid_escaping_inner_quotes
     - avoid_field_initializers_in_const_classes
     - avoid_function_literals_in_foreach_calls
     - avoid_implementing_value_types
@@ -44,8 +21,8 @@ linter:
     - avoid_positional_boolean_parameters
     - avoid_print
     - avoid_private_typedef_functions
+    - avoid_redundant_argument_values
     - avoid_relative_lib_imports
-    - avoid_renaming_method_parameters
     - avoid_return_types_on_setters
     - avoid_returning_null
     - avoid_returning_null_for_future
@@ -70,7 +47,6 @@ linter:
     - constant_identifier_names
     - control_flow_in_finally
     - curly_braces_in_flow_control_structures
-    - diagnostic_describe_all_properties
     - directives_ordering
     - empty_catches
     - empty_constructor_bodies
@@ -81,12 +57,15 @@ linter:
     - invariant_booleans
     - iterable_contains_unrelated_type
     - join_return_with_assignment
+    - leading_newlines_in_multiline_strings
     - library_names
     - library_prefixes
     - list_remove_unrelated_type
     - literal_only_boolean_expressions
+    - missing_whitespace_between_adjacent_strings
     - no_adjacent_strings_in_list
     - no_duplicate_case_values
+    - no_runtimeType_toString
     - non_constant_identifier_names
     - null_closures
     - one_member_abstracts
@@ -94,7 +73,6 @@ linter:
     - overridden_fields
     - package_names
     - package_prefixed_library_names
-    - parameter_assignments
     - prefer_adjacent_string_concatenation
     - prefer_asserts_in_initializer_lists
     - prefer_asserts_with_message
@@ -151,14 +129,51 @@ linter:
     - unnecessary_null_in_if_null_operators
     - unnecessary_overrides
     - unnecessary_parenthesis
+    - unnecessary_raw_strings
     - unnecessary_statements
+    - unnecessary_string_escapes
+    - unnecessary_string_interpolations
     - unnecessary_this
     - unrelated_type_equality_checks
     - unsafe_html
     - use_function_type_syntax_for_parameters
+    - use_raw_strings
     - use_rethrow_when_possible
     - use_setters_to_change_properties
     - use_string_buffers
     - use_to_and_as_if_applicable
     - valid_regexps
     - void_checks
+
+ignore:
+  - always_declare_return_types
+  - always_put_required_named_parameters
+  - always_specify_types
+  - avoid_annotating_with_dynamic
+  - avoid_as
+  - avoid_equals_and_hash_code_on_mutable_classes
+  - avoid_renaming_method_parameters
+  - avoid_web_libraries_in_flutter
+  - diagnostic_describe_all_properties
+  - flutter_style_todos
+  - lines_longer_than_80_chars
+  - no_logic_in_create_state
+  - omit_local_variable_types
+  - package_api_docs
+  - parameter_assignments
+  - public_member_api_docs
+  - prefer_double_quotes
+  - prefer_mixin
+  - prefer_relative_imports
+  - sort_constructors_first
+  - unnecessary_final
+  - use_full_hex_values_for_flutter_colors
+  - use_key_in_widget_constructors
+
+unreleased:
+  - always_use_package_imports
+  - do_not_use_environment
+  - exhaustive_cases
+  - no_default_cases
+  - sized_box_for_whitespace
+  - use_is_even_rather_than_modulo

@@ -31,7 +31,7 @@ jobs:
       run: pub get
       
     - name: Analyze code
-      run: dartanalyzer lib auto_updater --fatal-warnings
+      run: dartanalyzer lib tool --fatal-warnings
     
     - name: Generate package analyzer report
       uses: axel-op/dart-package-analyzer@v2

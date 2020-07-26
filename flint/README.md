@@ -27,7 +27,7 @@ include: package:flint/dart/dev/analysis_options.yaml
 
 A specific configuration version can be used via:
 ```yaml
-include: package:flint/dart/dev/analysis_options.1.0.6.yaml
+include: package:flint/dart/dev/analysis_options.flutter.stable.yaml
 ```
 
 ***

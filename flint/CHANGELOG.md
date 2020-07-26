@@ -1,3 +1,14 @@
+## 1.1.0 - Flint Tools (26/07/2020)
+This update focuses on improving the update tool and removing versioned `analysis_options` files.
+
+- Add `lib/analysis_options.*.yaml`
+- Add `tool/**`
+- Remove `auto_updater/**` - the update tool was rewritten and moved to `tool/**`
+- Remove `lib/dart/dev/**`
+- Remove `lib/dart/stable/**`
+- Remove `lib/flutter/dev/**`
+- Remove `lib/flutter/stable/**`
+
 ## 1.0.7 - Flint City (13/06/2020)
 - Fix analysis_options not getting exported
 
