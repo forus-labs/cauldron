@@ -1,4 +1,4 @@
-include: ../../dart/dev/analysis_options.1.0.4.yaml
+include: ./analysis_options.dart.dev.yaml
 linter:
   rules:
     - use_full_hex_values_for_flutter_colors
