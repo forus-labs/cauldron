@@ -1,0 +1,42 @@
+name: Out of Context Build
+
+
+on:
+  push:
+    paths: [ out_of_context/**, .github/workflows/out_of_context.yml ]
+    branches: [ master, staging, stable, fix/**, feature/** ]
+    
+  pull_request:
+    paths: [ out_of_context/**, .github/workflows/out_of_context.yml ]
+    branches: [ master, staging, stable ]
+
+
+jobs:
+  tests:
+    name: Automated tests
+    
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: out_of_context
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Install flutter
+      uses: subosito/flutter-action@v1.3.2
+
+    - name: Analyze code
+      run: flutter analyze
+      
+    - name: Run tests
+      run: flutter test --coverage
+    
+    - name: Generate package analyzer report
+      uses: axel-op/dart-package-analyzer@v2
+      with:
+        githubToken: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Send test coverage to Codecov
+      run: bash <(curl -s https://codecov.io/bash)

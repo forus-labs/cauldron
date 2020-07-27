@@ -1,4 +1,4 @@
-include: ../dev/analysis_options.1.0.5.yaml
+include: ./analysis_options.flutter.dev.yaml
 linter:
   rules:
     - package_api_docs

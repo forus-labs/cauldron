@@ -1,6 +1,6 @@
 name: flint
-description: Forus Labs' different sets of dartanalyzer lints that we use internally in our Dart & Flutter projects.
-version: 1.0.7
+description: Forus Labs' sets of dartanalyzer lints that we use internally in our Dart & Flutter projects.
+version: 1.1.1
 homepage: https://github.com/forus-labs/cauldron
 repository: https://github.com/forus-labs/cauldron
 
@@ -8,5 +8,4 @@ environment:
   sdk: '>=2.8.4 <3.0.0'
 
 dev_dependencies:
-  meta: ^1.1.8
   yaml: ^2.2.1
