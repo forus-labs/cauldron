@@ -19,6 +19,7 @@ Future<Set<String>> fetch() async {
 Set<String> changeset(Set<String> remote) => remote.difference(<String> {
   ...rules['linter']['rules'],
   ...rules['ignore'],
+  ...?rules['unreleased'],
 });
 
 void write(Set<String> changes) {

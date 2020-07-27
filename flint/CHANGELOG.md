@@ -1,22 +1,32 @@
-## 1.1.0 - Flint Tools (26/07/2020)
+## 1.1.0 - Flint City (26/07/2020)
 This update focuses on improving the update tool and removing versioned `analysis_options` files.
 
 - Add `lib/analysis_options.*.yaml`
 - Add `tool/**`
+- Add `use_raw_strings`
+- Add `avoid_escaping_inner_quotes`
+- Add `avoid_redundant_argument_values`
+- Add `leading_newlines_in_multiline_strings`
+- Add `missing_whitespace_between_adjacent_strings`
+- Add `no_runtimeType_toString`
+- Add `unnecessary_raw_strings`
+- Add `unnecessary_string_escapes`
+- Add `unnecessary_string_interpolations`
+- Add `use_raw_strings`
 - Remove `auto_updater/**` - the update tool was rewritten and moved to `tool/**`
 - Remove `lib/dart/dev/**`
 - Remove `lib/dart/stable/**`
 - Remove `lib/flutter/dev/**`
 - Remove `lib/flutter/stable/**`
+- Remove `avoid_annotating_with_dynamic`
 
-## 1.0.7 - Flint City (13/06/2020)
+## 1.0.7 Fixity Fix - (13/06/2020)
 - Fix analysis_options not getting exported
 
-## 1.0.6 - The Flintstones (13/06/2020)
+## 1.0.6 Addity Add - (13/06/2020)
 - Add library directive
 
-
-## 1.0.5 - Flint & Steel (12/06/2020)
+## 1.0.5 Bumpity Bump - (12/06/2020)
 - Change minimum Dart version from `2.7.0` to `2.8.4`
 - Move Flint to Cauldron
 
