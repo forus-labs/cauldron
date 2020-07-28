@@ -1,1 +1,1 @@
-include: package:flint/flutter/dev/analysis_options.yaml
+include: package:flint/analysis_options.flutter.dev.yaml
