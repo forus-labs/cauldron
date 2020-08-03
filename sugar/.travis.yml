@@ -1,0 +1,14 @@
+language: dart
+sudo: required
+dist: bionic
+
+dart:
+  - stable
+
+script:
+  - dartanalyzer --fatal-warnings lib
+  - pub run test test --platform vm
+  - pub run test_coverage
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

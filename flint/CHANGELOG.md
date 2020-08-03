@@ -1,5 +1,5 @@
 ## 1.1.1 - Maybe one day I'll remember to update the README.md (27/07/20)
-This update updates the outdated readme for the latest update
+This update updates the outdated readme for the latest update.
 
 ## 1.1.0 - Flint City (26/07/2020)
 This update focuses on improving the update tool and removing versioned `analysis_options` files.
