@@ -1,4 +1,6 @@
 const _whitespace = 32;
+final _delimiters = RegExp(r'(\s|-|_)+');
+final _identifier = RegExp(r'(([a-zA-Z$_][a-zA-Z\d$_]+)|[a-zA-Z$])');
 
 extension Strings on String {
 
@@ -14,11 +16,47 @@ extension Strings on String {
     }
   }
 
+
+  String camelCase([Pattern pattern]) {
+    final parts = split(pattern ?? _delimiters);
+    if (parts.length <= 1) {
+      return this;
+    }
+
+    final buffer = StringBuffer()..write(parts[0]);
+    for (int i = 1; i < parts.length; i++) {
+      buffer.write(parts[i].capitalize());
+    }
+
+    return buffer.toString();
+  }
+
+  String pascalCase([Pattern pattern]) {
+    final parts = split(pattern ?? _delimiters);
+    if (parts.isEmpty) {
+      return this;
+    }
+
+    final buffer = StringBuffer();
+    for (final part in parts) {
+      buffer.write(part.capitalize());
+    }
+
+    return buffer.toString();
+  }
+
+  String snakeCase([Pattern pattern]) => split(pattern ?? _delimiters).join('_');
+
+
   bool equalsIgnoreCase(String other) => toLowerCase() == other.toLowerCase();
+
+  bool matches(RegExp expression) => expression.allMatches(this).length == 1;
 
 
   bool get isBlank => isEmpty || codeUnits.every((unit) => unit == _whitespace);
 
   bool get isNotBlank => !isBlank;
+
+  bool get isIdentifier => matches(_identifier);
 
 }

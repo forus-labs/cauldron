@@ -7,7 +7,7 @@ abstract class Result<T, E> {
   factory Result.value(T value) => _Value<T, E>(value);
 
   factory Result.error(E error) => _Error<T, E>(error);
-  
+
 
   bool get present;
 
