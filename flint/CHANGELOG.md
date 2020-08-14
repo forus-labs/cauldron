@@ -1,4 +1,4 @@
-## 1.2.0 - I'm running out of Flint puns
+## 1.2.0 - I'm running out of Flint puns (14/08/2020)
 This update adds rules introduced in Dart 2.9.0.
 
 - Add `exhaustive_cases`
