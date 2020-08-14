@@ -43,7 +43,7 @@ _**Companion project for testing**_
 
 ```YAML
 dev_dependencies:
-    mock_of_context: ^1.0.0
+    mock_of_context: ^1.1.0
 ```
 
 
