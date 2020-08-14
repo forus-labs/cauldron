@@ -1,0 +1,9 @@
+name: sane_example
+description: Example for sane
+private: true
+version: 1.0.0
+homepage: https://github.com/forus-labs/cauldron
+repository: https://github.com/forus-labs/cauldron
+
+environment:
+  sdk: '>=2.8.4 <3.0.0'

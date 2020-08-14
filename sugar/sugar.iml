@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../sugar">
+      <sourceFolder url="file://$MODULE_DIR$/../sugar/lib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../sugar/test" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../sugar/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/../sugar/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/../sugar/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../sugar/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/../sugar/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/../sugar/example/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Dart SDK" level="project" />
+    <orderEntry type="library" name="Dart Packages" level="project" />
+  </component>
+</module>

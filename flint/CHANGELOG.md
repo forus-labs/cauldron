@@ -1,5 +1,12 @@
+## 1.2.0 - I'm running out of Flint puns
+This update adds rules introduced in Dart 2.9.0.
+
+- Add `exhaustive_cases`
+- Add `sized_box_for_whitespac`
+- Add `use_is_even_rather_than_modulo`
+
 ## 1.1.1 - Maybe one day I'll remember to update the README.md (27/07/20)
-This update updates the outdated readme for the latest update
+This update updates the outdated readme for the latest update.
 
 ## 1.1.0 - Flint City (26/07/2020)
 This update focuses on improving the update tool and removing versioned `analysis_options` files.

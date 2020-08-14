@@ -51,6 +51,7 @@ linter:
     - empty_catches
     - empty_constructor_bodies
     - empty_statements
+    - exhaustive_cases
     - file_names
     - hash_and_equals
     - implementation_imports
@@ -137,6 +138,7 @@ linter:
     - unrelated_type_equality_checks
     - unsafe_html
     - use_function_type_syntax_for_parameters
+    - use_is_even_rather_than_modulo
     - use_raw_strings
     - use_rethrow_when_possible
     - use_setters_to_change_properties
@@ -172,8 +174,8 @@ ignore:
 
 unreleased:
   - always_use_package_imports
+  - avoid_type_to_string
   - do_not_use_environment
-  - exhaustive_cases
   - no_default_cases
-  - sized_box_for_whitespace
-  - use_is_even_rather_than_modulo
+  - unnecessary_nullable_for_final_variable_declarations
+  - use_late_for_private_fields_and_variables
