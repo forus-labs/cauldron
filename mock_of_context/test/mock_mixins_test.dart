@@ -36,7 +36,7 @@ void main() {
   group('MockNotifierMixin', () {
 
     StubNotifier notifier;
-    void listen() {};
+    void listen() {}
 
     setUp(() => notifier = StubNotifier());
 
