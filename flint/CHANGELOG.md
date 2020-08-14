@@ -1,5 +1,5 @@
 ## 1.2.0 - I'm running out of Flint puns
-This update adds rules introduced in Dart 2.9.0
+This update adds rules introduced in Dart 2.9.0.
 
 - Add `exhaustive_cases`
 - Add `sized_box_for_whitespac`
