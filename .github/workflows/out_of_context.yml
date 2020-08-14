@@ -23,7 +23,7 @@ jobs:
     - run: flutter analyze
     - run: flutter test --coverage
     - uses: axel-op/dart-package-analyzer@v2
-      relativePath: out_of_context
       with:
+        relativePath: out_of_context
         githubToken: ${{ secrets.GITHUB_TOKEN }}
     - run: bash <(curl -s https://codecov.io/bash)
