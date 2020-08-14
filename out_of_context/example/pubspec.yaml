@@ -1,9 +1,10 @@
-name: mock_of_context_example
-description: Example for mock_of_context
+name: out_of_context_example
+description: Example for out_of_context
 private: true
 version: 1.0.0
 homepage: https://github.com/forus-labs/cauldron
 repository: https://github.com/forus-labs/cauldron
 
 environment:
-  sdk: '>=2.8.4 <3.0.0'
+  flutter: '>=1.20.0 <2.0.0'
+  sdk: '>=2.9.0 <3.0.0'

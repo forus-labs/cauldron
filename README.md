@@ -26,11 +26,11 @@ dev_dependencies:
 
 ![Out of Context Build](https://github.com/forus-labs/cauldron/workflows/Out%20of%20Context%20Build/badge.svg)
 [![Pub Dev](https://img.shields.io/pub/v/out_of_context)](https://pub.dev/packages/out_of_context)
-[![Documentation](https://img.shields.io/badge/documentation-1.0.1-brightgreen.svg)](https://pub.dev/documentation/out_of_context/latest/)
+[![Documentation](https://img.shields.io/badge/documentation-1.0.2-brightgreen.svg)](https://pub.dev/documentation/out_of_context/latest/)
 
 ```YAML
 dependencies:
-  out_of_context: ^1.0.1
+  out_of_context: ^1.0.2
 ```
 
 <br>
@@ -43,7 +43,7 @@ _**Companion project for testing**_
 
 ```YAML
 dev_dependencies:
-    mock_of_context: ^1.0.0
+    mock_of_context: ^1.1.0
 ```
 
 

@@ -1,6 +1,5 @@
 name: Mock of Context Build
 
-
 on:
   push:
     paths: [ mock_of_context/**, .github/workflows/mock_of_context.yml ]
@@ -10,33 +9,21 @@ on:
     paths: [ mock_of_context/**, .github/workflows/mock_of_context.yml ]
     branches: [ master, staging, stable ]
 
-
 jobs:
   tests:
     name: Automated tests
-    
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-20.04
     defaults:
       run:
         working-directory: mock_of_context
 
     steps:
     - uses: actions/checkout@v2
-      
-    - name: Install flutter
-      uses: subosito/flutter-action@v1.3.2
-
-    - name: Analyze code
-      run: flutter analyze
-      
-    - name: Run tests
-      run: flutter test --coverage
-    
-    - name: Generate package analyzer report
-      uses: axel-op/dart-package-analyzer@v2
+    - uses: subosito/flutter-action@v1.3.2
+    - run: flutter analyze
+    - run: flutter test --coverage
+    - uses: axel-op/dart-package-analyzer@v2
       with:
         githubToken: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: Send test coverage to Codecov
-      run: bash <(curl -s https://codecov.io/bash)
+        relativePath: mock_of_context
+    - run: bash <(curl -s https://codecov.io/bash)
