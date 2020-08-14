@@ -7,7 +7,6 @@ import 'package:out_of_context/out_of_context.dart';
 /// A mock for [Router].
 class MockRouter extends Mock implements Router {}
 
-
 /// A mock for [RouterMixin]
 mixin MockRouterMixin on RouterMixin {
 
@@ -35,5 +34,34 @@ mixin MockScaffoldMixin on ScaffoldMixin {
   @override
   // ignore: overridden_fields
   final MockScaffoldState scaffold = MockScaffoldState();
+
+}
+
+
+/// A mock for [ChangeNotifier].
+class MockNotifier extends Mock implements ChangeNotifier {}
+
+/// A mock for [ChangeNotifier] that delegates all [ChangeNotifier] methods to [notifier].
+mixin MockNotifierMixin on ChangeNotifier {
+
+  /// A mock [ChangeNotifier] to which all [ChangeNotifier] methods are delegated.
+  final MockNotifier notifier = MockNotifier();
+
+  /// Delegates execution to [notifier].
+  @override
+  void addListener(VoidCallback listener) => notifier.addListener(listener);
+
+  /// Delegates execution to [notifier].
+  @override
+  void removeListener(VoidCallback listener) => notifier.removeListener(listener);
+
+  /// Delegates execution to [notifier].
+  @override
+  void notifyListeners() => notifier.notifyListeners();
+
+  /// Delegates execution to [notifier].
+  @override
+  // ignore: must_call_super
+  void dispose() => notifier.dispose();
 
 }

@@ -1,3 +1,8 @@
+## 1.0.2 - Bumpity Bump (15/08/2020)
+
+- Add Flutter version constraint
+- Change minimum Dart version from `2.8.4` to `2.9.0`
+
 ## 1.0.1 - No context is best context (13/06/2020)
 
 - Fix missing example/pubspec.yaml
