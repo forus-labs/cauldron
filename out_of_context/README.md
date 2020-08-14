@@ -3,7 +3,7 @@
 ![Out of Context Build](https://github.com/forus-labs/cauldron/workflows/Out%20of%20Context%20Build/badge.svg)
 [![Codecov](https://codecov.io/gh/forus-labs/cauldron/branch/master/graph/badge.svg)](https://codecov.io/gh/forus-labs/cauldron)
 [![Pub Dev](https://img.shields.io/pub/v/out_of_context)](https://pub.dev/packages/out_of_context)
-[![Documentation](https://img.shields.io/badge/documentation-1.0.1-brightgreen.svg)](https://pub.dev/documentation/out_of_context/latest/)
+[![Documentation](https://img.shields.io/badge/documentation-1.0.2-brightgreen.svg)](https://pub.dev/documentation/out_of_context/latest/)
 
 Navigation in Flutter involves a great deal of ceremony as a `BuilderContext` must always be passed to a `Navigator`.
 A `BuilContext` must be passed down from a Widget to the calling method, which is needlessly verbose. It also makes testing
@@ -20,7 +20,7 @@ To import the library, add the following dependency to your project.
 
 ```yaml
 dependencies:
-  out_of_context: ^1.0.1
+  out_of_context: ^1.0.2
 ```
 
 Then, use any of the `Mixin`s provided.
