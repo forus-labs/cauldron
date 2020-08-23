@@ -1,6 +1,5 @@
 import 'package:meta/meta.dart';
 
-
 const positive = 'Positive number';
 const negative = 'Negative number';
 const nonZero = 'Non-zero';
@@ -24,6 +23,20 @@ const unsigned = 'Unsigned number';
 
 }
 
+extension Integers on int {
+
+  // Dart2Js has a smaller range of values compared to the VM. Integers should
+  // not exceed the range in order to be platform independent.
+  static const max = 9007199254740991;
+  static const min = -9007199254740991;
+
+  bool addOverflows(int other) => ((other > 0) && (this > max - other))
+                               || ((other < 0) && (this < min - other));
+
+  bool subtractOverflows(int other) => ((other < 0) && (this > max + other))
+                                    || ((other > 0) && (this < min + other));
+
+}
 
 extension RoundableNumber<T extends num> on T {
 

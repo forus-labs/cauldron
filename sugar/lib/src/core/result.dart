@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
+import 'package:sugar/core.dart';
 
-abstract class Result<T, E> {
+abstract class Result<T, E> with Equality {
 
   Result();
 
@@ -66,6 +67,9 @@ abstract class Result<T, E> {
   @override
   E unwrapError(E defaultError) => defaultError;
 
+  @override
+  @protected List<dynamic> get fields => [value];
+
 }
 
 @immutable class _Error<T, E> extends Result<T, E> {
@@ -101,6 +105,9 @@ abstract class Result<T, E> {
 
   @override
   E unwrapError(E defaultError) => error;
+
+  @override
+  @protected List<dynamic> get fields => [error];
 
 }
 

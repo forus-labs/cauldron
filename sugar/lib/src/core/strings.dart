@@ -60,3 +60,11 @@ extension Strings on String {
   bool get isIdentifier => matches(_identifier);
 
 }
+
+extension PaddedNumber<T extends num> on T {
+
+  String padLeft(int width, [String padding = '0']) => toString().padLeft(width, padding);
+
+  String padRight(int width, [String padding = '0']) => toString().padRight(width, padding);
+
+}
