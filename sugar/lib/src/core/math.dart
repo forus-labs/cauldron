@@ -1,39 +1,31 @@
-import 'package:meta/meta.dart';
+extension Integers on int {
 
+  // Dart2Js has a smaller range of values compared to the VM. Integers should
+  // not exceed the range in order to be platform independent.
+  static const max = 9007199254740991;
+  static const min = -9007199254740991;
 
-const positive = 'Positive number';
-const negative = 'Negative number';
-const nonZero = 'Non-zero';
-const unsigned = 'Unsigned number';
+  bool addOverflows(int other) => ((other > 0) && (this > max - other))
+      || ((other < 0) && (this < min - other));
 
-@immutable class Between {
-
-  final num min;
-  final num max;
-
-  @literal const Between(this.min, this.max);
+  bool subtractOverflows(int other) => ((other < 0) && (this > max + other))
+      || ((other > 0) && (this < min + other));
 
 }
-
-@immutable class Outside {
-
-  final num min;
-  final num max;
-
-  @literal const Outside(this.min, this.max);
-
-}
-
 
 extension RoundableNumber<T extends num> on T {
 
-  T roundTo(@nonZero num value) => value == 1 ? this : (this / value).round() * value;
+  T roundTo(num value) => value == 1 ? this : (this / value).round() * value;
 
-  T ceilTo(@nonZero num value) => value == 1 ? this : (this / value).ceil() * value;
+  T ceilTo(num value) => value == 1 ? this : (this / value).ceil() * value;
 
-  T floorTo(@nonZero num value) => value == 1 ? this : (this / value).floor() * value;
+  T floorTo(num value) => value == 1 ? this : (this / value).floor() * value;
 
 }
+
+T min<T extends Comparable<T>>(T a, T b) => a.compareTo(b) < 0 ? a : b;
+
+T max<T extends Comparable<T>>(T a, T b) => a.compareTo(b) < 0 ? b : a;
 
 int hash(Iterable<dynamic> values) {
   var hash = 17;
