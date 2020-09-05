@@ -1,27 +1,20 @@
-extension Integers on int {
-
-  // Dart2Js has a smaller range of values compared to the VM. Integers should
-  // not exceed the range in order to be platform independent.
-  static const max = 9007199254740991;
-  static const min = -9007199254740991;
-
-  bool addOverflows(int other) => ((other > 0) && (this > max - other))
-      || ((other < 0) && (this < min - other));
-
-  bool subtractOverflows(int other) => ((other < 0) && (this > max + other))
-      || ((other > 0) && (this < min + other));
-
-}
-
 extension RoundableNumber<T extends num> on T {
 
-  T roundTo(num value) => value == 1 ? this : (this / value).round() * value;
+  T roundTo(num value) => round(this, value);
 
-  T ceilTo(num value) => value == 1 ? this : (this / value).ceil() * value;
+  T ceilTo(num value) => ceil(this, value);
 
-  T floorTo(num value) => value == 1 ? this : (this / value).floor() * value;
+  T floorTo(num value) => floor(this, value);
 
 }
+
+
+T round<T extends num>(T value, num nearest) =>  nearest == 1 ? value : (value / nearest).round() * nearest;
+
+T ceil<T extends num>(T value, num nearest) =>  nearest == 1 ? value : (value / nearest).ceil() * nearest;
+
+T floor<T extends num>(T value, num nearest) =>  nearest == 1 ? value : (value / nearest).floor() * nearest;
+
 
 T min<T extends Comparable<T>>(T a, T b) => a.compareTo(b) < 0 ? a : b;
 

@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 
 import 'package:sugar/core.dart';
-import 'package:sugar/core.dart' as math show round, ceil, floor;
 import 'package:sugar/time.dart';
 
 class Time with Relatable<Time> implements Comparable<Time> {
@@ -47,34 +46,6 @@ class Time with Relatable<Time> implements Comparable<Time> {
   }
 
 
-  Time round(int value, TimeUnit unit) => _adjust(value, unit, math.round);
-
-  Time ceil(int value, TimeUnit unit) => _adjust(value, unit, math.ceil);
-
-  Time floor(int value, TimeUnit unit) => _adjust(value, unit, math.floor);
-
-
-  Time _adjust(int value, TimeUnit unit, int Function(int, int) function) {
-    switch (unit) {
-      case TimeUnit.hour:
-        return Time(function(hour, value), minute, second, millisecond, microsecond);
-      case TimeUnit.minute:
-        return Time(hour, function(minute, value), second, millisecond, microsecond);
-      case TimeUnit.second:
-        return Time(hour, minute, function(second, value), millisecond, microsecond);
-      case TimeUnit.millisecond:
-        return Time(hour, minute, second, function(millisecond, value), microsecond);
-      case TimeUnit.microsecond:
-        return Time(hour, minute, second, millisecond, function(microsecond, value));
-      default:
-        assert(false, 'Time unit is "$unit", should be hour, minute, second, millisecond or microsecond');
-        return this;
-    }
-  }
-
-  Duration difference(Time other) => Duration(microseconds: inMicroseconds - other.inMicroseconds);
-
-
   Time operator + (Duration duration) => this - -duration;
 
   Time operator - (Duration duration) {
@@ -83,6 +54,9 @@ class Time with Relatable<Time> implements Comparable<Time> {
 
     return Time.fromMicroseconds(microseconds.isNegative ? microseconds + Day.microseconds : microseconds);
   }
+
+
+  Duration difference(Time other) => Duration(microseconds: inMicroseconds - other.inMicroseconds);
 
 
   int get inSeconds => inMicroseconds ~/ 1000000;

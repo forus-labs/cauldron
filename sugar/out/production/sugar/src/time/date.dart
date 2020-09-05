@@ -1,8 +1,6 @@
-import 'package:meta/meta.dart';
-
 import 'package:sugar/time.dart';
 
-class Date extends DateTime with RoundableDateTime<Date>, Temporal<Date> {
+class Date extends DateTime with Temporal<Date> {
 
   LocalDateTime _local;
   UtcDateTime _utc;
@@ -37,9 +35,5 @@ class Date extends DateTime with RoundableDateTime<Date>, Temporal<Date> {
   @override
   // ignore: invalid_use_of_protected_member
   UtcDateTime toUtc() => _utc ??= UtcDateTime(year, month, day)..datePart = this;
-
-  @override
-  @protected Date of(int year, int month, int day, int hour, int minute, int second, int millisecond, int microsecond) =>
-      Date(year, month, day);
 
 }

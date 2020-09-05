@@ -1,8 +1,6 @@
-import 'package:meta/meta.dart';
-
 import 'package:sugar/time.dart';
 
-class LocalDateTime extends DateTime with MultiPart, RoundableDateTime<LocalDateTime>, Temporal<LocalDateTime> {
+class LocalDateTime extends DateTime with MultiPart, Temporal<LocalDateTime> {
 
   LocalDateTime(int year, [int month = 1, int day = 1, int hour = 0, int minute = 0, int second = 0, int millisecond = 0, int microsecond = 0]):
       super(year, month, day, hour, minute, second, millisecond, microsecond);
@@ -15,10 +13,6 @@ class LocalDateTime extends DateTime with MultiPart, RoundableDateTime<LocalDate
 
   @override
   LocalDateTime operator + (Duration duration) => LocalDateTime.fromMicroseconds(microsecondsSinceEpoch + duration.inMicroseconds);
-
-  @override
-  @protected LocalDateTime of(int year, int month, int day, int hour, int minute, int second, int millisecond, int microsecond) =>
-      LocalDateTime(year, month, day, hour, minute, second, millisecond, microsecond);
 
 }
 
@@ -38,9 +32,5 @@ class UtcDateTime extends DateTime with MultiPart, Temporal<UtcDateTime> {
 
   @override
   UtcDateTime operator + (Duration duration) => UtcDateTime.fromMicroseconds(microsecondsSinceEpoch + duration.inMicroseconds);
-
-  @override
-  @protected UtcDateTime of(int year, int month, int day, int hour, int minute, int second, int millisecond, int microsecond) =>
-      UtcDateTime(year, month, day, hour, minute, second, millisecond, microsecond);
 
 }
