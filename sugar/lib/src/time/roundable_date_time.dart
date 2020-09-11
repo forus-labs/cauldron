@@ -30,6 +30,8 @@ mixin RoundableDateTime<T extends RoundableDateTime<T>> implements DateTime {
         return of(year, month, day, hour, minute, second, function(millisecond, value), microsecond);
       case TimeUnit.microsecond:
         return of(year, month, day, hour, minute, second, millisecond, function(microsecond, value));
+      default:
+        throw UnimplementedError('DateTime does not support adjustment of ${unit}s');
     }
   }
 
@@ -65,6 +67,8 @@ extension DefaultRoundableDate on DateTime {
         return _of(year, month, day, hour, minute, second, function(millisecond, value), microsecond);
       case TimeUnit.microsecond:
         return _of(year, month, day, hour, minute, second, millisecond, function(microsecond, value));
+      default:
+        throw UnimplementedError('DateTime does not support adjustment of ${unit}s');
     }
   }
 

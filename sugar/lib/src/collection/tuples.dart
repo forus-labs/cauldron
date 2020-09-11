@@ -88,7 +88,7 @@ extension TupleIterable on Iterable<Iterable<dynamic>> {
   Iterable<Quad<T1, T2, T3, T4>> quads<T1, T2, T3, T4>() sync* {
     for (final iterable in this) {
       if (iterable.length == 4) {
-        yield Quad<T1, T2, T3, T4>(iterable.elementAt(0), iterable.elementAt(1), iterable.elementAt(2), iterable.elementAt(4));
+        yield Quad<T1, T2, T3, T4>(iterable.elementAt(0), iterable.elementAt(1), iterable.elementAt(2), iterable.elementAt(3));
 
       } else {
         throw ArgumentError.value(iterable, 'Quad has a length of: ${iterable.length}, should be 4');

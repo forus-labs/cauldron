@@ -1,5 +1,5 @@
-extension TypeComparison on Object {
+class Types {
 
-  bool subclassOf<T>(T instance) => this is T;
+  static bool isSubtype<T>(dynamic unknown, T type) => unknown is T;
 
 }

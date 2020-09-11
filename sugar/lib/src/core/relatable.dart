@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 mixin Relatable<T extends Relatable<T>> implements Comparable<T> {
 
   @override
-  bool operator == (dynamic other) => other is T && compareTo(other) == 0;
+  bool operator == (dynamic other) => identical(this, other) || (runtimeType == other.runtimeType && compareTo(other) == 0);
 
   bool operator < (T other) => compareTo(other) < 0;
 
