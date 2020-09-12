@@ -69,7 +69,7 @@ extension TupleIterable on Iterable<Iterable<dynamic>> {
         yield Pair<K, V>(iterable.elementAt(0), iterable.elementAt(1));
 
       } else {
-        throw ArgumentError.value(iterable, 'Pair has a length of: ${iterable.length}, should be 2');
+        throw ArgumentError.value('Pair has a length of: ${iterable.length}, should be 2');
       }
     }
   }

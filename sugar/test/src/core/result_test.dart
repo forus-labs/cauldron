@@ -1,4 +1,3 @@
-import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import 'package:sugar/sugar.dart';
@@ -47,7 +46,34 @@ void main() {
         });
       });
     }
+
+    test('contains value' , () {
+      expect(value.contains('something'), isTrue);
+      expect(value.contains('else'), isFalse);
+    });
+    
+    test('contains error', () {
+      expect(error.containsError(404), isTrue);
+      expect(error.containsError(400), isFalse);
+    });
   });
 
+  group('value', () {
+    test('value', () => expect(value.value, 'something'));
+
+    test('error', () => expect(
+      () => value.error,
+      throwsA(predicate<ResultError>((e) => e.message == 'Result does not contain an error'))
+    ));
+  });
+
+  group('error', () {
+    test('value', () => expect(
+      () => error.value,
+      throwsA(predicate<ResultError>((e) => e.message == 'Result does not contain a value'))
+    ));
+
+    test('error', () => expect(error.error, 404));
+  });
 
 }
