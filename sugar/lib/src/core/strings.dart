@@ -8,7 +8,7 @@ extension Strings on String {
     if (isBlank) {
       return this;
 
-    } else if (length == 1){
+    } else if (length == 1) {
       return toUpperCase();
 
     } else {
@@ -18,7 +18,7 @@ extension Strings on String {
 
 
   String camelCase([Pattern pattern]) {
-    final parts = split(pattern ?? _delimiters);
+    final parts = split(pattern ?? _delimiters)..removeWhere((val) => val.isEmpty);
     if (parts.length <= 1) {
       return this;
     }
@@ -32,7 +32,7 @@ extension Strings on String {
   }
 
   String pascalCase([Pattern pattern]) {
-    final parts = split(pattern ?? _delimiters);
+    final parts = split(pattern ?? _delimiters)..removeWhere((val) => val.isEmpty);
     if (parts.isEmpty) {
       return this;
     }
@@ -50,7 +50,10 @@ extension Strings on String {
 
   bool equalsIgnoreCase(String other) => toLowerCase() == other.toLowerCase();
 
-  bool matches(RegExp expression) => expression.allMatches(this).length == 1;
+  bool matches(Pattern expression) {
+    final match = expression.matchAsPrefix(this);
+    return match != null && match.start == 0 && match.end == length;
+  }
 
 
   bool get isBlank => isEmpty || codeUnits.every((unit) => unit == _whitespace);
@@ -58,5 +61,13 @@ extension Strings on String {
   bool get isNotBlank => !isBlank;
 
   bool get isIdentifier => matches(_identifier);
+
+}
+
+extension PaddedNumber<T extends num> on T {
+
+  String padLeft(int width, [String padding = '0']) => toString().padLeft(width, padding);
+
+  String padRight(int width, [String padding = '0']) => toString().padRight(width, padding);
 
 }

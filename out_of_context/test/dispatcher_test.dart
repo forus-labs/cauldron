@@ -5,9 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'package:out_of_context/out_of_context.dart';
 
 
-class Stub with RouterMixin {}
+class Stub with DispatcherMixin {}
 
-class StubRouter extends Router {
+class StubDispatcher extends Dispatcher {
 
   @override
   final NavigatorState state = MockState();
@@ -31,16 +31,16 @@ class R extends Object {}
 
 void main() {
 
-  group('RouterMixin', () {
+  group('Dispatcher', () {
 
-    test('router', () => expect(Stub().router, isNotNull));
+    test('dispatcher', () => expect(Stub().dispatcher, isNotNull));
 
   });
 
-  group('Router', () {
+  group('Dispatcher', () {
 
-    final router = StubRouter();
-    final state = router.state;
+    final dispatcher = StubDispatcher();
+    final state = dispatcher.state;
 
     final arguments = T();
     final R result = R();
@@ -50,86 +50,86 @@ void main() {
 
 
     test('pushNamed', () {
-      router.pushNamed('route', arguments: arguments);
+      dispatcher.pushNamed('route', arguments: arguments);
       verify(state.pushNamed('route', arguments: arguments));
     });
 
     test('pushReplacementNamed', () {
-      router.pushReplacementNamed('route', result: result, arguments: arguments);
+      dispatcher.pushReplacementNamed('route', result: result, arguments: arguments);
       verify(state.pushReplacementNamed('route', result: result, arguments: arguments));
     });
 
     test('pushNamedAndRemoveUntil', () {
-      router.pushNamedAndRemoveUntil('route', predicate, arguments: arguments);
+      dispatcher.pushNamedAndRemoveUntil('route', predicate, arguments: arguments);
       verify(state.pushNamedAndRemoveUntil('route', predicate, arguments: arguments));
     });
 
     test('push', () {
-      router.push(route);
+      dispatcher.push(route);
       verify(state.push(route));
     });
 
     test('pushReplacement', () {
-      router.pushReplacement(route, result: result);
+      dispatcher.pushReplacement(route, result: result);
       verify(state.pushReplacement(route, result: result));
     });
 
     test('pushAndRemoveUntil', () {
-      router.pushAndRemoveUntil(route, predicate);
+      dispatcher.pushAndRemoveUntil(route, predicate);
       verify(state.pushAndRemoveUntil(route, predicate));
     });
 
 
     test('replace', () {
-      router.replace(old: old, route: route);
+      dispatcher.replace(old: old, route: route);
       verify(state.replace(oldRoute: old, newRoute: route));
     });
 
     test('replaceRouteBelow', () {
-      router.replaceRouteBelow(anchor: old, route: route);
+      dispatcher.replaceRouteBelow(anchor: old, route: route);
       verify(state.replaceRouteBelow(anchorRoute: old, newRoute: route));
     });
 
 
     test('canPop', () {
-      router.canPop();
+      dispatcher.canPop();
       verify(state.canPop());
     });
 
     test('maybePop', () {
-      router.maybePop();
+      dispatcher.maybePop();
       verify(state.maybePop());
     });
 
 
     test('pop', () {
-      router.pop();
+      dispatcher.pop();
       verify(state.pop());
     });
 
     test('popUntil', () {
-      router.popUntil(predicate);
+      dispatcher.popUntil(predicate);
       verify(state.popUntil(predicate));
     });
 
     test('popUntil', () {
-      router.popUntil(predicate);
+      dispatcher.popUntil(predicate);
       verify(state.popUntil(predicate));
     });
 
     test('popAndPushNamed', () {
-      router.popAndPushNamed('route', result: result, arguments: arguments);
+      dispatcher.popAndPushNamed('route', result: result, arguments: arguments);
       verify(state.popAndPushNamed('route', result: result, arguments: arguments));
     });
 
 
     test('removeRoute', () {
-      router.removeRoute(route);
+      dispatcher.removeRoute(route);
       verify(state.removeRoute(route));
     });
 
     test('removeRouteBelow', () {
-      router.removeRouteBelow(route);
+      dispatcher.removeRouteBelow(route);
       verify(state.removeRouteBelow(route));
     });
 

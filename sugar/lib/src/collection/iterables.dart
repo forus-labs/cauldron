@@ -1,4 +1,4 @@
-extension FluentIterable<T> on Iterable<T> {
+extension Iterables<T> on Iterable<T> {
 
   Iterable<T> distinct() sync* {
     for (final element in toSet()) {

@@ -10,7 +10,7 @@ extension ListEquality<T> on List<T> {
     }
 
     for (var i = 0; i < length; i++) {
-      if ([i] != other[i]) {
+      if (this[i] != other[i]) {
         return false;
       }
     }

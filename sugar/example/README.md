@@ -1,1 +1,1 @@
-**Please refer to the [wiki](https://github.com/forus-labs/sane/wiki).**
+Please refer to the [README](../README.md)
