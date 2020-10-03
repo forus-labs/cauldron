@@ -19,7 +19,7 @@ class Time with Relatable<Time> implements Comparable<Time> {
   int _inMicroseconds;
 
 
-  Time(this.hour, [this.minute, this.second, this.millisecond, this.microsecond]):
+  Time(this.hour, [this.minute = 0, this.second = 0, this.millisecond = 0, this.microsecond = 0]):
         assert(hour >= 0 && hour < 24, 'Hour is "$hour", should be between 0 and 24'),
         assert(minute >= 0 && minute < 60, 'Minute is "$minute", should be between 0 and 60'),
         assert(second >= 0 && second < 60, 'Second is "$second", should be between 0 and 60'),
@@ -29,6 +29,7 @@ class Time with Relatable<Time> implements Comparable<Time> {
   factory Time.fromMilliseconds(int milliseconds) => Time.fromMicroseconds(milliseconds * 1000);
 
   factory Time.fromMicroseconds(int microseconds) {
+    final total = microseconds;
     final microsecond = microseconds % 1000;
     microseconds ~/= 1000;
 
@@ -43,7 +44,7 @@ class Time with Relatable<Time> implements Comparable<Time> {
 
     final hour = microseconds % 60;
 
-    return Time(hour, minute, second, millisecond, microsecond).._inMicroseconds = microseconds;
+    return Time(hour, minute, second, millisecond, microsecond).._inMicroseconds = total;
   }
 
 

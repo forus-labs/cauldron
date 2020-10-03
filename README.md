@@ -1,6 +1,7 @@
 # Cauldron
 
 Forus Labs' mono-repository for Dart & Flutter.
+* Common library that contains syntax sugar goodness
 * Dart Analyzer configurations that we use internally in our Dart & Flutter projects.
 * Context-free navigation, scaffolds & snackbars.
 
@@ -10,6 +11,17 @@ Forus Labs' mono-repository for Dart & Flutter.
 [![Stable Source Code](https://img.shields.io/badge/stable-branch-blue.svg)](https://travis-ci.com/forus-labs/cauldron/tree/stable)
 
 ***
+### Sugar - Syntax Sugar for Dart
+
+![Sugar Build](https://github.com/forus-labs/cauldron/workflows/Sugar%20Build/badge.svg)
+[![Pub Dev](https://img.shields.io/pub/v/sugar)](https://pub.dev/packages/sugar)
+[![Documentation](https://img.shields.io/badge/documentation-1.0.0-brightgreen.svg)](https://pub.dev/documentation/sugar/latest/)
+
+```YAML
+dependencies:
+  sugar: ^1.0.0
+```
+
 ### Flint - Because Pedantic wasn't strict enough
 
 ![Flint Build](https://github.com/forus-labs/cauldron/workflows/Flint%20Build/badge.svg)
@@ -45,5 +57,7 @@ _**Companion project for testing**_
 dev_dependencies:
     mock_of_context: ^1.1.0
 ```
+
+
 
 

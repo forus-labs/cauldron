@@ -1,11 +1,11 @@
 name: sugar
 description: Forus Labs' Core Dart library.
-version: 1.0.1
-homepage: https://github.com/forus-labs/sugar
-repository: https://github.com/forus-labs/sugar
+version: 1.0.0
+homepage: https://github.com/forus-labs/cauldron/sugar
+repository: https://github.com/forus-labs/cauldron/sugar
 
 environment:
-  sdk: '>=2.9.2 <3.0.0'
+  sdk: '>=2.10.0 <3.0.0'
 
 dependencies:
   meta: ^1.1.7

@@ -29,7 +29,7 @@ class UtcDateTime extends DateTime with MultiPart, RoundableDateTime<UtcDateTime
 
   UtcDateTime.fromMilliseconds(int milliseconds): super.fromMillisecondsSinceEpoch(milliseconds, isUtc: true);
 
-  UtcDateTime.fromMicroseconds(int microseconds): super.fromMicrosecondsSinceEpoch(microseconds);
+  UtcDateTime.fromMicroseconds(int microseconds): super.fromMicrosecondsSinceEpoch(microseconds, isUtc: true);
 
   factory UtcDateTime.now() {
     final date = DateTime.now().toUtc();

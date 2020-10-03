@@ -3,6 +3,8 @@ import 'package:meta/meta.dart';
 import 'package:sugar/core.dart' as math show round, ceil, floor;
 import 'package:sugar/time.dart';
 
+int _unzero(int value) => value == 0 ? 1 : value;
+
 mixin RoundableDateTime<T extends RoundableDateTime<T>> implements DateTime {
 
   T round(int value, TimeUnit unit) => _adjust(value, unit, math.round);
@@ -17,9 +19,9 @@ mixin RoundableDateTime<T extends RoundableDateTime<T>> implements DateTime {
       case TimeUnit.year:
         return of(function(year, value), month, day, hour, minute, second, millisecond, microsecond);
       case TimeUnit.month:
-        return of(year, function(month, value), day, hour, minute, second, millisecond, microsecond);
+        return of(year, _unzero(function(month, value)), day, hour, minute, second, millisecond, microsecond);
       case TimeUnit.day:
-        return of(year, month, function(day, value), hour, minute, second, millisecond, microsecond);
+        return of(year, month, _unzero(function(day, value)), hour, minute, second, millisecond, microsecond);
       case TimeUnit.hour:
         return of(year, month, day, function(hour, value), minute, second, millisecond, microsecond);
       case TimeUnit.minute:
@@ -54,9 +56,9 @@ extension DefaultRoundableDate on DateTime {
       case TimeUnit.year:
         return _of(function(year, value), month, day, hour, minute, second, millisecond, microsecond);
       case TimeUnit.month:
-        return _of(year, function(month, value), day, hour, minute, second, millisecond, microsecond);
+        return _of(year, _unzero(function(month, value)), day, hour, minute, second, millisecond, microsecond);
       case TimeUnit.day:
-        return _of(year, month, function(day, value), hour, minute, second, millisecond, microsecond);
+        return _of(year, month, _unzero(function(day, value)), hour, minute, second, millisecond, microsecond);
       case TimeUnit.hour:
         return _of(year, month, day, function(hour, value), minute, second, millisecond, microsecond);
       case TimeUnit.minute:

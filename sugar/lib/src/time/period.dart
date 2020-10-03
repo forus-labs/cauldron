@@ -29,11 +29,11 @@ class Period<T extends Comparable<T>> with Relatable<Period<T>> {
   final int priority;
   int _hash;
 
-  Period(this.start, [this.end, this.priority = 0]);
+  Period(this.start, [T end, this.priority = 0]): end = end ?? start;
 
   @override
   int compareTo(Period<T> other) {
-    if (this == other) {
+    if (identical(this, other)) {
       return 0;
     }
 
@@ -54,6 +54,6 @@ class Period<T extends Comparable<T>> with Relatable<Period<T>> {
   @protected int get hash => _hash ??= math.hash([start, end, priority]);
 
   @override
-  String toString() => 'Period{priority: $priority, $start - $end}';
+  String toString() => 'Period{range: $start - $end, priority: $priority}';
 
 }
