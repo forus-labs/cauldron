@@ -1,6 +1,6 @@
 name: mock_of_context
 description: Mock of Context is a companion project for testing Out of Context.
-version: 1.1.0
+version: 1.2.0
 homepage: https://github.com/forus-labs/cauldron
 repository: https://github.com/forus-labs/cauldron
 
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   meta: ^1.1.8
   mockito: ^4.1.1
-  out_of_context: ^1.0.2
+  out_of_context: ^1.1.0
 
 dev_dependencies:
   flutter_test:

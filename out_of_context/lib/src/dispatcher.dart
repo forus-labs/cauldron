@@ -1,19 +1,19 @@
 import 'package:flutter/widgets.dart';
 
-import 'package:out_of_context/src/keyed.dart';
+import 'package:out_of_context/out_of_context.dart';
 
 
-mixin RouterMixin {
+mixin DispatcherMixin {
 
   @visibleForTesting
-  @protected final Router router = const Router();
+  @protected final Dispatcher dispatcher = const Dispatcher();
 
 }
 
 
-class Router extends Keyed<NavigatorState> {
+class Dispatcher extends Keyed<NavigatorState> {
 
-  const Router();
+  const Dispatcher();
 
   
   Future<T> pushNamed<T>(String route, {Object arguments}) => state.pushNamed(route, arguments: arguments);

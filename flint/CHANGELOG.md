@@ -1,3 +1,10 @@
+## 1.3.0 - I ran out of Flint puns (04/10/2020)
+This update adds rules introduced in Dart 2.10.0.
+
+- Add `always_use_package_imports`
+- Add `avoid_type_to_string`
+- Add `do_not_use_environment`
+
 ## 1.2.0 - I'm running out of Flint puns (14/08/2020)
 This update adds rules introduced in Dart 2.9.0.
 

@@ -4,13 +4,13 @@ import 'package:mockito/mockito.dart';
 import 'package:out_of_context/out_of_context.dart';
 
 
-class MockRouter extends Mock implements Router {}
+class MockDispatcher extends Mock implements Dispatcher {}
 
-mixin MockRouterMixin on RouterMixin {
+mixin MockDispatcherMixin on DispatcherMixin {
 
   @override
   // ignore: overridden_fields
-  final MockRouter router = MockRouter();
+  final MockDispatcher dispatcher = MockDispatcher();
 
 }
 

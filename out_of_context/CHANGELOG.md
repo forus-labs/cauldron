@@ -1,3 +1,12 @@
+## 1.1.0 - Viva la Dispatcher (04/10/2020)
+
+Flutter introduced a `Router` in a recent update. We have to rename _our_ `Router` to
+prevent a naming conflict.
+
+- Change `Keyed` to be exported
+- Change `Router` to `Dispatcher`
+- Change `RouterMixin` to `DispatcherMixin`
+
 ## 1.0.2 - Bumpity Bump (15/08/2020)
 
 - Add Flutter version constraint

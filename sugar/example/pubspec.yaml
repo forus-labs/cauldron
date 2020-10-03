@@ -1,9 +1,9 @@
-name: sane_example
-description: Example for sane
+name: sugar_example
+description: Example for Sugar
 private: true
 version: 1.0.0
 homepage: https://github.com/forus-labs/cauldron
 repository: https://github.com/forus-labs/cauldron
 
 environment:
-  sdk: '>=2.8.4 <3.0.0'
+  sdk: '>=2.10.0 <3.0.0'
