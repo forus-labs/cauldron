@@ -22,6 +22,7 @@ dependencies:
   sugar: ^1.0.0
 ```
 
+***
 ### Flint - Because Pedantic wasn't strict enough
 
 ![Flint Build](https://github.com/forus-labs/cauldron/workflows/Flint%20Build/badge.svg)
