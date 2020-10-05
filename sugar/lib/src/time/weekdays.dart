@@ -1,6 +1,6 @@
 class Weekdays {
 
-  static int pack(Iterable<int> week) {
+  static int encode(Iterable<int> week) {
     assert(week.length <= 7, 'Number of days is "${week.length}", should be less than 7');
     assert(week.every((day) => day >= 1 && day <= 7), 'Invalid day in week, should be between 1 and 7');
 
@@ -15,7 +15,7 @@ class Weekdays {
     return packed;
   }
 
-  static Iterable<int> unpack(int packed) sync* {
+  static Iterable<int> decode(int packed) sync* {
     assert(packed >= 0 && packed < 128, 'Packed days is "$packed", should be between 0 and 127');
 
     for (var day = 1; day <= 7; day++) {

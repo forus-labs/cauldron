@@ -3,7 +3,7 @@
 ![Flint Build](https://github.com/forus-labs/cauldron/workflows/Flint%20Build/badge.svg)
 [![Codecov](https://codecov.io/gh/forus-labs/cauldron/branch/master/graph/badge.svg)](https://codecov.io/gh/forus-labs/cauldron)
 [![Pub Dev](https://img.shields.io/pub/v/flint)](https://pub.dev/packages/flint)
-[![Documentation](https://img.shields.io/badge/documentation-1.3.0-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)
+[![Documentation](https://img.shields.io/badge/documentation-1.3.1-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)
 
 **Forus Labs' `dartanalyzer` configurations that are used internally in our Dart & Flutter projects.**
 
@@ -16,7 +16,7 @@ To use the lints, add the following dependency in your `pubspec.yaml`.
 
 ```yaml
 dev_dependencies:
-  flint: ^1.3.0
+  flint: ^1.3.1
 ```
 
 Then, add a configuration to your `analysis_options.yaml`. The following will always include the latest version of said set.
