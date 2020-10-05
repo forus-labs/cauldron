@@ -1,3 +1,5 @@
+/// Basic utilities to manipulate common data-types, skeleton types to simplify
+/// equality and comparison operations, and monads.
 library sugar.core;
 
 export 'src/core/equality.dart';

@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+/// A skeleton that implements comparison operators using [compareTo].
 mixin Relatable<T extends Relatable<T>> implements Comparable<T> {
 
   @override
@@ -16,6 +17,7 @@ mixin Relatable<T extends Relatable<T>> implements Comparable<T> {
   @override
   int get hashCode => hash;
 
+  /// The hashCode for this [Relatable].
   @protected int get hash;
 
 }

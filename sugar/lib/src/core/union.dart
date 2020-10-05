@@ -2,20 +2,28 @@ import 'package:meta/meta.dart';
 
 import 'package:sugar/core.dart';
 
+/// A monad that represents a union type.
 abstract class Union<L, R> with Equality {
 
   Union();
 
+  /// Creates a [Union] with the given value of type [L].
   factory Union.left(L left) => _Left(left);
 
+  /// Creates a [Union] with the given value of type [R].
   factory Union.right(R right) => _Right(right);
 
+  /// Maps the value of this [Union] using [left] if the value is of type [L], or
+  /// [right] if the value is of type [R].
   T map<T>(T Function(L) left, T Function(R) right);
 
+  // The value of this [Union].
   dynamic get value;
 
+  /// Returns `true` if this [Union] contains a value which type is [L].
   bool get left;
 
+  /// Returns `true` if this [Union] contains a value which type is [R].
   bool get right;
 
   @override

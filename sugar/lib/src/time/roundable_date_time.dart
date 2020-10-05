@@ -5,12 +5,16 @@ import 'package:sugar/time.dart';
 
 int _unzero(int value) => value == 0 ? 1 : value;
 
+/// Represents a [DateTime] that can be rounded.
 mixin RoundableDateTime<T extends RoundableDateTime<T>> implements DateTime {
 
+  /// Rounds this [DateTime] to the nearest [value].
   T round(int value, TimeUnit unit) => _adjust(value, unit, math.round);
 
+  /// Ceils this [DateTime] to the nearest [value].
   T ceil(int value, TimeUnit unit) => _adjust(value, unit, math.ceil);
 
+  /// Floors this [DateTime] to the nearest [value].
   T floor(int value, TimeUnit unit) => _adjust(value, unit, math.floor);
 
 
@@ -42,12 +46,16 @@ mixin RoundableDateTime<T extends RoundableDateTime<T>> implements DateTime {
 
 }
 
+/// Provides a default implementation for [RoundableDateTime].
 extension DefaultRoundableDate on DateTime {
 
+  /// Rounds this [DateTime] to the nearest [value].
   DateTime round(int value, TimeUnit unit) => _adjust(value, unit, math.round);
 
+  /// Ceils this [DateTime] to the nearest [value].
   DateTime ceil(int value, TimeUnit unit) => _adjust(value, unit, math.ceil);
 
+  /// Floors this [DateTime] to the nearest [value].
   DateTime floor(int value, TimeUnit unit) => _adjust(value, unit, math.floor);
 
 
