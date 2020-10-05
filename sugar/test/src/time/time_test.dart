@@ -62,7 +62,7 @@ void main() {
   test('inMilliseconds', () => expect(time.inMilliseconds, Hour.milliseconds + Minute.milliseconds * 2 + Second.milliseconds * 3 + 4));
 
   test('inMicroseconds', () {
-    final microseconds = Hour.microseconds + Minute.microseconds * 2 + Second.microseconds * 3 + Millisecond.microseconds * 4 + 6;
+    const microseconds = Hour.microseconds + Minute.microseconds * 2 + Second.microseconds * 3 + Millisecond.microseconds * 4 + 6;
     expect(time.inMicroseconds, microseconds);
     expect(time.inMicroseconds, microseconds);
   });

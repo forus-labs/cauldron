@@ -1,3 +1,10 @@
+## 1.3.1 - I messed up (05/10/2020)
+
+Today I learnt that semantic version in Dart is broken. This update removes some lint rules that were
+mistakely assumed to have been released in 2.10.0.
+
+- Remove `avoid_type_to_string`
+
 ## 1.3.0 - I ran out of Flint puns (04/10/2020)
 This update adds rules introduced in Dart 2.10.0.
 
