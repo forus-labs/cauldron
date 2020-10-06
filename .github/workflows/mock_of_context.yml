@@ -26,4 +26,6 @@ jobs:
       with:
         githubToken: ${{ secrets.GITHUB_TOKEN }}
         relativePath: mock_of_context
-    - run: bash <(curl -s https://codecov.io/bash)
+    - uses: codecov/codecov-action@v1
+      with:
+        fail_ci_if_error: true
