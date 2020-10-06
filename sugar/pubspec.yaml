@@ -1,5 +1,5 @@
 name: sugar
-description: Forus Labs' Core Dart library. Sweet sweet syntax sugar.
+description: Forus Labs' Core Dart library. Provides sweet syntax sugar for common patterns related to the collections, core sand time.
 version: 1.0.0
 homepage: https://github.com/forus-labs/cauldron
 repository: https://github.com/forus-labs/cauldron
