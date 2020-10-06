@@ -25,9 +25,9 @@ dependencies:
 ***
 ### Flint - Because Pedantic wasn't strict enough
 
-![Flint Build](https://github.com/forus-labs/cauldron/workflows/Flint%20Build/badge.svg)
+[![Flint Build](https://github.com/forus-labs/cauldron/workflows/Flint%20Build/badge.svg)](https://github.com/forus-labs/cauldron/actions?query=workflow%3A%22Flint+Build%22)
 [![Pub Dev](https://img.shields.io/pub/v/flint)](https://pub.dev/packages/flint)
-[![Documentation](https://img.shields.io/badge/documentation-1.3.1-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)
+[![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)
 
 ```YAML
 dev_dependencies:
