@@ -24,7 +24,7 @@ jobs:
       - run: pub get
       - run: dart analyze --fatal-warnings lib
       - run: dart analyze --fatal-warnings test
-      - run: dart test --coverage=/results/
+      - run: dart test --coverage=/
       - uses: axel-op/dart-package-analyzer@v3
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
@@ -32,4 +32,4 @@ jobs:
       - uses: codecov/codecov-action@v1
         with:
           fail_ci_if_error: true
-          files: /results/**
+          files: /**
