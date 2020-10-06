@@ -7,10 +7,10 @@ import 'package:out_of_context/out_of_context.dart';
 /// A mock for [Dispatcher].
 class MockDispatcher extends Mock implements Dispatcher {}
 
-/// A mock for [RouterMixin].
+/// A mock for [DispatcherMixin].
 mixin MockDispatcherMixin on DispatcherMixin {
 
-  /// Returns a mocked [Router].
+  /// Returns a mocked [Dispatcher].
   @override
   // ignore: overridden_fields
   final MockDispatcher dispatcher = MockDispatcher();
