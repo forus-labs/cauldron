@@ -43,7 +43,7 @@ dev_dependencies:
 
 ```YAML
 dependencies:
-  out_of_context: ^1.1.0
+  out_of_context: ^1.1.1
 ```
 
 <br>
