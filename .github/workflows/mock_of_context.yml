@@ -27,5 +27,5 @@ jobs:
         githubToken: ${{ secrets.GITHUB_TOKEN }}
         relativePath: mock_of_context
     - uses: codecov/codecov-action@v1
-        with:
-          fail_ci_if_error: true
+      with:
+        fail_ci_if_error: true
