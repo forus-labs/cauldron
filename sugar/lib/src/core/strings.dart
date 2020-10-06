@@ -24,7 +24,7 @@ extension Strings on String {
     }
 
     final buffer = StringBuffer()..write(parts[0]);
-    for (int i = 1; i < parts.length; i++) {
+    for (var i = 1; i < parts.length; i++) {
       buffer.write(parts[i].capitalize());
     }
 
