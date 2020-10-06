@@ -1,7 +1,7 @@
 # Sugar - Syntax Sugar for Dart
-![Sugar Build](https://github.com/forus-labs/cauldron/workflows/Sugar%20Build/badge.svg)
+[![Sugar Build](https://github.com/forus-labs/cauldron/workflows/Sugar%20Build/badge.svg)](https://github.com/forus-labs/cauldron/actions?query=workflow%3A%22Sugar+Build%22)
 [![Pub Dev](https://img.shields.io/pub/v/sugar)](https://pub.dev/packages/sugar)
-[![Documentation](https://img.shields.io/badge/documentation-1.0.0-brightgreen.svg)](https://pub.dev/documentation/sugar/latest/)
+[![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/sugar/latest/)
 
 Sugar is Forus Labs' common library for Dart. It contains frequently used utilities.
 
