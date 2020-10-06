@@ -1,4 +1,4 @@
-## 1.2.0 - The Cascading Effect (04/10/2020)
+## 1.2.0 - The Cascading Effect (06/10/2020)
 
 Flutter introduced a `Router` in a recent update. We have to rename _our_ `Router` to
 prevent a naming conflict.
