@@ -26,4 +26,6 @@ jobs:
       with:
         relativePath: out_of_context
         githubToken: ${{ secrets.GITHUB_TOKEN }}
-    - run: bash <(curl -s https://codecov.io/bash)
+    - uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
