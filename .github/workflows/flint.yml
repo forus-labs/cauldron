@@ -23,7 +23,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: pub get
-    - run: dart analyze --fatal-warnings lib tool
+    - run: dart analyze --fatal-warnings lib
+    - run: dart analyze --fatal-warnings tool
     - uses: axel-op/dart-package-analyzer@v3
       with:
         githubToken: ${{ secrets.GITHUB_TOKEN }}
