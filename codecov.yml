@@ -7,6 +7,10 @@ coverage:
         flags: flint
       out_of_context:
         flags: out_of_context
+      mock_of_context:
+        flags: mock_of_context
+      sugar:
+        flags: sugar
 
 ignore:
   - "**/flutter-tools"
@@ -17,5 +21,11 @@ flags:
     paths:
       - flint/lib/
   out_of_context:
-    pths:
+    paths:
       - out_of_context/lib/
+  mock_of_context:
+    paths:
+      - mock_of_context/lib/
+  sugar:
+    paths:
+      - sugar/lib/

@@ -1,23 +1,23 @@
 import 'package:flutter/widgets.dart';
 
-import 'package:out_of_context/src/keyed.dart';
+import 'package:out_of_context/out_of_context.dart';
 
 
-/// A mixin that provides a [Router].
-mixin RouterMixin {
+/// A mixin that provides a [Dispatcher].
+mixin DispatcherMixin {
 
-  /// A [Router].
+  /// A [Dispatcher].
   @visibleForTesting
-  @protected final Router router = const Router();
+  @protected final Dispatcher dispatcher = const Dispatcher();
 
 }
 
 
 /// A wrapper for [Navigator] that does not require a [BuildContext].
-class Router extends Keyed<NavigatorState> {
+class Dispatcher extends Keyed<NavigatorState> {
 
-  /// Creates a [Router].
-  const Router();
+  /// Creates a [Dispatcher]
+  const Dispatcher();
 
 
   /// Forwards execution to [Navigator.pushNamed].

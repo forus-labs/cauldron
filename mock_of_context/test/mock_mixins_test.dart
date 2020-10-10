@@ -6,7 +6,7 @@ import 'package:out_of_context/out_of_context.dart';
 import 'package:mock_of_context/mock_of_context.dart';
 
 
-class StubRouter with RouterMixin, MockRouterMixin {}
+class StubDispatcher with DispatcherMixin, MockDispatcherMixin {}
 
 class StubScaffold with ScaffoldMixin, MockScaffoldMixin {}
 
@@ -15,9 +15,9 @@ class StubNotifier extends ChangeNotifier with MockNotifierMixin {}
 
 void main() {
 
-  group('MockRouterMixin', () {
+  group('MockDispatcherMixin', () {
 
-    test('router', () => expect(StubRouter().router, isA<MockRouter>()));
+    test('router', () => expect(StubDispatcher().dispatcher, isA<MockDispatcher>()));
 
   });
 

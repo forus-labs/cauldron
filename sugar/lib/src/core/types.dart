@@ -1,5 +1,7 @@
-extension TypeComparison on Object {
+/// Provides utilities for comparing and manipulating types.
+class Types {
 
-  bool subclassOf<T>(T instance) => this is T;
+  /// Determines if [unknown] is a subtype of [T].
+  static bool isSubtype<T>(dynamic unknown, T type) => unknown is T;
 
 }

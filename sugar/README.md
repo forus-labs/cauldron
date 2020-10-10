@@ -1,31 +1,32 @@
-# Sane: Forus Labs' Core Dart Library
-[![Travis CI](https://img.shields.io/travis/forus-labs/sane/master?logo=travis)](https://travis-ci.com/forus-labs/sane)
-[![Codecov](https://codecov.io/gh/forus-labs/sane/branch/master/graph/badge.svg)](https://codecov.io/gh/forus-labs/sane)
-[![Pub Dev](https://img.shields.io/pub/v/sane)](https://pub.dev/packages/sane)
+# Sugar - Syntax Sugar for Dart
+![Sugar Build](https://github.com/forus-labs/cauldron/workflows/Sugar%20Build/badge.svg)
+[![Pub Dev](https://img.shields.io/pub/v/sugar)](https://pub.dev/packages/sugar)
+[![Documentation](https://img.shields.io/badge/documentation-1.0.0-brightgreen.svg)](https://pub.dev/documentation/sugar/latest/)
 
-Sane is Forus Labs' core library that includes annotations, collection types, date-times and utilities for numerics and strings.
+Sugar is Forus Labs' common library for Dart. It contains frequently used utilities.
 
-**This is a bleeding edge version of Sane. For a production ready and documented version, please refer to the [stable branch](https://github.com/forus-labs/sane/tree/stable).**
+**Please view the [stable brunch](https://github.com/forus-labs/cauldron/tree/stable/sugar/) for a production version.**
 
+```yaml
+dependencies:
+  sugar: ^1.0.0
+```
+#### Core
 
-### [`sane.collection`](https://pub.dev/documentation/sane/latest/sane.collection/sane.collection-library.html)
+* Monads (i.e. `Result<T, E>`, `Union<L, R>`)
+* Utilities to simplify implementation of `==` and other comparisons
+* Utilities for maths, numerics and strings
 
-* Delegating collection types
-* Observable collection types
+#### Collection
+
+* More `Iterable` functions
+* Utilities for comparing the contents of `Collection`s
 * Tuples (`Pair`, `Triple` and `Quad`)
-* Pseudo-weak collection types
 
-### [`sane.core`](https://pub.dev/documentation/sane/latest/sane.core/sane.core-library.html)
+#### Time
 
-* Annotations (i.e. `nullable`, `tainted`)
-* Pseudo-weak reference
-* Utilities for numerics and strings
-
-### [`sane.time`](https://pub.dev/documentation/sane/latest/sane.time/sane.time-library.html)
-
-* Distinct global and localized date-time types
-* `Period` type
-* `Span` type
-* `Time` type
-* Utilities for rounding date-times
+* Distinct local and UTC date-time types
+* Distinct date and time types
+* Utilities for conversion between time units and rounding date-times
+* Serialization and deserialization of weekdays
 

@@ -4,16 +4,16 @@ import 'package:mockito/mockito.dart';
 import 'package:out_of_context/out_of_context.dart';
 
 
-/// A mock for [Router].
-class MockRouter extends Mock implements Router {}
+/// A mock for [Dispatcher].
+class MockDispatcher extends Mock implements Dispatcher {}
 
-/// A mock for [RouterMixin]
-mixin MockRouterMixin on RouterMixin {
+/// A mock for [RouterMixin].
+mixin MockDispatcherMixin on DispatcherMixin {
 
   /// Returns a mocked [Router].
   @override
   // ignore: overridden_fields
-  final MockRouter router = MockRouter();
+  final MockDispatcher dispatcher = MockDispatcher();
 
 }
 

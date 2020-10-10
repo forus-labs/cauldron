@@ -1,27 +1,26 @@
-import 'package:meta/meta.dart';
+/// Utilities for rounding a number.
+extension RoundableNumber<T extends num> on T {
 
-const positive = 'Positive number';
-const negative = 'Negative number';
-const nonZero = 'Non-zero';
-const unsigned = 'Unsigned number';
+  /// Rounds this number to the nearest [value].
+  T roundTo(num value) => round(this, value);
 
-@immutable class Between {
+  /// Ceils this number to the nearest [value].
+  T ceilTo(num value) => ceil(this, value);
 
-  final num min;
-  final num max;
-
-  @literal const Between(this.min, this.max);
+  /// Floors this number to the nearest [value].
+  T floorTo(num value) => floor(this, value);
 
 }
 
-@immutable class Outside {
 
-  final num min;
-  final num max;
+/// Rounds [value] to the nearest [nearest].
+T round<T extends num>(T value, num nearest) =>  nearest == 1 ? value : (value / nearest).round() * nearest;
 
-  @literal const Outside(this.min, this.max);
+/// Ceils [value] to the nearest [nearest].
+T ceil<T extends num>(T value, num nearest) =>  nearest == 1 ? value : (value / nearest).ceil() * nearest;
 
-}
+/// Floors [value] to the nearest [nearest].
+T floor<T extends num>(T value, num nearest) =>  nearest == 1 ? value : (value / nearest).floor() * nearest;
 
 extension Integers on int {
 
@@ -38,16 +37,13 @@ extension Integers on int {
 
 }
 
-extension RoundableNumber<T extends num> on T {
+///Returns the smaller of two [Comparable]s.
+T min<T extends Comparable<T>>(T a, T b) => a.compareTo(b) < 0 ? a : b;
 
-  T roundTo(@nonZero num value) => value == 1 ? this : (this / value).round() * value;
+///Returns the larger of two [Comparable]s.
+T max<T extends Comparable<T>>(T a, T b) => a.compareTo(b) < 0 ? b : a;
 
-  T ceilTo(@nonZero num value) => value == 1 ? this : (this / value).ceil() * value;
-
-  T floorTo(@nonZero num value) => value == 1 ? this : (this / value).floor() * value;
-
-}
-
+/// Creates a hash using [values].
 int hash(Iterable<dynamic> values) {
   var hash = 17;
   for (final value in values) {
