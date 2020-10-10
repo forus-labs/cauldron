@@ -13,9 +13,9 @@ Forus Labs' mono-repository for Dart & Flutter.
 ***
 ### Sugar - Syntax Sugar for Dart
 
-![Sugar Build](https://github.com/forus-labs/cauldron/workflows/Sugar%20Build/badge.svg)
+[![Sugar Build](https://github.com/forus-labs/cauldron/workflows/Sugar%20Build/badge.svg)](https://github.com/forus-labs/cauldron/actions?query=workflow%3A%22Sugar+Build%22)
 [![Pub Dev](https://img.shields.io/pub/v/sugar)](https://pub.dev/packages/sugar)
-[![Documentation](https://img.shields.io/badge/documentation-1.0.0-brightgreen.svg)](https://pub.dev/documentation/sugar/latest/)
+[![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/sugar/latest/)
 
 ```YAML
 dependencies:
@@ -25,9 +25,9 @@ dependencies:
 ***
 ### Flint - Because Pedantic wasn't strict enough
 
-![Flint Build](https://github.com/forus-labs/cauldron/workflows/Flint%20Build/badge.svg)
+[![Flint Build](https://github.com/forus-labs/cauldron/workflows/Flint%20Build/badge.svg)](https://github.com/forus-labs/cauldron/actions?query=workflow%3A%22Flint+Build%22)
 [![Pub Dev](https://img.shields.io/pub/v/flint)](https://pub.dev/packages/flint)
-[![Documentation](https://img.shields.io/badge/documentation-1.3.1-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)
+[![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)
 
 ```YAML
 dev_dependencies:
@@ -37,22 +37,22 @@ dev_dependencies:
 ***
 ### Out of Context - Context-free navigation & scaffolds
 
-![Out of Context Build](https://github.com/forus-labs/cauldron/workflows/Out%20of%20Context%20Build/badge.svg)
+[![Out of Context Build](https://github.com/forus-labs/cauldron/workflows/Out%20of%20Context%20Build/badge.svg)](https://github.com/forus-labs/cauldron/actions?query=workflow%3A%22Out+of+Context+Build%22)
 [![Pub Dev](https://img.shields.io/pub/v/out_of_context)](https://pub.dev/packages/out_of_context)
-[![Documentation](https://img.shields.io/badge/documentation-1.1.0-brightgreen.svg)](https://pub.dev/documentation/out_of_context/latest/)
+[![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/out_of_context/latest/)
 
 ```YAML
 dependencies:
-  out_of_context: ^1.1.0
+  out_of_context: ^1.1.1
 ```
 
 <br>
 
 _**Companion project for testing**_
 
-![Mock of Context Build](https://github.com/forus-labs/cauldron/workflows/Mock%20of%20Context%20Build/badge.svg)
+[![Mock of Context Build](https://github.com/forus-labs/cauldron/workflows/Mock%20of%20Context%20Build/badge.svg)](https://github.com/forus-labs/cauldron/actions?query=workflow%3A%22Mock+of+Context+Build%22)
 [![Pub Dev](https://img.shields.io/pub/v/mock_of_context)](https://pub.dev/packages/mock_of_context)
-[![Documentation](https://img.shields.io/badge/documentation-1.2.0-brightgreen.svg)](https://pub.dev/documentation/mock_of_context/latest/)
+[![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/mock_of_context/latest/)
 
 ```YAML
 dev_dependencies:

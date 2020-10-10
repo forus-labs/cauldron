@@ -23,8 +23,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: pub get
-    - run: dartanalyzer lib tool --fatal-warnings
-    - uses: axel-op/dart-package-analyzer@v2
+    - run: dart analyze --fatal-warnings lib
+    - run: dart analyze --fatal-warnings tool
+    - uses: axel-op/dart-package-analyzer@v3
       with:
         githubToken: ${{ secrets.GITHUB_TOKEN }}
         relativePath: flint

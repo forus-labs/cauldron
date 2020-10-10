@@ -22,8 +22,10 @@ jobs:
     - uses: subosito/flutter-action@v1.3.2
     - run: flutter analyze
     - run: flutter test --coverage
-    - uses: axel-op/dart-package-analyzer@v2
+    - uses: axel-op/dart-package-analyzer@v3
       with:
         relativePath: out_of_context
         githubToken: ${{ secrets.GITHUB_TOKEN }}
-    - run: bash <(curl -s https://codecov.io/bash)
+    - uses: codecov/codecov-action@v1
+      with:
+        fail_ci_if_error: true

@@ -1,9 +1,9 @@
 # Mock of Context - Companion project for Out Of Context
 
-![Mock of Context Build](https://github.com/forus-labs/cauldron/workflows/Mock%20of%20Context%20Build/badge.svg)
+[![Mock of Context Build](https://github.com/forus-labs/cauldron/workflows/Mock%20of%20Context%20Build/badge.svg)](https://github.com/forus-labs/cauldron/actions?query=workflow%3A%22Mock+of+Context+Build%22)
 [![Codecov](https://codecov.io/gh/forus-labs/cauldron/branch/master/graph/badge.svg)](https://codecov.io/gh/forus-labs/cauldron)
 [![Pub Dev](https://img.shields.io/pub/v/mock_of_context)](https://pub.dev/packages/mock_of_context)
-[![Documentation](https://img.shields.io/badge/documentation-1.2.0-brightgreen.svg)](https://pub.dev/documentation/mock_of_context/latest/)
+[![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/mock_of_context/latest/)
 
 
 

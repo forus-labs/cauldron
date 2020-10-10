@@ -1,11 +1,11 @@
 # Flint - Because Pedantic wasn't strict enough
 
-![Flint Build](https://github.com/forus-labs/cauldron/workflows/Flint%20Build/badge.svg)
+[![Flint Build](https://github.com/forus-labs/cauldron/workflows/Flint%20Build/badge.svg)](https://github.com/forus-labs/cauldron/actions?query=workflow%3A%22Flint+Build%22)
 [![Codecov](https://codecov.io/gh/forus-labs/cauldron/branch/master/graph/badge.svg)](https://codecov.io/gh/forus-labs/cauldron)
 [![Pub Dev](https://img.shields.io/pub/v/flint)](https://pub.dev/packages/flint)
-[![Documentation](https://img.shields.io/badge/documentation-1.3.1-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)
+[![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/flint/latest/)
 
-**Forus Labs' `dartanalyzer` configurations that are used internally in our Dart & Flutter projects.**
+**Forus Labs' `dart analyze` configurations that are used internally in our Dart & Flutter projects.**
 
 **Please view the [stable brunch](https://github.com/forus-labs/cauldron/tree/stable/flint/) for a production version.**
 
