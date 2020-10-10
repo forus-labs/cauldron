@@ -1,5 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:sugar/core.dart';
 
 /// A monad that represents the result of an operation which may contain a value
 /// if successful, or an error otherwise.
@@ -86,9 +85,6 @@ abstract class Result<T, E> {
   @override
   E unwrapError(E defaultError) => defaultError;
 
-  @override
-  @protected List<dynamic> get fields => [value];
-
 }
 
 @immutable class _Error<T, E> extends Result<T, E> {
@@ -124,9 +120,6 @@ abstract class Result<T, E> {
 
   @override
   E unwrapError(E defaultError) => error;
-
-  @override
-  @protected List<dynamic> get fields => [error];
 
 }
 
