@@ -1,3 +1,15 @@
+## 2.0.0 - The Return of the Flint (25/06/2021)
+
+We have returned, and we're finally updating Flint. Due to changes with our git workflow, we have merged the `.dev` and `.stable`
+variations of the Dart & Flutter `analysis_options.yaml`.
+
+- Add `package:flint/analysis_options.dart.yaml`
+- Add `package:flint/analysis_options.flutter.yaml`
+- Remove `package:flint/analysis_options.dart.dev.yaml`
+- Remove `package:flint/analysis_options.dart.stable.yaml`
+- Remove `package:flint/analysis_options.flutter.dev.yaml`
+- Remove `package:flint/analysis_options.flutter.stable.yaml`
+
 ## 1.3.1 - I messed up (05/10/2020)
 
 Today I learnt that semantic version in Dart is broken. This update removes some lint rules that were

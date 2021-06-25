@@ -16,23 +16,21 @@ To use the lints, add the following dependency in your `pubspec.yaml`.
 
 ```yaml
 dev_dependencies:
-  flint: ^1.3.1
+  flint: ^1.4.0
 ```
 
 Then, add a configuration to your `analysis_options.yaml`. The following will always include the latest version of said set.
 
 ```yaml
-include: package:flint/analysis_options.dart.dev.yaml
+include: package:flint/analysis_options.dart.yaml
 ```
 
 ***
 ### Configurations
 
-| Configuration                                                 | Description                                        |
+| Configuration                                        | Description                                        |
 | :--------------------------------------------------- | :------------------------------------------------- |
-| `package:flint/analysis_options..dart.dev.yaml`       | `master` branch of a Dart project                  |
-| `package:flint/analysis_options.dart.stable.yaml`    | `staging` and `stable` branch of a Dart project    |
-| `package:flint/analysis_options.flutter.dev.yaml`    | `master` branch of a Flutter project               |
-| `package:flint/analysis_options.flutter.stable.yaml` | `staging` and `stable` branch of a Flutter project |
+| `package:flint/analysis_options.dart.yaml`           | For Dart projects                                  |
+| `package:flint/analysis_options.flutter.yaml`        | For Flutter projects                               |
 
 

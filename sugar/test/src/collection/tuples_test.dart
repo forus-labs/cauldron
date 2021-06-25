@@ -1,5 +1,4 @@
 import 'package:test/test.dart';
-
 import 'package:sugar/sugar.dart';
 
 String stringify(dynamic value) => value.toString();

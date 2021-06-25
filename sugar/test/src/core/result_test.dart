@@ -1,9 +1,8 @@
 import 'package:test/test.dart';
-
 import 'package:sugar/sugar.dart';
 
 class Consumer<T> {
-  T parameter;
+  T? parameter;
 
   // ignore: use_setters_to_change_properties
   void call(T parameter) => this.parameter = parameter;

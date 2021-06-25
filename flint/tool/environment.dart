@@ -10,11 +10,11 @@ final String version = loadFile(fromProject('pubspec.yaml'))['version'];
 
 final File temp = fromProject('.temp/all_rules.yaml');
 
-final File options = fromProject('lib/analysis_options.dart.dev.yaml');
+final File options = fromProject('lib/analysis_options.dart.yaml');
 
 final YamlMap rules = loadFile(options);
 
 
-YamlMap loadFile(File file) => loadYamlDocument(file.readAsStringSync()).contents;
+YamlMap loadFile(File file) => loadYamlDocument(file.readAsStringSync()).contents as YamlMap;
 
 File fromProject(String path) => File.fromUri(Uri.parse('$projectDirectory/$path'));
