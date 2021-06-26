@@ -1,3 +1,4 @@
+/// Contains the sugar collection, core and time libraries.
 library sugar;
 
 export 'collection.dart';

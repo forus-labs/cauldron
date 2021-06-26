@@ -1,3 +1,4 @@
+/// Classes and utilities that supplement the collections in `dart:core`.
 library sugar.collection;
 
 export 'src/collection/equality.dart';

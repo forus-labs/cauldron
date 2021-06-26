@@ -1,3 +1,4 @@
+/// /// Date-time types and utilities to manipulate date-times.
 library sugar.time;
 
 export 'src/time/date.dart';
