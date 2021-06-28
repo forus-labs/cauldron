@@ -20,7 +20,7 @@ To import the library, add the following dependency to your project.
 
 ```yaml
 dependencies:
-  out_of_context: ^1.1.1
+  out_of_context: ^2.0.0
 ```
 
 Then, use any of the `Mixin`s provided.

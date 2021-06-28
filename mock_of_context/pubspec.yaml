@@ -17,6 +17,6 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.0.5
+  flint: ^2.0.0
   flutter_test:
     sdk: flutter
-  flint: ^2.0.0

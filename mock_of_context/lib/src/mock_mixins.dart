@@ -1,41 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
-
 import 'package:out_of_context/out_of_context.dart';
 
+import 'mock_mixins.mocks.dart'; // ignore: always_use_package_imports
 
-class MockDispatcher extends Mock implements Dispatcher {}
+/// A stub for [Navigation].
+class StubNavigation extends Fake implements Navigation {}
 
-mixin MockDispatcherMixin on DispatcherMixin {
+/// A stub for [NavigationMixin].
+mixin StubNavigationMixin on NavigationMixin {
 
   @override
   // ignore: overridden_fields
-  final MockDispatcher dispatcher = MockDispatcher();
+  final StubNavigation navigation = StubNavigation();
 
 }
 
-
-class MockScaffoldState extends Mock implements ScaffoldState {
+/// A stub for [ScaffoldState].
+class StubScaffoldState extends Fake implements ScaffoldState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) => super.toString();
 
 }
 
-mixin MockScaffoldMixin on ScaffoldMixin {
+/// A stub for [ScaffoldMixin].
+mixin StubScaffoldMixin on ScaffoldMixin {
 
   @override
   // ignore: overridden_fields
-  final MockScaffoldState scaffold = MockScaffoldState();
+  final StubScaffoldState scaffold = StubScaffoldState();
 
 }
 
+/// A stub for [ChangeNotifier] that delegates all [ChangeNotifier] methods to [notifier].
+mixin StubNotifierMixin on ChangeNotifier {
 
-class MockNotifier extends Mock implements ChangeNotifier {}
-
-mixin MockNotifierMixin on ChangeNotifier {
-
-  final MockNotifier notifier = MockNotifier();
+  /// A mock [ChangeNotifier] to which all [ChangeNotifier] methods are delegated.
+  final MockChangeNotifier notifier = MockChangeNotifier();
 
   @override
   void addListener(VoidCallback listener) => notifier.addListener(listener);

@@ -2,40 +2,38 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:out_of_context/out_of_context.dart';
-
 import 'package:mock_of_context/mock_of_context.dart';
 
 
-class StubDispatcher with DispatcherMixin, MockDispatcherMixin {}
+class StubNavigationType with NavigationMixin, StubNavigationMixin {}
 
-class StubScaffold with ScaffoldMixin, MockScaffoldMixin {}
+class StubScaffold with ScaffoldMixin, StubScaffoldMixin {}
 
-class StubNotifier extends ChangeNotifier with MockNotifierMixin {}
-
+class StubNotifier extends ChangeNotifier with StubNotifierMixin {}
 
 void main() {
 
-  group('MockDispatcherMixin', () {
+  group('StubNavigationMixin', () {
 
-    test('router', () => expect(StubDispatcher().dispatcher, isA<MockDispatcher>()));
-
-  });
-
-  group('MockScaffoldState', () {
-
-    test('toString', () => expect(MockScaffoldState().toString(), isNotNull));
+    test('router', () => expect(StubNavigationType().navigation, isA<StubNavigation>()));
 
   });
 
-  group('MockScaffoldMixin', () {
+  group('StubScaffoldState', () {
 
-    test('scaffold', () => expect(StubScaffold().scaffold, isA<MockScaffoldState>()));
+    test('toString', () => expect(StubScaffoldState().toString(), isNotNull));
 
   });
 
-  group('MockNotifierMixin', () {
+  group('StubScaffoldMixin', () {
 
-    StubNotifier notifier;
+    test('scaffold', () => expect(StubScaffold().scaffold, isA<StubScaffoldState>()));
+
+  });
+
+  group('StubNotifierMixin', () {
+
+    late StubNotifier notifier;
     void listen() {}
 
     setUp(() => notifier = StubNotifier());

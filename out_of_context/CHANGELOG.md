@@ -2,6 +2,9 @@
 
 This release focuses on opting into null safety.
 
+- Change `Dispatcher` to `Navigation`
+- Change `DispatcherMixin` to `NavigationMixin`
+
 ## 1.1.1 - I messed up (06/10/2020)
 
 This update includes documentation that was accidentally omitted when publishing the previous update.
