@@ -1,44 +1,39 @@
+import 'package:flutter/widgets.dart';
+import 'package:out_of_context/out_of_context.dart';
+
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'package:flutter/widgets.dart';
-import 'package:out_of_context/src/keyed.dart';
+import 'keyed_test.mocks.dart';
 
+class StubKeyed extends Keyed<NavigatorState> {
 
-class MockState extends Mock implements NavigatorState {
+  @override
+  final GlobalKey<NavigatorState> key;
+
+  StubKeyed(this.key);
+
+}
+
+class StubState extends Fake implements NavigatorState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) => super.toString();
 
 }
 
-// ignore: must_be_immutable
-class MockKey extends Mock implements GlobalKey<NavigatorState> {}
-
-
-class Stub extends Keyed<NavigatorState> {
-
-  @override
-  final GlobalKey<NavigatorState> key;
-
-  Stub(this.key);
-
-}
-
-
+@GenerateMocks([], customMocks: [MockSpec<GlobalKey<NavigatorState>>()])
 void main() {
 
   test('state', () {
-    final state = MockState();
-
-    final key = MockKey();
+    final state = StubState();
+    final key = MockGlobalKey();
     when(key.currentState).thenReturn(state);
 
-    final keyed = Stub(key);
-
+    final keyed = StubKeyed(key);
 
     expect(keyed.state, state);
-
   });
 
   test('key', () => expect(const Keyed<NavigatorState>().key, isA<GlobalKey<NavigatorState>>()));

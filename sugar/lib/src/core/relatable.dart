@@ -8,10 +8,10 @@ mixin Relatable<T extends Relatable<T>> implements Comparable<T> {
   @override
   bool operator == (dynamic other) => identical(this, other) || (runtimeType == other.runtimeType && compareTo(other) == 0);
 
-  // TODO: https://github.com/dart-lang/sdk/issues/46471
-  bool operator > (T other) => compareTo(other) > 0;
+  bool operator < (T other) => compareTo(other) < 0;
 
-  bool operator < (T other) => this > other;
+  bool operator > (T other) => other < (this as T);
+
 
   bool operator <= (T other) => !(this > other);
 

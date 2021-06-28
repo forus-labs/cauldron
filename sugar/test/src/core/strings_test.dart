@@ -9,15 +9,15 @@ void main() {
       test('capitalize ${arguments.key}', () => expect(arguments.key.capitalize(), arguments.value));
     }
 
-    for (final arguments in [['a ', null, 'a '], [' a', null, ' a'], ['i phone', null, 'iPhone'], ['abc', 'b', 'aC']].triples<String, Pattern, String>()) {
+    for (final arguments in [['a ', null, 'a '], [' a', null, ' a'], ['i phone', null, 'iPhone'], ['abc', 'b', 'aC']].triples<String, Pattern?, String>()) {
       test('camelCase ${arguments.left}', () => expect(arguments.left.camelCase(arguments.middle), arguments.right));
     }
 
-    for (final arguments in [['a ', null, 'A'], [' a', null, 'A'], ['a bc', null, 'ABc'], ['abc', 'b', 'AC']].triples<String, Pattern, String>()) {
+    for (final arguments in [['a ', null, 'A'], [' a', null, 'A'], ['a bc', null, 'ABc'], ['abc', 'b', 'AC']].triples<String, Pattern?, String>()) {
       test('pascalCase ${arguments.left}', () => expect(arguments.left.pascalCase(arguments.middle), arguments.right));
     }
 
-    for (final arguments in [['a ', null, 'a_'], [' a', null, '_a'], ['a bc', null, 'a_bc'], ['abc', 'b', 'a_c']].triples<String, Pattern, String>()) {
+    for (final arguments in [['a ', null, 'a_'], [' a', null, '_a'], ['a bc', null, 'a_bc'], ['abc', 'b', 'a_c']].triples<String, Pattern?, String>()) {
       test('snakeCase ${arguments.left}', () => expect(arguments.left.snakeCase(arguments.middle), arguments.right));
     }
 

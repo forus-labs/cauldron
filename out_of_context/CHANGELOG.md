@@ -1,3 +1,7 @@
+## 2.0.0 - Back From the Dead (28/06/2021)
+
+This release focuses on opting into null safety.
+
 ## 1.1.1 - I messed up (06/10/2020)
 
 This update includes documentation that was accidentally omitted when publishing the previous update.
