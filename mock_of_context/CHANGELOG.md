@@ -5,6 +5,7 @@ are now stubs...
 
 - Change `MockDispatcher` to `StubNavigation`
 - Change `MockDispatcherMixin` to `StubNavigationMixin`
+- Change `MockNotifierMixin` to `StubNotifierMixin`
 - Change `MockSaccfoldMixin` to `StubScaffoldMixin`
 - Change `MockScaffoldState` to `StubScaffoldState`
 
