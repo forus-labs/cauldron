@@ -1,1 +1,4 @@
 include: package:flint/analysis_options.flutter.yaml
+analyzer:
+  exclude:
+    - lib/**.mocks.dart
