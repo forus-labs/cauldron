@@ -19,7 +19,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: subosito/flutter-action@v1.3.2
+    - uses: subosito/flutter-action@v1.5.3
+      with:
+        channel: 'stable'
     - run: flutter analyze
     - run: flutter test --coverage
     - uses: axel-op/dart-package-analyzer@v3
