@@ -28,6 +28,7 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           relativePath: sugar
       - run: dart test --platform vm --coverage=./coverage/raw
+      - run: pub global activate coverage
       - run: pub global run coverage:format_coverage --packages=.packages -i ./coverage/raw -o ./coverage/lcov.info
       - run: sudo apt-get install -y lcov
       - run: lcov --remove coverage/lcov.info 'lib/**.g.dart' -o coverage/lcov.info
