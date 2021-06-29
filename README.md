@@ -19,7 +19,7 @@ Forus Labs' mono-repository for Dart & Flutter.
 
 ```YAML
 dependencies:
-  sugar: ^1.0.0
+  sugar: ^2.0.0
 ```
 
 ***
@@ -31,7 +31,7 @@ dependencies:
 
 ```YAML
 dev_dependencies:
-  flint: ^1.3.1
+  flint: ^2.0.0
 ```
 
 ***
@@ -43,7 +43,7 @@ dev_dependencies:
 
 ```YAML
 dependencies:
-  out_of_context: ^1.1.1
+  out_of_context: ^2.0.0
 ```
 
 <br>
@@ -56,7 +56,7 @@ _**Companion project for testing**_
 
 ```YAML
 dev_dependencies:
-    mock_of_context: ^1.2.0
+    mock_of_context: ^2.0.0
 ```
 
 

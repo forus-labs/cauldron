@@ -13,4 +13,3 @@ dependencies:
 dev_dependencies:
   flint: ^2.0.0
   test: ^1.17.9
-  test_cov: ^1.0.1
