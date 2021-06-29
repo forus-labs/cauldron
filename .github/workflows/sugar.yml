@@ -29,11 +29,11 @@ jobs:
           relativePath: sugar
       - run: dart test --platform vm --coverage=./coverage/raw
       - run: pub global activate coverage
-      - run: pub global run coverage:format_coverage --packages=.packages -l -i ./coverage/raw -o ./coverage/lcov.info
+      - run: pub global run coverage:format_coverage --packages=.packages -l -i ./coverage/raw -o ./coverage/lcov.info --report-on=lib
       - run: apt-get update -y
       - run: apt-get install -y lcov
       - run: lcov --remove ./coverage/lcov.info 'lib/**.g.dart' -o ./coverage/lcov.info
       - uses: codecov/codecov-action@v1
         with:
-          file: ./coverage/lcov.info
+          file: ./sugar/coverage/lcov.info
           fail_ci_if_error: true
