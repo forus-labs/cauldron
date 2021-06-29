@@ -35,5 +35,6 @@ jobs:
       - run: lcov --remove ./coverage/lcov.info 'lib/**.g.dart' -o ./coverage/lcov.info
       - uses: codecov/codecov-action@v1
         with:
-          file: ./sugar/coverage/lcov.info
+          relativePath: sugar
+          files: ./coverage/lcov.info
           fail_ci_if_error: true
