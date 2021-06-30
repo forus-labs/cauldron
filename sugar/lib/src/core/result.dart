@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:sugar/core.dart';
 
 /// A monad that represents the result of an operation which may contain a value
 /// if successful, or an error otherwise.
@@ -10,15 +11,15 @@ abstract class Result<T, E> {
   /// Creates a [Result] that represents success.
   factory Result.value(T value) => _Value<T, E>(value);
 
-  /// Creates a [Result] that represents an error.
+  /// Creates a [Result] that represents failure.
   factory Result.error(E error) => _Error<T, E>(error);
 
 
-  /// Returns `true` if this [Result] contains a value.
-  bool get present;
+  /// Returns `true` if this [Result] is successful.
+  bool get successful;
 
-  /// Returns `true` if this [Result] does not contain a value.
-  bool get notPresent => !present;
+  /// Returns `true` if this [Result] is not successful.
+  bool get failure => !successful;
 
   /// Returns `true` if this [Result] contains [value].
   bool contains(T value);
@@ -28,17 +29,19 @@ abstract class Result<T, E> {
 
 
   /// Calls the given function if this [Result] contains a value.
-  void ifPresent(void Function(T) value);
+  void ifSuccessful(void Function(T) value);
 
   /// Calls the given function if this [Result] contains an error.
-  void ifError(void Function(E) error);
+  void ifFailure(void Function(E) error);
 
   /// Returns the value of this [Result]. A [ResultError] is throw if this [Result]
   /// does not contain a value.
+  @Throws([ResultError])
   T get value;
 
   /// Returns the error of this [Result]. A [ResultError] is throw if this [Result]
   /// does not contain an error.
+  @Throws([ResultError])
   E get error;
 
   /// Returns the value of this [Result], or [defaultValue] if [Result] does not
@@ -60,7 +63,7 @@ abstract class Result<T, E> {
 
 
   @override
-  bool get present => true;
+  bool get successful => true;
 
   @override
   bool contains(T value) => this.value == value;
@@ -70,10 +73,10 @@ abstract class Result<T, E> {
 
 
   @override
-  void ifPresent(void Function(T) value) => value(this.value);
+  void ifSuccessful(void Function(T) value) => value(this.value);
 
   @override
-  void ifError(void Function(E) error) {}
+  void ifFailure(void Function(E) error) {}
 
 
   @override
@@ -96,7 +99,7 @@ abstract class Result<T, E> {
 
 
   @override
-  bool get present => false;
+  bool get successful => false;
 
   @override
   bool contains(T value) => false;
@@ -106,10 +109,10 @@ abstract class Result<T, E> {
 
 
   @override
-  void ifPresent(void Function(T) value) {}
+  void ifSuccessful(void Function(T) value) {}
 
   @override
-  void ifError(void Function(E) error) => error(this.error);
+  void ifFailure(void Function(E) error) => error(this.error);
 
 
   @override

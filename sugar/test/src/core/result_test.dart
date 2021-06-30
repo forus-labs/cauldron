@@ -20,21 +20,21 @@ void main() {
       group(arguments.left, () {
         final result = arguments.middle;
 
-        test('present', () {
-          expect(result.present, arguments.right);
-          expect(result.notPresent, !arguments.right);
+        test('success', () {
+          expect(result.successful, arguments.right);
+          expect(result.failure, !arguments.right);
         });
 
-        test('ifPresent', () {
+        test('ifSuccessful', () {
           final consumer = Consumer<String>();
-          result.ifPresent(consumer);
+          result.ifSuccessful(consumer);
 
           expect(consumer.parameter == 'something', arguments.right);
         });
 
-        test('ifError', () {
+        test('ifFailure', () {
           final consumer = Consumer<int>();
-          result.ifError(consumer);
+          result.ifFailure(consumer);
 
           expect(consumer.parameter == 404, !arguments.right);
         });
@@ -58,7 +58,7 @@ void main() {
   });
 
   group('value', () {
-    test('value', () => expect(value.value, 'something'));
+    test('value', () => expect(value..successful, 'something'));
 
     test('error', () => expect(
       () => value.error,
@@ -68,7 +68,7 @@ void main() {
 
   group('error', () {
     test('value', () => expect(
-      () => error.value,
+      () => error..successful,
       throwsA(predicate<ResultError>((e) => e.message == 'Result does not contain a value'))
     ));
 

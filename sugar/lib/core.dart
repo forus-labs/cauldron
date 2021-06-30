@@ -2,6 +2,8 @@
 /// equality and comparison operations, and monads.
 library sugar.core;
 
+export 'src/core/annotations.dart';
+export 'src/core/crypto.dart';
 export 'src/core/equality.dart';
 export 'src/core/math.dart';
 export 'src/core/relatable.dart';
