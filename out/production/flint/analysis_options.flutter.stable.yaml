@@ -1,5 +1,0 @@
-include: ./analysis_options.flutter.dev.yaml
-linter:
-  rules:
-    - package_api_docs
-    - public_member_api_docs

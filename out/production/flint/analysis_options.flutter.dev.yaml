@@ -1,5 +1,0 @@
-include: ./analysis_options.dart.dev.yaml
-linter:
-  rules:
-    - sized_box_for_whitespace
-    - use_full_hex_values_for_flutter_colors
