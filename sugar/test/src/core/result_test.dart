@@ -58,7 +58,7 @@ void main() {
   });
 
   group('value', () {
-    test('value', () => expect(value..successful, 'something'));
+    test('value', () => expect(value.value, 'something'));
 
     test('error', () => expect(
       () => value.error,
@@ -68,7 +68,7 @@ void main() {
 
   group('error', () {
     test('value', () => expect(
-      () => error..successful,
+      () => error.value,
       throwsA(predicate<ResultError>((e) => e.message == 'Result does not contain a value'))
     ));
 
