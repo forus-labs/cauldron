@@ -1,3 +1,8 @@
+## 2.1.1 (17/07/2021)
+
+- Add `List<T>.repeat(T)`
+- Change `List<T>.separate(T)` to `List<T>.alternate(T)`
+
 ## 2.1.0 (30/06/2021)
 
 This release adds new annotations & cryptological functions.
