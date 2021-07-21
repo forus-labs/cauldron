@@ -9,11 +9,12 @@ Sugar is Forus Labs' common library for Dart. It contains frequently used utilit
 
 ```yaml
 dependencies:
-  sugar: ^2.1.0
+  sugar: ^2.2.0
 ```
 #### Core
 
 * Monads (i.e. `Result<T, E>`, `Union<L, R>`)
+* Utilities to manage debouncing
 * Utilities to simplify implementation of `==` and other comparisons
 * Utilities for maths, numerics and strings
 
