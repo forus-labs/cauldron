@@ -1,0 +1,13 @@
+name: dockyard
+description: Provides lightweight throwawaydatabase instances and docker containers for testing
+version: 1.0.0
+# homepage: https://www.example.com
+
+environment:
+  sdk: '>=2.13.0 <3.0.0'
+
+# dependencies:
+#   path: ^1.8.0
+
+dev_dependencies:
+  flint: ^2.0.0
