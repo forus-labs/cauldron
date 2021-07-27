@@ -1,3 +1,8 @@
+## 2.0.1 - (27/07/2021)
+
+- Remove `avoid_classes_with_only_static_members` - while in theory a great idea, it is impractical due to IDEs not automatically
+  handling `import something as x` well.
+
 ## 2.0.0 - The Return of the Flint (25/06/2021)
 
 We have returned, and we're finally updating Flint. Due to changes with our git workflow, we have merged the `.dev` and `.stable`
