@@ -36,7 +36,7 @@ extension Integers on int {
   /// Checks if the addition of this and [other] causes an overflow.
   bool addOverflows(int other) => ((other > 0) && (this > max - other)) || ((other < 0) && (this < min - other));
 
-  /// Checks if the substraction of [other] from this causes an overflow.
+  /// Checks if the subtraction of [other] from this causes an overflow.
   bool subtractOverflows(int other) => ((other < 0) && (this > max + other)) || ((other > 0) && (this < min + other));
 
 }

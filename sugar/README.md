@@ -13,6 +13,7 @@ dependencies:
 ```
 #### Core
 
+* Extensions to compose functions fluently.
 * Monads (i.e. `Result<T, E>`, `Union<L, R>`)
 * Utilities to manage debouncing
 * Utilities to simplify implementation of `==` and other comparisons
