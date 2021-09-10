@@ -1,3 +1,8 @@
+## 2.1.0 - (10/09/20212)
+This update focuses on supporting lint rules introduced in Dart 2.14
+
+- Add `depend_on_referenced_packages`
+
 ## 2.0.1 - (27/07/2021)
 
 - Remove `avoid_classes_with_only_static_members` - while in theory a great idea, it is impractical due to IDEs not automatically

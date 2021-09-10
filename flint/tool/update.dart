@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:yaml/yaml.dart';
-import 'package:http/http.dart';
 import 'package:html/parser.dart' show parse;
+import 'package:http/http.dart';
+import 'package:yaml/yaml.dart';
 
 import 'environment.dart';
 

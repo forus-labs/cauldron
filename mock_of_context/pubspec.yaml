@@ -5,8 +5,8 @@ homepage: https://github.com/forus-labs/cauldron
 repository: https://github.com/forus-labs/cauldron
 
 environment:
-  flutter: '>=2.2.2'
-  sdk: '>=2.13.3 <3.0.0'
+  flutter: '>=2.5.0'
+  sdk: '>=2.14.0 <3.0.0'
 
 dependencies:
   flutter:
