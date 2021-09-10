@@ -1,6 +1,5 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
-import 'package:sugar/core.dart' as math show hash;
 import 'package:sugar/time.dart';
 
 /// Utilities for calculating the length of a period of [DateTime].
@@ -68,7 +67,7 @@ class Period<T extends Comparable<T>> with Relatable<Period<T>> {
   }
 
   @override
-  @protected int get hash => _hash ??= math.hash([start, end, priority]);
+  @protected int get hash => _hash ??= Object.hash(start, end, priority);
 
   @override
   String toString() => 'Period{range: $start - $end, priority: $priority}';

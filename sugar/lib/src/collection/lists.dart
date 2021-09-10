@@ -8,12 +8,14 @@ extension Lists<T> on List<T> {
     }
   }
 
-  /// Repeats the contents of this list the given number of times
-  void repeat([int times = 1]) {
+  /// Repeats the contents of this list the given number of times.
+  List<T> operator *(int times) {
     final section = [...this];
     for (var i = 0; i < times; i++) {
       addAll(section);
     }
+
+    return this;
   }
 
 }

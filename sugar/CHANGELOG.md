@@ -1,3 +1,20 @@
+## 2.3.0 (10/09/2021)
+
+This release adds new higher-order functions for composing functions. In addition, the library now minimally requires Dart 2.14.
+
+- Add `Call` type definition
+- Add `Calls` extension that contain higher-order functions for composing `Call`s
+- Add `Consumer` type definition
+- Add `Consumers` extension that contain higher-order functions for composing `Consumer`s
+- Add `Mapper` type definition
+- Add `Mappers` extension that contain higher-order functions for composing `Mapper`s
+- Add `Predicate` type definition
+- Add `Predicates` extension that contain higher-order functions for composing `Predicate`s
+- Add `Supplier` type definition
+- Add `Suppliers` extension that contain higher-order functions for composing `Supplier`s
+- Change `Lists.repeat(int)` extension to `Lists.operator *(int)`.
+- Remove `hash(Iterable<dynamic>)` - function has been superseded by `Object.hash(...)` in `dart:core`.
+
 ## 2.2.0 (21/07/2021)
 
 - Add `Debounce`

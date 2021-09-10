@@ -1,10 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 
-/// Maps a value of type [T] to [R}.
-typedef Apply<T, R> = R Function(T value);
-
-
 /// Represents an immutable key-value pair.
 @immutable class Pair<K, V> with Equality implements MapEntry<K, V> {
 
@@ -23,7 +19,7 @@ typedef Apply<T, R> = R Function(T value);
   Pair<K, V> replace({K? key, V? value}) => Pair(key ?? this.key, value ?? this.value);
 
   /// Creates a [Pair] which key and value has been mapped using [key] and [value].
-  Pair<K1, V1> map<K1, V1>(Apply<K, K1> key, Apply<V, V1> value) => Pair(key(this.key), value(this.value));
+  Pair<K1, V1> map<K1, V1>(Mapper<K, K1> key, Mapper<V, V1> value) => Pair(key(this.key), value(this.value));
 
   /// Reduces [key] and [value] using [reduce].
   T reduce<T>(T Function(K, V) reduce) => reduce(key, value);
@@ -50,7 +46,7 @@ typedef Apply<T, R> = R Function(T value);
   Triple<L, M, R> replace({L? left, M? middle, R? right}) => Triple(left ?? this.left, middle ?? this.middle, right ?? this.right);
 
   /// Creates a [Triple] which left, middle and right values have been mapped using [left], [middle] and [right].
-  Triple<L1, M1, R1> map<L1, M1, R1>(Apply<L, L1> left, Apply<M, M1> middle, Apply<R, R1> right) => Triple(left(this.left), middle(this.middle), right(this.right));
+  Triple<L1, M1, R1> map<L1, M1, R1>(Mapper<L, L1> left, Mapper<M, M1> middle, Mapper<R, R1> right) => Triple(left(this.left), middle(this.middle), right(this.right));
 
   /// Reduces [left], [middle] and [right] using [reduce].
   T reduce<T>(T Function(L, M, R) reduce) => reduce(left, middle, right);
@@ -79,7 +75,7 @@ typedef Apply<T, R> = R Function(T value);
   Quad<T1, T2, T3, T4> replace({T1? first, T2? second, T3? third, T4? fourth}) => Quad(first ?? this.first, second ?? this.second, third ?? this.third, fourth ?? this.fourth);
 
   /// Creates a [Quad] which first, second, third and fourth values have been mapped using [first], [second], [third] and [fourth].
-  Quad<R1, R2, R3, R4> map<R1, R2, R3, R4>(Apply<T1, R1> first, Apply<T2, R2> second, Apply<T3, R3> third, Apply<T4, R4> fourth)
+  Quad<R1, R2, R3, R4> map<R1, R2, R3, R4>(Mapper<T1, R1> first, Mapper<T2, R2> second, Mapper<T3, R3> third, Mapper<T4, R4> fourth)
   => Quad(first(this.first), second(this.second), third(this.third), fourth(this.fourth));
 
   /// Reduces [first], [second], [third] and [fourth] using [reduce].

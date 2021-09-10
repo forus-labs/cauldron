@@ -1,5 +1,5 @@
-import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
+import 'package:test/test.dart';
 
 void main() {
   final time = Time(1, 2, 3, 4, 6);

@@ -1,5 +1,5 @@
-import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('DateTimePeriod', () {
@@ -22,7 +22,7 @@ void main() {
     }
 
     test('hashCode', () {
-      final value = hash([1, 3, 0]);
+      final value = Object.hash(1, 3, 0);
 
       expect(period.hashCode, value);
       expect(period.hashCode, value);

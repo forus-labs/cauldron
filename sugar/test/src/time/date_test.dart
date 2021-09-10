@@ -1,5 +1,5 @@
-import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
+import 'package:test/test.dart';
 
 void main() {
   final dateTime = DateTime(1, 2, 3, 4, 5, 6, 7, 8);

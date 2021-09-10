@@ -1,5 +1,5 @@
-import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('Debounce', () {

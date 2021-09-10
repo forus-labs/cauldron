@@ -1,4 +1,14 @@
-## 2.1.0 - (10/09/20212)
+## 2.1.2 - (10/09/2021)
+This update fixes a few issues.
+
+- Remove `depend_on_referenced_packages`
+
+## 2.1.1 - (10/09/2021)
+This update fixes a few issues.
+
+- Remove `directives_ordering` - this rule doesn't fit our own style guide on import ordering
+
+## 2.1.0 - (10/09/2021)
 This update focuses on supporting lint rules introduced in Dart 2.14
 
 - Add `depend_on_referenced_packages`

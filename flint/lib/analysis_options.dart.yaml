@@ -47,8 +47,6 @@ linter:
     - constant_identifier_names
     - control_flow_in_finally
     - curly_braces_in_flow_control_structures
-    - depend_on_referenced_packages
-    - directives_ordering
     - do_not_use_environment
     - empty_catches
     - empty_constructor_bodies
@@ -162,7 +160,9 @@ ignore:
   - avoid_renaming_method_parameters
   - avoid_type_to_string
   - avoid_web_libraries_in_flutter
+  - depend_on_referenced_packages
   - diagnostic_describe_all_properties
+  - directives_ordering
   - flutter_style_todos
   - lines_longer_than_80_chars
   - no_logic_in_create_state

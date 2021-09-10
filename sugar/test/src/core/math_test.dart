@@ -1,5 +1,5 @@
-import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
+import 'package:test/test.dart';
 
 void main() {
   final small = DateTime.now();
@@ -31,6 +31,4 @@ void main() {
       });
     }
   });
-
-  test('hash', () => expect(hash(['apple', 'banana']), 6458003090));
 }

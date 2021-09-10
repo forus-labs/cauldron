@@ -1,4 +1,5 @@
 /// Denotes that the annotated type is an annotation.
+@annotation
 const String annotation = 'annotation';
 
 /// Denotes that the annotated type/method is untestable.
@@ -23,7 +24,7 @@ class PlatformDependent {
   const PlatformDependent(String platforms); // ignore: avoid_unused_constructor_parameters
 }
 
-/// Denotes that an annotated type returns a union type. A union type represents
+/// Denotes that an annotated function returns a union type. A union type represents
 /// a subset of possible values.
 @annotation
 class Subset<T> {

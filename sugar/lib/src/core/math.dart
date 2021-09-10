@@ -46,13 +46,3 @@ T min<T extends Comparable<T>>(T a, T b) => a.compareTo(b) < 0 ? a : b;
 
 ///Returns the larger of two [Comparable]s.
 T max<T extends Comparable<T>>(T a, T b) => a.compareTo(b) < 0 ? b : a;
-
-/// Creates a hash using [values].
-int hash(Iterable<dynamic> values) {
-  var hash = 17;
-  for (final value in values) {
-    hash = 37 * hash + value.hashCode;
-  }
-
-  return hash;
-}
