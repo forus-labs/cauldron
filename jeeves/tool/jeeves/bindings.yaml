@@ -1,1 +1,4 @@
 version: "1.0.0"
+
+bindings:
+ "test.dart": "a.dart"
