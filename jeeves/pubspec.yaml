@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   args: ^2.3.0
+  yaml: ^3.1.0
 
 dev_dependencies:
   flint: ^2.1.0
