@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 
-import 'package:jeeves/src/files.dart';
+import 'package:jeeves/src/old/files.dart';
 import 'package:jeeves/src/formatting.dart';
 
 class LoadCommand extends Command<void> with Formatting, Files {

@@ -2,100 +2,72 @@ import 'dart:io';
 
 import 'package:yaml/yaml.dart';
 
-import 'package:jeeves/src/formatting.dart';
+import 'package:jeeves/src/terminal.dart';
 
-// TODO: improve template message
 const _yaml = '''
 version: "1.0.0"
 
-# Uncomment this section to add bindings for different environments.
+# Uncomment this section to add environment files that should be swapped between
+# different environments.
+#
+# Keys should be paths to the original file, relative to the project's root directory. 
+#
+# Values should be paths to an environment-specific versions of the original file. 
+# The paths should be relative to <project-root>/tool/envs/<some-env>.
 # 
-# bindings:
-#   original: replacement
+#  files:
+#    "inline/original_1": "replacement_1"
+#    "folder":
+#      "original_2": "replacement_2"
 ''';
 
 /// A mixin that provides frequently used file operations.
-mixin Files on Formatting {
+mixin Files<T> on TerminalCommand<T> {
 
-  late final Map<String, String> bindings = _bindings;
-  late final Map<dynamic, dynamic> configuration = _configuration;
-  late final Directory environments = _environments;
-  late final Directory root = _root;
+  /// The jeeves.yaml file.
+  late final Map<dynamic, dynamic> jeeves = _jeeves;
+  /// The `envs` directory.
+  late final String envs = _envs;
+  /// The root directory of the project.
+  late final String root = _root;
 
-  Map<String, String> get _bindings {
-    final mappings = configuration['bindings'] as Map?;
-    if (mappings == null) {
-      return {};
-    }
-
-    final bindings = <String, String>{};
-    final errors = <String, dynamic>{};
-    for (final entry in mappings.entries) {
-      if (entry.value is String) {
-        bindings[entry.key] = entry.value;
-
-      } else {
-        errors[entry.key] = entry.value;
-      }
-    }
-
-    if (errors.isEmpty) {
-      return bindings;
-    }
-
-    final message = StringBuffer('Failed to execute `$line`. Errors found in bindings.yaml:')
-                              ..block('')
-                              ..block('bindings:');
-
-    for (final entry in errors.entries) {
-      message..block('...', 2)
-             ..highlight(entry.key, entry.key, 'value is a ${entry.value.runtimeType}, should be a string', 2)
-             ..block('');
-    }
-
-    stderr.writeln(message);
-    exit(1);
-  }
-
-  Map<dynamic, dynamic> get _configuration {
+  Map<dynamic, dynamic> get _jeeves {
     try {
-      final file = File('${root.path}/tool/jeeves/bindings.yaml');
+      final file = File('$root/tool/jeeves/jeeves.yaml');
       if (!file.existsSync()) {
-        stdout.writeln('bindings.yaml not found. Creating bindings.yaml...');
+        terminal.print('jeeves.yaml not found, creating jeeves.yaml ...');
         file..createSync(recursive: true)..writeAsStringSync(_yaml);
       }
 
       return loadYaml(file.readAsStringSync());
 
     } on IOException catch (e) {
-      stderr.writeln('Failed to execute `$line`, $e');
-      exit(1);
+      terminal..error(red('Failed to execute "$line", $e'))..exit(1);
     }
   }
 
-  Directory get _environments {
+  String get _envs {
     try {
-      final environments = Directory('${root.path}/tool/jeeves/environments');
-      if (!environments.existsSync()) {
-        stdout.writeln('Environments folder not found. Creating environments folder...');
-        environments.createSync(recursive: true);
+      final envs = Directory('$root/tool/jeeves/envs');
+      if (!envs.existsSync()) {
+        terminal.print('envs folder not found, creating envs folder...');
+        envs.createSync(recursive: true);
       }
 
-      return environments;
+      return envs.path;
 
     } on IOException catch (e) {
-      stderr.writeln("Failed to execute '$line', $e");
-      exit(1);
+      terminal..error(red('Failed to execute "$line", $e'))..exit(1);
     }
   }
 
-  Directory get _root {
-    if (!File('${Directory.current.path}/pubspec.yaml').existsSync()) {
-      stderr.writeln("Failed to execute '$line' in ${Directory.current.path}. Command should be invoked in a Dart/Flutter project's root.");
-      exit(1);
+  String get _root {
+    final project = Directory.current.path;
+    if (!File('$project/pubspec.yaml').existsSync()) {
+      terminal..error(red('Failed to execute "$line" in "$project", should be invoked in a project\'s root directory.'))..exit(1);
     }
 
-    return Directory.current;
+    return project;
   }
 
 }
