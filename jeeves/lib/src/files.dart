@@ -17,8 +17,6 @@ version: "1.0.0"
 # 
 #  files:
 #    "inline/original_1": "replacement_1"
-#    "folder":
-#      "original_2": "replacement_2"
 ''';
 
 /// A mixin that provides frequently used file operations.

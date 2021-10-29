@@ -1,7 +1,8 @@
-import 'package:ansicolor/ansicolor.dart';
 import 'package:args/command_runner.dart';
 
-import 'package:jeeves/jeeves.dart';
+import 'package:jeeves/src/commands/load.dart';
 
-void main(List<String> arguments) => print((AnsiPen()..yellow())('Hello 234egoengroin'));
+void main(List<String> arguments) => CommandRunner('jeeves', 'Make environment management great again!')
+                                                  ..addCommand(LoadCommand())
+                                                  ..run(arguments);
 

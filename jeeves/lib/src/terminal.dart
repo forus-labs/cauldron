@@ -56,7 +56,7 @@ extension CodeBlockBuffer on StringBuffer {
 
     final colored = (color ?? _default)('${'~' * part.length} $message');
     code(value, indentation);
-    code('${' ' * index} $colored', indentation);
+    code('${' ' * index}$colored', indentation);
   }
 
   /// Adds a code block with the given [value].
@@ -71,7 +71,7 @@ String highlight(String title, String value, String part, String message, [AnsiP
   final colored = pen('${'~' * part.length} $message');
 
   return index == -1 ? value : '''
-${pen(title)}
+${pen(title)}:
 |
 |  ${' ' * indentation}$value
 |  ${' ' * (indentation + index)}$colored
