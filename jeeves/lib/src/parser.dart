@@ -46,7 +46,8 @@ class Parser {
         continue;
       }
 
-      final replacement = File('$_envs/$environment/${entry.value}');
+      final replacement = File('$environment/${entry.value}');
+      print(replacement.path);
       if (!replacement.existsSync()) {
         buffer.error(path, entry, entry.value, '${replacement.path} does not exist');
         continue;

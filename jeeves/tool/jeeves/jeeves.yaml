@@ -12,4 +12,4 @@ version: "1.0.0"
 #    "inline/original_1": "replacement_1"
 
 files:
-  "test.dart": "a.dart"
+  "test.dart": "tired.dart"

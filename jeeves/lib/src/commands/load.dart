@@ -29,7 +29,7 @@ class LoadCommand extends TerminalCommand<void> with Files<void> {
       await entry.value.openRead().pipe(entry.key.openWrite());
     }
 
-    stdout.writeln('Replaced ${environment.length} files');
+    terminal.print('Replaced ${environment.length} files');
   }
 
   @override
