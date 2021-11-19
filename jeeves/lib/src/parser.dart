@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:jeeves/src/terminal.dart';
-import 'package:yaml/yaml.dart';
 
 /// A parser for parsing 'jeeves.yaml' files.
 class Parser {
@@ -9,10 +8,9 @@ class Parser {
   final Terminal _terminal;
   final Map<dynamic, dynamic> _jeeves;
   final String _project;
-  final String _envs;
 
   /// Creates a [Parser] with the given terminal and `jeeves.yaml` file.
-  Parser(this._terminal, this._jeeves, this._project, this._envs);
+  Parser(this._terminal, this._jeeves, this._project);
 
   Map<File, File> parse(String environment) {
     final section = _jeeves['files'] as Map?;
@@ -46,7 +44,7 @@ class Parser {
         continue;
       }
 
-      final replacement = File('$_envs/$environment/${entry.value}');
+      final replacement = File('$environment/${entry.value}');
       if (!replacement.existsSync()) {
         buffer.error(path, entry, entry.value, '${replacement.path} does not exist');
         continue;

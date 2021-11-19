@@ -8,7 +8,7 @@ class LoadCommand extends TerminalCommand<void> with Files<void> {
 
   @override
   Future<void> run() async {
-    final parser = Parser(terminal, jeeves, root, envs);
+    final parser = Parser(terminal, jeeves, root);
 
     final rest = argResults!.rest;
     if (rest.isEmpty) {
@@ -29,7 +29,7 @@ class LoadCommand extends TerminalCommand<void> with Files<void> {
       await entry.value.openRead().pipe(entry.key.openWrite());
     }
 
-    stdout.writeln('Replaced ${environment.length} files');
+    terminal.print('Replaced ${results.length} files');
   }
 
   @override
