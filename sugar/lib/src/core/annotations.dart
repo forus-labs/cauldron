@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 /// Denotes that the annotated type is an annotation.
 @annotation
 const String annotation = 'annotation';
@@ -12,7 +14,7 @@ const String throws = 'throws';
 
 /// Denotes that an annotated method throws the given exceptions.
 @annotation
-class Throws {
+@sealed class Throws {
   /// Creates a [Throws] with the given exceptions.
   const Throws(List<Type> thrown); // ignore: avoid_unused_constructor_parameters
 }
@@ -27,7 +29,7 @@ class PlatformDependent {
 /// Denotes that an annotated function returns a union type. A union type represents
 /// a subset of possible values.
 @annotation
-class Subset<T> {
+@sealed class Subset<T> {
   /// Creates a [Subset] with the given possible values.
   const Subset(List<T> values); // ignore: avoid_unused_constructor_parameters
 }

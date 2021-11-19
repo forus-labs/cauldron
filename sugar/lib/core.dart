@@ -3,8 +3,9 @@
 library sugar.core;
 
 export 'src/core/annotations.dart';
-export 'src/core/crypto.dart';
+export 'src/core/cryptography.dart';
 export 'src/core/debounce.dart';
+export 'src/core/disposable.dart';
 export 'src/core/equality.dart';
 export 'src/core/functions.dart';
 export 'src/core/math.dart';

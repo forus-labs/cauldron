@@ -1,3 +1,10 @@
+## 2.3.1 (19/11/2021)
+
+This release focuses on improving documentation and preparing for Dart 2.15.
+
+- Add `disposable.dart`
+- Change `crypto.dart` to `cryptography.dart`
+
 ## 2.3.0 (10/09/2021)
 
 This release adds new higher-order functions for composing functions. In addition, the library now minimally requires Dart 2.14.
