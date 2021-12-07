@@ -23,17 +23,26 @@ class Weekdays {
     return encoded;
   }
 
-  /// Decodes the bitfield into days of a week. [encoded] should be between o and 128.
+  /// Decodes the bitfield into days, i.e. (1 to 7) of a week. [encoded] should be between 0 and 128.
   ///
   /// Behaviour is undefined if [encoded] is invalid.
   static Iterable<int> decode(int encoded) sync* {
-    assert(encoded >= 0 && encoded < 128, 'Packed days is "$encoded", should be between 0 and 127');
-
-    for (var day = 1; day <= 7; day++) {
-      if (encoded.isOdd) {
-        yield day;
+    int i = 1;
+    for (final value in parse(encoded)) {
+      if (value) {
+        yield i;
       }
+      i++;
+    }
+  }
 
+  /// Parses the bitfield into booleans, i.e. `true` if a digit is 1. [encoded] should be between 0 and 128.
+  ///
+  /// Behaviour is undefined if [encoded] is invalid.
+  static Iterable<bool> parse(int encoded) sync* {
+    assert(encoded >= 0 && encoded < 128, 'Packed days is "$encoded", should be between 0 and 127');
+    for (var day = 1; day <= 7; day++) {
+      yield encoded.isOdd;
       encoded >>= 1;
     }
   }

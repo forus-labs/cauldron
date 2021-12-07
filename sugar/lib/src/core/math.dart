@@ -25,6 +25,9 @@ T floor<T extends num>(T value, num nearest) =>  nearest == 1 ? value : (value /
 /// Utilities for handling overflows.
 extension Integers on int {
 
+  /// Returns `1` if the given [value] is true. Otherwise returns `0`.
+  static int from(bool value) => value ? 1 : 0; // ignore: avoid_positional_boolean_parameters
+
   // Dart2Js has a smaller range of values compared to the VM. Integers should
   // not exceed the range in order to be platform independent.
 
@@ -38,6 +41,9 @@ extension Integers on int {
 
   /// Checks if the subtraction of [other] from this causes an overflow.
   bool subtractOverflows(int other) => ((other < 0) && (this > max + other)) || ((other > 0) && (this < min + other));
+
+  /// Returns true if this integer is greater than 0. Otherwise returns false.
+  bool toBool() => this > 0;
 
 }
 

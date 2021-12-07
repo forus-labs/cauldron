@@ -1,3 +1,11 @@
+## 2.3.1 (07/12/2021)
+
+This release adds a few additional convince methods.
+
+- Add `Integers.from(bool)`
+- Add `Integers.toBool()`
+- Add `Weekdays.parse(int)`
+
 ## 2.3.0 (10/09/2021)
 
 This release adds new higher-order functions for composing functions. In addition, the library now minimally requires Dart 2.14.
