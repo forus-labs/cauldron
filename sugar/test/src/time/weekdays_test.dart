@@ -37,4 +37,8 @@ void main() {
 
   test('parse', () => expect(Weekdays.parse(encoded), bitfield));
 
+  test('unparse', () => expect(Weekdays.unparse(bitfield), encoded));
+
+  test('parse & unparse', () => expect(Weekdays.unparse(Weekdays.parse(encoded)), encoded));
+
 }

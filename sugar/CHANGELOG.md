@@ -1,3 +1,9 @@
+## 2.3.3 (08/12/2021)
+
+This release adds an accidentally omitted method.
+
+- Add `Weekdays.unparse(Iterable<bool>)`
+
 ## 2.3.2 (07/12/2021)
 
 This release adds a few additional convince methods.
