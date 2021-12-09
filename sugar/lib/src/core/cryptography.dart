@@ -20,4 +20,3 @@ extension HashExtensions on String {
   String get sha256 => crypto.sha256.convert(utf8.encode(this)).toString();
 
 }
-

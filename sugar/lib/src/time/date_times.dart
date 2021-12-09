@@ -78,4 +78,3 @@ mixin MultiPart implements DateTime {
   Time get time => timePart ??= Time(hour, minute, second, millisecond, microsecond);
 
 }
-

@@ -1,8 +1,7 @@
 import 'package:sugar/sugar.dart';
 import 'package:test/test.dart';
 
-// TODO: https://github.com/dart-lang/linter/issues/2944
-// ignore_for_file: unnecessary_parenthesis
+// ignore_for_file: avoid_dynamic_calls
 
 void main() {
 

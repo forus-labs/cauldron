@@ -40,7 +40,6 @@ mixin RoundableDateTime<T extends RoundableDateTime<T>> implements DateTime {
     }
   }
 
-  // TODO: Replace with function parameter once https://github.com/dart-lang/language/issues/216 is resolved
   /// Creates a [RoundableDateTime] using the given parameters.
   @protected T of(int year, int month, int day, int hour, int minute, int second, int millisecond, int microsecond);
 

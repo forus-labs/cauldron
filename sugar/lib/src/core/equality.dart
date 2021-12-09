@@ -5,7 +5,7 @@ import 'package:sugar/collection.dart';
 mixin Equality {
 
   @override
-  bool operator == (dynamic other) => identical(this, other) || (runtimeType == other.runtimeType && fields.equals(other.fields));
+  bool operator == (dynamic other) => identical(this, other) || (runtimeType == other.runtimeType && fields.equals(other.fields)); // ignore: avoid_dynamic_calls
 
   @override
   int get hashCode => Object.hashAll(fields);

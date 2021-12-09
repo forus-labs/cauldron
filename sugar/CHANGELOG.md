@@ -1,3 +1,7 @@
+## 2.4.0 (09/12/2021)
+
+This release bumps the minimu supported Dart version to 2.15
+
 ## 2.3.3 (08/12/2021)
 
 This release adds an accidentally omitted method.
@@ -18,7 +22,6 @@ This release focuses on improving documentation and preparing for Dart 2.15.
 
 - Add `disposable.dart`
 - Change `crypto.dart` to `cryptography.dart`
->>>>>>> master
 
 ## 2.3.0 (10/09/2021)
 
