@@ -27,6 +27,11 @@ Set<String> changes(Set<String> remote) => remote.difference(<String> {
 Stream<String> mature(Set<String> changes) async* {
   for (final change in changes) {
     final response = await get(Uri.parse('https://dart-lang.github.io/linter/lints/$change.html'));
+    if (response.statusCode == 404) {
+      print('Warning: https://dart-lang.github.io/linter/lints/$change.html does not exist (the rule might still be experimental)');
+      return;
+    }
+
     final header = parse(response.body).body?.getElementsByClassName('wrapper').first.getElementsByTagName('header').first;
 
     final stable = header?.getElementsByTagName('p')[1].innerHtml == 'Maturity: stable';

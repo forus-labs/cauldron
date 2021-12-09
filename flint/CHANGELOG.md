@@ -1,3 +1,15 @@
+## 2.2.0 (09/12/2021)
+This update focuses on lint rules introduced in Dart 2.15
+
+- Add `avoid_dynamic_calls`
+- Add `avoid_multiple_declarations_per_line`
+- Add `deprecated_consistency`
+- Add `eol_at_end_of_file`
+- Add `library_private_types_in_public_api`
+- Add `noop_primitive_operations`
+- Add `prefer_null_aware_method_calls`
+- Add `unnecessary_constructor_name`
+
 ## 2.1.2 - (10/09/2021)
 This update fixes a few issues.
 
