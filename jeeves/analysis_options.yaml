@@ -2,3 +2,4 @@ include: package:flint/analysis_options.dart.yaml
 analyzer:
   errors:
     avoid_print: ignore
+    avoid_dynamic_calls: ignore

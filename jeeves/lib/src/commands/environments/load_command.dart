@@ -1,10 +1,12 @@
 import 'dart:io';
 
-import 'package:jeeves/src/files.dart';
-import 'package:jeeves/src/parser.dart';
-import 'package:jeeves/src/terminal.dart';
+import 'package:jeeves/src/commands/environments/parser.dart';
+import 'package:jeeves/src/core/configuration.dart';
+import 'package:jeeves/src/core/format.dart';
+import 'package:jeeves/src/core/terminal.dart';
 
-class LoadCommand extends TerminalCommand<void> with Files<void> {
+/// A command that loads a given environment when executed.
+class LoadCommand extends TerminalCommand<void> with Configuration<void> {
 
   @override
   Future<void> run() async {
@@ -18,7 +20,7 @@ class LoadCommand extends TerminalCommand<void> with Files<void> {
       terminal..error(highlight('Failed to execute "$line"', line, remaining, 'environment may not contain spaces', red))..exit(1);
     }
 
-    final environment = '$envs/${rest[0]}';
+    final environment = '$_envs/${rest[0]}';
     if (!Directory(environment).existsSync()) {
       terminal..error(highlight('Failed to execute "$line"', line, rest[0], 'environment does not exist', red))..exit(1);
     }
@@ -32,8 +34,26 @@ class LoadCommand extends TerminalCommand<void> with Files<void> {
     terminal.print('Replaced ${results.length} files');
   }
 
+  String get _envs {
+    try {
+      final envs = Directory('$root/tool/jeeves/envs');
+      if (!envs.existsSync()) {
+        terminal.print('envs folder not found, creating envs folder...');
+        envs.createSync(recursive: true);
+      }
+
+      return envs.path;
+
+    } on IOException catch (e) {
+      terminal..error(red('Failed to execute "$line", $e'))..exit(1);
+    }
+  }
+
   @override
   String get name => 'load';
+
+  @override
+  List<String> get aliases => ['ld'];
 
   @override
   String get description => 'Loads the given environment if it exists';

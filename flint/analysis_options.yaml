@@ -2,3 +2,4 @@ include: lib/analysis_options.dart.yaml
 linter:
   rules:
     avoid_print: false
+    avoid_dynamic_calls: false

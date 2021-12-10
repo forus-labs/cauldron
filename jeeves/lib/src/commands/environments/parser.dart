@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:jeeves/src/terminal.dart';
+import 'package:jeeves/src/core/format.dart';
+import 'package:jeeves/src/core/terminal.dart';
 
-/// A parser for parsing 'jeeves.yaml' files.
+/// A parser for parsing the 'jeeves.yaml' files.
 class Parser {
 
   final Terminal _terminal;
@@ -12,6 +13,7 @@ class Parser {
   /// Creates a [Parser] with the given terminal and `jeeves.yaml` file.
   Parser(this._terminal, this._jeeves, this._project);
 
+  /// Returns the replacements for the given [environment].
   Map<File, File> parse(String environment) {
     final section = _jeeves['files'] as Map?;
     if (section == null) {
@@ -20,7 +22,7 @@ class Parser {
     }
 
     final files = <File, File>{};
-    final message = StringBuffer(red('Errors found in jeeves.yaml:\n'))..code('')..code('files:');
+    final message = StringBuffer(red('Errors found in jeeves.yaml:\n'))..indent('')..indent('files:');
     final original = message.length;
 
     _map(section, [], environment, files, message);
@@ -53,14 +55,5 @@ class Parser {
       files[original] = replacement;
     }
   }
-
-}
-
-extension _YamlCodeBlock on StringBuffer {
-
-  void error(List<String> path, MapEntry<dynamic, dynamic> entry, String part, String message) =>
-      this..code('...', (path.length + 1) * 2)
-          ..highlight('${entry.key}: ${entry.value}', part, message, red, (path.length + 1) * 2)
-          ..code('');
 
 }
