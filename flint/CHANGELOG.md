@@ -1,3 +1,7 @@
+## 2.2.1 (12/01/2021)
+
+- Remove `sort_unnamed_constructors_first`
+
 ## 2.2.0 (09/12/2021)
 This update focuses on lint rules introduced in Dart 2.15
 
