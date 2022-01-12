@@ -10,6 +10,7 @@ This update focuses on lint rules introduced in Dart 2.15
 - Add `prefer_null_aware_method_calls`
 - Add `unnecessary_constructor_name`
 
+- Remove `sort_unnamed_constructors_first`
 ## 2.1.2 - (10/09/2021)
 This update fixes a few issues.
 
