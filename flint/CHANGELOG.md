@@ -1,4 +1,7 @@
-#3 2.3.1 (04/02/2022)
+## 2.3.2 (04/02/2022)
+- Re-add accidentally deleted rule `no_leading_underscores_for_local_identifiers`
+
+## 2.3.1 (04/02/2022)
 - Remove `use_key_in_widget_constructors`
 
 ## 2.3.0 (04/02/2022)
