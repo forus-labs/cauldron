@@ -1,9 +1,22 @@
-## 2.2.1 (12/01/2021)
+## 2.3.0 (04/02/2022)
+This update focuses on lint rules introduced in Dart 2.16.
+
+- Add `avoid_final_parameters`
+- Add `conditional_uri_does_not_exist`
+- Add `no_leading_underscores_for_library_prefixes`
+- Add `no_leading_underscores_for_local_identifiers`
+- Add `secure_pubspec_urls`
+- Add `unnecessary_late`
+- Add `use_if_null_to_convert_nulls_to_bools`
+- Add `use_named_constants`
+- Add `use_test_throws_matchers`
+
+## 2.2.1 (12/01/2022)
 
 - Remove `sort_unnamed_constructors_first`
 
 ## 2.2.0 (09/12/2021)
-This update focuses on lint rules introduced in Dart 2.15
+This update focuses on lint rules introduced in Dart 2.15.
 
 - Add `avoid_dynamic_calls`
 - Add `avoid_multiple_declarations_per_line`

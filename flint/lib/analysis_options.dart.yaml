@@ -14,6 +14,7 @@ linter:
     - avoid_empty_else
     - avoid_escaping_inner_quotes
     - avoid_field_initializers_in_const_classes
+    - avoid_final_parameters
     - avoid_function_literals_in_foreach_calls
     - avoid_implementing_value_types
     - avoid_init_to_null
@@ -46,6 +47,7 @@ linter:
     - cascade_invocations
     - close_sinks
     - comment_references
+    - conditional_uri_does_not_exist
     - constant_identifier_names
     - control_flow_in_finally
     - curly_braces_in_flow_control_structures
@@ -71,6 +73,8 @@ linter:
     - missing_whitespace_between_adjacent_strings
     - no_adjacent_strings_in_list
     - no_duplicate_case_values
+    - no_leading_underscores_for_library_prefixes
+    - no_leading_underscores_for_local_identifiers
     - no_runtimeType_toString
     - non_constant_identifier_names
     - noop_primitive_operations
@@ -120,6 +124,7 @@ linter:
     - provide_deprecation_message
     - public_member_api_docs
     - recursive_getters
+    - secure_pubspec_urls
     - slash_for_doc_comments
     - sort_child_properties_last
     - sort_pub_dependencies
@@ -135,6 +140,7 @@ linter:
     - unnecessary_constructor_name
     - unnecessary_getters_setters
     - unnecessary_lambdas
+    - unnecessary_late
     - unnecessary_new
     - unnecessary_null_aware_assignments
     - unnecessary_null_in_if_null_operators
@@ -148,11 +154,14 @@ linter:
     - unrelated_type_equality_checks
     - unsafe_html
     - use_function_type_syntax_for_parameters
+    - use_if_null_to_convert_nulls_to_bools
     - use_is_even_rather_than_modulo
+    - use_named_constants
     - use_raw_strings
     - use_rethrow_when_possible
     - use_setters_to_change_properties
     - use_string_buffers
+    - use_test_throws_matchers
     - use_to_and_as_if_applicable
     - valid_regexps
     - void_checks
@@ -184,5 +193,4 @@ ignore:
   - sort_constructors_first
   - sort_unnamed_constructors_first
   - unnecessary_final
-  - use_full_hex_values_for_flutter_colors
-  - use_key_in_widget_constructors
+  - use_decorated_box

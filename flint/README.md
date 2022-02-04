@@ -16,7 +16,7 @@ To use the lints, add the following dependency in your `pubspec.yaml`.
 
 ```yaml
 dev_dependencies:
-  flint: ^12.1.0
+  flint: ^2.3.0
 ```
 
 Then, add a configuration to your `analysis_options.yaml`. The following will always include the latest version of said set.
