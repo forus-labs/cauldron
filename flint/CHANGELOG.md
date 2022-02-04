@@ -1,3 +1,6 @@
+#3 2.3.1 (04/02/2022)
+- Remove `use_key_in_widget_constructors`
+
 ## 2.3.0 (04/02/2022)
 This update focuses on lint rules introduced in Dart 2.16.
 

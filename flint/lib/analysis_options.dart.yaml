@@ -74,7 +74,6 @@ linter:
     - no_adjacent_strings_in_list
     - no_duplicate_case_values
     - no_leading_underscores_for_library_prefixes
-    - no_leading_underscores_for_local_identifiers
     - no_runtimeType_toString
     - non_constant_identifier_names
     - noop_primitive_operations
@@ -194,3 +193,4 @@ ignore:
   - sort_unnamed_constructors_first
   - unnecessary_final
   - use_decorated_box
+  - use_key_in_widget_constructors

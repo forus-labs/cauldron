@@ -4,4 +4,3 @@ linter:
     - sized_box_for_whitespace
     - sized_box_shrink_expand
     - use_full_hex_values_for_flutter_colors
-    - use_key_in_widget_constructors
