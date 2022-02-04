@@ -14,7 +14,7 @@ jobs:
     name: Automated tests
     runs-on: ubuntu-20.04
     container:
-      image: google/dart:latest
+      image: dart:stable
     
     defaults:
       run:
