@@ -1,55 +1,65 @@
-/// Utilities for comparison of the contents of lists.
-extension ListEquality<T> on List<T> {
+import 'dart:collection';
 
-  /// Determines if the contents of this list and [other] are equal.
-  bool equals(List<T> other) {
-    if (identical(this, other)) {
-      return true;
-    }
+import 'package:meta/meta.dart';
 
-    if (length != other.length) {
-      return false;
-    }
-
-    for (var i = 0; i < length; i++) {
-      if (this[i] != other[i]) {
-        return false;
-      }
-    }
-
+/// Determines if [a] and [b] are deeply equal.
+///
+/// **Contract: **:
+/// Both [a] and [b] may not contain itself or the other given value. Doing so will result in a [StackOverflowError].
+/// ```dart
+/// final a = [];
+/// a.add(a);
+///
+/// equal(a, []) // Throws a StackOverflowError
+/// ```
+@internal bool equal(dynamic a, dynamic b) {
+  if (identical(a, b)) {
     return true;
+
+  } else if (a is List && b is List) {
+    return _listEqual(a, b);
+
+  } else if (a is Set && b is Set) {
+    return _setEqual(a, b);
   }
 
-}
+  if (a is Map && b is Map) {
 
-/// Utilities for comparison of the contents of maps.
-extension MapEquality<K, V> on Map<K, V> {
-
-  /// Determines if the contents of this map and [other] are equal.
-  bool equals(Map<K, V> other) {
-    if (identical(this, other)) {
-      return true;
-    }
-
-    if (length != other.length) {
-      return false;
-    }
-
-    for (final entry in entries) {
-      if (entry.value != other[entry.key]) {
-        return false;
-      }
-    }
-
-    return true;
   }
 
+  return a == b;
 }
 
-/// Utilities for comparison of the contents of sets.
-extension SetEquality<T> on Set<T> {
+bool _listEqual(List<dynamic> a, List<dynamic> b) {
+  if (a.length != b.length) {
+    return false;
+  }
 
-  /// Determines if the contents of this set and [other] are equal.
-  bool equals(Set<T> other) => identical(this, other) || (length == other.length && containsAll(other));
+  for (var i = 0; i < a.length; i++) {
+    if (!equal(a[i], b[i])) {
+      return false;
+    }
+  }
 
+  return true;
+}
+
+bool _setEqual(Set<dynamic> a, Set<dynamic> b) {
+  if (a.length != b.length) {
+    return false;
+  }
+
+  a
+}
+
+
+
+@internal int hashCode(dynamic value) {
+  if (value is Iterable) {
+    var hash = 1;
+    for (final element in value) {
+      hash = 31 * hash + hashCode(element);
+    }
+    return hash;
+  }
 }

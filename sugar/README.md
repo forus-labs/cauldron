@@ -3,7 +3,7 @@
 [![Pub Dev](https://img.shields.io/pub/v/sugar)](https://pub.dev/packages/sugar)
 [![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/sugar/latest/)
 
-Sugar is Forus Labs' common library for Dart. It contains frequently used utilities.
+Sugar isn't some grand and mystical library. It just contains utilities that improve our quality of life.
 
 **Please view the [stable brunch](https://github.com/forus-labs/cauldron/tree/stable/sugar/) for a production version.**
 
