@@ -33,3 +33,5 @@ class PlatformDependent {
   /// Creates a [Subset] with the given possible values.
   const Subset(List<T> values); // ignore: avoid_unused_constructor_parameters
 }
+
+BiIterable

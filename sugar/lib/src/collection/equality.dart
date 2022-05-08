@@ -49,7 +49,21 @@ bool _setEqual(Set<dynamic> a, Set<dynamic> b) {
     return false;
   }
 
-  a
+  final counts = HashMap<dynamic, int>(equals: equal, hashCode: hashCode);
+
+  for (final element in a) {
+    counts[element] = (counts[element] ?? 0) + 1;
+  }
+
+  for (final element in b) {
+    final count = counts[element] ?? 0;
+    if (count == 0) {
+      return false;
+    }
+
+    counts[element] = count - 1;
+  }
+  return true;
 }
 
 
