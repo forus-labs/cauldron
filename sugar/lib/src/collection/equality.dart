@@ -21,13 +21,12 @@ import 'package:meta/meta.dart';
 
   } else if (a is Set && b is Set) {
     return _setEqual(a, b);
+
+  } else if (a is Map && b is Map) {
+
+  } else {
+    return a == b;
   }
-
-  if (a is Map && b is Map) {
-
-  }
-
-  return a == b;
 }
 
 bool _listEqual(List<dynamic> a, List<dynamic> b) {
@@ -50,7 +49,6 @@ bool _setEqual(Set<dynamic> a, Set<dynamic> b) {
   }
 
   final counts = HashMap<dynamic, int>(equals: equal, hashCode: hashCode);
-
   for (final element in a) {
     counts[element] = (counts[element] ?? 0) + 1;
   }
@@ -63,6 +61,7 @@ bool _setEqual(Set<dynamic> a, Set<dynamic> b) {
 
     counts[element] = count - 1;
   }
+
   return true;
 }
 

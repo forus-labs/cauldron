@@ -19,8 +19,9 @@ extension Lists<T> on List<T> {
       ...this,
   ];
 
-  /// Determines if this list and [other] are deeply equal. This method is provided as an alternative to a [List]'s default
-  /// identity-based `==` implementation.
+  /// Determines if this list and [other] are deeply equal.
+  ///
+  /// This method is provided as an alternative to a [List]'s default identity-based `==` implementation.
   ///
   /// **Contract: **:
   /// Both this list and [other] may not contain itself or the other value. Doing so will result in a [StackOverflowError].
@@ -32,8 +33,9 @@ extension Lists<T> on List<T> {
   /// ```
   bool equals(List<T> other) => equal(this, other);
 
-  /// Computes the hash-code of this list using the the contained elements. This method is provided as an alternative to
-  /// a [List]'s default identity-based `hashCode` implementation.
+  /// Computes the hash-code of this list using the the contained elements.
+  ///
+  /// This method is provided as an alternative to a [List]'s default identity-based `hashCode` implementation.
   ///
   /// **Contract: **:
   /// This list may not contain itself. Doing so will result in a [StackOverflowError].
