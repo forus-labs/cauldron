@@ -62,3 +62,7 @@ enum Kind {
   ///  Creates a [Untestable].
   const Untestable({required this.because});
 }
+
+/// Denotes that the annotated field/function is lazily evaluated.
+@Annotation(on: {Kind.field, Kind.function})
+const lazy = Object();
