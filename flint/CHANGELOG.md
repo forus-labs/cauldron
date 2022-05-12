@@ -1,3 +1,11 @@
+## 2.4.0 (12/05/2022)
+This update focuses on lint rules introduced in Dart 2.17.
+
+- Add `cast_nullable_to_non_nullable`
+- Add `null_check_on_nullable_type_parameter`
+- Add `use_enums`
+- Add `use_super_parameters`
+
 ## 2.3.2 (04/02/2022)
 - Re-add accidentally deleted rule `no_leading_underscores_for_local_identifiers`
 

@@ -33,11 +33,8 @@ Stream<String> mature(Set<String> changes) async* {
     }
 
     final header = parse(response.body).body?.getElementsByClassName('wrapper').first.getElementsByTagName('header').first;
-
-    final stable = header?.getElementsByTagName('p')[1].innerHtml == 'Maturity: stable';
     final released = !header!.getElementsByClassName('tooltip').first.getElementsByTagName('p').first.innerHtml.contains('unreleased');
-
-    if (stable && released) {
+    if (released) {
       yield change;
     }
   }

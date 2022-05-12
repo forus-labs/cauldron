@@ -45,6 +45,7 @@ linter:
     - camel_case_types
     - cancel_subscriptions
     - cascade_invocations
+    - cast_nullable_to_non_nullable
     - close_sinks
     - comment_references
     - conditional_uri_does_not_exist
@@ -78,6 +79,7 @@ linter:
     - no_runtimeType_toString
     - non_constant_identifier_names
     - noop_primitive_operations
+    - null_check_on_nullable_type_parameter
     - null_closures
     - one_member_abstracts
     - only_throw_errors
@@ -153,6 +155,7 @@ linter:
     - unnecessary_this
     - unrelated_type_equality_checks
     - unsafe_html
+    - use_enums
     - use_function_type_syntax_for_parameters
     - use_if_null_to_convert_nulls_to_bools
     - use_is_even_rather_than_modulo
@@ -161,10 +164,12 @@ linter:
     - use_rethrow_when_possible
     - use_setters_to_change_properties
     - use_string_buffers
+    - use_super_parameters
     - use_test_throws_matchers
     - use_to_and_as_if_applicable
     - valid_regexps
     - void_checks
+
 ignore:
   - always_declare_return_types
   - always_put_required_named_parameters
@@ -181,6 +186,7 @@ ignore:
   - directives_ordering
   - flutter_style_todos
   - lines_longer_than_80_chars
+  - no_default_cases
   - no_logic_in_create_state
   - omit_local_variable_types
   - package_api_docs
@@ -190,8 +196,10 @@ ignore:
   - prefer_mixin
   - prefer_relative_imports
   - public_member_api_docs
+  - require_trailing_commas
   - sort_constructors_first
   - sort_unnamed_constructors_first
   - unnecessary_final
+  - use_colored_box
   - use_decorated_box
   - use_key_in_widget_constructors
