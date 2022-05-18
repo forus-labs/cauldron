@@ -66,3 +66,13 @@ enum Kind {
 /// Denotes that the annotated field/function is lazily evaluated.
 @Annotation(on: {Kind.field, Kind.function})
 const lazy = Object();
+
+enum A {
+
+  b('');
+
+  final String a;
+
+  const A(this.a);
+
+}

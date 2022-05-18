@@ -31,18 +31,23 @@ extension Lists<E> on List<E> {
   }
 
 
-  /// Replaces elements that satisfy the given [predicate]. Elements are replaced with the values returned by [replace].
+  /// Replaces elements that satisfy the given [where] predicate. Elements are replaced with the values returned by [replace].
   /// An element is removed (without replacement) if [replace] returns `null`.
+  ///
+  /// ```dart
+  /// final list = [1, 2, 3]..replace(where: (val) => 1 < val, (val) => val + 1);
+  /// expect(list, [1, 3, 4]);
+  /// ```
   ///
   /// **Notes: **
   /// * The list must be growable.
   /// * [E] must be non-nullable.
-  void replaceWhere(bool Function(E) predicate, E? Function(E) replace) {
+  void replace(E? Function(E) replace, {required bool Function(E) where}) {
     final list = <E>[];
     var modified = false;
 
     for (final element in this) {
-      if (!predicate(element)) {
+      if (!where(element)) {
         list.add(element);
         continue;
       }
