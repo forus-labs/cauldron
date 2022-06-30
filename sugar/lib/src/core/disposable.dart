@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:meta/meta.dart';
 
 /// Signifies that the implementing type holds resource (i.e. sockets, streams)
@@ -12,6 +14,6 @@ mixin Disposable {
 
   /// Disposes the resources held by an implementing type.
   @mustCallSuper
-  void dispose();
+  FutureOr<void> dispose();
 
 }

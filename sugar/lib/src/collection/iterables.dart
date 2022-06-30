@@ -1,8 +1,53 @@
 import 'package:sugar/collection.dart';
 import 'package:sugar/src/core/annotations.dart';
 
+/// Returns true if the given [Iterable]s have no elements in common.
+bool disjoint(Iterable<dynamic> a, Iterable<dynamic> b) {
+  // This implementation is borrowed from Java's Collections.disjoint(...) method. It assumes that the given iterables
+  // have efficient length computations, i.e. the length is cached. This is true for most standard library collections.
+  var iterable = a;
+  var contains = b;
+
+  if (a is Set<dynamic>) {
+    iterable = b;
+    contains = a;
+
+  } else if (b is! Set<dynamic>) {
+    final aLength = a.length;
+    final bLength = b.length;
+    if (aLength == 0 || bLength == 0) {
+      return true;
+    }
+
+    if (aLength > bLength) {
+      iterable = b;
+      contains = a;
+    }
+  }
+
+  for (final element in iterable) {
+    if (contains.contains(element)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 /// Provides functions for working with [Iterable]s.
 extension Iterables<E> on Iterable<E> {
+
+  /// Returns the number of elements in this [Iterable] that matches the given element.
+  int count({required E of}) {
+    var count = 0;
+    for (final element in this) {
+      if (element == of) {
+        count++;
+      }
+    }
+
+    return count;
+  }
 
   /// Transforms this [Iterable] into map, using [key] and [value] to produce keys and values respectively.
   ///
@@ -50,6 +95,11 @@ extension Iterables<E> on Iterable<E> {
     }
     return null;
   }
+
+}
+
+/// Provides functions for working with [Iterable]s of [Comparable]s.
+extension ComparableIterables<T> on Iterable<Comparable<T>> {
 
 }
 

@@ -67,12 +67,10 @@ enum Kind {
 @Annotation(on: {Kind.field, Kind.function})
 const lazy = Object();
 
-enum A {
+/// Denotes that the annotated function is/must be pure.
+@Annotation(on: {Kind.field, Kind.function, Kind.parameter, Kind.typeParameter})
+const pure = Object();
 
-  b('');
-
-  final String a;
-
-  const A(this.a);
-
-}
+/// Denotes that the annotated function is/may be impure.
+@Annotation(on: {Kind.field, Kind.function, Kind.parameter, Kind.typeParameter})
+const impure = Object();
