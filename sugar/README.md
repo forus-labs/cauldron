@@ -3,7 +3,10 @@
 [![Pub Dev](https://img.shields.io/pub/v/sugar)](https://pub.dev/packages/sugar)
 [![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/sugar/latest/)
 
-Sugar doesn't hold some grandiose vision to radically changes programming. It just contains utilities that improve our quality of life.
+Programming's all about expressing ideas. However, we feel that Dart doesn't provide us with foundations to do so, hence,
+we created Sugar. Sugar doesn't hold some grandiose vision to radically changes programming. It just contains utilities 
+that improve our quality of life.
+
 
 **Please view the [stable brunch](https://github.com/forus-labs/cauldron/tree/stable/sugar/) for a production version.**
 
