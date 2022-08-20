@@ -4,10 +4,13 @@ import 'package:sugar/src/collection/equality.dart';
 /// Provides functions for working with lists.
 extension Lists<E> on List<E> {
 
-  /// Inserts this list between the given values.
+  /// Determines whether this list contains an element at the given [index].
+  bool has({required int index}) => 0 <= index && index < length;
+
+  /// Inserts this list between the given elements.
   void between(E first, {required E and}) => this..insert(0, first)..add(and);
 
-  /// Inserts the given value between each element in this list.
+  /// Inserts the given element between each element in this list.
   void space({required E by}) {
     for (var i = 1; i < length; i += 2) {
       insert(i, by);
@@ -31,7 +34,7 @@ extension Lists<E> on List<E> {
   }
 
 
-  /// Replaces elements that satisfy the given [where] predicate. Elements are replaced with the values returned by [replace].
+  /// Replaces elements that satisfy the given [where] predicate. Elements are replaced with the elements returned by [replace].
   /// An element is removed (without replacement) if [replace] returns `null`.
   ///
   /// ```dart
@@ -71,33 +74,5 @@ extension Lists<E> on List<E> {
     for (var i = 0; i < times; i++)
       ...this,
   ];
-
-  /// Determines if this list and [other] are deeply equal.
-  ///
-  /// This method is provided as an alternative to a [List]'s default identity-based `==` implementation.
-  ///
-  /// **Contract: **:
-  /// Both this list and [other] may not contain itself or the other value. Doing so will result in a [StackOverflowError].
-  /// ```dart
-  /// final a = [];
-  /// a.add(a);
-  ///
-  /// a.equals([]) // Throws a StackOverflowError
-  /// ```
-  bool equals(List<E> other) => equal(this, other);
-
-  /// Computes the hash-code of this list using the the contained elements.
-  ///
-  /// This method is provided as an alternative to a [List]'s default identity-based `hashCode` implementation.
-  ///
-  /// **Contract: **:
-  /// This list may not contain itself. Doing so will result in a [StackOverflowError].
-  /// ```dart
-  /// final a = [];
-  /// a.add(a);
-  ///
-  /// a.hash // Throws a StackOverflowError
-  /// ```
-  int get hash => hashCode(this);
 
 }

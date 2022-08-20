@@ -1,41 +1,44 @@
 import 'package:sugar/collection.dart';
-import 'package:sugar/src/core/annotations.dart';
-
-/// Returns true if the given [Iterable]s have no elements in common.
-bool disjoint(Iterable<dynamic> a, Iterable<dynamic> b) {
-  // This implementation is borrowed from Java's Collections.disjoint(...) method. It assumes that the given iterables
-  // have efficient length computations, i.e. the length is cached. This is true for most standard library collections.
-  var iterable = a;
-  var contains = b;
-
-  if (a is Set<dynamic>) {
-    iterable = b;
-    contains = a;
-
-  } else if (b is! Set<dynamic>) {
-    final aLength = a.length;
-    final bLength = b.length;
-    if (aLength == 0 || bLength == 0) {
-      return true;
-    }
-
-    if (aLength > bLength) {
-      iterable = b;
-      contains = a;
-    }
-  }
-
-  for (final element in iterable) {
-    if (contains.contains(element)) {
-      return false;
-    }
-  }
-
-  return true;
-}
+import 'package:sugar/core.dart';
 
 /// Provides functions for working with [Iterable]s.
 extension Iterables<E> on Iterable<E> {
+
+  /// Returns the smallest element in this [Iterable] or `null` if empty.
+  ///
+  /// See `ComparableIterables.max(...)` for working with types that extend [Comparable].
+  E? min(Comparator<E> comparator) {
+    if (isEmpty) {
+      return null;
+    }
+
+    var min = first;
+    for (final element in skip(1)) {
+      if (comparator(min, element) > 0) {
+        min = element;
+      }
+    }
+
+    return min;
+  }
+
+  /// Returns the largest element in this [Iterable] or `null` if empty.
+  ///
+  /// See `ComparableIterables.max(...)` for working with types that extend [Comparable].
+  E? max(Comparator<E> comparator) {
+    if (isEmpty) {
+      return null;
+    }
+
+    var max = first;
+    for (final element in skip(1)) {
+      if (comparator(max, element) > 0) {
+        max = element;
+      }
+    }
+
+    return max;
+  }
 
   /// Returns the number of elements in this [Iterable] that matches the given element.
   int count({required E of}) {
@@ -49,7 +52,7 @@ extension Iterables<E> on Iterable<E> {
     return count;
   }
 
-  /// Transforms this [Iterable] into map, using [key] and [value] to produce keys and values respectively.
+  /// Transforms this [Iterable] into a map, using [key] and [value] to produce keys and values respectively.
   ///
   /// This method is an alternative to Dart's in-built map comprehension. It is recommended to use this method only when
   /// there are multiple steps to producing a key or value that cannot be expressed clearly in a single expression.
@@ -99,12 +102,48 @@ extension Iterables<E> on Iterable<E> {
 }
 
 /// Provides functions for working with [Iterable]s of [Comparable]s.
-extension ComparableIterables<T> on Iterable<Comparable<T>> {
+extension ComparableIterables<E extends Comparable<Object>> on Iterable<E> {
+
+  /// Returns the smallest element in this [Iterable] or `null` if empty. Comparison is done using [comparator] if provided.
+  ///
+  /// See `Iterables.min(...)` for working with types that don't extend [Comparable].
+  E? min([Comparator<E> comparator = Comparable.compare]) {
+    if (isEmpty) {
+      return null;
+    }
+
+    var min = first;
+    for (final element in skip(1)) {
+      if (comparator(min, element) > 0) {
+        min = element;
+      }
+    }
+
+    return min;
+  }
+
+  /// Returns the largest element in this [Iterable] or `null` if empty. Comparison is done using [comparator] if provided.
+  ///
+  /// See `Iterables.max(...)` for working with types that don't extend [Comparable].
+  E? max([Comparator<E> comparator = Comparable.compare]) {
+    if (isEmpty) {
+      return null;
+    }
+
+    var max = first;
+    for (final element in skip(1)) {
+      if (comparator(max, element) < 0) {
+        max = element;
+      }
+    }
+
+    return max;
+  }
 
 }
 
 /// Provides functions for working with nested [Iterable]s.
-extension IterableIterables<T> on Iterable<Iterable<T>> {
+extension IterableIterables<E> on Iterable<Iterable<E>> {
 
   /// Creates a [Iterable] that contains elements in all nested [Iterable]s in this [Iterable].
   ///
@@ -112,7 +151,7 @@ extension IterableIterables<T> on Iterable<Iterable<T>> {
   /// final list = [['a', 'b'], ['c', 'd'], ['e']].flatten().toList();
   /// expect(list, ['a', 'b', 'c', 'd', 'e']);
   /// ```
-  @lazy Iterable<T> flatten() sync* {
+  @lazy Iterable<E> flatten() sync* {
     for (final iterable in this) {
       for (final element in iterable) {
         yield element;
@@ -127,7 +166,7 @@ extension IterableIterables<T> on Iterable<Iterable<T>> {
   /// final list = [[1, 2], [3, 4], [5]].flat(map: (val) => val.String()).toList();
   /// expect(list, ['1', '2', '3', '4', '5']);
   /// ```
-  @lazy Iterable<U> flat<U>({required U Function(T) map}) sync* {
+  @lazy Iterable<U> flat<U>({required U Function(E) map}) sync* {
     for (final iterable in this) {
       for (final element in iterable) {
         yield map(element);
