@@ -5,9 +5,10 @@ import 'package:sugar/core.dart';
 /// Provides functions for determining the deep equality of [Iterable]s.
 extension DeepIterableEquality on Iterable<Object?> {
 
-  /// Determines if this iterable and [other] are deeply equal.
+  /// Determines if this iterable and [other] are deeply equal. A list is only always equal to a list. Likewise for sets.
+  /// To be equal, all other iterables must have the same order.
   ///
-  /// This method is provided as an alternative to a [List]'s default identity-based `==` implementation.
+  /// This method is provided as an alternative to a [Iterable]'s default identity-based `==` implementation.
   ///
   /// **Contract: **:
   /// Both this list and [other] may not contain itself or the other value. Doing so will result in a [StackOverflowError].
@@ -18,10 +19,10 @@ extension DeepIterableEquality on Iterable<Object?> {
   /// a.equals([]) // Throws a StackOverflowError
   /// ```
   @Throws({StackOverflowError}, when: 'either a or b contains itself or the other')
-  bool equals(Object? other) => DeepEquality.equal(this, other);
+  bool equals(Object? other) => Equality.deep(this, other);
 
   /// The deep hash-code of this list.
-  int get hashValue => DeepEquality.hashValue(this);
+  int get hashValue => HashCodes.deep(this);
 
 }
 
@@ -41,18 +42,21 @@ extension DeepMapEquality on Map<Object?, Object?> {
   /// a.equals(<int, dynamic>{}) // Throws a StackOverflowError
   /// ```
   @Throws({StackOverflowError}, when: 'either a or b contains itself or the other')
-  bool equals(Object? other) => DeepEquality.equal(this, other);
+  bool equals(Object? other) => Equality.deep(this, other);
 
   /// The deep hash-code of this list.
-  int get hashValue => DeepEquality.hashValue(this);
+  int get hashValue => HashCodes.deep(this);
 
 }
 
-/// Provides functions for determining the deep equality of collections.
-extension DeepEquality on Never {
+/// Provides functions for determining the equality of objects.
+extension Equality on Never {
 
-  /// Determines if [a] and [b] are deeply equal. This function works on lists, maps, sets, iterables and map entries;
-  /// iterables are expected to have the same order.
+  /// Determines if [a] and [b] are deeply equal. This function works on lists, maps, sets, iterables and map entries.
+  /// A list is only always equal to a list. To be equal, all other iterables must have the same order.
+  ///
+  /// `DeepIterableEquality.equals(...)` and `DeepMapEquality.equals(...)` should be preferred when working directly with
+  /// collections.
   ///
   /// **Contract: **:
   /// Both [a] and [b] may not contain itself or the other given value. Doing so will result in a [StackOverflowError].
@@ -60,7 +64,7 @@ extension DeepEquality on Never {
   /// final a = [];
   /// a.add(a);
   ///
-  /// DeepEquality.equal(a, ['some other list']) // Throws a StackOverflowError
+  /// Equality.deep(a, ['some other list']) // Throws a StackOverflowError
   /// ```
   ///
   /// **Motivation: **
@@ -68,7 +72,7 @@ extension DeepEquality on Never {
   /// when comparing collections. It is natural to expect that two collections with the same elements are equal. However,
   /// using the default identity-based `==` operator, both collections are not equal.
   @Throws({StackOverflowError}, when: 'either a or b contains itself or the other')
-  static bool equal(Object? a, Object? b) {
+  static bool deep(Object? a, Object? b) {
     if (identical(a, b)) {
       return true;
 
@@ -78,11 +82,11 @@ extension DeepEquality on Never {
     } else if (a is Map && b is Map) {
       return _unordered(a.entries, b.entries);
 
-    } else if (a is Iterable && b is Iterable) {
+    } else if ((a is List == b is List) && a is Iterable && b is Iterable) { // This should only be called when both objects, or neither objects are lists.
       return _ordered(a, b);
 
     } else if (a is MapEntry && b is MapEntry) {
-      return equal(a.key, b.key) && equal(a.value, b.value);
+      return deep(a.key, b.key) && deep(a.value, b.value);
 
     } else {
       return a == b;
@@ -94,7 +98,7 @@ extension DeepEquality on Never {
       return false;
     }
 
-    final counts = HashMap<Object?, int>(equals: equal, hashCode: hashValue);
+    final counts = HashMap<Object?, int>(equals: deep, hashCode: HashCodes.deep);
     for (final element in a) {
       counts[element] = (counts[element] ?? 0) + 1;
     }
@@ -120,7 +124,7 @@ extension DeepEquality on Never {
     final bi = b.iterator;
 
     while (ai.moveNext() && bi.moveNext()) {
-      if (!equal(ai.current, bi.current)) {
+      if (!deep(ai.current, bi.current)) {
         return false;
       }
     }
@@ -128,8 +132,21 @@ extension DeepEquality on Never {
     return true;
   }
 
+}
+
+/// Provides functions for computing the hashcodes of objects.
+extension HashCodes on Never {
+
+  static const Type _list = List;
+  static const Type _set = Set;
+  static const Type _iterable = Iterable;
+  static const Type _map = Map;
+  static const Type _entry = MapEntry;
 
   /// Computes a deep hash code for the given [value]. This function works on lists, maps, sets, iterables and map entries.
+  ///
+  /// `DeepIterableEquality.hashValue` and `DeepMapEquality.hashValue` should be preferred when working directly with
+  /// collections.
   ///
   /// **Contract: **:
   /// [value] may not contain itself. Doing so will result in a [StackOverflowError].
@@ -137,28 +154,42 @@ extension DeepEquality on Never {
   /// final a = [];
   /// a.add(a);
   ///
-  /// DeepEquality.hash(a) // Throws a StackOverflowError
+  /// HashCodes.deep(a) // Throws a StackOverflowError
   /// ```
   @Throws({StackOverflowError}, when: 'either a or b contains itself or the other')
-  static int hashValue(Object? value) {
-    if (value is Iterable) {
-      return _iterableHashCode(value);
+  static int deep(Object? value) {
+    if (value is List) {
+      return _ordered(_list, value);
+
+    } else if (value is Set) {
+      return _unordered(_set, value);
+
+    } else if (value is Iterable) {
+      return _unordered(_iterable, value);
 
     } else if (value is Map) {
-      return _iterableHashCode(value.entries);
+      return _unordered(_map, value.entries);
 
     } else if (value is MapEntry) {
-      return _iterableHashCode([value.key, value.value]);
+      return _ordered(_entry, [value.key, value.value]);
 
     } else {
       return value.hashCode;
     }
   }
 
-  static int _iterableHashCode(Iterable<Object?> iterable) {
-    var value = 1;
+  static int _ordered(Type type, Iterable<Object?> iterable) {
+    var value = type.hashCode; // This is to reduce hash collisions between different types.
     for (final element in iterable) {
-      value = 31 * value + hashValue(element);
+      value = 31 * value + deep(element);
+    }
+    return value;
+  }
+
+  static int _unordered(Type type, Iterable<Object?> iterable) {
+    var value = type.hashCode; // This is to reduce hash collisions between different types.
+    for (final element in iterable) {
+      value += deep(element); // This computation needs to be commutative for it to work with unordered collections.
     }
     return value;
   }
