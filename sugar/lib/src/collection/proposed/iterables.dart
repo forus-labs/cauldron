@@ -1,6 +1,8 @@
 import 'package:sugar/collection.dart';
 import 'package:sugar/core.dart';
 
+import 'group.dart';
+
 /// Provides functions for working with [Iterable]s.
 extension Iterables<E> on Iterable<E> {
 
@@ -70,16 +72,6 @@ extension Iterables<E> on Iterable<E> {
     for (final element in this)
       key(element) : value(element)
   };
-
-  /// A [Group] which can be used to group elements in this [Iterable].
-  ///
-  /// ```dart
-  /// final aggregate = ['a', 'b', 'aa', 'bb', 'cc'].group.lists(by: (string) => string.length);
-  /// expect(aggregate, {1: ['a', 'b'], 2: ['aa', 'bb', 'cc']});
-  /// ```
-  ///
-  /// See [Groups] for more information.
-  Group<E> get group => () => this;
 
   /// The first element, or `null` if this [Iterable] is empty.
   E? get firstOrNull => isNotEmpty ? first : null;
