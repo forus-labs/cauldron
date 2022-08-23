@@ -13,7 +13,7 @@ extension Groups<E> on Group<E> {
   /// final iterable = ['a', 'b', 'aa', 'bb', 'cc'];
   /// final counts = iterable.group.by((string) => string.length, as: (count, string) => (count ?? 0) + 1);
   ///
-  /// expect(counts, {1: 2, 2: 3});
+  /// print(counts); // {1: 2, 2: 3}
   /// ```
   Map<K, V> by<K, V>(K Function(E element) by, {required V Function(V? previous, E current) as}) {
     final results = <K, V>{};
@@ -31,7 +31,7 @@ extension Groups<E> on Group<E> {
   /// final iterable = ['a', 'b', 'aa', 'bb', 'cc'];
   /// final aggregate = iterable.group.lists(by: (string) => string.length);
   ///
-  /// expect(aggregate, {1: ['a', 'b'], 2: ['aa', 'bb', 'cc']});
+  /// print(aggregate); // {1: ['a', 'b'], 2: ['aa', 'bb', 'cc']}
   /// ```
   Map<K, List<E>> lists<K>({required K Function(E element) by}) {
     final results = <K, List<E>>{};
@@ -48,7 +48,7 @@ extension Groups<E> on Group<E> {
   /// final iterable = ['a', 'b', 'aa', 'bb', 'cc'];
   /// final aggregate = iterable.group.sets(by: (string) => string.length);
   ///
-  /// expect(aggregate, {1: {'a', 'b'}, 2: {'aa', 'bb', 'cc'}});
+  /// print(aggregate); // {1: {'a', 'b'}, 2: {'aa', 'bb', 'cc'}}
   /// ```
   Map<K, Set<E>> sets<K>({required K Function(E element) by}) {
     final results = <K, Set<E>>{};
@@ -62,7 +62,7 @@ extension Groups<E> on Group<E> {
 }
 
 /// Provides functions for accessing grouping functions.
-extension GroupIterables<E> on Iterable<E> {
+extension GroupIterable<E> on Iterable<E> {
 
   /// A [Group] that used to group elements in this [Iterable].
   ///
