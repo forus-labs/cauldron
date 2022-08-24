@@ -25,7 +25,7 @@ class Order<E, T extends Comparable<Object>> {
   /// **Implementation details: **
   /// This implementation assumes that computing each value for comparison is inexpensive. Under this assumption, it is
   /// more beneficial to recompute each value than maintain a map/list of entries.
-  List<E> ascending() => _iterable.toList()..sort((a, b) => _function(a).compareTo(_function(b)));
+  List<E> get ascending => _iterable.toList()..sort((a, b) => _function(a).compareTo(_function(b)));
 
   /// Returns a list sorted by the values of the function on elements, in descending order.
   ///
@@ -42,7 +42,7 @@ class Order<E, T extends Comparable<Object>> {
   /// **Implementation details: **
   /// This implementation assumes that computing each value for comparison is inexpensive. Under this assumption, it is
   /// more beneficial to recompute each value than maintain a map/list of entries.
-  List<E> descending() => _iterable.toList()..sort((a, b) => _function(b).compareTo(_function(a)));
+  List<E> get descending => _iterable.toList()..sort((a, b) => _function(b).compareTo(_function(a)));
 
   /// The element with the minimum value of the function on all elements; otherwise returns `null` if empty.
   ///
@@ -125,5 +125,5 @@ class Foo {
 }
 
 void a() {
-  final map = [Foo('A'), Foo('B'), Foo('C')].order(by: (foo) => foo.id).max;
+  final map = [Foo('A'), Foo('B'), Foo('C')].order(by: (foo) => foo.id).descending;
 }
