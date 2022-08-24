@@ -4,6 +4,9 @@
 typedef Group<E> = Iterable<E> Function();
 
 /// Provides functions for grouping elements in an [Iterable].
+///
+/// The functions provided are meant for aggregating several elements by the same key, (1:N). It is recommended to use
+/// `Iterables.preimage(...)` instead if each key is mostly mapped to one element, (1:1).
 extension Groups<E> on Group<E> {
 
   /// Groups the elements in an [Iterable] by the returned values of the given function. The grouped elements are subsequently
@@ -62,7 +65,7 @@ extension Groups<E> on Group<E> {
 }
 
 /// Provides functions for accessing grouping functions.
-extension GroupIterable<E> on Iterable<E> {
+extension GroupableIterable<E> on Iterable<E> {
 
   /// A [Group] that used to group elements in this [Iterable].
   ///
