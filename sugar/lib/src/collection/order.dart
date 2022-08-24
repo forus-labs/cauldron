@@ -115,15 +115,3 @@ extension OrderableIterable<E> on Iterable<E> {
   Order<E, T> order<T extends Comparable<Object>>({required T Function(E element) by}) => Order(this, by);
 
 }
-
-
-
-class Foo {
-  final String id;
-
-  Foo(this.id);
-}
-
-void a() {
-  final map = [Foo('A'), Foo('B'), Foo('C')].order(by: (foo) => foo.id).descending;
-}
