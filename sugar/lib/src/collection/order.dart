@@ -1,6 +1,8 @@
 /// Represents an intermediate operation used in the ordering an [Iterable].
 ///
 /// This class contains several ordering-related functions that may be subsequently chained.
+///
+/// See `ComparableIterables` for working with types that extend [Comparable].
 class Order<E, T extends Comparable<Object>> {
 
   final Iterable<E> _iterable;
@@ -18,7 +20,7 @@ class Order<E, T extends Comparable<Object>> {
   ///   Foo(this.id);
   /// }
   ///
-  /// final list = [Foo('B'), Foo('A'), Foo('C')].order(by: (foo) => foo.id).ascending();
+  /// final list = [Foo('B'), Foo('A'), Foo('C')].order(by: (foo) => foo.id).ascending;
   /// print(list); // [ Foo('A'), Foo('B'), Foo('C') ]
   /// ```
   ///
@@ -36,7 +38,7 @@ class Order<E, T extends Comparable<Object>> {
   ///   Foo(this.id);
   /// }
   ///
-  /// final list = [Foo('B'), Foo('A'), Foo('C')].order(by: (foo) => foo.id).descending();
+  /// final list = [Foo('B'), Foo('A'), Foo('C')].order(by: (foo) => foo.id).descending;
   /// print(list); // [ Foo('C'), Foo('B'), Foo('A') ]
   /// ```
   /// **Implementation details: **
@@ -109,6 +111,8 @@ class Order<E, T extends Comparable<Object>> {
 }
 
 /// Provides functions for ordering an [Iterable].
+///
+/// See `ComparableIterables` for working with types that extend [Comparable].
 extension OrderableIterable<E> on Iterable<E> {
 
   /// Creates an ordering on this [Iterable] using the given function.
