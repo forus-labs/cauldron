@@ -8,7 +8,7 @@ extension Lists<E> on List<E> {
   bool has({required int index}) => 0 <= index && index < length;
 
   /// Inserts this list between the given elements.
-  void between(E first, {required E and}) => this..insert(0, first)..add(and);
+  void between(E first, {required E and}) => this..insert(0, first)..add(and); // This method can be better written.
 
   /// Inserts the given element between each element in this list.
   void space({required E by}) {

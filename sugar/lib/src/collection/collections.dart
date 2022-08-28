@@ -1,7 +1,10 @@
 /// Returns true if the given [Iterable]s have no elements in common.
+///
+/// **Implementation details: **
+/// This implementation assumes that the given iterables have efficient length computations, i.e. the length is cached.
+/// This is true for most standard library collections.
 bool disjoint<E>(Iterable<E> a, Iterable<E> b) {
-  // This implementation is borrowed from Java's Collections.disjoint(...) method. It assumes that the given iterables
-  // have efficient length computations, i.e. the length is cached. This is true for most standard library collections.
+  // This implementation is borrowed from Java's Collections.disjoint(...) method.
   var iterable = a;
   var contains = b;
 
@@ -30,7 +33,3 @@ bool disjoint<E>(Iterable<E> a, Iterable<E> b) {
 
   return true;
 }
-
-shuffle
-
-reverse()

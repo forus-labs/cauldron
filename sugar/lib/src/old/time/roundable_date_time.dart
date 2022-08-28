@@ -29,7 +29,7 @@ mixin RoundableDateTime<T extends RoundableDateTime<T>> implements DateTime {
         return of(year, month, day, function(hour, value), minute, second, millisecond, microsecond);
       case TimeUnit.minute:
         return of(year, month, day, hour, function(minute, value), second, millisecond, microsecond);
-      case TimeUnit.second:
+      case TimeUnit._second:
         return of(year, month, day, hour, minute, function(second, value), millisecond, microsecond);
       case TimeUnit.millisecond:
         return of(year, month, day, hour, minute, second, function(millisecond, value), microsecond);
@@ -70,7 +70,7 @@ extension DefaultRoundableDate on DateTime {
         return _of(year, month, day, function(hour, value), minute, second, millisecond, microsecond);
       case TimeUnit.minute:
         return _of(year, month, day, hour, function(minute, value), second, millisecond, microsecond);
-      case TimeUnit.second:
+      case TimeUnit._second:
         return _of(year, month, day, hour, minute, function(second, value), millisecond, microsecond);
       case TimeUnit.millisecond:
         return _of(year, month, day, hour, minute, second, function(millisecond, value), microsecond);

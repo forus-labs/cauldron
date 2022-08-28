@@ -7,6 +7,10 @@ T min<T extends Comparable<Object>>(T a, T b) => a is num ? math.min(a, b as num
 /// Returns the greater of two [Comparable]s.
 T max<T extends Comparable<Object>>(T a, T b) => a is num ? math.max(a, b as num ) as T : a.compareTo(b) == 1 ? a : b;
 
+// reverse
+
+// by value
+
 /// Provides overloads for comparison operators, i.e. `<`.
 ///
 /// **Contract: **

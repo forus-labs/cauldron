@@ -77,7 +77,7 @@ class Time with Relatable<Time> implements Comparable<Time> {
         return Time(function(hour, value), minute, second, millisecond, microsecond);
       case TimeUnit.minute:
         return Time(hour, function(minute, value), second, millisecond, microsecond);
-      case TimeUnit.second:
+      case TimeUnit._second:
         return Time(hour, minute, function(second, value), millisecond, microsecond);
       case TimeUnit.millisecond:
         return Time(hour, minute, second, function(millisecond, value), microsecond);
