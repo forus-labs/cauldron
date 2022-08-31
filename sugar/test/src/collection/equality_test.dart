@@ -1,10 +1,9 @@
-
 import 'package:sugar/collection.dart';
 import 'package:test/test.dart';
 
 void main() {
 
-  group('DeepIterableEquality', () {
+  group('DeepEqualityIterable', () {
     test('list equals other list', () => expect([1].equals([1]), true));
 
     test('list not equal set', () => expect([1].equals({1}), false));
@@ -14,7 +13,7 @@ void main() {
     test('list hash not equals other hash', () => expect([1].hashValue, isNot([2].hashValue)));
   });
 
-  group('DeepMapEquality', () {
+  group('DeepEqualityMap', () {
     test('map equals other map', () => expect({1: 2}.equals({1: 2}), true));
 
     test('map not equals other map', () => expect({1: 2}.equals({1: 3}), false));

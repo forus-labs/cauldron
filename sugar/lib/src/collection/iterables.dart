@@ -38,10 +38,6 @@ extension Iterables<E> on Iterable<E> {
   /// ```
   Map<K, V> toMap<K, V>(K Function(E element) key, V Function(E element) value) => { for (final element in this) key(element): value(element) };
 
-  // chunked(size)
-
-
-
 
   /// The first element, or `null` if this [Iterable] is empty.
   ///
@@ -83,7 +79,7 @@ extension Iterables<E> on Iterable<E> {
 
 
 /// Provides functions for working with nested [Iterable]s.
-extension IterableIterables<E> on Iterable<Iterable<E>> {
+extension IterableIterable<E> on Iterable<Iterable<E>> {
 
   /// Returns a [Iterable] which contains elements in all nested [Iterable]s in this [Iterable].
   ///

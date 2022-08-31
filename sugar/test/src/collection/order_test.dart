@@ -1,4 +1,4 @@
-import 'package:sugar/src/collection/order.dart';
+import 'package:sugar/collection.dart';
 import 'package:test/test.dart';
 
 class Foo {

@@ -4,7 +4,7 @@ import 'package:sugar/collection.dart';
 
 void main() {
 
-  group('ComparableIterables', () {
+  group('ComparableIterable', () {
     group('min', () {
       test('empty', () => expect(<String>[].min, null));
 
@@ -30,7 +30,7 @@ void main() {
     });
   });
 
-  group('NumberIterables', () {
+  group('ComparableNumberIterable', () {
     group('ints', () {
       group('min', () {
         test('empty', () => expect(<int>[].min, null));

@@ -59,17 +59,18 @@ class Order<E, T extends Comparable<Object>> {
   /// print(min); // Foo('A')
   /// ```
   E? get min {
-    if (_iterable.isEmpty) {
+    final iterator = _iterable.iterator;
+    if (!iterator.moveNext()) {
       return null;
     }
 
-    var min = _iterable.first;
+    var min = iterator.current;
     var minValue = _function(min);
 
-    for (final element in _iterable.skip(1)) {
-      final value = _function(element);
+    while (iterator.moveNext()) {
+      final value = _function(iterator.current);
       if (minValue.compareTo(value) > 0) {
-        min = element;
+        min = iterator.current;
         minValue = value;
       }
     }
@@ -90,17 +91,18 @@ class Order<E, T extends Comparable<Object>> {
   /// print(min); // Foo('C')
   /// ```
   E? get max {
-    if (_iterable.isEmpty) {
+    final iterator = _iterable.iterator;
+    if (!iterator.moveNext()) {
       return null;
     }
 
-    var max = _iterable.first;
+    var max = iterator.current;
     var maxValue = _function(max);
 
-    for (final element in _iterable.skip(1)) {
-      final value = _function(element);
+    while (iterator.moveNext()) {
+      final value = _function(iterator.current);
       if (maxValue.compareTo(value) < 0) {
-        max = element;
+        max = iterator.current;
         maxValue = value;
       }
     }

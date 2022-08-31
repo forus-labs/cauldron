@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:sugar/core.dart';
 
 /// Provides functions for determining the deep equality of [Iterable]s.
-extension DeepIterableEquality on Iterable<Object?> {
+extension DeepEqualityIterable on Iterable<Object?> {
 
   /// Determines if this iterable and [other] are deeply equal. A list is only always equal to a list. Likewise for sets.
   /// To be equal, all other iterables must have the same order.
@@ -27,7 +27,7 @@ extension DeepIterableEquality on Iterable<Object?> {
 }
 
 /// Provides functions for determining the deep equality of [Map]s.
-extension DeepMapEquality on Map<Object?, Object?> {
+extension DeepEqualityMap on Map<Object?, Object?> {
 
   /// Determines if this map and [other] are deeply equal.
   ///

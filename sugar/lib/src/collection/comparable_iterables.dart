@@ -1,7 +1,7 @@
 /// Provides functions for working with [Iterable]s of [Comparable]s.
 ///
 /// See `OrderableIterable` for working with types that don't extend [Comparable].
-extension ComparableIterables<E extends Comparable<Object>> on Iterable<E> {
+extension ComparableIterable<E extends Comparable<Object>> on Iterable<E> {
 
   /// The smallest element in this [Iterable] or `null` if empty.
   ///
@@ -51,8 +51,8 @@ extension ComparableIterables<E extends Comparable<Object>> on Iterable<E> {
 
 /// Provides functions for working with [Iterable]s of [num]s.
 ///
-/// This is a specialized version of [ComparableIterables] since [num]s require special handling of [double.nan].
-extension NumberIterables<E extends num> on Iterable<E> {
+/// This is a specialized version of [ComparableIterable] since [num]s require special handling of [double.nan].
+extension ComparableNumberIterable<E extends num> on Iterable<E> {
 
   /// The smallest element in this [Iterable] or `null` if empty. [double.nan] will always be returned if present in this
   /// [Iterable].

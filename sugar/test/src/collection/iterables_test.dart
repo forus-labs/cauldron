@@ -73,7 +73,7 @@ void main() {
     });
   });
 
-  group('IterableIterables', () {
+  group('IterableIterable', () {
     group('flatten(...)', () {
       test('empty', () => expect([[]].flatten().toList(), []));
 
