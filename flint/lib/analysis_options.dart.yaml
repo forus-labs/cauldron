@@ -145,6 +145,7 @@ linter:
     - unnecessary_late
     - unnecessary_new
     - unnecessary_null_aware_assignments
+    - unnecessary_null_aware_operator_on_extension_on_nullable
     - unnecessary_null_in_if_null_operators
     - unnecessary_overrides
     - unnecessary_parenthesis
@@ -153,6 +154,7 @@ linter:
     - unnecessary_string_escapes
     - unnecessary_string_interpolations
     - unnecessary_this
+    - unnecessary_to_list_in_spreads
     - unrelated_type_equality_checks
     - unsafe_html
     - use_enums
@@ -169,7 +171,6 @@ linter:
     - use_to_and_as_if_applicable
     - valid_regexps
     - void_checks
-
 ignore:
   - always_declare_return_types
   - always_put_required_named_parameters
@@ -184,6 +185,7 @@ ignore:
   - depend_on_referenced_packages
   - diagnostic_describe_all_properties
   - directives_ordering
+  - discarded_futures
   - flutter_style_todos
   - lines_longer_than_80_chars
   - no_default_cases

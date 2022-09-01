@@ -1,3 +1,9 @@
+## 2.5.0 (01/09/2022)
+This update focuses on lint rules introduced in Dart 2.18.
+
+- Add `unnecessary_null_aware_operator_on_extension_on_nullable`
+- Add `unnecessary_to_list_in_spreads`
+
 ## 2.4.0 (12/05/2022)
 This update focuses on lint rules introduced in Dart 2.17.
 
