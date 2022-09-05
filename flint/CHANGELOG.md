@@ -1,3 +1,8 @@
+## 2.5.2 (05/09/2022)
+This update removes `prefer_int_literals`, see https://github.com/dart-lang/linter/issues/3657.
+
+- Remove `prefer_int_literals`
+
 ## 2.5.1 (05/09/2022)
 This update adds `depend_on_referenced_packages` which was accidentally omitted from the previous release.
 
