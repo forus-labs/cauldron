@@ -1,3 +1,8 @@
+## 2.5.1 (05/09/2022)
+This update adds `depend_on_referenced_packages` which was accidentally omitted from the previous release.
+
+- Add `depend_on_referenced_packages`
+
 ## 2.5.0 (01/09/2022)
 This update focuses on lint rules introduced in Dart 2.18.
 
