@@ -1,3 +1,0 @@
-// sum by
-
-// average by

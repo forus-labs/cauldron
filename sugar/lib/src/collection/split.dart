@@ -19,7 +19,7 @@ class Split<E> {
   /// print(iterable); // [[1, 2], [3, 4], [5]]
   /// ```
   @Throws({RangeError})
-  @lazy Iterable<List<E>> by({required int size}) => window(size: size, by: size, partial: true);
+  @lazy Iterable<List<E>> by({required int size}) => window(length: size, by: size, partial: true);
 
   /// Splits the elements this [Iterable] into [List]s before elements that match the given predicate. Any final elements
   /// are emitted at the end.
@@ -79,42 +79,43 @@ class Split<E> {
   }
 
 
-  /// Returns an [Iterable] where each element is a sliding window of elements in this [Iterable]. A window's size is defined by
-  /// [size] while the increment of each window is defined by [by]. Whether partial windows are returned is defined by [partial].
+  /// Returns an [Iterable] where each element is a sliding window of elements in this [Iterable]. A window's length is defined by
+  /// [length] while the increment of each window is defined by [by]. Whether partial windows are returned is defined by [partial].
   ///
   /// **Contract: **
-  /// Both [size] and [by] must be greater than 0. A [RangeError] will otherwise be thrown.
+  /// Both [length] and [by] must be greater than 0. A [RangeError] will otherwise be thrown.
   ///
   /// ```dart
   /// // Overlapping windows
-  /// final iterable = [1, 2, 3, 4, 5].split.window(size: 3, by: 2);
+  /// final iterable = [1, 2, 3, 4, 5].split.window(length: 3, by: 2);
   /// print(iterable); // [[1, 2, 3], [3, 4, 5]]
   ///
   /// // Non-overlapping windows
-  /// final iterable = [1, 2, 3, 4, 5].split.window(size: 2, by: 3);
+  /// final iterable = [1, 2, 3, 4, 5].split.window(length: 2, by: 3);
   /// print(iterable); // [[1, 2], [4, 5]]
   ///
   ///
   /// // No partial windows
-  /// final iterable = [1, 2, 3, 4].split.window(size: 3, by: 2);
+  /// final iterable = [1, 2, 3, 4].split.window(length: 3, by: 2);
   /// print(iterable); // [[1, 2, 3]]
   ///
   /// // Partial windows
-  /// final iterable = [1, 2, 3, 4].split.window(size: 3, by: 2, partial: true);
+  /// final iterable = [1, 2, 3, 4].split.window(length: 3, by: 2, partial: true);
   /// print(iterable); // [[1, 2, 3], [3, 4]]
   /// ```
   @Throws({RangeError})
-  @lazy Iterable<List<E>> window({required int size, int by = 1, bool partial = false}) sync* {
-    RangeError.checkNotNegative(size, 'size');
-    RangeError.checkNotNegative(by, 'by');
+  @lazy Iterable<List<E>> window({required int length, int by = 1, bool partial = false}) sync* {
+    RangeError.checkValidRange(1, null, length);
+    RangeError.checkValidRange(1, null, by);
 
     final iterator = _iterable.iterator;
     final window = <E>[];
-    final overlap = max<int>(0, size - by);
-    final unused = size - overlap;
+    final overlap = max(0, length - by);
+    final skip = max(0, by - length);
+    final unused = length - overlap;
 
     while (true) {
-      for (var i = window.length; i < size; i++) {
+      for (var i = window.length; i < length; i++) {
         if (!iterator.moveNext()) {
           if (partial && overlap < window.length) {
             yield [...window];
@@ -129,6 +130,12 @@ class Split<E> {
       yield [...window];
 
       window.removeRange(0, unused);
+
+      for (var i = 0; i < skip; i++) {
+        if (!iterator.moveNext()) {
+          return;
+        }
+      }
     }
   }
 

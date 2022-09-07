@@ -1,7 +1,27 @@
-/// Provides functions for working with [Iterable]s of [Comparable]s.
+/// Provides aggregate functions for [Iterable]s.
+extension AggregateIterable<E> on Iterable<E> {
+
+
+  double average(num Function(E element) function) => sum(function) / length;
+
+  /// Computes the sum of values by applying given [function] on all elements, starting with the given initial value,
+  /// or 0 if unspecified.
+  R sum<R extends num>(R Function(E element) function, {R? initial}) {
+    var sum = initial ?? 0;
+    for (final element in this) {
+      sum += function(element);
+    }
+
+    return sum as R;
+  }
+
+}
+
+
+/// Provides aggregate functions for [Iterable]s of [Comparable]s.
 ///
 /// See `OrderableIterable` for working with types that don't extend [Comparable].
-extension ComparableIterable<E extends Comparable<Object>> on Iterable<E> {
+extension AggregateComparableIterable<E extends Comparable<Object>> on Iterable<E> {
 
   /// The smallest element in this [Iterable] or `null` if empty.
   ///
@@ -49,10 +69,32 @@ extension ComparableIterable<E extends Comparable<Object>> on Iterable<E> {
 
 }
 
-/// Provides functions for working with [Iterable]s of [num]s.
+/// Provides aggregate functions for [Iterable]s of [num]s.
 ///
-/// This is a specialized version of [ComparableIterable] since [num]s require special handling of [double.nan].
-extension ComparableNumberIterable<E extends num> on Iterable<E> {
+/// This is a specialized version of [AggregateIterable] since [num]s require special handling of [double.nan].
+extension AggregateNumberIterable<E extends num> on Iterable<E> {
+
+  /// The average of all elements in this [Iterable].
+  ///
+  /// ```dart
+  /// print([1, 2, 3].average)); // 2.0
+  /// ```
+  double get average => sum / length;
+
+  /// The sum of all elements in this [Iterable].
+  ///
+  /// ```dart
+  /// print([1, 2, 3].sum); // 6
+  /// ```
+  E get sum {
+    num sum = 0;
+    for (final element in this) {
+      sum += element;
+    }
+
+    return sum as E;
+  }
+
 
   /// The smallest element in this [Iterable] or `null` if empty. [double.nan] will always be returned if present in this
   /// [Iterable].
