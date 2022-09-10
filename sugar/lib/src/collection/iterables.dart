@@ -1,4 +1,5 @@
 import 'package:sugar/core.dart';
+import 'package:sugar/collection.dart';
 
 /// Provides functions for working with iterables.
 extension Iterables<E> on Iterable<E> {
@@ -7,7 +8,7 @@ extension Iterables<E> on Iterable<E> {
   /// association will be overridden by a newer association if duplicate keys exist.
   ///
   /// This function is meant for mapping a single key to a single element in this iterable, (1:1). For aggregating several
-  /// elements by the same key, (1:N), it is recommended to use the functions in `Group` instead.
+  /// elements by the same key, (1:N), it is recommended to use the functions in [Group] instead.
   ///
   /// ```dart
   /// class Foo {

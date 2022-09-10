@@ -1,7 +1,9 @@
+import 'package:sugar/collection.dart';
+
 /// An intermediate operation for grouping elements in an [Iterable]. Provides functions for grouping elements in an [Iterable].
 ///
 /// The functions provided are meant for aggregating several elements by the same key, (1:N). It is recommended to use
-/// `Iterables.associate(...)` instead if each key is mostly mapped to one element, (1:1).
+/// [Iterables.associate] instead if each key is mostly mapped to one element, (1:1).
 class Group<E> {
 
   final Iterable<E> _iterable;
@@ -17,6 +19,10 @@ class Group<E> {
   ///
   /// print(counts); // {1: 2, 2: 3}
   /// ```
+  ///
+  /// **Implementation details: **
+  /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
+  /// recompute each [K] than maintain a map/list of [K]s.
   Map<K, V> by<K, V>(K Function(E element) by, {required V Function(V? previous, E current) as}) {
     final results = <K, V>{};
     for (final element in _iterable) {
@@ -35,6 +41,10 @@ class Group<E> {
   ///
   /// print(aggregate); // {1: ['a', 'b'], 2: ['aa', 'bb', 'cc']}
   /// ```
+  ///
+  /// **Implementation details: **
+  /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
+  /// recompute each [K] than maintain a map/list of [K]s.
   Map<K, List<E>> lists<K>({required K Function(E element) by}) {
     final results = <K, List<E>>{};
     for (final element in _iterable) {
@@ -52,6 +62,10 @@ class Group<E> {
   ///
   /// print(aggregate); // {1: {'a', 'b'}, 2: {'aa', 'bb', 'cc'}}
   /// ```
+  ///
+  /// **Implementation details: **
+  /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
+  /// recompute each [K] than maintain a map/list of [K]s.
   Map<K, Set<E>> sets<K>({required K Function(E element) by}) {
     final results = <K, Set<E>>{};
     for (final element in _iterable) {

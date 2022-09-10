@@ -12,6 +12,7 @@ extension DeepEqualityIterable on Iterable<Object?> {
   ///
   /// **Contract: **:
   /// Both this list and [other] may not contain itself or the other value. Doing so will result in a [StackOverflowError].
+  ///
   /// ```dart
   /// final a = [];
   /// a.add(a);
@@ -35,6 +36,7 @@ extension DeepEqualityMap on Map<Object?, Object?> {
   ///
   /// **Contract: **:
   /// Both this map and [other] may not contain itself or the other value. Doing so will result in a [StackOverflowError].
+  ///
   /// ```dart
   /// final a = <int, dynamic>{};
   /// a.add(a);
@@ -55,8 +57,7 @@ extension Equality on Never {
   /// Determines if [a] and [b] are deeply equal. This function works on lists, maps, sets, iterables and map entries.
   /// A list is only always equal to a list. To be equal, all other iterables must have the same order.
   ///
-  /// `DeepIterableEquality.equals(...)` and `DeepMapEquality.equals(...)` should be preferred when working directly with
-  /// collections.
+  /// [DeepEqualityIterable.equals] and [DeepEqualityMap.equals] should be preferred when working directly with collections.
   ///
   /// **Contract: **:
   /// Both [a] and [b] may not contain itself or the other given value. Doing so will result in a [StackOverflowError].
@@ -145,8 +146,7 @@ extension HashCodes on Never {
 
   /// Computes a deep hash code for the given [value]. This function works on lists, maps, sets, iterables and map entries.
   ///
-  /// `DeepIterableEquality.hashValue` and `DeepMapEquality.hashValue` should be preferred when working directly with
-  /// collections.
+  /// [DeepEqualityIterable.hashValue] and [DeepEqualityMap.hashValue] should be preferred when working directly with collections.
   ///
   /// **Contract: **:
   /// [value] may not contain itself. Doing so will result in a [StackOverflowError].

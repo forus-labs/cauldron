@@ -5,6 +5,7 @@ T identity<T>(T value) => value;
 bool nonNull(Object? value) => value != null;
 
 void a() {
+  [].
   [].where(not(nullable));
 }
 

@@ -1,8 +1,10 @@
+import 'package:sugar/collection.dart';
+
 /// Represents an intermediate operation used in the ordering an [Iterable].
 ///
 /// This class contains several ordering-related functions that may be subsequently chained.
 ///
-/// See `ComparableIterables` for working with types that extend [Comparable].
+/// See [AggregateComparableIterable] for directly ordering types that extend [Comparable].
 class Order<E, T extends Comparable<Object>> {
 
   final Iterable<E> _iterable;
@@ -11,7 +13,7 @@ class Order<E, T extends Comparable<Object>> {
   /// Creates an [Order] on the given iterable using the given function.
   Order(this._iterable, this._function);
 
-  /// Returns a list sorted by the values of the function on elements, in ascending order.
+  /// A list sorted according to the values returned by this [Order]'s function, in ascending order.
   ///
   /// ```dart
   /// class Foo {
@@ -29,7 +31,7 @@ class Order<E, T extends Comparable<Object>> {
   /// more beneficial to recompute each value than maintain a map/list of entries.
   List<E> get ascending => _iterable.toList()..sort((a, b) => _function(a).compareTo(_function(b)));
 
-  /// Returns a list sorted by the values of the function on elements, in descending order.
+  /// A list sorted according to the values returned by this [Order]'s function, in descending order.
   ///
   /// ```dart
   /// class Foo {
@@ -46,7 +48,7 @@ class Order<E, T extends Comparable<Object>> {
   /// more beneficial to recompute each value than maintain a map/list of entries.
   List<E> get descending => _iterable.toList()..sort((a, b) => _function(b).compareTo(_function(a)));
 
-  /// The element with the minimum value of the function on all elements; otherwise returns `null` if empty.
+  /// The element with the minimum value returned by this [Order]'s function, or `null` if the [Iterable] is empty.
   ///
   /// ```dart
   /// class Foo {
@@ -78,7 +80,7 @@ class Order<E, T extends Comparable<Object>> {
     return min;
   }
 
-  /// The element with the maximum value of the function on all elements; otherwise returns `null` if empty.
+  /// The element with the maximum value returned by this [Order]'s function, or `null` if the [Iterable] is empty.
   ///
   /// ```dart
   /// class Foo {
@@ -114,7 +116,7 @@ class Order<E, T extends Comparable<Object>> {
 
 /// Provides functions for ordering an [Iterable].
 ///
-/// See `ComparableIterables` for working with types that extend [Comparable].
+/// See [AggregateComparableIterable] for working with types that extend [Comparable].
 extension OrderableIterable<E> on Iterable<E> {
 
   /// Creates an ordering on this [Iterable] using the given function.
