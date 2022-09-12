@@ -20,3 +20,7 @@ void a() {
 // nullable
 
 // between
+
+// function for breaking down Function(MapEntry<int, T>) to Function(int, T), function that returns function.
+
+R Function(MapEntry<int, E>) entry<R, E>(R Function(int, E) func) => (entry) => func(entry.key, entry.value);

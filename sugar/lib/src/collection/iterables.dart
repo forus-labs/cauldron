@@ -1,8 +1,63 @@
+import 'dart:collection';
+
 import 'package:sugar/core.dart';
 import 'package:sugar/collection.dart';
 
 /// Provides functions for working with iterables.
 extension Iterables<E> on Iterable<E> {
+
+  /// Returns an [Iterable] that contains only distinct elements.
+  ///
+  /// Two elements are considered distinct if the values returned by [by] are not equal according to [Equality.deep].
+  ///
+  /// **Note: **
+  /// When this [Iterable] contains multiple elements with the same value, only the first element is returned.
+  /// Thus, this operation is not idempotent if this [Iterable] is unordered, i.e. [HashSet].
+  ///
+  /// This means to say, a different element with the same value may be returned each time the returned [Iterable] is
+  /// iterated over.
+  ///
+  /// ```dart
+  /// class Foo {
+  ///   final String id;
+  ///   final int value;
+  ///
+  ///   Foo(this.id, this.value);
+  /// }
+  ///
+  /// final distinct = [Foo('a', 1), Foo('b', 1), Foo('c', 1), Foo('a', 2)].distinct(by: (foo) => foo.id);
+  /// print(distinct); // [Foo('a', 1), Foo('b', 1), Foo('c', 1)]
+  ///
+  /// final set = HashSet()..addAll({Foo('a', 1), Foo('b', 1), Foo('c', 1), Foo('a', 2)});
+  /// final distinct = set.distinct(by: (foo) => foo.id);
+  /// print(distinct); // Either {Foo('a', 1), Foo('b', 1), Foo('c', 1)} or {Foo('a', 2), Foo('b', 1), Foo('c', 1)}
+  /// ```
+  ///
+  /// See [Iterable.toSet] for creating a distinct [Iterable] by comparing elements.
+  Iterable<E> distinct({required Object? Function(E element) by}) sync* {
+    final existing = HashSet<Object?>(equals: Equality.deep, hashCode: HashCodes.deep);
+    for (final element in this) {
+      if (existing.add(by(element))) {
+        yield element;
+      }
+    }
+  }
+
+  /// Returns an [Iterable] that contains this [Iterable]'s elements' indexes and elements.
+  ///
+  /// ```dart
+  /// final indexed = ['a', 'b', 'c'].indexed();
+  /// print(indexed); // [MapEntry(1, 'a'), MapEntry(2, 'b'), MapEntry(3, 'c')];
+  /// ```
+  ///
+  /// See [entry] for destructing a [MapEntry] into two separate parameters.
+  Iterable<MapEntry<int, E>> indexed() sync* {
+    var count = 0;
+    for (final element in this) {
+      yield MapEntry(count++, element);
+    }
+  }
+
 
   /// Creates a map that associates a value returned by the given function with an element in this iterable. An earlier
   /// association will be overridden by a newer association if duplicate keys exist.

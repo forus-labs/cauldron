@@ -3,6 +3,9 @@ import 'package:sugar/src/collection/equality.dart';
 
 /// Provides functions for working with lists.
 extension Lists<E> on List<E> {
+  
+  insert(index, element)
+  
 
   /// Determines whether this list contains an element at the given [index].
   bool has({required int index}) => 0 <= index && index < length;

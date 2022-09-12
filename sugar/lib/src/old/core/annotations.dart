@@ -1,3 +1,4 @@
+
 import 'package:meta/meta.dart';
 
 /// Denotes that the annotated type is an annotation.

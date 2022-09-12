@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:sugar/collection.dart';
 import 'package:test/test.dart';
 
@@ -17,9 +19,51 @@ class Foo {
   String toString() => 'Foo{id: $id}';
 }
 
+class Bar {
+
+  final String id;
+  final int value;
+
+  Bar(this.id, this.value);
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is Bar && runtimeType == other.runtimeType && id == other.id && value == other.value;
+
+  @override
+  int get hashCode => id.hashCode ^ value.hashCode;
+}
+
 void main() {
   
   group('Iterables', () {
+    group('distinct(...)', () {
+      test('empty', () => expect(<Bar>[].distinct(by: (bar) => bar.id), []));
+
+      test('single', () => expect([Bar('a', 1)].distinct(by: (bar) => bar.id), [Bar('a', 1)]));
+
+      test('multiple unique values', () => expect([Bar('a', 1), Bar('b', 1), Bar('c', 1)].distinct(by: (bar) => bar.id), [Bar('a', 1), Bar('b', 1), Bar('c', 1)]));
+
+      test('multiple deeply equal values', () => expect([[1], [2], [3], [1]].distinct(by: (element) => element), [[1], [2], [3]]));
+
+      test('multiple duplicate values, well-ordered', () => expect([Bar('a', 1), Bar('b', 1), Bar('c', 1), Bar('a', 2)].distinct(by: (bar) => bar.id).toList(), [Bar('a', 1), Bar('b', 1), Bar('c', 1)]));
+
+      test('multiple duplicate values, unordered', () {
+        final set = HashSet<Bar>()..addAll({Bar('a', 1), Bar('b', 1), Bar('c', 1), Bar('a', 2)});
+        final distinct = set.distinct(by: (bar) => bar.id).toSet();
+
+        expect(distinct.containsAll({Bar('a', 1), Bar('b', 1), Bar('c', 1)}) || distinct.containsAll({Bar('a', 2), Bar('b', 1), Bar('c', 1)}), true);
+      });
+    });
+
+    group('indexed(...)', () {
+      test('empty', () => expect(<Bar>[].indexed(), []));
+
+      test('single', () => expect(['a'].indexed().toList().equals([const MapEntry(0, 'a')]), true));
+
+      test('multiple values', () => expect(['a', 'b', 'c'].indexed().toList().equals([const MapEntry(0, 'a'), const MapEntry(1, 'b'), const MapEntry(2, 'c')]), true));
+    });
+
+
     group('associate(...)', () {
       test('empty', () => expect([].associate(by: (e) => e), <dynamic, dynamic>{}));
 
