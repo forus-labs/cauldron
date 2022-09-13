@@ -51,6 +51,23 @@ extension DeepEqualityMap on Map<Object?, Object?> {
 
 }
 
+/// Provides functions for determining the deep equality of [MapEntry]s.
+extension DeepEqualityMapEntry on MapEntry<Object?, Object?> {
+
+  /// Determines if this map entry and [other] are deeply equal.
+  ///
+  /// This method is provided as an alternative to a [MapEntry]'s default identity-based `==` implementation.
+  ///
+  /// **Contract: **:
+  /// Both this entry and [other] may not contain itself or the other value. Doing so will result in a [StackOverflowError].
+  @Possible({StackOverflowError}, when: 'either a or b contains itself or the other')
+  bool equals(Object? other) => Equality.deep(this, other);
+
+  /// The deep hash-code of this list.
+  int get hashValue => HashCodes.deep(this);
+
+}
+
 /// Provides functions for determining the equality of objects.
 extension Equality on Never {
 

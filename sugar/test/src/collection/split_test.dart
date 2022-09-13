@@ -2,21 +2,6 @@ import 'package:sugar/collection.dart';
 import 'package:test/test.dart';
 
 void main() {
-  Iterable<E> wrap<E>(Iterable<E> iterable) sync* {
-    var count = 0;
-    for (final e in iterable) {
-      count++;
-      print(count);
-      yield e;
-    }
-  }
-
-  test('a', () {
-    final a = wrap([1, 2, 3, 4, 5]);
-    print(a.toList());
-    print(a.toList());
-  });
-
   group('by(...)', () {
     test('exactly', () => expect([1, 2, 3, 4, 5, 6, 7, 8, 9].split.by(size: 3), [[1, 2, 3], [4, 5, 6], [7, 8, 9]]));
 

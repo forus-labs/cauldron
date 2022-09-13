@@ -1,77 +1,53 @@
-class _Header extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final viewModel = context.watch<TodayViewModel>();
-    final date = viewModel.selectedDate.value;
-    return Header.main(
-      title: viewModel.header,
-      details: HeaderIcon(
-        icon: SvgIcons.application.plus,
-        onPressed: Sheet.of(
-          context: context,
-          title: 'Add Entry',
-          backgroundColor: context.styles.middleground.color,
-          content: ,
-        ),
-      ),
-    );
-  }
+/// Retrieves the ongoing sessions.
+Future<List<FullTimedSession>> ongoing()  => _storage.transaction((transaction) async {
+  final details = await _sessions.queryOngoing(transaction);
+  final tags = await _sessionTags.queryTags(transaction, details.keys);
+  final slices = await _slices.queryWhere(transaction, sessions: details.keys);
+  return [
+    for (final id in details.keys)
+      FullTimedSession(details: details[id]!, tags: tags[id]!, slices: slices[id]!)
+  ];
+});
+
+class Foo {
+  Foo([int? a]);
 }
 
-List<T> between<T>(List<T> list, {required List<T> insert}) => [];
+void bar(Foo Function(int) a) {
 
-class _Header extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final viewModel = context.watch<TodayViewModel>();
-    final date = viewModel.selectedDate.value;
-    return Header.main(
-      title: viewModel.header,
-      details: HeaderIcon(
-        icon: SvgIcons.application.plus,
-        onPressed: Sheet.of(
-          context: context,
-          title: 'Add Entry',
-          backgroundColor: context.styles.middleground.color,
-          content: [
-            _SheetOption(
-              title: 'Journal',
-              asset: assets.SvgIcons.prompt.journal,
-              color: context.style(const Color(0xFFD9D1FF)).color,
-              onPressed: () => context.pushRoute(
-                EditJournalRoute(
-                  record: JournalRecord(date: date, time: date),
-                  type: EditType.create,
-                ),
-              ),
-            ),
-            const SizedBox(height: 13),
-            _SheetOption(
-              title: 'Media',
-              asset: assets.SvgIcons.prompt.media,
-              color: context.style(const Color(0xFFFFE1E3)).color,
-              onPressed: () => context.pushRoute(
-                EditMediaRoute(
-                  record: MediaRecord(date: date, time: date),
-                  type: EditType.create,
-                ),
-              ),
-            ),
-            const SizedBox(height: 13),
-            _SheetOption(
-              title: 'Mood',
-              asset: assets.SvgIcons.prompt.mood,
-              color: context.style(const Color(0xFFDCECFF)).color,
-              onPressed: () => context.pushRoute(
-                EditMoodRoute(
-                  record: MoodRecord(date: date, time: date),
-                  type: EditType.create,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+}
+
+void c() {
+  bar(Foo.new);
+}
+
+
+
+Future<dynamic> a() async {
+  final details = await _sessions.queryOngoing(transaction);
+  return combine3(
+    details,
+    await _sessionTags.queryTags(transaction, details.keys),
+    await _slices.queryWhere(transaction, sessions: details.keys),
+    FullTimedSession(details: details, tags: tags, slices: slices),
+  );
+}
+
+List<R> combine3<K, V1, V2, V3>(Map<K, V1> a, Map<K, V2> b, Map<K, V3> c, R Function(V1, V2, V3) combine) {
+
+}
+
+
+void a() {
+  final list = <int>[];
+  final map = list.derive<int, String>((s) => s.length, (n) => n.toString());
+
+  final map = <String, int>{};
+  final other = { for (final a in map.values) a.toString(): a.isEven, };
+  final aewfw = map.revalue((a) => a.isEven);
+
+
+
+  combine different maps of types.
+
 }

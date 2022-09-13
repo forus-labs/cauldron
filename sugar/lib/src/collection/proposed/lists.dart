@@ -9,17 +9,6 @@ extension Lists<E> on List<E> {
 
   /// Determines whether this list contains an element at the given [index].
   bool has({required int index}) => 0 <= index && index < length;
-
-  /// Inserts this list between the given elements.
-  void between(E first, {required E and}) => this..insert(0, first)..add(and); // This method can be better written.
-
-  /// Inserts the given element between each element in this list.
-  void space({required E by}) {
-    for (var i = 1; i < length; i += 2) {
-      insert(i, by);
-    }
-  }
-
   /// Swaps the elements at the given indexes.
   @Throws({RangeError}, when: 'Either a or b is < 0 or >= length')
   void swap(int a, int b) {
