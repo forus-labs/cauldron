@@ -18,7 +18,7 @@ class Split<E> {
   /// final iterable = [1, 2, 3, 4].split.by(size: 2);
   /// print(iterable); // [[1, 2], [3, 4], [5]]
   /// ```
-  @Throws({RangeError})
+  @Possible({RangeError})
   @lazy Iterable<List<E>> by({required int size}) => window(length: size, by: size, partial: true);
 
   /// Splits the elements this [Iterable] into [List]s before elements that match the given predicate. Any final elements
@@ -32,7 +32,7 @@ class Split<E> {
   /// ```
   ///
   /// See [after] for splitting elements after those that match a given predicate.
-  Iterable<List<E>> before(bool Function(E element) test) sync* {
+  @lazy Iterable<List<E>> before(bool Function(E element) test) sync* {
     final iterator = _iterable.iterator;
     if (!iterator.moveNext()) {
       return;
@@ -63,7 +63,7 @@ class Split<E> {
   /// ```
   ///
   /// See [before] for splitting elements before those that match a given predicate.
-  Iterable<List<E>> after(bool Function(E element) test) sync* {
+  @lazy Iterable<List<E>> after(bool Function(E element) test) sync* {
     List<E>? chunk;
     for (final element in _iterable) {
       (chunk ??= []).add(element);
@@ -103,7 +103,7 @@ class Split<E> {
   /// final iterable = [1, 2, 3, 4].split.window(length: 3, by: 2, partial: true);
   /// print(iterable); // [[1, 2, 3], [3, 4]]
   /// ```
-  @Throws({RangeError})
+  @Possible({RangeError})
   @lazy Iterable<List<E>> window({required int length, int by = 1, bool partial = false}) sync* {
     RangeError.checkValidRange(1, null, length);
     RangeError.checkValidRange(1, null, by);

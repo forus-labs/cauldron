@@ -19,7 +19,7 @@ extension DeepEqualityIterable on Iterable<Object?> {
   ///
   /// a.equals([]) // Throws a StackOverflowError
   /// ```
-  @Throws({StackOverflowError}, when: 'either a or b contains itself or the other')
+  @Possible({StackOverflowError}, when: 'either a or b contains itself or the other')
   bool equals(Object? other) => Equality.deep(this, other);
 
   /// The deep hash-code of this list.
@@ -43,7 +43,7 @@ extension DeepEqualityMap on Map<Object?, Object?> {
   ///
   /// a.equals(<int, dynamic>{}) // Throws a StackOverflowError
   /// ```
-  @Throws({StackOverflowError}, when: 'either a or b contains itself or the other')
+  @Possible({StackOverflowError}, when: 'either a or b contains itself or the other')
   bool equals(Object? other) => Equality.deep(this, other);
 
   /// The deep hash-code of this list.
@@ -72,7 +72,7 @@ extension Equality on Never {
   /// The default implementations of `==` is identity-based for most Dart collections. This can lead to unintuitive behaviour
   /// when comparing collections. It is natural to expect that two collections with the same elements are equal. However,
   /// using the default identity-based `==` operator, both collections are not equal.
-  @Throws({StackOverflowError}, when: 'either a or b contains itself or the other')
+  @Possible({StackOverflowError}, when: 'either a or b contains itself or the other')
   static bool deep(Object? a, Object? b) {
     if (identical(a, b)) {
       return true;
@@ -156,7 +156,7 @@ extension HashCodes on Never {
   ///
   /// HashCodes.deep(a) // Throws a StackOverflowError
   /// ```
-  @Throws({StackOverflowError}, when: 'either a or b contains itself or the other')
+  @Possible({StackOverflowError}, when: 'either a or b contains itself or the other')
   static int deep(Object? value) {
     if (value is List) {
       return _ordered(_list, value);

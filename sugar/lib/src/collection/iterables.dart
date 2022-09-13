@@ -1,12 +1,12 @@
 import 'dart:collection';
 
-import 'package:sugar/core.dart';
 import 'package:sugar/collection.dart';
+import 'package:sugar/core.dart';
 
 /// Provides functions for working with iterables.
 extension Iterables<E> on Iterable<E> {
 
-  /// Returns an [Iterable] that contains only distinct elements.
+  /// Returns a lazy [Iterable] that contains only distinct elements.
   ///
   /// Two elements are considered distinct if the values returned by [by] are not equal according to [Equality.deep].
   ///
@@ -34,7 +34,7 @@ extension Iterables<E> on Iterable<E> {
   /// ```
   ///
   /// See [Iterable.toSet] for creating a distinct [Iterable] by comparing elements.
-  Iterable<E> distinct({required Object? Function(E element) by}) sync* {
+  @lazy Iterable<E> distinct({required Object? Function(E element) by}) sync* {
     final existing = HashSet<Object?>(equals: Equality.deep, hashCode: HashCodes.deep);
     for (final element in this) {
       if (existing.add(by(element))) {
@@ -43,7 +43,7 @@ extension Iterables<E> on Iterable<E> {
     }
   }
 
-  /// Returns an [Iterable] that contains this [Iterable]'s elements' indexes and elements.
+  /// Returns a lazy [Iterable] that contains this [Iterable]'s elements' indexes and elements.
   ///
   /// ```dart
   /// final indexed = ['a', 'b', 'c'].indexed();
@@ -51,7 +51,7 @@ extension Iterables<E> on Iterable<E> {
   /// ```
   ///
   /// See [entry] for destructing a [MapEntry] into two separate parameters.
-  Iterable<MapEntry<int, E>> indexed() sync* {
+  @lazy Iterable<MapEntry<int, E>> indexed() sync* {
     var count = 0;
     for (final element in this) {
       yield MapEntry(count++, element);
@@ -137,7 +137,7 @@ extension Iterables<E> on Iterable<E> {
 /// Provides functions for working with nested [Iterable]s.
 extension IterableIterable<E> on Iterable<Iterable<E>> {
 
-  /// Returns a [Iterable] which contains elements in all nested [Iterable]s in this [Iterable].
+  /// Returns a lazy [Iterable] which contains elements in all nested [Iterable]s in this [Iterable].
   ///
   /// ```dart
   /// final list = [[1, 2], [3, 4], [5]].flatten().toList();

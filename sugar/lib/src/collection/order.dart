@@ -1,4 +1,5 @@
 import 'package:sugar/collection.dart';
+import 'package:sugar/core.dart';
 
 /// Represents an intermediate operation used in the ordering an [Iterable].
 ///
@@ -120,6 +121,6 @@ class Order<E, T extends Comparable<Object>> {
 extension OrderableIterable<E> on Iterable<E> {
 
   /// Creates an ordering on this [Iterable] using the given function.
-  Order<E, T> order<T extends Comparable<Object>>({required T Function(E element) by}) => Order(this, by);
+  @lazy Order<E, T> order<T extends Comparable<Object>>({required T Function(E element) by}) => Order(this, by);
 
 }

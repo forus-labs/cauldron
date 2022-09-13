@@ -1,4 +1,5 @@
 import 'package:sugar/collection.dart';
+import 'package:sugar/core.dart';
 
 /// An intermediate operation for grouping elements in an [Iterable]. Provides functions for grouping elements in an [Iterable].
 ///
@@ -90,6 +91,6 @@ extension GroupableIterable<E> on Iterable<E> {
   /// ```
   ///
   /// See [Group] for more information.
-  Group<E> get group => Group._(this);
+  @lazy Group<E> get group => Group._(this);
 
 }

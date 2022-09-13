@@ -1,76 +1,89 @@
 import 'package:meta/meta.dart';
+import 'package:meta/meta_meta.dart';
 
-/// Signifies that the annotated type is used as an annotation.
-@sealed class Annotation {
-  /// The syntactic locations that the annotated type may be applied to.
-  final Set<Kind> on;
-  /// Whether the annotated type may be applied to a syntactic location more than once.
-  final bool repeats;
+/// Denotes that the annotated constructor/function may throw the given errors or return the given error codes.
+///
+/// This annotation
+///
+/// Exceptions:
+/// ```dart
+/// @Possible({ArgumentError}, when: 'function is called')
+/// void foo() => throw ArgumentError();
+/// ```
+///
+/// Error codes:
+/// ```dart
+/// enum ErrorCode {
+///   invalidArgument,
+///   invalidRange,
+/// }
+///
+/// @Possible({ErrorCode.invalidArgument}, when: 'function is called')
+/// ErrorCode? foo() => ErrorCode.invalidArgument;
+/// ```
+@Target({TargetKind.function, TargetKind.method, TargetKind.getter, TargetKind.setter})
+@sealed class Possible {
 
-  /// Creates an [Annotation].
-  const Annotation({this.on = const {...Kind.values}, this.repeats = false});
-}
-
-/// The syntactic locations that an annotation may be applied to.
-enum Kind {
-  /// Annotation type declaration.
-  annotation,
-  /// Class, mixin, extension or enum declaration.
-  type,
-  /// Field declaration.
-  field,
-  /// Constructor declaration.
-  constructor,
-  /// Function declaration,
-  function,
-  /// Local variable declaration.
-  localVariable,
-  /// Parameter declaration, i.e.
-  /// ```dart
-  /// const foo = '';
-  ///
-  /// void bar(@foo String a) {}
-  /// ```
-  parameter,
-  /// Type Parameter declaration, i.e.
-  /// ```dart
-  /// const foo = '';
-  ///
-  /// class Bar<@Foo T> {}
-  /// ```
-  typeParameter,
-}
-
-
-/// Denotes the annotated constructor or function throws the given errors and exceptions.
-@Annotation(on: {Kind.constructor, Kind.function}, repeats: true)
-@sealed class Throws {
-  /// The thrown exceptions.
-  final Set<Type> exceptions;
-  /// The conditions under which [exceptions] is thrown.
+  /// The possible thrown exceptions or returned error codes.
+  final Set<Object> states;
+  /// The conditions under which [states] occur.
   final String when;
 
-  /// Creates a [Throws].
-  const Throws(this.exceptions, {this.when = ''});
+  /// Creates a [Possible] with the given parameters.
+  const Possible(this.states, {this.when = ''});
+
 }
 
-/// Denotes that the annotated location cannot be tested.
-@Annotation(on: {Kind.type, Kind.field, Kind.constructor, Kind.function})
-@sealed class Untestable {
-  /// The reason the annotated location cannot be tested.
+
+/// Denotes that the annotated location is not tested.
+///
+/// **Note: **
+/// It is recommended to use this annotation sparingly. The annotated location should always be tested instead if possible.
+///
+/// ```dart
+/// @NotTested(because: 'function is non-deterministic')
+/// int foo() => Random().nextInt(100);
+/// ```
+@Target({...TargetKind.values})
+@sealed class NotTested {
+  /// The reason the annotated location is not tested.
   final String because;
-  ///  Creates a [Untestable].
-  const Untestable({required this.because});
+  ///  Creates a [NotTested].
+  const NotTested({required this.because});
 }
 
-/// Denotes that the annotated field/function is lazily evaluated.
-@Annotation(on: {Kind.field, Kind.function})
-const lazy = Object();
 
-/// Denotes that the annotated function is/must be pure.
-@Annotation(on: {Kind.field, Kind.function, Kind.parameter, Kind.typeParameter})
-const pure = Object();
+/// Denotes that the annotated field/function/type is lazy.
+///
+/// ```dart
+/// final list = [1, 2, 3];
+/// @lazy final iterable = list.map((e) => e.toString());
+///
+/// print(iterable); ['1', '2', '3'];
+///
+/// list.add(4);
+///
+/// print(iterable); ['1', '2', '3', '4'];
+/// ```
+const lazy = _Lazy();
 
-/// Denotes that the annotated function is/may be impure.
-@Annotation(on: {Kind.field, Kind.function, Kind.parameter, Kind.typeParameter})
-const impure = Object();
+@Target({TargetKind.type, TargetKind.function, TargetKind.method, TargetKind.getter, TargetKind.setter, TargetKind.field})
+class _Lazy {
+  const _Lazy();
+}
+
+
+/// Denotes that the annotated function parameter is mutated by the function.
+///
+/// ```dart
+/// void shuffle(@mutated List<Object> list) {
+///   // shuffle the given list
+/// }
+/// ```
+const mutated = _Mutated();
+
+@Target({TargetKind.parameter})
+class _Mutated {
+  const _Mutated();
+}
+
