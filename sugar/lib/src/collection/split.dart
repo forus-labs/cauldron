@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 
 /// An intermediate operation for partitioning elements in an [Iterable]. Provides functions for splitting an [Iterable] into chunks.
@@ -19,7 +20,7 @@ class Split<E> {
   /// print(iterable); // [[1, 2], [3, 4], [5]]
   /// ```
   @Possible({RangeError})
-  @lazy Iterable<List<E>> by({required int size}) => window(length: size, by: size, partial: true);
+  @lazy @useResult Iterable<List<E>> by({required int size}) => window(length: size, by: size, partial: true);
 
   /// Splits the elements this [Iterable] into [List]s before elements that match the given predicate. Any final elements
   /// are emitted at the end.
@@ -32,7 +33,7 @@ class Split<E> {
   /// ```
   ///
   /// See [after] for splitting elements after those that match a given predicate.
-  @lazy Iterable<List<E>> before(bool Function(E element) test) sync* {
+  @lazy @useResult Iterable<List<E>> before(bool Function(E element) test) sync* {
     final iterator = _iterable.iterator;
     if (!iterator.moveNext()) {
       return;
@@ -63,7 +64,7 @@ class Split<E> {
   /// ```
   ///
   /// See [before] for splitting elements before those that match a given predicate.
-  @lazy Iterable<List<E>> after(bool Function(E element) test) sync* {
+  @lazy @useResult Iterable<List<E>> after(bool Function(E element) test) sync* {
     List<E>? chunk;
     for (final element in _iterable) {
       (chunk ??= []).add(element);
@@ -104,7 +105,7 @@ class Split<E> {
   /// print(iterable); // [[1, 2, 3], [3, 4]]
   /// ```
   @Possible({RangeError})
-  @lazy Iterable<List<E>> window({required int length, int by = 1, bool partial = false}) sync* {
+  @lazy @useResult Iterable<List<E>> window({required int length, int by = 1, bool partial = false}) sync* {
     RangeError.checkValidRange(1, null, length);
     RangeError.checkValidRange(1, null, by);
 
@@ -152,6 +153,6 @@ extension SplitIterable<E> on Iterable<E> {
   /// ```
   ///
   /// See [Split] for more information.
-  Split<E> get split => Split._(this);
+  @useResult Split<E> get split => Split._(this);
 
 }

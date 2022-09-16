@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:sugar/collection.dart';
+import 'package:sugar/core.dart';
 import 'package:test/test.dart';
 
 class Foo {

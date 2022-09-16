@@ -1,5 +1,5 @@
 import 'package:sugar/core.dart';
-import 'package:sugar/src/collection/equality.dart';
+import 'package:sugar/src/core/equality.dart';
 
 /// Provides functions for working with lists.
 extension Lists<E> on List<E> {

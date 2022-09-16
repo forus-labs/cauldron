@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:sugar/collection.dart';
 import 'package:sugar/core.dart';
 
@@ -24,7 +25,7 @@ class Group<E> {
   /// **Implementation details: **
   /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
   /// recompute each [K] than maintain a map/list of [K]s.
-  Map<K, V> by<K, V>(K Function(E element) by, {required V Function(V? previous, E current) as}) {
+  @useResult Map<K, V> by<K, V>(K Function(E element) by, {required V Function(V? previous, E current) as}) {
     final results = <K, V>{};
     for (final element in _iterable) {
       final key = by(element);
@@ -46,7 +47,7 @@ class Group<E> {
   /// **Implementation details: **
   /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
   /// recompute each [K] than maintain a map/list of [K]s.
-  Map<K, List<E>> lists<K>({required K Function(E element) by}) {
+  @useResult Map<K, List<E>> lists<K>({required K Function(E element) by}) {
     final results = <K, List<E>>{};
     for (final element in _iterable) {
       (results[by(element)] ??= []).add(element);
@@ -67,7 +68,7 @@ class Group<E> {
   /// **Implementation details: **
   /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
   /// recompute each [K] than maintain a map/list of [K]s.
-  Map<K, Set<E>> sets<K>({required K Function(E element) by}) {
+  @useResult Map<K, Set<E>> sets<K>({required K Function(E element) by}) {
     final results = <K, Set<E>>{};
     for (final element in _iterable) {
       (results[by(element)] ??= {}).add(element);
@@ -91,6 +92,6 @@ extension GroupableIterable<E> on Iterable<E> {
   /// ```
   ///
   /// See [Group] for more information.
-  @lazy Group<E> get group => Group._(this);
+  @lazy @useResult Group<E> get group => Group._(this);
 
 }

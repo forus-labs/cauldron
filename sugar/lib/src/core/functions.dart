@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 /// Represents an operation that accepts a single argument.
 typedef Consumer<T> = void Function(T);
 
@@ -7,6 +9,9 @@ typedef Predicate<T> = bool Function(T);
 /// Represents a supplier of [T]s.
 typedef Supplier<T> = T Function();
 
+/// A callback that has no arguments and returns nothing.
+typedef VoidCallback = void Function();
+
 
 /// A higher-order function that returns another function that destructs a given [MapEntry] and calls the given [function].
 ///
@@ -14,4 +19,5 @@ typedef Supplier<T> = T Function();
 /// final entries = {1: 1, 2: 3, 4: 5}.entries.where(entry((key, value) => key == value));
 /// print(entries); // [MapEntry(1, 1)]
 /// ```
+@useResult
 R Function(MapEntry<K, V>) entry<K, V, R>(R Function(K key, V value) function) => (entry) => function(entry.key, entry.value);

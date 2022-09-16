@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   meta: ^1.3.0
+  semaphore : ^0.2.1   # TODO: remove once experimentation complete
 
 dev_dependencies:
   flint: ^2.5.2

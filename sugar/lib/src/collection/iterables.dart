@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:meta/meta.dart';
 import 'package:sugar/collection.dart';
 import 'package:sugar/core.dart';
 
@@ -34,7 +35,7 @@ extension Iterables<E> on Iterable<E> {
   /// ```
   ///
   /// See [Iterable.toSet] for creating a distinct [Iterable] by comparing elements.
-  @lazy Iterable<E> distinct({required Object? Function(E element) by}) sync* {
+  @lazy @useResult Iterable<E> distinct({required Object? Function(E element) by}) sync* {
     final existing = HashSet<Object?>(equals: Equality.deep, hashCode: HashCodes.deep);
     for (final element in this) {
       if (existing.add(by(element))) {
@@ -51,7 +52,7 @@ extension Iterables<E> on Iterable<E> {
   /// ```
   ///
   /// See [entry] for destructing a [MapEntry] into two separate parameters.
-  @lazy Iterable<MapEntry<int, E>> indexed() sync* {
+  @lazy @useResult Iterable<MapEntry<int, E>> indexed() sync* {
     var count = 0;
     for (final element in this) {
       yield MapEntry(count++, element);
@@ -75,7 +76,7 @@ extension Iterables<E> on Iterable<E> {
   /// final map = [Foo('A'), Foo('B'), Foo('C')].associate(by: (foo) => foo.id);
   /// print(map); // { 'A': Foo('A'), 'B': Foo('B'), 'C': Foo('C') }
   /// ```
-  Map<R, E> associate<R>({required R Function(E element) by}) => { for (final element in this) by(element): element };
+  @useResult Map<R, E> associate<R>({required R Function(E element) by}) => { for (final element in this) by(element): element };
 
   /// Transforms this [Iterable] into a map, using [key] and [value] to produce keys and values respectively. An entry
   /// may be replaced by a later entry if they both contain the same key.
@@ -92,7 +93,7 @@ extension Iterables<E> on Iterable<E> {
   ///   (element) => element,
   /// );
   /// ```
-  Map<K, V> toMap<K, V>(K Function(E element) key, V Function(E element) value) => { for (final element in this) key(element): value(element) };
+  @useResult Map<K, V> toMap<K, V>(K Function(E element) key, V Function(E element) value) => { for (final element in this) key(element): value(element) };
 
 
   /// The first element, or `null` if this [Iterable] is empty.
@@ -102,7 +103,7 @@ extension Iterables<E> on Iterable<E> {
   ///
   /// print([].firstOrNull ?? 'something'); // 'something'
   /// ```
-  E? get firstOrNull => isNotEmpty ? first : null;
+  @useResult E? get firstOrNull => isNotEmpty ? first : null;
 
   /// The last element, or `null` if this [Iterable] is empty.
   ///
@@ -111,7 +112,7 @@ extension Iterables<E> on Iterable<E> {
   ///
   /// print([].lastOrNull ?? 'something); // 'something'
   /// ```
-  E? get lastOrNull => isNotEmpty ? last : null;
+  @useResult E? get lastOrNull => isNotEmpty ? last : null;
 
   /// The single element of this [Iterable] , or `null`.
   ///
@@ -120,7 +121,7 @@ extension Iterables<E> on Iterable<E> {
   ///
   /// print([].singleOrNull ?? 'something'); // 'something'
   /// ```
-  E? get singleOrNull {
+  @useResult E? get singleOrNull {
     final iterator = this.iterator;
     if (iterator.moveNext()) {
       final result = iterator.current;
@@ -143,7 +144,7 @@ extension IterableIterable<E> on Iterable<Iterable<E>> {
   /// final list = [[1, 2], [3, 4], [5]].flatten().toList();
   /// print(list); // [1, 2, 3, 4, 5];
   /// ```
-  @lazy Iterable<E> flatten() sync* {
+  @lazy @useResult Iterable<E> flatten() sync* {
     for (final iterable in this) {
       for (final element in iterable) {
         yield element;

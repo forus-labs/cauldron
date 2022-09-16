@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 
 /// Provides functions for determining the deep equality of [Iterable]s.
@@ -23,7 +24,7 @@ extension DeepEqualityIterable on Iterable<Object?> {
   bool equals(Object? other) => Equality.deep(this, other);
 
   /// The deep hash-code of this list.
-  int get hashValue => HashCodes.deep(this);
+  @useResult int get hashValue => HashCodes.deep(this);
 
 }
 
@@ -47,7 +48,7 @@ extension DeepEqualityMap on Map<Object?, Object?> {
   bool equals(Object? other) => Equality.deep(this, other);
 
   /// The deep hash-code of this list.
-  int get hashValue => HashCodes.deep(this);
+  @useResult int get hashValue => HashCodes.deep(this);
 
 }
 
@@ -64,7 +65,7 @@ extension DeepEqualityMapEntry on MapEntry<Object?, Object?> {
   bool equals(Object? other) => Equality.deep(this, other);
 
   /// The deep hash-code of this list.
-  int get hashValue => HashCodes.deep(this);
+  @useResult int get hashValue => HashCodes.deep(this);
 
 }
 
@@ -174,6 +175,7 @@ extension HashCodes on Never {
   /// HashCodes.deep(a) // Throws a StackOverflowError
   /// ```
   @Possible({StackOverflowError}, when: 'either a or b contains itself or the other')
+  @useResult
   static int deep(Object? value) {
     if (value is List) {
       return _ordered(_list, value);

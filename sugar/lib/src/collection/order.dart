@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:sugar/collection.dart';
 import 'package:sugar/core.dart';
 
@@ -30,7 +31,7 @@ class Order<E, T extends Comparable<Object>> {
   /// **Implementation details: **
   /// This implementation assumes that computing each value for comparison is inexpensive. Under this assumption, it is
   /// more beneficial to recompute each value than maintain a map/list of entries.
-  List<E> get ascending => _iterable.toList()..sort((a, b) => _function(a).compareTo(_function(b)));
+  @useResult List<E> get ascending => _iterable.toList()..sort((a, b) => _function(a).compareTo(_function(b)));
 
   /// A list sorted according to the values returned by this [Order]'s function, in descending order.
   ///
@@ -47,7 +48,7 @@ class Order<E, T extends Comparable<Object>> {
   /// **Implementation details: **
   /// This implementation assumes that computing each value for comparison is inexpensive. Under this assumption, it is
   /// more beneficial to recompute each value than maintain a map/list of entries.
-  List<E> get descending => _iterable.toList()..sort((a, b) => _function(b).compareTo(_function(a)));
+  @useResult List<E> get descending => _iterable.toList()..sort((a, b) => _function(b).compareTo(_function(a)));
 
   /// The element with the minimum value returned by this [Order]'s function, or `null` if the [Iterable] is empty.
   ///
@@ -61,7 +62,7 @@ class Order<E, T extends Comparable<Object>> {
   /// final min = [Foo('B'), Foo('A'), Foo('C')].order(by: (foo) => foo.id).min;
   /// print(min); // Foo('A')
   /// ```
-  E? get min {
+  @useResult E? get min {
     final iterator = _iterable.iterator;
     if (!iterator.moveNext()) {
       return null;
@@ -93,7 +94,7 @@ class Order<E, T extends Comparable<Object>> {
   /// final min = [Foo('B'), Foo('A'), Foo('C')].order(by: (foo) => foo.id).max;
   /// print(min); // Foo('C')
   /// ```
-  E? get max {
+  @useResult E? get max {
     final iterator = _iterable.iterator;
     if (!iterator.moveNext()) {
       return null;
@@ -121,6 +122,6 @@ class Order<E, T extends Comparable<Object>> {
 extension OrderableIterable<E> on Iterable<E> {
 
   /// Creates an ordering on this [Iterable] using the given function.
-  @lazy Order<E, T> order<T extends Comparable<Object>>({required T Function(E element) by}) => Order(this, by);
+  @lazy @useResult Order<E, T> order<T extends Comparable<Object>>({required T Function(E element) by}) => Order(this, by);
 
 }

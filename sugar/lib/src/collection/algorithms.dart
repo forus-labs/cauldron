@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 
 /// Returns true if the given [Iterable]s have no elements in common.
@@ -63,7 +64,7 @@ bool disjoint<E>(Iterable<E> a, Iterable<E> b) {
 /// //   ],
 /// // );
 /// ```
-List<E> separate<E>(List<E> list, {required List<E> by}) {
+@useResult List<E> separate<E>(List<E> list, {required List<E> by}) {
   // No errors are thrown if [list] or [by] is empty as it is extremely disruptive to prototyping UIs in Flutter.
   final result = <E>[];
   for (var i = 0; i < list.length; i++) {

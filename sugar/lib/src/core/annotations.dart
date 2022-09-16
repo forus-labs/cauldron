@@ -3,8 +3,6 @@ import 'package:meta/meta_meta.dart';
 
 /// Denotes that the annotated constructor/function may throw the given errors or return the given error codes.
 ///
-/// This annotation
-///
 /// Exceptions:
 /// ```dart
 /// @Possible({ArgumentError}, when: 'function is called')
@@ -86,4 +84,3 @@ const mutated = _Mutated();
 class _Mutated {
   const _Mutated();
 }
-
