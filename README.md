@@ -2,7 +2,7 @@
 
 Forus Labs' mono-repository for Dart & Flutter.
 * Common library that contains syntax sugar goodness
-* Dart Analyzer configurations that we use internally in our Dart & Flutter projects.
+* Dart Linter configurations that we use internally in our Dart & Flutter projects.
 
 [![Codecov](https://codecov.io/gh/forus-labs/cauldron/branch/master/graph/badge.svg)](https://codecov.io/gh/forus-labs/cauldron)
 
