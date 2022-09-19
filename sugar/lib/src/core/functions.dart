@@ -1,19 +1,21 @@
+import 'dart:async';
+
 import 'package:meta/meta.dart';
 
-/// Represents an operation that accepts a single argument.
+/// Ann operation that accepts a single argument and returns nothing.
 typedef Consumer<T> = void Function(T);
 
-/// Represents a predicate (boolean-valued function) of one argument.
+/// A predicate (boolean-valued function) of one argument.
 typedef Predicate<T> = bool Function(T);
 
-/// Represents a supplier of [T]s.
+/// A supplier of [T]s.
 typedef Supplier<T> = T Function();
 
 /// A callback that has no arguments and returns nothing.
-typedef VoidCallback = void Function();
+typedef Callback = FutureOr<void> Function();
 
 
-/// A higher-order function that returns another function that destructs a given [MapEntry] and calls the given [function].
+/// A higher-order function that returns another function which destructs a given [MapEntry] and calls the given [function].
 ///
 /// ```dart
 /// final entries = {1: 1, 2: 3, 4: 5}.entries.where(entry((key, value) => key == value));
