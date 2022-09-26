@@ -21,7 +21,7 @@ jobs:
         working-directory: flint
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - run: pub get
     - run: dart analyze --fatal-warnings lib
     - run: dart analyze --fatal-warnings tool

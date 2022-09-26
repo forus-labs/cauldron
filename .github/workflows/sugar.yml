@@ -20,7 +20,7 @@ jobs:
         working-directory: sugar
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: pub get
       - run: dart analyze --fatal-warnings lib
       - uses: axel-op/dart-package-analyzer@v3
@@ -33,7 +33,7 @@ jobs:
       - run: apt-get update -y
       - run: apt-get install -y lcov
       - run: lcov --remove ./coverage/lcov.info 'lib/**.g.dart' -o ./coverage/lcov.info
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v3
         with:
           files: ./sugar/coverage/lcov.info
           fail_ci_if_error: true
