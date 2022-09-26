@@ -1,0 +1,32 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "dependencyDashboard": true,
+  "addLabels": ["dependencies"],
+
+  "packageRules": [
+    {
+      "groupName": "GitHub Actions - Major Revisions",
+      "matchPaths": [".github/**"],
+      "matchUpdateTypes": ["major"]
+    },
+    {
+      "groupName": "GitHub Actions - Minor Revisions",
+      "matchPaths": [".github/**"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    },
+
+
+    {
+      "groupName": "Flint - All Revisions",
+      "matchPaths": ["flint/**"],
+      "matchUpdateTypes": ["major" ,"minor", "patch", "pin", "digest"],
+      "automerge": true
+    },
+    {
+      "groupName": "Sugar - All Revisions",
+      "matchPaths": ["sugar/**"],
+      "matchUpdateTypes": ["major", "minor", "patch", "pin", "digest"]
+    }
+  ]
+}
