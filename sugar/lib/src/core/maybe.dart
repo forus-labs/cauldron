@@ -4,6 +4,8 @@ import 'package:sugar/core.dart';
 /// A monad that may or may not contain a [T]. Every [Maybe] is either [Some] and contains a value, or [None] and does not.
 ///
 /// A [Maybe] is especially useful for representing an absence of value when [T] is nullable.
+///
+/// See [Result] for representing the result of an operation which may fail.
 @sealed abstract class Maybe<T> {
 
   /// Creates a [Maybe].
@@ -90,7 +92,6 @@ extension NonNullableMaybe<T extends Object> on Maybe<T> {
   /// final foo = const None().nullable ?? 'value';
   /// print(foo); // 'value'
   /// ```
-  @Possible({StateError})
   T? get nullable => exists ? unwrap() : null;
 
 }
@@ -156,7 +157,7 @@ class None<T> extends Maybe<T> {
   Maybe<T> map(T Function(T value) function) => const None();
 
   @override
-  T unwrap() => throw StateError('Maybe<$T> does not contain a value, try checking if it contains a value via `Maybe.exists` first.');
+  T unwrap() => throw StateError('Maybe<$T> does not contain a value. Try checking if it contains a value via `Maybe.exists` first.');
 
   @override
   bool get exists => false;
