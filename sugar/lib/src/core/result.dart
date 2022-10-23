@@ -7,25 +7,137 @@ import 'package:sugar/core.dart';
 /// programming languages, Rust and Swift.
 ///
 /// See [Maybe] for representing a value and the possible absence thereof.
-@sealed abstract class Result<S, F> {
+mixin Result<S, F> {
+
+  Result<T, F> map<T>(T Function(S success) function);
+
+  Result<S, T> mapFailure<T>(T Function(F failure) function);
+
+
+  Result<T, F> bind<T>(Result<T, F> Function(S success) function);
+
+  Result<S, T> bindFailure<T>(Result<S, T> Function(F failure) function);
+
+
+  Future<Result<T, F>> pipe<T>(Future<Result<T, F>> Function(S success) function);
+
+  Future<Result<S, T>> pipeFailure<T>(Future<Result<S, T>> Function(F failure) function);
+
 
   /// The namespace for operations that act on a successful result.
   ///
   /// ```dart
-  /// int foo(Result<int, String> result) => result.success.map((value) => value * 2).unwrap();
+  /// int foo(Result<int, String> result) => result.success.unwrap();
   ///
   /// print(foo(Success(2))); // 4
   /// ```
-  Success<S, F> get success;
+  Value<S> get success;
 
   /// The namespace for operations that act on a failing result.
   ///
   /// ```dart
-  /// int foo(Result<int, String> result) => result.success.map((value) => value * 2).unwrap();
+  /// int foo(Result<int, String> result) => result.failure.unwrap();
   ///
-  /// print(foo(Success(2))); // 4
+  /// print(foo(Failure("f"))); // "f"
   /// ```
-  Failure<S, F> get failure;
+  Value<F> get failure;
+
+}
+
+/// Represents a success.
+@immutable class Success<S, F> extends _Value<S> with Result<S, F> {
+
+  /// Creates a [Success] with the given value.
+  const Success(super.value);
+
+  @override
+  Result<T, F> map<T>(T Function(S success) function) => Success(function(_value));
+
+  @override
+  Result<S, T> mapFailure<T>(T Function(F failure) function) => Success(_value);
+
+  @override
+  Result<T, F> bind<T>(Result<T, F> Function(S success) function) => function(_value);
+
+  @override
+  Result<S, T> bindFailure<T>(Result<S, T> Function(F failure) function) => Success(_value);
+
+  @override
+  Future<Result<T, F>> pipe<T>(Future<Result<T, F>> Function(S success) function) => function(_value);
+
+  @override
+  Future<Result<S, T>> pipeFailure<T>(Future<Result<S, T>> Function(F failure) function) async => Success(_value);
+
+  @override
+  Value<S> get success => this;
+
+  @override
+  Value<F> get failure => const _Empty();
+
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is Success && Equality.deep(_value, other._value);
+
+  @override
+  int get hashCode => _value.hashCode;
+
+  @override
+  String toString() => 'Success($_value)';
+
+}
+
+/// Represents a failure.
+@immutable class Failure<S, F> extends _Value<F> with Result<S, F> {
+
+  /// Creates a [Failure] with the given value.
+  const Failure(super.value);
+
+  @override
+  Result<T, F> map<T>(T Function(S success) function) => Failure(_value);
+
+  @override
+  Result<S, T> mapFailure<T>(T Function(F failure) function) => Failure(function(_value));
+
+  @override
+  Result<T, F> bind<T>(Result<T, F> Function(S success) function) => Failure(_value);
+
+  @override
+  Result<S, T> bindFailure<T>(Result<S, T> Function(F failure) function) => function(_value);
+
+  @override
+  Future<Result<T, F>> pipe<T>(Future<Result<T, F>> Function(S success) function) async => Failure(_value);
+
+  @override
+  Future<Result<S, T>> pipeFailure<T>(Future<Result<S, T>> Function(F failure) function) => function(_value);
+
+  @override
+  Value<S> get success => const _Empty();
+
+  @override
+  Value<F> get failure => this;
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is Failure && runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => _value.hashCode;
+
+  @override
+  String toString() => 'Failure($_value)';
+}
+
+
+/// Provides functions for working with [Value] where the value is non-nullable.
+extension NonNullableValue<T extends Object> on Value<T> {
+
+  /// If a value is present, returns the value, otherwise returns [None].
+  ///
+  /// ```dart
+  /// final Result<String, int> result = Failure(404);
+  /// final foo = result.success.nullable ?? 'value';
+  /// print(foo); // 'value'
+  /// ```
+  T? get nullable => call() ? unwrap() : null;
 
 }
 
@@ -33,21 +145,22 @@ import 'package:sugar/core.dart';
 /// a [Value] is always either a [Success] or [Failure].
 @sealed abstract class Value<T> {
 
+  /// Creates a [Value].
+  const Value();
+
   /// Returns true iof this [Value] contains a value.
   ///
   /// See [callable classes](https://dart.dev/guides/language/language-tour#callable-classes) for more information.
   ///
   /// ```dart
-  /// final Result<String, int> result = Success('');
-  /// print(result.success()); // true
+  /// print( Success('')()); // true
   /// ```
   bool call();
 
   /// Returns true if this [Value] contains the give value.
   ///
   /// ```dart
-  /// final result = Success('something');
-  /// print(result.success.contains('something'); // true
+  /// print(Success('something').contains('something')); // true
   /// ```
   bool contains(T value);
 
@@ -65,281 +178,32 @@ import 'package:sugar/core.dart';
 
 }
 
-/// Provides functions for working with [Value] where the value is non-nullable.
-extension NonNullableValue<T extends Object> on Value<T> {
+class _Value<T> extends Value<T> {
+  final T _value;
 
-  /// If a value is present, returns the value, otherwise returns [None].
-  ///
-  /// ```dart
-  /// final Result<String, int> result = Failure(404);
-  /// final foo = result.success.nullable ?? 'value';
-  /// print(foo); // 'value'
-  /// ```
-  T? get nullable => call() ? unwrap() : null;
-
-}
-
-/// Represents a success.
-abstract class Success<S, F> extends Value<S> implements Result<S, F> {
-
-  /// Unwraps the given future and creates a [Success] withe the given [future]'s value.
-  static Future<Success<S, F>> of<S, F>(Future<S> future) async => Success(await future);
-
-  /// Creates a [Success] which contains the given value.
-  factory Success(S success) => _Success(success);
-
-  Success._();
-
-  /// If a [Success], return a [Result] that contains [T]. The returned [Result] is created by applying the given function
-  /// on this [Success]'s value. Otherwise returns a [Failure] with its value untouched.
-  ///
-  /// See [pipe] for an asynchronous alternative to this function.
-  ///
-  /// ```dart
-  /// final foo = Success(1);
-  /// final mappedFoo = foo.success.bind((value) => Failure(value.toString()));
-  ///
-  /// print(mappedFoo.failure.unwrap()); // '1'
-  ///
-  /// final bar = Failure('something went wrong');
-  /// final mappedBar = bar.success.bind((value) => Failure(value.toString()));
-  ///
-  /// print(mappedFoo.failure.unwrap()); // 'something went wrong'
-  /// ```
-  Result<T, F> bind<T>(Result<T, F> Function(S success) function);
-
-  /// If a [Success], produces a [Success] that contains [T]. [T] is derived by applying the given function on this [Success]'s value.
-  /// Otherwise returns a [Failure] with its value untouched.
-  ///
-  /// ```dart
-  /// final foo = Success(1);
-  /// final mappedFoo = foo.success.map((value) => value.toString());
-  ///
-  /// print(mappedFoo.success.unwrap()); // '1'
-  ///
-  /// final bar = Failure('something went wrong');
-  /// final mappedBar = bar.success.map((value) => value.toString());
-  ///
-  /// print(mappedBar.success()); // false
-  /// print(mappedBar.failure.unwrap()); // 'something went wrong'
-  /// ```
-  Result<T, F> map<T> (T Function(S success) function);
-
-  /// If a [Success], return a [Result] that contains [T]. The returned [Result] is created by applying the given async function
-  /// on this [Success]'s value. Otherwise returns a [Failure] with its value untouched.
-  ///
-  /// See [bind] for an synchronous alternative to this function.
-  ///
-  /// ```dart
-  /// Future<String> compute(int value) => Future.value(value.toString());
-  ///
-  /// final foo = Success(1);
-  /// final mappedFoo = await foo.success.pipe((value) => Failure(compute(value)));
-  ///
-  /// print(mappedFoo.failure.unwrap()); // '1'
-  ///
-  /// final bar = Failure('something went wrong');
-  /// final mappedBar = await bar.success.pipe((value) => Failure(compute(value));
-  ///
-  /// print(mappedFoo.failure.unwrap()); // 'something went wrong'
-  /// ```
-  Future<Result<T, F>> pipe<T>(Future<Result<T, F>> Function(S success) function);
-
-}
-
-/// Represents a failure.
-abstract class Failure<S, F> extends Value<F> implements Result<S, F> {
-
-  /// Unwraps the given future and creates a [Failure] withe the given [future]'s value.
-  static Future<Failure<S, F>> of<S, F>(Future<F> future) async => Failure(await future);
-
-  /// Creates a [Failure] which contains the given value.
-  factory Failure(F failure) => _Failure(failure);
-
-  Failure._();
-
-  /// If a [Failure], return a [Result] that contains [T]. The returned [Result] is created by applying the given function
-  /// on this [Failure]'s value. Otherwise returns a [Success] with its value untouched.
-  ///
-  /// See [pipe] for an asynchronous alternative to this function.
-  ///
-  /// ```dart
-  /// final foo = Failure(1);
-  /// final mappedFoo = foo.failure.bind((value) => Success(value.toString()));
-  ///
-  /// print(mappedFoo.success.unwrap()); // '1'
-  ///
-  /// final bar = Success('something went right');
-  /// final mappedBar = bar.failure.bind((value) => Success(value.toString()));
-  ///
-  /// print(mappedFoo.success.unwrap()); // 'something went right'
-  /// ```
-  Result<S, T> bind<T>(Result<S, T> Function(F failure) function);
-
-  /// If a [Failure], produces a [Failure] that contains [T]. [T] is derived by applying the given function on this [Failure]'s value.
-  /// Otherwise returns a [Success] with its value untouched.
-  ///
-  /// ```dart
-  /// final foo = Failure(1);
-  /// final mappedFoo = foo.failure.map((value) => value.toString());
-  ///
-  /// print(mappedFoo.failure.unwrap()); // '1'
-  ///
-  /// final bar = Success('something went right');
-  /// final mappedBar = bar.failure.map((value) => value.toString());
-  ///
-  /// print(mappedBar.failure()); // false
-  /// print(mappedBar.success.unwrap()); // 'something went right'
-  /// ```
-  Result<S, T> map<T> (T Function(F failure) function);
-
-  /// If a [Failure], return a [Result] that contains [T]. The returned [Result] is created by applying the given async function
-  /// on this [Failure]'s value. Otherwise returns a [Success] with its value untouched.
-  ///
-  /// See [bind] for an synchronous alternative to this function.
-  ///
-  /// ```dart
-  /// Future<String> compute(int value) => Future.value(value.toString());
-  ///
-  /// final foo = Failure(1);
-  /// final mappedFoo = await foo.failure.pipe((value) => Success(compute(value)));
-  ///
-  /// print(mappedFoo.success.unwrap()); // '1'
-  ///
-  /// final bar = Success('something went right');
-  /// final mappedBar = await bar.failure.pipe((value) => Success(compute(value));
-  ///
-  /// print(mappedFoo.success.unwrap()); // 'something went right'
-  /// ```
-  Future<Result<S, T>> pipe<T>(Future<Result<S, T>> Function(F failure) function);
-
-}
-
-
-class _Success<S, F> extends Success<S, F> {
-  final S _value;
-  final _EmptyFailure<S, F> _failure;
-
-  _Success(this._value): _failure = _EmptyFailure(), super._() {
-    _failure._success = this;
-  }
+  const _Value(this._value);
 
   @override
   bool call() => true;
 
   @override
-  bool contains(S value) => Equality.deep(_value, value);
+  bool contains(T value) => Equality.deep(value, _value);
 
   @override
-  Result<T, F> bind<T>(Result<T, F> Function(S success) function) => function(_value);
+  T unwrap() => _value;
 
-  @override
-  Result<T, F> map<T>(T Function(S success) function) => _Success(function(_value));
-
-  @override
-  Future<Result<T, F>> pipe<T>(Future<Result<T, F>> Function(S success) function) => function(_value);
-
-  @override
-  @Possible({StateError})
-  S unwrap() => _value;
-
-  @override
-  Success<S, F> get success => this;
-
-  @override
-  Failure<S, F> get failure => _failure;
 }
 
-class _EmptyFailure<S, F> extends Failure<S, F> {
-  late final _Success<S, F> _success;
-
-  _EmptyFailure(): super._();
+class _Empty<T> extends Value<T> {
+  const _Empty();
 
   @override
   bool call() => false;
 
   @override
-  bool contains(F value) => false;
+  bool contains(T value) => false;
 
   @override
-  Result<S, T> bind<T>(Result<S, T> Function(F failure) function) => _Success(_success._value);
+  T unwrap() => throw StateError('Value does not exist. Try checking if it exists first.');
 
-  @override
-  Result<S, T> map<T>(T Function(F failure) function) => _Success(_success._value);
-
-  @override
-  Future<Result<S, T>> pipe<T>(Future<Result<S, T>> Function(F failure) function) => Future.value(_Success(_success._value));
-
-  @override
-  F unwrap() => throw StateError('Result<$S, $F> is not a failure. Try checking if it is a failure first.');
-
-  @override
-  Success<S, F> get success => _success;
-
-  @override
-  Failure<S, F> get failure => this;
-}
-
-
-class _Failure<S, F> extends Failure<S, F> {
-  final F _value;
-  final _EmptySuccess<S, F> _success;
-
-  _Failure(this._value): _success = _EmptySuccess(), super._() {
-    _success._failure = this;
-  }
-
-  @override
-  bool call() => true;
-
-  @override
-  bool contains(F value) => Equality.deep(_value, value);
-
-  @override
-  Result<S, T> bind<T>(Result<S, T> Function(F failure) function) => function(_value);
-
-  @override
-  Result<S, T> map<T>(T Function(F failure) function) => _Failure(function(_value));
-
-  @override
-  Future<Result<S, T>> pipe<T>(Future<Result<S, T>> Function(F failure) function) => function(_value);
-
-  @override
-  F unwrap() => _value;
-
-  @override
-  Success<S, F> get success => _success;
-
-  @override
-  Failure<S, F> get failure => this;
-}
-
-class _EmptySuccess<S, F> extends Success<S, F> {
-  late final _Failure<S, F> _failure;
-
-  _EmptySuccess(): super._();
-
-  @override
-  bool call() => false;
-
-  @override
-  bool contains(S value) => false;
-
-  @override
-  Result<T, F> bind<T>(Result<T, F> Function(S success) function) => _Failure(_failure._value);
-
-  @override
-  Result<T, F> map<T>(T Function(S success) function) => _Failure(_failure._value);
-
-  @override
-  Future<Result<T, F>> pipe<T>(Future<Result<T, F>> Function(S success) function) => Future.value(_Failure(_failure._value));
-
-  @override
-  S unwrap() => throw StateError('Result<$S, $F> is not a success. Try checking if it is a success first.');
-
-  @override
-  Success<S, F> get success => this;
-
-  @override
-  Failure<S, F> get failure => _failure;
 }

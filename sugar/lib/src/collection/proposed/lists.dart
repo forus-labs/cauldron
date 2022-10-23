@@ -5,7 +5,13 @@ import 'package:sugar/src/core/equality.dart';
 extension Lists<E> on List<E> {
   
   insert(index, element)
-  
+
+  repeat
+
+
+  removeAll
+
+  removeAndCollect
 
   /// Determines whether this list contains an element at the given [index].
   bool has({required int index}) => 0 <= index && index < length;

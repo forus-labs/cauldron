@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 
 /// Ann operation that accepts a single argument and returns nothing.
-typedef Consumer<T> = void Function(T);
+typedef Consumer<T> = void Function(T value);
 
 /// A predicate (boolean-valued function) of one argument.
-typedef Predicate<T> = bool Function(T);
+typedef Predicate<T> = bool Function(T value);
 
 /// A supplier of [T]s.
 typedef Supplier<T> = T Function();

@@ -3,9 +3,10 @@ import 'package:sugar/core.dart';
 
 /// A monad that may or may not contain a [T]. Every [Maybe] is either [Some] and contains a value, or [None] and does not.
 ///
-/// A [Maybe] is especially useful for representing an absence of value when [T] is nullable.
+/// A [Maybe] is especially useful for representing an absence of value when [T] is nullable. Two values are considered
+/// equal if the values returned by [unwrap] are equal according to [Equality.deep].
 ///
-/// See [Result] for representing the result of an operation which may fail.
+/// See [Result] for representing either of two possible values.
 @sealed abstract class Maybe<T> {
 
   /// Creates a [Maybe].
@@ -29,24 +30,24 @@ import 'package:sugar/core.dart';
   /// final none = None().filter((string) => string == 'value');
   /// print(none); // None()
   /// ```
-  Maybe<T> filter(Predicate<T> predicate);
+  Maybe<T> where(Predicate<T> predicate);
 
-  /// If a value is present, returns the [Maybe] produced by [map], otherwise returns [None].
+  /// If a value is present, returns the [Maybe] produced by [function], otherwise returns [None].
   ///
   /// This method is similar to [Maybe.map] except that the given function returns a [Maybe] instead of [T].
   ///
   /// ```dart
-  /// final foo = Some('value').flat(map: (value) => Some('other value'));
+  /// final foo = Some('value').bind((value) => Some('other value'));
   /// print(foo); // Some('other value')
   ///
-  /// final bar = None().flat(map: (value) => Some('other value'));
+  /// final bar = None().bind((value) => Some('other value'));
   /// print(bar); // None()
   /// ```
-  Maybe<T> flat({required Maybe<T> Function(T value) map});
+  Maybe<R> bind<R>(Maybe<R> Function(T value) function);
 
   /// If a value is present, returns the value produced by [map] wrapped in a [Some], otherwise returns [None].
   ///
-  /// This method is similar to [Maybe.flat] except that the given function returns a [T] instead of [Maybe].
+  /// This method is similar to [Maybe.bind] except that the given function returns a [T] instead of [Maybe].
   ///
   /// ```dart
   /// final foo = Some('value').map((value) => Some('other value'));
@@ -55,7 +56,22 @@ import 'package:sugar/core.dart';
   /// final bar = None().map((value) => Some('other value'));
   /// print(bar); // None()
   /// ```
-  Maybe<T> map(T Function(T value) function);
+  Maybe<R> map<R>(R Function(T value) function);
+
+  /// If a value is present, returns the [Maybe] produced by [function], otherwise returns [None].
+  ///
+  /// This method is similar to [Maybe.bind] except that the given function asynchronously returns a [Maybe].
+  ///
+  /// ```dart
+  /// Future<Maybe<int>> func<T>(T value) async => 1;
+  ///
+  /// final foo = await Some('value').pipe((value) => func(value));
+  /// print(foo); // Some(0)
+  ///
+  /// final bar = await None().pipe((value) => func(value));
+  /// print(bar); // None()
+  /// ```
+  Future<Maybe<R>> pipe<R>(Future<Maybe<R>> Function(T value) function);
 
   /// If a value is present, returns the value, otherwise throws a [StateError].
   ///
@@ -98,7 +114,7 @@ extension NonNullableMaybe<T extends Object> on Maybe<T> {
 
 
 /// Represents some value of [T].
-class Some<T> extends Maybe<T> {
+@sealed class Some<T> extends Maybe<T> {
 
   final T _value;
 
@@ -110,13 +126,16 @@ class Some<T> extends Maybe<T> {
 
 
   @override
-  Maybe<T> filter(Predicate<T> predicate) => predicate(_value) ? this : None<T>();
+  Maybe<T> where(Predicate<T> predicate) => predicate(_value) ? this : None<T>();
 
   @override
-  Maybe<T> flat({required Maybe<T> Function(T value) map}) => map(_value);
+  Maybe<R> bind<R>(Maybe<R> Function(T value) function) => function(_value);
 
   @override
-  Maybe<T> map(T Function(T value) function) => Some(function(_value));
+  Maybe<R> map<R>(R Function(T value) function) => Some(function(_value));
+
+  @override
+  Future<Maybe<R>> pipe<R>(Future<Maybe<R>> Function(T value) function) => function(_value);
 
   @override
   T unwrap() => _value;
@@ -126,19 +145,19 @@ class Some<T> extends Maybe<T> {
 
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is Some && runtimeType == other.runtimeType && Equality.deep(_value, other._value);
+  bool operator ==(Object other) => identical(this, other) || other is Some && Equality.deep(_value, other._value);
 
   @override
   int get hashCode => HashCodes.deep(_value);
 
   @override
-  String toString() => 'Some{_value: $_value}';
+  String toString() => 'Some($_value)';
 
 }
 
 
 /// Represents no value.
-class None<T> extends Maybe<T> {
+@sealed class None<T> extends Maybe<T> {
 
   /// Creates a [None].
   const None();
@@ -148,13 +167,16 @@ class None<T> extends Maybe<T> {
 
 
   @override
-  Maybe<T> filter(Predicate<T> predicate) => const None();
+  Maybe<T> where(Predicate<T> predicate) => const None();
 
   @override
-  Maybe<T> flat({required Maybe<T> Function(T value) map}) => const None();
+  Maybe<R> bind<R>(Maybe<R> Function(T value) function) => const None();
 
   @override
-  Maybe<T> map(T Function(T value) function) => const None();
+  Maybe<R> map<R>(R Function(T value) function) => const None();
+
+  @override
+  Future<Maybe<R>> pipe<R>(Future<Maybe<R>> Function(T value) function) => Future.value(const None());
 
   @override
   T unwrap() => throw StateError('Maybe<$T> does not contain a value. Try checking if it contains a value via `Maybe.exists` first.');
@@ -164,12 +186,12 @@ class None<T> extends Maybe<T> {
 
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is None && runtimeType == other.runtimeType;
+  bool operator ==(Object other) => identical(this, other) || other is None;
 
   @override
   int get hashCode => 0;
 
   @override
-  String toString() => 'None{}';
+  String toString() => 'None()';
 
 }
