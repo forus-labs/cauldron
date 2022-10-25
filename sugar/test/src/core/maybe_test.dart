@@ -19,6 +19,8 @@ void main() {
 
     test('pipe', () async => expect(await const Some(1).pipe(func), const Some(1)));
 
+    test('or', () => expect(const Some('value').or(() => 1), Success<String, int>('value')));
+
     test('unwrap()', () => expect(const Some('value').unwrap(), 'value'));
 
     test('exists', () => expect(const Some('value').exists, true));
@@ -70,6 +72,8 @@ void main() {
     test('map', () => expect(const None().map((value) => value.toString()), const None()));
 
     test('pipe', () async => expect(await const None().pipe(func), const None()));
+
+    test('or', () => expect(const None<String>().or(() => 1), Failure<String, int>(1)));
 
     test('unwrap', () => expect(const None().unwrap, throwsStateError));
 

@@ -1,16 +1,16 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 
-/// A monad that may or may not contain a [T]. Every [Maybe] is either [Some] and contains a value, or [None] and does not.
+/// A monad that may or may not contain a [T]. A [Maybe] is either [Some] and contains a value, or [None] and does not.
 ///
-/// A [Maybe] is especially useful for representing an absence of value when [T] is nullable. Two values are considered
-/// equal if the values returned by [unwrap] are equal according to [Equality.deep].
+/// A [Maybe] is especially useful for representing an absence of value when [T] is nullable. Two values are equal if the
+/// values returned by [unwrap] are equal according to [Equality.deep].
 ///
 /// See [Result] for representing either of two possible values.
 @sealed abstract class Maybe<T> {
 
   /// Creates a [Maybe].
-  const Maybe();
+  const Maybe._();
 
   /// Returns true if this [Maybe] contains the given [value].
   ///
@@ -18,16 +18,16 @@ import 'package:sugar/core.dart';
   bool contains(T value);
 
 
-  /// If a value is present, and the value satisfies the given [predicate], return this [Maybe], otherwise returns [None].
+  /// If a value is present and satisfies the given [predicate], return this [Maybe], otherwise returns [None].
   ///
   /// ```dart
-  /// final foo = Some('value').filter((string) => string == 'value');
+  /// final foo = Some('value').where((string) => string == 'value');
   /// print(foo); // Some('value')
   ///
-  /// final bar = Some('value').filter((string) => string == 'other');
+  /// final bar = Some('value').where((string) => string == 'other');
   /// print(bar); // None()
   ///
-  /// final none = None().filter((string) => string == 'value');
+  /// final none = None().where((string) => string == 'value');
   /// print(none); // None()
   /// ```
   Maybe<T> where(Predicate<T> predicate);
@@ -50,28 +50,42 @@ import 'package:sugar/core.dart';
   /// This method is similar to [Maybe.bind] except that the given function returns a [T] instead of [Maybe].
   ///
   /// ```dart
-  /// final foo = Some('value').map((value) => Some('other value'));
+  /// final foo = Some('value').map((value) => 'other value');
   /// print(foo); // Some('other value')
   ///
-  /// final bar = None().map((value) => Some('other value'));
+  /// final bar = None().map((value) => 'other value');
   /// print(bar); // None()
   /// ```
   Maybe<R> map<R>(R Function(T value) function);
 
   /// If a value is present, returns the [Maybe] produced by [function], otherwise returns [None].
   ///
-  /// This method is similar to [Maybe.bind] except that the given function asynchronously returns a [Maybe].
+  /// This method is similar to [Maybe.bind] except that the given function asynchronously computes a [Maybe].
   ///
   /// ```dart
-  /// Future<Maybe<int>> func<T>(T value) async => 1;
+  /// Future<Maybe<int>> computeAsync<T>(T value) async => Some(1);
   ///
-  /// final foo = await Some('value').pipe((value) => func(value));
-  /// print(foo); // Some(0)
+  /// final foo = await Some('value').pipe(computeAsync);
+  /// print(foo); // Some(1)
   ///
-  /// final bar = await None().pipe((value) => func(value));
+  /// final bar = await None().pipe(computeAsync);
   /// print(bar); // None()
   /// ```
   Future<Maybe<R>> pipe<R>(Future<Maybe<R>> Function(T value) function);
+
+
+  /// Transforms this [Maybe] into a [Result]. [Some] is mapped to [Success] while [None] is mapped to [Failure] using
+  /// the given function.
+  ///
+  /// ```dart
+  /// final foo = await Some('value').or(() => 1);
+  /// print(foo); // Success('value')
+  ///
+  /// final bar = await None().or(() => 1);
+  /// print(bar); // Failure(1)
+  /// ```
+  Result<T, F> or<F>(F Function() failure);
+
 
   /// If a value is present, returns the value, otherwise throws a [StateError].
   ///
@@ -84,7 +98,6 @@ import 'package:sugar/core.dart';
   /// ```
   @Possible({StateError})
   T unwrap();
-
 
   /// Whether a value is present.
   ///
@@ -102,7 +115,7 @@ import 'package:sugar/core.dart';
 /// Provides functions for working with [Maybe] where the value is non-nullable.
 extension NonNullableMaybe<T extends Object> on Maybe<T> {
 
-  /// If a value is present, returns the value, otherwise returns [None].
+  /// If a value is present, returns the value, otherwise returns `null`.
   ///
   /// ```dart
   /// final foo = const None().nullable ?? 'value';
@@ -119,7 +132,7 @@ extension NonNullableMaybe<T extends Object> on Maybe<T> {
   final T _value;
 
   /// Creates [Some] with the given value.
-  const Some(this._value);
+  const Some(this._value): super._();
 
   @override
   bool contains(T value) => Equality.deep(_value, value);
@@ -136,6 +149,11 @@ extension NonNullableMaybe<T extends Object> on Maybe<T> {
 
   @override
   Future<Maybe<R>> pipe<R>(Future<Maybe<R>> Function(T value) function) => function(_value);
+
+
+  @override
+  Result<T, F> or<F>(F Function() failure) => Success(_value);
+
 
   @override
   T unwrap() => _value;
@@ -160,7 +178,7 @@ extension NonNullableMaybe<T extends Object> on Maybe<T> {
 @sealed class None<T> extends Maybe<T> {
 
   /// Creates a [None].
-  const None();
+  const None(): super._();
 
   @override
   bool contains(T value) => false;
@@ -176,7 +194,12 @@ extension NonNullableMaybe<T extends Object> on Maybe<T> {
   Maybe<R> map<R>(R Function(T value) function) => const None();
 
   @override
-  Future<Maybe<R>> pipe<R>(Future<Maybe<R>> Function(T value) function) => Future.value(const None());
+  Future<Maybe<R>> pipe<R>(Future<Maybe<R>> Function(T value) function) async => const None();
+
+
+  @override
+  Result<T, F> or<F>(F Function() failure) => Failure(failure());
+
 
   @override
   T unwrap() => throw StateError('Maybe<$T> does not contain a value. Try checking if it contains a value via `Maybe.exists` first.');

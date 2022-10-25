@@ -7,48 +7,126 @@ import 'package:sugar/core.dart';
 /// programming languages, Rust and Swift.
 ///
 /// See [Maybe] for representing a value and the possible absence thereof.
-mixin Result<S, F> {
+@sealed abstract class Result<S, F> {
 
+  const Result._();
+
+
+  /// If this [Result] is a [Success], produces a [Success] that contains a [T]. Otherwise returns a [Failure] with its [F]
+  /// untouched.
+  ///
+  /// A [T] is produced by applying the given function on this [Result]'s [S].
+  ///
+  /// ```dart
+  /// final foo = Success(1);
+  /// print(foo.map((value) => value.toString())); // Success('1')
+  ///
+  /// final bar = Failure(2);
+  /// print(bar.map((value) => value.toString())); // Failure(2)
+  /// ```
   Result<T, F> map<T>(T Function(S success) function);
 
+  /// If this [Result] is a [Failure], produces a [Failure] that contains a [T]. Otherwise returns a [Success] with its [S]
+  /// untouched.
+  ///
+  /// A [T] is produced by applying the given function on this [Result]'s [F].
+  ///
+  /// ```dart
+  /// final foo = Success(1);
+  /// print(foo.mapFailure((value) => value.toString())); // Success(1)
+  ///
+  /// final bar = Failure(2);
+  /// print(bar.mapFailure((value) => value.toString())); // Failure('2')
+  /// ```
   Result<S, T> mapFailure<T>(T Function(F failure) function);
 
 
+  /// If this [Result] is a [Success], return a [Result] produced by the give function. Otherwise returns a [Failure] with
+  /// its [F] untouched.
+  ///
+  /// See [pipe] for an asynchronous variant of this function.
+  ///
+  /// ```dart
+  /// final foo = Success(1);
+  /// print(foo.bind((value) => Failure(value.toString()))); // Failure('1')
+  ///
+  /// final bar = Failure(2)
+  /// print(bar.bind((value) => Failure(value.toString()))); // Failure(2)
+  /// ```
   Result<T, F> bind<T>(Result<T, F> Function(S success) function);
 
+  /// If this [Result] is a [Failure], return a [Result] produced by the give function. Otherwise returns a [Success] with
+  /// its [S] untouched.
+  ///
+  /// See [pipeFailure] for an asynchronous variant of this function.
+  ///
+  /// ```dart
+  /// final foo = Success(1);
+  /// print(foo.bindFailure((value) => Failure(value.toString()))); // Success(1)
+  ///
+  /// final bar = Failure(2)
+  /// print(bar.bindFailure((value) => Success(value.toString()))); // Success('2')
+  /// ```
   Result<S, T> bindFailure<T>(Result<S, T> Function(F failure) function);
 
-
+  /// If this [Result] is a [Success], return a [Result] produced by the give function. Otherwise returns a [Failure] with
+  /// its [F] untouched.
+  ///
+  /// See [bind] for a synchronous variant of this function.
+  ///
+  /// ```dart
+  /// final foo = Success(1);
+  /// print(foo.pipe((value) async => Failure(value.toString()))); // Failure('1')
+  ///
+  /// final bar = Failure(2)
+  /// print(bar.pipe((value) async => Failure(value.toString()))); // Failure(2)
+  /// ```
   Future<Result<T, F>> pipe<T>(Future<Result<T, F>> Function(S success) function);
 
+  /// If this [Result] is a [Failure], return a [Result] produced by the give function. Otherwise returns a [Success] with
+  /// its [S] untouched.
+  ///
+  /// See [bindFailure] for a synchronous variant of this function.
+  ///
+  /// ```dart
+  /// final foo = Success(1);
+  /// print(foo.pipeFailure((value) async => Failure(value.toString()))); // Success(1)
+  ///
+  /// final bar = Failure(2)
+  /// print(bar.pipeFailure((value) async => Success(value.toString()))); // Success('2')
+  /// ```
   Future<Result<S, T>> pipeFailure<T>(Future<Result<S, T>> Function(F failure) function);
 
 
-  /// The namespace for operations that act on a successful result.
+  /// Transforms this [Result] into a [Maybe]. [Success] is mapped to [Some], while [Failure] is mapped to [None].
   ///
   /// ```dart
   /// int foo(Result<int, String> result) => result.success.unwrap();
   ///
   /// print(foo(Success(2))); // 4
   /// ```
-  Value<S> get success;
+  Maybe<S> get success;
 
-  /// The namespace for operations that act on a failing result.
+  /// Transforms this [Result] into a [Maybe]. [Failure] is mapped to [Some], while [Success] is mapped to [None].
   ///
   /// ```dart
   /// int foo(Result<int, String> result) => result.failure.unwrap();
   ///
   /// print(foo(Failure("f"))); // "f"
   /// ```
-  Value<F> get failure;
+  Maybe<F> get failure;
 
 }
 
 /// Represents a success.
-@immutable class Success<S, F> extends _Value<S> with Result<S, F> {
+class Success<S, F> extends Result<S, F> {
+
+  final S _value;
+  Maybe<S>? _maybe;
 
   /// Creates a [Success] with the given value.
-  const Success(super.value);
+  Success(this._value): super._();
+
 
   @override
   Result<T, F> map<T>(T Function(S success) function) => Success(function(_value));
@@ -68,18 +146,19 @@ mixin Result<S, F> {
   @override
   Future<Result<S, T>> pipeFailure<T>(Future<Result<S, T>> Function(F failure) function) async => Success(_value);
 
-  @override
-  Value<S> get success => this;
 
   @override
-  Value<F> get failure => const _Empty();
+  Maybe<S> get success => _maybe ??= Some(_value);
+
+  @override
+  Maybe<F> get failure => const None();
 
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Success && Equality.deep(_value, other._value);
 
   @override
-  int get hashCode => _value.hashCode;
+  int get hashCode => HashCodes.deep(_value);
 
   @override
   String toString() => 'Success($_value)';
@@ -87,10 +166,14 @@ mixin Result<S, F> {
 }
 
 /// Represents a failure.
-@immutable class Failure<S, F> extends _Value<F> with Result<S, F> {
+class Failure<S, F> extends Result<S, F> {
+
+  final F _value;
+  Maybe<F>? _maybe;
 
   /// Creates a [Failure] with the given value.
-  const Failure(super.value);
+  Failure(this._value): super._();
+
 
   @override
   Result<T, F> map<T>(T Function(S success) function) => Failure(_value);
@@ -110,100 +193,21 @@ mixin Result<S, F> {
   @override
   Future<Result<S, T>> pipeFailure<T>(Future<Result<S, T>> Function(F failure) function) => function(_value);
 
-  @override
-  Value<S> get success => const _Empty();
 
   @override
-  Value<F> get failure => this;
+  Maybe<S> get success => const None();
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is Failure && runtimeType == other.runtimeType;
+  Maybe<F> get failure => _maybe ??= Some(_value);
+
 
   @override
-  int get hashCode => _value.hashCode;
+  bool operator ==(Object other) => identical(this, other) || other is Failure && Equality.deep(_value, other._value);
+
+  @override
+  int get hashCode => HashCodes.deep(_value);
 
   @override
   String toString() => 'Failure($_value)';
-}
-
-
-/// Provides functions for working with [Value] where the value is non-nullable.
-extension NonNullableValue<T extends Object> on Value<T> {
-
-  /// If a value is present, returns the value, otherwise returns [None].
-  ///
-  /// ```dart
-  /// final Result<String, int> result = Failure(404);
-  /// final foo = result.success.nullable ?? 'value';
-  /// print(foo); // 'value'
-  /// ```
-  T? get nullable => call() ? unwrap() : null;
-
-}
-
-/// This class defines common functions implemented by a [Result] for working with a [Result]'s value. Like [Result],
-/// a [Value] is always either a [Success] or [Failure].
-@sealed abstract class Value<T> {
-
-  /// Creates a [Value].
-  const Value();
-
-  /// Returns true iof this [Value] contains a value.
-  ///
-  /// See [callable classes](https://dart.dev/guides/language/language-tour#callable-classes) for more information.
-  ///
-  /// ```dart
-  /// print( Success('')()); // true
-  /// ```
-  bool call();
-
-  /// Returns true if this [Value] contains the give value.
-  ///
-  /// ```dart
-  /// print(Success('something').contains('something')); // true
-  /// ```
-  bool contains(T value);
-
-  /// If a value is present, returns the value, otherwise throws a [StateError].
-  ///
-  /// ```dart
-  /// final foo = Success('something');
-  /// print(foo.success.unwrap()); // 'something'
-  ///
-  /// final bar = Failure(404);
-  /// print(bar.success.unwrap()); // throws a StateError
-  /// ```
-  @Possible({StateError})
-  T unwrap();
-
-}
-
-class _Value<T> extends Value<T> {
-  final T _value;
-
-  const _Value(this._value);
-
-  @override
-  bool call() => true;
-
-  @override
-  bool contains(T value) => Equality.deep(value, _value);
-
-  @override
-  T unwrap() => _value;
-
-}
-
-class _Empty<T> extends Value<T> {
-  const _Empty();
-
-  @override
-  bool call() => false;
-
-  @override
-  bool contains(T value) => false;
-
-  @override
-  T unwrap() => throw StateError('Value does not exist. Try checking if it exists first.');
 
 }
