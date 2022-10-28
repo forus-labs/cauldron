@@ -3,7 +3,22 @@ import 'dart:math';
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 
-/// An intermediate operation for partitioning elements in an [Iterable]. Provides functions for splitting an [Iterable] into chunks.
+/// Provides functions for accessing splitting functions.
+///
+/// See [Split] for more information.
+extension SplittableIterable<E> on Iterable<E> {
+
+  /// A [Split] that used to partition elements in this [Iterable].
+  ///
+  /// ```dart
+  /// final iterable = [1, 2, 3, 4].split.by(size: 2);
+  /// print(iterable); // [[1, 2], [3, 4], [5]]
+  /// ```
+  @useResult Split<E> get split => Split._(this);
+
+}
+
+/// An intermediate operation for partitioning elements in an [Iterable] into chunks.
 class Split<E> {
 
   final Iterable<E> _iterable;
@@ -33,7 +48,7 @@ class Split<E> {
   /// ```
   ///
   /// See [after] for splitting elements after those that match a given predicate.
-  @lazy @useResult Iterable<List<E>> before(bool Function(E element) test) sync* {
+  @lazy @useResult Iterable<List<E>> before(Predicate<E> predicate) sync* {
     final iterator = _iterable.iterator;
     if (!iterator.moveNext()) {
       return;
@@ -42,7 +57,7 @@ class Split<E> {
     var chunk = [iterator.current];
     while (iterator.moveNext()) {
       final element = iterator.current;
-      if (test(element)) {
+      if (predicate(element)) {
         yield chunk;
         chunk = [];
       }
@@ -64,11 +79,11 @@ class Split<E> {
   /// ```
   ///
   /// See [before] for splitting elements before those that match a given predicate.
-  @lazy @useResult Iterable<List<E>> after(bool Function(E element) test) sync* {
+  @lazy @useResult Iterable<List<E>> after(Predicate<E> predicate) sync* {
     List<E>? chunk;
     for (final element in _iterable) {
       (chunk ??= []).add(element);
-      if (test(element)) {
+      if (predicate(element)) {
         yield chunk;
         chunk = null;
       }
@@ -139,20 +154,5 @@ class Split<E> {
       }
     }
   }
-
-}
-
-/// Provides functions for accessing splitting functions.
-extension SplitIterable<E> on Iterable<E> {
-
-  /// A [Split] that used to partition elements in this [Iterable].
-  ///
-  /// ```dart
-  /// final iterable = [1, 2, 3, 4].split.by(size: 2);
-  /// print(iterable); // [[1, 2], [3, 4], [5]]
-  /// ```
-  ///
-  /// See [Split] for more information.
-  @useResult Split<E> get split => Split._(this);
 
 }

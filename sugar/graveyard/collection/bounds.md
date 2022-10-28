@@ -15,3 +15,6 @@ However, such functions can easily be replicated using current standard library 
 ```
 
 Perhaps bounds can be transformed into a predicate function.
+
+## Ranges
+Another similar concept is ranges which can already be accomplished via `List.generate(...)`

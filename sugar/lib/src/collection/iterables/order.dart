@@ -2,9 +2,18 @@ import 'package:meta/meta.dart';
 import 'package:sugar/collection.dart';
 import 'package:sugar/core.dart';
 
-/// Represents an intermediate operation used in the ordering an [Iterable].
+/// Provides functions for ordering an [Iterable].
 ///
-/// This class contains several ordering-related functions that may be subsequently chained.
+/// See [AggregateComparableIterable] for working with types that extend [Comparable].
+extension OrderableIterable<E> on Iterable<E> {
+
+  /// Creates an ordering on this [Iterable] using the given function.
+  @lazy @useResult Order<E, T> order<T extends Comparable<Object>>({required T Function(E element) by}) => Order(this, by);
+
+}
+
+
+/// An intermediate operation used in the ordering an [Iterable].
 ///
 /// See [AggregateComparableIterable] for directly ordering types that extend [Comparable].
 class Order<E, T extends Comparable<Object>> {
@@ -113,15 +122,5 @@ class Order<E, T extends Comparable<Object>> {
 
     return max;
   }
-
-}
-
-/// Provides functions for ordering an [Iterable].
-///
-/// See [AggregateComparableIterable] for working with types that extend [Comparable].
-extension OrderableIterable<E> on Iterable<E> {
-
-  /// Creates an ordering on this [Iterable] using the given function.
-  @lazy @useResult Order<E, T> order<T extends Comparable<Object>>({required T Function(E element) by}) => Order(this, by);
 
 }

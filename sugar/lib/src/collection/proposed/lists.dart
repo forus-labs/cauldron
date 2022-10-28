@@ -3,15 +3,19 @@ import 'package:sugar/src/core/equality.dart';
 
 /// Provides functions for working with lists.
 extension Lists<E> on List<E> {
+
+
   
-  insert(index, element)
+  insert(index, element);
+  
+  removeWhere((element) => false)
 
-  repeat
 
+  containsAll
 
+  retainAll
+  
   removeAll
-
-  removeAndCollect
 
   /// Determines whether this list contains an element at the given [index].
   bool has({required int index}) => 0 <= index && index < length;
@@ -43,7 +47,7 @@ extension Lists<E> on List<E> {
   /// **Notes: **
   /// * The list must be growable.
   /// * [E] must be non-nullable.
-  void replace(E? Function(E) replace, {required bool Function(E) where}) {
+  void replace(E? Function(E) replace, {required Predicate<E> where}) {
     final list = <E>[];
     var modified = false;
 

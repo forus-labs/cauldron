@@ -2,6 +2,25 @@ import 'package:meta/meta.dart';
 import 'package:sugar/collection.dart';
 import 'package:sugar/core.dart';
 
+/// Provides functions for accessing grouping functions.
+///
+/// See [Group] for more information.
+extension GroupableIterable<E> on Iterable<E> {
+
+  /// A [Group] that used to group elements in this [Iterable].
+  ///
+  /// ```dart
+  /// final iterable = ['a', 'b', 'aa', 'bb', 'cc'];
+  /// final aggregate = iterable.group.lists(by: (string) => string.length);
+  ///
+  /// print(aggregate); // {1: ['a', 'b'], 2: ['aa', 'bb', 'cc']}
+  /// ```
+  ///
+  @lazy @useResult Group<E> get group => Group._(this);
+
+}
+
+
 /// An intermediate operation for grouping elements in an [Iterable]. Provides functions for grouping elements in an [Iterable].
 ///
 /// The functions provided are meant for aggregating several elements by the same key, (1:N). It is recommended to use
@@ -76,22 +95,5 @@ class Group<E> {
 
     return results;
   }
-
-}
-
-/// Provides functions for accessing grouping functions.
-extension GroupableIterable<E> on Iterable<E> {
-
-  /// A [Group] that used to group elements in this [Iterable].
-  ///
-  /// ```dart
-  /// final iterable = ['a', 'b', 'aa', 'bb', 'cc'];
-  /// final aggregate = iterable.group.lists(by: (string) => string.length);
-  ///
-  /// print(aggregate); // {1: ['a', 'b'], 2: ['aa', 'bb', 'cc']}
-  /// ```
-  ///
-  /// See [Group] for more information.
-  @lazy @useResult Group<E> get group => Group._(this);
 
 }
