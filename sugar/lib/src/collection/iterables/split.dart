@@ -11,8 +11,7 @@ extension SplittableIterable<E> on Iterable<E> {
   /// A [Split] that used to partition elements in this [Iterable].
   ///
   /// ```dart
-  /// final iterable = [1, 2, 3, 4].split.by(size: 2);
-  /// print(iterable); // [[1, 2], [3, 4], [5]]
+  /// [1, 2, 3, 4].split.by(size: 2); // [ [1, 2], [3, 4], [5] ]
   /// ```
   @useResult Split<E> get split => Split._(this);
 
@@ -31,8 +30,7 @@ class Split<E> {
   /// [size] must be greater than 0. A [RangeError] will otherwise be thrown.
   ///
   /// ```dart
-  /// final iterable = [1, 2, 3, 4].split.by(size: 2);
-  /// print(iterable); // [[1, 2], [3, 4], [5]]
+  /// final iterable = [1, 2, 3, 4].split.by(size: 2); // [ [1, 2], [3, 4], [5] ]
   /// ```
   @Possible({RangeError})
   @lazy @useResult Iterable<List<E>> by({required int size}) => window(length: size, by: size, partial: true);
@@ -103,21 +101,17 @@ class Split<E> {
   ///
   /// ```dart
   /// // Overlapping windows
-  /// final iterable = [1, 2, 3, 4, 5].split.window(length: 3, by: 2);
-  /// print(iterable); // [[1, 2, 3], [3, 4, 5]]
+  /// [1, 2, 3, 4, 5].split.window(length: 3, by: 2); // [ [1, 2, 3], [3, 4, 5] ]
   ///
   /// // Non-overlapping windows
-  /// final iterable = [1, 2, 3, 4, 5].split.window(length: 2, by: 3);
-  /// print(iterable); // [[1, 2], [4, 5]]
+  /// [1, 2, 3, 4, 5].split.window(length: 2, by: 3); // [ [1, 2], [4, 5] ]
   ///
   ///
   /// // No partial windows
-  /// final iterable = [1, 2, 3, 4].split.window(length: 3, by: 2);
-  /// print(iterable); // [[1, 2, 3]]
+  /// [1, 2, 3, 4].split.window(length: 3, by: 2); // [ [1, 2, 3] ]
   ///
   /// // Partial windows
-  /// final iterable = [1, 2, 3, 4].split.window(length: 3, by: 2, partial: true);
-  /// print(iterable); // [[1, 2, 3], [3, 4]]
+  /// [1, 2, 3, 4].split.window(length: 3, by: 2, partial: true); // [ [1, 2, 3], [3, 4] ]
   /// ```
   @Possible({RangeError})
   @lazy @useResult Iterable<List<E>> window({required int length, int by = 1, bool partial = false}) sync* {

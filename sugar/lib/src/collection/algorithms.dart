@@ -3,19 +3,27 @@ import 'package:sugar/core.dart';
 
 /// Returns true if the given [Iterable]s have no elements in common.
 ///
+/// ```dart
+/// disjoint([1, 2], [3, 4]); // true
+///
+/// disjoint([1, 2], [2, 3]); // false
+///
+/// disjoint([1, 2], []); // true
+/// ```
+///
 /// **Implementation details: **
 /// This implementation assumes that the given iterables have efficient length computations, i.e. the length is cached.
 /// This is true for most standard library collections.
-bool disjoint<E>(Iterable<E> a, Iterable<E> b) {
+bool disjoint(Iterable<Object?> a, Iterable<Object?> b) {
   // This implementation is borrowed from Java's Collections.disjoint(...) method.
   var iterable = a;
   var contains = b;
 
-  if (a is Set<E>) {
+  if (a is Set<Object?>) {
     iterable = b;
     contains = a;
 
-  } else if (b is! Set<E>) {
+  } else if (b is! Set<Object?>) {
     final aLength = a.length;
     final bLength = b.length;
     if (aLength == 0 || bLength == 0) {
@@ -80,7 +88,7 @@ bool disjoint<E>(Iterable<E> a, Iterable<E> b) {
 /// Reverses a list, or a part of a list, in-place.
 ///
 /// **Contract: **
-/// 0 <= [start] < [end] <= [list] length. A [RangeError] will otherwise be thrown
+/// 0 <= [start] < [end] <= [list] length. A [RangeError] will otherwise be thrown.
 /// 
 /// ```dart
 /// final list = [0, 1, 2, 3, 4];

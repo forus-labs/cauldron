@@ -33,8 +33,7 @@ class Order<E, T extends Comparable<Object>> {
   ///   Foo(this.id);
   /// }
   ///
-  /// final list = [Foo('B'), Foo('A'), Foo('C')].order(by: (foo) => foo.id).ascending;
-  /// print(list); // [ Foo('A'), Foo('B'), Foo('C') ]
+  /// [ Foo('B'), Foo('A'), Foo('C') ].order(by: (foo) => foo.id).ascending; // [ Foo('A'), Foo('B'), Foo('C') ]
   /// ```
   ///
   /// **Implementation details: **
@@ -51,8 +50,7 @@ class Order<E, T extends Comparable<Object>> {
   ///   Foo(this.id);
   /// }
   ///
-  /// final list = [Foo('B'), Foo('A'), Foo('C')].order(by: (foo) => foo.id).descending;
-  /// print(list); // [ Foo('C'), Foo('B'), Foo('A') ]
+  /// [ Foo('B'), Foo('A'), Foo('C') ].order(by: (foo) => foo.id).descending; // [ Foo('C'), Foo('B'), Foo('A') ]
   /// ```
   /// **Implementation details: **
   /// This implementation assumes that computing each value for comparison is inexpensive. Under this assumption, it is
@@ -68,8 +66,7 @@ class Order<E, T extends Comparable<Object>> {
   ///   Foo(this.id);
   /// }
   ///
-  /// final min = [Foo('B'), Foo('A'), Foo('C')].order(by: (foo) => foo.id).min;
-  /// print(min); // Foo('A')
+  /// [ Foo('B'), Foo('A'), Foo('C') ].order(by: (foo) => foo.id).min; // Foo('A')
   /// ```
   @useResult E? get min {
     final iterator = _iterable.iterator;
@@ -100,8 +97,7 @@ class Order<E, T extends Comparable<Object>> {
   ///   Foo(this.id);
   /// }
   ///
-  /// final min = [Foo('B'), Foo('A'), Foo('C')].order(by: (foo) => foo.id).max;
-  /// print(min); // Foo('C')
+  /// [Foo('B'), Foo('A'), Foo('C')].order(by: (foo) => foo.id).max; // Foo('C')
   /// ```
   @useResult E? get max {
     final iterator = _iterable.iterator;

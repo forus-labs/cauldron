@@ -44,7 +44,7 @@ void main() {
 
       test('multiple unique values', () => expect([Bar('a', 1), Bar('b', 1), Bar('c', 1)].distinct(by: (bar) => bar.id), [Bar('a', 1), Bar('b', 1), Bar('c', 1)]));
 
-      test('multiple deeply equal values', () => expect([[1], [2], [3], [1]].distinct(by: (element) => element), [[1], [2], [3]]));
+      test('multiple deeply equal values', () => expect([[1], [2], [3], [1]].distinct(by: (element) => element), [[1], [2], [3], [1]]));
 
       test('multiple duplicate values, well-ordered', () => expect([Bar('a', 1), Bar('b', 1), Bar('c', 1), Bar('a', 2)].distinct(by: (bar) => bar.id).toList(), [Bar('a', 1), Bar('b', 1), Bar('c', 1)]));
 

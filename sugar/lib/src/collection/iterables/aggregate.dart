@@ -14,8 +14,7 @@ extension AggregateIterable<E> on Iterable<E> {
   ///   Foo(this.value);
   /// }
   ///
-  /// final average = [Foo(1), Foo(2), Foo(3)].average((foo) => foo.value);
-  /// print(average); // 2
+  /// [Foo(1), Foo(2), Foo(3)].average((foo) => foo.value); // 2
   /// ```
   ///
   /// **Implementation details: **
@@ -33,8 +32,7 @@ extension AggregateIterable<E> on Iterable<E> {
   ///   Foo(this.value);
   /// }
   ///
-  /// final sum = [Foo(1), Foo(2), Foo(3)].sum((foo) => foo.value, initial: 5);
-  /// print(sum); // 11
+  /// [Foo(1), Foo(2), Foo(3)].sum((foo) => foo.value, initial: 5); // 11
   /// ```
   ///
   /// **Implementation details: **
@@ -61,7 +59,7 @@ extension AggregateComparableIterable<E extends Comparable<Object>> on Iterable<
   /// The smallest element in this [Iterable] or `null` if empty.
   ///
   /// ```dart
-  /// print(['a', 'b', 'c'].min); // 'a'
+  /// ['a', 'b', 'c'].min; // 'a'
   /// ```
   @useResult E? get min {
     final iterator = this.iterator;
@@ -83,7 +81,7 @@ extension AggregateComparableIterable<E extends Comparable<Object>> on Iterable<
   /// The largest element in this [Iterable] or `null` if empty.
   ///
   /// ```dart
-  /// print(['a', 'b', 'c'].min); // 'c'
+  /// ['a', 'b', 'c'].min; // 'c'
   /// ```
   @useResult E? get max {
     final iterator = this.iterator;
@@ -112,14 +110,14 @@ extension AggregateNumberIterable<E extends num> on Iterable<E> {
   /// The average of all elements in this [Iterable], or [double.nan] if empty.
   ///
   /// ```dart
-  /// print([1, 2, 3].average)); // 2.0
+  /// [1, 2, 3].average; // 2.0
   /// ```
   @useResult double get average => sum / length;
 
   /// The sum of all elements in this [Iterable]. [double.nan] will always be returned if present in this [Iterable].
   ///
   /// ```dart
-  /// print([1, 2, 3].sum); // 6
+  /// [1, 2, 3].sum; // 6
   /// ```
   @useResult E get sum {
     num sum = 0;
@@ -136,9 +134,9 @@ extension AggregateNumberIterable<E extends num> on Iterable<E> {
   /// [Iterable].
   ///
   /// ```dart
-  /// print([1, 2, 3].min); // 1
+  /// [1, 2, 3].min; // 1
   ///
-  /// print([1, 2, double.nan]); // double.nan
+  /// [1, 2, double.nan]; // double.nan
   /// ```
   @useResult E? get min {
     final iterator = this.iterator;
@@ -169,9 +167,9 @@ extension AggregateNumberIterable<E extends num> on Iterable<E> {
   /// [Iterable].
   ///
   /// ```dart
-  /// print([1, 2, 3].max); // 3
+  /// [1, 2, 3].max; // 3
   ///
-  /// print([1, 2, double.nan]); // double.nan
+  /// [1, 2, double.nan].max; // double.nan
   /// ```
   @useResult E? get max {
     final iterator = this.iterator;

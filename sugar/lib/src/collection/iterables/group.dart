@@ -15,7 +15,6 @@ extension GroupableIterable<E> on Iterable<E> {
   ///
   /// print(aggregate); // {1: ['a', 'b'], 2: ['aa', 'bb', 'cc']}
   /// ```
-  ///
   @lazy @useResult Group<E> get group => Group._(this);
 
 }

@@ -18,11 +18,9 @@ import 'package:sugar/core.dart';
   /// A [T] is produced by applying the given function on this [Result]'s [S].
   ///
   /// ```dart
-  /// final foo = Success(1);
-  /// print(foo.map((value) => value.toString())); // Success('1')
+  /// Success(1).map((value) => value.toString()); // Success('1')
   ///
-  /// final bar = Failure(2);
-  /// print(bar.map((value) => value.toString())); // Failure(2)
+  /// Failure(2).map((value) => value.toString()); // Failure(2)
   /// ```
   Result<T, F> map<T>(T Function(S success) function);
 
@@ -32,11 +30,9 @@ import 'package:sugar/core.dart';
   /// A [T] is produced by applying the given function on this [Result]'s [F].
   ///
   /// ```dart
-  /// final foo = Success(1);
-  /// print(foo.mapFailure((value) => value.toString())); // Success(1)
+  /// Success(1).mapFailure((value) => value.toString()); // Success(1)
   ///
-  /// final bar = Failure(2);
-  /// print(bar.mapFailure((value) => value.toString())); // Failure('2')
+  /// Failure(2).mapFailure((value) => value.toString()); // Failure('2')
   /// ```
   Result<S, T> mapFailure<T>(T Function(F failure) function);
 
@@ -47,11 +43,9 @@ import 'package:sugar/core.dart';
   /// See [pipe] for an asynchronous variant of this function.
   ///
   /// ```dart
-  /// final foo = Success(1);
-  /// print(foo.bind((value) => Failure(value.toString()))); // Failure('1')
+  /// Success(1).bind((value) => Failure(value.toString())); // Failure('1')
   ///
-  /// final bar = Failure(2)
-  /// print(bar.bind((value) => Failure(value.toString()))); // Failure(2)
+  /// Failure(2).bind((value) => Failure(value.toString())); // Failure(2)
   /// ```
   Result<T, F> bind<T>(Result<T, F> Function(S success) function);
 
@@ -61,11 +55,9 @@ import 'package:sugar/core.dart';
   /// See [pipeFailure] for an asynchronous variant of this function.
   ///
   /// ```dart
-  /// final foo = Success(1);
-  /// print(foo.bindFailure((value) => Failure(value.toString()))); // Success(1)
+  /// Success(1).bindFailure((value) => Failure(value.toString())); // Success(1)
   ///
-  /// final bar = Failure(2)
-  /// print(bar.bindFailure((value) => Success(value.toString()))); // Success('2')
+  /// Failure(2).bindFailure((value) => Success(value.toString())); // Success('2')
   /// ```
   Result<S, T> bindFailure<T>(Result<S, T> Function(F failure) function);
 
@@ -75,11 +67,9 @@ import 'package:sugar/core.dart';
   /// See [bind] for a synchronous variant of this function.
   ///
   /// ```dart
-  /// final foo = Success(1);
-  /// print(foo.pipe((value) async => Failure(value.toString()))); // Failure('1')
+  /// Success(1).pipe((value) async => Failure(value.toString())); // Failure('1')
   ///
-  /// final bar = Failure(2)
-  /// print(bar.pipe((value) async => Failure(value.toString()))); // Failure(2)
+  /// Failure(2).pipe((value) async => Failure(value.toString())); // Failure(2)
   /// ```
   Future<Result<T, F>> pipe<T>(Future<Result<T, F>> Function(S success) function);
 
@@ -89,11 +79,9 @@ import 'package:sugar/core.dart';
   /// See [bindFailure] for a synchronous variant of this function.
   ///
   /// ```dart
-  /// final foo = Success(1);
-  /// print(foo.pipeFailure((value) async => Failure(value.toString()))); // Success(1)
+  /// Success(1).pipeFailure((value) async => Failure(value.toString())); // Success(1)
   ///
-  /// final bar = Failure(2)
-  /// print(bar.pipeFailure((value) async => Success(value.toString()))); // Success('2')
+  /// Failure(2).pipeFailure((value) async => Success(value.toString())); // Success('2')
   /// ```
   Future<Result<S, T>> pipeFailure<T>(Future<Result<S, T>> Function(F failure) function);
 
@@ -103,7 +91,7 @@ import 'package:sugar/core.dart';
   /// ```dart
   /// int foo(Result<int, String> result) => result.success.unwrap();
   ///
-  /// print(foo(Success(2))); // 4
+  /// foo(Success(2)); // 4
   /// ```
   Maybe<S> get success;
 
@@ -112,7 +100,7 @@ import 'package:sugar/core.dart';
   /// ```dart
   /// int foo(Result<int, String> result) => result.failure.unwrap();
   ///
-  /// print(foo(Failure("f"))); // "f"
+  /// foo(Failure("f")); // "f"
   /// ```
   Maybe<F> get failure;
 

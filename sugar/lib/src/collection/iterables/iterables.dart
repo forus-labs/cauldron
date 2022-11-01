@@ -9,7 +9,7 @@ extension Iterables<E> on Iterable<E> {
 
   /// Returns a lazy [Iterable] that contains only distinct elements.
   ///
-  /// Two elements are considered distinct if the values returned by [by] are not equal according to [Equality.deep].
+  /// Two elements are considered distinct if the values returned by [by] are not equal according to [==].
   ///
   /// **Note: **
   /// When this [Iterable] contains multiple elements with the same value, only the first element is returned.
@@ -26,8 +26,7 @@ extension Iterables<E> on Iterable<E> {
   ///   Foo(this.id, this.value);
   /// }
   ///
-  /// final distinct = [Foo('a', 1), Foo('b', 1), Foo('c', 1), Foo('a', 2)].distinct(by: (foo) => foo.id);
-  /// print(distinct); // [Foo('a', 1), Foo('b', 1), Foo('c', 1)]
+  /// [Foo('a', 1), Foo('b', 1), Foo('c', 1), Foo('a', 2)].distinct(by: (foo) => foo.id); // [Foo('a', 1), Foo('b', 1), Foo('c', 1)]
   ///
   /// final set = HashSet()..addAll({Foo('a', 1), Foo('b', 1), Foo('c', 1), Foo('a', 2)});
   /// final distinct = set.distinct(by: (foo) => foo.id);
@@ -36,7 +35,7 @@ extension Iterables<E> on Iterable<E> {
   ///
   /// See [Iterable.toSet] for creating a distinct [Iterable] by comparing elements.
   @lazy @useResult Iterable<E> distinct({required Object? Function(E element) by}) sync* {
-    final existing = HashSet<Object?>(equals: Equality.deep, hashCode: HashCodes.deep);
+    final existing = <Object?>{};
     for (final element in this) {
       if (existing.add(by(element))) {
         yield element;
@@ -47,8 +46,7 @@ extension Iterables<E> on Iterable<E> {
   /// Returns a lazy [Iterable] that contains this [Iterable]'s elements' indexes and elements.
   ///
   /// ```dart
-  /// final indexed = ['a', 'b', 'c'].indexed();
-  /// print(indexed); // [MapEntry(1, 'a'), MapEntry(2, 'b'), MapEntry(3, 'c')];
+  /// ['a', 'b', 'c'].indexed(); // [MapEntry(1, 'a'), MapEntry(2, 'b'), MapEntry(3, 'c')];
   /// ```
   ///
   /// See [entry] for destructing a [MapEntry] into two separate parameters.
@@ -99,27 +97,27 @@ extension Iterables<E> on Iterable<E> {
   /// The first element, or `null` if this [Iterable] is empty.
   ///
   /// ```dart
-  /// print(['a', 'b'].firstOrNull ?? 'something'); // `a`
+  /// ['a', 'b'].firstOrNull ?? 'something'; // `a`
   ///
-  /// print([].firstOrNull ?? 'something'); // 'something'
+  /// [].firstOrNull ?? 'something'; // 'something'
   /// ```
   @useResult E? get firstOrNull => isNotEmpty ? first : null;
 
   /// The last element, or `null` if this [Iterable] is empty.
   ///
   /// ```dart
-  /// print(['a', 'b'].lastOrNull ?? 'something'); // `b`
+  /// ['a', 'b'].lastOrNull ?? 'something'; // `b`
   ///
-  /// print([].lastOrNull ?? 'something); // 'something'
+  /// [].lastOrNull ?? 'something; // 'something'
   /// ```
   @useResult E? get lastOrNull => isNotEmpty ? last : null;
 
   /// The single element of this [Iterable] , or `null`.
   ///
   /// ```dart
-  /// print(['a'].singleOrNull ?? 'something'); // `a`
+  /// ['a'].singleOrNull ?? 'something'; // `a`
   ///
-  /// print([].singleOrNull ?? 'something'); // 'something'
+  /// [].singleOrNull ?? 'something'; // 'something'
   /// ```
   @useResult E? get singleOrNull {
     final iterator = this.iterator;
@@ -141,8 +139,7 @@ extension IterableIterable<E> on Iterable<Iterable<E>> {
   /// Returns a lazy [Iterable] which contains elements in all nested [Iterable]s in this [Iterable].
   ///
   /// ```dart
-  /// final list = [[1, 2], [3, 4], [5]].flatten().toList();
-  /// print(list); // [1, 2, 3, 4, 5];
+  /// [[1, 2], [3, 4], [5]].flatten().toList(); // [1, 2, 3, 4, 5]
   /// ```
   @lazy @useResult Iterable<E> flatten() sync* {
     for (final iterable in this) {

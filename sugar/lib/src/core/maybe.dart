@@ -21,14 +21,11 @@ import 'package:sugar/core.dart';
   /// If a value is present and satisfies the given [predicate], return this [Maybe], otherwise returns [None].
   ///
   /// ```dart
-  /// final foo = Some('value').where((string) => string == 'value');
-  /// print(foo); // Some('value')
+  /// Some('value').where((string) => string == 'value'); // Some('value')
   ///
-  /// final bar = Some('value').where((string) => string == 'other');
-  /// print(bar); // None()
+  /// Some('value').where((string) => string == 'other'); // None()
   ///
-  /// final none = None().where((string) => string == 'value');
-  /// print(none); // None()
+  /// None().where((string) => string == 'value'); // None()
   /// ```
   Maybe<T> where(Predicate<T> predicate);
 
@@ -37,11 +34,9 @@ import 'package:sugar/core.dart';
   /// This method is similar to [Maybe.map] except that the given function returns a [Maybe] instead of [T].
   ///
   /// ```dart
-  /// final foo = Some('value').bind((value) => Some('other value'));
-  /// print(foo); // Some('other value')
+  /// Some('value').bind((value) => Some('other value')); // Some('other value')
   ///
-  /// final bar = None().bind((value) => Some('other value'));
-  /// print(bar); // None()
+  /// None().bind((value) => Some('other value')); // None()
   /// ```
   Maybe<R> bind<R>(Maybe<R> Function(T value) function);
 
@@ -50,11 +45,9 @@ import 'package:sugar/core.dart';
   /// This method is similar to [Maybe.bind] except that the given function returns a [T] instead of [Maybe].
   ///
   /// ```dart
-  /// final foo = Some('value').map((value) => 'other value');
-  /// print(foo); // Some('other value')
+  /// Some('value').map((value) => 'other value'); // Some('other value')
   ///
-  /// final bar = None().map((value) => 'other value');
-  /// print(bar); // None()
+  /// None().map((value) => 'other value'); // None()
   /// ```
   Maybe<R> map<R>(R Function(T value) function);
 
@@ -65,11 +58,9 @@ import 'package:sugar/core.dart';
   /// ```dart
   /// Future<Maybe<int>> computeAsync<T>(T value) async => Some(1);
   ///
-  /// final foo = await Some('value').pipe(computeAsync);
-  /// print(foo); // Some(1)
+  /// Some('value').pipe(computeAsync); // Future(Some(1))
   ///
-  /// final bar = await None().pipe(computeAsync);
-  /// print(bar); // None()
+  /// None().pipe(computeAsync); // Future(None())
   /// ```
   Future<Maybe<R>> pipe<R>(Future<Maybe<R>> Function(T value) function);
 
@@ -78,11 +69,9 @@ import 'package:sugar/core.dart';
   /// the given function.
   ///
   /// ```dart
-  /// final foo = await Some('value').or(() => 1);
-  /// print(foo); // Success('value')
+  /// Some('value').or(() => 1); // Success('value')
   ///
-  /// final bar = await None().or(() => 1);
-  /// print(bar); // Failure(1)
+  /// None().or(() => 1); // Failure(1)
   /// ```
   Result<T, F> or<F>(F Function() failure);
 
@@ -90,11 +79,9 @@ import 'package:sugar/core.dart';
   /// If a value is present, returns the value, otherwise throws a [StateError].
   ///
   /// ```dart
-  /// final foo = Some('value');
-  /// print(foo.unwrap()); // 'value'
+  /// Some('value').unwrap(); // 'value'
   ///
-  /// final bar = None();
-  /// print(bar.unwrap()); // throws a StateError
+  /// None().unwrap(); // throws a StateError
   /// ```
   @Possible({StateError})
   T unwrap();
@@ -102,11 +89,9 @@ import 'package:sugar/core.dart';
   /// Whether a value is present.
   ///
   /// ```dart
-  /// final foo = Some('value');
-  /// print(foo.exists); // true
+  /// Some('value').exists; // true
   ///
-  /// final bar = None();
-  /// print(bar.exists); // false
+  /// None().exists; // false
   /// ```
   bool get exists;
 
@@ -118,8 +103,7 @@ extension NonNullableMaybe<T extends Object> on Maybe<T> {
   /// If a value is present, returns the value, otherwise returns `null`.
   ///
   /// ```dart
-  /// final foo = const None().nullable ?? 'value';
-  /// print(foo); // 'value'
+  /// const None().nullable ?? 'value'; // 'value'
   /// ```
   T? get nullable => exists ? unwrap() : null;
 
