@@ -20,5 +20,4 @@ typedef Callback = FutureOr<void> Function();
 /// ```dart
 /// {1: 1, 2: 3, 4: 5}.entries.where(entry((key, value) => key == value)); // [ MapEntry(1, 1) ]
 /// ```
-@useResult
-R Function(MapEntry<K, V>) entry<K, V, R>(R Function(K key, V value) function) => (entry) => function(entry.key, entry.value);
+@useResult R Function(MapEntry<K, V>) entry<K, V, R>(R Function(K key, V value) function) => (entry) => function(entry.key, entry.value);

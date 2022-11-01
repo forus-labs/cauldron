@@ -15,7 +15,7 @@ import 'package:sugar/core.dart';
   /// Returns true if this [Maybe] contains the given [value].
   ///
   /// This [Maybe]'s value and the given [value] are considered equal if [Equality.deep] returns true.
-  bool contains(T value);
+  @useResult bool contains(T value);
 
 
   /// If a value is present and satisfies the given [predicate], return this [Maybe], otherwise returns [None].
@@ -27,7 +27,7 @@ import 'package:sugar/core.dart';
   ///
   /// None().where((string) => string == 'value'); // None()
   /// ```
-  Maybe<T> where(Predicate<T> predicate);
+  @useResult Maybe<T> where(Predicate<T> predicate);
 
   /// If a value is present, returns the [Maybe] produced by [function], otherwise returns [None].
   ///
@@ -38,7 +38,7 @@ import 'package:sugar/core.dart';
   ///
   /// None().bind((value) => Some('other value')); // None()
   /// ```
-  Maybe<R> bind<R>(Maybe<R> Function(T value) function);
+  @useResult Maybe<R> bind<R>(Maybe<R> Function(T value) function);
 
   /// If a value is present, returns the value produced by [map] wrapped in a [Some], otherwise returns [None].
   ///
@@ -49,7 +49,7 @@ import 'package:sugar/core.dart';
   ///
   /// None().map((value) => 'other value'); // None()
   /// ```
-  Maybe<R> map<R>(R Function(T value) function);
+  @useResult Maybe<R> map<R>(R Function(T value) function);
 
   /// If a value is present, returns the [Maybe] produced by [function], otherwise returns [None].
   ///
@@ -62,7 +62,7 @@ import 'package:sugar/core.dart';
   ///
   /// None().pipe(computeAsync); // Future(None())
   /// ```
-  Future<Maybe<R>> pipe<R>(Future<Maybe<R>> Function(T value) function);
+  @useResult Future<Maybe<R>> pipe<R>(Future<Maybe<R>> Function(T value) function);
 
 
   /// Transforms this [Maybe] into a [Result]. [Some] is mapped to [Success] while [None] is mapped to [Failure] using
@@ -73,7 +73,7 @@ import 'package:sugar/core.dart';
   ///
   /// None().or(() => 1); // Failure(1)
   /// ```
-  Result<T, F> or<F>(F Function() failure);
+  @useResult Result<T, F> or<F>(F Function() failure);
 
 
   /// If a value is present, returns the value, otherwise throws a [StateError].
@@ -84,7 +84,7 @@ import 'package:sugar/core.dart';
   /// None().unwrap(); // throws a StateError
   /// ```
   @Possible({StateError})
-  T unwrap();
+  @useResult T unwrap();
 
   /// Whether a value is present.
   ///
@@ -93,7 +93,7 @@ import 'package:sugar/core.dart';
   ///
   /// None().exists; // false
   /// ```
-  bool get exists;
+  @useResult bool get exists;
 
 }
 
@@ -105,7 +105,7 @@ extension NonNullableMaybe<T extends Object> on Maybe<T> {
   /// ```dart
   /// const None().nullable ?? 'value'; // 'value'
   /// ```
-  T? get nullable => exists ? unwrap() : null;
+  @useResult T? get nullable => exists ? unwrap() : null;
 
 }
 
@@ -119,31 +119,31 @@ extension NonNullableMaybe<T extends Object> on Maybe<T> {
   const Some(this._value): super._();
 
   @override
-  bool contains(T value) => Equality.deep(_value, value);
+  @useResult bool contains(T value) => Equality.deep(_value, value);
 
 
   @override
-  Maybe<T> where(Predicate<T> predicate) => predicate(_value) ? this : None<T>();
+  @useResult Maybe<T> where(Predicate<T> predicate) => predicate(_value) ? this : None<T>();
 
   @override
-  Maybe<R> bind<R>(Maybe<R> Function(T value) function) => function(_value);
+  @useResult Maybe<R> bind<R>(Maybe<R> Function(T value) function) => function(_value);
 
   @override
-  Maybe<R> map<R>(R Function(T value) function) => Some(function(_value));
+  @useResult Maybe<R> map<R>(R Function(T value) function) => Some(function(_value));
 
   @override
-  Future<Maybe<R>> pipe<R>(Future<Maybe<R>> Function(T value) function) => function(_value);
-
-
-  @override
-  Result<T, F> or<F>(F Function() failure) => Success(_value);
+  @useResult Future<Maybe<R>> pipe<R>(Future<Maybe<R>> Function(T value) function) => function(_value);
 
 
   @override
-  T unwrap() => _value;
+  @useResult Result<T, F> or<F>(F Function() failure) => Success(_value);
+
 
   @override
-  bool get exists => true;
+  @useResult T unwrap() => _value;
+
+  @override
+  @useResult bool get exists => true;
 
 
   @override
@@ -165,31 +165,31 @@ extension NonNullableMaybe<T extends Object> on Maybe<T> {
   const None(): super._();
 
   @override
-  bool contains(T value) => false;
+  @useResult bool contains(T value) => false;
 
 
   @override
-  Maybe<T> where(Predicate<T> predicate) => const None();
+  @useResult Maybe<T> where(Predicate<T> predicate) => const None();
 
   @override
-  Maybe<R> bind<R>(Maybe<R> Function(T value) function) => const None();
+  @useResult Maybe<R> bind<R>(Maybe<R> Function(T value) function) => const None();
 
   @override
-  Maybe<R> map<R>(R Function(T value) function) => const None();
+  @useResult Maybe<R> map<R>(R Function(T value) function) => const None();
 
   @override
-  Future<Maybe<R>> pipe<R>(Future<Maybe<R>> Function(T value) function) async => const None();
-
-
-  @override
-  Result<T, F> or<F>(F Function() failure) => Failure(failure());
+  @useResult Future<Maybe<R>> pipe<R>(Future<Maybe<R>> Function(T value) function) async => const None();
 
 
   @override
-  T unwrap() => throw StateError('Maybe<$T> does not contain a value. Try checking if it contains a value via `Maybe.exists` first.');
+  @useResult Result<T, F> or<F>(F Function() failure) => Failure(failure());
+
 
   @override
-  bool get exists => false;
+  @useResult T unwrap() => throw StateError('Maybe<$T> does not contain a value. Try checking if it contains a value via `Maybe.exists` first.');
+
+  @override
+  @useResult bool get exists => false;
 
 
   @override

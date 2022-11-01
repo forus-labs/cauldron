@@ -1,3 +1,6 @@
+import 'package:meta/meta.dart';
+import 'package:sugar/core.dart';
+
 /// Provides functions for working with [List]s.
 extension Lists<E> on List<E> {
 
@@ -21,7 +24,7 @@ extension Lists<E> on List<E> {
   ///
   /// **Note: **
   /// This function's time-complexity is O(n²) if the given [Iterable]'s [contains] function is O(n).
-  bool containsAll(Iterable<Object?> other) {
+  @useResult bool containsAll(Iterable<Object?> other) {
     for (final element in other) {
       if (!contains(element)) {
         return false;
@@ -52,5 +55,16 @@ extension Lists<E> on List<E> {
   /// This function's time-complexity is O(n²) if the given [Iterable]'s [contains] method is O(n). When possible, [clear]
   /// should be used instead.
   void removeAll(Iterable<Object?> other) => removeWhere(other.contains);
+
+
+  /// Repeats this [List] the give number of times.
+  ///
+  /// **Contract: **
+  /// The given [times] must be a non-negative number. A [RangeError] is otherwise thrown.
+  @Possible({RangeError}, when: 'times is negative')
+  @useResult List<E> operator *(int times) => [
+    for (var i = 0; i < RangeError.checkNotNegative(times, 'times'); i++)
+      ...this,
+  ];
 
 }

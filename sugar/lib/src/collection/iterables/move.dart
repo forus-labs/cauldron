@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 
 /// Provides functions for accessing moving functions.
@@ -11,7 +12,7 @@ extension MovableList<E> on List<E> {
   /// final foo = [1, 2, 3, 4, 5];
   /// final bar = foo.move(where: (e) => e.isOdd).toList();
   /// ```
-  ListMove<E> move({required Predicate<E> where}) => ListMove(this, where);
+  @lazy @useResult ListMove<E> move({required Predicate<E> where}) => ListMove(this, where);
 
 }
 
@@ -43,7 +44,8 @@ class ListMove<E> {
   /// print(foo); // [2, 4]
   /// print(bar); // [1, 3, 5]
   /// ```
-  List<E> toList() {
+  @Possible({ConcurrentModificationError}, when: 'predicate modifies underlying list')
+  @useResult List<E> toList() {
     final moved = <E>[];
     collect(moved.add);
     return moved;
@@ -58,7 +60,8 @@ class ListMove<E> {
   /// print(foo); // [2, 4]
   /// print(bar); // {1, 3, 5}
   /// ```
-  Set<E> toSet() {
+  @Possible({ConcurrentModificationError}, when: 'predicate modifies underlying list')
+  @useResult Set<E> toSet() {
     final moved = <E>{};
     collect(moved.add);
     return moved;
@@ -79,6 +82,7 @@ class ListMove<E> {
   /// print(foo); // [2, 4]
   /// print(bar); // [1, 3, 5]
   /// ```
+  @Possible({ConcurrentModificationError}, when: 'predicate or consumer modifies underlying list')
   void collect(Consumer<E> consumer) {
     final retained = <E>[];
     final length = _list.length;
@@ -114,7 +118,7 @@ extension MovableSet<E> on Set<E> {
   /// final foo = {1, 2, 3, 4, 5};
   /// final bar = foo.move(where: (e) => e.isOdd).toSet();
   /// ```
-  SetMove<E> move({required Predicate<E> where}) => SetMove(this, where);
+  @lazy @useResult SetMove<E> move({required Predicate<E> where}) => SetMove(this, where);
 
 }
 
@@ -146,7 +150,8 @@ class SetMove<E> {
   /// print(foo); // {2, 4}
   /// print(bar); // {1, 3, 5}
   /// ```
-  Set<E> toSet() {
+  @Possible({ConcurrentModificationError}, when: 'predicate modifies underlying set')
+  @useResult Set<E> toSet() {
     final moved = <E>{};
     collect(moved.add);
     return moved;
@@ -166,6 +171,7 @@ class SetMove<E> {
   /// print(foo); // {2, 4}
   /// print(bar); // {1, 3, 5}
   /// ```
+  @Possible({ConcurrentModificationError}, when: 'predicate or consumer modifies underlying set')
   void collect(Consumer<E> consumer) {
     final removed = <E>[];
     for (final element in _set) {

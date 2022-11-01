@@ -21,7 +21,7 @@ extension DeepEqualityIterable on Iterable<Object?> {
   /// a.equals([]) // Throws a StackOverflowError
   /// ```
   @Possible({StackOverflowError}, when: 'either a or b contains itself or the other')
-  bool equals(Object? other) => Equality.deep(this, other);
+  @useResult bool equals(Object? other) => Equality.deep(this, other);
 
   /// The deep hash-code of this list.
   @useResult int get hashValue => HashCodes.deep(this);
@@ -45,7 +45,7 @@ extension DeepEqualityMap on Map<Object?, Object?> {
   /// a.equals(<int, dynamic>{}) // Throws a StackOverflowError
   /// ```
   @Possible({StackOverflowError}, when: 'either a or b contains itself or the other')
-  bool equals(Object? other) => Equality.deep(this, other);
+  @useResult bool equals(Object? other) => Equality.deep(this, other);
 
   /// The deep hash-code of this list.
   @useResult int get hashValue => HashCodes.deep(this);
@@ -62,7 +62,7 @@ extension DeepEqualityMapEntry on MapEntry<Object?, Object?> {
   /// **Contract: **:
   /// Both this entry and [other] may not contain itself or the other value. Doing so will result in a [StackOverflowError].
   @Possible({StackOverflowError}, when: 'either a or b contains itself or the other')
-  bool equals(Object? other) => Equality.deep(this, other);
+  @useResult bool equals(Object? other) => Equality.deep(this, other);
 
   /// The deep hash-code of this list.
   @useResult int get hashValue => HashCodes.deep(this);
@@ -91,7 +91,7 @@ extension Equality on Never {
   /// when comparing collections. It is natural to expect that two collections with the same elements are equal. However,
   /// using the default identity-based `==` operator, both collections are not equal.
   @Possible({StackOverflowError}, when: 'either a or b contains itself or the other')
-  static bool deep(Object? a, Object? b) {
+  @useResult static bool deep(Object? a, Object? b) {
     if (identical(a, b)) {
       return true;
 
@@ -175,8 +175,7 @@ extension HashCodes on Never {
   /// HashCodes.deep(a) // Throws a StackOverflowError
   /// ```
   @Possible({StackOverflowError}, when: 'either a or b contains itself or the other')
-  @useResult
-  static int deep(Object? value) {
+  @useResult static int deep(Object? value) {
     if (value is List) {
       return _ordered(_list, value);
 

@@ -13,7 +13,7 @@ extension SplittableIterable<E> on Iterable<E> {
   /// ```dart
   /// [1, 2, 3, 4].split.by(size: 2); // [ [1, 2], [3, 4], [5] ]
   /// ```
-  @useResult Split<E> get split => Split._(this);
+  @lazy @useResult Split<E> get split => Split._(this);
 
 }
 

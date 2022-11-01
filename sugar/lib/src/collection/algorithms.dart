@@ -14,7 +14,7 @@ import 'package:sugar/core.dart';
 /// **Implementation details: **
 /// This implementation assumes that the given iterables have efficient length computations, i.e. the length is cached.
 /// This is true for most standard library collections.
-bool disjoint(Iterable<Object?> a, Iterable<Object?> b) {
+@useResult bool disjoint(Iterable<Object?> a, Iterable<Object?> b) {
   // This implementation is borrowed from Java's Collections.disjoint(...) method.
   var iterable = a;
   var contains = b;
