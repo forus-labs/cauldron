@@ -44,7 +44,7 @@ class ListMove<E> {
   /// print(foo); // [2, 4]
   /// print(bar); // [1, 3, 5]
   /// ```
-  @Possible({ConcurrentModificationError}, when: 'predicate modifies underlying list')
+  @Possible({ConcurrentModificationError}, when: 'predicate directly modifies underlying list')
   @useResult List<E> toList() {
     final moved = <E>[];
     collect(moved.add);
@@ -60,7 +60,7 @@ class ListMove<E> {
   /// print(foo); // [2, 4]
   /// print(bar); // {1, 3, 5}
   /// ```
-  @Possible({ConcurrentModificationError}, when: 'predicate modifies underlying list')
+  @Possible({ConcurrentModificationError}, when: 'predicate directly modifies underlying list')
   @useResult Set<E> toSet() {
     final moved = <E>{};
     collect(moved.add);
@@ -82,7 +82,7 @@ class ListMove<E> {
   /// print(foo); // [2, 4]
   /// print(bar); // [1, 3, 5]
   /// ```
-  @Possible({ConcurrentModificationError}, when: 'predicate or consumer modifies underlying list')
+  @Possible({ConcurrentModificationError}, when: 'predicate or consumer directly modifies underlying list')
   void collect(Consumer<E> consumer) {
     final retained = <E>[];
     final length = _list.length;

@@ -4,6 +4,21 @@ import 'package:sugar/core.dart';
 /// Provides functions for working with [List]s.
 extension Lists<E> on List<E> {
 
+  /// Swaps the elements at the given indexes.
+  ///
+  /// ```dart
+  /// ['a', 'b', 'c'].swap(0, 2); // ['c', 'b', 'a']
+  /// ```
+  @Possible({RangeError})
+  void swap(int a, int b) {
+    RangeError.checkValidIndex(a, this, 'a');
+    RangeError.checkValidIndex(b, this, 'b');
+
+    final temporary = this[a];
+    this[a] = this[b];
+    this[b] = temporary;
+  }
+
   /// Whether this [List] contains all elements of the given [Iterable].
   ///
   /// ```dart
@@ -34,11 +49,46 @@ extension Lists<E> on List<E> {
     return true;
   }
 
+  /// Replaces all elements in this [List] using the given function. To replace an element, the given [Consumer] should
+  /// be called with its replacement. An element can be replaced by zero or more elements.
+  ///
+  /// ```dart
+  /// [1, 2, 3, 4].replaceAll((replace, element) { if (element.isOdd) replace(element + 2); }); // [3, 5]
+  /// ```
+  ///
+  /// **Contract: **
+  /// The given [function] should not modify this [List]. A [ConcurrentModificationError] will otherwise be thrown.
+  ///
+  /// ```dart
+  /// final foo = [1];
+  /// foo.replaceAll((replace, element) => foo.remove(0)); // throws ConcurrentModificationError
+  /// ```
+  @Possible({ConcurrentModificationError}, when: 'function directly modifies underlying list')
+  void replaceAll(void Function(Consumer<E> replace, E element) function) {
+    final retained = <E>[];
+    final length = this.length;
+
+    for (final element in this) {
+      function(retained.add, element);
+
+      if (length != this.length) {
+        throw ConcurrentModificationError(this);
+      }
+    }
+
+    clear();
+    addAll(retained);
+  }
+
   /// Retains only elements in the given [Iterable]. That is to say, remove elements in this [Iterable] that are not in
   /// the given [Iterable].
   ///
   /// ```dart
   /// [1, 2, 3]..retainAll([1, 2, 4]); // [1, 2]
+  ///
+  /// [1, 2, 3]..retainAll([1, 2, 1]); // [1, 2]
+  ///
+  /// [1, 2, 1]..retainAll([1, 2]); // [1, 2, 1]
   /// ```
   ///
   /// **Note: **
