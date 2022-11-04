@@ -20,8 +20,14 @@ void main() {
     test('pipe', () async => expect(await const Some(1).pipe(func), const Some(1)));
 
     test('or', () => expect(const Some('value').or(() => 1), Success<String, int>('value')));
+    
+    test('when', () {
+      final set = <String>{};
+      const Some('value').when(exists: set.add, empty: () => set.add('empty'));
+      expect(set, {'value'});
+    });
 
-    test('unwrap()', () => expect(const Some('value').unwrap(), 'value'));
+    test('unwrap', () => expect(const Some('value').unwrap(), 'value'));
 
     test('exists', () => expect(const Some('value').exists, true));
 
@@ -74,6 +80,12 @@ void main() {
     test('pipe', () async => expect(await const None().pipe(func), const None()));
 
     test('or', () => expect(const None<String>().or(() => 1), Failure<String, int>(1)));
+
+    test('when', () {
+      final set = <String>{};
+      const None().when(exists: (value) => set.add(value), empty: () => set.add('empty'));
+      expect(set, {'empty'});
+    });
 
     test('unwrap', () => expect(const None().unwrap, throwsStateError));
 

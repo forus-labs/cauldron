@@ -9,6 +9,8 @@ import 'package:sugar/core.dart';
 /// See [Maybe] for representing a value and the possible absence thereof.
 @sealed abstract class Result<S, F> {
 
+  static void _nothing(Object? value) {}
+
   const Result._();
 
 
@@ -86,6 +88,17 @@ import 'package:sugar/core.dart';
   @useResult Future<Result<S, T>> pipeFailure<T>(Future<Result<S, T>> Function(F failure) function);
 
 
+  /// If this [Result] is a [Success], calls [success], otherwise calls [failure]. By default, [success] and [failure]
+  /// does nothing.
+  ///
+  /// ```dart
+  /// Success('s').when(success: print, failure: print); // 's'
+  ///
+  /// Failure('f').when(success: print, failure: print); // 'f'
+  /// ```
+  void when({Consumer<S> success = _nothing, Consumer<F> failure = _nothing});
+
+
   /// Transforms this [Result] into a [Maybe]. [Success] is mapped to [Some], while [Failure] is mapped to [None].
   ///
   /// ```dart
@@ -136,6 +149,9 @@ class Success<S, F> extends Result<S, F> {
 
 
   @override
+  void when({Consumer<S> success = Result._nothing, Consumer<F> failure = Result._nothing}) => success(_value);
+
+  @override
   @useResult Maybe<S> get success => _maybe ??= Some(_value);
 
   @override
@@ -181,6 +197,9 @@ class Failure<S, F> extends Result<S, F> {
   @override
   @useResult Future<Result<S, T>> pipeFailure<T>(Future<Result<S, T>> Function(F failure) function) => function(_value);
 
+
+  @override
+  void when({Consumer<S> success = Result._nothing, Consumer<F> failure = Result._nothing}) => failure(_value);
 
   @override
   @useResult Maybe<S> get success => const None();

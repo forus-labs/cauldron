@@ -9,6 +9,10 @@ import 'package:sugar/core.dart';
 /// See [Result] for representing either of two possible values.
 @sealed abstract class Maybe<T> {
 
+  static void _exists(Object? value) {}
+
+  static void _empty() {}
+
   /// Creates a [Maybe].
   const Maybe._();
 
@@ -75,6 +79,15 @@ import 'package:sugar/core.dart';
   /// ```
   @useResult Result<T, F> or<F>(F Function() failure);
 
+  /// If this [Maybe] contains a value, calls [exists] with the value, otherwise calls [empty]. By default, [exists] and [empty]
+  /// does nothing.
+  ///
+  /// ```dart
+  /// Some('value').when(exists: print, empty: () => print('empty')); // 'value'
+  ///
+  /// None().when(exists: print, empty: () => print('empty')); // 'empty'
+  /// ```
+  void when({Consumer<T> exists = _exists, void Function() empty = _empty});
 
   /// If a value is present, returns the value, otherwise throws a [StateError].
   ///
@@ -140,6 +153,9 @@ extension NonNullableMaybe<T extends Object> on Maybe<T> {
 
 
   @override
+  void when({Consumer<T> exists = Maybe._exists, void Function() empty = Maybe._empty}) => exists(_value);
+
+  @override
   @useResult T unwrap() => _value;
 
   @override
@@ -184,6 +200,9 @@ extension NonNullableMaybe<T extends Object> on Maybe<T> {
   @override
   @useResult Result<T, F> or<F>(F Function() failure) => Failure(failure());
 
+
+  @override
+  void when({Consumer<T> exists = Maybe._exists, void Function() empty = Maybe._empty}) => empty();
 
   @override
   @useResult T unwrap() => throw StateError('Maybe<$T> does not contain a value. Try checking if it contains a value via `Maybe.exists` first.');

@@ -28,6 +28,13 @@ void main() {
     test('pipeFailure', () async => expect(await Success<String, int>('1').pipeFailure((val) async => Failure(404)), Success<String, int>('1')));
 
 
+    test('when', () {
+      final set = <dynamic>{};
+      Success('s').when(success: set.add, failure: set.add);
+      expect(set, {'s'});
+    });
+
+
     test('success', () => expect(Success(1).success, const Some(1)));
 
     test('failure', () => expect(Success<int, String>(1).failure, const None<String>()));
@@ -102,6 +109,13 @@ void main() {
     test('pipeFailure failure, different type', () async => expect(await Failure<DateTime, int>(1).pipeFailure((val) async => Failure(val.toString())), Failure<DateTime, String>('1')));
 
     test('pipeFailure success', () async => expect(await Failure<String, int>(1).pipeFailure((_) async => Success<String, int>('value')), Success<String, int>('value')));
+
+
+    test('when', () {
+      final set = <dynamic>{};
+      Failure('f').when(success: set.add, failure: set.add);
+      expect(set, {'f'});
+    });
 
 
     test('success', () => expect(Failure<String, int>(1).success, const None<String>()));
