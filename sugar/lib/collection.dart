@@ -8,4 +8,5 @@ export 'package:sugar/src/collection/iterables/iterables.dart';
 export 'package:sugar/src/collection/iterables/lists.dart';
 export 'package:sugar/src/collection/iterables/move.dart';
 export 'package:sugar/src/collection/iterables/order.dart';
+export 'package:sugar/src/collection/iterables/sets.dart';
 export 'package:sugar/src/collection/iterables/split.dart';

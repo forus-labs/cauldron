@@ -49,11 +49,11 @@ extension Lists<E> on List<E> {
     return true;
   }
 
-  /// Replaces all elements in this [List] using the given function. To replace an element, the given [Consumer] should
-  /// be called with its replacement. An element can be replaced by zero or more elements.
+  /// Replaces all elements in this [List] using the given [function]. The given function accepts a [Consumer] used to
+  /// add replacement(s). An element can be replaced by zero or more elements.
   ///
   /// ```dart
-  /// [1, 2, 3, 4].replaceAll((replace, element) { if (element.isOdd) replace(element + 2); }); // [3, 5]
+  /// [1, 2, 3, 4].replaceAll((replace, element) { if (element.isOdd) replace(element * 10); }); // [10, 30]
   /// ```
   ///
   /// **Contract: **
@@ -63,8 +63,8 @@ extension Lists<E> on List<E> {
   /// final foo = [1];
   /// foo.replaceAll((replace, element) => foo.remove(0)); // throws ConcurrentModificationError
   /// ```
-  @Possible({ConcurrentModificationError}, when: 'function directly modifies underlying list')
-  void replaceAll(void Function(Consumer<E> replace, E element) function) {
+  @Possible({ConcurrentModificationError})
+  void replaceAll(void Function(Consumer<E> add, E element) function) {
     final retained = <E>[];
     final length = this.length;
 
@@ -116,5 +116,28 @@ extension Lists<E> on List<E> {
     for (var i = 0; i < RangeError.checkNotNegative(times, 'times'); i++)
       ...this,
   ];
+
+}
+
+/// Provides functions for working with [List]s of null-nullable elements.
+extension NonNullableList<E extends Object> on List<E> {
+
+  /// Adds the [element] to this [List] if not null.
+  ///
+  /// Returns `true` if the element was added to this [List]. That is to say, if the element was not null. Otherwise, returns
+  /// `false`.
+  ///
+  /// ```dart
+  /// [].addIfNonNull(1); // [1]
+  ///
+  /// [].addIfNonNull(null); // []
+  /// ```
+  bool addIfNonNull(E? element) {
+    final result = element != null;
+    if (result) {
+      add(element);
+    }
+    return result;
+  }
 
 }

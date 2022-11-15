@@ -93,6 +93,10 @@ extension Iterables<E> on Iterable<E> {
   /// ```
   @useResult Map<K, V> toMap<K, V>(K Function(E element) key, V Function(E element) value) => { for (final element in this) key(element): value(element) };
 
+}
+
+/// Provides functions for working with [Iterable]s of null-nullable elements.
+extension NonNullableIterable<E extends Object> on Iterable<E> {
 
   /// The first element, or `null` if this [Iterable] is empty.
   ///
@@ -131,7 +135,6 @@ extension Iterables<E> on Iterable<E> {
   }
 
 }
-
 
 /// Provides functions for working with nested [Iterable]s.
 extension IterableIterable<E> on Iterable<Iterable<E>> {

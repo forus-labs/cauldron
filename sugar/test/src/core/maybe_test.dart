@@ -4,6 +4,14 @@ import 'package:test/test.dart';
 void main() {
   Future<Some<int>> func<T>(T value) async => const Some(1);
 
+  group('Maybe', () {
+    group('of', () {
+      test('not null', () => expect(Maybe.of<int>(1), const Some(1)));
+
+      test('null', () => expect(Maybe.of<int>(null), const None<int>()));
+    });
+  });
+
   group('Some', () {
     test('contains value', () => expect(const Some('value').contains('value'), true));
 

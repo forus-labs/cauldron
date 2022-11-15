@@ -23,6 +23,9 @@ extension Maps<K, V> on Map<K, V> {
 
   void inverse()
 
+
+  putIfNonNull
+
 }
 
 

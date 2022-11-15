@@ -18,6 +18,7 @@ class Foo {
 
   @override
   String toString() => 'Foo{id: $id}';
+
 }
 
 class Bar {
@@ -32,6 +33,7 @@ class Bar {
 
   @override
   int get hashCode => id.hashCode ^ value.hashCode;
+
 }
 
 void main() {
@@ -92,9 +94,11 @@ void main() {
         'c': 'Foo{id: c}',
       }));
     });
+  });
 
+  group('NonNullableIterable', () {
     group('firstOrNull', () {
-      test('empty', () => expect([].firstOrNull, null));
+      test('empty', () => expect(<int>[].firstOrNull, null));
 
       test('single value', () => expect([1].firstOrNull, 1));
 
@@ -102,7 +106,7 @@ void main() {
     });
 
     group('lastOrNull', () {
-      test('empty', () => expect([].lastOrNull, null));
+      test('empty', () => expect(<int>[].lastOrNull, null));
 
       test('single value', () => expect([1].lastOrNull, 1));
 
@@ -110,7 +114,7 @@ void main() {
     });
 
     group('singleOrNull', () {
-      test('empty', () => expect([].singleOrNull, null));
+      test('empty', () => expect(<int>[].singleOrNull, null));
 
       test('single value', () => expect([1].singleOrNull, 1));
 

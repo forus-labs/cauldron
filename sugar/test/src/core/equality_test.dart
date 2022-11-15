@@ -1,7 +1,16 @@
 import 'package:sugar/core.dart';
 import 'package:test/test.dart';
 
+int always() {
+  print('always');
+  return 3;
+}
+
 void main() {
+
+  test('temp', () {
+
+  });
 
   group('DeepEqualityIterable', () {
     test('list equals other list', () => expect([1].equals([1]), true));

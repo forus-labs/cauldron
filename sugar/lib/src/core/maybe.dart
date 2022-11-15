@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 
+
+
 /// A monad that may or may not contain a [T]. A [Maybe] is either [Some] and contains a value, or [None] and does not.
 ///
 /// A [Maybe] is especially useful for representing an absence of value when [T] is nullable. Two values are equal if the
@@ -12,6 +14,20 @@ import 'package:sugar/core.dart';
   static void _exists(Object? value) {}
 
   static void _empty() {}
+
+  /// Transform a nullable [value] of type [T?] to a [Maybe] of type [T].
+  ///
+  /// If [value] is not null, returns a [Some] with a non-nullable type, [T], that contains [value]. Otherwise returns a
+  /// [None] with a non-nullable type, [T].
+  ///
+  /// ```dart
+  /// Maybe<int> foo(int? value) => Maybe.of(value);
+  ///
+  /// foo(1); // Some<int>(1)
+  ///
+  /// foo(null) // None<int>()
+  /// ```
+  static Maybe<T> of<T extends Object>(T? value) => value != null ? Some(value) : None<T>();
 
   /// Creates a [Maybe].
   const Maybe._();
