@@ -14,7 +14,7 @@ import 'package:meta/meta.dart';
   const Range._();
 
 
-  Iterable<T> change({required T Function(T) by});
+  Iterable<T> iterate({required T Function(T) by});
 
 
   bool contains(T value);
@@ -31,6 +31,12 @@ import 'package:meta/meta.dart';
 
   bool get empty;
 
+}
+
+void a(Range<int> range) {
+  for (final e in range.iterate(by: (e) => e + 1)) {
+    print(e);
+  }
 }
 
 
@@ -114,8 +120,8 @@ class Max<T extends Comparable<Object?>> extends Range<T> {
 class Interval<T extends Comparable<Object?>> extends Range<T> {
 
   final T min;
-  final T max;
   final bool minOpen;
+  final T max;
   final bool maxOpen;
 
   Interval.open(this.min, this.max): minOpen = true, maxOpen = true, super._();

@@ -128,9 +128,9 @@ extension NonNullableList<E extends Object> on List<E> {
   /// `false`.
   ///
   /// ```dart
-  /// [].addIfNonNull(1); // [1]
+  /// [].addIfNonNull(1); // [1], true
   ///
-  /// [].addIfNonNull(null); // []
+  /// [].addIfNonNull(null); // [], false
   /// ```
   bool addIfNonNull(E? element) {
     final result = element != null;
