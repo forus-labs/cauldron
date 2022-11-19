@@ -51,3 +51,5 @@ void a() {
   combine different maps of types.
 
 }
+
+// cylic iterator
