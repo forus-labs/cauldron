@@ -1,3 +1,8 @@
+## 2.5.3 (01/12/2022)
+This update removes `invariant_booleans`.
+
+- Remove `invariant_booleans`
+
 ## 2.5.2 (05/09/2022)
 This update removes `prefer_int_literals`, see https://github.com/dart-lang/linter/issues/3657.
 
