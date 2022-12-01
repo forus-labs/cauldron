@@ -36,19 +36,7 @@ extension Integers on int {
   /// The minimum platform-independent value.
   static const min = -9007199254740991;
 
-  /// Checks if the addition of this and [other] causes an overflow.
-  bool addOverflows(int other) => ((other > 0) && (this > max - other)) || ((other < 0) && (this < min - other));
-
-  /// Checks if the subtraction of [other] from this causes an overflow.
-  bool subtractOverflows(int other) => ((other < 0) && (this > max + other)) || ((other > 0) && (this < min + other));
-
   /// Returns true if this integer is greater than 0. Otherwise returns false.
   bool toBool() => this > 0;
 
 }
-
-///Returns the smaller of two [Comparable]s.
-T min<T extends Comparable<T>>(T a, T b) => a.compareTo(b) < 0 ? a : b;
-
-///Returns the larger of two [Comparable]s.
-T max<T extends Comparable<T>>(T a, T b) => a.compareTo(b) < 0 ? b : a;

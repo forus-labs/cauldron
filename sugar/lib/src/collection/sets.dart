@@ -6,6 +6,8 @@ extension Sets<E> on Set<E> {
   /// Replaces all elements in this [Set] using the given function. The given function accepts another function used to
   /// add replacement(s). An element can be replaced by zero or more elements.
   ///
+  /// This function is the equivalent of a mutating [fold].
+  ///
   /// ```dart
   /// {1, 2, 3, 4}.replaceAll((replace, element) { if (element.isOdd) replace(element * 10); }); // [10, 30]
   /// ```

@@ -63,6 +63,20 @@ void main() {
 
   group('FakeRandom', () {
     group('nextInt(...)', () {
+      test('a', () {
+        final a = ['a', 'b', 'd', 'e'];
+        var i = a.length - 1;
+        for (; i >= 0; i--) {
+          if (a[i] == 'b') {
+            break;
+          }
+        }
+
+        print(i);
+        a.insert(i + 1, 'c');
+        print(a);
+      });
+      
       test('in sequence', () {
         final random = FakeRandom(ints: [1, 3]);
         expect(random.nextInt(5), 1);
