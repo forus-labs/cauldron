@@ -1,3 +1,7 @@
+## 2.4.1 (02/12/2022)
+
+This release fixes `Equality.equals(...)` accepting a `dynamic` instead of `Object`.
+
 ## 2.4.0 (09/12/2021)
 
 This release bumps the minimu supported Dart version to 2.15
