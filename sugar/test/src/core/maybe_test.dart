@@ -19,21 +19,27 @@ void main() {
 
     test('bind null', () => expect(nonnull.bind((value) => null), null));
 
-    test('pipe not null', () async => expect(await 1.pipe(func), 'value'));
-
-    test('pipe not null', () async => expect(await 1.pipe(func), 'value'));
+    test('bind async', () async => expect(await nonnull.bind(func), 'value'));
   });
 
   group('null', () {
-    test('where predicate successful', () => expect(const None<String>().where((value) => true), const None()));
+    test('where predicate successful', () => expect(nullable.where((value) => true), null));
 
-    test('where predicate not successful', () => expect(const None().where((value) => false), const None()));
+    test('where predicate not successful', () => expect(nullable.where((value) => false), null));
 
-    test('bind', () => expect(const None().bind((value) => Some(value.toString())), const None()));
+    test('bind', () => expect(nullable.bind((value) => value.toString()), null));
 
-    test('map', () => expect(const None().map((value) => value.toString()), const None()));
+    test('map', () => expect(nullable.map((value) => value.toString()), null));
 
-    test('pipe', () async => expect(await const None().pipe(func), const None()));
+    test('bind async', () async => expect(await nullable.bind(func), null));
+  });
+
+  group('FutureMaybe', () {
+    Future<int?> compute(int value) async => value + 1;
+
+    test('pipe not null', () async => expect(await compute(0).pipe(compute).pipe(compute), 3));
+
+    test('pipe null', () async => expect(await Future<int?>.value().pipe(compute).pipe(compute), null));
   });
 
 }

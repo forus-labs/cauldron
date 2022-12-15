@@ -36,7 +36,7 @@ class Order<E, T extends Comparable<Object>> {
   /// [ Foo('B'), Foo('A'), Foo('C') ].order(by: (foo) => foo.id).ascending; // [ Foo('A'), Foo('B'), Foo('C') ]
   /// ```
   ///
-  /// **Implementation details: **
+  /// ### Implementation details:
   /// This implementation assumes that computing each value for comparison is inexpensive. Under this assumption, it is
   /// more beneficial to recompute each value than maintain a map/list of entries.
   @useResult List<E> get ascending => _iterable.toList()..sort((a, b) => _function(a).compareTo(_function(b)));
@@ -52,7 +52,7 @@ class Order<E, T extends Comparable<Object>> {
   ///
   /// [ Foo('B'), Foo('A'), Foo('C') ].order(by: (foo) => foo.id).descending; // [ Foo('C'), Foo('B'), Foo('A') ]
   /// ```
-  /// **Implementation details: **
+  /// ### Implementation details:
   /// This implementation assumes that computing each value for comparison is inexpensive. Under this assumption, it is
   /// more beneficial to recompute each value than maintain a map/list of entries.
   @useResult List<E> get descending => _iterable.toList()..sort((a, b) => _function(b).compareTo(_function(a)));

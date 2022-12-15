@@ -1,6 +1,8 @@
 import 'package:sugar/core.dart';
 import 'package:test/test.dart';
 
+// ignore_for_file: prefer_const_constructors
+
 void main() {
   group('Result', () {
     test('of non-throwing function', () => expect(Result.of(throwing: () => 1), Success(1)));
@@ -44,9 +46,9 @@ void main() {
     });
 
 
-    test('success', () => expect(Success(1).success, const Some(1)));
+    test('success', () => expect(Success(1).success, 1));
 
-    test('failure', () => expect(Success<int, String>(1).failure, const None<String>()));
+    test('failure', () => expect(Success<int, String>(1).failure, null));
 
 
     group('equality', () {
@@ -127,9 +129,9 @@ void main() {
     });
 
 
-    test('success', () => expect(Failure<String, int>(1).success, const None<String>()));
+    test('success', () => expect(Failure<String, int>(1).success, null));
 
-    test('failure', () => expect(Failure(1).failure, const Some(1)));
+    test('failure', () => expect(Failure(1).failure, 1));
 
 
     group('equality', () {

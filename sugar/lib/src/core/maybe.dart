@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:meta/meta.dart';
 
 import 'package:sugar/core.dart';
@@ -6,19 +8,16 @@ import 'package:sugar/core.dart';
 ///
 /// See [Result] for representing either of two possible values.
 ///
-/// **Implementation details: **
+/// ### Implementation details:
 /// This implementation leverages on Dart's type system, foregoing any explicit container types. Assuming that [T] is a
 /// value, then `Maybe(T) = Some(T) | None()` can be represented as `T? = T | null` in Dart's type system.
 ///
-/// This makes:
+/// This makes the following two functions equivalent:
 /// ```dart
 /// String foo(int? bar) {
 ///   return bar.where((e) => e == 1).map((e) => e.toString())!;
 /// }
-/// ```
-///
-/// the equivalent of:
-/// ```dart
+
 /// String foo(Maybe<int> bar) {
 ///   return bar.where((e) => e == 1).map((e) => e.toString()).unwrap();
 /// }
@@ -45,19 +44,6 @@ extension Maybe<T extends Object> on T? {
   /// ```
   @useResult T? where(Predicate<T> predicate) => this != null && predicate(this!) ? this : null;
 
-  /// If this is not null, returns the [R] produced by [map], otherwise returns null.
-  ///
-  /// This method is similar to [bind] except that the given function returns a [T] instead of `T?`.
-  ///
-  /// ```dart
-  /// String? value = 'value';
-  /// value.map((value) => 'other value'); // 'other value'
-  ///
-  /// String? value = null;
-  /// value.map((value) => 'other value'); // null
-  /// ```
-  @useResult R? map<R extends Object>(R Function(T value) function) => this == null ? null : function(this!);
-
   /// If this is not null, returns the `R?` produced by [function], otherwise returns null.
   ///
   /// This method is similar to [map] except that the given function returns a `T?` instead of [T].
@@ -74,11 +60,31 @@ extension Maybe<T extends Object> on T? {
   ///
   /// value.bind((value) => 'other value'); // null
   /// ```
-  @useResult R? bind<R>(R? Function(T value) function) => this == null ? null : function(this!);
+  R? bind<R>(R? Function(T value) function) => this == null ? null : function(this!);
+
+  /// If this is not null, returns the [R] produced by [map], otherwise returns null.
+  ///
+  /// This method is similar to [bind] except that the given function returns a [T] instead of `T?`.
+  ///
+  /// ```dart
+  /// String? value = 'value';
+  /// value.map((value) => 'other value'); // 'other value'
+  ///
+  /// String? value = null;
+  /// value.map((value) => 'other value'); // null
+  /// ```
+  @useResult R? map<R extends Object>(R Function(T value) function) => this == null ? null : function(this!);
+
+}
+
+/// Provides functions for working with asynchronous `Maybe`s.
+extension FutureMaybe<T extends Object> on Future<T?> {
 
   /// If this is not null, returns the [Future] produced by [function], otherwise returns null.
   ///
-  /// This method is similar to [bind] except that the given function asynchronously computes a [Future].
+  /// This method is similar to:
+  /// * [bind] except that the given function asynchronously computes a [Future].
+  /// * [then] except that it forwards null values instead of thrown errors.
   ///
   /// ```dart
   /// Future<int?> computeAsync<T>(T value) async => 1;
@@ -89,6 +95,16 @@ extension Maybe<T extends Object> on T? {
   /// String? value = null;
   /// value.pipe(computeAsync); // Future(null)
   /// ```
-  Future<R?> pipe<R>(Future<R> Function(T value) function) async => this == null ? null : function(this!);
+  ///
+  /// Chaining this function in succession.
+  /// ```
+  /// Future<int?> computeAsync<T>(T value) async => value + 1;
+  ///
+  /// 1.pipe(computeAsync).pipe(computeAsync); // Future(3)
+  /// ```
+  Future<R?> pipe<R>(FutureOr<R?> Function(T value) function) async {
+    final value = await this;
+    return value == null ? null : function(value);
+  }
 
 }

@@ -17,14 +17,14 @@ extension Maps<K, V> on Map<K, V> {
 
   // General idea: provide functions that immediately apply to a map.
 
-  wherekey
-
-  wherevalue
-
-  void inverse()
-
-
-  putIfNonNull
+  // wherekey
+  //
+  // wherevalue
+  //
+  // void inverse()
+  //
+  //
+  // putIfNonNull
 
 }
 

@@ -11,7 +11,7 @@ extension Iterables<E> on Iterable<E> {
   ///
   /// Two elements are considered distinct if the values returned by [by] are not equal according to [==].
   ///
-  /// **Note: **
+  /// ### Note:
   /// When this [Iterable] contains multiple elements with the same value, only the first element is returned.
   /// Thus, this operation is not idempotent if this [Iterable] is unordered, i.e. [HashSet].
   ///
@@ -63,6 +63,8 @@ extension Iterables<E> on Iterable<E> {
   ///
   /// This function is meant for mapping a single key to a single element in this iterable, (1:1). For aggregating several
   /// elements by the same key, (1:N), it is recommended to use the functions in [Group] instead.
+  ///
+  /// It is a convenience function for similarly creating a map via [Map.fromIterable] and map comprehension.
   ///
   /// ```dart
   /// class Foo {

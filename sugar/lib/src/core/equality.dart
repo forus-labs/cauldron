@@ -11,7 +11,7 @@ extension DeepEqualityIterable on Iterable<Object?> {
   ///
   /// This method is provided as an alternative to a [Iterable]'s default identity-based `==` implementation.
   ///
-  /// **Contract: **:
+  /// ### Contract:
   /// Both this list and [other] may not contain itself or the other value. Doing so will result in a [StackOverflowError].
   ///
   /// ```dart
@@ -35,7 +35,7 @@ extension DeepEqualityMap on Map<Object?, Object?> {
   ///
   /// This method is provided as an alternative to a [Map]'s default identity-based `==` implementation.
   ///
-  /// **Contract: **:
+  /// ### Contract:
   /// Both this map and [other] may not contain itself or the other value. Doing so will result in a [StackOverflowError].
   ///
   /// ```dart
@@ -59,7 +59,7 @@ extension DeepEqualityMapEntry on MapEntry<Object?, Object?> {
   ///
   /// This method is provided as an alternative to a [MapEntry]'s default identity-based `==` implementation.
   ///
-  /// **Contract: **:
+  /// ### Contract:
   /// Both this entry and [other] may not contain itself or the other value. Doing so will result in a [StackOverflowError].
   @Possible({StackOverflowError}, when: 'either a or b contains itself or the other')
   @useResult bool equals(Object? other) => Equality.deep(this, other);
@@ -77,7 +77,7 @@ extension Equality on Never {
   ///
   /// [DeepEqualityIterable.equals] and [DeepEqualityMap.equals] should be preferred when working directly with collections.
   ///
-  /// **Contract: **:
+  /// ### Contract:
   /// Both [a] and [b] may not contain itself or the other given value. Doing so will result in a [StackOverflowError].
   /// ```dart
   /// final a = [];
@@ -86,7 +86,7 @@ extension Equality on Never {
   /// Equality.deep(a, ['some other list']) // Throws a StackOverflowError
   /// ```
   ///
-  /// **Motivation: **
+  /// ### Motivation:
   /// The default implementations of `==` is identity-based for most Dart collections. This can lead to unintuitive behaviour
   /// when comparing collections. It is natural to expect that two collections with the same elements are equal. However,
   /// using the default identity-based `==` operator, both collections are not equal.
@@ -166,7 +166,7 @@ extension HashCodes on Never {
   ///
   /// [DeepEqualityIterable.hashValue] and [DeepEqualityMap.hashValue] should be preferred when working directly with collections.
   ///
-  /// **Contract: **:
+  /// ### Contract:
   /// [value] may not contain itself. Doing so will result in a [StackOverflowError].
   /// ```dart
   /// final a = [];

@@ -18,7 +18,7 @@ extension MovableList<E> on List<E> {
 
 /// An intermediate operation for moving elements in a [List] to other collections.
 ///
-/// **Contract: **
+/// ### Contract:
 /// The given predicate should not modify the underlying [List]. A [ConcurrentModificationError] will otherwise be thrown.
 ///
 /// ```dart
@@ -70,7 +70,7 @@ class ListMove<E> {
   /// Moves elements in this [List] to the given [consumer]. The elements are passed to the [consumer] according to their
   /// order in this [List].
   ///
-  /// **Contract: **
+  /// ### Contract:
   /// The given [consumer] should not modify this [List]. A [ConcurrentModificationError] will otherwise be thrown.
   ///
   /// ```dart
@@ -124,7 +124,7 @@ extension MovableSet<E> on Set<E> {
 
 /// An intermediate operation for moving elements in a [Set] to various collections.
 ///
-/// **Contract: **
+/// ### Contract:
 /// The given predicate should not modify the underlying [Set]. A [ConcurrentModificationError] will otherwise be thrown.
 ///
 /// ```dart
@@ -159,7 +159,7 @@ class SetMove<E> {
 
   /// Moves elements in this [Set] to the given [consumer]. The ordering of elements in the return set is not guaranteed.
   ///
-  /// **Contract: **
+  /// ### Contract:
   /// The given [consumer] should not modify this [Set]. A [ConcurrentModificationError] will otherwise be thrown.
   ///
   /// ```dart

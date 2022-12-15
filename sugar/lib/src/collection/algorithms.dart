@@ -11,7 +11,7 @@ import 'package:sugar/core.dart';
 /// disjoint([1, 2], []); // true
 /// ```
 ///
-/// **Implementation details: **
+/// ### Implementation details:
 /// This implementation assumes that the given iterables have efficient length computations, i.e. the length is cached.
 /// This is true for most standard library collections.
 @useResult bool disjoint(Iterable<Object?> a, Iterable<Object?> b) {
@@ -87,7 +87,7 @@ import 'package:sugar/core.dart';
 
 /// Reverses a list, or a part of a list, in-place.
 ///
-/// **Contract: **
+/// ### Contract:
 /// 0 <= [start] < [end] <= [list] length. A [RangeError] will otherwise be thrown.
 /// 
 /// ```dart

@@ -35,7 +35,7 @@ import 'package:meta/meta_meta.dart';
 
 /// Denotes that the annotated location is not tested.
 ///
-/// **Note: **
+/// ### Note:
 /// It is recommended to use this annotation sparingly. The annotated location should always be tested instead if possible.
 ///
 /// ```dart

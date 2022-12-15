@@ -12,7 +12,7 @@ extension Sets<E> on Set<E> {
   /// {1, 2, 3, 4}.replaceAll((replace, element) { if (element.isOdd) replace(element * 10); }); // [10, 30]
   /// ```
   ///
-  /// **Contract: **
+  /// ### Contract:
   /// The given [function] should not modify this [Set]. A [ConcurrentModificationError] will otherwise be thrown.
   ///
   /// ```dart

@@ -26,7 +26,7 @@ class Split<E> {
 
   /// Splits this [Iterable] into [List]s not exceeding the given [size]. Any final elements are emitted at the end.
   ///
-  /// **Contract: **
+  /// ### Contract:
   /// [size] must be greater than 0. A [RangeError] will otherwise be thrown.
   ///
   /// ```dart
@@ -96,7 +96,7 @@ class Split<E> {
   /// Returns an [Iterable] where each element is a sliding window of elements in this [Iterable]. A window's length is defined by
   /// [length] while the increment of each window is defined by [by]. Whether partial windows are returned is defined by [partial].
   ///
-  /// **Contract: **
+  /// ### Contract:
   /// Both [length] and [by] must be greater than 0. A [RangeError] will otherwise be thrown.
   ///
   /// ```dart

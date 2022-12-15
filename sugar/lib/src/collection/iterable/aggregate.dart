@@ -17,7 +17,7 @@ extension AggregateIterable<E> on Iterable<E> {
   /// [Foo(1), Foo(2), Foo(3)].average((foo) => foo.value); // 2
   /// ```
   ///
-  /// **Implementation details: **
+  /// ### Implementation details:
   /// This implementation assumes that computing each number is inexpensive. Under this assumption, it is more beneficial
   /// to recompute each value than maintain a map/list of numbers.
   @useResult double average(num Function(E element) function) => sum(function) / length;
@@ -35,7 +35,7 @@ extension AggregateIterable<E> on Iterable<E> {
   /// [Foo(1), Foo(2), Foo(3)].sum((foo) => foo.value, initial: 5); // 11
   /// ```
   ///
-  /// **Implementation details: **
+  /// ### Implementation details:
   /// This implementation assumes that computing each [R] is inexpensive. Under this assumption, it is more beneficial
   /// to recompute each value than maintain a map/list of [R]s.
   @useResult R sum<R extends num>(R Function(E element) function, {R? initial}) {

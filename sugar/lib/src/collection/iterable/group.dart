@@ -40,7 +40,7 @@ class Group<E> {
   /// print(counts); // {1: 2, 2: 3}
   /// ```
   ///
-  /// **Implementation details: **
+  /// ### Implementation details:
   /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
   /// recompute each [K] than maintain a map/list of [K]s.
   @useResult Map<K, V> by<K, V>(K Function(E element) by, {required V Function(V? previous, E current) as}) {
@@ -62,7 +62,7 @@ class Group<E> {
   /// print(aggregate); // {1: ['a', 'b'], 2: ['aa', 'bb', 'cc']}
   /// ```
   ///
-  /// **Implementation details: **
+  /// ### Implementation details:
   /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
   /// recompute each [K] than maintain a map/list of [K]s.
   @useResult Map<K, List<E>> lists<K>({required K Function(E element) by}) {
@@ -83,7 +83,7 @@ class Group<E> {
   /// print(aggregate); // {1: {'a', 'b'}, 2: {'aa', 'bb', 'cc'}}
   /// ```
   ///
-  /// **Implementation details: **
+  /// ### Implementation details:
   /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
   /// recompute each [K] than maintain a map/list of [K]s.
   @useResult Map<K, Set<E>> sets<K>({required K Function(E element) by}) {

@@ -37,7 +37,7 @@ extension Lists<E> on List<E> {
   /// [].containsAll([]); // true
   /// ```
   ///
-  /// **Note: **
+  /// ### Note:
   /// This function's time-complexity is O(n²) if the given [Iterable]'s [contains] function is O(n).
   @useResult bool containsAll(Iterable<Object?> other) {
     for (final element in other) {
@@ -58,7 +58,7 @@ extension Lists<E> on List<E> {
   /// [1, 2, 3, 4].replaceAll((replace, element) { if (element.isOdd) replace(element * 10); }); // [10, 30]
   /// ```
   ///
-  /// **Contract: **
+  /// ### Contract:
   /// The given [function] should not modify this [List]. A [ConcurrentModificationError] will otherwise be thrown.
   ///
   /// ```dart
@@ -93,7 +93,7 @@ extension Lists<E> on List<E> {
   /// [1, 2, 1]..retainAll([1, 2]); // [1, 2, 1]
   /// ```
   ///
-  /// **Note: **
+  /// ### Note:
   /// This function's time-complexity is O(n²) if the given [Iterable]'s [contains] function is O(n).
   void retainAll(Iterable<Object?> other) => removeWhere((e) => !other.contains(e));
 
@@ -103,7 +103,7 @@ extension Lists<E> on List<E> {
   /// [1, 2, 3]..removeAll([1, 2, 4]); // [3]
   /// ```
   ///
-  /// **Note: **
+  /// ### Note:
   /// This function's time-complexity is O(n²) if the given [Iterable]'s [contains] method is O(n). When possible, [clear]
   /// should be used instead.
   void removeAll(Iterable<Object?> other) => removeWhere(other.contains);
@@ -111,7 +111,7 @@ extension Lists<E> on List<E> {
 
   /// Repeats this [List] the give number of times.
   ///
-  /// **Contract: **
+  /// ### Contract:
   /// The given [times] must be a non-negative number. A [RangeError] is otherwise thrown.
   @Possible({RangeError}, when: 'times is negative')
   @useResult List<E> operator *(int times) => [

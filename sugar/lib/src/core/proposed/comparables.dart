@@ -13,7 +13,7 @@ T max<T extends Comparable<Object>>(T a, T b) => a is num ? math.max(a, b as num
 
 /// Provides overloads for comparison operators, i.e. `<`.
 ///
-/// **Contract: **
+/// ### Contract:
 /// It is expected that the extended comparable, [T], overrides the equality operator.
 extension OverloadedComparables<T extends Comparable<Object>> on T {
 
@@ -34,7 +34,7 @@ extension OverloadedComparables<T extends Comparable<Object>> on T {
 
 /// Provides overloads for comparison operators, i.e. `<`.
 ///
-/// **Contract: **
+/// ### Contract:
 /// Both [T]s must be in either UTC or the same local timezones. An [ArgumentError] is thrown if the timezones of two compared
 /// [T]s are different.
 ///
