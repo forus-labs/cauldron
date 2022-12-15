@@ -2,6 +2,15 @@ import 'package:sugar/core.dart';
 import 'package:test/test.dart';
 
 void main() {
+  group('Result', () {
+    test('of non-throwing function', () => expect(Result.of(throwing: () => 1), Success(1)));
+
+    test('of throwing function', () {
+      final exception = Exception();
+      expect(Result.of(throwing: () => throw exception), Failure(exception));
+    });
+  });
+  
   group('Success', () {
     test('map same type', () => expect(Success<int, String>(1).map((val) => val + 1), Success<int, String>(2)));
 

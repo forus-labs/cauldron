@@ -11,6 +11,28 @@ import 'package:sugar/core.dart';
 
   static void _nothing(Object? value) {}
 
+  /// Creates a [Result] by executing the given function that may throw an exception.
+  ///
+  /// If the function executes successfully, creates a [Success] that contains the function's [S].
+  /// Otherwise returns a [Failure] that contains the [Exception] thrown by the given function.
+  ///
+  /// Conversion of thrown [Error]s into [Result]s is intentionally avoided. This is because an [Error]
+  /// represent a failure that the programmer should have avoided.
+  ///
+  /// ```dart
+  /// Result.of(throwing: () => 1)); // Success(1);
+  ///
+  /// Result.of(throwing: () => throws ArgumentError)); // Failure(ArgumentError);
+  /// ```
+  static Result<S, F> of<S, F extends Exception>({required Supplier<S> throwing}) {
+    try {
+      return Success(throwing());
+
+    } on F catch (e) {
+      return Failure(e);
+    }
+  }
+
   const Result._();
 
 
