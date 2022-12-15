@@ -7,7 +7,7 @@ import 'package:sugar/core.dart';
 /// programming languages, Rust and Swift.
 ///
 /// See [Maybe] for representing a value and the possible absence thereof.
-@sealed abstract class Result<S, F> {
+@sealed abstract class Result<S extends Object, F extends Object> {
 
   static void _nothing(Object? value) {}
 
@@ -24,7 +24,7 @@ import 'package:sugar/core.dart';
   ///
   /// Result.of(throwing: () => throws ArgumentError)); // Failure(ArgumentError);
   /// ```
-  static Result<S, F> of<S, F extends Exception>({required Supplier<S> throwing}) {
+  static Result<S, F> of<S extends Object, F extends Exception>({required Supplier<S> throwing}) {
     try {
       return Success(throwing());
 
@@ -46,7 +46,7 @@ import 'package:sugar/core.dart';
   ///
   /// Failure(2).map((value) => value.toString()); // Failure(2)
   /// ```
-  @useResult Result<T, F> map<T>(T Function(S success) function);
+  @useResult Result<T, F> map<T extends Object>(T Function(S success) function);
 
   /// If this [Result] is a [Failure], produces a [Failure] that contains a [T]. Otherwise returns a [Success] with its [S]
   /// untouched.
@@ -58,7 +58,7 @@ import 'package:sugar/core.dart';
   ///
   /// Failure(2).mapFailure((value) => value.toString()); // Failure('2')
   /// ```
-  @useResult Result<S, T> mapFailure<T>(T Function(F failure) function);
+  @useResult Result<S, T> mapFailure<T extends Object>(T Function(F failure) function);
 
 
   /// If this [Result] is a [Success], return a [Result] produced by the give function. Otherwise returns a [Failure] with
@@ -71,7 +71,7 @@ import 'package:sugar/core.dart';
   ///
   /// Failure(2).bind((value) => Failure(value.toString())); // Failure(2)
   /// ```
-  @useResult Result<T, F> bind<T>(Result<T, F> Function(S success) function);
+  @useResult Result<T, F> bind<T extends Object>(Result<T, F> Function(S success) function);
 
   /// If this [Result] is a [Failure], return a [Result] produced by the give function. Otherwise returns a [Success] with
   /// its [S] untouched.
@@ -83,7 +83,7 @@ import 'package:sugar/core.dart';
   ///
   /// Failure(2).bindFailure((value) => Success(value.toString())); // Success('2')
   /// ```
-  @useResult Result<S, T> bindFailure<T>(Result<S, T> Function(F failure) function);
+  @useResult Result<S, T> bindFailure<T extends Object>(Result<S, T> Function(F failure) function);
 
   /// If this [Result] is a [Success], return a [Result] produced by the give function. Otherwise returns a [Failure] with
   /// its [F] untouched.
@@ -95,7 +95,7 @@ import 'package:sugar/core.dart';
   ///
   /// Failure(2).pipe((value) async => Failure(value.toString())); // Failure(2)
   /// ```
-  @useResult Future<Result<T, F>> pipe<T>(Future<Result<T, F>> Function(S success) function);
+  @useResult Future<Result<T, F>> pipe<T extends Object>(Future<Result<T, F>> Function(S success) function);
 
   /// If this [Result] is a [Failure], return a [Result] produced by the give function. Otherwise returns a [Success] with
   /// its [S] untouched.
@@ -107,7 +107,7 @@ import 'package:sugar/core.dart';
   ///
   /// Failure(2).pipeFailure((value) async => Success(value.toString())); // Success('2')
   /// ```
-  @useResult Future<Result<S, T>> pipeFailure<T>(Future<Result<S, T>> Function(F failure) function);
+  @useResult Future<Result<S, T>> pipeFailure<T extends Object>(Future<Result<S, T>> Function(F failure) function);
 
 
   /// If this [Result] is a [Success], calls [success], otherwise calls [failure]. By default, [success] and [failure]
@@ -128,7 +128,7 @@ import 'package:sugar/core.dart';
   ///
   /// foo(Success(2)); // 4
   /// ```
-  @useResult Maybe<S> get success;
+  @useResult S? get success;
 
   /// Transforms this [Result] into a [Maybe]. [Failure] is mapped to [Some], while [Success] is mapped to [None].
   ///
@@ -137,106 +137,100 @@ import 'package:sugar/core.dart';
   ///
   /// foo(Failure("f")); // "f"
   /// ```
-  @useResult Maybe<F> get failure;
+  @useResult F? get failure;
 
 }
 
 /// Represents a success.
-class Success<S, F> extends Result<S, F> {
+class Success<S extends Object, F extends Object> extends Result<S, F> {
 
-  final S _value;
-  Maybe<S>? _maybe;
+  @override
+  final S success;
 
   /// Creates a [Success] with the given value.
-  Success(this._value): super._();
+  const Success(this.success): super._();
 
 
   @override
-  @useResult Result<T, F> map<T>(T Function(S success) function) => Success(function(_value));
+  @useResult Result<T, F> map<T extends Object>(T Function(S success) function) => Success(function(success));
 
   @override
-  @useResult Result<S, T> mapFailure<T>(T Function(F failure) function) => Success(_value);
+  @useResult Result<S, T> mapFailure<T extends Object>(T Function(F failure) function) => Success(success);
 
   @override
-  @useResult Result<T, F> bind<T>(Result<T, F> Function(S success) function) => function(_value);
+  @useResult Result<T, F> bind<T extends Object>(Result<T, F> Function(S success) function) => function(success);
 
   @override
-  @useResult Result<S, T> bindFailure<T>(Result<S, T> Function(F failure) function) => Success(_value);
+  @useResult Result<S, T> bindFailure<T extends Object>(Result<S, T> Function(F failure) function) => Success(success);
 
   @override
-  @useResult Future<Result<T, F>> pipe<T>(Future<Result<T, F>> Function(S success) function) => function(_value);
+  @useResult Future<Result<T, F>> pipe<T extends Object>(Future<Result<T, F>> Function(S success) function) => function(success);
 
   @override
-  @useResult Future<Result<S, T>> pipeFailure<T>(Future<Result<S, T>> Function(F failure) function) async => Success(_value);
-
-
-  @override
-  void when({Consumer<S> success = Result._nothing, Consumer<F> failure = Result._nothing}) => success(_value);
-
-  @override
-  @useResult Maybe<S> get success => _maybe ??= Some(_value);
-
-  @override
-  @useResult Maybe<F> get failure => const None();
+  @useResult Future<Result<S, T>> pipeFailure<T extends Object>(Future<Result<S, T>> Function(F failure) function) async => Success(success);
 
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is Success && Equality.deep(_value, other._value);
+  void when({Consumer<S> success = Result._nothing, Consumer<F> failure = Result._nothing}) => success(this.success);
 
   @override
-  int get hashCode => HashCodes.deep(_value);
+  @useResult Null get failure => null;
+
 
   @override
-  String toString() => 'Success($_value)';
+  bool operator ==(Object other) => identical(this, other) || other is Success && Equality.deep(success, other.success);
+
+  @override
+  int get hashCode => HashCodes.deep(success);
+
+  @override
+  String toString() => 'Success($success)';
 
 }
 
 /// Represents a failure.
-class Failure<S, F> extends Result<S, F> {
+class Failure<S extends Object, F extends Object> extends Result<S, F> {
 
-  final F _value;
-  Maybe<F>? _maybe;
+  @override
+  final F failure;
 
   /// Creates a [Failure] with the given value.
-  Failure(this._value): super._();
+  const Failure(this.failure): super._();
 
 
   @override
-  @useResult Result<T, F> map<T>(T Function(S success) function) => Failure(_value);
+  @useResult Result<T, F> map<T extends Object>(T Function(S success) function) => Failure(failure);
 
   @override
-  @useResult Result<S, T> mapFailure<T>(T Function(F failure) function) => Failure(function(_value));
+  @useResult Result<S, T> mapFailure<T extends Object>(T Function(F failure) function) => Failure(function(failure));
 
   @override
-  @useResult Result<T, F> bind<T>(Result<T, F> Function(S success) function) => Failure(_value);
+  @useResult Result<T, F> bind<T extends Object>(Result<T, F> Function(S success) function) => Failure(failure);
 
   @override
-  @useResult Result<S, T> bindFailure<T>(Result<S, T> Function(F failure) function) => function(_value);
+  @useResult Result<S, T> bindFailure<T extends Object>(Result<S, T> Function(F failure) function) => function(failure);
 
   @override
-  @useResult Future<Result<T, F>> pipe<T>(Future<Result<T, F>> Function(S success) function) async => Failure(_value);
+  @useResult Future<Result<T, F>> pipe<T extends Object>(Future<Result<T, F>> Function(S success) function) async => Failure(failure);
 
   @override
-  @useResult Future<Result<S, T>> pipeFailure<T>(Future<Result<S, T>> Function(F failure) function) => function(_value);
-
-
-  @override
-  void when({Consumer<S> success = Result._nothing, Consumer<F> failure = Result._nothing}) => failure(_value);
-
-  @override
-  @useResult Maybe<S> get success => const None();
-
-  @override
-  @useResult Maybe<F> get failure => _maybe ??= Some(_value);
+  @useResult Future<Result<S, T>> pipeFailure<T extends Object>(Future<Result<S, T>> Function(F failure) function) => function(failure);
 
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is Failure && Equality.deep(_value, other._value);
+  void when({Consumer<S> success = Result._nothing, Consumer<F> failure = Result._nothing}) => failure(this.failure);
 
   @override
-  int get hashCode => HashCodes.deep(_value);
+  @useResult Null get success => null;
+
 
   @override
-  String toString() => 'Failure($_value)';
+  bool operator ==(Object other) => identical(this, other) || other is Failure && Equality.deep(failure, other.failure);
+
+  @override
+  int get hashCode => HashCodes.deep(failure);
+
+  @override
+  String toString() => 'Failure($failure)';
 
 }
