@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 
-/// Provides functions for accessing splitting functions.
+/// Provides functions for splitting elements in an [Iterable].
 ///
 /// See [Split] for more information.
 extension SplittableIterable<E> on Iterable<E> {

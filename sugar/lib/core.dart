@@ -10,8 +10,6 @@ import 'package:sugar/src/core/functions.dart';
 import 'package:sugar/src/core/maybe.dart';
 import 'package:sugar/src/core/result.dart';
 
-export 'package:sugar/core_runtime.dart';
-
 export 'package:sugar/src/core/annotations.dart';
 export 'package:sugar/src/core/disposable.dart';
 export 'package:sugar/src/core/equality.dart';

@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import 'package:sugar/collection.dart';
+import 'package:sugar/collection_aggregate.dart';
 
 /// Provides aggregate functions for [Iterable]s.
 extension AggregateIterable<E> on Iterable<E> {

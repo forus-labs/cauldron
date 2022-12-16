@@ -2,7 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:sugar/collection.dart';
 import 'package:sugar/core.dart';
 
-/// Provides functions for accessing grouping functions.
+/// Provides functions for grouping elements in an [Iterable].
 ///
 /// See [Group] for more information.
 extension GroupableIterable<E> on Iterable<E> {
@@ -22,7 +22,7 @@ extension GroupableIterable<E> on Iterable<E> {
 
 /// An intermediate operation for grouping elements in an [Iterable]. Provides functions for grouping elements in an [Iterable].
 ///
-/// The functions provided are meant for aggregating several elements by the same key, (1:N). It is recommended to use
+/// These functions are meant for aggregating several elements by the same key, (1:N). It is recommended to use
 /// [Iterables.associate] instead if each key is mostly mapped to one element, (1:1).
 class Group<E> {
 

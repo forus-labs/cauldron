@@ -1,4 +1,4 @@
-/// Provides platform agnostic utilities for retrieving information about the current platform.
+/// Platform agnostic utilities for retrieving information about the current platform.
 ///
 /// This library also provides a [FakeRuntime] for testing purposes.
 library sugar.core.runtime;

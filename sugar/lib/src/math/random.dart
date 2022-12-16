@@ -45,7 +45,7 @@ extension Randoms on Random {
   /// Random().nextBoundedInt(-double.maxFinite, double.maxFinite) // throws RangeError
   /// ```
   ///
-  /// **Implementation notes: **
+  /// ### Implementation details:
   /// This method scales and translates the result of [nextDouble]. If the given range is sufficiently larger than [nextDouble]'s
   /// [0.0 - 1.0), certain doubles in the given range will never be returned (Pigeonhole Principle).
   @Possible({RangeError})
@@ -96,7 +96,7 @@ extension Randoms on Random {
   /// Random.doubles(length: 1, min: 3.0, max: 2.0); // throws RangeError
   /// ```
   ///
-  /// **Implementation notes: **
+  /// ### Implementation details:
   /// This method scales and translates the result of [nextDouble]. If the given range is sufficiently larger than [nextDouble]'s
   /// [0.0 - 1.0), certain doubles in the given range will never be returned (Pigeonhole Principle).
   @Possible({RangeError})
@@ -135,7 +135,7 @@ extension Randoms on Random {
 /// A fake [Random] implementation that always produces the given sequence of values. A [FakeRandom] should only be used
 /// in tests.
 ///
-/// **Motivation: **
+/// ### Motivation:
 /// Why prefer a [FakeRandom] over a seeded [Random]?
 ///
 /// A [FakeRandom] avoids depending on the implementation details. Whereas a seeded [Random] is implicitly dependent on the
