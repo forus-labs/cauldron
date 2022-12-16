@@ -1,4 +1,5 @@
-import 'package:sugar/collection.dart';
+import 'package:sugar/collection_aggregate.dart';
+
 import 'package:test/test.dart';
 
 class Foo {

@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import 'package:sugar/collection.dart';
+import 'package:sugar/collection_aggregate.dart';
 
 class Foo<T extends num> {
   final T value;
