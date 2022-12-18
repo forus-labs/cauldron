@@ -9,8 +9,8 @@ void main() {
   test('platform', () => expect(runtime.platform, isNot('unknown')));
 
   test('type', () {
-    expect(runtime.type, isNot(RuntimeType.web));
-    expect(runtime.type, isNot(RuntimeType.unknown));
+    expect(runtime.type, isNot(PlatformType.web));
+    expect(runtime.type, isNot(PlatformType.unknown));
   });
 
   test('booleans', () {

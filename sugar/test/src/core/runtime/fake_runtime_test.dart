@@ -4,11 +4,11 @@ import 'package:test/test.dart';
 void main() {
   test('default platform', () => expect(const FakeRuntime().platform, 'unknown'));
 
-  test('platform', () => expect(const FakeRuntime(RuntimeType.unknown, 'something').platform, 'something'));
+  test('platform', () => expect(const FakeRuntime(PlatformType.unknown, 'something').platform, 'something'));
 
-  test('default type', () => expect(const FakeRuntime().type, RuntimeType.unknown));
+  test('default type', () => expect(const FakeRuntime().type, PlatformType.unknown));
 
-  test('type', () => expect(const FakeRuntime(RuntimeType.android).type, RuntimeType.android));
+  test('type', () => expect(const FakeRuntime(PlatformType.android).type, PlatformType.android));
 
   test('default bools', () {
     const runtime = FakeRuntime();
@@ -25,7 +25,7 @@ void main() {
   });
 
   test('bools', () {
-    const runtime = FakeRuntime(RuntimeType.windows);
+    const runtime = FakeRuntime(PlatformType.windows);
 
     expect(runtime.windows, true);
     expect([

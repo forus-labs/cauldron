@@ -8,13 +8,13 @@ import 'package:sugar/core.dart';
 ///
 /// See [Result] for representing either of two possible values.
 ///
-/// ### Implementation details:
 /// This implementation leverages on Dart's type system, foregoing any explicit container types. Assuming that [T] is a
-/// value, then `Maybe(T) = Some(T) | None()` can be represented as `T? = T | null` in Dart's type system.
+/// value, then `Maybe(T) = Some(T) | None()` can be represented as `T? = T | null` in Dart's type system. In other words,
+///  _all nullable types are treated as `Maybe` monads_. All `Maybe` functions can be accessed on all nullable objects.
 ///
 /// This makes the following two functions equivalent:
 /// ```dart
-/// String foo(int? bar) {
+/// String foo(int? bar) { // int? is treated as a Maybe monad for integers.
 ///   return bar.where((e) => e == 1).map((e) => e.toString())!;
 /// }
 
@@ -23,9 +23,24 @@ import 'package:sugar/core.dart';
 /// }
 /// ```
 ///
+/// ### [Maybe] and collection types
 /// Leveraging on Dart's type system has the downside where most methods will not work with collection types due to
 /// conflicting method names. However, it is believed to be an acceptable tradeoff since `None` should be represented
 /// by an empty collection instead.
+///
+/// Instead of using a nullable collection:
+/// ```dart
+/// List<String>? foo() {
+///   if (somethingGoesWrong) return null;
+/// }
+/// ```
+///
+/// Prefer using an empty collection instead:
+/// ```dart
+/// List<String> foo() {
+///   if (somethingGoesWrong) return [];
+/// }
+/// ```
 extension Maybe<T extends Object> on T? {
 
   /// If this is not null and satisfies the given [predicate], return this, otherwise returns `null`.
@@ -83,7 +98,7 @@ extension FutureMaybe<T extends Object> on Future<T?> {
   /// If this is not null, returns the [Future] produced by [function], otherwise returns null.
   ///
   /// This method is similar to:
-  /// * [bind] except that the given function asynchronously computes a [Future].
+  /// * [Maybe.bind] except that the given function asynchronously computes a [Future].
   /// * [then] except that it forwards null values instead of thrown errors.
   ///
   /// ```dart
@@ -97,7 +112,7 @@ extension FutureMaybe<T extends Object> on Future<T?> {
   /// ```
   ///
   /// Chaining this function in succession.
-  /// ```
+  /// ```dart
   /// Future<int?> computeAsync<T>(T value) async => value + 1;
   ///
   /// 1.pipe(computeAsync).pipe(computeAsync); // Future(3)

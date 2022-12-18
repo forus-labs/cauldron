@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
-/// Provides information about the current runtime.
-///
-/// This class provides a platform agnostic way to retrieve information about the platform.
+/// Provides a platform agnostic way to retrieve information about the platform at runtime.
 class Runtime {
 
   /// Creates [Runtime].
@@ -12,13 +10,15 @@ class Runtime {
   /// `5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5359.100 Safari/537.36`
   /// on Chrome.
   ///
+  /// Note: Information about the current web browser version may not be accurate since it relies on the `User-Agent` header.
+  ///
   /// Returns `unknown` if the platform is unknown.
   String get platform => 'unknown';
 
   /// The current platform type.
   ///
-  /// See [RuntimeType].
-  RuntimeType get type => RuntimeType.unknown;
+  /// See [PlatformType].
+  PlatformType get type => PlatformType.unknown;
 
   /// Whether the current runtime type is `android`.
   bool get android => false;
@@ -43,8 +43,8 @@ class Runtime {
 
 }
 
-/// The runtime's type.
-enum RuntimeType {
+/// The platform's type.
+enum PlatformType {
   android,
   fuchsia,
   ios,

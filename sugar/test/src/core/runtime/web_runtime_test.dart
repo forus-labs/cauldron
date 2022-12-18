@@ -8,7 +8,7 @@ void main() {
 
   test('platform', () => expect(runtime.platform, isNot('unknown')));
 
-  test('type', () => expect(runtime.type, RuntimeType.web));
+  test('type', () => expect(runtime.type, PlatformType.web));
 
   test('web', () => expect(runtime.web, true));
 }

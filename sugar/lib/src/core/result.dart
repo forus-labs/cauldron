@@ -121,21 +121,21 @@ import 'package:sugar/core.dart';
   void when({Consumer<S> success = _nothing, Consumer<F> failure = _nothing});
 
 
-  /// Transforms this [Result] into a [Maybe]. [Success] is mapped to [Some], while [Failure] is mapped to [None].
+  /// Transforms this [Result] into a [Maybe]. [Success] is mapped to non-nullable [S], while [Failure] is mapped to `null`.
   ///
   /// ```dart
-  /// int foo(Result<int, String> result) => result.success.unwrap();
+  /// int foo(Result<int, String> result) => result.success!;
   ///
-  /// foo(Success(2)); // 4
+  /// foo(2); // 4
   /// ```
   @useResult S? get success;
 
-  /// Transforms this [Result] into a [Maybe]. [Failure] is mapped to [Some], while [Success] is mapped to [None].
+  /// Transforms this [Result] into a [Maybe]. [Failure] is mapped to a non-nullable [F], while [Success] is mapped to `null`.
   ///
   /// ```dart
-  /// int foo(Result<int, String> result) => result.failure.unwrap();
+  /// int foo(Result<int, String> result) => result.failure!;
   ///
-  /// foo(Failure("f")); // "f"
+  /// foo('f'); // 'f'
   /// ```
   @useResult F? get failure;
 
