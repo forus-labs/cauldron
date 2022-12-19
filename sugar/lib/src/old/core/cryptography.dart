@@ -4,7 +4,6 @@ import 'package:crypto/crypto.dart' as crypto show sha256;
 import 'package:sugar/core.dart';
 
 /// Generates a random nonce.
-@untestable
 String nonce([int length = 32]) {
   const charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
 
@@ -13,7 +12,6 @@ String nonce([int length = 32]) {
 }
 
 /// An extension that provides additional hashing methods.
-@untestable
 extension HashExtensions on String {
 
   /// Returns the sha256 hash of `this` in hex notation.

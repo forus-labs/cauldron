@@ -36,4 +36,4 @@ import 'package:sugar/src/core/range/min.dart';
 export 'src/core/range/interval.dart';
 export 'src/core/range/max.dart';
 export 'src/core/range/min.dart';
-export 'src/core/range/range.dart';
+export 'src/core/range/range.dart' hide Besides, Intersects;

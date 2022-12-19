@@ -1,5 +1,5 @@
 import 'package:sugar/core_range.dart';
-import 'package:sugar/src/core/range/range_collision.dart';
+import 'package:sugar/src/core/range/range.dart';
 
 class Min<T extends Comparable<Object?>> extends Range<T> {
 
@@ -35,14 +35,30 @@ class Min<T extends Comparable<Object?>> extends Range<T> {
 
   @override
   bool encloses(Range<T> other) {
-    // TODO: implement encloses
-    throw UnimplementedError();
+    if (other is Min<T>) {
+      final comparison = value.compareTo(other.value);
+      return (comparison < 0) || (comparison == 0 && (closed || other.open));
+
+    } else if (other is Interval<T>) {
+      final comparison = value.compareTo(other.min);
+      return (comparison < 0) || (comparison == 0 && (closed || other.minOpen));
+
+    } else {
+      return false;
+    }
   }
 
   @override
   bool intersects(Range<T> other) {
-    // TODO: implement intersects
-    throw UnimplementedError();
+    if (other is Max<T>) {
+      return Intersects.minMax(this, other);
+
+    } else if (other is Interval<T>) {
+      return Intersects.minInterval(this, other);
+
+    } else {
+      return true;
+    }
   }
 
   @override
