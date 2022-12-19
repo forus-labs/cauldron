@@ -93,8 +93,10 @@ class Interval<T extends Comparable<Object?>> extends Range<T> {
       return Intersects.maxInterval(other, this);
 
     } else if (other is Interval<T>) {
-      return Intersects.within(this, other.min, closed: other.minClosed)
-          && Intersects.within(this, other.max, closed: other.maxClosed);
+      return (Intersects.within(this, other.min, closed: other.minClosed)
+           && Intersects.within(this, other.max, closed: other.maxClosed))
+           || (Intersects.within(other, min, closed: minClosed)
+            && Intersects.within(other, max, closed: maxClosed));
 
     } else {
       return false;
