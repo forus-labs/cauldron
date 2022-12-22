@@ -146,7 +146,7 @@ import 'package:sugar/core_range.dart';
   /// Returns `true` if the given [min] and [max] intersect.
   static bool minMax<T extends Comparable<Object?>>(Min<T> min, Max<T> max) {
     final comparison = min.value.compareTo(max.value);
-    return (comparison > 0) || (comparison == 0 && min.closed && max.closed);
+    return (comparison < 0) || (comparison == 0 && min.closed && max.closed);
   }
 
   /// Returns `true` if the given [min] and [interval] intersect.

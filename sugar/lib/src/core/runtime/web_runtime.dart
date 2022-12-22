@@ -18,7 +18,7 @@ class Runtime {
   /// The current platform type.
   ///
   /// See [RuntimeType].
-  RuntimeType get type => RuntimeType.web;
+  PlatformType get type => PlatformType.web;
 
   /// Whether the current runtime type is `android`.
   bool get android => false;
@@ -44,7 +44,7 @@ class Runtime {
 }
 
 /// The runtime's type.
-enum RuntimeType {
+enum PlatformType {
   android,
   fuchsia,
   ios,

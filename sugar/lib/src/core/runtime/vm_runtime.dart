@@ -18,7 +18,7 @@ class Runtime {
   /// The current platform type.
   ///
   /// See [RuntimeType].
-  RuntimeType get type => RuntimeType._cache ??= RuntimeType._current;
+  PlatformType get type => PlatformType._cache ??= PlatformType._current;
 
   /// Whether the current runtime type is `android`.
   bool get android => Platform.isAndroid;
@@ -44,7 +44,7 @@ class Runtime {
 }
 
 /// The runtime's type.
-enum RuntimeType {
+enum PlatformType {
   android,
   fuchsia,
   ios,
@@ -55,8 +55,8 @@ enum RuntimeType {
   unknown;
 
   // This assumes that the current platform cannot be changed mid-way through the programme's lifetime.
-  static RuntimeType? _cache;
-  static RuntimeType get _current {
+  static PlatformType? _cache;
+  static PlatformType get _current {
     if (Platform.isAndroid) {
       return android;
 
