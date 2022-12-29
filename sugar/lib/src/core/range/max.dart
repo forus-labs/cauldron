@@ -1,13 +1,21 @@
 import 'package:sugar/core_range.dart';
 import 'package:sugar/src/core/range/range.dart';
 
+/// A [Max] represents a convex (contiguous) portion of a domain bounded on the upper end, i.e. `{ x |  x < value }`.
+///
+/// [T] is expected to be immutable. If [T] is mutable, the value produced by [Comparable.compare] must not change when
+/// used in a [Range]. Doing so will result in undefined behaviour.
 class Max<T extends Comparable<Object?>> extends Range<T> {
 
+  /// The maximum value.
   final T value;
+  /// Whether the lower bound is open. That is to say, whether the range excludes [value], i.e. `{ x | x < value }`.
   final bool open;
 
+  /// Creates a [Max] with the given open upper bound. That is to say, this range excludes [value], i.e. `{ x | x < value }`.
   const Max.open(this.value): open = true;
 
+  /// Creates a [Max] with the given closed upper bound. That is to say, this range includes [value], i.e. `{ x | x <= value }`.
   const Max.closed(this.value): open = false;
 
   @override
@@ -64,6 +72,7 @@ class Max<T extends Comparable<Object?>> extends Range<T> {
   @override
   bool get empty => false;
 
+  /// Whether the upper bound is closed. That is to say, whether the range includes [value], i.e. `{ x | x <= value }`.
   bool get closed => !open;
 
 
@@ -72,7 +81,7 @@ class Max<T extends Comparable<Object?>> extends Range<T> {
                 && value == other.value && open == other.open;
 
   @override
-  int get hashCode => value.hashCode ^ open.hashCode;
+  int get hashCode => runtimeType.hashCode ^ value.hashCode ^ open.hashCode;
 
   @override
   String toString() => '(-∞..$value${open ? ')' : ']'}';

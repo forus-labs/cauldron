@@ -12,14 +12,14 @@
 ///
 /// | Notation  | Range                 | Type/Constructor      |
 /// | --------- | --------------------- | --------------------- |
-/// | `(a..+∞)` | `{x \| a < x }`       | [Min]                 |
-/// | `[a..+∞)` | `{x \| a <= x }`      | [Min]                 |
-/// | `(a..b)`  | `{x \| a < x < b }`   | [Interval.open]       |
-/// | `(a..b]`  | `{x \| a < x <= b }`  | [Interval.openClosed] |
-/// | `[a..b]`  | `{x \| a <= x <= b }` | [Interval.closed]     |
-/// | `[a..b)`  | `{x \| a < x <= b }`  | [Interval.closedOpen] |
-/// | `(-∞..b)` | `{x \| x < b }`       | [Max]                 |
-/// | `(-∞..b]` | `{x \| x <= b }`      | [Max]                 |
+/// | `(a..+∞)` | `{ x \| a < x }`       | [Min]                 |
+/// | `[a..+∞)` | `{ x \| a <= x }`      | [Min]                 |
+/// | `(a..b)`  | `{ x \| a < x < b }`   | [Interval.open]       |
+/// | `(a..b]`  | `{ x \| a < x <= b }`  | [Interval.openClosed] |
+/// | `[a..b]`  | `{ x \| a <= x <= b }` | [Interval.closed]     |
+/// | `[a..b)`  | `{ x \| a < x <= b }`  | [Interval.closedOpen] |
+/// | `(-∞..b)` | `{ x \| x < b }`       | [Max]                 |
+/// | `(-∞..b]` | `{ x \| x <= b }`      | [Max]                 |
 ///
 /// In addition, the following ranges are valid:
 /// * singleton ranges - `[a..a]`

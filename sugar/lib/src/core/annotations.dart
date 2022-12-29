@@ -19,7 +19,7 @@ import 'package:meta/meta_meta.dart';
 /// @Possible({ErrorCode.invalidArgument}, when: 'function is called')
 /// ErrorCode? foo() => ErrorCode.invalidArgument;
 /// ```
-@Target({TargetKind.function, TargetKind.method, TargetKind.getter, TargetKind.setter})
+// @Target({TargetKind.function, TargetKind.method, TargetKind.field, TargetKind.getter, TargetKind.setter}) See: https://github.com/dart-lang/sdk/issues/47421
 @sealed class Possible {
 
   /// The possible thrown exceptions or returned error codes.

@@ -33,10 +33,12 @@ import 'package:sugar/core_range.dart';
   /// min.containsAll([1, 2, 3]); // true
   /// min.containsAll([-1, 2, 3]); // false
   /// ```
-  bool containsAll(Iterable<T> values) => values.every(contains);
+  @nonVirtual bool containsAll(Iterable<T> values) => values.every(contains);
 
   /// Creates a lazy [Iterable] over this [Range]. The given function produces a value in the returned [Iterable] using
   /// the previous value for each iteration.
+  ///
+  /// Note: The returned [Iterable] is potentially infinite.
   ///
   /// ```dart
   /// final range = Interval.closedOpen(0, 5);
@@ -152,24 +154,24 @@ import 'package:sugar/core_range.dart';
   /// Returns `true` if the given [min] and [interval] intersect.
   static bool minInterval<T extends Comparable<Object?>>(Min<T> min, Interval<T> interval) {
     final comparison = min.value.compareTo(interval.max);
-    return (comparison > 0) || (comparison == 0 && min.closed && interval.maxClosed);
+    return (comparison < 0) || (comparison == 0 && min.closed && interval.maxClosed);
   }
 
   /// Returns `true` if the given [max] and [interval] intersect.
   static bool maxInterval<T extends Comparable<Object?>>(Max<T> max, Interval<T> interval) {
     final comparison = interval.min.compareTo(max.value);
-    return (comparison > 0) || (comparison == 0 && interval.minClosed && max.closed);
+    return (comparison < 0) || (comparison == 0 && interval.minClosed && max.closed);
   }
 
-/// Returns `true` if the given [interval] contains the given [point].
+  /// Returns `true` if the given [interval] contains the given [point].
   static bool within<T extends Comparable<Object?>>(Interval<T> interval, T point, {required bool closed}) {
     final minimum = interval.min.compareTo(point);
-    if (minimum > 0 || (minimum == 0 && interval.minOpen && closed)) {
+    if (minimum > 0 || (minimum == 0 && !(interval.minClosed && closed))) {
       return false;
     }
 
     final maximum = interval.max.compareTo(point);
-    if (maximum < 0 || (maximum == 0 && interval.maxOpen && closed)) {
+    if (maximum < 0 || (maximum == 0 && !(interval.maxClosed && closed))) {
       return false;
     }
 
@@ -177,4 +179,3 @@ import 'package:sugar/core_range.dart';
   }
 
 }
-
