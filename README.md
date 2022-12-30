@@ -13,7 +13,7 @@ Forus Labs' mono-repository for Dart & Flutter.
 [![Pub Dev](https://img.shields.io/pub/v/sugar)](https://pub.dev/packages/sugar)
 [![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/sugar/latest/)
 
-**This version of Sugar is no longer supported. Please follow the [3.0.0 branch](https://github.com/forus-labs/cauldron/tree/feature/3.0.0/sugar) for upcoming changes.**
+**Sugar 2.X is no logner supported. Please follow the development of 3.0.0.**
 
 ```YAML
 dependencies:
