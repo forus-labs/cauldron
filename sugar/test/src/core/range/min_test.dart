@@ -28,7 +28,9 @@ void main() {
 
     test('open', () => expect(const Min.open(1).iterate(by: (e) => e + 1).take(5), [2, 3, 4, 5, 6]));
 
-    test('out of range', () => expect(const Min.open(1).iterate(by: (e) => e - 1).take(5), []));
+    test('closed out of range', () => expect(const Min.closed(1).iterate(by: (e) => e - 1).take(5), [1]));
+
+    test('open out of range', () => expect(const Min.open(1).iterate(by: (e) => e - 1).take(5), []));
   });
 
   group('besides(...)', () {
@@ -104,7 +106,7 @@ void main() {
   group('toString()', () {
     test('open', () => expect(const Min.open(-1).toString(), '(-1..+∞)'));
 
-    test('open', () => expect(const Min.closed(-1).toString(), '[-1..+∞)'));
+    test('closed', () => expect(const Min.closed(-1).toString(), '[-1..+∞)'));
   });
 
 }
