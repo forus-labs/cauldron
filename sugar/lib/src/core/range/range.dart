@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import 'package:sugar/core_range.dart';
+import 'package:sugar/core.dart';
 
 /// A [Range] represents a convex (contiguous) portion of a domain.
 ///
@@ -38,13 +38,37 @@ import 'package:sugar/core_range.dart';
   /// Creates a lazy [Iterable] over this [Range]. The given function produces a value in the returned [Iterable] using
   /// the previous value for each iteration.
   ///
-  /// Note: The returned [Iterable] is potentially infinite.
+  /// Note: The returned [Iterable] is lazy and potentially infinite.
   ///
   /// ```dart
   /// final range = Interval.closedOpen(0, 5);
   /// range.iterate(by: (e) => e + 1).toList(); // [0, 1, 2, 3, 4]
   /// ```
-  Iterable<T> iterate({required T Function(T current) by});
+  @lazy Iterable<T> iterate({required T Function(T current) by});
+
+  /// If this [Range] does not intersect [other], returns the gap in between. Otherwise returns `null`.
+  ///
+  /// ```dart
+  /// Interval.open(1, 5).intersection(Interval.closed(7, 9)); // [5..7)
+  ///
+  /// Interval.open(1, 5).gap(Interval.closed(3, 7)); // null
+  /// ```
+  ///
+  /// See [intersects] for determining if two ranges intersect.
+  Interval<T>? gap(Range<T> other);
+
+  /// If this [Range] intersects [other], returns the intersection. Otherwise returns `null`.
+  ///
+  /// ```dart
+  /// Interval.open(1, 5).intersection(Interval.closed(3, 7)); // [3..5)
+  ///
+  /// Min.open(5).intersection(Min.closed(7)); // [7..+∞)
+  ///
+  /// Interval.open(1, 5).intersection(Interval.open(7, 9)); // null
+  /// ```
+  ///
+  /// See [intersects] for determining if two ranges intersect.
+  Range<T>? intersection(Range<T> other);
 
 
   /// Returns `true` if an empty range exists between this [Range] and [other].
@@ -114,6 +138,8 @@ import 'package:sugar/core_range.dart';
   ///
   /// Interval.closedOpen(1, 3).besides(Interval.closedOpen(3, 5)); // false, [1..3) does not intersect [3..5)
   /// ```
+  ///
+  /// See [intersection] for computing the intersection of two ranges.
   bool intersects(Range<T> other);
 
   /// Whether this [Range] is empty, i.e. `[a..a)`.
@@ -128,17 +154,20 @@ import 'package:sugar/core_range.dart';
 
 }
 
+/// A convenience alias for [Comparable].
+@internal typedef C = Comparable<Object?>;
+
 /// Provides functions for determining whether two [Range]s are besides each other.
 @internal extension Besides on Never {
 
   /// Returns `true` if the given [min] and [max] are beside each other.
-  static bool minMax<T extends Comparable<Object?>>(Min<T> min, Max<T> max) => min.open == max.closed && min.value == max.value;
+  static bool minMax<T extends C>(Min<T> min, Max<T> max) => min.open == max.closed && min.value == max.value;
 
   /// Returns `true` if the given [min] and [interval] are beside each other.
-  static bool minInterval<T extends Comparable<Object?>>(Min<T> min, Interval<T> interval) => min.open == interval.maxClosed && min.value == interval.max;
+  static bool minInterval<T extends C>(Min<T> min, Interval<T> interval) => min.open == interval.maxClosed && min.value == interval.max;
 
   /// Returns `true` if the given [max] and [interval] are beside each other.
-  static bool maxInterval<T extends Comparable<Object?>> (Max<T> max, Interval<T> interval) => max.open == interval.minClosed && max.value == interval.min;
+  static bool maxInterval<T extends C> (Max<T> max, Interval<T> interval) => max.open == interval.minClosed && max.value == interval.min;
 
 }
 
@@ -146,25 +175,30 @@ import 'package:sugar/core_range.dart';
 @internal extension Intersects on Never {
 
   /// Returns `true` if the given [min] and [max] intersect.
-  static bool minMax<T extends Comparable<Object?>>(Min<T> min, Max<T> max) {
+  static bool minMax<T extends C>(Min<T> min, Max<T> max) {
     final comparison = min.value.compareTo(max.value);
     return (comparison < 0) || (comparison == 0 && min.closed && max.closed);
   }
 
   /// Returns `true` if the given [min] and [interval] intersect.
-  static bool minInterval<T extends Comparable<Object?>>(Min<T> min, Interval<T> interval) {
+  static bool minInterval<T extends C>(Min<T> min, Interval<T> interval) {
     final comparison = min.value.compareTo(interval.max);
     return (comparison < 0) || (comparison == 0 && min.closed && interval.maxClosed);
   }
 
   /// Returns `true` if the given [max] and [interval] intersect.
-  static bool maxInterval<T extends Comparable<Object?>>(Max<T> max, Interval<T> interval) {
+  static bool maxInterval<T extends C>(Max<T> max, Interval<T> interval) {
     final comparison = interval.min.compareTo(max.value);
     return (comparison < 0) || (comparison == 0 && interval.minClosed && max.closed);
   }
 
+  /// Returns `true` if [a] intersects [b].
+  static bool intervalInterval<T extends C>(Interval<T> a, Interval<T> b) =>
+      within(a, b.min, closed: b.minClosed) || within(a, b.max, closed: b.maxClosed) ||
+      within(b, a.min, closed: a.minClosed) || within(b, a.max, closed: a.maxClosed);
+
   /// Returns `true` if the given [interval] contains the given [point].
-  static bool within<T extends Comparable<Object?>>(Interval<T> interval, T point, {required bool closed}) {
+  static bool within<T extends C>(Interval<T> interval, T point, {required bool closed}) {
     final minimum = interval.min.compareTo(point);
     if (minimum > 0 || (minimum == 0 && !(interval.minClosed && closed))) {
       return false;

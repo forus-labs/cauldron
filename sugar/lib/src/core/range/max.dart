@@ -1,4 +1,5 @@
 import 'package:sugar/core_range.dart';
+import 'package:sugar/src/core/range/interval.dart';
 import 'package:sugar/src/core/range/range.dart';
 
 /// A [Max] represents a convex (contiguous) portion of a domain bounded on the upper end, i.e. `{ x |  x < value }`.
@@ -27,6 +28,45 @@ class Max<T extends Comparable<Object?>> extends Range<T> {
       yield current;
     }
   }
+
+  @override
+  Interval<T>? gap(Range<T> other) {
+    if (other is Min<T>) {
+      return Gaps.minMax(other, this);
+
+    } else if (other is Interval<T>) {
+      return Gaps.maxInterval(this, other);
+
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Range<T>? intersection(Range<T> other) {
+    if (other is Max<T>) {
+      final comparison = value.compareTo(other.value);
+      if (comparison < 0) {
+        return open ? Max.open(value) : Max.closed(value);
+
+      } else if (comparison > 0) {
+        return other.open ? Max.open(other.value) : Max.closed(other.value);
+
+      } else {
+        return (open || other.open) ? Max.open(value) : Max.closed(value);
+      }
+
+    } else if (other is Interval<T>) {
+      return Intersections.maxInterval(this, other);
+
+    } else if (other is Min<T>) {
+      return Intersections.minMax(other, this);
+
+    } else {
+      return null;
+    }
+  }
+
 
   @override
   bool besides(Range<T> other) {

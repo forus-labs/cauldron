@@ -1,4 +1,5 @@
 import 'package:sugar/core_range.dart';
+import 'package:sugar/src/core/range/interval.dart';
 import 'package:sugar/src/core/range/range.dart';
 
 /// A [Min] represents a convex (contiguous) portion of a domain bounded on the lower end, i.e. `{ x | value < x }`.
@@ -27,6 +28,45 @@ class Min<T extends Comparable<Object?>> extends Range<T> {
       yield current;
     }
   }
+
+  @override
+  Interval<T>? gap(Range<T> other) {
+    if (other is Max<T>) {
+      return Gaps.minMax(this, other);
+
+    } else if (other is Interval<T>) {
+      return Gaps.minInterval(this, other);
+
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Range<T>? intersection(Range<T> other) {
+    if (other is Min<T>) {
+      final comparison = value.compareTo(other.value);
+      if (comparison < 0) {
+        return other.open ? Min.open(other.value) : Min.closed(other.value);
+
+      } else if (comparison > 0) {
+        return open ? Min.open(value) : Min.closed(value);
+
+      } else {
+        return (open || other.open) ? Min.open(value) : Min.closed(value);
+      }
+
+    } else if (other is Interval<T>) {
+      return Intersections.minInterval(this, other);
+
+    } else if (other is Max<T>) {
+      return Intersections.minMax(this, other);
+
+    } else {
+      return null;
+    }
+  }
+
 
   @override
   bool besides(Range<T> other) {
@@ -85,4 +125,5 @@ class Min<T extends Comparable<Object?>> extends Range<T> {
 
   @override
   String toString() => '${open ? '(' : '['}$value..+∞)';
+
 }

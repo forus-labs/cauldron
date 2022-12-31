@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 import 'package:sugar/src/core/range/range.dart';
 
@@ -66,6 +67,8 @@ class Interval<T extends Comparable<Object?>> extends Range<T> {
     }
   }
 
+  Interval._(this.min, this.minOpen, this.max, this.maxOpen);
+
 
   @override
   bool contains(T value) => min.compareTo(value) <= (minClosed ? 0 : -1)
@@ -76,6 +79,38 @@ class Interval<T extends Comparable<Object?>> extends Range<T> {
     final initial = ascending ? (minClosed ? min : by(min)) : (maxClosed ? max : by(max));
     for (var current = initial; contains(current); current = by(current)) {
       yield current;
+    }
+  }
+
+  @override
+  Interval<T>? gap(Range<T> other) {
+    if (other is Min<T>) {
+      return Gaps.minInterval(other, this);
+
+    } else if (other is Interval<T>) {
+      return Gaps.intervalInterval(this, other);
+
+    } else if (other is Max<T>) {
+      return Gaps.maxInterval(other, this);
+
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Range<T>? intersection(Range<T> other) {
+    if (other is Min<T>) {
+      return Intersections.minInterval(other, this);
+
+    } else if (other is Interval<T>) {
+      return Intersections.intervalInterval(this, other);
+
+    } else if (other is Max<T>) {
+      return Intersections.maxInterval(other, this);
+
+    } else {
+      return null;
     }
   }
 
@@ -125,10 +160,7 @@ class Interval<T extends Comparable<Object?>> extends Range<T> {
       return Intersects.maxInterval(other, this);
 
     } else if (other is Interval<T>) {
-      return Intersects.within(this, other.min, closed: other.minClosed)
-          || Intersects.within(this, other.max, closed: other.maxClosed)
-          || Intersects.within(other, min, closed: minClosed)
-          || Intersects.within(other, max, closed: maxClosed);
+      return Intersects.intervalInterval(this, other);
 
     } else {
       return false;
@@ -158,4 +190,119 @@ class Interval<T extends Comparable<Object?>> extends Range<T> {
     final end = maxOpen ? ')' : ']';
     return '$start$min..$max$end';
   }
+
+}
+
+/// Provides functions for computing the gap between two [Range]s.
+@internal extension Gaps on Never {
+
+  /// If [min] does not intersect [max], return the gap in between. Otherwise returns `null`.
+  static Interval<T>? minMax<T extends C>(Min<T> min, Max<T> max) => Intersects.minMax(min, max) ? null : Interval._(max.value, !max.open, min.value, !min.open);
+
+  /// If [min] does not intersect [interval], return the gap in between. Otherwise returns `null`.
+  static Interval<T>? minInterval<T extends C>(Min<T> min, Interval<T> interval) => Intersects.minInterval(min, interval) ? null : Interval._(interval.max, !interval.maxOpen, min.value, !min.open);
+
+  /// If max does not intersect [interval], return the gap in between. Otherwise returns `null`.
+  static Interval<T>? maxInterval<T extends C>(Max<T> max, Interval<T> interval) => Intersects.maxInterval(max, interval) ? null : Interval._(max.value, !max.open, interval.min, !interval.minOpen);
+
+  /// If [a] does not intersect [b], return the gap in between. Otherwise returns `null`.
+  static Interval<T>? intervalInterval<T extends C>(Interval<T> a, Interval<T> b) {
+    if (Intersects.intervalInterval(a, b)) {
+      return null;
+    }
+
+    final lower = a.min.compareTo(b.min); // Always choose smaller max.
+    final T min;
+    final bool minOpen;
+
+    if (lower < 0) {
+      min = a.max;
+      minOpen = a.maxOpen;
+
+    } else if (lower > 0) {
+      min = b.max;
+      minOpen = b.maxOpen;
+
+    } else {
+      min = a.max;
+      minOpen = a.maxOpen || b.maxOpen;
+    }
+
+    final upper = a.min.compareTo(b.min); // Always choose larger min.
+    final T max;
+    final bool maxOpen;
+
+    if (upper < 0) {
+      max = b.min;
+      maxOpen = b.minOpen;
+
+    } else if (upper > 0) {
+      max = a.min;
+      maxOpen = a.minOpen;
+
+    } else {
+      max = a.min;
+      maxOpen = a.minOpen || b.minOpen;
+    }
+
+    return Interval._(min, !minOpen, max, !maxOpen);
+  }
+
+}
+
+/// Provides functions for computing the intersection of two [Range]s.
+@internal extension Intersections on Never {
+
+  /// If [min] intersects [max], returns the intersection. Otherwise returns `null`.
+  static Interval<T>? minMax<T extends C>(Min<T> min, Max<T> max) => Intersects.minMax(min, max) ? Interval._(min.value, min.open, max.value, max.open) : null;
+
+  /// If [min] intersects [interval], returns the intersection. Otherwise returns `null`.
+  static Interval<T>? minInterval<T extends C>(Min<T> min, Interval<T> interval) => Intersects.minInterval(min, interval) ? Interval._(min.value, min.open, interval.max, interval.maxOpen) : null;
+
+  /// If [max] intersects [interval], returns the intersection. Otherwise returns `null`.
+  static Interval<T>? maxInterval<T extends C>(Max<T> max, Interval<T> interval) => Intersects.maxInterval(max, interval) ? Interval._(interval.min, interval.minOpen, max.value, max.open) : null;
+
+  /// If [a] intersects [b], returns the intersection. Otherwise returns `null`.
+  static Interval<T>? intervalInterval<T extends C>(Interval<T> a, Interval<T> b) {
+    if (!Intersects.intervalInterval(a, b)) {
+      return null;
+    }
+
+    final lower = a.min.compareTo(b.min); // Always choose larger min.
+    final T min;
+    final bool minOpen;
+
+    if (lower < 0) {
+      min = b.min;
+      minOpen = b.minOpen;
+
+    } else if (lower > 0) {
+      min = a.min;
+      minOpen = a.minOpen;
+
+    } else {
+      min = a.min;
+      minOpen = a.minOpen || b.minOpen;
+    }
+
+    final upper = a.min.compareTo(b.min); // Always choose smaller max.
+    final T max;
+    final bool maxOpen;
+
+    if (upper < 0) {
+      max = a.max;
+      maxOpen = a.maxOpen;
+
+    } else if (upper > 0) {
+      max = b.max;
+      maxOpen = b.maxOpen;
+
+    } else {
+      max = a.max;
+      maxOpen = a.maxOpen || b.maxOpen;
+    }
+
+    return Interval._(min, minOpen, max, maxOpen);
+  }
+
 }

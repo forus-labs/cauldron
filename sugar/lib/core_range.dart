@@ -33,7 +33,7 @@ import 'package:sugar/src/core/range/interval.dart';
 import 'package:sugar/src/core/range/max.dart';
 import 'package:sugar/src/core/range/min.dart';
 
-export 'src/core/range/interval.dart';
+export 'src/core/range/interval.dart' hide Gaps, Intersections;
 export 'src/core/range/max.dart';
 export 'src/core/range/min.dart';
-export 'src/core/range/range.dart' hide Besides, Intersects;
+export 'src/core/range/range.dart' hide C, Besides, Intersects;
