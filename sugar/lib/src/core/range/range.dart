@@ -49,20 +49,24 @@ import 'package:sugar/core.dart';
   /// If this [Range] does not intersect [other], returns the gap in between. Otherwise returns `null`.
   ///
   /// ```dart
-  /// Interval.open(1, 5).intersection(Interval.closed(7, 9)); // [5..7)
+  /// Interval.open(1, 5).gap(Interval.closed(7, 9)); // [5..7), { x | 5 <= x < 7 }
+  ///
+  /// Min.closed(7).gap(Max.open(5)); // [5..7)
+  ///
+  /// Max.closed(5).gap(Interval.open(7, 9)); // (5..7]
   ///
   /// Interval.open(1, 5).gap(Interval.closed(3, 7)); // null
   /// ```
-  ///
-  /// See [intersects] for determining if two ranges intersect.
   Interval<T>? gap(Range<T> other);
 
   /// If this [Range] intersects [other], returns the intersection. Otherwise returns `null`.
   ///
   /// ```dart
-  /// Interval.open(1, 5).intersection(Interval.closed(3, 7)); // [3..5)
+  /// Interval.open(1, 5).intersection(Interval.closed(3, 7)); // [3..5), { x | 3 <= x < 5 }
   ///
   /// Min.open(5).intersection(Min.closed(7)); // [7..+∞)
+  ///
+  /// Max.open(5).intersection(Max.closed(7)); // (-∞..5)
   ///
   /// Interval.open(1, 5).intersection(Interval.open(7, 9)); // null
   /// ```

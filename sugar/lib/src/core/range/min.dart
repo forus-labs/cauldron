@@ -63,7 +63,7 @@ class Min<T extends Comparable<Object?>> extends Range<T> {
       return Intersections.minMax(this, other);
 
     } else {
-      return null;
+      throw UnsupportedError('${other.runtimeType} is unsupported');
     }
   }
 

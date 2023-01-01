@@ -94,12 +94,12 @@ class Interval<T extends Comparable<Object?>> extends Range<T> {
       return Gaps.maxInterval(other, this);
 
     } else {
-      return null;
+      throw UnsupportedError('${other.runtimeType} is unsupported');
     }
   }
 
   @override
-  Range<T>? intersection(Range<T> other) {
+  Interval<T>? intersection(Range<T> other) {
     if (other is Min<T>) {
       return Intersections.minInterval(other, this);
 
@@ -110,7 +110,7 @@ class Interval<T extends Comparable<Object?>> extends Range<T> {
       return Intersections.maxInterval(other, this);
 
     } else {
-      return null;
+      throw UnsupportedError('${other.runtimeType} is unsupported');
     }
   }
 
@@ -127,7 +127,7 @@ class Interval<T extends Comparable<Object?>> extends Range<T> {
           || (maxOpen == other.minClosed && max == other.min);
 
     } else {
-      return false;
+      throw UnsupportedError('${other.runtimeType} is unsupported');
     }
   }
 
@@ -163,7 +163,7 @@ class Interval<T extends Comparable<Object?>> extends Range<T> {
       return Intersects.intervalInterval(this, other);
 
     } else {
-      return false;
+      throw UnsupportedError('${other.runtimeType} is unsupported');
     }
   }
 
