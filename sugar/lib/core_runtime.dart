@@ -8,10 +8,10 @@
 /// A [FakeRuntime] is also provided for testing purposes.
 library sugar.core.runtime;
 
+import 'package:sugar/src/core/runtime/abstract_runtime.dart';
 import 'package:sugar/src/core/runtime/fake_runtime.dart';
-import 'package:sugar/src/core/runtime/runtime.dart';
 
+export 'src/core/runtime/abstract_runtime.dart'
+  if (dart.library.io) 'package:sugar/src/core/runtime/native_runtime.dart'
+  if (dart.library.html) 'package:sugar/src/core/runtime/web_runtime.dart';
 export 'src/core/runtime/fake_runtime.dart';
-export 'src/core/runtime/runtime.dart'
-if (dart.library.io) 'package:sugar/src/core/runtime/vm_runtime.dart'
-if (dart.library.html) 'package:sugar/src/core/runtime/web_runtime.dart';

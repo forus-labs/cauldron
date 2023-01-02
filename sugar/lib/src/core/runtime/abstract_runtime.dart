@@ -3,6 +3,9 @@
 /// Provides a platform agnostic way to retrieve information about the platform at runtime.
 class Runtime {
 
+  static int get a => 1;
+
+
   /// Creates [Runtime].
   const Runtime();
 
