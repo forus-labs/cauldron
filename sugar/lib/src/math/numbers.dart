@@ -22,14 +22,11 @@ extension Integers on int {
 
   /// The range of [int] on the current platform.
   ///
-  /// See [native] and [web].
-  static Interval<int> get platform => const Runtime().web ? web : native;
+  /// The range of [int] is `[-(2^63)..2^63 - 1]` on native platforms and `[-(2^53 - 1)..(2^53 - 1)]` on web platforms.
+  static Interval<int> get platform => const Runtime().web ? _web : _native;
 
-  /// The range of [int] on native platforms, `[-(2^63)..2^63 - 1]`.
-  static final Interval<int> native = Interval.closed(-9223372036854775808, 9223372036854775807);
-
-  /// The range of integers on web platforms, `[-(2^53 - 1)..(2^53 - 1)]`.
-  static final Interval<int> web  = Interval.closed(-9007199254740991, 9007199254740991);
+  static final Interval<int> _native = Interval.closed(-9223372036854775808, 9223372036854775807);
+  static final Interval<int> _web  = Interval.closed(-9007199254740991, 9007199254740991);
 
 
   /// Returns this [int] rounded to the closest multiple of the given [factor].

@@ -26,14 +26,14 @@ class Mutex {
 
 }
 
-class A {
-
-  final Mutex _mutex;
-
-  Future<void> share() {
-    _mutex.scope(() {
-
-    });
-  }
-
-}
+// class A {
+//
+//   final Mutex _mutex;
+//
+//   Future<void> share() {
+//     _mutex.scope(() {
+//
+//     });
+//   }
+//
+// }
