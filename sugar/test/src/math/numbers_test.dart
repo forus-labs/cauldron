@@ -2,13 +2,6 @@ import 'package:sugar/math.dart';
 import 'package:test/test.dart';
 
 void main() {
-
-  group('Booleans', () {
-    test('toInt() returns 1', () => expect(true.toInt(), 1));
-
-    test('toInt() returns 0', () => expect(false.toInt(), 1));
-  });
-
   group('Integers', () {
     group('roundTo(...)', () {
       test('smaller than factor', () => expect(5.roundTo(10), 10));

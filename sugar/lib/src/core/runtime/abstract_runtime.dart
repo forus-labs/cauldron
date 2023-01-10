@@ -1,10 +1,9 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:meta/meta.dart';
+
 /// Provides a platform agnostic way to retrieve information about the platform at runtime.
 class Runtime {
-
-  static int get a => 1;
-
 
   /// Creates [Runtime].
   const Runtime();
@@ -16,33 +15,33 @@ class Runtime {
   /// Note: Information about the current web browser version may not be accurate since it relies on the `User-Agent` header.
   ///
   /// Returns `unknown` if the platform is unknown.
-  String get platform => 'unknown';
+  @useResult String get platform => 'unknown';
 
   /// The current platform type.
   ///
   /// See [PlatformType].
-  PlatformType get type => PlatformType.unknown;
+  @useResult PlatformType get type => PlatformType.unknown;
 
   /// Whether the current runtime type is `android`.
-  bool get android => false;
+  @useResult bool get android => false;
 
   /// Whether the current runtime type is `fuchsia`.
-  bool get fuchsia => false;
+  @useResult bool get fuchsia => false;
 
   /// Whether the current runtime type is `ios`.
-  bool get ios => false;
+  @useResult bool get ios => false;
 
   /// Whether the current runtime type is `linux`.
-  bool get linux => false;
+  @useResult bool get linux => false;
 
   /// Whether the current runtime type is `macos`.
-  bool get macos => false;
+  @useResult bool get macos => false;
 
   /// Whether the current runtime type is `windows`.
-  bool get windows => false;
+  @useResult bool get windows => false;
 
   /// Whether the current runtime type is `web`.
-  bool get web => false;
+  @useResult bool get web => false;
 
 }
 

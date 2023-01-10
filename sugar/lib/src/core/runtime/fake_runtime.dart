@@ -12,24 +12,24 @@ class FakeRuntime implements Runtime {
   const FakeRuntime([this.type = PlatformType.unknown, this.platform = 'unknown']);
 
   @override
-  bool get android => type == PlatformType.android;
+  @useResult bool get android => type == PlatformType.android;
 
   @override
-  bool get fuchsia => type == PlatformType.fuchsia;
+  @useResult bool get fuchsia => type == PlatformType.fuchsia;
 
   @override
-  bool get ios => type == PlatformType.ios;
+  @useResult bool get ios => type == PlatformType.ios;
 
   @override
-  bool get linux => type == PlatformType.linux;
+  @useResult bool get linux => type == PlatformType.linux;
 
   @override
-  bool get macos => type == PlatformType.macos;
+  @useResult bool get macos => type == PlatformType.macos;
 
   @override
-  bool get windows => type == PlatformType.windows;
+  @useResult bool get windows => type == PlatformType.windows;
 
   @override
-  bool get web => type == PlatformType.web;
+  @useResult bool get web => type == PlatformType.web;
 
 }

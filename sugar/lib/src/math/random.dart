@@ -176,7 +176,7 @@ class FakeRandom implements Random {
   /// ```
   @override
   @Possible({StateError, RangeError})
-  int nextInt(int max) {
+  @useResult int nextInt(int max) {
     if (!_ints.moveNext()) {
       throw StateError('FakeRandom presently does not contain an integer. Try supply more integers to `FakeRandom(ints: [...])`.');
     }
@@ -207,7 +207,7 @@ class FakeRandom implements Random {
   /// random.nextInt(1); // throws RangeError
   /// ```
   @override
-  double nextDouble() {
+  @useResult double nextDouble() {
     if (!_doubles.moveNext()) {
       throw StateError('FakeRandom presently does not contain a double. Try supply more doubles to `FakeRandom(doubles: [...])`.');
     }
@@ -230,7 +230,7 @@ class FakeRandom implements Random {
   /// random.nextBool(); // throws StateError
   /// ```
   @override
-  bool nextBool() {
+  @useResult bool nextBool() {
     if (!_bools.moveNext()) {
       throw StateError('FakeRandom presently does not contain a boolean. Try supply more booleans to `FakeRandom(bools: [...])`.');
     }

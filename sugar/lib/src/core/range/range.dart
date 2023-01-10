@@ -23,7 +23,7 @@ import 'package:sugar/core.dart';
   /// min.contains(1); // true
   /// min.contains(-1); // false
   /// ```
-  bool contains(T value);
+  @useResult bool contains(T value);
 
   /// Returns `true` if this [Range] contains all of the given value.
   ///
@@ -33,7 +33,7 @@ import 'package:sugar/core.dart';
   /// min.containsAll([1, 2, 3]); // true
   /// min.containsAll([-1, 2, 3]); // false
   /// ```
-  @nonVirtual bool containsAll(Iterable<T> values) => values.every(contains);
+  @useResult @nonVirtual bool containsAll(Iterable<T> values) => values.every(contains);
 
   /// Creates a lazy [Iterable] over this [Range]. The given function produces a value in the returned [Iterable] using
   /// the previous value for each iteration.
@@ -44,7 +44,7 @@ import 'package:sugar/core.dart';
   /// final range = Interval.closedOpen(0, 5);
   /// range.iterate(by: (e) => e + 1).toList(); // [0, 1, 2, 3, 4]
   /// ```
-  @lazy Iterable<T> iterate({required T Function(T current) by});
+  @useResult @lazy Iterable<T> iterate({required T Function(T current) by});
 
   /// If this [Range] does not intersect [other], returns the gap in between. Otherwise returns `null`.
   ///
@@ -57,7 +57,7 @@ import 'package:sugar/core.dart';
   ///
   /// Interval.open(1, 5).gap(Interval.closed(3, 7)); // null
   /// ```
-  Interval<T>? gap(Range<T> other);
+  @useResult Interval<T>? gap(Range<T> other);
 
   /// If this [Range] intersects [other], returns the intersection. Otherwise returns `null`.
   ///
@@ -72,7 +72,7 @@ import 'package:sugar/core.dart';
   /// ```
   ///
   /// See [intersects] for determining if two ranges intersect.
-  Range<T>? intersection(Range<T> other);
+  @useResult Range<T>? intersection(Range<T> other);
 
 
   /// Returns `true` if an empty range exists between this [Range] and [other].
@@ -94,7 +94,7 @@ import 'package:sugar/core.dart';
   ///
   /// Interval.closed(1, 4).besides(Interval.closed(5, 7)); // false, [1..4] is not beside [5..7], discrete range
   /// ```
-  bool besides(Range<T> other);
+  @useResult bool besides(Range<T> other);
 
   /// Returns `true` if [other]'s bounds do not extend outside this [Range]'s bounds.
   ///
@@ -124,7 +124,7 @@ import 'package:sugar/core.dart';
   /// ```
   ///
   /// A [Range] that [encloses] another [Range] always [intersects].
-  bool encloses(Range<T> other);
+  @useResult bool encloses(Range<T> other);
 
   /// Returns `true` if a non-empty range exists between this [Range] and [other].
   ///
@@ -144,7 +144,7 @@ import 'package:sugar/core.dart';
   /// ```
   ///
   /// See [intersection] for computing the intersection of two ranges.
-  bool intersects(Range<T> other);
+  @useResult bool intersects(Range<T> other);
 
   /// Whether this [Range] is empty, i.e. `[a..a)`.
   ///
@@ -154,7 +154,7 @@ import 'package:sugar/core.dart';
   /// final interval = Interval.openClosed(1, 1);
   /// interval.empty; // true
   ///```
-  bool get empty;
+  @useResult bool get empty;
 
 }
 

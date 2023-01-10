@@ -9,7 +9,6 @@ void main() {
   test('platform', () => expect(runtime.platform, isNot('unknown')));
 
   test('type', () {
-    print(Runtime.a);
     expect(runtime.type, isNot(PlatformType.web));
     expect(runtime.type, isNot(PlatformType.unknown));
   });

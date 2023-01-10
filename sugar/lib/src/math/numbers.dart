@@ -1,19 +1,5 @@
+import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
-
-/// Provides functions for working with booleans.
-extension Booleans on bool {
-
-  /// If `true`, returns `1`, otherwise returns `0`.
-  ///
-  /// ```dart
-  /// true.toInt(); // 1
-  /// false.toInt(); // 0
-  /// ```
-  ///
-  /// See [Integers.toBool].
-  int toInt() => this ? 1 : 0;
-
-}
 
 /// Provides functions for working with [int]s.
 ///
@@ -46,7 +32,7 @@ extension Integers on int {
   /// ### Contract:
   /// [factor] must be a positive integer, i.e. `1 < factor`. A [RangeError] will otherwise be thrown.
   @Possible({RangeError})
-  int roundTo(int factor) => this % factor >= (factor.toDouble() / 2) ? ceilTo(factor) : floorTo(factor);
+  @useResult int roundTo(int factor) => this % factor >= (factor.toDouble() / 2) ? ceilTo(factor) : floorTo(factor);
 
   /// Returns this [int] rounded up to the closest multiple of the given [factor].
   ///
@@ -65,7 +51,7 @@ extension Integers on int {
   /// ### Contract:
   /// [factor] must be a positive integer, i.e. `1 < factor`. A [RangeError] will otherwise be thrown.
   @Possible({RangeError})
-  int ceilTo(int factor) {
+  @useResult int ceilTo(int factor) {
     if (factor < 1) {
       throw RangeError.range(factor, 1, null, 'factor');
     }
@@ -91,7 +77,7 @@ extension Integers on int {
   /// ### Contract:
   /// [factor] must be a positive integer, i.e. `1 < factor`. A [RangeError] will otherwise be thrown.
   @Possible({RangeError})
-  int floorTo(int factor) {
+  @useResult int floorTo(int factor) {
     if (factor < 1) {
       throw RangeError.range(factor, 1, null, 'factor');
     }
@@ -108,7 +94,7 @@ extension Integers on int {
   ///
   /// 0.toBool(); false
   /// ```
-  bool toBool() => this != 0;
+  @useResult bool toBool() => this != 0;
 
 }
 
@@ -122,6 +108,6 @@ extension Doubles on double {
   ///
   /// 1.2.approximately(1.0, 0.01); // false
   /// ```
-  bool approximately(double other, double epsilon) => (this - other).abs() <= epsilon;
+  @useResult bool approximately(double other, double epsilon) => (this - other).abs() <= epsilon;
 
 }

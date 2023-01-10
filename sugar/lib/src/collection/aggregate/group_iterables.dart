@@ -43,7 +43,7 @@ class Group<E> {
   /// ### Implementation details:
   /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
   /// recompute each [K] than maintain a map/list of [K]s.
-  @useResult Map<K, V> by<K, V>(K Function(E element) by, {required V Function(V? previous, E current) as}) {
+  @useResult Map<K, V> by<K, V>(Selector<E, K> by, {required V Function(V? previous, E current) as}) {
     final results = <K, V>{};
     for (final element in _iterable) {
       final key = by(element);
@@ -65,7 +65,7 @@ class Group<E> {
   /// ### Implementation details:
   /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
   /// recompute each [K] than maintain a map/list of [K]s.
-  @useResult Map<K, List<E>> lists<K>({required K Function(E element) by}) {
+  @useResult Map<K, List<E>> lists<K>({required Selector<E, K> by}) {
     final results = <K, List<E>>{};
     for (final element in _iterable) {
       (results[by(element)] ??= []).add(element);
@@ -86,7 +86,7 @@ class Group<E> {
   /// ### Implementation details:
   /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
   /// recompute each [K] than maintain a map/list of [K]s.
-  @useResult Map<K, Set<E>> sets<K>({required K Function(E element) by}) {
+  @useResult Map<K, Set<E>> sets<K>({required Selector<E, K> by}) {
     final results = <K, Set<E>>{};
     for (final element in _iterable) {
       (results[by(element)] ??= {}).add(element);

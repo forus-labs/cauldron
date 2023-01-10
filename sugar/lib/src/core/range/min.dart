@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:sugar/core_range.dart';
 import 'package:sugar/src/core/range/interval.dart';
 import 'package:sugar/src/core/range/range.dart';
@@ -20,17 +21,17 @@ class Min<T extends Comparable<Object?>> extends Range<T> {
   const Min.closed(this.value): open = false;
 
   @override
-  bool contains(T value) => this.value.compareTo(value) <= (closed ? 0 : -1);
+  @useResult bool contains(T value) => this.value.compareTo(value) <= (closed ? 0 : -1);
 
   @override
-  Iterable<T> iterate({required T Function(T current) by}) sync* {
+  @useResult Iterable<T> iterate({required T Function(T current) by}) sync* {
     for (var current = closed ? value : by(value); contains(current); current = by(current)) {
       yield current;
     }
   }
 
   @override
-  Interval<T>? gap(Range<T> other) {
+  @useResult Interval<T>? gap(Range<T> other) {
     if (other is Max<T>) {
       return Gaps.minMax(this, other);
 
@@ -43,7 +44,7 @@ class Min<T extends Comparable<Object?>> extends Range<T> {
   }
 
   @override
-  Range<T>? intersection(Range<T> other) {
+  @useResult Range<T>? intersection(Range<T> other) {
     if (other is Min<T>) {
       final comparison = value.compareTo(other.value);
       if (comparison < 0) {
@@ -69,7 +70,7 @@ class Min<T extends Comparable<Object?>> extends Range<T> {
 
 
   @override
-  bool besides(Range<T> other) {
+  @useResult bool besides(Range<T> other) {
     if (other is Max<T>) {
       return Besides.minMax(this, other);
 
@@ -82,7 +83,7 @@ class Min<T extends Comparable<Object?>> extends Range<T> {
   }
 
   @override
-  bool encloses(Range<T> other) {
+  @useResult bool encloses(Range<T> other) {
     if (other is Min<T>) {
       final comparison = value.compareTo(other.value);
       return (comparison < 0) || (comparison == 0 && (closed || other.open));
@@ -97,7 +98,7 @@ class Min<T extends Comparable<Object?>> extends Range<T> {
   }
 
   @override
-  bool intersects(Range<T> other) {
+  @useResult bool intersects(Range<T> other) {
     if (other is Max<T>) {
       return Intersects.minMax(this, other);
 

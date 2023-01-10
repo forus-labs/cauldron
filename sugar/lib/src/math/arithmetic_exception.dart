@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 /// Thrown when an exceptional arithmetic condition has occurred. For example, an [ArithmeticException] is thrown when
 /// an integer overflow occurs in certain operations in `sugar.math`.
 class ArithmeticException implements Exception {
@@ -9,6 +11,6 @@ class ArithmeticException implements Exception {
   ArithmeticException([this.message = "''"]);
 
   @override
-  String toString() => 'ArithmeticException: $message';
+  @useResult String toString() => 'ArithmeticException: $message';
 
 }

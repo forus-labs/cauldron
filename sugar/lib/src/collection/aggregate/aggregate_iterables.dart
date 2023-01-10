@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/collection_aggregate.dart';
+import 'package:sugar/core.dart';
 
 /// Provides aggregate functions for [Iterable]s.
 extension AggregateIterable<E> on Iterable<E> {
@@ -20,7 +21,7 @@ extension AggregateIterable<E> on Iterable<E> {
   /// ### Implementation details:
   /// This implementation assumes that computing each number is inexpensive. Under this assumption, it is more beneficial
   /// to recompute each value than maintain a map/list of numbers.
-  @useResult double average(num Function(E element) function) => sum(function) / length;
+  @useResult double average(Selector<E, num> function) => sum(function) / length;
 
   /// Computes the sum of values returned by the given [function], starting with the given initial value. The initial value
   /// is 0 if unspecified. [double.nan] will always be returned if present.
@@ -38,7 +39,7 @@ extension AggregateIterable<E> on Iterable<E> {
   /// ### Implementation details:
   /// This implementation assumes that computing each [R] is inexpensive. Under this assumption, it is more beneficial
   /// to recompute each value than maintain a map/list of [R]s.
-  @useResult R sum<R extends num>(R Function(E element) function, {R? initial}) {
+  @useResult R sum<R extends num>(Selector<E, num> function, {R? initial}) {
     var sum = initial ?? 0;
     for (final element in this) {
       sum += function(element);
