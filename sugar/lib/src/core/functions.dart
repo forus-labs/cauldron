@@ -8,6 +8,9 @@ typedef Consumer<T> = void Function(T value);
 /// A predicate (boolean-valued function) of one argument.
 typedef Predicate<T> = bool Function(T value);
 
+/// A selector of one argument.
+typedef Selector<T, R> = R Function(T value);
+
 /// A supplier of [T]s.
 typedef Supplier<T> = T Function();
 
