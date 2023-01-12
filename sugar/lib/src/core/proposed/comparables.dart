@@ -2,6 +2,8 @@ import 'dart:collection';
 import 'dart:math' as math;
 // reverse
 
+// combine
+
 // by value
 
 /// Provides overloads for comparison operators, i.e. `<`.
@@ -23,5 +25,3 @@ extension OverloadedComparables<T extends Comparable<Object>> on T {
   bool operator >= (T other) => !(this < other);
 
 }
-
-// Make range comparable
