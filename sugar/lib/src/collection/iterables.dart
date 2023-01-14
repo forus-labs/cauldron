@@ -34,7 +34,7 @@ extension Iterables<E> on Iterable<E> {
   /// ```
   ///
   /// See [Iterable.toSet] for creating a distinct [Iterable] by comparing elements.
-  @lazy @useResult Iterable<E> distinct({required Selector<E, Object?> by}) sync* {
+  @lazy @useResult Iterable<E> distinct({required Select<E, Object?> by}) sync* {
     final existing = <Object?>{};
     for (final element in this) {
       if (existing.add(by(element))) {
@@ -76,7 +76,7 @@ extension Iterables<E> on Iterable<E> {
   /// final map = [Foo('A'), Foo('B'), Foo('C')].associate(by: (foo) => foo.id);
   /// print(map); // { 'A': Foo('A'), 'B': Foo('B'), 'C': Foo('C') }
   /// ```
-  @useResult Map<R, E> associate<R>({required Selector<E, R> by}) => { for (final element in this) by(element): element };
+  @useResult Map<R, E> associate<R>({required Select<E, R> by}) => { for (final element in this) by(element): element };
 
   /// Transforms this [Iterable] into a map, using [key] and [value] to produce keys and values respectively. An entry
   /// may be replaced by a later entry if they both contain the same key.

@@ -5,7 +5,7 @@ import 'package:sugar/core.dart';
 /// Provides aggregate functions for [Iterable]s.
 extension AggregateIterable<E> on Iterable<E> {
 
-  /// Computes the average of all values returned by the given [function]. [double.nan] will always be returned if this
+  /// Computes the average of all values returned by the given [select]. [double.nan] will always be returned if this
   /// [Iterable] is empty, or [double.nan] is present.
   ///
   /// ```dart
@@ -21,9 +21,9 @@ extension AggregateIterable<E> on Iterable<E> {
   /// ### Implementation details:
   /// This implementation assumes that computing each number is inexpensive. Under this assumption, it is more beneficial
   /// to recompute each value than maintain a map/list of numbers.
-  @useResult double average(Selector<E, num> function) => sum(function) / length;
+  @useResult double average(Select<E, num> select) => sum(select) / length;
 
-  /// Computes the sum of values returned by the given [function], starting with the given initial value. The initial value
+  /// Computes the sum of values returned by the given [select], starting with the given initial value. The initial value
   /// is 0 if unspecified. [double.nan] will always be returned if present.
   ///
   /// ```dart
@@ -39,10 +39,10 @@ extension AggregateIterable<E> on Iterable<E> {
   /// ### Implementation details:
   /// This implementation assumes that computing each [R] is inexpensive. Under this assumption, it is more beneficial
   /// to recompute each value than maintain a map/list of [R]s.
-  @useResult R sum<R extends num>(Selector<E, num> function, {R? initial}) {
+  @useResult R sum<R extends num>(Select<E, num> select, {R? initial}) {
     var sum = initial ?? 0;
     for (final element in this) {
-      sum += function(element);
+      sum += select(element);
     }
 
     // Dart is fucking stupid for not allowing implicit conversions between integers and doubles.

@@ -67,11 +67,11 @@ class ListMove<E> {
     return moved;
   }
 
-  /// Moves elements in this [List] to the given [consumer]. The elements are passed to the [consumer] according to their
+  /// Moves elements in this [List] to the given [consume]. The elements are passed to the [consume] according to their
   /// order in this [List].
   ///
   /// ### Contract:
-  /// The given [consumer] should not modify this [List]. A [ConcurrentModificationError] will otherwise be thrown.
+  /// The given [consume] should not modify this [List]. A [ConcurrentModificationError] will otherwise be thrown.
   ///
   /// ```dart
   /// final foo = [1, 2, 3, 4, 5];
@@ -83,13 +83,13 @@ class ListMove<E> {
   /// print(bar); // [1, 3, 5]
   /// ```
   @Possible({ConcurrentModificationError}, when: 'predicate or consumer directly modifies underlying list')
-  void collect(Consumer<E> consumer) {
+  void collect(Consume<E> consume) {
     final retained = <E>[];
     final length = _list.length;
 
     for (final element in _list) {
       if (_predicate(element)) {
-        consumer(element);
+        consume(element);
 
       } else {
         retained.add(element);
@@ -157,10 +157,10 @@ class SetMove<E> {
     return moved;
   }
 
-  /// Moves elements in this [Set] to the given [consumer]. The ordering of elements in the return set is not guaranteed.
+  /// Moves elements in this [Set] to the given [consume]. The ordering of elements in the return set is not guaranteed.
   ///
   /// ### Contract:
-  /// The given [consumer] should not modify this [Set]. A [ConcurrentModificationError] will otherwise be thrown.
+  /// The given [consume] should not modify this [Set]. A [ConcurrentModificationError] will otherwise be thrown.
   ///
   /// ```dart
   /// final foo = {1, 2, 3, 4, 5};
@@ -172,11 +172,11 @@ class SetMove<E> {
   /// print(bar); // {1, 3, 5}
   /// ```
   @Possible({ConcurrentModificationError}, when: 'predicate or consumer modifies underlying set')
-  void collect(Consumer<E> consumer) {
+  void collect(Consume<E> consume) {
     final removed = <E>[];
     for (final element in _set) {
       if (_predicate(element)) {
-        consumer(element);
+        consume(element);
         removed.add(element);
       }
     }

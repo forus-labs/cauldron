@@ -2,7 +2,7 @@
 /// * Frequently used annotations, i.e. [Possible]
 /// * Facilities for determining deep equality
 /// * Monads, i.e. [Maybe] and [Result]
-/// * Type definitions for common functions i.e. [Consumer], [Predicate]
+/// * Type definitions for common functions i.e. [Consume], [Predicate]
 library sugar.core.core;
 
 import 'package:sugar/src/core/annotations.dart';

@@ -24,7 +24,7 @@ import 'package:sugar/core.dart';
   ///
   /// Result.of(throwing: () => throws ArgumentError)); // Failure(ArgumentError);
   /// ```
-  static Result<S, F> of<S extends Object, F extends Exception>({required Supplier<S> throwing}) {
+  static Result<S, F> of<S extends Object, F extends Exception>({required Supply<S> throwing}) {
     try {
       return Success(throwing());
 
@@ -118,7 +118,7 @@ import 'package:sugar/core.dart';
   ///
   /// Failure('f').when(success: print, failure: print); // 'f'
   /// ```
-  void when({Consumer<S> success = _nothing, Consumer<F> failure = _nothing});
+  void when({Consume<S> success = _nothing, Consume<F> failure = _nothing});
 
 
   /// Transforms this [Result] into a [Maybe]. [Success] is mapped to non-nullable [S], while [Failure] is mapped to `null`.
@@ -171,7 +171,7 @@ class Success<S extends Object, F extends Object> extends Result<S, F> {
 
 
   @override
-  void when({Consumer<S> success = Result._nothing, Consumer<F> failure = Result._nothing}) => success(this.success);
+  void when({Consume<S> success = Result._nothing, Consume<F> failure = Result._nothing}) => success(this.success);
 
   @override
   @useResult Null get failure => null;
@@ -218,7 +218,7 @@ class Failure<S extends Object, F extends Object> extends Result<S, F> {
 
 
   @override
-  void when({Consumer<S> success = Result._nothing, Consumer<F> failure = Result._nothing}) => failure(this.failure);
+  void when({Consume<S> success = Result._nothing, Consume<F> failure = Result._nothing}) => failure(this.failure);
 
   @override
   @useResult Null get success => null;

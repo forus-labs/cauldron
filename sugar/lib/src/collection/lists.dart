@@ -49,7 +49,7 @@ extension Lists<E> on List<E> {
     return true;
   }
 
-  /// Replaces all elements in this [List] using the given [function]. The given function accepts a [Consumer] used to
+  /// Replaces all elements in this [List] using the given [function]. The given function accepts a [Consume] used to
   /// add replacement(s). An element can be replaced by zero or more elements.
   ///
   /// This function is the equivalent of a mutating [fold].
@@ -66,7 +66,7 @@ extension Lists<E> on List<E> {
   /// foo.replaceAll((replace, element) => foo.remove(0)); // throws ConcurrentModificationError
   /// ```
   @Possible({ConcurrentModificationError})
-  void replaceAll(void Function(Consumer<E> add, E element) function) {
+  void replaceAll(void Function(Consume<E> add, E element) function) {
     final retained = <E>[];
     final length = this.length;
 

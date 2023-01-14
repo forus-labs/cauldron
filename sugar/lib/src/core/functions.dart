@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 
 /// Ann operation that accepts a single argument and returns nothing.
-typedef Consumer<T> = void Function(T value);
+typedef Consume<T> = void Function(T value);
 
 /// A predicate (boolean-valued function) of one argument.
 typedef Predicate<T> = bool Function(T value);
 
 /// A selector of one argument.
-typedef Selector<T, R> = R Function(T value);
+typedef Select<T, R> = R Function(T value);
 
 /// A supplier of [T]s.
-typedef Supplier<T> = T Function();
+typedef Supply<T> = T Function();
 
 /// A callback that has no arguments and returns nothing.
 typedef Callback = FutureOr<void> Function();
