@@ -12,6 +12,7 @@ import 'package:sugar/src/core/result.dart';
 
 export 'src/core/annotations.dart';
 export 'src/core/booleans.dart';
+export 'src/core/comparables.dart';
 export 'src/core/disposable.dart';
 export 'src/core/equality.dart';
 export 'src/core/functions.dart';
