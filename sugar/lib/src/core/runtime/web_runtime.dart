@@ -17,7 +17,7 @@ class Runtime {
 
   /// The current platform type.
   ///
-  /// See [RuntimeType].
+  /// See [PlatformType].
   PlatformType get type => PlatformType.web;
 
   /// Whether the current runtime type is `android`.

@@ -18,7 +18,7 @@ void main() {
     }.entries) {
       test('parse(...) throws exception', () => expect(() => Bools.parse(entry.key), throwsFormatException));
     }
-    
+
     for (final entry in {
       'true': true,
       'tRuE': true,

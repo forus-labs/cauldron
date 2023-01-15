@@ -19,12 +19,13 @@ extension Bools on bool {
   /// ```
   @Possible({FormatException})
   static bool parse(String source) {
-    final bool = tryParse(source);
-    if (bool != null) {
-      return bool;
-
-    } else {
-      throw FormatException('Invalid boolean', source);
+    switch (source.toLowerCase()) {
+      case 'true':
+        return true;
+      case 'false':
+        return false;
+      default:
+        throw FormatException('Invalid boolean', source);
     }
   }
 
@@ -41,15 +42,13 @@ extension Bools on bool {
   /// Bools.tryParse('0'); // null
   /// ```
   static bool? tryParse(String source) {
-    final formatted = source.toLowerCase();
-    if (formatted == 'true') {
-      return true;
-
-    } else if (formatted == 'false') {
-      return false;
-
-    } else {
-      return null;
+    switch (source.toLowerCase()) {
+      case 'true':
+        return true;
+      case 'false':
+        return false;
+      default:
+        return null;
     }
   }
 
@@ -63,8 +62,4 @@ extension Bools on bool {
   /// See [Integers.toBool].
   @useResult int toInt() => this ? 1 : 0;
 
-}
-
-void main() {
-  int.tryParse('value');
 }

@@ -17,7 +17,7 @@ class Runtime {
 
   /// The current platform type.
   ///
-  /// See [RuntimeType].
+  /// See [PlatformType].
   PlatformType get type => PlatformType._cache ??= PlatformType._current;
 
   /// Whether the current runtime type is `android`.

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:sugar/src/math/random.dart';
 import 'package:test/test.dart';
 
@@ -47,7 +45,7 @@ void main() {
     });
 
     group('doubles(...)', () {
-      test('values', () async => expect(await FakeRandom(doubles: [0.1, 0.2, 0.3, 0.4]).doubles(length: 4, min: 0, max: 10).toList(), [1.0, 2.0, 3.0, 4.0]));
+      test('values', () async => expect(await FakeRandom(doubles: [0.1, 0.2, 0.3, 0.4]).doubles(length: 4, max: 10).toList(), [1.0, 2.0, 3.0, 4.0]));
 
       test('NaN range', () => expect(() => FakeRandom(doubles: [0]).doubles(min: double.nan, max: 2.0), throwsRangeError));
 
@@ -72,9 +70,7 @@ void main() {
           }
         }
 
-        print(i);
         a.insert(i + 1, 'c');
-        print(a);
       });
       
       test('in sequence', () {
