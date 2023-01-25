@@ -1,3 +1,5 @@
+// Weak map
+
 /// Retrieves the ongoing sessions.
 // Future<List<FullTimedSession>> ongoing()  => _storage.transaction((transaction) async {
 //   final details = await _sessions.queryOngoing(transaction);
