@@ -1,3 +1,22 @@
+# 2.6.0+1 (26/01/2023)
+Fix formatting in `analysis_options.yaml`.
+
+# 2.6.0 (26/01/2023)
+This update focuses on lint rules introduced in Dart 2.19.
+
+-Add `combinators_ordering`
+-Add `collection_methods_unrelated_type`
+-Add `dangling_library_doc_comments`
+-Add `enable_null_safety`
+-Add `implicit_call_tearoffs`
+-Add `library_annotations`
+-Add `unnecessary_library_directive`
+-Add `use_string_in_part_of_directives`
+- Remove deprecated `avoid_returning_null_for_future` 
+- Remove deprecated `always_require_non_null_named_parameters`
+- Remove deprecated `avoid_returning_null`
+- Remove deprecated `prefer_equal_for_default_values`
+
 ## 2.5.3 (01/12/2022)
 This update removes `invariant_booleans`.
 

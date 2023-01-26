@@ -10,7 +10,7 @@ Future<void> main() async => write(await mature(changes(await fetch())).toSet())
 
 Future<Set<String>> fetch() async {
   if (!temp.existsSync() || DateTime.now().difference(temp.lastModifiedSync()) > const Duration(days: 1)) {
-    print('"all_rules.yaml" could not be found/is outdated, downloading from ${remote.toString()}');
+    print('"all_rules.yaml" could not be found/is outdated, downloading from $remote');
 
     final response = await get(remote);
     temp..createSync(recursive: true)..writeAsStringSync(response.body);
