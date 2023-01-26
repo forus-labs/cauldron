@@ -1,0 +1,32 @@
+name: Sugar Build
+
+on:
+  push:
+    paths: [ sugar/**, .github/workflows/sugar.yaml ]
+
+  pull_request:
+    paths: [ sugar/**, .github/workflows/sugar.yaml ]
+
+jobs:
+  tests:
+    name: Automated Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sugar
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: dart analyze --fatal-warnings lib
+      - run: dart test --coverage=./coverage/raw
+      - run: dart pub global activate coverage
+      - run: dart pub global run coverage:format_coverage --packages=.packages -l -i ./coverage/raw -o ./coverage/lcov.info --report-on=lib
+      - run: apt-get update -y
+      - run: apt-get install -y lcov
+      - run: lcov --remove ./coverage/lcov.info 'lib/**.g.dart' -o ./coverage/lcov.info
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./sugar/coverage/lcov.info
+          fail_ci_if_error: true

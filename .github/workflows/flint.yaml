@@ -1,0 +1,22 @@
+name: Flint Build
+
+on:
+  push:
+    paths: [ flint/**, .github/workflows/flint.yaml ]
+    
+  pull_request:
+    paths: [ flint/**, .github/workflows/flint.yaml ]
+
+jobs:
+  tests:
+    name: Automated Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: flint
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: dart-lang/setup-dart@v1
+    - run: dart pub get
+    - run: dart analyze --fatal-warnings

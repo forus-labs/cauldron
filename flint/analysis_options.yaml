@@ -1,4 +1,9 @@
 include: lib/analysis_options.dart.yaml
+
+analyzer:
+  exclude:
+    - example/**
+
 linter:
   rules:
     avoid_print: false
