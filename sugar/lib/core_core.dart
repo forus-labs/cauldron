@@ -18,3 +18,5 @@ export 'src/core/equality.dart';
 export 'src/core/functions.dart';
 export 'src/core/maybe.dart';
 export 'src/core/result.dart';
+export 'src/core/string_buffers.dart';
+export 'src/core/strings.dart';

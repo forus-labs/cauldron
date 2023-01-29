@@ -9,7 +9,7 @@ extension Integers on int {
   /// The range of [int] on the current platform.
   ///
   /// The range of [int] is `[-(2^63)..2^63 - 1]` on native platforms and `[-(2^53 - 1)..(2^53 - 1)]` on web platforms.
-  static Interval<int> get platform => const Runtime().web ? _web : _native;
+  static Interval<int> get range => const Runtime().web ? _web : _native;
 
   static final Interval<int> _native = Interval.closed(-9223372036854775808, 9223372036854775807);
   static final Interval<int> _web  = Interval.closed(-9007199254740991, 9007199254740991);
