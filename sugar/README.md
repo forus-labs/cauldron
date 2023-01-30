@@ -5,7 +5,17 @@
 
 Sugar doesn't hold some grandiose vision for dramatically changing programming. It just contains simple, quality of life improvements.
 
+To add the library to your project:
+```bash
+dart pub add sugar 
+```
+
 ```yaml
 dependencies:
   sugar: ^3.0.0
 ```
+
+## Design Philosophy
+* Follow Dart's core library's design where applicable
+* Minimal 3rd-party dependencies
+* Simple things should be simple, complex things should be possible

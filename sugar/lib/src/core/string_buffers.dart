@@ -1,25 +1,20 @@
 /// Provides functions for working with [StringBuffer]s.
 extension StringBuffers on StringBuffer {
 
-  /// Adds the string representation of [object] with the given [indentation] to this buffer.
+  /// Adds the string representation of [object] with the given [enclosing] string to this buffer.
   ///
   /// ```dart
-  /// final buffer = StringBuffer()..enclose('hello world');
-  /// buffer.toString(); // '    hello world'
+  /// final buffer = StringBuffer()..writeEnclosed('hello world');
+  /// buffer.toString(); // "'hello world'"
   /// ```
-  void enclose(Object? object) {
-
-  }
+  void writeEnclosed([Object? object, String enclosing = "'"]) => this..write(enclosing)..write(object)..write(enclosing);
 
   /// Adds the string representation of [object] with the given [indentation] to this buffer.
   ///
   /// ```dart
-  /// final buffer = StringBuffer()..indent(4, 'hello world');
+  /// final buffer = StringBuffer()..writeIndented(4, 'hello world');
   /// buffer.toString(); // '    hello world'
   /// ```
-  void indent(int indentation, [Object? object]) {
-    write(' ' * indentation);
-    write(object.toString());
-  }
+  void writeIndented(int indentation, [Object? object]) => this..write(' ' * indentation)..write(object.toString());
 
 }

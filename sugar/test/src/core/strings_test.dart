@@ -1,0 +1,170 @@
+import 'package:sugar/core.dart';
+import 'package:test/test.dart';
+
+void main() {
+
+  group('equalsIgnoreCase(...)', () {
+    test('equals other, same case', () => expect('abc'.equalsIgnoreCase('abc'), true));
+
+    test('equals other, different case', () => expect('abc'.equalsIgnoreCase('aBc'), true));
+
+    test('not equals other, same case', () => expect('abc'.equalsIgnoreCase('abcd'), false));
+
+    test('not equals other, different case', () => expect('abc'.equalsIgnoreCase('aBcd'), false));
+  });
+
+  group('matches(...)', () {
+    test('matches other', () => expect('abc'.matches('abc'), true));
+
+    test('does not match other, different case', () => expect('abc'.matches('aBc'), false));
+
+    test('does not match other, partial', () => expect('abc'.matches('ab'), false));
+
+    test('does not match other, prefix', () => expect('abc'.matches('aabc'), false));
+
+    test('does not match other, suffix', () => expect('abc'.matches('abcc'), false));
+
+    test('does not match other, repeating', () => expect('abc'.matches('abcabc'), false));
+  });
+
+  group('capitalize(...)', () {
+    test('all lowercase', () => expect('abc'.capitalize(), 'Abc'));
+
+    test('existing uppercase', () => expect('Abc'.capitalize(), 'Abc'));
+
+    test('single letter', () => expect('a'.capitalize(), 'A'));
+
+    test('existing capitalized letters', () => expect('aBc a'.capitalize(), 'ABc a'));
+  });
+
+
+  group('toCamelCase()', () {
+    test('single word', () => expect('abc'.toCamelCase(), 'abc'));
+
+    test('camel case', () => expect('camelCase'.toCamelCase(), 'camelCase'));
+
+    test('pascal case', () => expect('PascalCase'.toCamelCase(), 'pascalCase'));
+
+    test('screaming case', () => expect('SCREAMING_CASE'.toCamelCase(), 'screamingCase'));
+
+    test('snake case', () => expect('snake_case'.toCamelCase(), 'snakeCase'));
+
+    test('kebab case', () => expect('kebab-case'.toCamelCase(), 'kebabCase'));
+
+    test('title case', () => expect('Title Case'.toCamelCase(), 'titleCase'));
+
+    test('sentence case', () => expect('Sentence case'.toCamelCase(), 'sentenceCase'));
+  });
+
+  group('toPascalCase()', () {
+    test('single word', () => expect('abc'.toPascalCase(), 'Abc'));
+
+    test('camel case', () => expect('camelCase'.toPascalCase(), 'CamelCase'));
+
+    test('pascal case', () => expect('PascalCase'.toPascalCase(), 'PascalCase'));
+
+    test('screaming case', () => expect('SCREAMING_CASE'.toPascalCase(), 'ScreamingCase'));
+
+    test('snake case', () => expect('snake_case'.toPascalCase(), 'SnakeCase'));
+
+    test('kebab case', () => expect('kebab-case'.toPascalCase(), 'KebabCase'));
+
+    test('title case', () => expect('Title Case'.toPascalCase(), 'TitleCase'));
+
+    test('sentence case', () => expect('Sentence case'.toPascalCase(), 'SentenceCase'));
+  });
+
+  group('toScreamingCase()', () {
+    test('single word', () => expect('abc'.toScreamingCase(), 'ABC'));
+
+    test('camel case', () => expect('camelCase'.toScreamingCase(), 'CAMEL_CASE'));
+
+    test('pascal case', () => expect('PascalCase'.toScreamingCase(), 'PASCAL_CASE'));
+
+    test('screaming case', () => expect('SCREAMING_CASE'.toScreamingCase(), 'SCREAMING_CASE'));
+
+    test('snake case', () => expect('snake_case'.toScreamingCase(), 'SNAKE_CASE'));
+
+    test('kebab case', () => expect('kebab-case'.toScreamingCase(), 'KEBAB_CASE'));
+
+    test('title case', () => expect('Title Case'.toScreamingCase(), 'TITLE_CASE'));
+
+    test('sentence case', () => expect('Sentence case'.toScreamingCase(), 'SENTENCE_CASE'));
+  });
+
+  group('toSnakeCase()', () {
+    test('single word', () => expect('abc'.toSnakeCase(), 'abc'));
+
+    test('camel case', () => expect('camelCase'.toSnakeCase(), 'camel_case'));
+
+    test('pascal case', () => expect('PascalCase'.toSnakeCase(), 'pascal_case'));
+
+    test('screaming case', () => expect('SCREAMING_CASE'.toSnakeCase(), 'screaming_case'));
+
+    test('snake case', () => expect('snake_case'.toSnakeCase(), 'snake_case'));
+
+    test('kebab case', () => expect('kebab-case'.toSnakeCase(), 'kebab_case'));
+
+    test('title case', () => expect('Title Case'.toSnakeCase(), 'title_case'));
+
+    test('sentence case', () => expect('Sentence case'.toSnakeCase(), 'sentence_case'));
+  });
+
+  group('toKebabCase()', () {
+    test('single word', () => expect('abc'.toKebabCase(), 'abc'));
+
+    test('camel case', () => expect('camelCase'.toKebabCase(), 'camel-case'));
+
+    test('pascal case', () => expect('PascalCase'.toKebabCase(), 'pascal-case'));
+
+    test('screaming case', () => expect('SCREAMING_CASE'.toKebabCase(), 'screaming-case'));
+
+    test('snake case', () => expect('snake_case'.toKebabCase(), 'snake-case'));
+
+    test('kebab case', () => expect('kebab-case'.toKebabCase(), 'kebab-case'));
+
+    test('title case', () => expect('Title Case'.toKebabCase(), 'title-case'));
+
+    test('sentence case', () => expect('Sentence case'.toKebabCase(), 'sentence-case'));
+  });
+
+  group('toTitleCase()', () {
+    test('single word', () => expect('abc'.toTitleCase(), 'Abc'));
+
+    test('camel case', () => expect('camelCase'.toTitleCase(), 'Camel Case'));
+
+    test('pascal case', () => expect('PascalCase'.toTitleCase(), 'Pascal Case'));
+
+    test('screaming case', () => expect('SCREAMING_CASE'.toTitleCase(), 'SCREAMING CASE'));
+
+    test('snake case', () => expect('snake_case'.toTitleCase(), 'Snake Case'));
+
+    test('kebab case', () => expect('kebab-case'.toTitleCase(), 'Kebab Case'));
+
+    test('title case', () => expect('Title Case'.toTitleCase(), 'Title Case'));
+
+    test('sentence case', () => expect('Sentence case'.toTitleCase(), 'Sentence Case'));
+  });
+
+  group('toSentenceCase()', () {
+    test('single word', () => expect('abc'.toSentenceCase(), 'Abc'));
+
+    test('camel case', () => expect('camelCase'.toSentenceCase(), 'Camel case'));
+
+    test('pascal case', () => expect('PascalCase'.toSentenceCase(), 'Pascal case'));
+
+    test('screaming case', () => expect('SCREAMING_CASE'.toSentenceCase(), 'SCREAMING CASE'));
+
+    test('snake case', () => expect('snake_case'.toSentenceCase(), 'Snake case'));
+
+    test('kebab case', () => expect('kebab-case'.toSentenceCase(), 'Kebab case'));
+
+    test('title case', () => expect('Title Case'.toSentenceCase(), 'Title case'));
+
+    test('sentence case', () => expect('Sentence case'.toSentenceCase(), 'Sentence case'));
+  });
+
+
+
+
+}
