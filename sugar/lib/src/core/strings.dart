@@ -269,6 +269,9 @@ extension Strings on String {
   /// // ' class-based '
   /// // ' garbage-collected '
   /// // ' language with C-style syntax '
+  ///
+  ///
+  /// ''.lines // []
   /// ```
   ///
   /// This an alternative to [LineSplitter.convert] that returns a lazy [Iterable] rather than an eager [List].
@@ -301,6 +304,7 @@ extension Strings on String {
     }
   }
 
+
   /// Whether this string is comprised entirely of uppercase characters.
   ///
   /// ```dart
@@ -323,6 +327,8 @@ extension Strings on String {
   ///
   /// ```dart
   /// '  '.isBlank; // true
+  ///
+  /// '\n '.isBlank; // true
   ///
   /// '1 '.isBlank; // false
   /// ```
@@ -357,6 +363,8 @@ extension Strings on String {
   ///
   /// ```dart
   /// '  '.isNotBlank; // false
+  ///
+  /// '\n '.isNotBlank; // false
   ///
   /// '1 '.isNotBlank; // true
   /// ```

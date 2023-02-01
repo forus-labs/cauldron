@@ -1,4 +1,5 @@
 @TestOn('vm')
+library;
 
 import 'package:sugar/core_runtime.dart';
 import 'package:test/test.dart';

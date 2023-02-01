@@ -15,6 +15,6 @@ extension StringBuffers on StringBuffer {
   /// final buffer = StringBuffer()..writeIndented(4, 'hello world');
   /// buffer.toString(); // '    hello world'
   /// ```
-  void writeIndented(int indentation, [Object? object]) => this..write(' ' * indentation)..write(object.toString());
+  void writeIndented(int indentation, [Object? object]) => this..write(' ' * indentation)..write(object);
 
 }

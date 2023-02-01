@@ -165,6 +165,62 @@ void main() {
   });
 
 
+  group('lines', () {
+    test('empty', () => expect(''.lines.toList(), []));
 
+    test('End with CR', () => expect('AB\rCD\rEF'.lines.toList(), ['AB', 'CD', 'EF']));
+
+    test('End with LF', () => expect('AB\nCD\nEF'.lines.toList(), ['AB', 'CD', 'EF']));
+
+    test('End with CR+LF', () => expect('AB\r\nCD\r\nEF'.lines.toList(), ['AB', 'CD', 'EF']));
+
+    test('End with LF+CR', () => expect('AB\n\rCD\n\rEF'.lines.toList(), ['AB', '', 'CD', '', 'EF']));
+
+    test('End with no line terminator', () => expect('AB\nCD'.lines.toList(), ['AB', 'CD']));
+  });
+
+  group('isUppercase', () {
+    test('uppercase', () => expect('ABC'.isUpperCase, true));
+
+    test('mixed', () => expect('aBc'.isUpperCase, false));
+
+    test('lowercase', () => expect('abc'.isUpperCase, false));
+  });
+
+  group('isLowerCase', () {
+    test('uppercase', () => expect('ABC'.isLowerCase, false));
+
+    test('mixed', () => expect('aBc'.isLowerCase, false));
+
+    test('lowercase', () => expect('abc'.isLowerCase, true));
+  });
+
+  group('isBlank', () {
+    test('blank', () => expect('  '.isBlank, true));
+
+    test('newline', () => expect('\n '.isBlank, true));
+
+    test('empty', () => expect(''.isBlank, true));
+
+    test('not blank', () => expect('ABC'.isBlank, false));
+
+    test('prefix', () => expect('  ABC'.isBlank, false));
+
+    test('suffix', () => expect('ABC  '.isBlank, false));
+  });
+
+  group('isNotBlank', () {
+    test('blank', () => expect('  '.isNotBlank, false));
+
+    test('newline', () => expect('\n '.isNotBlank, false));
+
+    test('empty', () => expect(''.isNotBlank, false));
+
+    test('not blank', () => expect('ABC'.isNotBlank, true));
+
+    test('prefix', () => expect('  ABC'.isNotBlank, true));
+
+    test('suffix', () => expect('ABC  '.isNotBlank, true));
+  });
 
 }

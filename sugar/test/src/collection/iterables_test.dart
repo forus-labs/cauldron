@@ -54,7 +54,7 @@ void main() {
         final set = HashSet<Bar>()..addAll({Bar('a', 1), Bar('b', 1), Bar('c', 1), Bar('a', 2)});
         final distinct = set.distinct(by: (bar) => bar.id).toSet();
 
-        expect(distinct.containsAll({Bar('a', 1), Bar('b', 1), Bar('c', 1)}) || distinct.containsAll({Bar('a', 2), Bar('b', 1), Bar('c', 1)}), true);
+        expect(distinct.containsAll(<Bar>{Bar('a', 1), Bar('b', 1), Bar('c', 1)}) || distinct.containsAll(<Bar>{Bar('a', 2), Bar('b', 1), Bar('c', 1)}), true);
       });
     });
 
@@ -93,6 +93,31 @@ void main() {
         'b': 'Foo{id: b}',
         'c': 'Foo{id: c}',
       }));
+    });
+
+
+    test('toUnmodifiableList()', () {
+      final original = [1, 2, 3];
+      final unmodifiable = original.toUnmodifiableList();
+
+      expect(unmodifiable, original);
+      expect(() => unmodifiable[0] = 2, throwsUnsupportedError);
+    });
+
+    test('toUnmodifiableSet()', () {
+      final original = {1, 2, 3};
+      final unmodifiable = original.toUnmodifiableSet();
+
+      expect(unmodifiable, original);
+      expect(() => unmodifiable.remove(1), throwsUnsupportedError);
+    });
+
+    test('toUnmodifiableMap()', () {
+      final original = {1, 2, 3};
+      final unmodifiable = original.toUnmodifiableMap((e) => e, (e) => e.toString());
+
+      expect(unmodifiable, {1: '1', 2: '2', 3: '3'});
+      expect(() => unmodifiable.remove(1), throwsUnsupportedError);
     });
   });
 

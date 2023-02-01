@@ -78,8 +78,8 @@ extension Iterables<E> on Iterable<E> {
   /// ```
   @useResult Map<R, E> associate<R>({required Select<E, R> by}) => { for (final element in this) by(element): element };
 
-  /// Transforms this [Iterable] into a map, using [key] and [value] to produce keys and values respectively. An entry
-  /// may be replaced by a later entry if they both contain the same key.
+  /// Creates an unmodifiable [Map] using [key] and [value] to produce keys and values from elements in this [Iterable].
+  /// An entry may be replaced by a later entry if they both contain the same key.
   ///
   /// This method is an alternative to Dart's in-built map comprehension. It is recommended to use this method only when
   /// there are multiple steps to producing a key or value that cannot be expressed clearly in a single expression.
@@ -94,6 +94,46 @@ extension Iterables<E> on Iterable<E> {
   /// );
   /// ```
   @useResult Map<K, V> toMap<K, V>(K Function(E element) key, V Function(E element) value) => { for (final element in this) key(element): value(element) };
+
+
+  /// Creates an unmodifiable [List] using elements in this [Iterable].
+  ///
+  /// ```dart
+  /// [1, 2, 3].toUnmodifiableList(); //  [1, 2, 3] - unmodifiable
+  /// ```
+  ///
+  /// See [toList] for creating a mutable [List].
+  @useResult List<E> toUnmodifiableList() => List.unmodifiable(this);
+
+  /// Creates an unmodifiable [Set] using elements in this [Iterable].
+  ///
+  /// ```dart
+  /// {1, 2, 3}.toUnmodifiableSet(); //  {1, 2, 3} - unmodifiable
+  /// ```
+  ///
+  /// See [toSet] for creating a mutable [Set].
+  @useResult Set<E> toUnmodifiableSet() => Set.unmodifiable(this);
+
+  /// Creates an unmodifiable [Map] using [key] and [value] to produce keys and values from elements in this [Iterable].
+  /// An entry may be replaced by a later entry if they both contain the same key.
+  ///
+  /// This method is an alternative to Dart's in-built map comprehension. It is recommended to use this method only when
+  /// there are multiple steps to producing a key or value that cannot be expressed clearly in a single expression.
+  ///
+  /// ```dart
+  /// ['a', 'b', 'c'].toUnmodifiableMap(
+  ///   (element) {
+  ///     final foo = someFunction(element);
+  ///     return someOtherFunction(foo) ?? yetAnotherFunction(foo);
+  ///   },
+  ///   (element) => element,
+  /// );
+  /// ```
+  ///
+  /// See [toMap] for creating a mutable [Map].
+  @useResult Map<K, V> toUnmodifiableMap<K, V>(K Function(E element) key, V Function(E element) value) => Map.unmodifiable({
+    for (final element in this) key(element): value(element),
+  });
 
 }
 

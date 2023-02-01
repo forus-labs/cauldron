@@ -16,6 +16,6 @@ dependencies:
 ```
 
 ## Design Philosophy
-* Follow Dart's core library's design where applicable
+* Consistency with the standard library's design and terminology
 * Minimal 3rd-party dependencies
 * Simple things should be simple, complex things should be possible
