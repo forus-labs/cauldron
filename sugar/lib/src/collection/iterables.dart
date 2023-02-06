@@ -140,40 +140,104 @@ extension Iterables<E> on Iterable<E> {
 /// Provides functions for working with [Iterable]s of null-nullable elements.
 extension NonNullableIterable<E extends Object> on Iterable<E> {
 
-  /// The first element, or `null` if this [Iterable] is empty.
+  /// If [where] is given, returns the first element satisfying it or `null` if there are none. Otherwise, returns the first
+  /// element or `null` if this [Iterable] is empty.
   ///
   /// ```dart
-  /// ['a', 'b'].firstOrNull ?? 'something'; // `a`
+  /// ['a', 'b', 'c'].firstOrNull(where: (e) => e == 'b') ?? 'something'; // 'b'
   ///
-  /// [].firstOrNull ?? 'something'; // 'something'
+  /// ['a', 'b', 'c'].firstOrNull(where: (e) => false) ?? 'something'; // 'something'
+  ///
+  ///
+  /// ['a', 'b', 'c'].firstOrNull() ?? 'something'; // 'a'
+  ///
+  /// [].firstOrNull() ?? 'something'; // 'something'
   /// ```
-  @useResult E? get firstOrNull => isNotEmpty ? first : null;
-
-  /// The last element, or `null` if this [Iterable] is empty.
-  ///
-  /// ```dart
-  /// ['a', 'b'].lastOrNull ?? 'something'; // `b`
-  ///
-  /// [].lastOrNull ?? 'something; // 'something'
-  /// ```
-  @useResult E? get lastOrNull => isNotEmpty ? last : null;
-
-  /// The single element of this [Iterable] , or `null`.
-  ///
-  /// ```dart
-  /// ['a'].singleOrNull ?? 'something'; // `a`
-  ///
-  /// [].singleOrNull ?? 'something'; // 'something'
-  /// ```
-  @useResult E? get singleOrNull {
-    final iterator = this.iterator;
-    if (iterator.moveNext()) {
-      final result = iterator.current;
-      if (!iterator.moveNext()) {
-        return result;
+  @useResult E? firstOrNull({Predicate<E>? where}) {
+    if (where == null) {
+      return isNotEmpty ? first : null;
+    }
+    
+    for (final element in this) {
+      if (where(element)) {
+        return element;
       }
     }
+    
     return null;
+  }
+
+  /// If [where] is given, returns the last element satisfying it or `null` if there are none. Otherwise, returns the last
+  /// element or `null` if this [Iterable] is empty.
+  ///
+  /// ```dart
+  /// ['a', 'b', 'c'].lastOrNull(where: (e) => e == 'b') ?? 'something'; // 'b'
+  ///
+  /// ['a', 'b', 'c'].lastOrNull(where: (e) => false) ?? 'something'; // 'something'
+  ///
+  ///
+  /// ['a', 'b', 'c'].lastOrNull() ?? 'something'; // 'c'
+  ///
+  /// [].lastOrNull() ?? 'something'; // 'something'
+  /// ```
+  @useResult E? lastOrNull({Predicate<E>? where}) {
+    if (where == null) {
+      return isNotEmpty ? last : null;
+    }
+
+    E? result;
+    for (final element in this) {
+      if (where(element)) {
+        result = element;
+      }
+    }
+
+    return result;
+  }
+
+  /// If [where] is given, returns the single element satisfying it or `null` if there are none or more than one.
+  /// Otherwise, returns the single element or `null` if this [Iterable] contains none or more than one.
+  ///
+  /// ### Note:
+  /// This behavior differs from [singleWhere] which always throws if there are more than one match, and only calls the
+  /// `orElse` function on zero matches.
+  ///
+  /// ```dart
+  /// ['a', 'b', 'c'].singleOrNull(where: (e) => e == 'b') ?? 'something'; // 'b'
+  ///
+  /// ['a', 'c'].singleOrNull(where: (e) => e == 'b') ?? 'something'; // 'something'
+  ///
+  /// ['a', 'b', 'c', 'b'].singleOrNull(where: (e) => e == 'b') ?? 'something'; // 'something'
+  ///
+  ///
+  /// ['a'].singleOrNull() ?? 'something'; // `a`
+  ///
+  /// [].singleOrNull() ?? 'something'; // 'something'
+  /// ```
+  @useResult E? singleOrNull({Predicate<E>? where}) {
+    if (where == null) {
+      final iterator = this.iterator;
+      if (iterator.moveNext()) {
+        final result = iterator.current;
+        if (!iterator.moveNext()) {
+          return result;
+        }
+      }
+      return null;
+
+    } else {
+      E? result;
+      for (final element in this) {
+        if (where(element)) {
+          if (result != null) {
+            return null;
+          }
+
+          result = element;
+        }
+      }
+      return result;
+    }
   }
 
 }
