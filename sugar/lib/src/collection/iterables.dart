@@ -140,6 +140,19 @@ extension Iterables<E> on Iterable<E> {
 /// Provides functions for working with [Iterable]s of null-nullable elements.
 extension NonNullableIterable<E extends Object> on Iterable<E> {
 
+  // TODO: add tests
+
+  /// Returns the element at the given index, or `null` if no such element exists.
+  ///
+  /// ```dart
+  /// ['a', 'b', 'c'].elementOrNull(at: 1) ?? 'something'; // 'b'
+  ///
+  /// ['a', 'b', 'c'].elementOrNull(at: -1) ?? 'something'; // 'something'
+  ///
+  /// ['a', 'b', 'c'].elementOrNull(at: 3) ?? 'something'; // 'something'
+  /// ```
+  @useResult E? elementOrNull({required int at}) => at < 0 ? null : skip(at).firstOrNull();
+
   /// If [where] is given, returns the first element satisfying it or `null` if there are none. Otherwise, returns the first
   /// element or `null` if this [Iterable] is empty.
   ///

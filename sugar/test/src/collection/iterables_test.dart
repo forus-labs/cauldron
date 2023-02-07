@@ -122,28 +122,66 @@ void main() {
   });
 
   group('NonNullableIterable', () {
-    group('firstOrNull', () {
-      test('empty', () => expect(<int>[].firstOrNull, null));
+    group('firstOrNull(...)', () {
+      group('no predicate', () {
+        test('empty', () => expect(<int>[].firstOrNull(), null));
 
-      test('single value', () => expect([1].firstOrNull, 1));
+        test('single value', () => expect([1].firstOrNull(), 1));
 
-      test('multiple values', () => expect([1, 2, 3].firstOrNull, 1));
+        test('multiple values', () => expect([1, 2, 3].firstOrNull(), 1));
+      });
+
+      group('with predicate', () {
+        test('empty', () => expect(<int>[].firstOrNull(where: (e) => true), null));
+
+        test('no value', () => expect([1].firstOrNull(where: (e) => e == 2), null));
+
+        test('single value', () => expect([1, 2, 3].firstOrNull(where: (e) => e == 2), 2));
+
+        test('multiple values', () => expect([1, 2, 2, 3].firstOrNull(where: (e) => e == 2), 2));
+      });
     });
 
-    group('lastOrNull', () {
-      test('empty', () => expect(<int>[].lastOrNull, null));
+    group('lastOrNull(...)', () {
+      // We need to skip(0) to test NonNullableIterable.lastOrNull() instead of NonNullableList.lastOrNull().
 
-      test('single value', () => expect([1].lastOrNull, 1));
+      group('no predicate', () {
+        test('empty', () => expect(<int>[].skip(0).lastOrNull(), null));
 
-      test('multiple values', () => expect([1, 2, 3].lastOrNull, 3));
+        test('single value', () => expect([1].skip(0).lastOrNull(), 1));
+
+        test('multiple values', () => expect([1, 2, 3].skip(0).lastOrNull(), 3));
+      });
+
+      group('with predicate', () {
+        test('empty', () => expect(<int>[].skip(0).lastOrNull(where: (e) => true), null));
+
+        test('no value', () => expect([1].skip(0).lastOrNull(where: (e) => e == 2), null));
+
+        test('single value', () => expect([1, 2, 3].skip(0).lastOrNull(where: (e) => e == 2), 2));
+
+        test('multiple values', () => expect([1, 2, 2, 3].skip(0).lastOrNull(where: (e) => e == 2), 2));
+      });
     });
 
-    group('singleOrNull', () {
-      test('empty', () => expect(<int>[].singleOrNull, null));
+    group('singleOrNull(...)', () {
+      group('no predicate', () {
+        test('empty', () => expect(<int>[].singleOrNull(), null));
 
-      test('single value', () => expect([1].singleOrNull, 1));
+        test('single value', () => expect([1].singleOrNull(), 1));
 
-      test('multiple values', () => expect([1, 2, 3].singleOrNull, null));
+        test('multiple values', () => expect([1, 2, 3].singleOrNull(), null));
+      });
+
+      group('with predicate', () {
+        test('empty', () => expect(<int>[].singleOrNull(where: (e) => true), null));
+
+        test('no value', () => expect([1].singleOrNull(where: (e) => e == 2), null));
+
+        test('single value', () => expect([1, 2, 3].singleOrNull(where: (e) => e == 2), 2));
+
+        test('multiple values', () => expect([1, 2, 2, 3].singleOrNull(where: (e) => e == 2), null));
+      });
     });
   });
 
