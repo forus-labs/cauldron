@@ -48,8 +48,6 @@ extension Iterables<E> on Iterable<E> {
   /// ```dart
   /// ['a', 'b', 'c'].indexed(); // [MapEntry(1, 'a'), MapEntry(2, 'b'), MapEntry(3, 'c')];
   /// ```
-  ///
-  /// See [entry] for destructing a [MapEntry] into two separate parameters.
   @lazy @useResult Iterable<MapEntry<int, E>> indexed() sync* {
     var count = 0;
     for (final element in this) {
@@ -59,7 +57,7 @@ extension Iterables<E> on Iterable<E> {
 
 
   /// Creates a map that associates a value returned by the given function with an element in this iterable. An earlier
-  /// association will be overridden by a newer association if duplicate keys exist.
+  /// entry will be overridden by a newer entry if duplicate keys exist.
   ///
   /// This function is meant for mapping a single key to a single element in this iterable, (1:1). For aggregating several
   /// elements by the same key, (1:N), it is recommended to use the functions in [Group] instead.
@@ -139,8 +137,6 @@ extension Iterables<E> on Iterable<E> {
 
 /// Provides functions for working with [Iterable]s of null-nullable elements.
 extension NonNullableIterable<E extends Object> on Iterable<E> {
-
-  // TODO: add tests
 
   /// Returns the element at the given index, or `null` if no such element exists.
   ///

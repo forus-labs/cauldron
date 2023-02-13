@@ -122,6 +122,17 @@ void main() {
   });
 
   group('NonNullableIterable', () {
+    group('elementorNull(...)', () {
+      // We need to skip(0) to test NonNullableIterable.elementorNull(...) instead of NonNullableList.elementorNull(...).
+      final iterable = ['a', 'b', 'c'].skip(0);
+
+      test('exists', () => expect(iterable.elementOrNull(at: 1), 'b'));
+
+      test('negative index', () => expect(iterable.elementOrNull(at: -1), null));
+
+      test('greater than length', () => expect(iterable.elementOrNull(at: iterable.length), null));
+    });
+
     group('firstOrNull(...)', () {
       group('no predicate', () {
         test('empty', () => expect(<int>[].firstOrNull(), null));

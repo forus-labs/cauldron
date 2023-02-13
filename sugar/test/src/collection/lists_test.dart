@@ -136,5 +136,35 @@ void main() {
         expect(list, []);
       });
     });
+
+    group('elementorNull(...)', () {
+      final list = ['a', 'b', 'c'];
+
+      test('exists', () => expect(list.elementOrNull(at: 1), 'b'));
+
+      test('negative index', () => expect(list.elementOrNull(at: -1), null));
+
+      test('greater than length', () => expect(list.elementOrNull(at: list.length), null));
+    });
+
+    group('lastOrNull(...)', () {
+      group('no predicate', () {
+        test('empty', () => expect(<int>[].lastOrNull(), null));
+
+        test('single value', () => expect([1].lastOrNull(), 1));
+
+        test('multiple values', () => expect([1, 2, 3].lastOrNull(), 3));
+      });
+
+      group('with predicate', () {
+        test('empty', () => expect(<int>[].lastOrNull(where: (e) => true), null));
+
+        test('no value', () => expect([1].lastOrNull(where: (e) => e == 2), null));
+
+        test('single value', () => expect([1, 2, 3].lastOrNull(where: (e) => e == 2), 2));
+
+        test('multiple values', () => expect([1, 2, 2, 3].lastOrNull(where: (e) => e == 2), 2));
+      });
+    });
   });
 }

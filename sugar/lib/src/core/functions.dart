@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
-
 /// Ann operation that accepts a single argument and returns nothing.
 typedef Consume<T> = void Function(T value);
 
