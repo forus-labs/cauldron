@@ -42,9 +42,39 @@ extension Maps<K, V> on Map<K, V> {
     }
   }
 
+  /// Retains all entries of this map that satisfy the given [predicate].
+  ///
+  /// ```dart
+  /// final foo = {'a': 1, 'b': 2, 'c': 3};
+  /// foo.retainWhere((k, v) => v < 3); // {'a': 1, 'b': 2}
+  /// ```
+  void retainWhere(bool Function(K key, V value) predicate) {
+    final removed = <K>[];
+    for (final entry in entries) {
+      if (!predicate(entry.key, entry.value)) {
+        removed.add(entry.key);
+      }
+    }
 
-  // TODO: add retainWhere(...)
+    removed.forEach(remove);
+  }
 
+
+  /// Returns a [Map] where each entry is inverted, with the key becoming the value and the value becoming the key.
+  ///
+  /// ```dart
+  /// final foo = {'a': 1, 'b': 2, 'c': 3, 'd': 3};
+  /// final bar = foo.inverse(); //  {1: ['a'], 2: ['b'], 3: ['c', 'd']}
+  /// ```
+  @useResult
+  Map<V, List<K>> inverse() {
+    final result = <V, List<K>>{};
+    for (final entry in entries) {
+      (result[entry.value] ??= []).add(entry.key);
+    }
+
+    return result;
+  }
 
   /// Returns a [Map] that contains only entries that satisfy the given predicate.
   ///
