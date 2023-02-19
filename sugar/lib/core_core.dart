@@ -1,14 +1,36 @@
-/// Provides the following:
-/// * Frequently used annotations, i.e. [Possible]
-/// * Facilities for determining deep equality
-/// * Monads, i.e. [Maybe] and [Result]
-/// * Type definitions for common functions i.e. [Consume], [Predicate]
+/// General purpose utilities for every Dart program.
+///
+/// This library provides the following:
+///
+/// ## Annotations
+/// Annotations that express intent, similar to those in `package:meta`.
+/// * [Possible]
+/// * [NotTested]
+/// * [lazy]
+/// * [mutated]
+///
+/// ## Functions & Monads
+/// Type definitions for common functions, and monads.
+///
+/// Function type definitions:
+/// * [Callback]
+/// * [Consume]
+/// * [Predicate]
+/// * [Select]
+/// * [Supply]
+///
+/// ## Primitives
+/// Utilities for primitive types, i.e. [bool] and [String].
+/// * [Bools]
+/// * [Strings]
 library sugar.core.core;
 
 import 'package:sugar/src/core/annotations.dart';
+import 'package:sugar/src/core/booleans.dart';
 import 'package:sugar/src/core/functions.dart';
 import 'package:sugar/src/core/maybe.dart';
 import 'package:sugar/src/core/result.dart';
+import 'package:sugar/src/core/strings.dart';
 
 export 'src/core/annotations.dart';
 export 'src/core/booleans.dart';

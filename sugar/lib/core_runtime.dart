@@ -1,5 +1,5 @@
 /// Platform agnostic utilities for retrieving information about the current platform across both native and web.
-/// This is an alternative to `dart:io`'s `Platform` class that only works on native.
+/// This is an alternative to `dart:io`'s `Platform` class that only works on native platforms.
 ///
 /// A [Runtime] provides utilities for retrieving information about the current platform. This includes the current
 /// operating system name & version if called on Dart native, and the current web browser on Dart web. Information about
