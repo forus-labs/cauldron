@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import 'package:sugar/time.dart';
+import 'package:sugar/prototype_time.dart';
 
 /// An immutable temporal.
 mixin Temporal<T extends Temporal<T>> implements DateTime {

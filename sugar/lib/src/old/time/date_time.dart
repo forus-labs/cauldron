@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import 'package:sugar/time.dart';
+import 'package:sugar/prototype_time.dart';
 
 /// An immutable date-time without a timezone.
 class LocalDateTime extends DateTime with MultiPart, RoundableDateTime<LocalDateTime>, Temporal<LocalDateTime> {

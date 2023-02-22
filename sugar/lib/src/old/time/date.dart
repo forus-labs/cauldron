@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import 'package:sugar/time.dart';
+import 'package:sugar/prototype_time.dart';
 
 /// An immutable date without a timezone.
 class Date extends DateTime with RoundableDateTime<Date>, Temporal<Date> {

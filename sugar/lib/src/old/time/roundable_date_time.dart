@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart' as math show round, ceil, floor;
-import 'package:sugar/time.dart';
+import 'package:sugar/prototype_time.dart';
 
 int _unzero(int value) => value == 0 ? 1 : value;
 

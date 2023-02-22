@@ -8,7 +8,7 @@ import 'package:sugar/core.dart';
 ///
 /// Implementing types should override the following:
 /// * [compareTo]
-/// * [hash]
+/// * [hashValue]
 ///
 /// Overriding [==] is not recommended as [Orderable] requires that its ordering agree with its operator [==] equality.
 ///
@@ -178,7 +178,7 @@ extension Comparators<T> on Comparator<T> {
 ///
 /// Unlike [DateTime.isBefore] and other related methods, the provided comparison operators require compared [DateTime]s
 /// to be in the same timezone. Comparing [DateTime]s in different timezones will always return `false`. This is to
-/// to ensure that comparison operators agree with [DateTime]'s [==].
+/// to ensure that comparison operators agree with [DateTime]'s [DateTime.==].
 ///
 /// ```dart
 /// DateTime.now() > DateTime(1970); // true
