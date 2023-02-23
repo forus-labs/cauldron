@@ -122,3 +122,31 @@ extension Maps<K, V> on Map<K, V> {
   Map<K, V1> revalue<V1>(V1 Function(V value) convert) => { for (final entry in entries) entry.key: convert(entry.value) };
 
 }
+
+/// Provides functions for working with [Map]s of null-nullable entries.
+extension NonNullableMap<K extends Object, V extends Object> on Map<K, V> {
+
+  /// Associates the [key] with the given [value] if neither is null.
+  ///
+  /// Returns `true` if the [key] was associated with the given [value]. That is to say, if neither was null. Otherwise,
+  /// returns `false`.
+  ///
+  /// ```dart
+  /// <String, int>{}.putIfNotNull('a', 1); // true, {'a': 1}
+  ///
+  /// <String, int>{'a': 0}.putIfNotNull('a', 1); // true, {'a': 1}
+  ///
+  /// <String, int>{}.putIfNotNull('a', null); // false, {}
+  ///
+  /// <String, int>{}.putIfNotNull(null, 1); // false, {}
+  /// ```
+  bool putIfNotNull(K? key, V? value) {
+    final result = key != null && value != null;
+    if (result) {
+      this[key] = value;
+    }
+
+    return result;
+  }
+
+}
