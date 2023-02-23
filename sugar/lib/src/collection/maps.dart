@@ -18,7 +18,7 @@ extension Maps<K, V> on Map<K, V> {
     final result = Map.of(a);
     for (final entry in b.entries) {
       final existing = a[entry.key];
-      a[entry.key] = existing == null ? entry.value : ifConflicts(entry.key, existing, entry.value);
+      result[entry.key] = existing == null ? entry.value : ifConflicts(entry.key, existing, entry.value);
     }
 
     return result;
