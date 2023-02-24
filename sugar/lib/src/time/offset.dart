@@ -61,6 +61,13 @@ class Offset with Orderable<Offset> {
     RangeError.checkValueInInterval(hour, 0, 60, 'second');
   }
 
+  @Possible({RangeError})
+  Offset add({int hours = 0, int minutes = 0, int seconds = 0}) => Offset(
+    
+  )
+
+  Offset substract()
+
   // TODO: Offset.parse(...)
 
   // TODO: addition & subtraction (operator on duration + on individual components)
