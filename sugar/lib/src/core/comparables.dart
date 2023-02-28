@@ -15,6 +15,7 @@ import 'package:sugar/core.dart';
 /// It is important that [hash] follows the contract defined in [Object.hashCode]. In particular, hash codes must be the
 /// same for [Orderable]s that are equal to each other according to [==]. The following code snippet illustrates  a common mistake.
 ///
+/// ### Example:
 /// ```dart
 /// class Wrong with Orderable<Wrong> {
 ///   final int key;
@@ -79,6 +80,7 @@ mixin Orderable<T extends Orderable<T>> implements Comparable<T> {
 ///
 /// This function is unstable, either [a] or [b] may be returned if both are equal.
 ///
+/// ### Example:
 /// ```dart
 /// min(MapEntry(1, 'a'), MapEntry(2, 'a'), by: (e) => e.key); // MapEntry(1, 'a')
 ///
@@ -91,6 +93,7 @@ mixin Orderable<T extends Orderable<T>> implements Comparable<T> {
 /// The result of [min] and [math.min] differs when comparing numbers and either argument is [double.nan].
 /// [min] will always return the other numeric argument while [math.min] will always return [double.nan].
 ///
+/// ### Example:
 /// ```dart
 /// min(1.0, double.nan); // 1.0
 ///
@@ -114,6 +117,7 @@ mixin Orderable<T extends Orderable<T>> implements Comparable<T> {
 ///
 /// This function is unstable, either [a] or [b] may be returned if both are equal.
 ///
+/// ### Example:
 /// ```dart
 /// max(MapEntry(1, 'a'), MapEntry(2, 'a'), by: (e) => e.key); // MapEntry(2, 'a')
 ///
@@ -139,6 +143,7 @@ extension Comparators<T> on Comparator<T> {
 
   /// Returns a [Comparator] that compares two [T]s using the values produced by [select].
   ///
+  /// ### Example:
   /// ```dart
   /// final compare = Comparators.by<MapEntry<int, String>>((e) => e.key);
   /// compare(MapEntry(1, 'b'), MapEntry(2, 'a')); // -1
@@ -147,6 +152,7 @@ extension Comparators<T> on Comparator<T> {
 
   /// Returns a [Comparator] that reverses the ordering produced by this [Comparator].
   ///
+  /// ### Example:
   /// ```dart
   /// final Comparator<int> compare = (a, b) => a.compareTo(b);
   ///
@@ -180,6 +186,7 @@ extension Comparators<T> on Comparator<T> {
 /// to be in the same timezone. Comparing [DateTime]s in different timezones will always return `false`. This is to
 /// to ensure that comparison operators agree with [DateTime]'s [DateTime.==].
 ///
+/// ### Example:
 /// ```dart
 /// DateTime.now() > DateTime(1970); // true
 ///
@@ -191,6 +198,7 @@ extension ComparableDateTimes<T extends DateTime> on T {
 
   /// Returns `true` if this [DateTime] and [other] are in the same timezone and this [DateTime] occurs before [other].
   ///
+  /// ### Example:
   /// ```dart
   /// DateTime(1970) < DateTime(1980); // true
   ///
@@ -204,6 +212,7 @@ extension ComparableDateTimes<T extends DateTime> on T {
 
   /// Returns `true` if this [DateTime] and [other] are in the same timezone and this [DateTime] occurs after [other].
   ///
+  /// ### Example:
   /// ```dart
   /// DateTime(1980) > DateTime(1970); // true
   ///
@@ -217,6 +226,7 @@ extension ComparableDateTimes<T extends DateTime> on T {
 
   /// Returns `true` if this [DateTime] and [other] are in the same timezone, and this [DateTime] occurs before or at [other].
   ///
+  /// ### Example:
   /// ```dart
   /// DateTime(1970) <= DateTime(1980); // true
   ///
@@ -230,6 +240,7 @@ extension ComparableDateTimes<T extends DateTime> on T {
 
   /// Returns `true` if this [DateTime] and [other] are in the same timezone and this [DateTime] occurs after or at [other].
   ///
+  /// ### Example:
   /// ```dart
   /// DateTime(1980) >= DateTime(1970); // true
   ///

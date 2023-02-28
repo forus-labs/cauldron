@@ -19,6 +19,7 @@ extension Integers on int {
   ///
   /// The returned [int] may overflow or underflow if sufficiently large or small respectively.
   ///
+  /// ### Example:
   /// ```dart
   /// 12.roundTo(10); // 10
   ///
@@ -38,6 +39,7 @@ extension Integers on int {
   ///
   /// The returned [int] may overflow if sufficiently large.
   ///
+  /// ### Example:
   /// ```dart
   /// 12.ceilTo(10); // 20
   ///
@@ -64,6 +66,7 @@ extension Integers on int {
   ///
   /// The returned [int] may underflow if sufficiently small.
   ///
+  /// ### Example:
   /// ```dart
   /// 12.floorTo(10); // 10
   ///
@@ -88,6 +91,7 @@ extension Integers on int {
 
   /// If `0`, returns `false`, otherwise returns `true`.
   ///
+  /// ### Example:
   /// ```dart
   /// 3.toBool(); // true
   /// -1.toBool(); // true
@@ -103,6 +107,7 @@ extension Doubles on double {
 
   /// Returns true if this [double] and [other] are within the given [epsilon] of each other.
   ///
+  /// ### Example:
   /// ```dart
   /// 1.0002.approximately(1.0, 0.01); // true
   ///

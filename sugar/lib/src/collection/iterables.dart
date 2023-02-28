@@ -18,6 +18,7 @@ extension Iterables<E> on Iterable<E> {
   /// This means to say, a different element with the same value may be returned each time the returned [Iterable] is
   /// iterated over.
   ///
+  /// ### Example:
   /// ```dart
   /// class Foo {
   ///   final String id;
@@ -45,6 +46,7 @@ extension Iterables<E> on Iterable<E> {
 
   /// Returns a lazy [Iterable] that contains this [Iterable]'s elements' indexes and elements.
   ///
+  /// ### Example:
   /// ```dart
   /// ['a', 'b', 'c'].indexed(); // [MapEntry(1, 'a'), MapEntry(2, 'b'), MapEntry(3, 'c')];
   /// ```
@@ -64,6 +66,7 @@ extension Iterables<E> on Iterable<E> {
   ///
   /// It is a convenience function for similarly creating a map via [Map.fromIterable] and map comprehension.
   ///
+  /// ### Example:
   /// ```dart
   /// class Foo {
   ///   final String id;
@@ -82,6 +85,7 @@ extension Iterables<E> on Iterable<E> {
   /// This method is an alternative to Dart's in-built map comprehension. It is recommended to use this method only when
   /// there are multiple steps to producing a key or value that cannot be expressed clearly in a single expression.
   ///
+  /// ### Example:
   /// ```dart
   /// ['a', 'b', 'c'].toMap(
   ///   (element) {
@@ -96,6 +100,7 @@ extension Iterables<E> on Iterable<E> {
 
   /// Creates an unmodifiable [List] using elements in this [Iterable].
   ///
+  /// ### Example:
   /// ```dart
   /// [1, 2, 3].toUnmodifiableList(); //  [1, 2, 3] - unmodifiable
   /// ```
@@ -105,6 +110,7 @@ extension Iterables<E> on Iterable<E> {
 
   /// Creates an unmodifiable [Set] using elements in this [Iterable].
   ///
+  /// ### Example:
   /// ```dart
   /// {1, 2, 3}.toUnmodifiableSet(); //  {1, 2, 3} - unmodifiable
   /// ```
@@ -118,6 +124,7 @@ extension Iterables<E> on Iterable<E> {
   /// This method is an alternative to Dart's in-built map comprehension. It is recommended to use this method only when
   /// there are multiple steps to producing a key or value that cannot be expressed clearly in a single expression.
   ///
+  /// ### Example:
   /// ```dart
   /// ['a', 'b', 'c'].toUnmodifiableMap(
   ///   (element) {
@@ -140,6 +147,7 @@ extension NonNullableIterable<E extends Object> on Iterable<E> {
 
   /// Returns the element at the given index, or `null` if no such element exists.
   ///
+  /// ### Example:
   /// ```dart
   /// ['a', 'b', 'c'].elementOrNull(at: 1) ?? 'something'; // 'b'
   ///
@@ -152,6 +160,7 @@ extension NonNullableIterable<E extends Object> on Iterable<E> {
   /// If [where] is given, returns the first element satisfying it or `null` if there are none. Otherwise, returns the first
   /// element or `null` if this [Iterable] is empty.
   ///
+  /// ### Example:
   /// ```dart
   /// ['a', 'b', 'c'].firstOrNull(where: (e) => e == 'b') ?? 'something'; // 'b'
   ///
@@ -179,6 +188,7 @@ extension NonNullableIterable<E extends Object> on Iterable<E> {
   /// If [where] is given, returns the last element satisfying it or `null` if there are none. Otherwise, returns the last
   /// element or `null` if this [Iterable] is empty.
   ///
+  /// ### Example:
   /// ```dart
   /// ['a', 'b', 'c'].lastOrNull(where: (e) => e == 'b') ?? 'something'; // 'b'
   ///
@@ -211,6 +221,7 @@ extension NonNullableIterable<E extends Object> on Iterable<E> {
   /// This behavior differs from [singleWhere] which always throws if there are more than one match, and only calls the
   /// `orElse` function on zero matches.
   ///
+  /// ### Example:
   /// ```dart
   /// ['a', 'b', 'c'].singleOrNull(where: (e) => e == 'b') ?? 'something'; // 'b'
   ///
@@ -256,6 +267,7 @@ extension IterableIterable<E> on Iterable<Iterable<E>> {
 
   /// Returns a lazy [Iterable] which contains elements in all nested [Iterable]s in this [Iterable].
   ///
+  /// ### Example:
   /// ```dart
   /// [[1, 2], [3, 4], [5]].flatten().toList(); // [1, 2, 3, 4, 5]
   /// ```

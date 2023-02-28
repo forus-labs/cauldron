@@ -19,6 +19,7 @@ import 'package:sugar/core.dart';
   /// Conversion of thrown [Error]s into [Result]s is intentionally avoided. This is because an [Error]
   /// represent a failure that the programmer should have avoided.
   ///
+  /// ### Example:
   /// ```dart
   /// Result.of(throwing: () => 1)); // Success(1);
   ///
@@ -41,6 +42,7 @@ import 'package:sugar/core.dart';
   ///
   /// A [T] is produced by applying the given function on this [Result]'s [S].
   ///
+  /// ### Example:
   /// ```dart
   /// Success(1).map((value) => value.toString()); // Success('1')
   ///
@@ -53,6 +55,7 @@ import 'package:sugar/core.dart';
   ///
   /// A [T] is produced by applying the given function on this [Result]'s [F].
   ///
+  /// ### Example:
   /// ```dart
   /// Success(1).mapFailure((value) => value.toString()); // Success(1)
   ///
@@ -66,6 +69,7 @@ import 'package:sugar/core.dart';
   ///
   /// See [pipe] for an asynchronous variant of this function.
   ///
+  /// ### Example:
   /// ```dart
   /// Success(1).bind((value) => Failure(value.toString())); // Failure('1')
   ///
@@ -78,6 +82,7 @@ import 'package:sugar/core.dart';
   ///
   /// See [pipeFailure] for an asynchronous variant of this function.
   ///
+  /// ### Example:
   /// ```dart
   /// Success(1).bindFailure((value) => Failure(value.toString())); // Success(1)
   ///
@@ -90,6 +95,7 @@ import 'package:sugar/core.dart';
   ///
   /// See [bind] for a synchronous variant of this function.
   ///
+  /// ### Example:
   /// ```dart
   /// Success(1).pipe((value) async => Failure(value.toString())); // Failure('1')
   ///
@@ -102,6 +108,7 @@ import 'package:sugar/core.dart';
   ///
   /// See [bindFailure] for a synchronous variant of this function.
   ///
+  /// ### Example:
   /// ```dart
   /// Success(1).pipeFailure((value) async => Failure(value.toString())); // Success(1)
   ///
@@ -113,6 +120,7 @@ import 'package:sugar/core.dart';
   /// If this [Result] is a [Success], calls [success], otherwise calls [failure]. By default, [success] and [failure]
   /// does nothing.
   ///
+  /// ### Example:
   /// ```dart
   /// Success('s').when(success: print, failure: print); // 's'
   ///
@@ -123,6 +131,7 @@ import 'package:sugar/core.dart';
 
   /// Transforms this [Result] into a [Maybe]. [Success] is mapped to non-nullable [S], while [Failure] is mapped to `null`.
   ///
+  /// ### Example:
   /// ```dart
   /// int foo(Result<int, String> result) => result.success!;
   ///
@@ -132,6 +141,7 @@ import 'package:sugar/core.dart';
 
   /// Transforms this [Result] into a [Maybe]. [Failure] is mapped to a non-nullable [F], while [Success] is mapped to `null`.
   ///
+  /// ### Example:
   /// ```dart
   /// int foo(Result<int, String> result) => result.failure!;
   ///

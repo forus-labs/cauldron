@@ -5,6 +5,7 @@ extension Maps<K, V> on Map<K, V> {
 
   /// Merges [a] and [b], using the given [ifConflicts] function to resolve conflicting entries.
   ///
+  /// ### Example:
   /// ```dart
   /// final foo = {'a': 1, 'b': 2, 'c': 3};
   /// final bar = {'a': 1, 'b': 3, 'c': 2};
@@ -27,6 +28,7 @@ extension Maps<K, V> on Map<K, V> {
 
   /// Adds all entries in [other] to this [Map], using the given [ifExists] function to resolve conflicting entries.
   ///
+  /// ### Example:
   /// ```dart
   /// final foo = {'a': 1, 'b': 2, 'c': 3};
   /// final bar = {'a': 1, 'b': 3, 'c': 2};
@@ -44,6 +46,7 @@ extension Maps<K, V> on Map<K, V> {
 
   /// Retains all entries of this map that satisfy the given [predicate].
   ///
+  /// ### Example:
   /// ```dart
   /// final foo = {'a': 1, 'b': 2, 'c': 3};
   /// foo.retainWhere((k, v) => v < 3); // {'a': 1, 'b': 2}
@@ -62,6 +65,7 @@ extension Maps<K, V> on Map<K, V> {
 
   /// Returns a [Map] where each entry is inverted, with the key becoming the value and the value becoming the key.
   ///
+  /// ### Example:
   /// ```dart
   /// final foo = {'a': 1, 'b': 2, 'c': 3, 'd': 3};
   /// final bar = foo.inverse(); //  {1: ['a'], 2: ['b'], 3: ['c', 'd']}
@@ -81,6 +85,7 @@ extension Maps<K, V> on Map<K, V> {
   /// ### Note:
   /// This function is eager. That is to say, the resulting [Map] is immediately computed.
   ///
+  /// ### Example:
   /// ```dart
   /// final foo = {'a': 1, 'b': 2, 'c': 3};
   /// final bar = foo.where((k, v) => k == 'a' || v == 2); // {'a': 1, 'b': 2}
@@ -99,6 +104,7 @@ extension Maps<K, V> on Map<K, V> {
   /// [convert] should produce unique keys. Earlier entries may be overridden by newer entries if [convert] produces
   /// duplicate keys.
   ///
+  /// ### Example:
   /// ```dart
   /// final foo = {1: 1, 2: 2, 3: 3};
   /// final bar = foo.rekey((k) => k.toString()); // {'1': 1, '2': 2, '3': 3}
@@ -111,6 +117,7 @@ extension Maps<K, V> on Map<K, V> {
   /// Returns a [Map] that contains this [Map]'s [keys] associated with its [values] transformed using the given [convert]
   /// function.
   ///
+  /// ### Example:
   /// ```dart
   /// final foo = {1: 1, 2: 2, 3: 3};
   /// final bar = foo.revalue((v) => v.toString()); // {1: '1', 2: '2', 3: '3'}
@@ -131,6 +138,7 @@ extension NonNullableMap<K extends Object, V extends Object> on Map<K, V> {
   /// Returns `true` if the [key] was associated with the given [value]. That is to say, if neither was null. Otherwise,
   /// returns `false`.
   ///
+  /// ### Example:
   /// ```dart
   /// <String, int>{}.putIfNotNull('a', 1); // true, {'a': 1}
   ///

@@ -3,6 +3,7 @@ import 'package:sugar/core.dart';
 
 /// Returns true if the given [Iterable]s have no elements in common.
 ///
+/// ### Example:
 /// ```dart
 /// disjoint([1, 2], [3, 4]); // true
 ///
@@ -47,6 +48,7 @@ import 'package:sugar/core.dart';
 
 /// Returns a copy of the given [list] with elements separated by all elements in [by].
 ///
+/// ### Example:
 /// ```dart
 /// final column = Column(
 ///   children: separate([
@@ -59,7 +61,6 @@ import 'package:sugar/core.dart';
 ///   ]),
 /// );
 ///
-/// print(column);
 /// // Column(
 /// //   children: [
 /// //     Widget(),
@@ -90,6 +91,7 @@ import 'package:sugar/core.dart';
 /// ### Contract:
 /// 0 <= [start] < [end] <= [list] length. A [RangeError] will otherwise be thrown.
 /// 
+/// ### Example:
 /// ```dart
 /// final list = [0, 1, 2, 3, 4];
 /// reverse(list, 1, 4);

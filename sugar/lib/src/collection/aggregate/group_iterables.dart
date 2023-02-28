@@ -9,6 +9,7 @@ extension GroupableIterable<E> on Iterable<E> {
 
   /// A [Group] that used to group elements in this [Iterable].
   ///
+  /// ### Example:
   /// ```dart
   /// final iterable = ['a', 'b', 'aa', 'bb', 'cc'];
   /// final aggregate = iterable.group.lists(by: (string) => string.length);
@@ -33,6 +34,7 @@ class Group<E> {
   /// Groups the elements in an [Iterable] by the returned values of the given function. The grouped elements are subsequently
   /// folded using the given [as] function.
   ///
+  /// ### Example:
   /// ```dart
   /// final iterable = ['a', 'b', 'aa', 'bb', 'cc'];
   /// final counts = iterable.group.by((string) => string.length, as: (count, string) => (count ?? 0) + 1);
@@ -55,6 +57,7 @@ class Group<E> {
 
   /// Groups the elements in an [Iterable] by the returned values of the given function.
   ///
+  /// ### Example:
   /// ```dart
   /// final iterable = ['a', 'b', 'aa', 'bb', 'cc'];
   /// final aggregate = iterable.group.lists(by: (string) => string.length);
@@ -76,6 +79,7 @@ class Group<E> {
 
   /// Groups the elements in an [Iterable] by the returned values of the given function.
   ///
+  /// ### Example:
   /// ```dart
   /// final iterable = ['a', 'b', 'aa', 'bb', 'cc'];
   /// final aggregate = iterable.group.sets(by: (string) => string.length);

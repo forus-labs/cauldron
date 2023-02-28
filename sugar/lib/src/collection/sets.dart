@@ -8,6 +8,7 @@ extension Sets<E> on Set<E> {
   ///
   /// This function is the equivalent of a mutating [fold].
   ///
+  /// ### Example:
   /// ```dart
   /// {1, 2, 3, 4}.replaceAll((replace, element) { if (element.isOdd) replace(element * 10); }); // [10, 30]
   /// ```
@@ -46,6 +47,7 @@ extension NonNullableSet<E extends Object> on Set<E> {
   /// Returns `true` if the element was added to this [Set]. That is to say, if the element was not null and this [Set] did not
   /// already contain the element. Otherwise, returns `false`.
   ///
+  /// ### Example:
   /// ```dart
   /// {}.addIfNonNull(1); // {1}, true
   ///

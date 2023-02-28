@@ -26,6 +26,7 @@ class Order<E, T extends Comparable<Object>> {
 
   /// A list sorted according to the values returned by this [Order]'s function, in ascending order.
   ///
+  /// ### Example:
   /// ```dart
   /// class Foo {
   ///   final String id;
@@ -43,6 +44,7 @@ class Order<E, T extends Comparable<Object>> {
 
   /// A list sorted according to the values returned by this [Order]'s function, in descending order.
   ///
+  /// ### Example:
   /// ```dart
   /// class Foo {
   ///   final String id;
@@ -59,6 +61,7 @@ class Order<E, T extends Comparable<Object>> {
 
   /// The element with the minimum value returned by this [Order]'s function, or `null` if the [Iterable] is empty.
   ///
+  /// ### Example:
   /// ```dart
   /// class Foo {
   ///   final String id;
@@ -90,6 +93,7 @@ class Order<E, T extends Comparable<Object>> {
 
   /// The element with the maximum value returned by this [Order]'s function, or `null` if the [Iterable] is empty.
   ///
+  /// ### Example:
   /// ```dart
   /// class Foo {
   ///   final String id;

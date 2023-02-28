@@ -8,6 +8,7 @@ extension AggregateIterable<E> on Iterable<E> {
   /// Computes the average of all values returned by the given [select]. [double.nan] will always be returned if this
   /// [Iterable] is empty, or [double.nan] is present.
   ///
+  /// ### Example:
   /// ```dart
   /// class Foo {
   ///   final int value;
@@ -26,6 +27,7 @@ extension AggregateIterable<E> on Iterable<E> {
   /// Computes the sum of values returned by the given [select], starting with the given initial value. The initial value
   /// is 0 if unspecified. [double.nan] will always be returned if present.
   ///
+  /// ### Example:
   /// ```dart
   /// class Foo {
   ///   final int value;
@@ -59,6 +61,7 @@ extension AggregateComparableIterable<E extends Comparable<Object>> on Iterable<
 
   /// The smallest element in this [Iterable] or `null` if empty.
   ///
+  /// ### Example:
   /// ```dart
   /// ['a', 'b', 'c'].min; // 'a'
   /// ```
@@ -81,6 +84,7 @@ extension AggregateComparableIterable<E extends Comparable<Object>> on Iterable<
 
   /// The largest element in this [Iterable] or `null` if empty.
   ///
+  /// ### Example:
   /// ```dart
   /// ['a', 'b', 'c'].min; // 'c'
   /// ```
@@ -110,6 +114,7 @@ extension AggregateNumberIterable<E extends num> on Iterable<E> {
 
   /// The average of all elements in this [Iterable], or [double.nan] if empty.
   ///
+  /// ### Example:
   /// ```dart
   /// [1, 2, 3].average; // 2.0
   /// ```
@@ -117,6 +122,7 @@ extension AggregateNumberIterable<E extends num> on Iterable<E> {
 
   /// The sum of all elements in this [Iterable]. [double.nan] will always be returned if present in this [Iterable].
   ///
+  /// ### Example:
   /// ```dart
   /// [1, 2, 3].sum; // 6
   /// ```
@@ -134,6 +140,7 @@ extension AggregateNumberIterable<E extends num> on Iterable<E> {
   /// The smallest element in this [Iterable] or `null` if empty. [double.nan] will always be returned if present in this
   /// [Iterable].
   ///
+  /// ### Example:
   /// ```dart
   /// [1, 2, 3].min; // 1
   ///
@@ -167,6 +174,7 @@ extension AggregateNumberIterable<E extends num> on Iterable<E> {
   /// The smallest element in this [Iterable] or `null` if empty. [double.nan] will always be returned if present in this
   /// [Iterable].
   ///
+  /// ### Example:
   /// ```dart
   /// [1, 2, 3].max; // 3
   ///

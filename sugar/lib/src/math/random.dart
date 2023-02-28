@@ -13,6 +13,7 @@ extension Randoms on Random {
   /// Generates a random integer uniformly distributed in the range, `[min] <= value < [max]`.
   /// A [RangeError] is thrown if [min] is greater than or equal to [max].
   ///
+  /// ### Example:
   /// ```dart
   /// Random().nextBoundedInt(-1, 3); // -1 <= value < 3
   ///
@@ -37,6 +38,7 @@ extension Randoms on Random {
   /// * the resultant range is NaN
   /// * the resultant range is infinite
   ///
+  /// ### Example:
   /// ```dart
   /// Random().nextDouble(1.1, 1.3); // -1 <= value < 3
   ///
@@ -62,6 +64,7 @@ extension Randoms on Random {
   /// * [length] is not positive
   /// * [min] is greater than or equal to [max]
   ///
+  /// ### Example:
   /// ```dart
   /// Random.ints(length: 5, min: 0, max: 3); // 5 values, 0 <= value < 3
   ///
@@ -90,6 +93,7 @@ extension Randoms on Random {
   /// * [min] >= [max]
   /// * the resultant range is infinite
   ///
+  /// ### Example:
   /// ```dart
   /// Random.doubles(length: 5, min: 0.0, max: 1.1); // 5 values, 0.0 <= value < 1.1
   ///
@@ -165,6 +169,7 @@ class FakeRandom implements Random {
   /// A [StateError] is thrown if there are no more integers in the given [Iterable] of integers.
   /// A [RangeError] is thrown if the integer returned by the given [Iterable] of integers is outside the range, `0 <= integer < max`.
   ///
+  /// ### Example:
   /// ```dart
   /// final random = FakeRandom(ints: [1, 2]);
   /// random.nextInt(5); // 1
@@ -197,6 +202,7 @@ class FakeRandom implements Random {
   /// A [StateError] is thrown if there are no more doubles in the given [Iterable] of doubles.
   /// A [RangeError] is thrown if the double returned by the given [Iterable] of doubles is outside the range, `0.0 <= double < 1.0`.
   ///
+  /// ### Example:
   /// ```dart
   /// final random = FakeRandom(doubles: [0.1, 0.2]);
   /// random.nextDouble(); // 0.1
@@ -223,6 +229,7 @@ class FakeRandom implements Random {
   ///
   /// A [StateError] is thrown if there are no more booleans in the given [Iterable] of booleans.
   ///
+  /// ### Example:
   /// ```dart
   /// final random = FakeRandom(bools: [true, false]);
   /// random.nextBool(); // true

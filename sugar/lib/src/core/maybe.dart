@@ -13,6 +13,7 @@ import 'package:sugar/core.dart';
 ///  _all nullable types are treated as `Maybe` monads_. All `Maybe` functions can be accessed on all nullable objects.
 ///
 /// This makes the following two functions equivalent:
+/// ### Example:
 /// ```dart
 /// String foo(int? bar) { // int? is treated as a Maybe monad for integers.
 ///   return bar.where((e) => e == 1).map((e) => e.toString())!;
@@ -29,6 +30,7 @@ import 'package:sugar/core.dart';
 /// by an empty collection instead.
 ///
 /// Instead of using a nullable collection:
+/// ### Example:
 /// ```dart
 /// List<String>? foo() {
 ///   if (somethingGoesWrong) return null;
@@ -36,6 +38,7 @@ import 'package:sugar/core.dart';
 /// ```
 ///
 /// Prefer using an empty collection instead:
+/// ### Example:
 /// ```dart
 /// List<String> foo() {
 ///   if (somethingGoesWrong) return [];
@@ -45,6 +48,7 @@ extension Maybe<T extends Object> on T? {
 
   /// If this is not null and satisfies the given [predicate], return this, otherwise returns `null`.
   ///
+  /// ### Example:
   /// ```dart
   /// String? value = 'value';
   ///
@@ -63,6 +67,7 @@ extension Maybe<T extends Object> on T? {
   ///
   /// This method is similar to [map] except that the given function returns a `T?` instead of [T].
   ///
+  /// ### Example:
   /// ```dart
   /// String? value = 'value';
   ///
@@ -81,6 +86,7 @@ extension Maybe<T extends Object> on T? {
   ///
   /// This method is similar to [bind] except that the given function returns a [T] instead of `T?`.
   ///
+  /// ### Example:
   /// ```dart
   /// String? value = 'value';
   /// value.map((value) => 'other value'); // 'other value'
@@ -101,6 +107,7 @@ extension FutureMaybe<T extends Object> on Future<T?> {
   /// * [Maybe.bind] except that the given function asynchronously computes a [Future].
   /// * [then] except that it forwards null values instead of thrown errors.
   ///
+  /// ### Example:
   /// ```dart
   /// Future<int?> computeAsync<T>(T value) async => 1;
   ///
@@ -112,6 +119,7 @@ extension FutureMaybe<T extends Object> on Future<T?> {
   /// ```
   ///
   /// Chaining this function in succession.
+  /// ### Example:
   /// ```dart
   /// Future<int?> computeAsync<T>(T value) async => value + 1;
   ///

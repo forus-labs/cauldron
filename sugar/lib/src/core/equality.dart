@@ -14,6 +14,7 @@ extension DeepEqualityIterable on Iterable<Object?> {
   /// ### Contract:
   /// Both this list and [other] may not contain itself or the other value. Doing so will result in a [StackOverflowError].
   ///
+  /// ### Example:
   /// ```dart
   /// final a = [];
   /// a.add(a);
@@ -38,6 +39,7 @@ extension DeepEqualityMap on Map<Object?, Object?> {
   /// ### Contract:
   /// Both this map and [other] may not contain itself or the other value. Doing so will result in a [StackOverflowError].
   ///
+  /// ### Example:
   /// ```dart
   /// final a = <int, dynamic>{};
   /// a.add(a);
@@ -79,6 +81,7 @@ extension Equality on Never {
   ///
   /// ### Contract:
   /// Both [a] and [b] may not contain itself or the other given value. Doing so will result in a [StackOverflowError].
+  /// ### Example:
   /// ```dart
   /// final a = [];
   /// a.add(a);
@@ -168,6 +171,7 @@ extension HashCodes on Never {
   ///
   /// ### Contract:
   /// [value] may not contain itself. Doing so will result in a [StackOverflowError].
+  /// ### Example:
   /// ```dart
   /// final a = [];
   /// a.add(a);

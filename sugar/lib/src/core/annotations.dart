@@ -4,12 +4,14 @@ import 'package:meta/meta_meta.dart';
 /// Denotes that the annotated constructor/function may throw the given errors or return the given error codes.
 ///
 /// Exceptions:
+/// ### Example:
 /// ```dart
 /// @Possible({ArgumentError}, when: 'function is called')
 /// void foo() => throw ArgumentError();
 /// ```
 ///
 /// Error codes:
+/// ### Example:
 /// ```dart
 /// enum ErrorCode {
 ///   invalidArgument,
@@ -38,6 +40,7 @@ import 'package:meta/meta_meta.dart';
 /// ### Note:
 /// It is recommended to use this annotation sparingly. The annotated location should always be tested instead if possible.
 ///
+/// ### Example:
 /// ```dart
 /// @NotTested(because: 'function is non-deterministic')
 /// int foo() => Random().nextInt(100);
@@ -53,6 +56,7 @@ import 'package:meta/meta_meta.dart';
 
 /// Denotes that the annotated field/function/type is lazy.
 ///
+/// ### Example:
 /// ```dart
 /// final list = [1, 2, 3];
 /// @lazy final iterable = list.map((e) => e.toString());
@@ -73,6 +77,7 @@ class _Lazy {
 
 /// Denotes that the annotated function parameter is mutated by the function.
 ///
+/// ### Example:
 /// ```dart
 /// void shuffle(@mutated List<Object> list) {
 ///   // shuffle the given list

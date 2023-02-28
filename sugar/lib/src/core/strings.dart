@@ -35,6 +35,7 @@ extension Strings on String {
 
   /// Returns `true` if this [String] and [other] are equal, ignoring capitalization.
   ///
+  /// ### Example:
   /// ```dart
   /// 'aBc'.equalsIgnoreCase('abC'); // true
   ///
@@ -44,6 +45,7 @@ extension Strings on String {
 
   /// Returns `true` if this [String] matches the given [pattern].
   ///
+  /// ### Example:
   /// ```dart
   /// 'abc'.matches('abC'); // true
   ///
@@ -59,6 +61,7 @@ extension Strings on String {
 
   /// Returns a copy of this string with the first letter capitalized.
   ///
+  /// ### Example:
   /// ```dart
   /// 'abc'.capitalize(); // 'Abc'
   ///
@@ -71,6 +74,7 @@ extension Strings on String {
 
   /// Returns a camel-cased copy of this string. If [separators] is unspecified, [wordSeparators] is used to separate words.
   ///
+  /// ### Example:
   /// ```dart
   /// 'camelCase'.toCamelCase(); // 'camelCase'
   ///
@@ -101,6 +105,7 @@ extension Strings on String {
   /// Returns a pascal-cased copy of this string. If [separators] is unspecified, [wordSeparators] is used to separate
   /// words.
   ///
+  /// ### Example:
   /// ```dart
   /// 'camelCase'.toPascalCase(); // 'CamelCase'
   ///
@@ -130,6 +135,7 @@ extension Strings on String {
   /// Returns a screaming-cased copy of this string. If [separators] is unspecified, [wordSeparators] is used to separate
   /// words.
   ///
+  /// ### Example:
   /// ```dart
   /// 'camelCase'.toScreamingCase(); // 'CAMEL_CASE'
   ///
@@ -152,6 +158,7 @@ extension Strings on String {
 
   /// Returns a snake-cased copy of this string. If [separators] is unspecified, [wordSeparators] is used to separate words.
   ///
+  /// ### Example:
   /// ```dart
   /// 'camelCase'.toSnakeCase(); // 'camel_case'
   ///
@@ -174,6 +181,7 @@ extension Strings on String {
 
   /// Returns a snake-cased copy of this string. If [separators] is unspecified, [wordSeparators] is used to separate words.
   ///
+  /// ### Example:
   /// ```dart
   /// 'camelCase'.toKebabCase(); // 'camel-case'
   ///
@@ -196,6 +204,7 @@ extension Strings on String {
 
   /// Returns a title-cased copy of this string. If [separators] is unspecified, [wordSeparators] is used to separate words.
   ///
+  /// ### Example:
   /// ```dart
   /// 'camelCase'.toTitleCase(); // 'Camel Case'
   ///
@@ -221,6 +230,7 @@ extension Strings on String {
   /// Returns a sentence-cased copy of this string. If [separators] is unspecified, [wordSeparators] is used to separate words.
   /// A word is assumed to be an acronym if it is fully uppercase and will not be uncapitalized.
   ///
+  /// ### Example:
   /// ```dart
   /// 'camelCase'.toSentenceCase(); // 'Camel case'
   ///
@@ -255,6 +265,7 @@ extension Strings on String {
   ///
   /// The resulting lines do not contain the line terminators.
   ///
+  /// ### Example:
   /// ```dart
   /// final lines =
   ///   'Dart is: \r an object-oriented \n class-based \n garbage-collected '
@@ -307,6 +318,7 @@ extension Strings on String {
 
   /// Whether this string is comprised entirely of uppercase characters.
   ///
+  /// ### Example:
   /// ```dart
   /// 'HELLO'.isUpperCase; // true
   ///
@@ -316,6 +328,7 @@ extension Strings on String {
 
   /// Whether this string is comprised entirely of uppercase characters.
   ///
+  /// ### Example:
   /// ```dart
   /// 'hello'.isLowerCase; // true
   ///
@@ -325,6 +338,7 @@ extension Strings on String {
 
   /// Whether this string is comprised of only whitespaces.
   ///
+  /// ### Example:
   /// ```dart
   /// '  '.isBlank; // true
   ///
@@ -361,6 +375,7 @@ extension Strings on String {
 
   /// Whether this string is not comprised of only whitespaces.
   ///
+  /// ### Example:
   /// ```dart
   /// '  '.isNotBlank; // false
   ///

@@ -17,6 +17,7 @@ import 'package:sugar/core.dart';
 
   /// Returns `true` if  this [Range] contains the given value.
   ///
+  /// ### Example:
   /// ```dart
   /// final min = Min.open(0);
   ///
@@ -27,6 +28,7 @@ import 'package:sugar/core.dart';
 
   /// Returns `true` if this [Range] contains all of the given value.
   ///
+  /// ### Example:
   /// ```dart
   /// final min = Min.open(0);
   ///
@@ -40,6 +42,7 @@ import 'package:sugar/core.dart';
   ///
   /// Note: The returned [Iterable] is lazy and potentially infinite.
   ///
+  /// ### Example:
   /// ```dart
   /// final range = Interval.closedOpen(0, 5);
   /// range.iterate(by: (e) => e + 1).toList(); // [0, 1, 2, 3, 4]
@@ -48,6 +51,7 @@ import 'package:sugar/core.dart';
 
   /// If this [Range] does not intersect [other], returns the gap in between. Otherwise returns `null`.
   ///
+  /// ### Example:
   /// ```dart
   /// Interval.open(1, 5).gap(Interval.closed(7, 9)); // [5..7), { x | 5 <= x < 7 }
   ///
@@ -61,6 +65,7 @@ import 'package:sugar/core.dart';
 
   /// If this [Range] intersects [other], returns the intersection. Otherwise returns `null`.
   ///
+  /// ### Example:
   /// ```dart
   /// Interval.open(1, 5).intersection(Interval.closed(3, 7)); // [3..5), { x | 3 <= x < 5 }
   ///
@@ -82,6 +87,7 @@ import 'package:sugar/core.dart';
   /// Note: Discrete ranges are not considered to be besides each other even though there are no elements "between them",
   /// i.e. `[1..4]` is not beside `[5..7]`.
   ///
+  /// ### Example:
   /// ```dart
   /// Interval.closedOpen(1, 3).besides(Interval.closedOpen(3, 5)); // true, [1..3) is beside [3..5)
   ///
@@ -106,6 +112,7 @@ import 'package:sugar/core.dart';
   /// Note: A discrete range is not considered to be enclosed by another under certain circumstances, i.e. `[4..5]` does
   /// not enclose `(3..6)`.
   ///
+  /// ### Example:
   /// ```dart
   /// Interval.closed(1, 4).encloses(Interval.closedOpen(2, 3)); // true, [1..4] encloses [2..3]
   ///
@@ -130,6 +137,7 @@ import 'package:sugar/core.dart';
   ///
   /// This method is reflexive and symmetric.
   ///
+  /// ### Example:
   /// ```dart
   /// Interval.closed(1, 4).intersects(Interval.closed(1, 4)); // true, [1..4] intersects [1..4]
   ///
@@ -150,6 +158,7 @@ import 'package:sugar/core.dart';
   ///
   /// Only a range with bounds at both ends, i.e. [Interval], can be empty.
   ///
+  /// ### Example:
   /// ```dart
   /// final interval = Interval.openClosed(1, 1);
   /// interval.empty; // true

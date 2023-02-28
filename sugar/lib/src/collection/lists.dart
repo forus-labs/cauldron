@@ -7,6 +7,7 @@ extension Lists<E> on List<E> {
 
   /// Swaps the elements at the given indexes.
   ///
+  /// ### Example:
   /// ```dart
   /// ['a', 'b', 'c'].swap(0, 2); // ['c', 'b', 'a']
   /// ```
@@ -22,6 +23,7 @@ extension Lists<E> on List<E> {
 
   /// Whether this [List] contains all elements of the given [Iterable].
   ///
+  /// ### Example:
   /// ```dart
   /// [1, 2, 3].containsAll([1, 2]); // true
   ///
@@ -55,6 +57,7 @@ extension Lists<E> on List<E> {
   ///
   /// This function is the equivalent of a mutating [fold].
   ///
+  /// ### Example:
   /// ```dart
   /// [1, 2, 3, 4].replaceAll((replace, element) { if (element.isOdd) replace(element * 10); }); // [10, 30]
   /// ```
@@ -86,6 +89,7 @@ extension Lists<E> on List<E> {
   /// Retains only elements in the given [Iterable]. That is to say, remove elements in this [Iterable] that are not in
   /// the given [Iterable].
   ///
+  /// ### Example:
   /// ```dart
   /// [1, 2, 3]..retainAll([1, 2, 4]); // [1, 2]
   ///
@@ -100,6 +104,7 @@ extension Lists<E> on List<E> {
 
   /// Removes all of the elements in given [Iterable].
   ///
+  /// ### Example:
   /// ```dart
   /// [1, 2, 3]..removeAll([1, 2, 4]); // [3]
   /// ```
@@ -130,6 +135,7 @@ extension NonNullableList<E extends Object> on List<E> {
   /// Returns `true` if the element was added to this [List]. That is to say, if the element was not null. Otherwise, returns
   /// `false`.
   ///
+  /// ### Example:
   /// ```dart
   /// [].addIfNonNull(1); // [1], true
   ///
@@ -145,6 +151,7 @@ extension NonNullableList<E extends Object> on List<E> {
 
   /// Returns the element at the given index, or `null` if no such element exists.
   ///
+  /// ### Example:
   /// ```dart
   /// ['a', 'b', 'c'].elementOrNull(at: 1) ?? 'something'; // 'b'
   ///
@@ -159,6 +166,7 @@ extension NonNullableList<E extends Object> on List<E> {
   /// If [where] is given, returns the last element satisfying it or `null` if there are none. Otherwise, returns the last
   /// element or `null` if this [Iterable] is empty.
   ///
+  /// ### Example:
   /// ```dart
   /// ['a', 'b', 'c'].lastOrNull(where: (e) => e == 'b') ?? 'something'; // 'b'
   ///

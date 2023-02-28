@@ -8,6 +8,7 @@ extension MovableList<E> on List<E> {
 
   /// A [ListMove] that is used to move elements from this [List] tp various collections.
   ///
+  /// ### Example:
   /// ```dart
   /// final foo = [1, 2, 3, 4, 5];
   /// final bar = foo.move(where: (e) => e.isOdd).toList();
@@ -21,6 +22,7 @@ extension MovableList<E> on List<E> {
 /// ### Contract:
 /// The given predicate should not modify the underlying [List]. A [ConcurrentModificationError] will otherwise be thrown.
 ///
+/// ### Example:
 /// ```dart
 /// final foo = [1, 2, 3, 4, 5];
 /// foo.move(where: (e) => foo.remove(e)).toList(); // throws ConcurrentModificationError
@@ -37,6 +39,7 @@ class ListMove<E> {
 
   /// Move elements this [List] into another [List]. The ordering of elements in the returned list is the same as this [List].
   ///
+  /// ### Example:
   /// ```dart
   /// final foo = [1, 2, 3, 4, 5];
   /// final bar = foo.move(where: (e) => e.isOdd).toList();
@@ -53,6 +56,7 @@ class ListMove<E> {
 
   /// Moves elements in this [List] to a [Set]. The ordering of elements in the returned set is not guaranteed.
   ///
+  /// ### Example:
   /// ```dart
   /// final foo = [1, 2, 3, 4, 5];
   /// final bar = foo.move(where: (e) => e.isOdd).toSet();
@@ -73,6 +77,7 @@ class ListMove<E> {
   /// ### Contract:
   /// The given [consume] should not modify this [List]. A [ConcurrentModificationError] will otherwise be thrown.
   ///
+  /// ### Example:
   /// ```dart
   /// final foo = [1, 2, 3, 4, 5];
   /// final bar = [];
@@ -114,6 +119,7 @@ extension MovableSet<E> on Set<E> {
 
   /// A [SetMove] that is used to move elements from this [Set] to various collections.
   ///
+  /// ### Example:
   /// ```dart
   /// final foo = {1, 2, 3, 4, 5};
   /// final bar = foo.move(where: (e) => e.isOdd).toSet();
@@ -127,6 +133,7 @@ extension MovableSet<E> on Set<E> {
 /// ### Contract:
 /// The given predicate should not modify the underlying [Set]. A [ConcurrentModificationError] will otherwise be thrown.
 ///
+/// ### Example:
 /// ```dart
 /// final foo = {1, 2, 3, 4, 5};
 /// foo.move(where: (e) => foo.remove(e)); // throws ConcurrentModificationError
@@ -143,6 +150,7 @@ class SetMove<E> {
 
   /// Moves elements in this this [Set] to another [Set]. The ordering of elements in the returned set is not guaranteed.
   ///
+  /// ### Example:
   /// ```dart
   /// final foo = {1, 2, 3, 4, 5};
   /// final bar = foo.move(where: (e) => e.isOdd).toSet();
@@ -162,6 +170,7 @@ class SetMove<E> {
   /// ### Contract:
   /// The given [consume] should not modify this [Set]. A [ConcurrentModificationError] will otherwise be thrown.
   ///
+  /// ### Example:
   /// ```dart
   /// final foo = {1, 2, 3, 4, 5};
   /// final bar = {};

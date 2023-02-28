@@ -7,6 +7,7 @@ extension Bools on bool {
 
   /// Parses [source], case insensitive, as a [bool]. A [FormatException] is thrown if [source] cannot be parsed as a [bool].
   ///
+  /// ### Example:
   /// ```dart
   /// Bools.parse('TRUE'); // true
   /// Bools.parse('true'); // true
@@ -31,6 +32,7 @@ extension Bools on bool {
 
   /// Parses [source], case insensitive, as a [bool]. `null` is returned if [source] cannot be parsed as a [bool].
   ///
+  /// ### Example:
   /// ```dart
   /// Bools.tryParse('TRUE'); // true
   /// Bools.tryParse('true'); // true
@@ -54,6 +56,7 @@ extension Bools on bool {
 
   /// If `true`, returns `1`, otherwise returns `0`.
   ///
+  /// ### Example:
   /// ```dart
   /// true.toInt(); // 1
   /// false.toInt(); // 0

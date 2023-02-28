@@ -8,6 +8,7 @@ extension SplittableIterable<E> on Iterable<E> {
 
   /// A [Split] that used to partition elements in this [Iterable].
   ///
+  /// ### Example:
   /// ```dart
   /// [1, 2, 3, 4].split.by(size: 2); // [ [1, 2], [3, 4], [5] ]
   /// ```
@@ -27,6 +28,7 @@ class Split<E> {
   /// ### Contract:
   /// [size] must be greater than 0. A [RangeError] will otherwise be thrown.
   ///
+  /// ### Example:
   /// ```dart
   /// final iterable = [1, 2, 3, 4].split.by(size: 2); // [ [1, 2], [3, 4], [5] ]
   /// ```
@@ -36,6 +38,7 @@ class Split<E> {
   /// Splits the elements this [Iterable] into [List]s before elements that match the given predicate. Any final elements
   /// are emitted at the end.
   ///
+  /// ### Example:
   /// ```dart
   /// final parts = [1, 2, 3, 4, 5, 6, 7, 8, 9].split.before(prime);
   ///
@@ -67,6 +70,7 @@ class Split<E> {
   /// Splits the elements this [Iterable] into [List]s after elements that match the given predicate. Any final elements
   /// are emitted at the end.
   ///
+  /// ### Example:
   /// ```dart
   /// final parts = [1, 2, 3, 4, 5, 6, 7, 8, 9].split.after(prime);
   ///
@@ -97,6 +101,7 @@ class Split<E> {
   /// ### Contract:
   /// Both [length] and [by] must be greater than 0. A [RangeError] will otherwise be thrown.
   ///
+  /// ### Example:
   /// ```dart
   /// // Overlapping windows
   /// [1, 2, 3, 4, 5].split.window(length: 3, by: 2); // [ [1, 2, 3], [3, 4, 5] ]

@@ -3,6 +3,7 @@ extension StringBuffers on StringBuffer {
 
   /// Adds the string representation of [object] with the given [enclosing] string to this buffer.
   ///
+  /// ### Example:
   /// ```dart
   /// final buffer = StringBuffer()..writeEnclosed('hello world');
   /// buffer.toString(); // "'hello world'"
@@ -11,6 +12,7 @@ extension StringBuffers on StringBuffer {
 
   /// Adds the string representation of [object] with the given [indentation] to this buffer.
   ///
+  /// ### Example:
   /// ```dart
   /// final buffer = StringBuffer()..writeIndented(4, 'hello world');
   /// buffer.toString(); // '    hello world'
