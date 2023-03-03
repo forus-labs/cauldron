@@ -1,4 +1,5 @@
 import 'package:sugar/core.dart';
+import 'package:sugar/src/time/zone/platforms/windows_timezone.dart';
 
 /// Retrieves the underlying platform's timezone name.
 ///
@@ -21,7 +22,7 @@ String defaultPlatformTimezone() {
     case PlatformType.macos:
 
     case PlatformType.windows:
-
+      return windowsTimezone;
 
     default:
       return 'Factory';

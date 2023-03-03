@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
+import 'package:sugar/src/time/zone/platforms/windows_timezones.g.dart';
 
 // ignore_for_file: avoid_private_typedef_functions, camel_case_types, non_constant_identifier_names
 
@@ -9,6 +10,9 @@ typedef _DartGetDynamicTimeZoneInformation = int Function(Pointer<_DYNAMIC_TIME_
 
 final _kernel32 = DynamicLibrary.open('kernel32.dll');
 final _GetDynamicTimeZoneInformation = _kernel32.lookup<NativeFunction<_NativeGetDynamicTimeZoneInformation>>('GetDynamicTimeZoneInformation');
+
+/// Retrieves the current timezone on Windows.
+String get windowsTimezone => windowsZones[_name] ?? 'Factory';
 
 /// Retrieves the standard name of the current timezone.
 String get _name {
