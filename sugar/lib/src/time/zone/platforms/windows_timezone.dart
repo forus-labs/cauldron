@@ -11,32 +11,29 @@ typedef _DartGetDynamicTimeZoneInformation = int Function(Pointer<_DYNAMIC_TIME_
 final _kernel32 = DynamicLibrary.open('kernel32.dll');
 final _GetDynamicTimeZoneInformation = _kernel32.lookup<NativeFunction<_NativeGetDynamicTimeZoneInformation>>('GetDynamicTimeZoneInformation');
 
-/// Retrieves the current timezone on Windows.
-String get windowsTimezone => windowsZones[_name] ?? 'Factory';
 
-/// Retrieves the standard name of the current timezone.
-String get _name {
-  // Call GetDynamicTimeZoneInformation to retrieve current timezone standard name.
-  // https://learn.microsoft.com/en-us/windows/win32/api/timezoneapi/nf-timezoneapi-getdynamictimezoneinformation
-  //
-  // GetDynamicTimeZoneInformation is used instead of GetTimeZoneInformation as GetTimeZoneInformation sometimes return
-  // incorrect timezone names.
-  //
-  // For example, it returns 'Malay Peninsula Standard Time' instead of 'Singapore Standard Time' in Singapore.
-  // It is because of this issue that we can't use Dart's DateTime.timezoneName.
-  final getDynamicTimeZoneInformation = _GetDynamicTimeZoneInformation.asFunction<_DartGetDynamicTimeZoneInformation>();
-
+/// The current timezone name on Windows, or `Factory` if the timezone name could not be inferred.
+String get windowsTimezone {
   Pointer<_DYNAMIC_TIME_ZONE_INFORMATION>? pointer;
   try {
     pointer = malloc<_DYNAMIC_TIME_ZONE_INFORMATION>();
-    getDynamicTimeZoneInformation(pointer);
 
-    final utf16 = pointer.ref.timeZoneKeyName;
-    return String.fromCharCodes([ // This works because Dart's String are internally represented as UTF-16.
+    // Calls GetDynamicTimeZoneInformation to retrieve current timezone standard name.
+    // https://learn.microsoft.com/en-us/windows/win32/api/timezoneapi/nf-timezoneapi-getdynamictimezoneinformation
+    //
+    // GetDynamicTimeZoneInformation is used instead of GetTimeZoneInformation as the latter sometimes returns an incorrect
+    // timezone name. For example, it returns 'Malay Peninsula Standard Time' instead of 'Singapore Standard Time' in Singapore.
+    // It is because of this issue that we can't use Dart's DateTime.timezoneName.
+    _GetDynamicTimeZoneInformation.asFunction<_DartGetDynamicTimeZoneInformation>()(pointer);
+
+    final utf16Array = pointer.ref.timeZoneKeyName;
+    final standard = String.fromCharCodes([ // This works because Dart's String are internally represented as UTF-16.
       for (int i = 0; i < 127; i++)
-        if (utf16[i] != 0)
-          utf16[i]
+        if (utf16Array[i] != 0)
+          utf16Array[i]
     ]);
+
+    return windowsTimezones[standard] ?? 'Factory';
 
   } finally {
     if (pointer != null) {
@@ -44,6 +41,7 @@ String get _name {
     }
   }
 }
+
 
 /// Represents a binding for the `DYNAMIC_TIME_ZONE_INFORMATION` structure in the Win32 API.
 ///
