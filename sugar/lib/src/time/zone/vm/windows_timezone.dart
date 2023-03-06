@@ -1,7 +1,9 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
-import 'package:sugar/src/time/zone/platforms/windows_timezones.g.dart';
+import 'package:meta/meta.dart';
+
+import 'package:sugar/src/time/zone/vm/windows_timezones.g.dart';
 
 // ignore_for_file: avoid_private_typedef_functions, camel_case_types, non_constant_identifier_names
 
@@ -13,7 +15,10 @@ final _GetDynamicTimeZoneInformation = _kernel32.lookup<NativeFunction<_NativeGe
 
 
 /// The current timezone name on Windows, or `Factory` if the timezone name could not be inferred.
-String get windowsTimezone {
+///
+/// ### Contract:
+/// This field should only be accessed on Windows. Accessing this field on other platforms will result in undefined behaviour.
+@internal String get windowsTimezone {
   Pointer<_DYNAMIC_TIME_ZONE_INFORMATION>? pointer;
   try {
     pointer = malloc<_DYNAMIC_TIME_ZONE_INFORMATION>();
