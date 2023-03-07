@@ -26,12 +26,26 @@ typedef PlatformTimezone = String Function();
 /// ### Windows:
 /// Testing is only conducted on Windows Server 2022 & Windows 11. No tests are conducted on other versions.
 ///
+/// ### MacOS & Linux:
+/// Testing is only conducted on MacOS13 and Ubuntu 22.04. No tests are conducted on other versions.
+///
+/// Internally, the MacOS & Linux implementation uses the `TZ` environment variable if it is a TZ database name. Due to
+/// the complexity of the `TZ` environment variable format and variations across different distros, the variable is ignored
+/// if is not a TZ database name.
+///
+/// Subsequently, the implementation resolves the `/etc/localtime` symbolic link. Although this file is not guaranteed to
+/// be present across all linux distros, it should appear on most modern, mainstream distros, i.e. Ubuntu, Debian.
+///
+/// TL;DR: works on MacOS & most modern, mainstream Linux distros.
+///
 /// #### Web:
 /// Testing is only conducted on the latest stable version of Chrome and Firefox.
 ///
 /// Internally, the web implementation uses JavaScript's built-in [`Intl.DateFormat().resolvedOptions().timeZone`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions#description).
 /// Although most modern browser implement it, some obsolete browsers, i.e. IE 11 does not. [`Factory`](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#factory)
 /// will be returned on a best-effort basis on unsupported/obsolete browsers.
+///
+/// TL;DR: works on most mainstream browser versions after ~2016.
 ///
 /// See the following pages for more information on browser compatibility:
 /// * http://kangax.github.io/compat-table/esintl/#test-DateTimeFormat_resolvedOptions().timeZone_defaults_to_the_host_environment
