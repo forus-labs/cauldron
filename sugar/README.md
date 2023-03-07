@@ -6,7 +6,7 @@
 Sugar doesn't hold some grandiose vision for dramatically changing programming. It just contains simple, quality of life improvements.
 
 To add the library to your project:
-```bash
+```shell
 dart pub add sugar 
 ```
 
