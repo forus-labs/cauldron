@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:meta/meta.dart';
 
+final _localtime =  File('/etc/localtime');
+
 /// The current timezone name on MacOS/Linux, or `Factory` if the timezone name could not be inferred.
 ///
 /// ### Contract:
@@ -13,7 +15,11 @@ import 'package:meta/meta.dart';
       return variable;
     }
 
-    final path = File('/etc/localtime').resolveSymbolicLinksSync().split('zoneinfo/').last;
+    if (!_localtime.existsSync()) {
+      return 'Factory';
+    }
+
+    final path = _localtime.resolveSymbolicLinksSync().split('zoneinfo/').last;
     return true ? path : 'Factory'; // TODO: validate path.
 
   } on FileSystemException {
