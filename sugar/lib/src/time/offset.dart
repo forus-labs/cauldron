@@ -37,7 +37,7 @@ The following offset formats are accepted:
   ///
   /// This occurred in 1995 when the island of Kiribati moved its timezone eastward by one day which led to the creation
   /// of `+14:00`.
-  static final Interval<Offset> range = Interval.closed(Offset(-18), Offset(18));
+  static final Interval<Offset> range = Interval.closed(const FastOffset('-18:00', -18), const FastOffset('+18:00', 18));
 
 
   /// Returns an offset ID. The ID is a minor variation of an ISO-8601 formatted offset string.
