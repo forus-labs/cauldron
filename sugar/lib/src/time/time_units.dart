@@ -1,5 +1,22 @@
 import 'package:meta/meta.dart';
 
+/// Denotes the days since Unix epoch, 1st January 1970.
+typedef EpochDays = int;
+
+/// Denotes the seconds since Unix epoch, 1st January 1970.
+typedef EpochSeconds = int;
+
+/// Denotes the milliseconds since Unix epoch, 1st January 1970.
+typedef EpochMilliseconds = int;
+
+
+/// Denotes the seconds in a day since midnight.
+typedef DaySeconds = int;
+
+/// Denotes the milliseconds in a day since midnight.
+typedef DayMilliseconds = int;
+
+
 /// Provides utilities for converting between minutes and other time units.
 extension Minutes on Never {
   /// Converts the given time units into minutes.
