@@ -10,6 +10,8 @@ class Timezone {
   final String name;
   final SplayTreeMap<EpochMilliseconds, TimezoneOffset> _zones;
 
+  Timezone(this.name, this._zones);
+
 }
 
 /// Represents a single timezone's offset.
