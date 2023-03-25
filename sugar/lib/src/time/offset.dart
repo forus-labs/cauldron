@@ -3,6 +3,34 @@ import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 import 'package:sugar/time.dart';
 
+/// Returns an offset ID. The ID is a minor variation of an ISO-8601 formatted offset string.
+///
+/// There are three formats:
+/// * `Z` - for UTC (ISO-8601)
+/// * `+hh:mm`/`-hh:mm` - if the seconds are zero (ISO-8601)
+/// * `+hh:mm:ss`/`-hh:mm:ss` - if the seconds are non-zero (not ISO-8601)
+@internal String format(int seconds) {
+  if (seconds == 0) {
+  return 'Z';
+  }
+
+  final second = seconds % 60;
+  seconds ~/= 60;
+
+  final minute = seconds % 60;
+  seconds ~/= 60;
+
+  final hour = seconds % 60;
+
+  final sign = hour.isNegative ? '' : '+';
+  final hours = hour.toString().padLeft(2, '0');
+  final minutes = minute.toString().padLeft(2, '0');
+  final suffix = second == 0 ? '' : ':${second.toString().padLeft(2, '0')}';
+
+  return '$sign$hours:$minutes$suffix';
+}
+
+
 const _allowed = '''
 The following offset formats are accepted:
  * Z - for UTC
@@ -17,6 +45,7 @@ The following offset formats are accepted:
  * +hhmmss
  * -hhmmss
 ''';
+
 
 /// A timezone offset from UTC, i.e. `-10:00`. It is the amount of time that a timezone differs from UTC. A positive
 /// value signifies that the timezone is ahead of UTC. On the contrary, a negative value signifies that the timezone is
@@ -37,36 +66,7 @@ The following offset formats are accepted:
   ///
   /// This occurred in 1995 when the island of Kiribati moved its timezone eastward by one day which led to the creation
   /// of `+14:00`.
-  static final Interval<Offset> range = Interval.closed(const FastOffset('-18:00', -18), const FastOffset('+18:00', 18));
-
-
-  /// Returns an offset ID. The ID is a minor variation of an ISO-8601 formatted offset string.
-  ///
-  /// There are three formats:
-  /// * `Z` - for UTC (ISO-8601)
-  /// * `+hh:mm`/`-hh:mm` - if the seconds are zero (ISO-8601)
-  /// * `+hh:mm:ss`/`-hh:mm:ss` - if the seconds are non-zero (not ISO-8601)
-  static String _format(int seconds) {
-    if (seconds == 0) {
-      return 'Z';
-    }
-
-    final second = seconds % 60;
-    seconds ~/= 60;
-
-    final minute = seconds % 60;
-    seconds ~/= 60;
-
-    final hour = seconds % 60;
-
-    final sign = hour.isNegative ? '' : '+';
-    final hours = hour.toString().padLeft(2, '0');
-    final minutes = minute.toString().padLeft(2, '0');
-    final suffix = second == 0 ? '' : ':${second.toString().padLeft(2, '0')}';
-
-    return '$sign$hours:$minutes$suffix';
-  }
-
+  static final Interval<Offset> range = Interval.closed(const FastOffset('-18:00', -64800), const FastOffset('+18:00', 64800));
 
   final int _seconds;
 
@@ -285,7 +285,7 @@ class _Offset extends Offset {
   @Possible({RangeError})
   static void _precondition(int seconds) {
     if (seconds < -18 * Duration.secondsPerHour || 18 * Duration.secondsPerHour < seconds) {
-      throw RangeError('Invalid offset: ${Offset._format(seconds)}, offset is out of bounds. Valid range: "-18:00 <= offset <= +18:00"');
+      throw RangeError('Invalid offset: ${format(seconds)}, offset is out of bounds. Valid range: "-18:00 <= offset <= +18:00"');
     }
   }
 
@@ -384,7 +384,7 @@ class _Offset extends Offset {
   }
 
   @override
-  String toString() => _string ??= Offset._format(_seconds);
+  String toString() => _string ??= format(_seconds);
 
 }
 
@@ -396,11 +396,7 @@ class _Offset extends Offset {
   final String _string;
 
   /// Creates a [FastOffset].
-  const FastOffset(this._string, [int hour = 0, int minute = 0, int second = 0]): super._(
-      hour * Duration.secondsPerHour +
-      minute * Duration.secondsPerMinute +
-      second,
-  );
+  const FastOffset(this._string, int seconds): super._(seconds);
 
   @override
   String toString() => _string;
