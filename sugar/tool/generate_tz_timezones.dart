@@ -30,6 +30,7 @@ void main() {
   final namespace = <String, Object>{};
 
   traverse(Directory(zoneinfo), flat, namespace);
+  generateMap(namespace);
   generate(namespace);
 }
 
@@ -51,6 +52,33 @@ void traverse(Directory directory, Map<String, Location> flat, Map<String, Objec
       final children = <String, Object>{};
       traverse(entity, flat, children);
       namespace[name] = children;
+    }
+  }
+}
+
+void generateMap(Map<String, Object> namespace) {
+  final buffer = StringBuffer()
+    ..writeln("import 'package:sugar/src/time/zone/timezones.g.dart';")
+    ..writeln(header)
+    ..writeln('const names = {');
+  
+  generateEntries(buffer, 'Timezones', namespace);
+  
+  buffer.writeln('};');
+  
+  File('lib/src/time/zone/names.g.dart').writeAsStringSync(buffer.toString());
+}
+
+void generateEntries(StringBuffer buffer, String path, Map<String, Object> namespace) {
+  for (final entry in namespace.entries) {
+    final name = entry.key.toEscapedCamelCase();
+    final value = entry.value;
+
+    if (value is Location) {
+      buffer.writeln("  '${value.name}': $path.$name,");
+
+    } else if (value is Map<String, Object>) {
+      generateEntries(buffer, '$path.$name', value);
     }
   }
 }
@@ -135,7 +163,7 @@ extension on StringBuffer {
 
   void _writeStaticTimezoneGetter(String name, Location location) {
     this..writeln('  /// The `$name` timezone.')
-        ..writeln('  static Timezone get ${name.toEscapedCamelCase()} => const CachedTimezone(')
+        ..writeln('  static Timezone get ${name.toEscapedCamelCase()} => const Timezone(')
         ..writeln("    '${location.name}',")
         ..writeln('    ${_transitions(location)}')
         ..writeln('    ${_offsets(location)}')
@@ -180,7 +208,7 @@ extension on StringBuffer {
   
   void _writeInstanceTimezoneGetter(String name, Location location) {
     this..writeln('  /// The `${location.name}` timezone.')
-        ..writeln('  Timezone get ${name.toEscapedCamelCase()} => const CachedTimezone(')
+        ..writeln('  Timezone get ${name.toEscapedCamelCase()} => const Timezone(')
         ..writeln("    '${location.name}',")
         ..writeln('    ${_transitions(location)}')
         ..writeln('    ${_offsets(location)}')
@@ -192,17 +220,16 @@ extension on StringBuffer {
   String _transitions(Location location) => '[${location.transitionAt.join(', ')}], ';
 
   String _offsets(Location location) {
-    final buffer = StringBuffer('{\n');
+    final buffer = StringBuffer('[\n');
 
     for (int i = 0; i < location.transitionAt.length; i++) {
-      final at = location.transitionAt[i];
       final zone = location.zones[location.transitionZone[i]];
 
       final offset = "TimezoneOffset(FastOffset('${format(zone.offset)}', ${zone.offset}), abbreviation: '${location.abbreviations[zone.abbreviationIndex]}', dst: ${zone.isDst})";
-      buffer.writeln('      $at: $offset,');
+      buffer.writeln('      $offset,');
     }
 
-    return (buffer..write('    },')).toString();
+    return (buffer..write('    ],')).toString();
   }
 
 }
