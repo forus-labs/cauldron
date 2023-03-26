@@ -15,283 +15,283 @@ class Etc {
   const Etc();
 
   /// The `Etc/GMT` timezone.
-  Timezone get gmt => const CachedTimezone(
+  Timezone get gmt => const Timezone(
     'Etc/GMT',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT+0` timezone.
-  Timezone get gmtPlus0 => const CachedTimezone(
+  Timezone get gmtPlus0 => const Timezone(
     'Etc/GMT+0',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT+1` timezone.
-  Timezone get gmtPlus1 => const CachedTimezone(
+  Timezone get gmtPlus1 => const Timezone(
     'Etc/GMT+1',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT+10` timezone.
-  Timezone get gmtPlus10 => const CachedTimezone(
+  Timezone get gmtPlus10 => const Timezone(
     'Etc/GMT+10',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT+11` timezone.
-  Timezone get gmtPlus11 => const CachedTimezone(
+  Timezone get gmtPlus11 => const Timezone(
     'Etc/GMT+11',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT+12` timezone.
-  Timezone get gmtPlus12 => const CachedTimezone(
+  Timezone get gmtPlus12 => const Timezone(
     'Etc/GMT+12',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT+2` timezone.
-  Timezone get gmtPlus2 => const CachedTimezone(
+  Timezone get gmtPlus2 => const Timezone(
     'Etc/GMT+2',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT+3` timezone.
-  Timezone get gmtPlus3 => const CachedTimezone(
+  Timezone get gmtPlus3 => const Timezone(
     'Etc/GMT+3',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT+4` timezone.
-  Timezone get gmtPlus4 => const CachedTimezone(
+  Timezone get gmtPlus4 => const Timezone(
     'Etc/GMT+4',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT+5` timezone.
-  Timezone get gmtPlus5 => const CachedTimezone(
+  Timezone get gmtPlus5 => const Timezone(
     'Etc/GMT+5',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT+6` timezone.
-  Timezone get gmtPlus6 => const CachedTimezone(
+  Timezone get gmtPlus6 => const Timezone(
     'Etc/GMT+6',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT+7` timezone.
-  Timezone get gmtPlus7 => const CachedTimezone(
+  Timezone get gmtPlus7 => const Timezone(
     'Etc/GMT+7',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT+8` timezone.
-  Timezone get gmtPlus8 => const CachedTimezone(
+  Timezone get gmtPlus8 => const Timezone(
     'Etc/GMT+8',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT+9` timezone.
-  Timezone get gmtPlus9 => const CachedTimezone(
+  Timezone get gmtPlus9 => const Timezone(
     'Etc/GMT+9',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-0` timezone.
-  Timezone get gmtMinus0 => const CachedTimezone(
+  Timezone get gmtMinus0 => const Timezone(
     'Etc/GMT-0',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-1` timezone.
-  Timezone get gmtMinus1 => const CachedTimezone(
+  Timezone get gmtMinus1 => const Timezone(
     'Etc/GMT-1',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-10` timezone.
-  Timezone get gmtMinus10 => const CachedTimezone(
+  Timezone get gmtMinus10 => const Timezone(
     'Etc/GMT-10',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-11` timezone.
-  Timezone get gmtMinus11 => const CachedTimezone(
+  Timezone get gmtMinus11 => const Timezone(
     'Etc/GMT-11',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-12` timezone.
-  Timezone get gmtMinus12 => const CachedTimezone(
+  Timezone get gmtMinus12 => const Timezone(
     'Etc/GMT-12',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-13` timezone.
-  Timezone get gmtMinus13 => const CachedTimezone(
+  Timezone get gmtMinus13 => const Timezone(
     'Etc/GMT-13',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-14` timezone.
-  Timezone get gmtMinus14 => const CachedTimezone(
+  Timezone get gmtMinus14 => const Timezone(
     'Etc/GMT-14',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-2` timezone.
-  Timezone get gmtMinus2 => const CachedTimezone(
+  Timezone get gmtMinus2 => const Timezone(
     'Etc/GMT-2',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-3` timezone.
-  Timezone get gmtMinus3 => const CachedTimezone(
+  Timezone get gmtMinus3 => const Timezone(
     'Etc/GMT-3',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-4` timezone.
-  Timezone get gmtMinus4 => const CachedTimezone(
+  Timezone get gmtMinus4 => const Timezone(
     'Etc/GMT-4',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-5` timezone.
-  Timezone get gmtMinus5 => const CachedTimezone(
+  Timezone get gmtMinus5 => const Timezone(
     'Etc/GMT-5',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-6` timezone.
-  Timezone get gmtMinus6 => const CachedTimezone(
+  Timezone get gmtMinus6 => const Timezone(
     'Etc/GMT-6',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-7` timezone.
-  Timezone get gmtMinus7 => const CachedTimezone(
+  Timezone get gmtMinus7 => const Timezone(
     'Etc/GMT-7',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-8` timezone.
-  Timezone get gmtMinus8 => const CachedTimezone(
+  Timezone get gmtMinus8 => const Timezone(
     'Etc/GMT-8',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT-9` timezone.
-  Timezone get gmtMinus9 => const CachedTimezone(
+  Timezone get gmtMinus9 => const Timezone(
     'Etc/GMT-9',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/GMT0` timezone.
-  Timezone get gmt0 => const CachedTimezone(
+  Timezone get gmt0 => const Timezone(
     'Etc/GMT0',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/Greenwich` timezone.
-  Timezone get greenwich => const CachedTimezone(
+  Timezone get greenwich => const Timezone(
     'Etc/Greenwich',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/UCT` timezone.
-  Timezone get uct => const CachedTimezone(
+  Timezone get uct => const Timezone(
     'Etc/UCT',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/Universal` timezone.
-  Timezone get universal => const CachedTimezone(
+  Timezone get universal => const Timezone(
     'Etc/Universal',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/UTC` timezone.
-  Timezone get utc => const CachedTimezone(
+  Timezone get utc => const Timezone(
     'Etc/UTC',
     [], 
-    {
-    },
+    [
+    ],
   );
 
   /// The `Etc/Zulu` timezone.
-  Timezone get zulu => const CachedTimezone(
+  Timezone get zulu => const Timezone(
     'Etc/Zulu',
     [], 
-    {
-    },
+    [
+    ],
   );
 
 }
