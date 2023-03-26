@@ -22,7 +22,7 @@ import 'package:sugar/src/time/zone/timezone.dart';
 // ignore_for_file: type=lint
 ''';
 
-final separators = RegExp(r'((\s|_)+)|(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])');
+final separators = RegExp(r'((\s|_|/)+)|(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])');
 
 
 void main() {
@@ -189,16 +189,16 @@ extension on StringBuffer {
   }
 
   
-  String _transitions(Location location) => 'const [${location.transitionAt.join(', ')}], ';
+  String _transitions(Location location) => '[${location.transitionAt.join(', ')}], ';
 
   String _offsets(Location location) {
-    final buffer = StringBuffer('const {\n');
+    final buffer = StringBuffer('{\n');
 
     for (int i = 0; i < location.transitionAt.length; i++) {
       final at = location.transitionAt[i];
       final zone = location.zones[location.transitionZone[i]];
 
-      final offset = "const TimezoneOffset(FastOffset('${format(zone.offset)}', ${zone.offset}), abbreviation: '${location.abbreviations[zone.abbreviationIndex]}', dst: ${zone.isDst})";
+      final offset = "TimezoneOffset(FastOffset('${format(zone.offset)}', ${zone.offset}), abbreviation: '${location.abbreviations[zone.abbreviationIndex]}', dst: ${zone.isDst})";
       buffer.writeln('      $at: $offset,');
     }
 
