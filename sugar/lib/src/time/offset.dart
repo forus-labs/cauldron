@@ -11,8 +11,11 @@ import 'package:sugar/time.dart';
 /// * `+hh:mm:ss`/`-hh:mm:ss` - if the seconds are non-zero (not ISO-8601)
 @internal String format(int seconds) {
   if (seconds == 0) {
-  return 'Z';
+    return 'Z';
   }
+
+  final sign = seconds.isNegative ? '-' : '+';
+  seconds = seconds.abs();
 
   final second = seconds % 60;
   seconds ~/= 60;
@@ -22,14 +25,13 @@ import 'package:sugar/time.dart';
 
   final hour = seconds % 60;
 
-  final sign = hour.isNegative ? '' : '+';
+
   final hours = hour.toString().padLeft(2, '0');
   final minutes = minute.toString().padLeft(2, '0');
   final suffix = second == 0 ? '' : ':${second.toString().padLeft(2, '0')}';
 
   return '$sign$hours:$minutes$suffix';
 }
-
 
 const _allowed = '''
 The following offset formats are accepted:
