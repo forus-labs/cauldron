@@ -60,11 +60,15 @@ void generateMap(Map<String, Object> namespace) {
   final buffer = StringBuffer()
     ..writeln("import 'package:sugar/src/time/zone/timezones.g.dart';")
     ..writeln(header)
-    ..writeln('const names = {');
+    ..writeln('Location location(String name) {')
+    ..writeln('  switch (name) {');
   
   generateEntries(buffer, 'Timezones', namespace);
   
-  buffer.writeln('};');
+  buffer..writeln('    default:')
+        ..writeln('      return Timezones.factory;')
+        ..writeln('  }')
+        ..writeln('}');
   
   File('lib/src/time/zone/names.g.dart').writeAsStringSync(buffer.toString());
 }
@@ -75,7 +79,9 @@ void generateEntries(StringBuffer buffer, String path, Map<String, Object> names
     final value = entry.value;
 
     if (value is Location) {
-      buffer.writeln("  '${value.name}': $path.$name,");
+      buffer..writeln("    case '${value.name}':")
+            ..writeln('      return $path.$name;');
+      // buffer.writeln("  '${value.name}': $path.$name,");
 
     } else if (value is Map<String, Object>) {
       generateEntries(buffer, '$path.$name', value);
@@ -104,7 +110,7 @@ void generateNamespaceExtension(Map<String, Object> namespace, List<String> impo
     ..writeln(header)
     ..writeNamespaceExtension(namespace);
   
-  File('lib/src/time/zone/timezones.g.dart').writeAsStringSync(buffer.toString());
+  File('lib/src/time/zone/locations.g.dart').writeAsStringSync(buffer.toString());
 }
 
 String generateNamespaceClass(String name, Map<String, Object> namespace) {
@@ -150,7 +156,7 @@ extension on StringBuffer {
     }
 
     nested.forEach(_writeStaticNamespaceClassGetter);
-    locations.forEach(_writeStaticTimezoneGetter);
+    locations.forEach(_writeStaticLocationGetter);
 
     write('}');
   }
@@ -161,12 +167,12 @@ extension on StringBuffer {
     writeln('  static $type get ${name.toEscapedCamelCase()} => const $type();\n');
   }
 
-  void _writeStaticTimezoneGetter(String name, Location location) {
-    this..writeln('  /// The `$name` timezone.')
-        ..writeln('  static Timezone get ${name.toEscapedCamelCase()} => const Timezone(')
+  void _writeStaticLocationGetter(String name, Location location) {
+    this..writeln('  /// The `$name` location.')
+        ..writeln('  static Location get ${name.toEscapedCamelCase()} => Location(')
         ..writeln("    '${location.name}',")
         ..writeln('    ${_transitions(location)}')
-        ..writeln('    ${_offsets(location)}')
+        ..writeln('    ${_timezones(location)}')
         ..writeln('  );')
         ..writeln();
   }
@@ -195,7 +201,7 @@ extension on StringBuffer {
     }
 
     nested.forEach(_writeInstanceNamespaceClassGetter);
-    locations.forEach(_writeInstanceTimezoneGetter);
+    locations.forEach(_writeInstanceLocationGetter);
 
     writeln('}');
   }
@@ -206,12 +212,12 @@ extension on StringBuffer {
     writeln('  $type get ${name.toEscapedCamelCase()} => const $type();\n');
   }
   
-  void _writeInstanceTimezoneGetter(String name, Location location) {
-    this..writeln('  /// The `${location.name}` timezone.')
-        ..writeln('  Timezone get ${name.toEscapedCamelCase()} => const Timezone(')
+  void _writeInstanceLocationGetter(String name, Location location) {
+    this..writeln('  /// The `${location.name}` location.')
+        ..writeln('  Location get ${name.toEscapedCamelCase()} => Location(')
         ..writeln("    '${location.name}',")
         ..writeln('    ${_transitions(location)}')
-        ..writeln('    ${_offsets(location)}')
+        ..writeln('    ${_timezones(location)}')
         ..writeln('  );')
         ..writeln();
   }
@@ -219,13 +225,13 @@ extension on StringBuffer {
   
   String _transitions(Location location) => '[${location.transitionAt.join(', ')}], ';
 
-  String _offsets(Location location) {
-    final buffer = StringBuffer('[\n');
+  String _timezones(Location location) {
+    final buffer = StringBuffer('const [\n');
 
     for (int i = 0; i < location.transitionAt.length; i++) {
       final zone = location.zones[location.transitionZone[i]];
 
-      final offset = "TimezoneOffset(FastOffset('${format(zone.offset)}', ${zone.offset}), abbreviation: '${location.abbreviations[zone.abbreviationIndex]}', dst: ${zone.isDst})";
+      final offset = "Timezone(FastOffset('${format(zone.offset)}', ${zone.offset}), abbreviation: '${location.abbreviations[zone.abbreviationIndex]}', dst: ${zone.isDst})";
       buffer.writeln('      $offset,');
     }
 
