@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:sugar/core.dart';
-import 'package:sugar/src/time/offset.dart';
+import 'package:sugar/src/time/offsets.dart';
 import 'package:timezone/tzdata.dart';
 
 const zoneinfo = '../zoneinfo/';
@@ -10,7 +10,7 @@ const destination = 'lib/src/time/zone/generated';
 
 const header = '''
 
-import 'package:sugar/src/time/offset.dart';
+import 'package:sugar/src/time/offsets.dart';
 import 'package:sugar/src/time/zone/location.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
