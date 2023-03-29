@@ -1,7 +1,7 @@
 import 'package:sugar/src/time/zone/timezones.g.dart';
 
 import 'package:sugar/src/time/offset.dart';
-import 'package:sugar/src/time/zone/timezone.dart';
+import 'package:sugar/src/time/zone/location.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 //
