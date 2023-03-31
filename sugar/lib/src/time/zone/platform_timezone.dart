@@ -8,6 +8,8 @@ typedef PlatformTimezone = String Function();
 
 /// Default implementation of [PlatformTimezone] for retrieving the underlying platform's timezone name.
 ///
+///
+///
 /// ### Note:
 /// Retrieval of timezone names from the underlying platform is performed on a best-effort basis. There is no guarantee
 /// that the actual timezone name will be returned.

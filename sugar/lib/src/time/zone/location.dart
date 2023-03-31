@@ -1,10 +1,16 @@
 import 'package:sugar/time.dart';
+import 'package:sugar/time_zone.dart';
+
+import 'package:sugar/src/time/zone/location_mapping.g.dart';
+
 
 /// Represents a geographical location in the IANA timezone database. A location maps instantaneous points on the time-line
 /// to the timezones in used at those times.
 ///
 /// A [Location] is immutable and should be treated as a value-type.
 class Location {
+
+  static PlatformTimezone platform = PlatformTimezone;
 
   /// The location's name. It should be a valid IANA timezone database.
   final String name;
@@ -13,8 +19,12 @@ class Location {
   /// The seconds since epoch at which the associated timezone offset goes into effect.
   final List<Timezone> _offsets;
 
+  factory Location.current() => Location.parse(platform());
+
+  factory Location.parse(String name) => mapLocation(name);
+
   /// Creates a [Location].
-  const Location(this.name, this._transitions, this._offsets);
+  Location(this.name, this._transitions, this._offsets);
 
 }
 
