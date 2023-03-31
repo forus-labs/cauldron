@@ -3,49 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 import 'package:sugar/time.dart';
 
-/// Returns an offset ID. The ID is a minor variation of an ISO-8601 formatted offset string.
-///
-/// There are three formats:
-/// * `Z` - for UTC (ISO-8601)
-/// * `+hh:mm`/`-hh:mm` - if the seconds are zero (ISO-8601)
-/// * `+hh:mm:ss`/`-hh:mm:ss` - if the seconds are non-zero (not ISO-8601)
-@internal String format(int seconds) {
-  if (seconds == 0) {
-  return 'Z';
-  }
-
-  final second = seconds % 60;
-  seconds ~/= 60;
-
-  final minute = seconds % 60;
-  seconds ~/= 60;
-
-  final hour = seconds % 60;
-
-  final sign = hour.isNegative ? '' : '+';
-  final hours = hour.toString().padLeft(2, '0');
-  final minutes = minute.toString().padLeft(2, '0');
-  final suffix = second == 0 ? '' : ':${second.toString().padLeft(2, '0')}';
-
-  return '$sign$hours:$minutes$suffix';
-}
-
-
-const _allowed = '''
-The following offset formats are accepted:
- * Z - for UTC
- * +h
- * +hh
- * +hh:mm
- * -hh:mm
- * +hhmm
- * -hhmm
- * +hh:mm:ss
- * -hh:mm:ss
- * +hhmmss
- * -hhmmss
-''';
-
+part 'offsets.dart';
 
 /// A timezone offset from UTC, i.e. `-10:00`. It is the amount of time that a timezone differs from UTC. A positive
 /// value signifies that the timezone is ahead of UTC. On the contrary, a negative value signifies that the timezone is
@@ -66,16 +24,18 @@ The following offset formats are accepted:
   ///
   /// This occurred in 1995 when the island of Kiribati moved its timezone eastward by one day which led to the creation
   /// of `+14:00`.
-  static final Interval<Offset> range = Interval.closed(const FastOffset('-18:00', -64800), const FastOffset('+18:00', 64800));
+  static final Interval<Offset> range = Interval.closed(const RawOffset('-18:00', -64800), const RawOffset('+18:00', 64800));
+
 
   final int _seconds;
+
 
   /// Creates an [Offset] from the formatted [offset] string.
   ///
   /// ### Contract:
   /// A [RangeError] is thrown if the [offset] is outside the valid [range].
   /// A [FormatException] is thrown if the given [offset] could not be parsed.
-  /// 
+  ///
   /// The following offset formats (that include the string returned by [toString]) are accepted:
   /// * `Z` - for UTC
   /// * `+h`
@@ -102,7 +62,7 @@ The following offset formats are accepted:
 
   /// Creates an [Offset] for the current timezone.
   factory Offset.current() => _Offset.current();
-  
+
   /// Creates an [Offset] from the given duration, with fractional seconds truncated.
   ///
   /// ### Example:
@@ -139,6 +99,8 @@ The following offset formats are accepted:
   @Possible({RangeError})
   factory Offset([int hour = 0, int minute = 0, int second = 0]) => _Offset(hour, minute, second);
 
+
+  /// Creates an [Offset].
   const Offset._(this._seconds);
 
 
@@ -244,9 +206,19 @@ The following offset formats are accepted:
   Duration toDuration() => Duration(seconds: _seconds);
 
 
+  // This method is overridden to allow equality between [_Offset]s and [RawOffset]s.
+  @override
+  @nonVirtual
+  @useResult bool operator ==(Object other) => // ignore: hash_and_equals, invalid_override_of_non_virtual_member
+      identical(this, other)
+          || other is Offset
+          && (runtimeType == _Offset || runtimeType == RawOffset)
+          && compareTo(other) == 0;
+
   @override
   @useResult
-  int compareTo(Offset other) => _seconds.compareTo(other._seconds);
+  int compareTo(Offset other) => _seconds.compareTo(_seconds);
+
 
   @override
   @useResult
@@ -273,132 +245,5 @@ The following offset formats are accepted:
   @override
   @mustBeOverridden
   String toString();
-
-}
-
-/// An implementation of [Offset] that performs range validation at runtime.
-class _Offset extends Offset {
-
-  /// Determines if the given [seconds] is within [range]. Throws a [RangeError] otherwise.
-  ///
-  /// This method differs from [RangeError.checkValueInInterval] as it parses the seconds into a more human-friendly format.
-  @Possible({RangeError})
-  static void _precondition(int seconds) {
-    if (seconds < -18 * Duration.secondsPerHour || 18 * Duration.secondsPerHour < seconds) {
-      throw RangeError('Invalid offset: ${format(seconds)}, offset is out of bounds. Valid range: "-18:00 <= offset <= +18:00"');
-    }
-  }
-
-  String? _string;
-
-
-  factory _Offset.parse(String offset) {
-    {
-      if (offset == 'Z') {
-        return _Offset();
-      }
-
-      // Derived from Java's java.time.ZoneOffset.of(String)
-
-      int parse(int position, {required bool colon}) {
-        if (colon && offset[position - 1] != ':') {
-          throw FormatException('Invalid offset format: "$offset". A colon was not found when expected. \n$_allowed');
-        }
-
-        final parsed = int.tryParse(offset.substring(position, position + 2));
-        if (parsed == null || parsed.isNegative) {
-          throw FormatException('Invalid offset format: "$offset". A non-numeric character was found. \n$_allowed');
-        }
-
-        return parsed;
-      }
-
-      late final int hour, minute, second; // ignore: avoid_multiple_declarations_per_line
-      switch (offset.length) {
-        case 2:
-          offset = '${offset[0]}0${offset[1]}';
-          continue fallthrough;
-
-        fallthrough:
-        case 3:
-          hour = parse(1, colon: false);
-          minute = 0;
-          second = 0;
-          break;
-
-        case 5:
-          hour = parse(1, colon: false);
-          minute = parse(3, colon: false);
-          second = 0;
-          break;
-
-        case 6:
-          hour = parse(1, colon: false);
-          minute = parse(4, colon: true);
-          second = 0;
-          break;
-
-        case 7:
-          hour = parse(1, colon: false);
-          minute = parse(3, colon: false);
-          second = parse(5, colon: false);
-          break;
-
-        case 9:
-          hour = parse(1, colon: false);
-          minute = parse(4, colon: true);
-          second = parse(7, colon: true);
-          break;
-
-        default:
-          throw FormatException('Invalid offset format: "$offset". \n$_allowed');
-      }
-
-      final sign = offset[0];
-      if (sign == '+') {
-        return _Offset(hour, minute, second);
-
-      } else if (sign == '-') {
-        return _Offset(-hour, minute, second);
-
-      } else {
-        throw FormatException('Invalid offset format: "$offset". Offset should start with "+" or "-". \n$_allowed');
-      }
-    }
-  }
-
-  _Offset.current(): this.fromDuration(DateTime.now().timeZoneOffset);
-
-  _Offset.fromDuration(Duration duration): super._(duration.inSeconds) {
-    _precondition(_seconds);
-  }
-  
-  _Offset.fromSeconds(super.seconds): super._() {
-    _precondition(_seconds);
-  }
-
-  _Offset([int hour = 0, int minute = 0, int second = 0]): super._(Seconds.from(hour, minute, second)) {
-    RangeError.checkValueInInterval(hour, -18, 18, 'hour');
-    RangeError.checkValueInInterval(minute, 0, 60, 'minute');
-    RangeError.checkValueInInterval(hour, 0, 60, 'second');
-  }
-
-  @override
-  String toString() => _string ??= format(_seconds);
-
-}
-
-
-/// An internal implementation of [Offset] that does not perform range validation. It allows [Offset]s to be compile-time
-/// constants.
-@internal class FastOffset extends Offset {
-
-  final String _string;
-
-  /// Creates a [FastOffset].
-  const FastOffset(this._string, int seconds): super._(seconds);
-
-  @override
-  String toString() => _string;
 
 }

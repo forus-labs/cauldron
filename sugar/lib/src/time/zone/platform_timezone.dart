@@ -1,3 +1,5 @@
+import 'package:sugar/src/time/zone/location.dart';
+
 /// Retrieves the underlying platform's timezone name.
 ///
 /// The returned name should be a TZ database name. It may be either a canonical or link TZ database name. For example,
@@ -7,6 +9,9 @@
 typedef PlatformTimezone = String Function();
 
 /// Default implementation of [PlatformTimezone] for retrieving the underlying platform's timezone name.
+///
+/// This function is only required in advanced use-cases such as custom platform timezone retrieval implementations.
+/// Most users should prefer [Location.current] instead.
 ///
 /// ### Note:
 /// Retrieval of timezone names from the underlying platform is performed on a best-effort basis. There is no guarantee

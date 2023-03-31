@@ -1,3 +1,4 @@
+import 'package:sugar/src/time/zone/location.dart';
 import 'package:sugar/src/time/zone/web/web_timezone.dart';
 
 /// Retrieves the underlying platform's timezone name.
@@ -9,6 +10,9 @@ import 'package:sugar/src/time/zone/web/web_timezone.dart';
 typedef PlatformTimezone = String Function();
 
 /// Default implementation of [PlatformTimezone] for retrieving the underlying platform's timezone name.
+///
+/// This function is only required in advanced use-cases such as custom platform timezone retrieval implementations.
+/// Most users should prefer [Location.current] instead.
 ///
 /// ### Note:
 /// Retrieval of timezone names from the underlying platform is performed on a best-effort basis. There is no guarantee
