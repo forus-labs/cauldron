@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart';
 
 const source = 'https://raw.githubusercontent.com/unicode-org/cldr-json/main/cldr-json/cldr-core/supplemental/windowsZones.json';
-const output = 'lib/src/time/zone/platforms/windows_timezones.g.dart';
+const output = 'lib/src/time/zone/vm/windows_timezones.g.dart';
 
 const header = '''
 import 'package:meta/meta.dart';

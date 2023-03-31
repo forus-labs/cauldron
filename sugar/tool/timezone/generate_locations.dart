@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:sugar/core.dart';
 
+import 'generate_library.dart';
 import 'irs.dart';
 
 const _locationsFile = 'lib/src/time/zone/locations.g.dart';
@@ -14,8 +15,9 @@ const _header = '''
 // 
 // ignore_for_file: type=lint
 
-import 'package:sugar/src/time/zone/location.dart';
 import 'package:sugar/src/time/offset.dart';
+import 'package:sugar/src/time/zone/location.dart';
+import '$generatedLibrary';
 ''';
 
 extension Locations on Never {
@@ -23,33 +25,17 @@ extension Locations on Never {
   static void generate(RootNamespaceIR namespace) => _rootNamespace(namespace);
 
   static void _rootNamespace(RootNamespaceIR namespace) {
-    final buffer = StringBuffer(_header);
-    _imports(buffer, namespace.namespaces);
-    buffer..writeln()..writeln(namespace.toExtension());
+    final buffer = StringBuffer(_header)..writeln()..writeln(namespace.toExtension());
 
     File(_locationsFile).writeAsStringSync(buffer.toString());
     namespace.namespaces.forEach(_nestedNamespace);
   }
 
   static void _nestedNamespace(NestedNamespaceIR namespace) {
-    final buffer = StringBuffer(_header);
-    _imports(buffer, namespace.namespaces, recursive: true);
-    buffer.writeln(namespace.toClass());
+    final buffer = StringBuffer(_header)..writeln(namespace.toClass());
 
     File('$_locationFolder/${namespace.name.toSnakeCase()}.g.dart').writeAsStringSync(buffer.toString());
     namespace.namespaces.forEach(_nestedNamespace);
   }
 
-  static void _imports(StringBuffer buffer, List<NestedNamespaceIR> namespaces, {bool recursive = false}) {
-    for (final namespace in namespaces) {
-      buffer.writeln(namespace.toImport());
-      if (recursive) {
-        _imports(buffer, namespace.namespaces, recursive: true);
-      }
-    }
-  }
-
 }
-
-
-

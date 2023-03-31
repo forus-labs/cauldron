@@ -6,12 +6,9 @@
 // 
 // ignore_for_file: type=lint
 
-import 'package:sugar/src/time/zone/location.dart';
 import 'package:sugar/src/time/offset.dart';
-import 'package:sugar/src/time/zone/locations/argentina.g.dart';
-import 'package:sugar/src/time/zone/locations/indiana.g.dart';
-import 'package:sugar/src/time/zone/locations/kentucky.g.dart';
-import 'package:sugar/src/time/zone/locations/north_dakota.g.dart';
+import 'package:sugar/src/time/zone/location.dart';
+import 'package:sugar/time_zone_generated.g.dart';
 /// A namespace that contains [Location]s and nested namespaces in `America`.
 /// 
 /// See [Location]s for more information.

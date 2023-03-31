@@ -69,7 +69,7 @@ class NestedNamespaceIR extends NamespaceIR {
     variableName = name.toEscapedCamelCase();
 
 
-  String toImport() => "import 'package:sugar/src/time/zone/locations/${name.toSnakeCase()}.g.dart';";
+  String toPackagePath() => 'package:sugar/src/time/zone/locations/${name.toSnakeCase()}.g.dart';
 
   StringBuffer toClass() => StringBuffer()
     ..writeln('/// A namespace that contains [Location]s and nested namespaces in `$name`.')

@@ -1,16 +1,17 @@
 import 'dart:io';
 import 'package:path/path.dart';
 
+import 'generate_library.dart';
 import 'generate_location_mappings.dart';
 import 'generate_locations.dart';
 import 'irs.dart';
 
 const zoneinfo = 'tool/timezone/zoneinfo/';
-const destination = 'lib/src/time/zone/generated';
 
 void main() {
   final namespace = RootNamespaceIR();
   traverse(Directory(zoneinfo), namespace);
+  LocationsLibrary.generate(namespace);
   Locations.generate(namespace);
   LocationMappings.generate(namespace);
 }

@@ -10,21 +10,21 @@ import 'package:sugar/src/time/zone/location_mapping.g.dart';
 /// A [Location] is immutable and should be treated as a value-type.
 class Location {
 
-  static PlatformTimezone platform = PlatformTimezone;
+  static PlatformTimezone platform = platformTimezone;
 
   /// The location's name. It should be a valid IANA timezone database.
   final String name;
   /// The seconds since epoch at which the offsets transitioned.
   final List<EpochSeconds> _transitions;
   /// The seconds since epoch at which the associated timezone offset goes into effect.
-  final List<Timezone> _offsets;
+  final List<Timezone> _timezones;
 
   factory Location.current() => Location.parse(platform());
 
   factory Location.parse(String name) => mapLocation(name);
 
   /// Creates a [Location].
-  Location(this.name, this._transitions, this._offsets);
+  Location(this.name, this._transitions, this._timezones);
 
 }
 

@@ -6,24 +6,9 @@
 // 
 // ignore_for_file: type=lint
 
-import 'package:sugar/src/time/zone/location.dart';
 import 'package:sugar/src/time/offset.dart';
-import 'package:sugar/src/time/zone/locations/africa.g.dart';
-import 'package:sugar/src/time/zone/locations/america.g.dart';
-import 'package:sugar/src/time/zone/locations/antarctica.g.dart';
-import 'package:sugar/src/time/zone/locations/arctic.g.dart';
-import 'package:sugar/src/time/zone/locations/asia.g.dart';
-import 'package:sugar/src/time/zone/locations/atlantic.g.dart';
-import 'package:sugar/src/time/zone/locations/australia.g.dart';
-import 'package:sugar/src/time/zone/locations/brazil.g.dart';
-import 'package:sugar/src/time/zone/locations/canada.g.dart';
-import 'package:sugar/src/time/zone/locations/chile.g.dart';
-import 'package:sugar/src/time/zone/locations/etc.g.dart';
-import 'package:sugar/src/time/zone/locations/europe.g.dart';
-import 'package:sugar/src/time/zone/locations/indian.g.dart';
-import 'package:sugar/src/time/zone/locations/mexico.g.dart';
-import 'package:sugar/src/time/zone/locations/pacific.g.dart';
-import 'package:sugar/src/time/zone/locations/us.g.dart';
+import 'package:sugar/src/time/zone/location.dart';
+import 'package:sugar/time_zone_generated.g.dart';
 
 /// Provides type-safe access to [Location]s in the TZ database.
 /// 
