@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'irs.dart';
 
-const _destination = 'lib/src/time/zone/location_mapping.g.dart';
+const _destination = 'lib/src/time/zone/location_mappings.g.dart';
 const _header = '''
 // GENERATED CODE - DO NOT MODIFY BY HAND
 //
@@ -33,9 +33,9 @@ extension LocationMappings on Never {
       ..writeln('/// Returns the [Location] associated with the given [name] if it exists. Otherwise returns the `Factory` [Location].')
       ..writeln('/// ')
       ..writeln('/// ## Implementation details:')
-      ..writeln('/// A switch statement is used instead of a [Map] to allow [Location]s to be lazily loaded.')
-      ..writeln('/// Assuming that most use-cases only use the same few [Location]s, doing so significantly reduces memory footprint.')
-      ..writeln('@internal Location mapLocation(String name) {')
+      ..writeln('/// To lazily initialize [Location]s, a switch statement is used instead of a [Map].')
+      ..writeln('/// Since most use-cases only require a few [Location]s, it drastically reduces memory footprint.')
+      ..writeln('@internal Location parseLocation(String name) {')
       ..writeln('  switch (name) {');
     _cases(buffer, 'Locations', namespace);
     buffer

@@ -14,22 +14,12 @@ import 'package:sugar/src/time/zone/locations.g.dart';
 /// Returns the [Location] associated with the given [name] if it exists. Otherwise returns the `Factory` [Location].
 /// 
 /// ## Implementation details:
-/// A switch statement is used instead of a [Map] to allow [Location]s to be lazily loaded.
-/// Assuming that most use-cases only use the same few [Location]s, doing so significantly reduces memory footprint.
-@internal Location mapLocation(String name) {
+/// To lazily initialize [Location]s, a switch statement is used instead of a [Map].
+/// Since most use-cases only require a few [Location]s, it drastically reduces memory footprint.
+@internal Location parseLocation(String name) {
   switch (name) {
-    case 'CET':
-      return Locations.cet;
-    case 'CST6CDT':
-      return Locations.cst6cdt;
     case 'Cuba':
       return Locations.cuba;
-    case 'EET':
-      return Locations.eet;
-    case 'EST':
-      return Locations.est;
-    case 'EST5EDT':
-      return Locations.est5edt;
     case 'Egypt':
       return Locations.egypt;
     case 'Eire':
@@ -40,18 +30,6 @@ import 'package:sugar/src/time/zone/locations.g.dart';
       return Locations.gb;
     case 'GB-Eire':
       return Locations.gbEire;
-    case 'GMT':
-      return Locations.gmt;
-    case 'GMT+0':
-      return Locations.gmtPlus0;
-    case 'GMT-0':
-      return Locations.gmtMinus0;
-    case 'GMT0':
-      return Locations.gmt0;
-    case 'Greenwich':
-      return Locations.greenwich;
-    case 'HST':
-      return Locations.hst;
     case 'Hongkong':
       return Locations.hongkong;
     case 'Iceland':
@@ -68,12 +46,6 @@ import 'package:sugar/src/time/zone/locations.g.dart';
       return Locations.kwajalein;
     case 'Libya':
       return Locations.libya;
-    case 'MET':
-      return Locations.met;
-    case 'MST':
-      return Locations.mst;
-    case 'MST7MDT':
-      return Locations.mst7mdt;
     case 'NZ':
       return Locations.nz;
     case 'NZ-CHAT':
@@ -82,8 +54,6 @@ import 'package:sugar/src/time/zone/locations.g.dart';
       return Locations.navajo;
     case 'PRC':
       return Locations.prc;
-    case 'PST8PDT':
-      return Locations.pst8pdt;
     case 'Poland':
       return Locations.poland;
     case 'Portugal':
@@ -96,16 +66,6 @@ import 'package:sugar/src/time/zone/locations.g.dart';
       return Locations.singapore;
     case 'Turkey':
       return Locations.turkey;
-    case 'UCT':
-      return Locations.uct;
-    case 'UTC':
-      return Locations.utc;
-    case 'Universal':
-      return Locations.universal;
-    case 'W-SU':
-      return Locations.wSu;
-    case 'WET':
-      return Locations.wet;
     case 'Zulu':
       return Locations.zulu;
     case 'Africa/Abidjan':
@@ -874,76 +834,6 @@ import 'package:sugar/src/time/zone/locations.g.dart';
       return Locations.chile.continental;
     case 'Chile/EasterIsland':
       return Locations.chile.easterIsland;
-    case 'Etc/GMT':
-      return Locations.etc.gmt;
-    case 'Etc/GMT+0':
-      return Locations.etc.gmtPlus0;
-    case 'Etc/GMT+1':
-      return Locations.etc.gmtPlus1;
-    case 'Etc/GMT+10':
-      return Locations.etc.gmtPlus10;
-    case 'Etc/GMT+11':
-      return Locations.etc.gmtPlus11;
-    case 'Etc/GMT+12':
-      return Locations.etc.gmtPlus12;
-    case 'Etc/GMT+2':
-      return Locations.etc.gmtPlus2;
-    case 'Etc/GMT+3':
-      return Locations.etc.gmtPlus3;
-    case 'Etc/GMT+4':
-      return Locations.etc.gmtPlus4;
-    case 'Etc/GMT+5':
-      return Locations.etc.gmtPlus5;
-    case 'Etc/GMT+6':
-      return Locations.etc.gmtPlus6;
-    case 'Etc/GMT+7':
-      return Locations.etc.gmtPlus7;
-    case 'Etc/GMT+8':
-      return Locations.etc.gmtPlus8;
-    case 'Etc/GMT+9':
-      return Locations.etc.gmtPlus9;
-    case 'Etc/GMT-0':
-      return Locations.etc.gmtMinus0;
-    case 'Etc/GMT-1':
-      return Locations.etc.gmtMinus1;
-    case 'Etc/GMT-10':
-      return Locations.etc.gmtMinus10;
-    case 'Etc/GMT-11':
-      return Locations.etc.gmtMinus11;
-    case 'Etc/GMT-12':
-      return Locations.etc.gmtMinus12;
-    case 'Etc/GMT-13':
-      return Locations.etc.gmtMinus13;
-    case 'Etc/GMT-14':
-      return Locations.etc.gmtMinus14;
-    case 'Etc/GMT-2':
-      return Locations.etc.gmtMinus2;
-    case 'Etc/GMT-3':
-      return Locations.etc.gmtMinus3;
-    case 'Etc/GMT-4':
-      return Locations.etc.gmtMinus4;
-    case 'Etc/GMT-5':
-      return Locations.etc.gmtMinus5;
-    case 'Etc/GMT-6':
-      return Locations.etc.gmtMinus6;
-    case 'Etc/GMT-7':
-      return Locations.etc.gmtMinus7;
-    case 'Etc/GMT-8':
-      return Locations.etc.gmtMinus8;
-    case 'Etc/GMT-9':
-      return Locations.etc.gmtMinus9;
-    case 'Etc/GMT0':
-      return Locations.etc.gmt0;
-    case 'Etc/Greenwich':
-      return Locations.etc.greenwich;
-    case 'Etc/UCT':
-      return Locations.etc.uct;
-    case 'Etc/UTC':
-      return Locations.etc.utc;
-    case 'Etc/Universal':
-      return Locations.etc.universal;
-    case 'Etc/Zulu':
-      return Locations.etc.zulu;
     case 'Europe/Amsterdam':
       return Locations.europe.amsterdam;
     case 'Europe/Andorra':

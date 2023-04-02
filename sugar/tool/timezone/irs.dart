@@ -36,7 +36,9 @@ class RootNamespaceIR extends NamespaceIR {
   StringBuffer get _staticLocationFields {
     final buffer = StringBuffer();
     for (final location in locations) {
-      buffer.writeln('  static final Location ${location.variableName} = ${location.toConstructor(4)}\n');
+      buffer
+        ..writeln('  /// A [Location] that represents `${location.location.name}`.')
+        ..writeln('  static final Location ${location.variableName} = ${location.toConstructor(4)}\n');
     }
 
     return buffer;

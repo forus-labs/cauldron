@@ -28,7 +28,6 @@ export 'package:sugar/src/time/zone/locations/australia.g.dart';
 export 'package:sugar/src/time/zone/locations/brazil.g.dart';
 export 'package:sugar/src/time/zone/locations/canada.g.dart';
 export 'package:sugar/src/time/zone/locations/chile.g.dart';
-export 'package:sugar/src/time/zone/locations/etc.g.dart';
 export 'package:sugar/src/time/zone/locations/europe.g.dart';
 export 'package:sugar/src/time/zone/locations/indian.g.dart';
 export 'package:sugar/src/time/zone/locations/mexico.g.dart';
