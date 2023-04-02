@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 
-import 'package:sugar/src/time/zone/vm/windows_timezones.g.dart';
+import 'package:sugar/src/time/zone/platform/windows_timezones.g.dart';
 
 // ignore_for_file: avoid_private_typedef_functions, camel_case_types, non_constant_identifier_names
 
@@ -14,7 +14,7 @@ final _kernel32 = DynamicLibrary.open('kernel32.dll');
 final _GetDynamicTimeZoneInformation = _kernel32.lookup<NativeFunction<_NativeGetDynamicTimeZoneInformation>>('GetDynamicTimeZoneInformation');
 
 
-/// The current timezone name on Windows, or `Factory` if the timezone name could not be inferred.
+/// The current timezone name on Windows, or `Factory` if the timezone name could not be mapped.
 ///
 /// ### Contract:
 /// This field should only be accessed on Windows. Accessing this field on other platforms will result in undefined behaviour.

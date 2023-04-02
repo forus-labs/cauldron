@@ -22,6 +22,7 @@ import 'package:meta/meta.dart';
 @internal const windowsTimezones = {
 ''';
 
+// TODO: fix non-deterministic timezone mapping
 void main() async {
   final response = await get(Uri.parse(source));
 

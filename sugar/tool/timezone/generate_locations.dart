@@ -16,7 +16,7 @@ const _header = '''
 // ignore_for_file: type=lint
 
 import 'package:sugar/src/time/offset.dart';
-import 'package:sugar/src/time/zone/location.dart';
+import 'package:sugar/src/time/zone/timezone.dart';
 import '$generatedLibrary';
 ''';
 
