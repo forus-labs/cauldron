@@ -8,11 +8,10 @@ class FixedOffset implements Timezone {
   final Offset _offset;
 
   /// Creates a [FixedOffset].
-  const FixedOffset(this._offset);
+  FixedOffset(this._offset);
 
   @override
   Offset offset({required EpochSeconds at}) => _offset;
-
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FixedOffset && runtimeType == other.runtimeType && _offset == other._offset;

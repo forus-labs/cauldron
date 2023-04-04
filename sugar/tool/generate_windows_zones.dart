@@ -27,7 +27,7 @@ import 'package:meta/meta.dart';
 void main() async {
   final response = await get(Uri.parse(source));
 
-  final raw = jsonDecode(response.body)['supplemental']['windowsZones']['mapTimezones'] as List<dynamic>; // ignore: avoid_dynamic_calls
+  final raw = jsonDecode(response.body)['supplemental']['windowsZones']['mapTimezones'] as List<dynamic>;
 
   final zones = <String, MapEntry<String, String>>{};
   for (final object in raw) {

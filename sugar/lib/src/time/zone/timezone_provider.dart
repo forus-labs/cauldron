@@ -27,7 +27,7 @@ import 'package:sugar/src/time/zone/platform/web_provider.dart'
 ///
 /// ### Web caveats
 ///  Web uses Javascript's [`Intl.DateFormat().resolvedOptions().timeZone`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions#description).
-///  Some obsolete browsers, i.e. IE 11, do not implement it.
+///  Some obsolete browsers, i.e. IE 11, do not support it.
 ///
 /// See the following pages for more information on browser compatibility:
 /// * http://kangax.github.io/compat-table/esintl/#test-DateTimeFormat_resolvedOptions().timeZone_defaults_to_the_host_environment
