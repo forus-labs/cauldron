@@ -51,7 +51,7 @@ extension Microseconds on Never {
   @useResult
   static int from(int hour, [int minute = 0, int second = 0, int millisecond = 0, int microsecond = 0]) =>
       hour * Duration.microsecondsPerHour +
-      minute * Duration.millisecondsPerMinute +
+      minute * Duration.microsecondsPerMinute +
       second * Duration.microsecondsPerSecond +
       millisecond * Duration.microsecondsPerMillisecond +
       microsecond;

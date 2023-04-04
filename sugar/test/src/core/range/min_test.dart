@@ -43,6 +43,8 @@ void main() {
     test('interval no gap', () => expect(const Min.closed(5).gap(Interval.open(4, 6)), null));
 
     test('min no gap', () => expect(const Min.closed(3).gap(const Min.closed(5)), null));
+
+    test('all no gap', () => expect(const Min.closed(3).gap(Range.all()), null));
   });
 
   group('intersection(...)', () {
@@ -81,6 +83,8 @@ void main() {
     test('max intersection', () => expect(const Min.closed(3).intersection(const Max.open(4)), Interval.closedOpen(3, 4)));
 
     test('max no intersection', () => expect(const Min.closed(3).intersection(const Max.closed(1)), null));
+
+    test('all intersection', () => expect(const Min.closed(3).intersection(Range.all()), const Min.closed(3)));
   });
 
   group('besides(...)', () {
@@ -93,6 +97,8 @@ void main() {
     test('not besides interval', () => expect(const Min.open(1).besides(Interval.open(-1, 1)), false));
 
     test('not besides min', () => expect(const Min.open(1).besides(const Min.open(1)), false));
+
+    test('not besides all', () => expect(const Min.open(1).besides(Range.all()), false));
   });
 
   group('encloses(...)', () {
@@ -121,10 +127,13 @@ void main() {
 
     test('interval, min open, interval closed', () => expect(const Min.open(1).encloses(Interval.closed(1, 3)), false));
 
-    test('not encloses interval', () => expect(const Min.open(5).encloses(Interval.open(1, 3)), false));
+    test('not enclose interval', () => expect(const Min.open(5).encloses(Interval.open(1, 3)), false));
 
 
-    test('not encloses max', () => expect(const Min.open(1).encloses(const Max.open(3)), false));
+    test('not enclose max', () => expect(const Min.open(1).encloses(const Max.open(3)), false));
+
+
+    test('not enclose all', () => expect(const Min.open(1).encloses(Range.all()), false));
   });
 
   group('intersects(...)', () {
@@ -136,7 +145,9 @@ void main() {
 
     test('not intersects interval', () => expect(const Min.open(1).intersects(Interval.open(-1, 1)), false));
 
-    test('min', () => expect(const Min.open(3).intersects(const Min.open(0)), true));
+    test('intersects min', () => expect(const Min.open(3).intersects(const Min.open(0)), true));
+
+    test('intersects all', () => expect(const Min.open(1).intersects(Range.all()), true));
   });
 
   test('empty', () => expect(const Min.open(1).empty, false));

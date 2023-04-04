@@ -25,6 +25,8 @@ part 'offsets.dart';
   /// This occurred in 1995 when the island of Kiribati moved its timezone eastward by one day which led to the creation
   /// of `+14:00`.
   static final Interval<Offset> range = Interval.closed(const RawOffset('-18:00', -64800), const RawOffset('+18:00', 64800));
+  /// An offset of zero.
+  static const Offset zero = RawOffset('Z', 0);
 
 
   final int _seconds;

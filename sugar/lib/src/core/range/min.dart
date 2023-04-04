@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/core_range.dart';
+import 'package:sugar/src/core/range/all.dart';
 import 'package:sugar/src/core/range/interval.dart';
 import 'package:sugar/src/core/range/range.dart';
 
@@ -7,7 +8,7 @@ import 'package:sugar/src/core/range/range.dart';
 ///
 /// [T] is expected to be immutable. If [T] is mutable, the value produced by [Comparable.compare] must not change when
 /// used in a [Range]. Doing so will result in undefined behaviour.
-class Min<T extends Comparable<Object?>> extends Range<T> {
+class Min<T extends Comparable<Object?>> extends Range<T> with IterableRange<T> {
 
   /// The minimum value.
   final T value;
@@ -63,8 +64,11 @@ class Min<T extends Comparable<Object?>> extends Range<T> {
     } else if (other is Max<T>) {
       return Intersections.minMax(this, other);
 
+    } else if (other is All<T>) {
+      return this;
+
     } else {
-      throw UnsupportedError('${other.runtimeType} is unsupported');
+      return null;
     }
   }
 

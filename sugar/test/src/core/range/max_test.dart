@@ -43,6 +43,8 @@ void main() {
     test('interval no gap', () => expect(const Max.closed(5).gap(Interval.open(4, 6)), null));
 
     test('max no gap', () => expect(const Max.closed(3).gap(const Max.closed(5)), null));
+
+    test('all no gap', () => expect(const Max.closed(3).gap(Range.all()), null));
   });
 
   group('intersection(...)', () {
@@ -82,6 +84,9 @@ void main() {
     test('min intersection', () => expect(const Max.closed(4).intersection(const Min.open(3)), Interval.openClosed(3, 4)));
 
     test('min no intersection', () => expect(const Max.closed(3).intersection(const Min.closed(4)), null));
+
+
+    test('all intersection', () => expect(const Max.closed(4).intersection(Range.all()), const Max.closed(4)));
   });
 
   group('besides(...)', () {
@@ -94,6 +99,8 @@ void main() {
     test('not besides interval', () => expect(const Max.open(-1).besides(Interval.open(-1, 1)), false));
 
     test('not besides max', () => expect(const Max.open(1).besides(const Max.open(1)), false));
+
+    test('not besides all', () => expect(const Max.open(1).besides(Range.all()), false));
   });
 
   group('encloses(...)', () {
@@ -125,7 +132,10 @@ void main() {
     test('not encloses interval', () => expect(const Max.open(0).encloses(Interval.open(1, 3)), false));
 
 
-    test('not encloses min', () => expect(const Max.open(3).encloses(const Min.open(1)), false));
+    test('not enclose min', () => expect(const Max.open(3).encloses(const Min.open(1)), false));
+
+
+    test('not enclose all', () => expect(const Max.open(3).encloses(Range.all()), false));
   });
 
   group('intersects(...)', () {
@@ -137,7 +147,9 @@ void main() {
 
     test('not intersects interval', () => expect(const Max.open(-1).intersects(Interval.open(-1, 1)), false));
 
-    test('max', () => expect(const Max.open(0).intersects(const Max.open(3)), true));
+    test('intersects max', () => expect(const Max.open(0).intersects(const Max.open(3)), true));
+
+    test('intersects all', () => expect(const Max.open(0).intersects(Range.all()), true));
   });
 
   test('empty', () => expect(const Max.open(1).empty, false));

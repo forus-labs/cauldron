@@ -77,6 +77,15 @@ void main() {
       test('invalid range', () => expect(() => Interval.open(1, -1), throwsRangeError));
     });
 
+    group('empty(...)', () {
+      const interval = Interval.empty(1);
+
+      test('empty', () => expect(interval.contains(1), false));
+
+      test('same as Interval.closedOpen(1, 1)', () => expect(interval, Interval.closedOpen(1, 1)));
+    });
+
+
     group('contains(...)', () {
       test('contains', () => expect(Interval.open(1, 3).contains(2), true));
 
@@ -143,6 +152,8 @@ void main() {
       test('max gap', () => expect(Interval.closed(3, 5).gap(const Max.open(1)), Interval.closedOpen(1, 3)));
 
       test('max no gap', () => expect(Interval.closed(3, 5).gap(const Max.closed(5)), null));
+      
+      test('all no gap', () => expect(Interval.closed(3, 5).gap(Range.all()), null));
     });
 
     group('intersection(...)', () {
@@ -157,6 +168,8 @@ void main() {
       test('max intersection', () => expect(Interval.closed(3, 5).intersection(const Max.open(4)), Interval.closedOpen(3, 4)));
 
       test('max no intersection', () => expect(Interval.closed(3, 5).intersection(const Max.closed(1)), null));
+
+      test('all intersection', () => expect(Interval.closed(3, 5).intersection(Range.all()), Interval.closed(3, 5)));
     });
 
     group('besides(...)', () {
@@ -201,6 +214,9 @@ void main() {
       test('greater discrete range', () => expect(Interval.closed(1, 3).besides(Interval.closed(4, 5)), false));
 
       test('lesser discrete range', () => expect(Interval.closed(1, 3).besides(Interval.closed(0, 1)), false));
+
+
+      test('all not besides', () => expect(Interval.closed(1, 3).besides(Range.all()), false));
     });
 
     group('encloses(...)', () {
@@ -241,6 +257,10 @@ void main() {
       test('max', () => expect(Interval.open(1, 5).encloses(const Max.open(3)), false));
 
       test('discrete range', () => expect(Interval.closed(2, 4).encloses(Interval.open(1, 5)), false));
+
+
+      test('not enclose all', () => expect(Interval.closed(1, 3).encloses(Range.all()), false));
+
     });
 
     group('intersects(...)', () {
@@ -258,6 +278,8 @@ void main() {
 
 
       test('does not intersect interval', () => expect(Interval.closed(1, 3).intersects(Interval.closed(5, 7)), false));
+
+      test('intersects all', () => expect(Interval.closed(1, 3).intersects(Range.all()), true));
 
       for (final other in [
         Interval.closed(3, 7),

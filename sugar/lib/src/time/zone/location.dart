@@ -1,3 +1,4 @@
+import 'package:sugar/core.dart';
 import 'package:sugar/time.dart';
 import 'package:sugar/time_zone.dart';
 
@@ -12,17 +13,24 @@ class Location implements Timezone {
   final List<EpochSeconds> _transitions;
   /// The seconds since epoch at which the associated offset goes into effect.
   final List<Offset> _offsets;
-  /// The daylight saving times,
+  /// Whether the offsets at the various indexes are daylight saving time.
   final List<bool> _dsts;
+  /// The range of the least recently used offset.
+  late Range<EpochSeconds> _range;
+  /// The least recently used offset.
+  Offset _offset;
 
   /// Creates a [Location].
-  Location(this.name, this._transitions, this._offsets, this._dsts);
+  Location(this.name, this._transitions, this._offsets, this._dsts):
+    _offset = Offset.zero;
 
 
   @override
   Offset offset({required EpochMilliseconds at}) {
     final seconds = at ~/ 1000;
-    return Offset(); // TODO: timezone
+    return Offset(); // TODO: timezonel
+
+
     // if (_timezones.isEmpty || (_start <= seconds && seconds < _end)) {
     //   return _timezone;
     // }
@@ -52,8 +60,3 @@ class Location implements Timezone {
   String toString() => name;
 
 }
-
-// // TODO: replace these 3 fields with a record/tuple when Dart 3.0 is released
-// Timezone _timezone;
-// EpochSeconds _start;
-// EpochSeconds _end;

@@ -24,6 +24,7 @@
 /// In addition, the following ranges are valid:
 /// * singleton ranges - `[a..a]`
 /// * empty ranges - `[a..a)` and `(a..a]`
+/// * infinite ranges - `(-∞..+∞)`
 ///
 /// Ranges with open bounds and, equal minimum and maximum values, i.e. `(a..b)` are *not* valid.
 library sugar.core.range;

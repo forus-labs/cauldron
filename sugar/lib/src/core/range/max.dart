@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/core_range.dart';
+import 'package:sugar/src/core/range/all.dart';
 import 'package:sugar/src/core/range/interval.dart';
 import 'package:sugar/src/core/range/range.dart';
 
@@ -7,7 +8,7 @@ import 'package:sugar/src/core/range/range.dart';
 ///
 /// [T] is expected to be immutable. If [T] is mutable, the value produced by [Comparable.compare] must not change when
 /// used in a [Range]. Doing so will result in undefined behaviour.
-class Max<T extends Comparable<Object?>> extends Range<T> {
+class Max<T extends Comparable<Object?>> extends Range<T> with IterableRange<T> {
 
   /// The maximum value.
   final T value;
@@ -62,6 +63,9 @@ class Max<T extends Comparable<Object?>> extends Range<T> {
 
     } else if (other is Min<T>) {
       return Intersections.minMax(other, this);
+
+    } else if (other is All<T>) {
+      return this;
 
     } else {
       return null;

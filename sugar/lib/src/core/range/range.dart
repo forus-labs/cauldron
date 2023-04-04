@@ -1,9 +1,9 @@
 import 'package:meta/meta.dart';
+
 import 'package:sugar/core.dart';
+import 'package:sugar/src/core/range/all.dart';
 
 /// A [Range] represents a convex (contiguous) portion of a domain.
-///
-/// It is possible to iterate over a [Range] using [iterate].
 ///
 /// [T] is expected to be immutable. If [T] is mutable, the value produced by [Comparable.compare] must not change when
 /// used in a [Range]. Doing so will result in undefined behaviour.
@@ -11,6 +11,9 @@ import 'package:sugar/core.dart';
 /// See [Min] and [Max] for a range that is bound on one end.
 /// See [Interval] for a range that is bound on both ends.
 @sealed abstract class Range<T extends Comparable<Object?>> {
+
+  /// Creates a [Range] that is unbounded on both ends, i.e. `{ x | x }`
+  factory Range.all() => All<T>();
 
   /// Creates a [Range].
   const Range();
@@ -36,18 +39,6 @@ import 'package:sugar/core.dart';
   /// min.containsAll([-1, 2, 3]); // false
   /// ```
   @useResult @nonVirtual bool containsAll(Iterable<T> values) => values.every(contains);
-
-  /// Creates a lazy [Iterable] over this [Range]. The given function produces a value in the returned [Iterable] using
-  /// the previous value for each iteration.
-  ///
-  /// Note: The returned [Iterable] is lazy and potentially infinite.
-  ///
-  /// ### Example:
-  /// ```dart
-  /// final range = Interval.closedOpen(0, 5);
-  /// range.iterate(by: (e) => e + 1).toList(); // [0, 1, 2, 3, 4]
-  /// ```
-  @useResult @lazy Iterable<T> iterate({required T Function(T current) by});
 
   /// If this [Range] does not intersect [other], returns the gap in between. Otherwise returns `null`.
   ///
@@ -166,6 +157,26 @@ import 'package:sugar/core.dart';
   @useResult bool get empty;
 
 }
+
+/// Represents a [Range] that is also iterable.
+///
+/// It is possible to iterate over a [Range] using [iterate].
+mixin IterableRange<T extends Comparable<Object?>> on Range<T> {
+
+  /// Creates a lazy [Iterable] over this [Range]. The given function produces a value in the returned [Iterable] using
+  /// the previous value for each iteration.
+  ///
+  /// Note: The returned [Iterable] is lazy and potentially infinite.
+  ///
+  /// ### Example:
+  /// ```dart
+  /// final range = Interval.closedOpen(0, 5);
+  /// range.iterate(by: (e) => e + 1).toList(); // [0, 1, 2, 3, 4]
+  /// ```
+  @useResult @lazy Iterable<T> iterate({required T Function(T current) by});
+
+}
+
 
 /// A convenience alias for [Comparable].
 @internal typedef C = Comparable<Object?>;

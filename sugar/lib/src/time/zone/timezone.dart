@@ -12,8 +12,7 @@ import 'package:sugar/time_zone.dart';
 /// A fixed offset from UTC/Greenwich that uses the same offset for all local date-times.
 ///
 /// ## [Location]
-/// A location in the IANA TZ database with a varying offset. Timezones that do not represent a location, i.e. `GMT`
-/// and timezones in the `Etc`, are unsupported.
+/// A location in the IANA TZ database with a varying offset.
 @sealed abstract class Timezone {
 
   /// The TZ database `Factory` timezone that has no offset. It is returned when parsing and retrieval fails.
@@ -50,7 +49,7 @@ import 'package:sugar/time_zone.dart';
   }
 
   /// Creates a [Timezone] with the given [name] if it exists. Otherwise returns [factory].
-  /// [name] should be either a TZ database timezone that represents a geographical location or an offset ID.
+  /// [name] should be either a TZ database timezone or an offset ID.
   ///
   /// ```dart
   /// final singapore = Timezone.parse('Asia/Singapore'); // `Asia/Singapore`

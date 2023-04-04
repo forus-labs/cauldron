@@ -1,12 +1,13 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
+import 'package:sugar/src/core/range/all.dart';
 import 'package:sugar/src/core/range/range.dart';
 
 /// A [Interval] represents a convex (contiguous) portion of a domain bounded on both ends, i.e. `{ x | min < x < max }`.
 ///
 /// [T] is expected to be immutable. If [T] is mutable, the value produced by [Comparable.compare] must not change when
 /// used in a [Range]. Doing so will result in undefined behaviour.
-class Interval<T extends Comparable<Object?>> extends Range<T> {
+class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRange<T> {
 
   static void _precondition<T extends Comparable<Object?>>(String start, T min, T max, String end) {
     if (min.compareTo(max) > 0) {
@@ -67,7 +68,12 @@ class Interval<T extends Comparable<Object?>> extends Range<T> {
     }
   }
 
-  Interval._(this.min, this.minOpen, this.max, this.maxOpen);
+  /// Creates an empty [Interval] with the given [value], i.e. `{ x | value <= x < value }`.
+  ///
+  /// This constructor is an alias for [Interval.closedOpen].
+  const Interval.empty(T value): min = value, minOpen = false, max = value, maxOpen = true;
+
+  const Interval._(this.min, this.minOpen, this.max, this.maxOpen);
 
 
   @override
@@ -94,7 +100,7 @@ class Interval<T extends Comparable<Object?>> extends Range<T> {
       return Gaps.maxInterval(other, this);
 
     } else {
-      throw UnsupportedError('${other.runtimeType} is unsupported');
+      return null;
     }
   }
 
@@ -109,8 +115,11 @@ class Interval<T extends Comparable<Object?>> extends Range<T> {
     } else if (other is Max<T>) {
       return Intersections.maxInterval(other, this);
 
+    } else if (other is All<T>) {
+      return this;
+
     } else {
-      throw UnsupportedError('${other.runtimeType} is unsupported');
+      return null;
     }
   }
 
@@ -127,7 +136,7 @@ class Interval<T extends Comparable<Object?>> extends Range<T> {
           || (maxOpen == other.minClosed && max == other.min);
 
     } else {
-      throw UnsupportedError('${other.runtimeType} is unsupported');
+      return false;
     }
   }
 
@@ -163,7 +172,7 @@ class Interval<T extends Comparable<Object?>> extends Range<T> {
       return Intersects.intervalInterval(this, other);
 
     } else {
-      throw UnsupportedError('${other.runtimeType} is unsupported');
+      return true;
     }
   }
 

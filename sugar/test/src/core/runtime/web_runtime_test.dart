@@ -1,4 +1,4 @@
-@TestOn('vm')
+@TestOn('browser')
 library;
 
 import 'package:sugar/core_runtime.dart';
