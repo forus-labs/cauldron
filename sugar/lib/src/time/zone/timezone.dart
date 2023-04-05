@@ -12,12 +12,15 @@ import 'package:sugar/time_zone.dart';
 /// * A timezone in the IANA TZ database. This includes geographical locations which offset may vary across points on the timeline.
 @sealed abstract class Timezone {
 
+  /// The supported IANA TZ database timezones, currently 2023c.
+  static Set<String> get supported => iana;
+
   /// The IANA TZ database `Factory` timezone that has no offset. It is returned when parsing and retrieval fails.
   ///
   /// ```dart
   /// final factory = Timezone.parse('invalid/location'); // Timezone.factory
   /// ```
-  static final Timezone factory = Root.factory;
+  static Timezone get factory => Root.factory;
 
   /// The provider used to retrieve the platform's timezone. It may be swapped to modify timezone retrieval.
   ///

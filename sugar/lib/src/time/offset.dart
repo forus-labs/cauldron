@@ -70,6 +70,10 @@ part 'offsets.dart';
   /// ### Example:
   /// ```dart
   /// Offset.fromDuration(const Duration(hours: -10)); // UTC-10:00, W (Hawaii time)
+  ///
+  /// Offset.fromDuration(const Duration(hours: -10, minutes: -2, seconds: -3)); // -10:02:03
+  ///
+  /// Offset.fromDuration(const Duration(hours: -10, minutes: 2, seconds: 3)); // -9:57:57
   /// ```
   ///
   /// ### Contract:
@@ -94,6 +98,10 @@ part 'offsets.dart';
   /// ### Example:
   /// ```dart
   /// Offset(-10, 0, 0); // UTC-10:00, W (Hawaii time)
+  ///
+  /// Offset(-10, -2, -3)); // throws error
+  ///
+  /// Offset(-10, 2, 3)); // -10:02:03
   /// ```
   ///
   /// ### Contract:

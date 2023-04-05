@@ -166,10 +166,19 @@ class _Offset extends Offset {
     _precondition(_seconds);
   }
 
-  _Offset([int hour = 0, int minute = 0, int second = 0]): super._(Seconds.from(hour, minute, second)) {
+  _Offset([int hour = 0, int minute = 0, int second = 0]): super._(toSeconds(hour, minute, second)) {
     RangeError.checkValueInInterval(hour, -18, 18, 'hour');
-    RangeError.checkValueInInterval(minute, 0, 60, 'minute');
-    RangeError.checkValueInInterval(hour, 0, 60, 'second');
+    RangeError.checkValueInInterval(minute, 0, 59, 'minute');
+    RangeError.checkValueInInterval(second, 0, 59, 'second');
+    _precondition(_seconds);
+  }
+
+  static int toSeconds(int hour, int minute, int second) {
+    if (hour.isNegative) {
+      return -1 *  Seconds.from(hour.abs(), minute, second);
+    } else {
+      return Seconds.from(hour, minute, second);
+    }
   }
 
 

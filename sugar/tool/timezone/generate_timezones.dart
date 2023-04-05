@@ -17,35 +17,62 @@ import 'package:meta/meta.dart';
 import 'package:sugar/src/time/zone/timezone.dart';
 ''';
 
+const _setHeader = '''
+/// The supported IANA TZ database timezones.
+@internal const Set<String> iana = {''';
+
+const _functionHeader = '''
+/// Returns the [Timezone] associated with the given [name] if it exists. Otherwise returns the `Factory` [Timezone].
+/// 
+/// ## Implementation details:
+/// To lazily initialize [Timezone]s, a switch statement is used instead of a [Map].
+/// Since most use-cases only require a few [Timezone]s, it drastically reduces memory footprint.
+@internal Timezone parseTimezone(String timezone) {
+  switch (timezone) {
+''';
+
 
 extension Timezones on Never {
 
   static void generate(NamespaceIR namespace) {
     final buffer = StringBuffer(_header)..writeln();
-    _traverse(buffer, namespace);
+    _import(buffer, namespace);
+    buffer.writeln();
+    _set(buffer, namespace);
     buffer.writeln();
     _function(buffer, namespace);
 
     File(_destination).writeAsStringSync(buffer.toString());
   }
 
-  static void _traverse(StringBuffer buffer, NamespaceIR namespace) {
+  static void _import(StringBuffer buffer, NamespaceIR namespace) {
     buffer.writeln("import '${namespace.toPackagePath()}';");
+
+    for (final namespace in namespace.namespaces) {
+      _import(buffer, namespace);
+    }
+  }
+
+
+  static void _set(StringBuffer buffer, NamespaceIR namespace) {
+    buffer.writeln(_setHeader);
+    _traverse(buffer, namespace);
+    buffer.writeln('};');
+  }
+
+  static void _traverse(StringBuffer buffer, NamespaceIR namespace) {
+    for (final timezone in namespace.timezones) {
+      buffer.writeln("  '${timezone.location.name}',");
+    }
 
     for (final namespace in namespace.namespaces) {
       _traverse(buffer, namespace);
     }
   }
 
+
   static void _function(StringBuffer buffer, NamespaceIR namespace) {
-    buffer
-      ..writeln('/// Returns the [Timezone] associated with the given [name] if it exists. Otherwise returns the `Factory` [Location].')
-      ..writeln('/// ')
-      ..writeln('/// ## Implementation details:')
-      ..writeln('/// To lazily initialize [Timezone]s, a switch statement is used instead of a [Map].')
-      ..writeln('/// Since most use-cases only require a few [Timezone]s, it drastically reduces memory footprint.')
-      ..writeln('@internal Timezone parseTimezone(String timezone) {')
-      ..writeln('  switch (timezone) {');
+    buffer.writeln(_functionHeader);
     _cases(buffer, namespace);
     buffer
       ..writeln('    default:')
