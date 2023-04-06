@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:meta/meta.dart';
+import 'package:sugar/src/time/zone/timezones.g.dart';
 
 final _localtime =  File('/etc/localtime');
 
@@ -11,7 +12,7 @@ final _localtime =  File('/etc/localtime');
 @internal String get posixTimezone {
   try {
     final variable = Platform.environment['TZ'];
-    if (variable != null && true) { // TODO: validate TZ environment variable.
+    if (variable != null && iana.contains(variable)) {
       return variable;
     }
 
@@ -20,7 +21,7 @@ final _localtime =  File('/etc/localtime');
     }
 
     final path = _localtime.resolveSymbolicLinksSync().split('zoneinfo/').last;
-    return true ? path : 'Factory'; // TODO: validate path.
+    return iana.contains(path) ? path : 'Factory';
 
   } on FileSystemException {
     return 'Factory';

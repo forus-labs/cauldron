@@ -227,12 +227,12 @@ part 'offsets.dart';
 
   @override
   @useResult
-  int compareTo(Offset other) => _seconds.compareTo(_seconds);
+  int compareTo(Offset other) => _seconds.compareTo(other._seconds);
 
 
   @override
   @useResult
-  int get hashValue => Object.hash(runtimeType, _seconds);
+  int get hashValue => _seconds.hashCode;
 
   /// Returns an offset ID. The ID is a minor variation of an ISO-8601 formatted offset string.
   ///

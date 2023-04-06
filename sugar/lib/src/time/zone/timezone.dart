@@ -23,6 +23,7 @@ import 'package:sugar/time_zone.dart';
   static Timezone get factory => Root.factory;
 
   /// The provider used to retrieve the platform's timezone. It may be swapped to modify timezone retrieval.
+  /// This is particularly useful in tests.
   ///
   /// A TZ database timezone is always returned. It may be a canonical or link timezone. Defaults to `Factory` if the
   /// timezone could not be retrieved.

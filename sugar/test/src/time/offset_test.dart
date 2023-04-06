@@ -1,4 +1,4 @@
-import 'package:sugar/sugar.dart';
+import 'package:sugar/src/time/offset.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -185,9 +185,10 @@ void main() {
     test('toDuration()', () => expect(Offset(-1, 2, 3).toDuration(), const Duration(hours: -1, minutes: -2, seconds: -3)));
 
     for (final argument in [
-      // [Offset(1, 2, 3), true],
+      [Offset(1, 2, 3), true],
       [Offset(1, 2, 4), false],
       [Offset(-1, 2, 3), false],
+      [const RawOffset('+01:02:03', 3723), true]
     ]) {
       test('equality ', () {
         final other = argument[0] as Offset;
@@ -199,5 +200,25 @@ void main() {
       });
     }
 
+  });
+
+  group('RawOffset', () {
+    test('constructor throws exception', () => expect(() => RawOffset('+01:02:03', -100000000), throwsA(anything)));
+
+    for (final argument in [
+      [Offset(1, 2, 3), true],
+      [Offset(1, 2, 4), false],
+      [Offset(-1, 2, 3), false],
+      [const RawOffset('+01:02:03', 3723), true]
+    ]) {
+      test('equality ', () {
+        final other = argument[0] as Offset;
+        final expected = argument[1] as bool;
+
+        expect(const RawOffset('+01:02:03', 3723) == other, expected);
+        expect(const RawOffset('+01:02:03', 3723).compareTo(other) == 0, expected);
+        expect(const RawOffset('+01:02:03', 3723).hashCode == other.hashCode, expected);
+      });
+    }
   });
 }
