@@ -16,6 +16,9 @@ typedef DaySeconds = int;
 /// Denotes the milliseconds in a day since midnight.
 typedef DayMilliseconds = int;
 
+/// Denotes the microseconds in a day since midnight.
+typedef DayMicroseconds = int;
+
 
 /// Provides utilities for converting between minutes and other time units.
 extension Minutes on Never {
