@@ -1,4 +1,4 @@
-name: Sugar Build
+name: Sugar
 
 on:
   push:
@@ -8,8 +8,8 @@ on:
     paths: [ sugar/**, .github/workflows/sugar.yaml ]
 
 jobs:
-  tests:
-    name: Automated Tests
+  test:
+    name: Run agnostic tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -19,14 +19,57 @@ jobs:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
-      - run: dart analyze --fatal-warnings lib
-      - run: dart test --coverage=./coverage/raw
-      - run: dart pub global activate coverage
-      - run: dart pub global run coverage:format_coverage --packages=.packages -l -i ./coverage/raw -o ./coverage/lcov.info --report-on=lib
-      - run: apt-get update -y
-      - run: apt-get install -y lcov
-      - run: lcov --remove ./coverage/lcov.info 'lib/**.g.dart' -o ./coverage/lcov.info
-      - uses: codecov/codecov-action@v3
+      - run: dart analyze --fatal-warnings
+      - run: dart test
+
+  test-windows:
+    name: Run platform-dependent tests on Windows
+    needs: [ test ]
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: sugar
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: dart test -t "platform-specific"
+
+  test-posix:
+    name: Run platform-dependent tests on POSIX platforms
+    needs: [ test ]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macos-latest, ubuntu-latest ]
+    defaults:
+      run:
+        working-directory: sugar
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: dart test -t "platform-specific"
+
+  test-web:
+    name: Run platform-dependent tests on web platforms
+    needs: [ test ]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sugar
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: browser-actions/setup-chrome@v1
         with:
-          files: ./sugar/coverage/lcov.info
-          fail_ci_if_error: true
+          chrome-version: stable
+
+      - uses: browser-actions/setup-firefox@v1
+        with:
+          firefox-version: latest
+
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: dart test -t "platform-specific" -p "chrome"
+      - run: dart test -t "platform-specific" -p "firefox"
