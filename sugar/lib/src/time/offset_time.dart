@@ -254,6 +254,9 @@ class OffsetTime {
   );
 
 
+  /// Returns this [OffsetTime] without an offset.
+  LocalTime toLocalTime() => LocalTime(hour, minute, second, millisecond, microsecond);
+
   /// Returns this [OffsetTime] in microseconds, adjusted using its offset. The returned microseconds may be negative.
   ///
   /// To compare two [OffsetTime], they should be first converted to microseconds using this function.
