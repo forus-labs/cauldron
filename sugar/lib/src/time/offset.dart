@@ -28,8 +28,8 @@ part 'offsets.dart';
   /// An offset of zero.
   static const Offset zero = RawOffset('Z', 0);
 
-
-  final int _seconds;
+  /// The number of seconds in this offset.
+  final int seconds;
 
 
   /// Creates an [Offset] from the formatted [offset] string.
@@ -111,7 +111,7 @@ part 'offsets.dart';
 
 
   /// Creates an [Offset].
-  const Offset._(this._seconds);
+  const Offset._(this.seconds);
 
 
   /// Returns an [Offset] with given [hours], [minutes] and [seconds] added to this [Offset]. A [RangeError] is thrown
@@ -125,7 +125,7 @@ part 'offsets.dart';
   /// ```
   @Possible({RangeError})
   Offset add({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromSeconds(
-    _seconds + Seconds.from(hours, minutes, seconds),
+    seconds + Seconds.from(hours, minutes, seconds),
   );
 
   /// Returns an [Offset] with given [hours], [minutes] and [seconds] subtracted from this [Offset]. A [RangeError] is
@@ -139,7 +139,7 @@ part 'offsets.dart';
   /// ```
   @Possible({RangeError})
   Offset subtract({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromSeconds(
-    _seconds - Seconds.from(hours, minutes, seconds),
+    seconds - Seconds.from(hours, minutes, seconds),
   );
 
 
@@ -153,7 +153,7 @@ part 'offsets.dart';
   /// Offset(18).tryAdd(hours: 2); // null
   /// ```
   Offset? tryAdd({int hours = 0, int minutes = 0, int seconds = 0}) {
-    final total = _seconds + Seconds.from(hours, minutes, seconds);
+    final total = seconds + Seconds.from(hours, minutes, seconds);
     return -18 * Duration.secondsPerHour <= total && total <= 18 * Duration.secondsPerHour ? Offset.fromSeconds(total) : null;
   }
 
@@ -168,7 +168,7 @@ part 'offsets.dart';
   /// ```
   @useResult
   Offset? trySubtract({int hours = 0, int minutes = 0, int seconds = 0}) {
-    final total = _seconds - Seconds.from(hours, minutes, seconds);
+    final total = seconds - Seconds.from(hours, minutes, seconds);
     return -18 * Duration.secondsPerHour <= total && total <= 18 * Duration.secondsPerHour ? Offset.fromSeconds(total) : null;
   }
 
@@ -183,7 +183,7 @@ part 'offsets.dart';
   /// Offset(18) + const Duration(hours: 2); // throws RangeError
   /// ```
   @Possible({RangeError})
-  Offset operator + (Duration duration) => Offset.fromSeconds(_seconds + duration.inSeconds);
+  Offset operator + (Duration duration) => Offset.fromSeconds(seconds + duration.inSeconds);
 
   /// Returns an [Offset] with given [Duration] subtracted from this [Offset]. A [RangeError] is thrown if the resulting
   /// [Offset] is outside of the valid [range].
@@ -195,7 +195,7 @@ part 'offsets.dart';
   /// Offset(-18) - const Duration(hours: 2); // throws RangeError
   /// ```
   @Possible({RangeError})
-  Offset operator - (Duration duration) => Offset.fromSeconds(_seconds - duration.inSeconds);
+  Offset operator - (Duration duration) => Offset.fromSeconds(seconds - duration.inSeconds);
 
 
   /// Returns the difference between this [Offset] and [other]. The difference will be negative if [other] is greater than
@@ -205,7 +205,7 @@ part 'offsets.dart';
   /// ```dart
   /// Offset(-1).difference(Offset(2)); // Duration(hours: -3)
   /// ```
-  Duration difference(Offset other) => Duration(seconds: _seconds - other._seconds);
+  Duration difference(Offset other) => Duration(seconds: seconds - other.seconds);
 
   /// Convert this [Offset] into a [Duration].
   ///
@@ -213,7 +213,7 @@ part 'offsets.dart';
   /// ```dart
   /// Offset(1, 2, 3).toDuration(); // Duration(hours: 1, minutes: 2, seconds: 3);
   /// ```
-  Duration toDuration() => Duration(seconds: _seconds);
+  Duration toDuration() => Duration(seconds: seconds);
 
 
   // This method is overridden to allow equality between [_Offset]s and [RawOffset]s.
@@ -227,12 +227,12 @@ part 'offsets.dart';
 
   @override
   @useResult
-  int compareTo(Offset other) => _seconds.compareTo(other._seconds);
+  int compareTo(Offset other) => seconds.compareTo(other.seconds);
 
 
   @override
   @useResult
-  int get hashValue => _seconds.hashCode;
+  int get hashValue => seconds.hashCode;
 
   /// Returns an offset ID. The ID is a minor variation of an ISO-8601 formatted offset string.
   ///
