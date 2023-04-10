@@ -1,9 +1,17 @@
+import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
-import 'package:sugar/math.dart';
+import 'package:sugar/src/time/time.dart';
 import 'package:sugar/time.dart';
 
-/// Represents the time of the day with an offset from UTC/Greenwich, i.e. `10:15:30+08:00`. It cannot be used to represent a specific
-/// point in time without an additional offset or timezone.
+/// Creates an [OffsetTime] that does not check the ranges of arguments.
+///
+/// This exists because Dart is fucking stupid and doesn't have any visibility modifiers.
+@internal OffsetTime offsetTime(Offset offset, int hour, int minute, int second, int millisecond, int microsecond) => OffsetTime._(offset, hour, minute, second, millisecond, microsecond);
+
+
+/// Represents the time of the day with an offset from UTC/Greenwich, i.e. `10:15:30+08:00`. Time is stored to microsecond precision.
+///
+/// It cannot be used to represent a specific point in time without an additional offset or timezone.
 ///
 /// To compare two [OffsetTime], they should be first converted to microseconds using [toOffsettedMicroseconds].
 /// ```dart
@@ -12,23 +20,13 @@ import 'package:sugar/time.dart';
 ///
 /// print(foo.toOffsettedMicroseconds() < bar.toOffsettedMicroseconds()); // true
 /// ```
-class OffsetTime {
+class OffsetTime extends TimeBase {
 
   /// The valid range of [OffsetTime]s in microseconds from `00:00+18:00` to `23:59:59.999999-18:00`, inclusive.
   static final Interval<int> range = Interval.closed(-18 * Duration.microsecondsPerHour, (Duration.millisecondsPerDay + 18 * Duration.microsecondsPerHour) - 1);
 
   /// The offset.
   final Offset offset;
-  /// The hour.
-  final int hour;
-  /// The minute.
-  final int minute;
-  /// The second.
-  final int second;
-  /// The millisecond.
-  final int millisecond;
-  /// The microsecond.
-  final int microsecond;
 
   int? _microseconds;
   String? _string;
@@ -80,10 +78,6 @@ class OffsetTime {
     return OffsetTime._(offset, hour, minute, second, millisecond, microsecond);
   }
 
-
-  /// Creates a [OffsetTime] using the given offset and time.
-  OffsetTime.fromLocalTime(Offset offset, LocalTime time): this._(offset, time.hour, time.minute, time.second, time.millisecond, time.microsecond);
-
   /// Creates a [OffsetTime].
   ///
   /// ## Contract:
@@ -94,15 +88,51 @@ class OffsetTime {
   /// * `0 <= millisecond < 1000`
   /// * `0 <= microsecond < 1000`
   @Possible({RangeError})
-  OffsetTime(this.offset, [this.hour = 0, this.minute = 0, this.second = 0, this.millisecond = 0, this.microsecond = 0]) {
-    RangeError.checkValueInInterval(hour, 0, 23, 'hour');
-    RangeError.checkValueInInterval(minute, 0, 59, 'minute');
-    RangeError.checkValueInInterval(second, 0, 59, 'second');
-    RangeError.checkValueInInterval(millisecond, 0, 999, 'millisecond');
-    RangeError.checkValueInInterval(microsecond, 0, 999, 'microsecond');
-  }
+  OffsetTime(this.offset, [super.hour = 0, super.minute = 0, super.second = 0, super.millisecond = 0, super.microsecond = 0]): super.check();
 
-  OffsetTime._(this.offset, [this.hour = 0, this.minute = 0, this.second = 0, this.millisecond = 0, this.microsecond= 0]);
+  OffsetTime._(this.offset, [super.hour = 0, super.minute = 0, super.second = 0, super.millisecond = 0, super.microsecond = 0]);
+
+
+  /// Returns a copy of this [OffsetTime] truncated to the given time unit.
+  ///
+  /// ```dart
+  /// final time = OffsetTime(Offset(8), 12, 39, 59, 999, 999);
+  /// final truncated = time.truncate(to: TimeUnit.minutes); // '12:39+08:00'
+  /// ```
+  OffsetTime truncate({required TimeUnit to}) => Time.truncate(this, _toOffsetTime, to);
+
+  /// Returns a copy of this [OffsetTime] with the given time unit rounded to the nearest [value].
+  ///
+  /// ```dart
+  /// final foo = OffsetTime(Offset(8), 12, 31, 59);
+  /// foo.round(5, TimeUnit.minutes); // '12:30:59+08:00'
+  ///
+  /// final bar = OffsetTime(Offset(8), 12, 34, 59);
+  /// bar.round(5, TimeUnit.minutes); // '12:35:59+08:00'
+  /// ```
+  OffsetTime round(int value, TimeUnit unit) => Time.round(this, _toOffsetTime, value, unit);
+
+  /// Returns a copy of this [OffsetTime] with the given time unit ceil to the nearest [value].
+  ///
+  /// ```dart
+  /// final foo = OffsetTime(Offset(8), 12, 31, 59);
+  /// foo.round(5, TimeUnit.minutes); // '12:35:59+08:00'
+  ///
+  /// final bar = OffsetTime(Offset(8), 12, 34, 59);
+  /// bar.round(5, TimeUnit.minutes); // '12:35:59+08:00'
+  /// ```
+  OffsetTime ceil(int value, TimeUnit unit) => Time.ceil(this, _toOffsetTime, value, unit);
+
+  /// Returns a copy of this [OffsetTime] with the given time unit floored to the nearest [value].
+  ///
+  /// ```dart
+  /// final foo = OffsetTime(Offset(8), 12, 31, 59);
+  /// foo.round(5, TimeUnit.minutes); // '12:30:59+08:00'
+  ///
+  /// final bar = OffsetTime(Offset(8), 12, 34, 59);
+  /// bar.round(5, TimeUnit.minutes); // '12:30:59+08:00'
+  /// ```
+  OffsetTime floor(int value, TimeUnit unit) => Time.floor(this, _toOffsetTime, value, unit);
 
 
   /// Returns a copy of this [OffsetTime] with the given time added. The calculation wraps around midnight.
@@ -148,77 +178,6 @@ class OffsetTime {
   OffsetTime operator - (Duration duration) => subtract(microseconds: duration.inMicroseconds);
 
 
-  /// Returns a copy of this [OffsetTime] with the given time unit rounded to the nearest [value].
-  ///
-  /// ```dart
-  /// final foo = OffsetTime(Offset(8), 12, 31, 59);
-  /// foo.round(5, TimeUnit.minutes); // '12:30:59+08:00'
-  ///
-  /// final bar = OffsetTime(Offset(8), 12, 34, 59);
-  /// bar.round(5, TimeUnit.minutes); // '12:35:59+08:00'
-  /// ```
-  OffsetTime round(int value, TimeUnit unit) => _adjust(value, unit, (time, to) => time.roundTo(to));
-
-  /// Returns a copy of this [OffsetTime] with the given time unit ceil to the nearest [value].
-  ///
-  /// ```dart
-  /// final foo = OffsetTime(Offset(8), 12, 31, 59);
-  /// foo.round(5, TimeUnit.minutes); // '12:35:59+08:00'
-  ///
-  /// final bar = OffsetTime(Offset(8), 12, 34, 59);
-  /// bar.round(5, TimeUnit.minutes); // '12:35:59+08:00'
-  /// ```
-  OffsetTime ceil(int value, TimeUnit unit) => _adjust(value, unit, (time, to) => time.ceilTo(to));
-
-  /// Returns a copy of this [OffsetTime] with the given time unit floored to the nearest [value].
-  ///
-  /// ```dart
-  /// final foo = OffsetTime(Offset(8), 12, 31, 59);
-  /// foo.round(5, TimeUnit.minutes); // '12:30:59+08:00'
-  ///
-  /// final bar = OffsetTime(Offset(8), 12, 34, 59);
-  /// bar.round(5, TimeUnit.minutes); // '12:30:59+08:00'
-  /// ```
-  OffsetTime floor(int value, TimeUnit unit) => _adjust(value, unit, (time, to) => time.floorTo(to));
-
-  OffsetTime _adjust(int value, TimeUnit unit, int Function(int, int) function) {
-    switch (unit) {
-      case TimeUnit.hours:
-        return OffsetTime._(offset, function(hour, value), minute, second, millisecond, microsecond);
-      case TimeUnit.minutes:
-        return OffsetTime._(offset, hour, function(minute, value), second, millisecond, microsecond);
-      case TimeUnit.seconds:
-        return OffsetTime._(offset ,hour, minute, function(second, value), millisecond, microsecond);
-      case TimeUnit.milliseconds:
-        return OffsetTime._(offset, hour, minute, second, function(millisecond, value), microsecond);
-      case TimeUnit.microseconds:
-        return OffsetTime._(offset, hour, minute, second, millisecond, function(microsecond, value));
-    }
-  }
-
-
-  /// Returns a copy of this [OffsetTime] truncated to the given time unit.
-  ///
-  /// ```dart
-  /// final time = OffsetTime(Offset(8), 12, 39, 59, 999, 999);
-  /// final truncated = time.truncate(to: TimeUnit.minutes); // '12:39+08:00'
-  /// ```
-  OffsetTime truncate({required TimeUnit to}) {
-    switch (to) {
-      case TimeUnit.hours:
-        return OffsetTime._(offset, hour);
-      case TimeUnit.minutes:
-        return OffsetTime._(offset, hour, minute);
-      case TimeUnit.seconds:
-        return OffsetTime._(offset, hour, minute, second);
-      case TimeUnit.milliseconds:
-        return OffsetTime._(offset, hour, minute, second, millisecond);
-      case TimeUnit.microseconds:
-        return OffsetTime._(offset, hour, minute, second, millisecond, microsecond);
-    }
-  }
-
-
   /// Returns the difference between this [OffsetTime] and other.
   ///
   /// ```dart
@@ -227,6 +186,26 @@ class OffsetTime {
   /// OffsetTime(Offset(3), 13).difference(OffsetTime(Offset(-3), 23)); // -16 hours
   /// ```
   Duration difference(OffsetTime other) => Duration(microseconds: toOffsettedMicroseconds() - other.toOffsettedMicroseconds());
+
+
+  /// Returns this [OffsetTime] without an offset.
+  LocalTime toLocalTime() => localTime(hour, minute, second, millisecond, microsecond);
+
+  /// Returns this [OffsetTime] in microseconds, adjusted using its offset. The returned microseconds may be negative.
+  ///
+  /// To compare two [OffsetTime], they should be first converted to microseconds using this function.
+  /// ```dart
+  /// final foo = OffsetTime(Offset(8), 12); // '12:00+08:00'
+  /// final bar = OffsetTime(Offset(-8), 12); // '12:00-08:00'
+  ///
+  /// print(foo.toOffsettedMicroseconds() < bar.toOffsettedMicroseconds()); // true
+  /// ```
+  int toOffsettedMicroseconds() => _toMicroseconds() - offset.seconds * 1000000;
+
+
+  OffsetTime _toOffsetTime(int hour, int minute, int second, int millisecond, int microsecond) => OffsetTime._(offset, hour, minute, second, millisecond, microsecond);
+
+  DayMicroseconds _toMicroseconds() => _microseconds ??= Microseconds.from(hour, minute, second, millisecond, microsecond);
 
 
   /// Returns a copy of this [OffsetTime] with the given updated parts.
@@ -254,21 +233,6 @@ class OffsetTime {
   );
 
 
-  /// Returns this [OffsetTime] without an offset.
-  LocalTime toLocalTime() => LocalTime(hour, minute, second, millisecond, microsecond);
-
-  /// Returns this [OffsetTime] in microseconds, adjusted using its offset. The returned microseconds may be negative.
-  ///
-  /// To compare two [OffsetTime], they should be first converted to microseconds using this function.
-  /// ```dart
-  /// final foo = OffsetTime(Offset(8), 12); // '12:00+08:00'
-  /// final bar = OffsetTime(Offset(-8), 12); // '12:00-08:00'
-  ///
-  /// print(foo.toOffsettedMicroseconds() < bar.toOffsettedMicroseconds()); // true
-  /// ```
-  int toOffsettedMicroseconds() => _toMicroseconds() - offset.seconds * 1000000;
-
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is OffsetTime && runtimeType == other.runtimeType &&
     offset == other.offset && _toMicroseconds() == other._toMicroseconds();
@@ -276,21 +240,7 @@ class OffsetTime {
   @override
   int get hashCode => offset.hashCode ^ _toMicroseconds();
 
-  DayMicroseconds _toMicroseconds() => _microseconds ??= Microseconds.from(hour, minute, second, millisecond, microsecond);
-
-
   @override
-  String toString() => _string ??= _format();
-
-  String _format() {
-    final hours = hour.toString().padLeft(2, '0');
-    final minutes = minute.toString().padLeft(2, '0');
-
-    final seconds = second == 0 && millisecond == 0 && microsecond == 0 ? '' : ':${second.toString().padLeft(2, '0')}';
-    final milliseconds = millisecond == 0 && microsecond == 0 ? '' : '.${millisecond.toString().padLeft(3, '0')}';
-    final microseconds = microsecond == 0 ? '' :  microsecond.toString().padLeft(3, '0');
-
-    return '$hours:$minutes$seconds$milliseconds$microseconds$offset';
-  }
+  String toString() => _string ??= Time.format(this, offset);
 
 }

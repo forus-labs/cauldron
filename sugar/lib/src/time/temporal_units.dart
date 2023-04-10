@@ -20,6 +20,34 @@ typedef DayMilliseconds = int;
 typedef DayMicroseconds = int;
 
 
+/// A unit of date-time, i.e. days and hours.
+@sealed class TemporalUnit {}
+
+/// A unit of date, i.e. months and days.
+enum DateUnit implements TemporalUnit {
+  /// The years.
+  years,
+  /// The months.
+  months,
+  /// The days.
+  days,
+}
+
+/// A unit of time, i.e. hours and minutes.
+enum TimeUnit implements TemporalUnit {
+  /// The hours.
+  hours,
+  /// The minutes.
+  minutes,
+  /// The seconds.
+  seconds,
+  /// The milliseconds.
+  milliseconds,
+  /// The microseconds.
+  microseconds,
+}
+
+
 /// Provides utilities for converting between minutes and other time units.
 extension Minutes on Never {
   /// Converts the given time units into minutes.

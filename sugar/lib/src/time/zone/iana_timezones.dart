@@ -2,7 +2,6 @@ import 'package:meta/meta.dart';
 
 import 'package:sugar/core.dart';
 import 'package:sugar/time.dart';
-import 'package:sugar/time_zone.dart';
 
 /// Represents a timezone in the IANA timezone database with varying offsets.
 ///

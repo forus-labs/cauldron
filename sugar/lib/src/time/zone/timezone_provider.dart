@@ -6,7 +6,7 @@ import 'package:sugar/src/time/zone/platform/web_provider.dart'
 ///
 /// It is public to simplify custom timezone retrieval implementations. Most users should prefer [Timezone.current].
 ///
-/// Tested platforms:
+/// Supported & tested platforms:
 /// * Windows - Windows 11 & Windows Server 2022
 /// * MacOS - MacOS 13
 /// * Linux - Ubuntu 22.04
@@ -15,8 +15,13 @@ import 'package:sugar/src/time/zone/platform/web_provider.dart'
 /// ## Implementation details:
 /// Retrieval of timezones is performed on a best-effort basis. It is not guaranteed that the actual timezone is returned.
 ///
-/// Only Windows, MacOS, Linux and Web platforms are supported.  This is due to limitations with Dart FFI on mobile platforms.
-/// [`Factory`](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#factory) is always returned on unsupported platforms.
+/// Only Windows, MacOS, Linux and Web platforms are supported. [`Factory`](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#factory)
+/// is always returned on unsupported platforms.
+///
+/// We're waiting for the following to become stable before supporting mobile platforms:
+/// * https://github.com/dart-lang/sdk/issues/49673
+/// * https://github.com/dart-lang/sdk/issues/49674
+/// * https://github.com/dart-lang/sdk/issues/50565
 ///
 /// ### Linux & MacOS caveats
 /// MacOS and Linux will use the `TZ` environment if it is a TZ database timezone that represents a geographical location.

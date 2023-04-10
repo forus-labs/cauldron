@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 import 'package:sugar/src/time/zone/info/root.g.dart';
 import 'package:sugar/src/time/zone/timezones.g.dart';
 import 'package:sugar/time.dart';
-import 'package:sugar/time_zone.dart';
 
 /// A timezone is used to map instantaneous points on the timeline to the local date-times in different geographical regions.
 ///

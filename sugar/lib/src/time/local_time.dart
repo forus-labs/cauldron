@@ -1,12 +1,19 @@
+import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
-import 'package:sugar/math.dart';
 import 'package:sugar/time.dart';
 
-/// Represents the time of the day as seen on a wall clock, i.e. `10:15:30`. This class stores
+import 'package:sugar/src/time/time.dart';
+
+/// Creates an [LocalTime] that does not check the ranges of arguments.
 ///
-/// It cannot be used to represent a specific
-/// point in time without an additional offset or timezone.
-class LocalTime with Orderable<LocalTime> {
+/// This exists because Dart is fucking stupid and doesn't have any visibility modifiers.
+@internal LocalTime localTime(int hour, int minute, int second, int millisecond, int microsecond) => LocalTime._(hour, minute, second, millisecond, microsecond);
+
+
+/// Represents the time of the day as seen on a wall clock, i.e. `10:15:30`. Time is stored to microsecond precision.
+///
+/// It cannot be used to represent a specific point in time without an additional offset or timezone.
+class LocalTime extends TimeBase with Orderable<LocalTime> {
 
   /// The valid range of [LocalTime]s, from `00:00` to `23:59:59.999999`, inclusive.
   static final Interval<LocalTime> range = Interval.closed(LocalTime(), LocalTime(23, 59, 59, 999, 999));
@@ -15,16 +22,6 @@ class LocalTime with Orderable<LocalTime> {
   /// The time of noon, `12:00`.
   static final LocalTime noon = LocalTime(12);
 
-  /// The hour.
-  final int hour;
-  /// The minute.
-  final int minute;
-  /// The second.
-  final int second;
-  /// The millisecond.
-  final int millisecond;
-  /// The microsecond.
-  final int microsecond;
 
   int? _microseconds;
   String? _string;
@@ -137,15 +134,61 @@ class LocalTime with Orderable<LocalTime> {
   /// * `0 <= millisecond < 1000`
   /// * `0 <= microsecond < 1000`
   @Possible({RangeError})
-  LocalTime([this.hour = 0, this.minute = 0, this.second = 0, this.millisecond = 0, this.microsecond = 0]) {
-    RangeError.checkValueInInterval(hour, 0, 23, 'hour');
-    RangeError.checkValueInInterval(minute, 0, 59, 'minute');
-    RangeError.checkValueInInterval(second, 0, 59, 'second');
-    RangeError.checkValueInInterval(millisecond, 0, 999, 'millisecond');
-    RangeError.checkValueInInterval(microsecond, 0, 999, 'microsecond');
-  }
+  LocalTime([super.hour = 0, super.minute = 0, super.second = 0, super.millisecond = 0, super.microsecond = 0]): super.check();
 
-  LocalTime._([this.hour = 0, this.minute = 0, this.second = 0, this.millisecond = 0, this.microsecond= 0]);
+  LocalTime._([super.hour = 0, super.minute = 0, super.second = 0, super.millisecond = 0, super.microsecond = 0]);
+
+
+  /// Returns a copy of this [LocalTime] truncated to the given time unit.
+  ///
+  /// ```dart
+  /// final time = LocalTime(12, 39, 59, 999, 999);
+  /// final truncated = time.truncate(to: TimeUnit.minutes); // '12:39'
+  /// ```
+  LocalTime truncate({required TimeUnit to}) => Time.truncate(this, LocalTime._, to);
+
+  /// Returns a copy of this [LocalTime] with the given time unit rounded to the nearest [value].
+  ///
+  /// ```dart
+  /// final foo = LocalTime(12, 31, 59);
+  /// foo.round(5, TimeUnit.minutes); // '12:30:59'
+  ///
+  /// final bar = LocalTime(12, 34, 59);
+  /// bar.round(5, TimeUnit.minutes); // '12:35:59'
+  /// ```
+  ///
+  /// ## Contract:
+  /// [value] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
+  @Possible({RangeError})
+  LocalTime round(int value, TimeUnit unit) => Time.round(this, LocalTime._, value, unit);
+
+  /// Returns a copy of this [LocalTime] with the given time unit ceil to the nearest [value].
+  ///
+  /// ```dart
+  /// final foo = LocalTime(12, 31, 59);
+  /// foo.round(5, TimeUnit.minutes); // '12:35:59'
+  ///
+  /// final bar = LocalTime(12, 34, 59);
+  /// bar.round(5, TimeUnit.minutes); // '12:35:59'
+  /// ```
+  /// ## Contract:
+  /// [value] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
+  @Possible({RangeError})
+  LocalTime ceil(int value, TimeUnit unit) => Time.ceil(this, LocalTime._, value, unit);
+
+  /// Returns a copy of this [LocalTime] with the given time unit floored to the nearest [value].
+  ///
+  /// ```dart
+  /// final foo = LocalTime(12, 31, 59);
+  /// foo.round(5, TimeUnit.minutes); // '12:30:59'
+  ///
+  /// final bar = LocalTime(12, 34, 59);
+  /// bar.round(5, TimeUnit.minutes); // '12:30:59'
+  /// ```
+  /// ## Contract:
+  /// [value] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
+  @Possible({RangeError})
+  LocalTime floor(int value, TimeUnit unit) => Time.floor(this, LocalTime._, value, unit);
 
 
   /// Returns a copy of this [LocalTime] with the given time added. The calculation wraps around midnight.
@@ -191,77 +234,6 @@ class LocalTime with Orderable<LocalTime> {
   LocalTime operator - (Duration duration) => subtract(microseconds: duration.inMicroseconds);
 
 
-  /// Returns a copy of this [LocalTime] with the given time unit rounded to the nearest [value].
-  ///
-  /// ```dart
-  /// final foo = LocalTime(12, 31, 59);
-  /// foo.round(5, TimeUnit.minutes); // '12:30:59'
-  ///
-  /// final bar = LocalTime(12, 34, 59);
-  /// bar.round(5, TimeUnit.minutes); // '12:35:59'
-  /// ```
-  LocalTime round(int value, TimeUnit unit) => _adjust(value, unit, (time, to) => time.roundTo(to));
-
-  /// Returns a copy of this [LocalTime] with the given time unit ceil to the nearest [value].
-  ///
-  /// ```dart
-  /// final foo = LocalTime(12, 31, 59);
-  /// foo.round(5, TimeUnit.minutes); // '12:35:59'
-  ///
-  /// final bar = LocalTime(12, 34, 59);
-  /// bar.round(5, TimeUnit.minutes); // '12:35:59'
-  /// ```
-  LocalTime ceil(int value, TimeUnit unit) => _adjust(value, unit, (time, to) => time.ceilTo(to));
-
-  /// Returns a copy of this [LocalTime] with the given time unit floored to the nearest [value].
-  ///
-  /// ```dart
-  /// final foo = LocalTime(12, 31, 59);
-  /// foo.round(5, TimeUnit.minutes); // '12:30:59'
-  ///
-  /// final bar = LocalTime(12, 34, 59);
-  /// bar.round(5, TimeUnit.minutes); // '12:30:59'
-  /// ```
-  LocalTime floor(int value, TimeUnit unit) => _adjust(value, unit, (time, to) => time.floorTo(to));
-
-  LocalTime _adjust(int value, TimeUnit unit, int Function(int, int) function) {
-    switch (unit) {
-      case TimeUnit.hours:
-        return LocalTime._(function(hour, value), minute, second, millisecond, microsecond);
-      case TimeUnit.minutes:
-        return LocalTime._(hour, function(minute, value), second, millisecond, microsecond);
-      case TimeUnit.seconds:
-        return LocalTime._(hour, minute, function(second, value), millisecond, microsecond);
-      case TimeUnit.milliseconds:
-        return LocalTime._(hour, minute, second, function(millisecond, value), microsecond);
-      case TimeUnit.microseconds:
-        return LocalTime._(hour, minute, second, millisecond, function(microsecond, value));
-    }
-  }
-
-
-  /// Returns a copy of this [LocalTime] truncated to the given time unit.
-  ///
-  /// ```dart
-  /// final time = LocalTime(12, 39, 59, 999, 999);
-  /// final truncated = time.truncate(to: TimeUnit.minutes); // '12:39'
-  /// ```
-  LocalTime truncate({required TimeUnit to}) {
-    switch (to) {
-      case TimeUnit.hours:
-        return LocalTime._(hour);
-      case TimeUnit.minutes:
-        return LocalTime._(hour, minute);
-      case TimeUnit.seconds:
-        return LocalTime._(hour, minute, second);
-      case TimeUnit.milliseconds:
-        return LocalTime._(hour, minute, second, millisecond);
-      case TimeUnit.microseconds:
-        return LocalTime._(hour, minute, second, millisecond, microsecond);
-    }
-  }
-
-
   /// Returns the difference between this [LocalTime] and other.
   ///
   /// ```dart
@@ -272,36 +244,13 @@ class LocalTime with Orderable<LocalTime> {
   Duration difference(LocalTime other) => Duration(microseconds: toDayMicroSeconds() - other.toDayMicroSeconds());
 
 
-  /// Returns a copy of this [LocalTime] with the given updated parts.
-  ///
-  /// ```dart
-  /// final noon = LocalTime(12);
-  ///
-  /// final halfPastNoon = noon.copyWith(minute: 30); // '12:30'
-  /// ```
-  ///
-  /// ## Contract:
-  /// The given arguments must be within the following ranges, otherwise a [RangeError] is thrown.
-  /// * `0 <= hour < 24`
-  /// * `0 <= minute < 60`
-  /// * `0 <= second < 60`
-  /// * `0 <= millisecond < 1000`
-  /// * `0 <= microsecond < 1000`
-  LocalTime copyWith({int? hour, int? minute, int? second, int? millisecond, int? microsecond}) => LocalTime(
-    hour ?? this.hour,
-    minute ?? this.minute,
-    second ?? this.second,
-    millisecond ?? this.millisecond,
-    microsecond  ?? this.microsecond,
-  );
-
   /// Combines this time with an offset to create an [OffsetTime].
   ///
   /// ```dart
   /// final noon = LocalTime(12); // '12:00'
   /// final bar = noon.at(Offset(8)); // '12:00+08:00'
   /// ```
-  OffsetTime at(Offset offset) => OffsetTime.fromLocalTime(offset, this);
+  OffsetTime at(Offset offset) => offsetTime(offset, hour, minute, second, millisecond, microsecond);
 
   /// Returns this [LocalTime] as seconds since midnight. The milliseconds and microseconds are truncated.
   ///
@@ -327,6 +276,31 @@ class LocalTime with Orderable<LocalTime> {
   /// ```
   DayMicroseconds toDayMicroSeconds() => _microseconds ??= Microseconds.from(hour, minute, second, millisecond, microsecond);
 
+
+  /// Returns a copy of this [LocalTime] with the given updated parts.
+  ///
+  /// ```dart
+  /// final noon = LocalTime(12);
+  ///
+  /// final halfPastNoon = noon.copyWith(minute: 30); // '12:30'
+  /// ```
+  ///
+  /// ## Contract:
+  /// The given arguments must be within the following ranges, otherwise a [RangeError] is thrown.
+  /// * `0 <= hour < 24`
+  /// * `0 <= minute < 60`
+  /// * `0 <= second < 60`
+  /// * `0 <= millisecond < 1000`
+  /// * `0 <= microsecond < 1000`
+  LocalTime copyWith({int? hour, int? minute, int? second, int? millisecond, int? microsecond}) => LocalTime(
+    hour ?? this.hour,
+    minute ?? this.minute,
+    second ?? this.second,
+    millisecond ?? this.millisecond,
+    microsecond  ?? this.microsecond,
+  );
+
+
   @override
   int compareTo(LocalTime other) => toDayMicroSeconds().compareTo(other.toDayMicroSeconds());
 
@@ -334,17 +308,6 @@ class LocalTime with Orderable<LocalTime> {
   int get hashValue => hour.hashCode ^ minute.hashCode ^ second.hashCode ^ millisecond.hashCode ^ microsecond.hashCode;
 
   @override
-  String toString() => _string ??= _format();
-
-  String _format() {
-    final hours = hour.toString().padLeft(2, '0');
-    final minutes = minute.toString().padLeft(2, '0');
-
-    final seconds = second == 0 && millisecond == 0 && microsecond == 0 ? '' : ':${second.toString().padLeft(2, '0')}';
-    final milliseconds = millisecond == 0 && microsecond == 0 ? '' : '.${millisecond.toString().padLeft(3, '0')}';
-    final microseconds = microsecond == 0 ? '' :  microsecond.toString().padLeft(3, '0');
-
-    return '$hours:$minutes$seconds$milliseconds$microseconds';
-  }
+  String toString() => _string ??= Time.format(this, null);
 
 }

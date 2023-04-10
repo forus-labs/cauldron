@@ -1,6 +1,6 @@
 import 'dart:async';
 
-/// Ann operation that accepts a single argument and returns nothing.
+/// An operation that accepts a single argument and returns nothing.
 typedef Consume<T> = void Function(T value);
 
 /// A predicate (boolean-valued function) of one argument.

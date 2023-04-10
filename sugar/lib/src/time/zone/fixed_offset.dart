@@ -1,6 +1,4 @@
-import 'package:sugar/src/time/offset.dart';
-import 'package:sugar/src/time/convert.dart';
-import 'package:sugar/time_zone.dart';
+import 'package:sugar/time.dart';
 
 /// A [Timezone] that represents a fixed offset from UTC/Greenwich. It is immutable and should be treated as a value-type.
 class FixedOffset implements Timezone {
