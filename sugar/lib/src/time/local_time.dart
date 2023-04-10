@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
+import 'package:sugar/src/time/offset_time.dart';
 import 'package:sugar/time.dart';
 
 import 'package:sugar/src/time/time.dart';

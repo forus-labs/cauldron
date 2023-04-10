@@ -44,8 +44,6 @@ abstract class LocalDate {
   toEpochDay();
 
 
-  bool get leapYear => year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
-
   int firstDayOfMonth;
 
   int lastDayOfMonth;
@@ -53,9 +51,5 @@ abstract class LocalDate {
   int firstDayOfWeek;
 
   int lastDayOfWeek;
-
-  int get dayOfYear;
-
-  int get weekday;
 
 }
