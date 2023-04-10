@@ -1,5 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:sugar/collection.dart';
 import 'package:sugar/core.dart';
 
 /// Provides functions for working with [List]s.
@@ -146,52 +145,6 @@ extension NonNullableList<E extends Object> on List<E> {
     if (result) {
       add(element);
     }
-    return result;
-  }
-
-  /// Returns the element at the given index, or `null` if no such element exists.
-  ///
-  /// ### Example:
-  /// ```dart
-  /// ['a', 'b', 'c'].elementOrNull(at: 1) ?? 'something'; // 'b'
-  ///
-  /// ['a', 'b', 'c'].elementOrNull(at: -1) ?? 'something'; // 'something'
-  ///
-  /// ['a', 'b', 'c'].elementOrNull(at: 3) ?? 'something'; // 'something'
-  /// ```
-  ///
-  /// This is an optimized implementation of [NonNullableIterable.elementOrNull] tailored for [List]s.
-  @useResult E? elementOrNull({required int at}) => (at < 0 || length <= at) ? null : this[at];
-
-  /// If [where] is given, returns the last element satisfying it or `null` if there are none. Otherwise, returns the last
-  /// element or `null` if this [Iterable] is empty.
-  ///
-  /// ### Example:
-  /// ```dart
-  /// ['a', 'b', 'c'].lastOrNull(where: (e) => e == 'b') ?? 'something'; // 'b'
-  ///
-  /// ['a', 'b', 'c'].lastOrNull(where: (e) => false) ?? 'something'; // 'something'
-  ///
-  ///
-  /// ['a', 'b', 'c'].lastOrNull() ?? 'something'; // 'c'
-  ///
-  /// [].lastOrNull() ?? 'something'; // 'something'
-  /// ```
-  ///
-  /// This is an optimized implementation of [NonNullableIterable.lastOrNull] tailored for [List]s.
-  @useResult E? lastOrNull({Predicate<E>? where}) {
-    if (where == null) {
-      return isNotEmpty ? last : null;
-    }
-
-    E? result;
-    for (int i = length - 1; i >= 0; i--) {
-      final element = this[i];
-      if (where(element)) {
-        result = element;
-      }
-    }
-
     return result;
   }
 

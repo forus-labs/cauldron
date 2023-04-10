@@ -45,7 +45,7 @@ class LocalTime extends TimeBase with Orderable<LocalTime> {
 
     final hour = value % 60;
 
-    return LocalTime._(hour, minute, second, 0, 0);
+    return LocalTime._(hour, minute, second);
   }
 
   /// Creates a [LocalTime] with the given milliseconds since midnight. The calculation wraps around midnight.
@@ -69,7 +69,7 @@ class LocalTime extends TimeBase with Orderable<LocalTime> {
 
     final hour = value % 60;
 
-    return LocalTime._(hour, minute, second, millisecond, 0);
+    return LocalTime._(hour, minute, second, millisecond);
   }
 
   /// Creates a [LocalTime] with the given microseconds since midnight. The calculation wraps around midnight.

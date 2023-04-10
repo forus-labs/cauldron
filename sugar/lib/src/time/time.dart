@@ -6,7 +6,7 @@ import 'package:sugar/time.dart';
 /// A function that creates a [T] using the given arguments.
 @internal typedef Create<T extends Time> = T Function(int hour, int minute, int second, int millisecond, int microsecond);
 
-/// Represents a temporal that contains units of time.
+/// A temporal that contains units of time.
 @internal mixin Time {
 
   /// Formats the given [Time] to an ISO-8601 time string.
