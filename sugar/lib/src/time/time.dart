@@ -4,7 +4,7 @@ import 'package:sugar/math.dart';
 import 'package:sugar/time.dart';
 
 /// A function that creates a [T] using the given arguments.
-@internal typedef Create<T extends Time> = T Function(int hour, int minute, int second, int millisecond, int microsecond);
+@internal typedef CreateTime<T extends Time> = T Function(int hour, int minute, int second, int millisecond, int microsecond);
 
 /// A temporal that contains units of time.
 @internal mixin Time {
@@ -28,23 +28,23 @@ import 'package:sugar/time.dart';
   /// ## Contract:
   /// [to] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
   @Possible({RangeError})
-  static T round<T extends Time>(T time, Create<T> create, int to, TimeUnit unit) => _adjust(time, create, to, unit, (time, to) => time.roundTo(to));
+  static T round<T extends Time>(T time, CreateTime<T> create, int to, TimeUnit unit) => _adjust(time, create, to, unit, (time, to) => time.roundTo(to));
 
   /// Returns a [T] with the given time unit ceiled to the nearest value.
   ///
   /// ## Contract:
   /// [to] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
   @Possible({RangeError})
-  static T ceil<T extends Time>(T time, Create<T> create, int to, TimeUnit unit) => _adjust(time, create, to, unit, (time, to) => time.ceilTo(to));
+  static T ceil<T extends Time>(T time, CreateTime<T> create, int to, TimeUnit unit) => _adjust(time, create, to, unit, (time, to) => time.ceilTo(to));
 
   /// Returns a [T] with the given time unit floored to the nearest value.
   ///
   /// ## Contract:
   /// [to] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
   @Possible({RangeError})
-  static T floor<T extends Time>(T time, Create<T> create, int to, TimeUnit unit) => _adjust(time, create, to, unit, (time, to) => time.floorTo(to));
+  static T floor<T extends Time>(T time, CreateTime<T> create, int to, TimeUnit unit) => _adjust(time, create, to, unit, (time, to) => time.floorTo(to));
 
-  static T _adjust<T extends Time>(T time, Create<T> create, int to, TimeUnit unit, int Function(int time, int to) apply) {
+  static T _adjust<T extends Time>(T time, CreateTime<T> create, int to, TimeUnit unit, int Function(int time, int to) apply) {
     switch (unit) {
       case TimeUnit.hours:
         return create(apply(time.hour, to), time.minute, time.second, time.millisecond, time.microsecond);
@@ -61,7 +61,7 @@ import 'package:sugar/time.dart';
 
 
   /// Returns a [T] truncated to the given time unit.
-  static T truncate<T extends Time>(T time, Create<T> create, TimeUnit to) {
+  static T truncate<T extends Time>(T time, CreateTime<T> create, TimeUnit to) {
     switch (to) {
       case TimeUnit.hours:
         return create(time.hour, 0, 0, 0, 0);

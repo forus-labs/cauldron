@@ -148,7 +148,7 @@ class LocalTime extends TimeBase with Orderable<LocalTime> {
   /// ```
   LocalTime truncate({required TimeUnit to}) => Time.truncate(this, LocalTime._, to);
 
-  /// Returns a copy of this [LocalTime] with the given time unit rounded to the nearest [value].
+  /// Returns a copy of this [LocalTime] with only the given time unit rounded to the nearest [value].
   ///
   /// ```dart
   /// final foo = LocalTime(12, 31, 59);
@@ -163,7 +163,7 @@ class LocalTime extends TimeBase with Orderable<LocalTime> {
   @Possible({RangeError})
   LocalTime round(int value, TimeUnit unit) => Time.round(this, LocalTime._, value, unit);
 
-  /// Returns a copy of this [LocalTime] with the given time unit ceil to the nearest [value].
+  /// Returns a copy of this [LocalTime] with only the given time unit ceil to the nearest [value].
   ///
   /// ```dart
   /// final foo = LocalTime(12, 31, 59);
@@ -177,7 +177,7 @@ class LocalTime extends TimeBase with Orderable<LocalTime> {
   @Possible({RangeError})
   LocalTime ceil(int value, TimeUnit unit) => Time.ceil(this, LocalTime._, value, unit);
 
-  /// Returns a copy of this [LocalTime] with the given time unit floored to the nearest [value].
+  /// Returns a copy of this [LocalTime] with only the given time unit floored to the nearest [value].
   ///
   /// ```dart
   /// final foo = LocalTime(12, 31, 59);
