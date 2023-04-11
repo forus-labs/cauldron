@@ -3,14 +3,14 @@ import 'package:sugar/core.dart';
 import 'package:sugar/math.dart';
 import 'package:sugar/time.dart';
 
-/// A function that creates a [T] using the given arguments.
-@internal typedef CreateTime<T extends Time> = T Function(int hour, int minute, int second, int millisecond, int microsecond);
+part 'local_time.dart';
+part 'offset_time.dart';
 
-/// A temporal that contains units of time.
-@internal mixin Time {
+/// A temporal that contains units of time. All calculations should wrap around midnight.
+@internal abstract class Time {
 
-  /// Formats the given [Time] to an ISO-8601 time string.
-  static String format(Time time, Offset? offset) {
+  /// Formats the given [time] to an ISO-8601 time string.
+  static String format(DateTime time, Offset? offset) {
     final hours = time.hour.toString().padLeft(2, '0');
     final minutes = time.minute.toString().padLeft(2, '0');
 
@@ -23,106 +23,111 @@ import 'package:sugar/time.dart';
   }
 
 
-  /// Returns a [T] with the given time unit rounded to the nearest value.
-  ///
-  /// ## Contract:
-  /// [to] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
-  @Possible({RangeError})
-  static T round<T extends Time>(T time, CreateTime<T> create, int to, TimeUnit unit) => _adjust(time, create, to, unit, (time, to) => time.roundTo(to));
-
-  /// Returns a [T] with the given time unit ceiled to the nearest value.
-  ///
-  /// ## Contract:
-  /// [to] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
-  @Possible({RangeError})
-  static T ceil<T extends Time>(T time, CreateTime<T> create, int to, TimeUnit unit) => _adjust(time, create, to, unit, (time, to) => time.ceilTo(to));
-
-  /// Returns a [T] with the given time unit floored to the nearest value.
-  ///
-  /// ## Contract:
-  /// [to] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
-  @Possible({RangeError})
-  static T floor<T extends Time>(T time, CreateTime<T> create, int to, TimeUnit unit) => _adjust(time, create, to, unit, (time, to) => time.floorTo(to));
-
-  static T _adjust<T extends Time>(T time, CreateTime<T> create, int to, TimeUnit unit, int Function(int time, int to) apply) {
-    switch (unit) {
-      case TimeUnit.hours:
-        return create(apply(time.hour, to), time.minute, time.second, time.millisecond, time.microsecond);
-      case TimeUnit.minutes:
-        return create(time.hour, apply(time.minute, to), time.second, time.millisecond, time.microsecond);
-      case TimeUnit.seconds:
-        return create(time.hour, time.minute, apply(time.second, to), time.millisecond, time.microsecond);
-      case TimeUnit.milliseconds:
-        return create(time.hour, time.minute, time.second, apply(time.millisecond, to), time.microsecond);
-      case TimeUnit.microseconds:
-        return create(time.hour, time.minute, time.second, time.millisecond, apply(time.microsecond, to));
-    }
-  }
-
-
-  /// Returns a [T] truncated to the given time unit.
-  static T truncate<T extends Time>(T time, CreateTime<T> create, TimeUnit to) {
+  /// Returns a [DateTime] truncated to the given time unit. The date fields are not modified.
+  static DateTime truncate(DateTime time, TimeUnit to) {
     switch (to) {
       case TimeUnit.hours:
-        return create(time.hour, 0, 0, 0, 0);
+        return time.copyWith(minute: 0, second: 0, millisecond: 0, microsecond: 0);
       case TimeUnit.minutes:
-        return create(time.hour, time.minute, 0, 0, 0);
+        return time.copyWith(second: 0, millisecond: 0, microsecond: 0);
       case TimeUnit.seconds:
-        return create(time.hour, time.minute, time.second, 0, 0);
+        return time.copyWith(millisecond: 0, microsecond: 0);
       case TimeUnit.milliseconds:
-        return create(time.hour, time.minute, time.second, time.millisecond, 0);
+        return time.copyWith(microsecond: 0);
       case TimeUnit.microseconds:
-        return create(time.hour, time.minute, time.second, time.millisecond, time.microsecond);
+        return time;
+    }
+  }
+
+  /// Returns a [DateTime] with the given time unit rounded to the nearest value. The date fields are not modified.
+  ///
+  /// ## Contract:
+  /// [to] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
+  @Possible({RangeError})
+  static DateTime round(DateTime time, int to, TimeUnit unit) => _adjust(time, to, unit, (time, to) => time.roundTo(to));
+
+  /// Returns a [DateTime] with the given time unit ceiled to the nearest value. The date fields are not modified.
+  ///
+  /// ## Contract:
+  /// [to] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
+  @Possible({RangeError})
+  static DateTime ceil(DateTime time, int to, TimeUnit unit) => _adjust(time, to, unit, (time, to) => time.ceilTo(to));
+
+  /// Returns a [DateTime] with the given time unit floored to the nearest value. The date fields are not modified.
+  ///
+  /// ## Contract:
+  /// [to] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
+  @Possible({RangeError})
+  static DateTime floor(DateTime time, int to, TimeUnit unit) => _adjust(time, to, unit, (time, to) => time.floorTo(to));
+
+  static DateTime _adjust(DateTime time, int to, TimeUnit unit, int Function(int time, int to) apply) {
+    switch (unit) {
+      case TimeUnit.hours:
+        return time.copyWith(hour: apply(time.hour, to));
+      case TimeUnit.minutes:
+        return time.copyWith(minute: apply(time.hour, to));
+      case TimeUnit.seconds:
+        return time.copyWith(second: apply(time.hour, to));
+      case TimeUnit.milliseconds:
+        return time.copyWith(millisecond: apply(time.hour, to));
+      case TimeUnit.microseconds:
+        return time.copyWith(microsecond: apply(time.hour, to));
     }
   }
 
 
+  /// Returns a [DateTime] with the given time added. The calculation wraps around midnight.
+  static DateTime plus(DateTime date, int hours, int minutes, int seconds, int milliseconds, int microseconds) => date.copyWith(
+    hour: date.hour + hours,
+    minute: date.minute + minutes,
+    second: date.second + seconds,
+    millisecond: date.millisecond + milliseconds,
+    microsecond: date.microsecond + microseconds,
+  );
+
+  /// Returns a [DateTime] with the given time subtracted. The calculation wraps around midnight.
+  static DateTime minus(DateTime date, int hours, int minutes, int seconds, int milliseconds, int microseconds) => date.copyWith(
+    hour: date.hour - hours,
+    minute: date.minute - minutes,
+    second: date.second - seconds,
+    millisecond: date.millisecond - milliseconds,
+    microsecond: date.microsecond - microseconds,
+  );
+
+
+  final DateTime _native;
+
+  /// Creates a [Time] with the given seconds since midnight.
+  Time.fromDaySeconds(DaySeconds seconds): _native = DateTime.fromMillisecondsSinceEpoch(seconds * 1000, isUtc: true);
+
+  /// Creates a [Time] with the given milliseconds since midnight.
+  Time.fromDayMilliseconds(DayMilliseconds milliseconds): _native = DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: true);
+
+  /// Creates a [Time] with the given microseconds since midnight.
+  Time.fromDayMicroseconds(DayMicroseconds microseconds): _native = DateTime.fromMicrosecondsSinceEpoch(microseconds, isUtc: true);
+
+  /// Creates a [Time] from the native [DateTime].
+  Time.fromNativeDateTime(DateTime time): _native = DateTime.utc(1970, 1, 1, time.hour, time.minute, time.second, time.millisecond, time.microsecond);
+
+  /// Creates a [Time].
+  Time([int hour = 0, int minute = 0, int second = 0, int millisecond = 0, int microsecond = 0]):
+        _native = DateTime.utc(1970, 1, 1, hour, minute, second, millisecond, microsecond);
+
+  Time._copy(this._native);
+
   /// The hour.
-  int get hour;
-  /// The minute.
-  int get minute;
+  int get hour => _native.hour;
+
+ /// The minute.
+  int get minute => _native.minute;
+
   /// The second.
-  int get second;
+  int get second => _native.second;
+
   /// The millisecond.
-  int get millisecond;
+  int get millisecond => _native.millisecond;
+
   /// The microsecond.
-  int get microsecond;
-
-}
-
-/// Represents a base temporal implementation that contains units of time.
-@internal abstract class TimeBase with Time {
-
-  /// The hour.
-  @override final int hour;
-  /// The minute.
-  @override final int minute;
-  /// The second.
-  @override final int second;
-  /// The millisecond.
-  @override final int millisecond;
-  /// The microsecond.
-  @override final int microsecond;
-
-  /// Creates a [TimeBase], checking the validity of the given time units.
-  /// 
-  /// ## Contract:
-  /// The given arguments must be within the following ranges, otherwise a [RangeError] is thrown.
-  /// * `0 <= hour < 24`
-  /// * `0 <= minute < 60`
-  /// * `0 <= second < 60`
-  /// * `0 <= millisecond < 1000`
-  /// * `0 <= microsecond < 1000`
-  @Possible({RangeError})
-  TimeBase.check([this.hour = 0, this.minute = 0, this.second = 0, this.millisecond = 0, this.microsecond = 0]) {
-    RangeError.checkValueInInterval(hour, 0, 23, 'hour');
-    RangeError.checkValueInInterval(minute, 0, 59, 'minute');
-    RangeError.checkValueInInterval(second, 0, 59, 'second');
-    RangeError.checkValueInInterval(millisecond, 0, 999, 'millisecond');
-    RangeError.checkValueInInterval(microsecond, 0, 999, 'microsecond');
-  }
-
-  /// Creates a [Time] without checking the validity of the given time units.
-  TimeBase([this.hour = 0, this.minute = 0, this.second = 0, this.millisecond = 0, this.microsecond = 0]);
+  int get microsecond => _native.microsecond;
 
 }
