@@ -23,6 +23,25 @@ part 'offset_time.dart';
   }
 
 
+  /// Returns a [DateTime] with the given time added. The calculation wraps around midnight.
+  static DateTime plus(DateTime date, int hours, int minutes, int seconds, int milliseconds, int microseconds) => date.copyWith(
+    hour: date.hour + hours,
+    minute: date.minute + minutes,
+    second: date.second + seconds,
+    millisecond: date.millisecond + milliseconds,
+    microsecond: date.microsecond + microseconds,
+  );
+
+  /// Returns a [DateTime] with the given time subtracted. The calculation wraps around midnight.
+  static DateTime minus(DateTime date, int hours, int minutes, int seconds, int milliseconds, int microseconds) => date.copyWith(
+    hour: date.hour - hours,
+    minute: date.minute - minutes,
+    second: date.second - seconds,
+    millisecond: date.millisecond - milliseconds,
+    microsecond: date.microsecond - microseconds,
+  );
+
+
   /// Returns a [DateTime] truncated to the given time unit. The date fields are not modified.
   static DateTime truncate(DateTime time, TimeUnit to) {
     switch (to) {
@@ -74,25 +93,6 @@ part 'offset_time.dart';
         return time.copyWith(microsecond: apply(time.hour, to));
     }
   }
-
-
-  /// Returns a [DateTime] with the given time added. The calculation wraps around midnight.
-  static DateTime plus(DateTime date, int hours, int minutes, int seconds, int milliseconds, int microseconds) => date.copyWith(
-    hour: date.hour + hours,
-    minute: date.minute + minutes,
-    second: date.second + seconds,
-    millisecond: date.millisecond + milliseconds,
-    microsecond: date.microsecond + microseconds,
-  );
-
-  /// Returns a [DateTime] with the given time subtracted. The calculation wraps around midnight.
-  static DateTime minus(DateTime date, int hours, int minutes, int seconds, int milliseconds, int microseconds) => date.copyWith(
-    hour: date.hour - hours,
-    minute: date.minute - minutes,
-    second: date.second - seconds,
-    millisecond: date.millisecond - milliseconds,
-    microsecond: date.microsecond - microseconds,
-  );
 
 
   final DateTime _native;

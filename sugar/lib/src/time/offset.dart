@@ -13,6 +13,7 @@ part 'offsets.dart';
 /// In exceedingly rare historical or fictional cases, it may present issues when used with other timezone data sources.
 ///
 /// An [Offset] is immutable and should be treated as a value-type. It is always in the range, `-18:00` to `+18:00`, inclusive.
+///
 /// See [range] for more information on the valid range of [Offset]s.
 @sealed abstract class Offset with Orderable<Offset> {
 
@@ -124,9 +125,8 @@ part 'offsets.dart';
   /// Offset(18).add(hours: 2); // throws RangeError
   /// ```
   @Possible({RangeError})
-  Offset add({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromSeconds(
-    seconds + Seconds.from(hours, minutes, seconds),
-  );
+  @useResult
+  Offset add({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromSeconds(this.seconds + Seconds.from(hours, minutes, seconds));
 
   /// Returns an [Offset] with given [hours], [minutes] and [seconds] subtracted from this [Offset]. A [RangeError] is
   /// thrown if the resulting [Offset] is outside of the valid [range].
@@ -138,9 +138,8 @@ part 'offsets.dart';
   /// Offset(-18).subtract(hours: 2); // throws RangeError
   /// ```
   @Possible({RangeError})
-  Offset subtract({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromSeconds(
-    seconds - Seconds.from(hours, minutes, seconds),
-  );
+  @useResult
+  Offset subtract({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromSeconds(this.seconds - Seconds.from(hours, minutes, seconds));
 
 
   /// Returns an [Offset] with given [hours], [minutes] and [seconds] added to this [Offset] if the resulting [Offset]
@@ -152,8 +151,8 @@ part 'offsets.dart';
   ///
   /// Offset(18).tryAdd(hours: 2); // null
   /// ```
-  Offset? tryAdd({int hours = 0, int minutes = 0, int seconds = 0}) {
-    final total = seconds + Seconds.from(hours, minutes, seconds);
+  @useResult Offset? tryAdd({int hours = 0, int minutes = 0, int seconds = 0}) {
+    final total = this.seconds + Seconds.from(hours, minutes, seconds);
     return -18 * Duration.secondsPerHour <= total && total <= 18 * Duration.secondsPerHour ? Offset.fromSeconds(total) : null;
   }
 
@@ -166,9 +165,8 @@ part 'offsets.dart';
   ///
   /// Offset(-18).trySubtract(hours: 2); // null
   /// ```
-  @useResult
-  Offset? trySubtract({int hours = 0, int minutes = 0, int seconds = 0}) {
-    final total = seconds - Seconds.from(hours, minutes, seconds);
+  @useResult Offset? trySubtract({int hours = 0, int minutes = 0, int seconds = 0}) {
+    final total = this.seconds - Seconds.from(hours, minutes, seconds);
     return -18 * Duration.secondsPerHour <= total && total <= 18 * Duration.secondsPerHour ? Offset.fromSeconds(total) : null;
   }
 
@@ -178,24 +176,24 @@ part 'offsets.dart';
   ///
   /// ### Example:
   /// ```dart
-  /// Offset(16) + const Duration(hours: 2); // Offset(18)
+  /// Offset(16) + Duration(hours: 2); // Offset(18)
   ///
-  /// Offset(18) + const Duration(hours: 2); // throws RangeError
+  /// Offset(18) + Duration(hours: 2); // throws RangeError
   /// ```
   @Possible({RangeError})
-  Offset operator + (Duration duration) => Offset.fromSeconds(seconds + duration.inSeconds);
+  @useResult Offset operator + (Duration duration) => Offset.fromSeconds(seconds + duration.inSeconds);
 
   /// Returns an [Offset] with given [Duration] subtracted from this [Offset]. A [RangeError] is thrown if the resulting
   /// [Offset] is outside of the valid [range].
   ///
   /// ### Example:
   /// ```dart
-  /// Offset(-16) - const Duration(hours: 2); // Offset(-18)
+  /// Offset(-16) - Duration(hours: 2); // Offset(-18)
   ///
-  /// Offset(-18) - const Duration(hours: 2); // throws RangeError
+  /// Offset(-18) - Duration(hours: 2); // throws RangeError
   /// ```
   @Possible({RangeError})
-  Offset operator - (Duration duration) => Offset.fromSeconds(seconds - duration.inSeconds);
+  @useResult Offset operator - (Duration duration) => Offset.fromSeconds(seconds - duration.inSeconds);
 
 
   /// Returns the difference between this [Offset] and [other]. The difference will be negative if [other] is greater than
@@ -205,7 +203,7 @@ part 'offsets.dart';
   /// ```dart
   /// Offset(-1).difference(Offset(2)); // Duration(hours: -3)
   /// ```
-  Duration difference(Offset other) => Duration(seconds: seconds - other.seconds);
+  @useResult Duration difference(Offset other) => Duration(seconds: seconds - other.seconds);
 
   /// Convert this [Offset] into a [Duration].
   ///
@@ -213,7 +211,7 @@ part 'offsets.dart';
   /// ```dart
   /// Offset(1, 2, 3).toDuration(); // Duration(hours: 1, minutes: 2, seconds: 3);
   /// ```
-  Duration toDuration() => Duration(seconds: seconds);
+  @useResult Duration toDuration() => Duration(seconds: seconds);
 
 
   // This method is overridden to allow equality between [_Offset]s and [RawOffset]s.
@@ -226,13 +224,11 @@ part 'offsets.dart';
           && compareTo(other) == 0;
 
   @override
-  @useResult
-  int compareTo(Offset other) => seconds.compareTo(other.seconds);
+  @useResult int compareTo(Offset other) => seconds.compareTo(other.seconds);
 
 
   @override
-  @useResult
-  int get hashValue => seconds.hashCode;
+  @useResult int get hashValue => seconds.hashCode;
 
   /// Returns an offset ID. The ID is a minor variation of an ISO-8601 formatted offset string.
   ///
@@ -254,6 +250,6 @@ part 'offsets.dart';
   /// ```
   @override
   @mustBeOverridden
-  String toString();
+  @useResult String toString();
 
 }
