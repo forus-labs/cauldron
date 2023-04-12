@@ -171,7 +171,7 @@ class OffsetTime extends Time {
       offset == other.offset && toOffsettedMicroseconds() == other.toOffsettedMicroseconds();
 
   @override
-  @useResult int get hashCode => offset.hashCode ^ toOffsettedMicroseconds();
+  @useResult int get hashCode => runtimeType.hashCode ^ offset.hashCode ^ toOffsettedMicroseconds();
 
   @override
   @useResult String toString() => _string ??= Time.format(_native, offset);

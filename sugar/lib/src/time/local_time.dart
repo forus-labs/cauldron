@@ -221,7 +221,7 @@ class LocalTime extends Time with Orderable<LocalTime> {
   int compareTo(LocalTime other) => toDayMicroSeconds().compareTo(other.toDayMicroSeconds());
 
   @override
-  int get hashValue => _native.hashCode;
+  int get hashValue => runtimeType.hashCode ^ toDayMicroSeconds();
 
   @override
   String toString() => _string ??= Time.format(_native, null);

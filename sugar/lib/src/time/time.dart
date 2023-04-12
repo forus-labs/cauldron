@@ -24,21 +24,21 @@ part 'offset_time.dart';
 
 
   /// Returns a [DateTime] with the given time added. The calculation wraps around midnight.
-  static DateTime plus(DateTime date, int hours, int minutes, int seconds, int milliseconds, int microseconds) => date.copyWith(
-    hour: date.hour + hours,
-    minute: date.minute + minutes,
-    second: date.second + seconds,
-    millisecond: date.millisecond + milliseconds,
-    microsecond: date.microsecond + microseconds,
+  static DateTime plus(DateTime time, int hours, int minutes, int seconds, int milliseconds, int microseconds) => time.copyWith(
+    hour: time.hour + hours,
+    minute: time.minute + minutes,
+    second: time.second + seconds,
+    millisecond: time.millisecond + milliseconds,
+    microsecond: time.microsecond + microseconds,
   );
 
   /// Returns a [DateTime] with the given time subtracted. The calculation wraps around midnight.
-  static DateTime minus(DateTime date, int hours, int minutes, int seconds, int milliseconds, int microseconds) => date.copyWith(
-    hour: date.hour - hours,
-    minute: date.minute - minutes,
-    second: date.second - seconds,
-    millisecond: date.millisecond - milliseconds,
-    microsecond: date.microsecond - microseconds,
+  static DateTime minus(DateTime time, int hours, int minutes, int seconds, int milliseconds, int microseconds) => time.copyWith(
+    hour: time.hour - hours,
+    minute: time.minute - minutes,
+    second: time.second - seconds,
+    millisecond: time.millisecond - milliseconds,
+    microsecond: time.microsecond - microseconds,
   );
 
 
@@ -117,16 +117,12 @@ part 'offset_time.dart';
 
   /// The hour.
   int get hour => _native.hour;
-
  /// The minute.
   int get minute => _native.minute;
-
   /// The second.
   int get second => _native.second;
-
   /// The millisecond.
   int get millisecond => _native.millisecond;
-
   /// The microsecond.
   int get microsecond => _native.microsecond;
 

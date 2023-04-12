@@ -9,7 +9,7 @@ part 'local_date.dart';
 ///
 /// These functions should only be used when working with 3rd party date types or low-level code. Users should otherwise
 /// prefer [DateTimes] or other similar classes.
-extension Dates on DateTime {
+extension Dates on Never {
 
   static const _cumulative = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
   static const _months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -82,6 +82,16 @@ extension Dates on DateTime {
 /// Represents a temporal that contains units of date.
 @internal abstract class Date {
 
+  /// Formats the given [date] to an ISO-8601 time string.
+  static String format(DateTime date) {
+    final sign = date.year < 0 ? '-' : '';
+    final year = date.year.abs().toString().padLeft(4, '0');
+    final month = date.month.toString().padLeft(2, '0');
+    final day = date.day.toString().padLeft(2, '0');
+
+    return '$sign$year-$month-$day';
+  }
+
   /// Returns a [DateTime] with the given time added.
   static DateTime plus(DateTime date, int years, int months, int days) => date.copyWith(
     year: date.year + years,
@@ -119,6 +129,7 @@ extension Dates on DateTime {
   /// Returns a [DateTime] with the given date unit ceiled to the nearest value. The date fields are not modified.
   ///
   /// ## Contract:
+  ///
   /// [to] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
   @Possible({RangeError})
   static DateTime ceil(DateTime date, int to, DateUnit unit) => _adjust(date, to, unit, (date, to) => date.ceilTo(to));

@@ -5,10 +5,10 @@ part of 'date.dart';
 /// It cannot be used to represent a specific point in time without an additional offset or timezone.
 ///
 /// A [LocalDate] is immutable and should be treated as a value-type.
-class LocalDate extends Date {
+class LocalDate extends Date with Orderable<LocalDate> {
 
   int? _milliseconds;
-
+  String? _string;
 
   /// Creates a [LocalDate] with the given days since Unix epoch (January 1st 1970).
   ///
@@ -61,7 +61,7 @@ class LocalDate extends Date {
   /// ```
   ///
   /// See [add].
-  LocalDate plus({int years = 0, int months = 0, int days = 0}) => LocalDate._copy(Date.plus(_native, years, months, days));
+  @useResult LocalDate plus({int years = 0, int months = 0, int days = 0}) => LocalDate._copy(Date.plus(_native, years, months, days));
 
   /// Returns a copy of this [LocalDate] with the given time added.
   ///
@@ -70,7 +70,7 @@ class LocalDate extends Date {
   /// ```
   ///
   /// See [subtract].
-  LocalDate minus({int years = 0, int months = 0, int days = 0}) => LocalDate._copy(Date.minus(_native, years, months, days));
+  @useResult LocalDate minus({int years = 0, int months = 0, int days = 0}) => LocalDate._copy(Date.minus(_native, years, months, days));
 
 
   /// Returns a copy of this [LocalDate] with the given [duration] added.
@@ -80,7 +80,7 @@ class LocalDate extends Date {
   /// ```
   ///
   /// See [plus].
-  LocalDate add(Duration duration) => LocalDate._copy(_native.add(duration));
+  @useResult LocalDate add(Duration duration) => LocalDate._copy(_native.add(duration));
 
   /// Returns a copy of this [LocalTime] with the given [duration] subtracted.
   ///
@@ -89,7 +89,7 @@ class LocalDate extends Date {
   /// ```
   ///
   /// See [minus].
-  LocalDate subtract(Duration duration) => LocalDate._copy(_native.subtract(duration));
+  @useResult LocalDate subtract(Duration duration) => LocalDate._copy(_native.subtract(duration));
 
 
   /// Returns a copy of this [LocalDate] truncated to the given time unit.
@@ -97,7 +97,7 @@ class LocalDate extends Date {
   /// ```dart
   /// LocalDate(2023, 4, 15).truncate(to: DateUnit.months); // '2023-04-01'
   /// ```
-  LocalDate truncate({required DateUnit to}) => LocalDate._copy(Date.truncate(_native, to));
+  @useResult LocalDate truncate({required DateUnit to}) => LocalDate._copy(Date.truncate(_native, to));
 
   /// Returns a copy of this [LocalDate] with only the given date unit rounded to the nearest [value].
   ///
@@ -110,7 +110,7 @@ class LocalDate extends Date {
   /// ## Contract:
   /// [value] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
   @Possible({RangeError})
-  LocalDate round(int value, DateUnit unit) => LocalDate._copy(Date.round(_native, value, unit));
+  @useResult LocalDate round(int value, DateUnit unit) => LocalDate._copy(Date.round(_native, value, unit));
 
   /// Returns a copy of this [LocalDate] with only the given date unit ceil to the nearest [value].
   ///
@@ -122,7 +122,7 @@ class LocalDate extends Date {
   /// ## Contract:
   /// [value] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
   @Possible({RangeError})
-  LocalDate ceil(int value, DateUnit unit) => LocalDate._copy(Date.ceil(_native, value, unit));
+  @useResult LocalDate ceil(int value, DateUnit unit) => LocalDate._copy(Date.ceil(_native, value, unit));
 
   /// Returns a copy of this [LocalTime] with only the given time unit floored to the nearest [value].
   ///
@@ -134,7 +134,7 @@ class LocalDate extends Date {
   /// ## Contract:
   /// [value] must be positive, i.e. `1 < to`. A [RangeError] is otherwise thrown.
   @Possible({RangeError})
-  LocalDate floor(int value, DateUnit unit) => LocalDate._copy(Date.floor(_native, value, unit));
+  @useResult LocalDate floor(int value, DateUnit unit) => LocalDate._copy(Date.floor(_native, value, unit));
 
 
   /// Returns a copy of this [LocalTime] with the given updated parts.
@@ -142,7 +142,7 @@ class LocalDate extends Date {
   /// ```dart
   /// LocalDate(2023, 4, 15).copyWith(day: 20); // '2023-04-20'
   /// ```
-  LocalDate copyWith({int? year, int? month, int? day}) => LocalDate(
+  @useResult LocalDate copyWith({int? year, int? month, int? day}) => LocalDate(
     year ?? this.year,
     month ?? this.month,
     day ?? this.day,
@@ -156,30 +156,110 @@ class LocalDate extends Date {
   ///
   /// LocalDate(2023, 4, 1).difference(LocalDate(2023, 4, 12)); // -11 days
   /// ```
-  Duration difference(LocalDate other) => Duration(milliseconds: toEpochMilliseconds() - other.toEpochMilliseconds());
+  @useResult Duration difference(LocalDate other) => Duration(milliseconds: toEpochMilliseconds() - other.toEpochMilliseconds());
 
+
+  /// Returns the day of the week. Following ISO-8601, a week starts on Monday which has a value of `1` and ends on Sunday which
+  /// has a value of `7`.
+  ///
+  /// ```dart
+  /// LocalDate(1969, 7, 20).toWeekday(); // Sunday, 7
+  /// ```
+  @useResult int toWeekday() => _native.toWeekday();
+
+  /// Returns the ordinal week of the year. Following ISO-8601, a week is between `1` and `53`, inclusive.
+  ///
+  /// ```dart
+  /// LocalDate(2023, 4, 1).toWeekOfYear(); // 13
+  /// ```
+  @useResult int toWeekOfYear() => _native.toWeekOfYear();
+
+  /// Returns the ordinal day of the year.
+  ///
+  /// ```dart
+  /// LocalDate(2023, 4, 1).toDayOfYear(); // 91
+  /// ```
+  @useResult int toDayOfYear() => _native.toDayOfYear();
 
   /// Returns this [LocalDate] as days since Unix epoch (January 1st 1970).
   ///
   /// ```dart
   /// LocalDate(2023, 4, 11).toEpochDays(); // 19458
   /// ```
-  EpochDays toEpochDays() => toEpochMilliseconds() ~/ Duration.millisecondsPerDay;
+  @useResult EpochDays toEpochDays() => toEpochMilliseconds() ~/ Duration.millisecondsPerDay;
 
   /// Returns this [LocalDate] as seconds since Unix epoch (January 1st 1970).
   ///
   /// ```dart
   /// LocalDate(2023, 4, 11).toEpochSeconds(); // 1681171200
   /// ```
-  EpochSeconds toEpochSeconds() => toEpochMilliseconds() ~/ 1000;
+  @useResult EpochSeconds toEpochSeconds() => toEpochMilliseconds() ~/ 1000;
 
   /// Returns this [LocalDate] as milliseconds since Unix epoch (January 1st 1970).
   ///
   /// ```dart
   /// LocalDate(2023, 4, 11).toEpochMilliseconds(); // 1681171200000
   /// ```
-  EpochMilliseconds toEpochMilliseconds() => _milliseconds ??= _native.millisecondsSinceEpoch.floorTo(Duration.millisecondsPerDay);
+  @useResult EpochMilliseconds toEpochMilliseconds() => _milliseconds ??= _native.millisecondsSinceEpoch.floorTo(Duration.millisecondsPerDay);
 
-  // TODO; add date getters, toString(), make LocalDate comparable
+
+  /// The first day of this week.
+  ///
+  /// ```dart
+  /// final tuesday = LocalDate(2023, 4, 11);
+  /// final monday = tuesday.firstDayOfWeek; // '2023-04-10'
+  /// ```
+  @useResult LocalDate get firstDayOfWeek => LocalDate._copy(_native.firstDayOfWeek);
+
+  /// The last day of this week.
+  ///
+  /// ```dart
+  /// final tuesday = LocalDate(2023, 4, 11);
+  /// final sunday = tuesday.lastDayOfWeek; // '2023-04-16'
+  /// ```
+  @useResult LocalDate get lastDayOfWeek => LocalDate._copy(_native.lastDayOfWeek);
+
+
+  /// The first day of this month.
+  ///
+  /// ```dart
+  /// LocalDate(2023, 4, 11).firstDayOfMonth; // '2023-04-01'
+  /// ```
+  @useResult LocalDate get firstDayOfMonth => LocalDate._copy(_native.firstDayOfMonth);
+
+  /// The last day of this month.
+  ///
+  /// ```dart
+  /// LocalDate(2023, 4, 11).lastDayOfMonth; // '2023-04-30'
+  /// ```
+  @useResult LocalDate get lastDayOfMonth => LocalDate._copy(_native.lastDayOfMonth);
+
+
+  /// Returns the number of days in the given month.
+  ///
+  /// ```dart
+  /// LocalDate(2019, 2).daysInMonth; // 28
+  /// LocalDate(2020, 2).daysInMonth; // 29
+  /// ```
+  @useResult int get daysInMonth => _native.daysInMonth;
+
+
+  /// Whether this [DateTime]'s year is a leap year.
+  ///
+  /// ```dart
+  /// LocalDate(2020).leapYear; // true
+  /// LocalDate(2021).leapYear; // false
+  /// ```
+  @useResult bool get leapYear => _native.leapYear;
+
+
+  @override
+  @useResult int compareTo(LocalDate other) => toEpochMilliseconds().compareTo(other.toEpochMilliseconds());
+
+  @override
+  @useResult int get hashValue => runtimeType.hashCode ^ toEpochMilliseconds();
+
+  @override
+  @useResult String toString() => _string ??= Date.format(_native);
 
 }
