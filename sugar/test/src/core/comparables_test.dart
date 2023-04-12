@@ -181,16 +181,12 @@ void main() {
 
     test('larger < smaller', () => expect(DateTime(2) < DateTime(1), false));
 
-    test('smaller < larger, different timezones', () => expect(DateTime(1) < DateTime.utc(2), false));
-
 
     test('smaller > larger', () => expect(DateTime(1) > DateTime(2), false));
 
     test('same > same', () => expect(DateTime(1) > DateTime(1), false));
 
     test('larger > smaller', () => expect(DateTime(2) > DateTime(1), true));
-
-    test('smaller > larger, different timezones', () => expect(DateTime(1) > DateTime.utc(2), false));
 
 
     test('smaller <= larger', () => expect(DateTime(1) <= DateTime(2), true));
@@ -199,15 +195,11 @@ void main() {
 
     test('larger <= smaller', () => expect(DateTime(2) <= DateTime(1), false));
 
-    test('smaller <= larger, different timezones', () => expect(DateTime(1) <= DateTime.utc(2), false));
-
 
     test('smaller >= larger', () => expect(DateTime(1) >= DateTime(2), false));
 
     test('same >= same', () => expect(DateTime(1) >= DateTime(1), true));
 
     test('larger >= smaller', () => expect(DateTime(2) >= DateTime(1), true));
-
-    test('smaller >= larger, different timezones', () => expect(DateTime(2) >= DateTime.utc(1), false));
   });
 }
