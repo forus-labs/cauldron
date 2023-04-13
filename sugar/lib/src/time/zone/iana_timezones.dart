@@ -106,3 +106,22 @@ import 'package:sugar/time.dart';
   String toString() => _name;
 
 }
+
+void main() {
+  final epochSeconds = -1;
+  final _transitions = [1, 3, 5];
+  var max = _transitions.length; // binary search
+  var min = 0;
+  while (max - min > 1) {
+    final middle = min + (max - min) ~/ 2;
+    final transition = _transitions[middle];
+
+    if (epochSeconds < transition) {
+      max = middle;
+    } else {
+      min = middle;
+    }
+  }
+
+  print(_transitions[min]);
+}

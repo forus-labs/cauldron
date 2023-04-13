@@ -24,11 +24,6 @@ class OffsetTime extends Time {
   String? _string;
 
   /// Creates a [OffsetTime] that represents the current time.
-  ///
-  /// ```dart
-  /// // Assuming that it's '12:39:59:999999+08:00'
-  /// OffsetTime.now(); // '12:39:59:999999+08:00'
-  /// ```
   OffsetTime.now(): this._now(DateTime.now());
 
   /// Creates a [OffsetTime].
@@ -148,7 +143,7 @@ class OffsetTime extends Time {
   ///
   /// print(foo.toOffsettedMicroseconds() < bar.toOffsettedMicroseconds()); // true
   /// ```
-  @useResult int toOffsettedMicroseconds() => _microseconds ??= Microseconds.from(hour, minute, second, millisecond, microsecond) - offset.seconds * 1000000;
+  @useResult int toOffsettedMicroseconds() => _microseconds ??= Microseconds.from(hour, minute, second, millisecond, microsecond) - offset.seconds * Duration.microsecondsPerSecond;
 
 
   /// Returns a copy of this [OffsetTime] with the given updated parts.

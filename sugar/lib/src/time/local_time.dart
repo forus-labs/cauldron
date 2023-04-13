@@ -47,11 +47,6 @@ class LocalTime extends Time with Orderable<LocalTime> {
   LocalTime.fromDayMicroseconds(super.microseconds): super.fromDayMicroseconds();
 
   /// Creates a [LocalTime] that represents the current time.
-  ///
-  /// ```dart
-  /// // Assuming that it's '12:39:59:999999'
-  /// LocalTime.now(); // '12:39:59:999999'
-  /// ```
   LocalTime.now(): super.fromNativeDateTime(DateTime.now());
 
   /// Creates a [LocalTime].

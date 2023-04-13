@@ -9,6 +9,9 @@ typedef EpochSeconds = int;
 /// Denotes the milliseconds since Unix epoch, 1st January 1970.
 typedef EpochMilliseconds = int;
 
+/// Denotes the microseconds since Unix epoch, 1st January 1970.
+typedef EpochMicroseconds = int;
+
 
 /// Denotes the seconds in a day since midnight.
 typedef DaySeconds = int;

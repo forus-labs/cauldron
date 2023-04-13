@@ -10,34 +10,30 @@ class LocalDate extends Date with Orderable<LocalDate> {
   int? _milliseconds;
   String? _string;
 
-  /// Creates a [LocalDate] with the given days since Unix epoch (January 1st 1970).
+  /// Creates a [LocalDate] with the given days since Unix epoch (January 1st 1970). Treats the [LocalDate] as being in `UTC+0`.
   ///
   /// ```dart
-  /// LocalDate.fromEpochDays(10957); // '2000-01-01'
+  /// LocalDate.fromEpochDaysAsUtc0(10957); // '2000-01-01'
   /// ```
-  LocalDate.fromEpochDays(super.days): super.fromEpochDays();
+  LocalDate.fromEpochDaysAsUtc0(super.days): super.fromEpochDaysAsUtc0();
 
   /// Creates a [LocalDate] with the given seconds since Unix epoch (January 1st 1970), floored to the nearest day.
+  /// Treats the [LocalDate] as being in `UTC+0`.
   ///
   /// ```dart
-  /// LocalDate.fromEpochSeconds(946684800); // '2000-01-01'
+  /// LocalDate.fromEpochSecondsAsUtc0(946684800); // '2000-01-01'
   /// ```
-  LocalDate.fromEpochSeconds(super.seconds): super.fromEpochSeconds();
+  LocalDate.fromEpochSecondsAsUtc0(super.seconds): super.fromEpochSecondsAsUtc0();
 
   /// Creates a [LocalDate] with the given milliseconds since Unix epoch (January 1st 1970), floored to the nearest day.
+  /// Treats the [LocalDate] as being in `UTC+0`.
   ///
   /// ```dart
-  /// LocalDate.fromEpochMilliseconds(946684800000); // '2000-01-01'
+  /// LocalDate.fromEpochMillisecondsAsUtc0(946684800000); // '2000-01-01'
   /// ```
-  LocalDate.fromEpochMilliseconds(super.milliseconds): super.fromEpochMilliseconds();
+  LocalDate.fromEpochMillisecondsAsUtc0(super.milliseconds): super.fromEpochMillisecondsAsUtc0();
 
   /// Creates a [LocalDate] that represents the current date.
-  ///
-  /// ```dart
-  /// // Assuming that it's '2023-04-11'
-  ///
-  /// final now = LocalTime.now(); // '2023-04-11'
-  /// ```
   LocalDate.now(): super.fromNativeDateTime(DateTime.now());
 
   /// Creates a [LocalDate].
@@ -92,7 +88,7 @@ class LocalDate extends Date with Orderable<LocalDate> {
   @useResult LocalDate subtract(Duration duration) => LocalDate._copy(_native.subtract(duration));
 
 
-  /// Returns a copy of this [LocalDate] truncated to the given time unit.
+  /// Returns a copy of this [LocalDate] truncated to the given date unit.
   ///
   /// ```dart
   /// LocalDate(2023, 4, 15).truncate(to: DateUnit.months); // '2023-04-01'
@@ -124,7 +120,7 @@ class LocalDate extends Date with Orderable<LocalDate> {
   @Possible({RangeError})
   @useResult LocalDate ceil(int value, DateUnit unit) => LocalDate._copy(Date.ceil(_native, value, unit));
 
-  /// Returns a copy of this [LocalTime] with only the given time unit floored to the nearest [value].
+  /// Returns a copy of this [LocalDate] with only the given date unit floored to the nearest [value].
   ///
   /// ```dart
   /// LocalDate(2023, 4, 15).floor(6, DateUnit.months); // '2023-01-15'
@@ -137,7 +133,7 @@ class LocalDate extends Date with Orderable<LocalDate> {
   @useResult LocalDate floor(int value, DateUnit unit) => LocalDate._copy(Date.floor(_native, value, unit));
 
 
-  /// Returns a copy of this [LocalTime] with the given updated parts.
+  /// Returns a copy of this [LocalDate] with the given updated parts.
   ///
   /// ```dart
   /// LocalDate(2023, 4, 15).copyWith(day: 20); // '2023-04-20'
@@ -156,8 +152,11 @@ class LocalDate extends Date with Orderable<LocalDate> {
   ///
   /// LocalDate(2023, 4, 1).difference(LocalDate(2023, 4, 12)); // -11 days
   /// ```
-  @useResult Duration difference(LocalDate other) => Duration(milliseconds: toEpochMilliseconds() - other.toEpochMilliseconds());
+  @useResult Duration difference(LocalDate other) => Duration(milliseconds: toEpochMillisecondsAsUtc0() - other.toEpochMillisecondsAsUtc0());
 
+
+  /// Returns a [LocalDateTime] on this date at the given time.
+  @useResult LocalDateTime at(LocalTime time) => LocalDateTime(year, month, day, time.hour, time.minute, time.second, time.millisecond, time.microsecond);
 
   /// Returns the day of the week. Following ISO-8601, a week starts on Monday which has a value of `1` and ends on Sunday which
   /// has a value of `7`.
@@ -181,26 +180,26 @@ class LocalDate extends Date with Orderable<LocalDate> {
   /// ```
   @useResult int toDayOfYear() => _native.toDayOfYear();
 
-  /// Returns this [LocalDate] as days since Unix epoch (January 1st 1970).
+  /// Returns this [LocalDate] as days since Unix epoch (January 1st 1970). Treats [LocalDate] as being in `UTC+0`.
   ///
   /// ```dart
-  /// LocalDate(2023, 4, 11).toEpochDays(); // 19458
+  /// LocalDate(2023, 4, 11).toEpochDaysAsUtc0(); // 19458
   /// ```
-  @useResult EpochDays toEpochDays() => toEpochMilliseconds() ~/ Duration.millisecondsPerDay;
+  @useResult EpochDays toEpochDaysAsUtc0() => toEpochMillisecondsAsUtc0() ~/ Duration.millisecondsPerDay;
 
-  /// Returns this [LocalDate] as seconds since Unix epoch (January 1st 1970).
+  /// Returns this [LocalDate] as seconds since Unix epoch (January 1st 1970). Treats [LocalDate] as being in `UTC+0`.
   ///
   /// ```dart
-  /// LocalDate(2023, 4, 11).toEpochSeconds(); // 1681171200
+  /// LocalDate(2023, 4, 11).toEpochSecondsAsUtc0(); // 1681171200
   /// ```
-  @useResult EpochSeconds toEpochSeconds() => toEpochMilliseconds() ~/ 1000;
+  @useResult EpochSeconds toEpochSecondsAsUtc0() => toEpochMillisecondsAsUtc0() ~/ 1000;
 
-  /// Returns this [LocalDate] as milliseconds since Unix epoch (January 1st 1970).
+  /// Returns this [LocalDate] as milliseconds since Unix epoch (January 1st 1970). Treats [LocalDate] as being in `UTC+0`.
   ///
   /// ```dart
-  /// LocalDate(2023, 4, 11).toEpochMilliseconds(); // 1681171200000
+  /// LocalDate(2023, 4, 11).toEpochMillisecondsAsUtc0(); // 1681171200000
   /// ```
-  @useResult EpochMilliseconds toEpochMilliseconds() => _milliseconds ??= _native.millisecondsSinceEpoch.floorTo(Duration.millisecondsPerDay);
+  @useResult EpochMilliseconds toEpochMillisecondsAsUtc0() => _milliseconds ??= _native.millisecondsSinceEpoch.floorTo(Duration.millisecondsPerDay);
 
 
   /// The first day of this week.
@@ -254,10 +253,10 @@ class LocalDate extends Date with Orderable<LocalDate> {
 
 
   @override
-  @useResult int compareTo(LocalDate other) => toEpochMilliseconds().compareTo(other.toEpochMilliseconds());
+  @useResult int compareTo(LocalDate other) => toEpochMillisecondsAsUtc0().compareTo(other.toEpochMillisecondsAsUtc0());
 
   @override
-  @useResult int get hashValue => runtimeType.hashCode ^ toEpochMilliseconds();
+  @useResult int get hashValue => runtimeType.hashCode ^ toEpochMillisecondsAsUtc0();
 
   @override
   @useResult String toString() => _string ??= Date.format(_native);

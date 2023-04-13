@@ -156,13 +156,13 @@ extension Dates on Never {
   final DateTime _native;
 
   /// Creates a [Date] from the given days since Unix epoch.
-  Date.fromEpochDays(EpochDays days): _native = DateTime.fromMillisecondsSinceEpoch(days * Duration.millisecondsPerDay, isUtc: true);
+  Date.fromEpochDaysAsUtc0(EpochDays days): _native = DateTime.fromMillisecondsSinceEpoch(days * Duration.millisecondsPerDay, isUtc: true);
 
   /// Creates a [Date] from the given seconds since Unix epoch, floored to the nearest day.
-  Date.fromEpochSeconds(EpochSeconds seconds): _native = DateTime.fromMillisecondsSinceEpoch(seconds * 1000, isUtc: true);
+  Date.fromEpochSecondsAsUtc0(EpochSeconds seconds): _native = DateTime.fromMillisecondsSinceEpoch(seconds * 1000, isUtc: true);
 
   /// Creates a [Date] from the given milliseconds since Unix epoch, floored to the nearest day.
-  Date.fromEpochMilliseconds(EpochMilliseconds milliseconds): _native = DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: true);
+  Date.fromEpochMillisecondsAsUtc0(EpochMilliseconds milliseconds): _native = DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: true);
 
   /// Creates a [Date] from the native [DateTime].
   Date.fromNativeDateTime(DateTime date): _native = DateTime.utc(date.year, date.month, date.day);
