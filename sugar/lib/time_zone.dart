@@ -1,4 +1,5 @@
 library sugar.time.zone;
 
+export 'src/time/zone/platform_timezone.dart';
 export 'src/time/zone/timezone.dart';
-export 'src/time/zone/timezone_provider.dart';
+export 'src/time/zone/timezone_registry.dart' hide DefaultTimezoneRegistry;

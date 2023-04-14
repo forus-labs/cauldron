@@ -2,7 +2,7 @@ import 'package:sugar/src/time/zone/timezone.dart';
 import 'package:sugar/src/time/zone/platform/web_provider.dart'
   if (dart.library.io) 'package:sugar/src/time/zone/platform/vm_provider.dart';
 
-/// The default `Timezone.provider`.
+/// The default `Timezone.platform`.
 ///
 /// It is public to simplify custom timezone retrieval implementations. Most users should prefer [Timezone.current].
 ///
@@ -37,4 +37,4 @@ import 'package:sugar/src/time/zone/platform/web_provider.dart'
 /// See the following pages for more information on browser compatibility:
 /// * http://kangax.github.io/compat-table/esintl/#test-DateTimeFormat_resolvedOptions().timeZone_defaults_to_the_host_environment
 /// * https://caniuse.com/mdn-javascript_builtins_intl_datetimeformat_resolvedoptions_computed_timezone
-String defaultTimezoneProvider() => provider();
+String defaultPlatformTimezone() => provider();

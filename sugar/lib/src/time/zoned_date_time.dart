@@ -9,7 +9,7 @@ part of 'date_time.dart';
 ///
 /// ## Note:
 /// Detecting and retrieving the current timezone, i.e. [ZonedDateTime.now] is only supported on Windows, MacOS, Linux &
-/// Web platforms. See [defaultTimezoneProvider] for more information.
+/// Web platforms. See [defaultPlatformTimezone] for more information.
 ///
 /// A [ZonedDateTime] is immutable and should be treated as a value-type.
 class ZonedDateTime extends DateTimeBase {
@@ -38,7 +38,6 @@ class ZonedDateTime extends DateTimeBase {
     if (offset != Offset.zero) {
       final utc = unix - offset.seconds * Duration.microsecondsPerSecond;
     }
-    Duration
   }
 
 }
