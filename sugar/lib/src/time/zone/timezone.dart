@@ -63,7 +63,7 @@ import 'package:sugar/time.dart';
   factory Timezone.parse(String timezone) => registry[timezone];
 
   /// Returns this timezone's offset at the given milliseconds since Unix epoch.
-  Offset offset({required EpochMilliseconds at});
+  int offset({required EpochMilliseconds at});
 
   @override
   @mustBeOverridden

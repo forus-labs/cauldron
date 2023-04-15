@@ -13,17 +13,17 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   /// Treats the [LocalDateTime] as being in `UTC+0`.
   ///
   /// ```dart
-  /// LocalDateTime.fromEpochMillisecondsAsUtc0(946684800000); // '2000-01-01T00:00'
+  /// LocalDateTime.fromEpochMillisecondsAsUtc(946684800000); // '2000-01-01T00:00'
   /// ```
-  LocalDateTime.fromEpochMillisecondsAsUtc0(super.milliseconds) : super.fromEpochMillisecondsAsUtc0();
+  LocalDateTime.fromEpochMillisecondsAsUtc(super.milliseconds) : super.fromEpochMillisecondsAsUtc0();
 
   /// Creates a [LocalDateTime] with the given milliseconds since Unix epoch (January 1st 1970), floored to the nearest day.
   /// Treats the [LocalDateTime] as being in `UTC+0`.
   ///
   /// ```dart
-  /// LocalDateTime.fromEpochMicrosecondsAsUtc0(946684800000000); // '2000-01-01T00:00'
+  /// LocalDateTime.fromEpochMicrosecondsAsUtc(946684800000000); // '2000-01-01T00:00'
   /// ```
-  LocalDateTime.fromEpochMicrosecondsAsUtc0(super.microseconds) : super.fromEpochMicrosecondsAsUtc0();
+  LocalDateTime.fromEpochMicrosecondsAsUtc(super.microseconds) : super.fromEpochMicrosecondsAsUtc0();
 
   /// Creates a [LocalDate] that represents the current date-time.
   LocalDateTime.now() : super.fromNativeDateTime(DateTime.now());
@@ -169,22 +169,22 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   /// LocalDateTime(13).difference(LocalDateTime(23)); // -10 hours
   /// ```
   @useResult Duration difference(LocalDateTime other) =>
-      Duration(microseconds: toEpochMicrosecondsAsUtc0() - other.toEpochMicrosecondsAsUtc0());
+      Duration(microseconds: toEpochMicrosecondsAsUtc() - other.toEpochMicrosecondsAsUtc());
 
 
   /// Returns this [LocalDateTime] as milliseconds since Unix epoch (January 1st 1970). Treats [LocalDateTime] as being in `UTC+0`.
   ///
   /// ```dart
-  /// LocalDateTime(2023, 4, 11).toEpochMillisecondsAsUtc0(); // 1681171200000
+  /// LocalDateTime(2023, 4, 11).toEpochMillisecondsAsUtc(); // 1681171200000
   /// ```
-  @useResult EpochMilliseconds toEpochMillisecondsAsUtc0() => _native.millisecondsSinceEpoch;
+  @useResult EpochMilliseconds toEpochMillisecondsAsUtc() => _native.millisecondsSinceEpoch;
 
   /// Returns this [LocalDateTime] as milliseconds since Unix epoch (January 1st 1970). Treats [LocalDateTime] as being in `UTC+0`.
   ///
   /// ```dart
-  /// LocalDateTime(2023, 4, 11).toEpochMicrosecondsAsUtc0(); // 1681171200000000
+  /// LocalDateTime(2023, 4, 11).toEpochMicrosecondsAsUtc(); // 1681171200000000
   /// ```
-  @useResult EpochMicroseconds toEpochMicrosecondsAsUtc0() => _native.microsecondsSinceEpoch;
+  @useResult EpochMicroseconds toEpochMicrosecondsAsUtc() => _native.microsecondsSinceEpoch;
 
 
   /// The date.
@@ -226,10 +226,10 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
 
 
   @override
-  int compareTo(LocalDateTime other) => toEpochMicrosecondsAsUtc0().compareTo(other.toEpochMicrosecondsAsUtc0());
+  int compareTo(LocalDateTime other) => toEpochMicrosecondsAsUtc().compareTo(other.toEpochMicrosecondsAsUtc());
 
   @override
-  int get hashValue => runtimeType.hashCode ^ toEpochMicrosecondsAsUtc0();
+  int get hashValue => runtimeType.hashCode ^ toEpochMicrosecondsAsUtc();
 
   @override
   String toString() {
