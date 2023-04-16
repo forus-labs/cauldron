@@ -159,21 +159,21 @@ class _Offset extends Offset {
   _Offset.current(): this.fromDuration(DateTime.now().timeZoneOffset);
 
   _Offset.fromDuration(Duration duration): super._(duration.inSeconds) {
-    _precondition(seconds);
+    _precondition(_seconds);
   }
   
   _Offset.fromSeconds(super.seconds): super._() {
-    _precondition(seconds);
+    _precondition(_seconds);
   }
 
-  _Offset([int hour = 0, int minute = 0, int second = 0]): super._(toSeconds(hour, minute, second)) {
+  _Offset([int hour = 0, int minute = 0, int second = 0]): super._(_toSeconds(hour, minute, second)) {
     RangeError.checkValueInInterval(hour, -18, 18, 'hour');
     RangeError.checkValueInInterval(minute, 0, 59, 'minute');
     RangeError.checkValueInInterval(second, 0, 59, 'second');
-    _precondition(seconds);
+    _precondition(_seconds);
   }
 
-  static int toSeconds(int hour, int minute, int second) {
+  static int _toSeconds(int hour, int minute, int second) {
     if (hour.isNegative) {
       return -1 *  Seconds.from(hour.abs(), minute, second);
     } else {
@@ -183,6 +183,6 @@ class _Offset extends Offset {
 
 
   @override
-  String toString() => _string ??= format(seconds);
+  String toString() => _string ??= format(_seconds);
 
 }

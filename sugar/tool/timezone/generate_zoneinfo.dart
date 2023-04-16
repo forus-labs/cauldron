@@ -14,7 +14,7 @@ const _header = '''
 // ignore_for_file: type=lint
 
 import 'package:sugar/src/time/offset.dart';
-import 'package:sugar/src/time/zone/iana_timezones.dart';
+import 'package:sugar/src/time/zone/dynamic_timezone.dart';
 import 'package:sugar/src/time/zone/timezone.dart';
 
 ''';

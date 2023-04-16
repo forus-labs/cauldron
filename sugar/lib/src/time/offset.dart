@@ -29,8 +29,7 @@ part 'offsets.dart';
   /// An offset of zero.
   static const Offset zero = RawOffset('Z', 0);
 
-  /// The number of seconds in this offset.
-  final int seconds;
+  final int _seconds;
 
 
   /// Creates an [Offset] from the formatted [offset] string.
@@ -66,15 +65,15 @@ part 'offsets.dart';
   /// Creates an [Offset] for the current timezone.
   factory Offset.current() => _Offset.current();
 
-  /// Creates an [Offset] from the given duration, with fractional seconds truncated.
+  /// Creates an [Offset] from the given duration, with fractional _seconds truncated.
   ///
   /// ### Example:
   /// ```dart
   /// Offset.fromDuration(const Duration(hours: -10)); // UTC-10:00, W (Hawaii time)
   ///
-  /// Offset.fromDuration(const Duration(hours: -10, minutes: -2, seconds: -3)); // -10:02:03
+  /// Offset.fromDuration(const Duration(hours: -10, minutes: -2, _seconds: -3)); // -10:02:03
   ///
-  /// Offset.fromDuration(const Duration(hours: -10, minutes: 2, seconds: 3)); // -9:57:57
+  /// Offset.fromDuration(const Duration(hours: -10, minutes: 2, _seconds: 3)); // -9:57:57
   /// ```
   ///
   /// ### Contract:
@@ -82,17 +81,17 @@ part 'offsets.dart';
   @Possible({RangeError})
   factory Offset.fromDuration(Duration duration) => _Offset.fromDuration(duration);
 
-  /// Creates an [Offset] from the given total number of seconds.
+  /// Creates an [Offset] from the given total number of _seconds.
   ///
   /// ### Example:
   /// ```dart
-  /// Offset.fromSeconds(-10 * Hour.seconds); // UTC-10:00, W (Hawaii time)
+  /// Offset.fromSeconds(-10 * Hour._seconds); // UTC-10:00, W (Hawaii time)
   /// ```
   ///
   /// ### Contract:
-  /// The given [seconds] must be within the given [range]. A [RangeError] will otherwise be thrown.
+  /// The given [_seconds] must be within the given [range]. A [RangeError] will otherwise be thrown.
   @Possible({RangeError})
-  factory Offset.fromSeconds(int seconds) => _Offset.fromSeconds(seconds);
+  factory Offset.fromSeconds(int _seconds) => _Offset.fromSeconds(_seconds);
 
   /// Creates an [Offset] with the given [hour], [minute] and [second].
   ///
@@ -112,10 +111,10 @@ part 'offsets.dart';
 
 
   /// Creates an [Offset].
-  const Offset._(this.seconds);
+  const Offset._(this._seconds);
 
 
-  /// Returns an [Offset] with given [hours], [minutes] and [seconds] added to this [Offset]. A [RangeError] is thrown
+  /// Returns an [Offset] with given [hours], [minutes] and [_seconds] added to this [Offset]. A [RangeError] is thrown
   /// if the resulting [Offset] is outside of the valid [range].
   ///
   /// ### Example:
@@ -126,9 +125,9 @@ part 'offsets.dart';
   /// ```
   @Possible({RangeError})
   @useResult
-  Offset add({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromSeconds(this.seconds + Seconds.from(hours, minutes, seconds));
+  Offset add({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromSeconds(this._seconds + Seconds.from(hours, minutes, _seconds));
 
-  /// Returns an [Offset] with given [hours], [minutes] and [seconds] subtracted from this [Offset]. A [RangeError] is
+  /// Returns an [Offset] with given [hours], [minutes] and [_seconds] subtracted from this [Offset]. A [RangeError] is
   /// thrown if the resulting [Offset] is outside of the valid [range].
   ///
   /// ### Example:
@@ -139,10 +138,10 @@ part 'offsets.dart';
   /// ```
   @Possible({RangeError})
   @useResult
-  Offset subtract({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromSeconds(this.seconds - Seconds.from(hours, minutes, seconds));
+  Offset subtract({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromSeconds(this._seconds - Seconds.from(hours, minutes, _seconds));
 
 
-  /// Returns an [Offset] with given [hours], [minutes] and [seconds] added to this [Offset] if the resulting [Offset]
+  /// Returns an [Offset] with given [hours], [minutes] and [_seconds] added to this [Offset] if the resulting [Offset]
   /// is in the valid [range]. Otherwise returns `null`.
   ///
   /// ### Example:
@@ -152,11 +151,11 @@ part 'offsets.dart';
   /// Offset(18).tryAdd(hours: 2); // null
   /// ```
   @useResult Offset? tryAdd({int hours = 0, int minutes = 0, int seconds = 0}) {
-    final total = this.seconds + Seconds.from(hours, minutes, seconds);
+    final total = this._seconds + Seconds.from(hours, minutes, _seconds);
     return -18 * Duration.secondsPerHour <= total && total <= 18 * Duration.secondsPerHour ? Offset.fromSeconds(total) : null;
   }
 
-  /// Returns an [Offset] with given [hours], [minutes] and [seconds] subtracted from this [Offset] if the resulting [Offset]
+  /// Returns an [Offset] with given [hours], [minutes] and [_seconds] subtracted from this [Offset] if the resulting [Offset]
   /// is in the valid [range]. Otherwise returns `null`.
   ///
   /// ### Example:
@@ -166,7 +165,7 @@ part 'offsets.dart';
   /// Offset(-18).trySubtract(hours: 2); // null
   /// ```
   @useResult Offset? trySubtract({int hours = 0, int minutes = 0, int seconds = 0}) {
-    final total = this.seconds - Seconds.from(hours, minutes, seconds);
+    final total = this._seconds - Seconds.from(hours, minutes, _seconds);
     return -18 * Duration.secondsPerHour <= total && total <= 18 * Duration.secondsPerHour ? Offset.fromSeconds(total) : null;
   }
 
@@ -181,7 +180,7 @@ part 'offsets.dart';
   /// Offset(18) + Duration(hours: 2); // throws RangeError
   /// ```
   @Possible({RangeError})
-  @useResult Offset operator + (Duration duration) => Offset.fromSeconds(seconds + duration.inSeconds);
+  @useResult Offset operator + (Duration duration) => Offset.fromSeconds(_seconds + duration.inSeconds);
 
   /// Returns an [Offset] with given [Duration] subtracted from this [Offset]. A [RangeError] is thrown if the resulting
   /// [Offset] is outside of the valid [range].
@@ -193,7 +192,7 @@ part 'offsets.dart';
   /// Offset(-18) - Duration(hours: 2); // throws RangeError
   /// ```
   @Possible({RangeError})
-  @useResult Offset operator - (Duration duration) => Offset.fromSeconds(seconds - duration.inSeconds);
+  @useResult Offset operator - (Duration duration) => Offset.fromSeconds(_seconds - duration.inSeconds);
 
 
   /// Returns the difference between this [Offset] and [other]. The difference will be negative if [other] is greater than
@@ -203,15 +202,22 @@ part 'offsets.dart';
   /// ```dart
   /// Offset(-1).difference(Offset(2)); // Duration(hours: -3)
   /// ```
-  @useResult Duration difference(Offset other) => Duration(seconds: seconds - other.seconds);
+  @useResult Duration difference(Offset other) => Duration(seconds: _seconds - other._seconds);
 
   /// Convert this [Offset] into a [Duration].
   ///
   /// ### Example:
   /// ```dart
-  /// Offset(1, 2, 3).toDuration(); // Duration(hours: 1, minutes: 2, seconds: 3);
+  /// Offset(1, 2, 3).toDuration(); // Duration(hours: 1, minutes: 2, _seconds: 3);
   /// ```
-  @useResult Duration toDuration() => Duration(seconds: seconds);
+  @useResult Duration toDuration() => Duration(seconds: _seconds);
+
+
+  /// Returns this offset in _seconds.
+  int toSeconds() => _seconds;
+
+  /// Returns this offset in milliseconds.
+  int toMilliseconds() => _seconds * 1000;
 
 
   // This method is overridden to allow equality between [_Offset]s and [RawOffset]s.
@@ -224,18 +230,18 @@ part 'offsets.dart';
           && compareTo(other) == 0;
 
   @override
-  @useResult int compareTo(Offset other) => seconds.compareTo(other.seconds);
+  @useResult int compareTo(Offset other) => _seconds.compareTo(other._seconds);
 
 
   @override
-  @useResult int get hashValue => seconds.hashCode;
+  @useResult int get hashValue => _seconds.hashCode;
 
   /// Returns an offset ID. The ID is a minor variation of an ISO-8601 formatted offset string.
   ///
   /// There are three formats:
   /// * `Z` - for UTC (ISO-8601)
-  /// * `+hh:mm`/`-hh:mm` - if the seconds are zero (ISO-8601)
-  /// * `+hh:mm:ss`/`-hh:mm:ss` - if the seconds are non-zero (not ISO-8601)
+  /// * `+hh:mm`/`-hh:mm` - if the _seconds are zero (ISO-8601)
+  /// * `+hh:mm:ss`/`-hh:mm:ss` - if the _seconds are non-zero (not ISO-8601)
   ///
   /// ### Example:
   /// ```dart

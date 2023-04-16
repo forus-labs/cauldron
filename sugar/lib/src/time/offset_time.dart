@@ -143,7 +143,8 @@ class OffsetTime extends Time {
   ///
   /// print(foo.toOffsettedMicroseconds() < bar.toOffsettedMicroseconds()); // true
   /// ```
-  @useResult int toOffsettedMicroseconds() => _microseconds ??= Microseconds.from(hour, minute, second, millisecond, microsecond) - offset.seconds * Duration.microsecondsPerSecond;
+  @useResult int toOffsettedMicroseconds() =>
+    _microseconds ??= Microseconds.from(hour, minute, second, millisecond, microsecond) - offset.toSeconds() * Duration.microsecondsPerSecond;
 
 
   /// Returns a copy of this [OffsetTime] with the given updated parts.

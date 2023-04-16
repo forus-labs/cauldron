@@ -62,11 +62,35 @@ import 'package:sugar/time.dart';
   /// ```
   factory Timezone.parse(String timezone) => registry[timezone];
 
-  /// Returns this timezone's offset at the given milliseconds since Unix epoch.
-  int offset({required EpochMilliseconds at});
 
+  /// Converts the milliseconds instant, relative to this timezone, to milliseconds since Unix epoch.
+  MapEntry<EpochMilliseconds, EffectiveTimezone> convert(EpochMilliseconds local); // TODO: replace with tuple
+
+  /// Returns the effective timezone at the given milliseconds since Unix epoch
+  EffectiveTimezone at(EpochMilliseconds milliseconds);
+
+  /// Returns a string representation of this timezone, i.e. `Asia/Singapore`.
   @override
   @mustBeOverridden
   String toString();
+
+}
+
+/// A timezone's that effective at a given date-time.
+class EffectiveTimezone {
+
+  /// The start of this timezone, or null if this timezone does not have a starting date-time.
+  final EpochMilliseconds? start;
+  /// The end of this timezone, or null if this timezone does not have a ending date-time.
+  final EpochMilliseconds? end;
+  /// The offset in milliseconds.
+  final int offset;
+  /// The timezone's abbreviation.
+  final String abbreviation;
+  /// Whether this timezone is Daylight saving time.
+  final bool dst;
+
+  /// Creates a [EffectiveTimezone].
+  EffectiveTimezone(this.start, this.end, this.offset, this.abbreviation, {required this.dst});
 
 }

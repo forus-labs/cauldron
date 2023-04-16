@@ -32,12 +32,4 @@ class ZonedDateTime extends DateTimeBase {
 
   ZonedDateTime._copy(this.timezone, super.date): super._();
 
-  void a() {
-    final unix = DateTime.utc(0).microsecondsSinceEpoch;
-    final offset = timezone.offset(at: unix);
-    if (offset != Offset.zero) {
-      final utc = unix - offset.seconds * Duration.microsecondsPerSecond;
-    }
-  }
-
 }
