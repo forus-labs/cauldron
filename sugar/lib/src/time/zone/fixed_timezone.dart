@@ -4,7 +4,7 @@ import 'package:sugar/time.dart';
 ///
 /// ### Implementation details:
 /// Timezones with varying offset are handled by [DynamicTimezone]. This simplifies offset look-up & improves performance.
-class FixedTimezone implements Timezone {
+class FixedTimezone implements TimezoneRules {
 
   final String _name;
   final Offset _offset;
@@ -16,15 +16,6 @@ class FixedTimezone implements Timezone {
 
   @override
   EpochMilliseconds convert(EpochMilliseconds local) => local + _offset.toMilliseconds();
-
-  @override
-  Offset offset({required EpochMilliseconds at}) => _offset;
-
-  @override
-  String abbreviation({required EpochMilliseconds at}) => _abbreviation;
-
-  @override
-  bool dst({required EpochMilliseconds at}) => _dst;
 
 
   @override

@@ -14,7 +14,7 @@ const _header = '''
 
 import 'package:meta/meta.dart';
 
-import 'package:sugar/src/time/zone/timezone.dart';
+import 'package:sugar/src/time/zone/timezone_rules.dart';
 ''';
 
 const _setHeader = '''

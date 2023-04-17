@@ -9,7 +9,7 @@ void main() {
   test('defaultTimezoneProvider()', () {
     final timezone = defaultPlatformTimezone();
 
-    expect(Timezone.supported.contains(timezone), true);
+    expect(TimezoneRules.supported.contains(timezone), true);
     expect(timezone, isNot('Factory'));
   });
 }

@@ -15,7 +15,7 @@ part of 'date_time.dart';
 class ZonedDateTime extends DateTimeBase {
 
   /// The timezone.
-  final Timezone timezone;
+  final TimezoneRules timezone;
 
   // ZonedDateTime.fromMilliseconds(Timezone timezone, EpochMilliseconds milliseconds);
   //

@@ -5,7 +5,7 @@ import 'package:sugar/time.dart';
 ///
 /// ### Implementation details:
 /// Timezones with a single offset are handled by [FixedTimezone]. This simplifies offset look-up & improves performance.
-class DynamicTimezone implements Timezone {
+class DynamicTimezone implements TimezoneRules {
 
   /// The timezone's name. It should be a valid IANA timezone name, i.e. `Asia/Singapore`.
   final String name;

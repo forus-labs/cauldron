@@ -8,7 +8,7 @@
 
 import 'package:meta/meta.dart';
 
-import 'package:sugar/src/time/zone/timezone.dart';
+import 'package:sugar/src/time/zone/timezone_rules.dart';
 
 import 'package:sugar/src/time/zone/info/root.g.dart';
 import 'package:sugar/src/time/zone/info/africa.g.dart';
@@ -633,12 +633,12 @@ import 'package:sugar/src/time/zone/info/us.g.dart';
   'US/Samoa',
 };
 
-/// Returns the [Timezone] associated with the given [name] if it exists. Otherwise returns the `Factory` [Timezone].
+/// Returns the [TimezoneRules] associated with the given [name] if it exists. Otherwise returns the `Factory` [TimezoneRules].
 /// 
 /// ## Implementation details:
-/// To lazily initialize [Timezone]s, a switch statement is used instead of a [Map].
-/// Since most use-cases only require a few [Timezone]s, it drastically reduces memory footprint.
-@internal Timezone parseTimezone(String timezone) {
+/// To lazily initialize [TimezoneRules]s, a switch statement is used instead of a [Map].
+/// Since most use-cases only require a few [TimezoneRules]s, it drastically reduces memory footprint.
+@internal TimezoneRules parseTimezone(String timezone) {
   switch (timezone) {
 
     case 'CET':

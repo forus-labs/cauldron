@@ -1,10 +1,10 @@
-import 'package:sugar/src/time/zone/timezone.dart';
+import 'package:sugar/src/time/zone/timezone_rules.dart';
 import 'package:sugar/src/time/zone/platform/web_provider.dart'
   if (dart.library.io) 'package:sugar/src/time/zone/platform/vm_provider.dart';
 
-/// The default `Timezone.platform`.
+/// The default `TimezoneRules.platformTimezone` that retrieves the platform's timezone.
 ///
-/// It is public to simplify custom timezone retrieval implementations. Most users should prefer [Timezone.current].
+/// This is public to simplify customization of timezone retrieval. Most users should prefer [TimezoneRules.current].
 ///
 /// Supported & tested platforms:
 /// * Windows - Windows 11 & Windows Server 2022

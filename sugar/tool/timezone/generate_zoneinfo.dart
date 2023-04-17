@@ -15,7 +15,7 @@ const _header = '''
 
 import 'package:sugar/src/time/offset.dart';
 import 'package:sugar/src/time/zone/dynamic_timezone.dart';
-import 'package:sugar/src/time/zone/timezone.dart';
+import 'package:sugar/src/time/zone/timezone_rules.dart';
 
 ''';
 
