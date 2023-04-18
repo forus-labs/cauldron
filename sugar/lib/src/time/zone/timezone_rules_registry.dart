@@ -17,8 +17,8 @@ mixin TimezoneRulesRegistry {
 
 }
 
-/// The default [TimezoneRulesRegistry] for `Timezone.registry`.
-@internal class DefaultTimezoneRegistry with TimezoneRulesRegistry {
+/// The default [TimezoneRulesRegistry] for `TimezoneRules.registry`.
+@internal class DefaultTimezoneRulesRegistry with TimezoneRulesRegistry {
 
   @override
   bool contains(String timezone) => iana.contains(timezone);

@@ -26,6 +26,8 @@ class OffsetTime extends Time {
   /// Creates a [OffsetTime] that represents the current time.
   OffsetTime.now(): this._now(DateTime.now());
 
+  // TODO: add local constructor
+
   /// Creates a [OffsetTime].
   ///
   /// ```dart

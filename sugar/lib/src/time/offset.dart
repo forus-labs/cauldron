@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 import 'package:sugar/core.dart';
-import 'package:sugar/time.dart';
+import 'package:sugar/src/time/temporal_units.dart';
 
 part 'offsets.dart';
 
@@ -91,7 +91,7 @@ part 'offsets.dart';
   /// ### Contract:
   /// The given [_seconds] must be within the given [range]. A [RangeError] will otherwise be thrown.
   @Possible({RangeError})
-  factory Offset.fromSeconds(int _seconds) => _Offset.fromSeconds(_seconds);
+  factory Offset.fromSeconds(int seconds) => _Offset.fromSeconds(seconds);
 
   /// Creates an [Offset] with the given [hour], [minute] and [second].
   ///
@@ -125,7 +125,7 @@ part 'offsets.dart';
   /// ```
   @Possible({RangeError})
   @useResult
-  Offset add({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromSeconds(this._seconds + Seconds.from(hours, minutes, _seconds));
+  Offset add({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromSeconds(_seconds + Seconds.from(hours, minutes, _seconds));
 
   /// Returns an [Offset] with given [hours], [minutes] and [_seconds] subtracted from this [Offset]. A [RangeError] is
   /// thrown if the resulting [Offset] is outside of the valid [range].
@@ -138,7 +138,7 @@ part 'offsets.dart';
   /// ```
   @Possible({RangeError})
   @useResult
-  Offset subtract({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromSeconds(this._seconds - Seconds.from(hours, minutes, _seconds));
+  Offset subtract({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromSeconds(_seconds - Seconds.from(hours, minutes, _seconds));
 
 
   /// Returns an [Offset] with given [hours], [minutes] and [_seconds] added to this [Offset] if the resulting [Offset]
@@ -151,7 +151,7 @@ part 'offsets.dart';
   /// Offset(18).tryAdd(hours: 2); // null
   /// ```
   @useResult Offset? tryAdd({int hours = 0, int minutes = 0, int seconds = 0}) {
-    final total = this._seconds + Seconds.from(hours, minutes, _seconds);
+    final total = _seconds + Seconds.from(hours, minutes, _seconds);
     return -18 * Duration.secondsPerHour <= total && total <= 18 * Duration.secondsPerHour ? Offset.fromSeconds(total) : null;
   }
 
@@ -165,7 +165,7 @@ part 'offsets.dart';
   /// Offset(-18).trySubtract(hours: 2); // null
   /// ```
   @useResult Offset? trySubtract({int hours = 0, int minutes = 0, int seconds = 0}) {
-    final total = this._seconds - Seconds.from(hours, minutes, _seconds);
+    final total = _seconds - Seconds.from(hours, minutes, _seconds);
     return -18 * Duration.secondsPerHour <= total && total <= 18 * Duration.secondsPerHour ? Offset.fromSeconds(total) : null;
   }
 

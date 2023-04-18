@@ -1,5 +1,5 @@
 include: package:flint/analysis_options.dart.yaml
 analyzer:
   exclude:
-    - lib/src/time/zone/info/**
+#    - lib/src/time/zone/info/**
     - proposed/**

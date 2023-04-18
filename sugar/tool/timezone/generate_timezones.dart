@@ -11,7 +11,6 @@ const _header = '''
 // **************************************************************************
 // 
 // ignore_for_file: type=lint
-
 import 'package:meta/meta.dart';
 
 import 'package:sugar/src/time/zone/timezone_rules.dart';
@@ -27,7 +26,7 @@ const _functionHeader = '''
 /// ## Implementation details:
 /// To lazily initialize [Timezone]s, a switch statement is used instead of a [Map].
 /// Since most use-cases only require a few [Timezone]s, it drastically reduces memory footprint.
-@internal Timezone parseTimezone(String timezone) {
+@internal TimezoneRules parseTimezone(String timezone) {
   switch (timezone) {
 ''';
 

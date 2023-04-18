@@ -13,7 +13,7 @@ class NamespaceIR {
   /// The nested namespaces.
   final List<NamespaceIR> namespaces = [];
   /// The locations.
-  final List<TimezoneIR> timezones = [];
+  final List<TimezoneRulesIR> timezones = [];
 
   NamespaceIR(this.name): typeName = name.toPascalCase();
 
@@ -22,7 +22,7 @@ class NamespaceIR {
   StringBuffer toExtension() {
     final buffer = StringBuffer('extension $typeName on Never {\n');
     for (final timezone in timezones) {
-      buffer.writeln('  static final Timezone ${timezone.variableName} = ${timezone.toConstructor(4)}\n');
+      buffer.writeln('  static final TimezoneRules ${timezone.variableName} = ${timezone.toConstructor(4)}\n');
     }
 
     return buffer..writeln('}\n');
@@ -30,14 +30,14 @@ class NamespaceIR {
 }
 
 /// An intermediate representation of a timezone.
-abstract class TimezoneIR {
+abstract class TimezoneRulesIR {
 
   /// The location derived from the corresponding zic compiled file.
   final Location location;
   /// The timezone's name in camel case, i.e. `Asia/Singapore` will be renamed as `singapore`.
   final String variableName;
 
-  factory TimezoneIR(String path, File file) {
+  factory TimezoneRulesIR(String path, File file) {
     final location = Location.fromBytes(path, file.readAsBytesSync());
     final variableName = path.split('/').last.toEscapedCamelCase();
 
@@ -52,47 +52,91 @@ abstract class TimezoneIR {
     }
   }
 
-  TimezoneIR._(this.location, this.variableName);
+  TimezoneRulesIR._(this.location, this.variableName);
 
   String toConstructor(int indentation);
-
-  String _offset(TimeZone zone) => "const RawOffset('${format(zone.offset)}', ${zone.offset})";
 
 }
 
 /// An intermediate representation of a dynamic timezone.
-class DynamicTimezoneIR extends TimezoneIR {
+class DynamicTimezoneIR extends TimezoneRulesIR {
 
   DynamicTimezoneIR(super.path, super.file): super._();
 
   @override
-  String toConstructor(int indentation) => (StringBuffer('DynamicTimezone(\n')
+  String toConstructor(int indentation) => (StringBuffer('DynamicTimezoneRules(\n')
     ..writeIndented(indentation, "'${location.name}',\n")
-    ..writeIndented(indentation, '${_offset(location.first)},\n')
-    ..writeIndented(indentation, '[${location.transitionAt.join(', ')}],\n')
-    ..writeIndented(indentation, '${_timezones(indentation)},\n')
+    ..writeIndented(indentation, '${_initial(indentation + 2)},\n')
+    ..writeIndented(indentation, 'Int64List.fromList([ ${location.transitionAt.join(', ')} ]),\n')
+    ..writeIndented(indentation, '$_offsets,\n')
+    ..writeIndented(indentation, '$_abbreviations,\n')
+    ..writeIndented(indentation, '$_dsts,\n')
     ..writeIndented(indentation - 2, ');'))
     .toString();
 
-  StringBuffer _timezones(int indentation) {
-    final buffer = StringBuffer('const [\n');
-    for (int i = 0; i < location.transitionAt.length; i++) {
-      final zone = location.zones[location.transitionZone[i]];
-      buffer.writeIndented(indentation + 2, "RawOffset('${format(zone.offset)}', ${zone.offset}),\n");
-    }
+  String _initial(int indentation) {
+    final zone = location.first;
+    return (StringBuffer('DynamicTimezone(\n')
+      ..writeIndented(indentation, '-1,\n')
+      ..writeIndented(indentation, '${zone.offset * 1000},\n')
+      ..writeIndented(indentation, "'${location.name}',\n")
+      ..writeIndented(indentation, "'${location.abbreviations[zone.abbreviationIndex]}',\n")
+      ..writeIndented(indentation, 'null,\n')
+      ..writeIndented(indentation, '${location.transitionAt[0]},\n')
+      ..writeIndented(indentation, 'dst: ${zone.isDst},\n')
+      ..writeIndented(indentation - 2, ')'))
+        .toString();
+  }
 
-    return buffer..writeIndented(indentation, ']');
+  String get _offsets {
+    final zones = [
+      for (int i = 0; i < location.transitionAt.length; i++)
+        location.zones[location.transitionZone[i]].offset * 1000,
+    ];
+
+    return 'Int32List.fromList([ ${zones.join(', ')} ])';
+  }
+
+  String get _abbreviations {
+    final abbreviations = [
+      for (int i = 0; i < location.transitionAt.length; i++)
+        "'${location.abbreviations[location.zones[location.transitionZone[i]].abbreviationIndex]}'",
+    ];
+
+    return '[ ${abbreviations.join(', ')} ]';
+  }
+
+  String get _dsts {
+    final dsts = [
+      for (int i = 0; i < location.transitionAt.length; i++)
+        location.zones[location.transitionZone[i]].isDst,
+    ];
+
+    return '[ ${dsts.join(', ')} ]';
   }
 
 }
 
 /// An intermediate representation of a fixed timezone.
-class FixedTimezoneIR extends TimezoneIR {
+class FixedTimezoneIR extends TimezoneRulesIR {
 
   FixedTimezoneIR(super.path, super.file): super._();
 
   @override
-  String toConstructor(int indentation) => "FixedTimezone('${location.name}', ${_offset(location.zones.single)});";
+  String toConstructor(int indentation) {
+    final zone = location.zones.single;
+    return (StringBuffer('FixedTimezoneRules(FixedTimezone(\n')
+      ..writeIndented(indentation, '${_offset(zone)},\n')
+      ..writeIndented(indentation, "'${location.name}',\n")
+      ..writeIndented(indentation, "'${location.abbreviations.single}',\n")
+      ..writeIndented(indentation, 'null,\n')
+      ..writeIndented(indentation, 'null,\n')
+      ..writeIndented(indentation, 'dst: ${zone.isDst},\n')
+      ..writeIndented(indentation - 2, '));'))
+      .toString();
+  }
+
+  String _offset(TimeZone zone) => "const RawOffset('${format(zone.offset)}', ${zone.offset})";
 
 }
 

@@ -6,80 +6,328 @@
 // 
 // ignore_for_file: type=lint
 
+import 'dart:typed_data';
+
 import 'package:sugar/src/time/offset.dart';
-import 'package:sugar/src/time/zone/iana_timezones.dart';
-import 'package:sugar/src/time/zone/timezone.dart';
+import 'package:sugar/src/time/zone/dynamic_timezone_rules.dart';
+import 'package:sugar/src/time/zone/fixed_timezone_rules.dart';
+import 'package:sugar/src/time/zone/timezone_rules.dart';
 
 extension Etc on Never {
-  static final Timezone gmt = FixedTimezone('Etc/GMT', const RawOffset('Z', 0));
+  static final TimezoneRules gmt = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('Z', 0),
+    'Etc/GMT',
+    'GMT',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtPlus0 = FixedTimezone('Etc/GMT+0', const RawOffset('Z', 0));
+  static final TimezoneRules gmtPlus0 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('Z', 0),
+    'Etc/GMT+0',
+    'GMT',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtPlus1 = FixedTimezone('Etc/GMT+1', const RawOffset('-01:00', -3600));
+  static final TimezoneRules gmtPlus1 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('-01:00', -3600),
+    'Etc/GMT+1',
+    '-01',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtPlus10 = FixedTimezone('Etc/GMT+10', const RawOffset('-10:00', -36000));
+  static final TimezoneRules gmtPlus10 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('-10:00', -36000),
+    'Etc/GMT+10',
+    '-10',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtPlus11 = FixedTimezone('Etc/GMT+11', const RawOffset('-11:00', -39600));
+  static final TimezoneRules gmtPlus11 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('-11:00', -39600),
+    'Etc/GMT+11',
+    '-11',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtPlus12 = FixedTimezone('Etc/GMT+12', const RawOffset('-12:00', -43200));
+  static final TimezoneRules gmtPlus12 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('-12:00', -43200),
+    'Etc/GMT+12',
+    '-12',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtPlus2 = FixedTimezone('Etc/GMT+2', const RawOffset('-02:00', -7200));
+  static final TimezoneRules gmtPlus2 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('-02:00', -7200),
+    'Etc/GMT+2',
+    '-02',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtPlus3 = FixedTimezone('Etc/GMT+3', const RawOffset('-03:00', -10800));
+  static final TimezoneRules gmtPlus3 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('-03:00', -10800),
+    'Etc/GMT+3',
+    '-03',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtPlus4 = FixedTimezone('Etc/GMT+4', const RawOffset('-04:00', -14400));
+  static final TimezoneRules gmtPlus4 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('-04:00', -14400),
+    'Etc/GMT+4',
+    '-04',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtPlus5 = FixedTimezone('Etc/GMT+5', const RawOffset('-05:00', -18000));
+  static final TimezoneRules gmtPlus5 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('-05:00', -18000),
+    'Etc/GMT+5',
+    '-05',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtPlus6 = FixedTimezone('Etc/GMT+6', const RawOffset('-06:00', -21600));
+  static final TimezoneRules gmtPlus6 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('-06:00', -21600),
+    'Etc/GMT+6',
+    '-06',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtPlus7 = FixedTimezone('Etc/GMT+7', const RawOffset('-07:00', -25200));
+  static final TimezoneRules gmtPlus7 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('-07:00', -25200),
+    'Etc/GMT+7',
+    '-07',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtPlus8 = FixedTimezone('Etc/GMT+8', const RawOffset('-08:00', -28800));
+  static final TimezoneRules gmtPlus8 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('-08:00', -28800),
+    'Etc/GMT+8',
+    '-08',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtPlus9 = FixedTimezone('Etc/GMT+9', const RawOffset('-09:00', -32400));
+  static final TimezoneRules gmtPlus9 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('-09:00', -32400),
+    'Etc/GMT+9',
+    '-09',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus0 = FixedTimezone('Etc/GMT-0', const RawOffset('Z', 0));
+  static final TimezoneRules gmtMinus0 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('Z', 0),
+    'Etc/GMT-0',
+    'GMT',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus1 = FixedTimezone('Etc/GMT-1', const RawOffset('+01:00', 3600));
+  static final TimezoneRules gmtMinus1 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('+01:00', 3600),
+    'Etc/GMT-1',
+    '+01',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus10 = FixedTimezone('Etc/GMT-10', const RawOffset('+10:00', 36000));
+  static final TimezoneRules gmtMinus10 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('+10:00', 36000),
+    'Etc/GMT-10',
+    '+10',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus11 = FixedTimezone('Etc/GMT-11', const RawOffset('+11:00', 39600));
+  static final TimezoneRules gmtMinus11 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('+11:00', 39600),
+    'Etc/GMT-11',
+    '+11',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus12 = FixedTimezone('Etc/GMT-12', const RawOffset('+12:00', 43200));
+  static final TimezoneRules gmtMinus12 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('+12:00', 43200),
+    'Etc/GMT-12',
+    '+12',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus13 = FixedTimezone('Etc/GMT-13', const RawOffset('+13:00', 46800));
+  static final TimezoneRules gmtMinus13 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('+13:00', 46800),
+    'Etc/GMT-13',
+    '+13',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus14 = FixedTimezone('Etc/GMT-14', const RawOffset('+14:00', 50400));
+  static final TimezoneRules gmtMinus14 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('+14:00', 50400),
+    'Etc/GMT-14',
+    '+14',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus2 = FixedTimezone('Etc/GMT-2', const RawOffset('+02:00', 7200));
+  static final TimezoneRules gmtMinus2 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('+02:00', 7200),
+    'Etc/GMT-2',
+    '+02',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus3 = FixedTimezone('Etc/GMT-3', const RawOffset('+03:00', 10800));
+  static final TimezoneRules gmtMinus3 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('+03:00', 10800),
+    'Etc/GMT-3',
+    '+03',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus4 = FixedTimezone('Etc/GMT-4', const RawOffset('+04:00', 14400));
+  static final TimezoneRules gmtMinus4 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('+04:00', 14400),
+    'Etc/GMT-4',
+    '+04',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus5 = FixedTimezone('Etc/GMT-5', const RawOffset('+05:00', 18000));
+  static final TimezoneRules gmtMinus5 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('+05:00', 18000),
+    'Etc/GMT-5',
+    '+05',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus6 = FixedTimezone('Etc/GMT-6', const RawOffset('+06:00', 21600));
+  static final TimezoneRules gmtMinus6 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('+06:00', 21600),
+    'Etc/GMT-6',
+    '+06',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus7 = FixedTimezone('Etc/GMT-7', const RawOffset('+07:00', 25200));
+  static final TimezoneRules gmtMinus7 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('+07:00', 25200),
+    'Etc/GMT-7',
+    '+07',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus8 = FixedTimezone('Etc/GMT-8', const RawOffset('+08:00', 28800));
+  static final TimezoneRules gmtMinus8 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('+08:00', 28800),
+    'Etc/GMT-8',
+    '+08',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmtMinus9 = FixedTimezone('Etc/GMT-9', const RawOffset('+09:00', 32400));
+  static final TimezoneRules gmtMinus9 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('+09:00', 32400),
+    'Etc/GMT-9',
+    '+09',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone gmt0 = FixedTimezone('Etc/GMT0', const RawOffset('Z', 0));
+  static final TimezoneRules gmt0 = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('Z', 0),
+    'Etc/GMT0',
+    'GMT',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone greenwich = FixedTimezone('Etc/Greenwich', const RawOffset('Z', 0));
+  static final TimezoneRules greenwich = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('Z', 0),
+    'Etc/Greenwich',
+    'GMT',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone uct = FixedTimezone('Etc/UCT', const RawOffset('Z', 0));
+  static final TimezoneRules uct = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('Z', 0),
+    'Etc/UCT',
+    'UTC',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone utc = FixedTimezone('Etc/UTC', const RawOffset('Z', 0));
+  static final TimezoneRules utc = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('Z', 0),
+    'Etc/UTC',
+    'UTC',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone universal = FixedTimezone('Etc/Universal', const RawOffset('Z', 0));
+  static final TimezoneRules universal = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('Z', 0),
+    'Etc/Universal',
+    'UTC',
+    null,
+    null,
+    dst: false,
+  ));
 
-  static final Timezone zulu = FixedTimezone('Etc/Zulu', const RawOffset('Z', 0));
+  static final TimezoneRules zulu = FixedTimezoneRules(FixedTimezone(
+    const RawOffset('Z', 0),
+    'Etc/Zulu',
+    'UTC',
+    null,
+    null,
+    dst: false,
+  ));
 
 }
 

@@ -6,131 +6,199 @@
 // 
 // ignore_for_file: type=lint
 
+import 'dart:typed_data';
+
 import 'package:sugar/src/time/offset.dart';
-import 'package:sugar/src/time/zone/iana_timezones.dart';
-import 'package:sugar/src/time/zone/timezone.dart';
+import 'package:sugar/src/time/zone/dynamic_timezone_rules.dart';
+import 'package:sugar/src/time/zone/fixed_timezone_rules.dart';
+import 'package:sugar/src/time/zone/timezone_rules.dart';
 
 extension Indian on Never {
-  static final Timezone antananarivo = DynamicTimezone(
+  static final TimezoneRules antananarivo = DynamicTimezoneRules(
     'Indian/Antananarivo',
-    const RawOffset('+02:27:16', 8836),
-    [-1946168836, -1309746600, -1261969200, -1041388200, -865305900],
-    const [
-      RawOffset('+02:30', 9000),
-      RawOffset('+03:00', 10800),
-      RawOffset('+02:30', 9000),
-      RawOffset('+02:45', 9900),
-      RawOffset('+03:00', 10800),
-    ],
+    DynamicTimezone(
+      -1,
+      8836000,
+      'Indian/Antananarivo',
+      'LMT',
+      null,
+      -1946168836,
+      dst: false,
+    ),
+    Int64List.fromList([ -1946168836, -1309746600, -1261969200, -1041388200, -865305900 ]),
+    Int32List.fromList([ 9000000, 10800000, 9000000, 9900000, 10800000 ]),
+    [ '+0230', 'EAT', '+0230', '+0245', 'EAT' ],
+    [ false, false, false, false, false ],
   );
 
-  static final Timezone chagos = DynamicTimezone(
+  static final TimezoneRules chagos = DynamicTimezoneRules(
     'Indian/Chagos',
-    const RawOffset('+04:49:40', 17380),
-    [-1988167780, 820436400],
-    const [
-      RawOffset('+05:00', 18000),
-      RawOffset('+06:00', 21600),
-    ],
+    DynamicTimezone(
+      -1,
+      17380000,
+      'Indian/Chagos',
+      'LMT',
+      null,
+      -1988167780,
+      dst: false,
+    ),
+    Int64List.fromList([ -1988167780, 820436400 ]),
+    Int32List.fromList([ 18000000, 21600000 ]),
+    [ '+05', '+06' ],
+    [ false, false ],
   );
 
-  static final Timezone christmas = DynamicTimezone(
+  static final TimezoneRules christmas = DynamicTimezoneRules(
     'Indian/Christmas',
-    const RawOffset('+06:42:04', 24124),
-    [-2840164924, -1570084924],
-    const [
-      RawOffset('+06:42:04', 24124),
-      RawOffset('+07:00', 25200),
-    ],
+    DynamicTimezone(
+      -1,
+      24124000,
+      'Indian/Christmas',
+      'LMT',
+      null,
+      -2840164924,
+      dst: false,
+    ),
+    Int64List.fromList([ -2840164924, -1570084924 ]),
+    Int32List.fromList([ 24124000, 25200000 ]),
+    [ 'BMT', '+07' ],
+    [ false, false ],
   );
 
-  static final Timezone cocos = DynamicTimezone(
+  static final TimezoneRules cocos = DynamicTimezoneRules(
     'Indian/Cocos',
-    const RawOffset('+06:24:47', 23087),
-    [-2840163887, -1577946287, -873268200, -778410000],
-    const [
-      RawOffset('+06:24:47', 23087),
-      RawOffset('+06:30', 23400),
-      RawOffset('+09:00', 32400),
-      RawOffset('+06:30', 23400),
-    ],
+    DynamicTimezone(
+      -1,
+      23087000,
+      'Indian/Cocos',
+      'LMT',
+      null,
+      -2840163887,
+      dst: false,
+    ),
+    Int64List.fromList([ -2840163887, -1577946287, -873268200, -778410000 ]),
+    Int32List.fromList([ 23087000, 23400000, 32400000, 23400000 ]),
+    [ 'RMT', '+0630', '+09', '+0630' ],
+    [ false, false, false, false ],
   );
 
-  static final Timezone comoro = DynamicTimezone(
+  static final TimezoneRules comoro = DynamicTimezoneRules(
     'Indian/Comoro',
-    const RawOffset('+02:27:16', 8836),
-    [-1946168836, -1309746600, -1261969200, -1041388200, -865305900],
-    const [
-      RawOffset('+02:30', 9000),
-      RawOffset('+03:00', 10800),
-      RawOffset('+02:30', 9000),
-      RawOffset('+02:45', 9900),
-      RawOffset('+03:00', 10800),
-    ],
+    DynamicTimezone(
+      -1,
+      8836000,
+      'Indian/Comoro',
+      'LMT',
+      null,
+      -1946168836,
+      dst: false,
+    ),
+    Int64List.fromList([ -1946168836, -1309746600, -1261969200, -1041388200, -865305900 ]),
+    Int32List.fromList([ 9000000, 10800000, 9000000, 9900000, 10800000 ]),
+    [ '+0230', 'EAT', '+0230', '+0245', 'EAT' ],
+    [ false, false, false, false, false ],
   );
 
-  static final Timezone kerguelen = DynamicTimezone(
+  static final TimezoneRules kerguelen = DynamicTimezoneRules(
     'Indian/Kerguelen',
-    const RawOffset('+04:54', 17640),
-    [-2840158440, -315636840],
-    const [
-      RawOffset('+04:54', 17640),
-      RawOffset('+05:00', 18000),
-    ],
+    DynamicTimezone(
+      -1,
+      17640000,
+      'Indian/Kerguelen',
+      'LMT',
+      null,
+      -2840158440,
+      dst: false,
+    ),
+    Int64List.fromList([ -2840158440, -315636840 ]),
+    Int32List.fromList([ 17640000, 18000000 ]),
+    [ 'MMT', '+05' ],
+    [ false, false ],
   );
 
-  static final Timezone mahe = DynamicTimezone(
+  static final TimezoneRules mahe = DynamicTimezoneRules(
     'Indian/Mahe',
-    const RawOffset('+03:41:12', 13272),
-    [-1577936472],
-    const [
-      RawOffset('+04:00', 14400),
-    ],
+    DynamicTimezone(
+      -1,
+      13272000,
+      'Indian/Mahe',
+      'LMT',
+      null,
+      -1577936472,
+      dst: false,
+    ),
+    Int64List.fromList([ -1577936472 ]),
+    Int32List.fromList([ 14400000 ]),
+    [ '+04' ],
+    [ false ],
   );
 
-  static final Timezone maldives = DynamicTimezone(
+  static final TimezoneRules maldives = DynamicTimezoneRules(
     'Indian/Maldives',
-    const RawOffset('+04:54', 17640),
-    [-2840158440, -315636840],
-    const [
-      RawOffset('+04:54', 17640),
-      RawOffset('+05:00', 18000),
-    ],
+    DynamicTimezone(
+      -1,
+      17640000,
+      'Indian/Maldives',
+      'LMT',
+      null,
+      -2840158440,
+      dst: false,
+    ),
+    Int64List.fromList([ -2840158440, -315636840 ]),
+    Int32List.fromList([ 17640000, 18000000 ]),
+    [ 'MMT', '+05' ],
+    [ false, false ],
   );
 
-  static final Timezone mauritius = DynamicTimezone(
+  static final TimezoneRules mauritius = DynamicTimezoneRules(
     'Indian/Mauritius',
-    const RawOffset('+03:50', 13800),
-    [-1988164200, 403041600, 417034800, 1224972000, 1238274000],
-    const [
-      RawOffset('+04:00', 14400),
-      RawOffset('+05:00', 18000),
-      RawOffset('+04:00', 14400),
-      RawOffset('+05:00', 18000),
-      RawOffset('+04:00', 14400),
-    ],
+    DynamicTimezone(
+      -1,
+      13800000,
+      'Indian/Mauritius',
+      'LMT',
+      null,
+      -1988164200,
+      dst: false,
+    ),
+    Int64List.fromList([ -1988164200, 403041600, 417034800, 1224972000, 1238274000 ]),
+    Int32List.fromList([ 14400000, 18000000, 14400000, 18000000, 14400000 ]),
+    [ '+04', '+05', '+04', '+05', '+04' ],
+    [ false, true, false, true, false ],
   );
 
-  static final Timezone mayotte = DynamicTimezone(
+  static final TimezoneRules mayotte = DynamicTimezoneRules(
     'Indian/Mayotte',
-    const RawOffset('+02:27:16', 8836),
-    [-1946168836, -1309746600, -1261969200, -1041388200, -865305900],
-    const [
-      RawOffset('+02:30', 9000),
-      RawOffset('+03:00', 10800),
-      RawOffset('+02:30', 9000),
-      RawOffset('+02:45', 9900),
-      RawOffset('+03:00', 10800),
-    ],
+    DynamicTimezone(
+      -1,
+      8836000,
+      'Indian/Mayotte',
+      'LMT',
+      null,
+      -1946168836,
+      dst: false,
+    ),
+    Int64List.fromList([ -1946168836, -1309746600, -1261969200, -1041388200, -865305900 ]),
+    Int32List.fromList([ 9000000, 10800000, 9000000, 9900000, 10800000 ]),
+    [ '+0230', 'EAT', '+0230', '+0245', 'EAT' ],
+    [ false, false, false, false, false ],
   );
 
-  static final Timezone reunion = DynamicTimezone(
+  static final TimezoneRules reunion = DynamicTimezoneRules(
     'Indian/Reunion',
-    const RawOffset('+03:41:12', 13272),
-    [-1577936472],
-    const [
-      RawOffset('+04:00', 14400),
-    ],
+    DynamicTimezone(
+      -1,
+      13272000,
+      'Indian/Reunion',
+      'LMT',
+      null,
+      -1577936472,
+      dst: false,
+    ),
+    Int64List.fromList([ -1577936472 ]),
+    Int32List.fromList([ 14400000 ]),
+    [ '+04' ],
+    [ false ],
   );
 
 }

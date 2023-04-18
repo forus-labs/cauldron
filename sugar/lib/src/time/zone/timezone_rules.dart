@@ -9,7 +9,7 @@ import 'package:sugar/time.dart';
 /// There are two types of [TimezoneRules]:
 /// * Those that have a fixed offset for all points in time.
 /// * Those that model timezones in the IANA TZ database. These timezones may have offsets that vary across points in time.
-@sealed abstract class TimezoneRules {
+abstract class TimezoneRules {
 
   /// A callback that retrieves the platform's timezone. It may be replaced, particularly in tests, to change timezone retrieval.
   ///
@@ -22,7 +22,7 @@ import 'package:sugar/time.dart';
   /// A registry that contains all known timezones rules. It may be replaced to support other timezones.
   ///
   /// The default implementation contains all timezones in the 2023c IANA timezone database.
-  static TimezoneRulesRegistry registry = DefaultTimezoneRegistry();
+  static TimezoneRulesRegistry registry = DefaultTimezoneRulesRegistry();
 
   /// The TZ database `Factory` timezone that has no offset. It is returned when parsing and retrieval fails.
   ///
@@ -51,20 +51,27 @@ import 'package:sugar/time.dart';
     return _rules;
   }
 
-  /// Creates a [TimezoneRules] with the given TZ database timezone if it exists. Otherwise returns [factory].
+  /// Creates a [TimezoneRules] with the given TZ database timezone, or [factory] if it does not exist.
   ///
   /// ```dart
   /// final singapore = TimezoneRules.parse('Asia/Singapore'); // `Asia/Singapore`
   ///
-  /// final factory = TimezoneRules.parse('invalid/location'); // Timezone.factory
+  /// final factory = TimezoneRules.parse('invalid/location'); // TimezoneRules.factory
   /// ```
   factory TimezoneRules.parse(String timezone) => registry[timezone];
 
+  /// Returns the [Timezone] which offset is subtracted from the given [local] time to get UTC time.
+  ///
+  /// If the given local datetime falls in the middle of a gap, the [Timezone] after the gap, i.e. "summer" is returned.
+  ///
+  /// ![gap](https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Begin_CEST.svg/200px-Begin_CEST.svg.png)
+  ///
+  /// If the given local datetime falls in the middle of an overlap, the [Timezone] before the gap, i.e. "winter" is returned.
+  ///
+  /// ![overlap](https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/End_CEST.svg/200px-End_CEST.svg.png)
+  Timezone from({required int local});
 
-  /// Converts the given milliseconds instant, relative to this timezone, to milliseconds since Unix epoch.
-  MapEntry<EpochMilliseconds, Timezone> convert(EpochMilliseconds local); // TODO: replace with tuple
-
-  /// Returns the timezone at the given milliseconds since Unix epoch.
+  /// Returns the [Timezone] at the given milliseconds since Unix epoch.
   Timezone at(EpochMilliseconds milliseconds);
 
   /// Returns a string representation of this timezone, i.e. `Asia/Singapore`.
@@ -75,20 +82,26 @@ import 'package:sugar/time.dart';
 }
 
 /// A timezone.
-class Timezone {
+abstract class Timezone {
 
-  /// The milliseconds since Unix epoch at which this timezone starts.
-  final EpochMilliseconds? start;
-  /// The milliseconds since Unix epoch at which this timezone ends.
-  final EpochMilliseconds? end;
-  /// The offset in milliseconds.
-  final int offset;
-  /// The timezone's abbreviation.
+  /// The name, typically a valid TZ database timezone, i.e. `Asia/Singapore`.
+  final String name;
+  /// The abbreviation, i.e. `CEST`.
   final String abbreviation;
+  /// The milliseconds since Unix epoch at which this timezone starts, inclusive.
+  final EpochMilliseconds? start;
+  /// The milliseconds since Unix epoch at which this timezone ends, exclusive.
+  final EpochMilliseconds? end;
   /// Whether this timezone is Daylight saving time.
   final bool dst;
 
   /// Creates a [Timezone].
-  Timezone(this.start, this.end, this.offset, this.abbreviation, {required this.dst});
+  const Timezone(this.name, this.abbreviation, this.start, this.end, {required this.dst});
+
+  /// The timezone's offset.
+  Offset get offset;
+
+  /// The timezone's offset in milliseconds.
+  int toOffsetMilliseconds();
 
 }

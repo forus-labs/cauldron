@@ -3,7 +3,7 @@
 /// A [Range] is a convex (contiguous) portion of a domain. It may be finitely constrained, i.e. `0 <= x < 5`,
 /// or extend to infinity, i.e. `x > 3`.
 ///
-/// ### Types of ranges
+/// ## Types of ranges
 /// Each end of a range may be either bound or unbounded. If bounded, a minimum or maximum value is associated with a
 /// range's end. Furthermore, a bounded range's end is either _closed_ (includes the value), or _open_ (excludes the value).
 /// For example, a closed-open range can be denoted as `0 <= x < 5`.

@@ -5,7 +5,6 @@
 // **************************************************************************
 // 
 // ignore_for_file: type=lint
-
 import 'package:meta/meta.dart';
 
 import 'package:sugar/src/time/zone/timezone_rules.dart';
@@ -633,11 +632,11 @@ import 'package:sugar/src/time/zone/info/us.g.dart';
   'US/Samoa',
 };
 
-/// Returns the [TimezoneRules] associated with the given [name] if it exists. Otherwise returns the `Factory` [TimezoneRules].
+/// Returns the [Timezone] associated with the given [name] if it exists. Otherwise returns the `Factory` [Timezone].
 /// 
 /// ## Implementation details:
-/// To lazily initialize [TimezoneRules]s, a switch statement is used instead of a [Map].
-/// Since most use-cases only require a few [TimezoneRules]s, it drastically reduces memory footprint.
+/// To lazily initialize [Timezone]s, a switch statement is used instead of a [Map].
+/// Since most use-cases only require a few [Timezone]s, it drastically reduces memory footprint.
 @internal TimezoneRules parseTimezone(String timezone) {
   switch (timezone) {
 

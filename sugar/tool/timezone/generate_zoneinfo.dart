@@ -13,8 +13,11 @@ const _header = '''
 // 
 // ignore_for_file: type=lint
 
+import 'dart:typed_data';
+
 import 'package:sugar/src/time/offset.dart';
-import 'package:sugar/src/time/zone/dynamic_timezone.dart';
+import 'package:sugar/src/time/zone/dynamic_timezone_rules.dart';
+import 'package:sugar/src/time/zone/fixed_timezone_rules.dart';
 import 'package:sugar/src/time/zone/timezone_rules.dart';
 
 ''';
