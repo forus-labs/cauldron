@@ -41,7 +41,8 @@ class ZonedDateTime extends DateTimeBase {
     final local = DateTime.utc(year, month, day, hour, minute, second, millisecond, microsecond);
     final timezone = rules.from(local: local.millisecondsSinceEpoch);
     final utc = DateTime.fromMicrosecondsSinceEpoch(local.microsecondsSinceEpoch - (timezone.toOffsetMilliseconds() * 1000), isUtc: true);
-    return ZonedDateTime._(rules, timezone, utc, local);
+    final f = rules.at(utc.millisecondsSinceEpoch);
+    return ZonedDateTime._(rules, f, utc, utc.add(f.offset.toDuration()));
   }
 
   ZonedDateTime._(this.rules, this.timezone, this._utc, super._native): super.fromNativeDateTime();
@@ -120,13 +121,23 @@ class ZonedDateTime extends DateTimeBase {
 }
 
 void main() {
-  // CEST +2
-  // CET  +1
-  print(ZonedDateTime.from(TimezoneRules.parse('Europe/Berlin'), 2023, 10, 29, 2));
-  print(ZonedDateTime.from(TimezoneRules.parse('Europe/Berlin'), 2023, 10, 29, 2, 30));
+  // // CEST +2
+  // // CET  +1
+  // print(ZonedDateTime.from(TimezoneRules.parse('Europe/Berlin'), 2023, 5, 2));
+  // print(ZonedDateTime.from(TimezoneRules.parse('Europe/Berlin'), 2023, 10, 29, 2));
+  // print(ZonedDateTime.from(TimezoneRules.parse('Europe/Berlin'), 2023, 10, 29, 2, 30));
+  // print(ZonedDateTime.from(TimezoneRules.parse('Europe/Berlin'), 2023, 10, 29, 4));
+  //
+  // // EDT -4
+  // // EST -5
+  // print(ZonedDateTime.from(TimezoneRules.parse('America/Detroit'), 2023, 11, 4));
+  // print(ZonedDateTime.from(TimezoneRules.parse('America/Detroit'), 2023, 11, 5, 1));
+  // print(ZonedDateTime.from(TimezoneRules.parse('America/Detroit'), 2023, 11, 5, 1, 30));
+  // print(ZonedDateTime.from(TimezoneRules.parse('America/Detroit'), 2023, 11, 6));
 
-  // EDT -4
-  // EST -5
-  print(ZonedDateTime.from(TimezoneRules.parse('America/Detroit'), 2023, 11, 5, 1));
-  print(ZonedDateTime.from(TimezoneRules.parse('America/Detroit'), 2023, 11, 5, 1, 30));
+  print(ZonedDateTime.from(TimezoneRules.parse('Europe/Berlin'), 2023, 3, 26, 2));
+  print(ZonedDateTime.from(TimezoneRules.parse('Europe/Berlin'), 2023, 3, 26, 3));
+  //
+  // print(ZonedDateTime.from(TimezoneRules.parse('America/Detroit'), 2023, 3, 12, 2));
+  // print(ZonedDateTime.from(TimezoneRules.parse('America/Detroit'), 2023, 3, 12, 3));
 }

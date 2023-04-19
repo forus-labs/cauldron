@@ -49,15 +49,14 @@ class DynamicTimezoneRules implements TimezoneRules {
     final adjustedInstant = localInstant - localOffset;
     final adjustedTimezone = at(adjustedInstant);
     final adjustedOffset = adjustedTimezone.toOffsetMilliseconds();
+    print(adjustedOffset);
 
-    print('internal');
     // If the offsets differ, we must be near a DST boundary
     if (localOffset != adjustedOffset) {
       // We need to ensure that time is always after the DST gap
       // this happens naturally for positive offsets, but not for negative.
       // If we just use adjustedOffset then the time is pushed back before the
       // transition, whereas it should be on or after the transition
-      print('hi');
       if (localOffset - adjustedOffset < 0 && adjustedOffset != at(localInstant - adjustedOffset).toOffsetMilliseconds()) {
         return localTimezone;
       }
@@ -69,11 +68,13 @@ class DynamicTimezoneRules implements TimezoneRules {
         final difference = previousOffset - localOffset;
 
         if (adjustedInstant - (adjustedTimezone.start ?? -8640000000000000) <= difference) {
+          print('here');
           return previous;
         }
       }
     }
 
+    print(adjustedOffset);
     return adjustedTimezone;
   }
 

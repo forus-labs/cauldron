@@ -67,7 +67,7 @@ class DynamicTimezoneIR extends TimezoneRulesIR {
   String toConstructor(int indentation) => (StringBuffer('DynamicTimezoneRules(\n')
     ..writeIndented(indentation, "'${location.name}',\n")
     ..writeIndented(indentation, '${_initial(indentation + 2)},\n')
-    ..writeIndented(indentation, 'Int64List.fromList([ ${location.transitionAt.join(', ')} ]),\n')
+    ..writeIndented(indentation, 'Int64List.fromList([ ${location.transitionAt.map((e) => e * 1000).join(', ')} ]),\n')
     ..writeIndented(indentation, '$_offsets,\n')
     ..writeIndented(indentation, '$_abbreviations,\n')
     ..writeIndented(indentation, '$_dsts,\n')
