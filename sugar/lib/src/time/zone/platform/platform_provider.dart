@@ -1,10 +1,7 @@
-import 'package:sugar/src/time/zone/timezone_rules.dart';
 import 'package:sugar/src/time/zone/platform/web_provider.dart'
   if (dart.library.io) 'package:sugar/src/time/zone/platform/vm_provider.dart';
 
-/// The default `TimezoneRules.platformTimezone` that retrieves the platform's timezone.
-///
-/// This is public to simplify customization of timezone retrieval. Most users should prefer [TimezoneRules.current].
+/// The default platform timezone provider.
 ///
 /// Supported & tested platforms:
 /// * Windows - Windows 11 & Windows Server 2022
@@ -15,7 +12,7 @@ import 'package:sugar/src/time/zone/platform/web_provider.dart'
 /// ## Implementation details:
 /// Retrieval of timezones is performed on a best-effort basis. It is not guaranteed that the actual timezone is returned.
 ///
-/// Only Windows, MacOS, Linux and Web platforms are supported. [`Factory`](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#factory)
+/// Only Windows, MacOS, Linux and Web are supported. [`Factory`](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#factory)
 /// is always returned on unsupported platforms.
 ///
 /// We're waiting for the following to become stable before supporting mobile platforms:
@@ -37,4 +34,4 @@ import 'package:sugar/src/time/zone/platform/web_provider.dart'
 /// See the following pages for more information on browser compatibility:
 /// * http://kangax.github.io/compat-table/esintl/#test-DateTimeFormat_resolvedOptions().timeZone_defaults_to_the_host_environment
 /// * https://caniuse.com/mdn-javascript_builtins_intl_datetimeformat_resolvedoptions_computed_timezone
-String defaultPlatformTimezone() => provider();
+String defaultPlatformTimezoneProvider() => provider();

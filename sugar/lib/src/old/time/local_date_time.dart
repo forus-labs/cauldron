@@ -1,4 +1,4 @@
-part of 'date_time.dart';
+part of '../old/time/date_time.dart';
 
 /// Represents a date-time without a timezone, i.e. `2023-04-10T09:30`.
 ///
@@ -43,7 +43,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   ///
   /// See [add].
   @useResult LocalDateTime plus({int years = 0, int months = 0, int days = 0, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-      LocalDateTime._copy(DateTimeBase.plus(
+      LocalDateTime._copy(DateTimeBase.add(
           _native,
           years,
           months,
@@ -62,7 +62,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   ///
   /// See [subtract].
   @useResult LocalDateTime minus({int years = 0, int months = 0, int days = 0, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-      LocalDateTime._copy(DateTimeBase.minus(
+      LocalDateTime._copy(DateTimeBase.subtract(
           _native,
           years,
           months,

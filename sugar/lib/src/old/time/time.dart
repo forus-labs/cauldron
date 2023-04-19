@@ -3,8 +3,8 @@ import 'package:sugar/core.dart';
 import 'package:sugar/math.dart';
 import 'package:sugar/time.dart';
 
-part 'local_time.dart';
-part 'offset_time.dart';
+part '../old/time/local_time.dart';
+part '../old/time/offset_time.dart';
 
 /// A temporal that contains units of time. All calculations should wrap around midnight.
 @internal abstract class Time {

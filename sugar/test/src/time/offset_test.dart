@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 void main() {
   group('Offset', () {
     group('range', () {
-      for (final argument in [Offset(-18), Offset(18), Offset.zero]) {
+      for (final argument in [Offset(-18), Offset(18), Offset.utc]) {
         test('allow $argument', () => expect(Offset.range.contains(argument), true));
       }
     });
@@ -65,27 +65,6 @@ void main() {
 
     test('current()', () => expect(Offset.current().toDuration(), DateTime.now().timeZoneOffset));
 
-    group('fromDuration(...)', () {
-      for (final argument in [
-        [const Duration(hours: -18), '-18:00'],
-        [const Duration(hours: 18), '+18:00'],
-        [const Duration(hours: -17, minutes: -10,seconds: -3), '-17:10:03'],
-      ]) {
-        test('accepts ${argument[0]}', () {
-          expect(Offset.fromDuration(argument[0] as Duration).toString(), argument[1]);
-        });
-      }
-
-      for (final argument in [
-        const Duration(hours: 18,seconds: 1),
-        const Duration(hours: -18,seconds: -1),
-      ]) {
-        test('with $argument throws error', () {
-          expect(() => Offset.fromDuration(argument), throwsRangeError);
-        });
-      }
-    });
-
     group('fromSeconds(...)', () {
       for (final argument in [
         [(-18 * Duration.secondsPerHour), '-18:00'],
@@ -103,6 +82,27 @@ void main() {
       ]) {
         test('with $argument throws error', () {
           expect(() => Offset.fromSeconds(argument), throwsRangeError);
+        });
+      }
+    });
+
+    group('fromMicroseconds(...)', () {
+      for (final argument in [
+        [(-18 * Duration.microsecondsPerHour), '-18:00'],
+        [(18 * Duration.microsecondsPerHour), '+18:00'],
+        [123 * Duration.microsecondsPerSecond, '+00:02:03'],
+      ]) {
+        test('accepts ${argument[0]}', () {
+          expect(Offset.fromMicroseconds(argument[0] as int).toString(), argument[1]);
+        });
+      }
+
+      for (final argument in [
+        (-18 * Duration.microsecondsPerHour) - 1,
+        (18 * Duration.microsecondsPerHour) + 1,
+      ]) {
+        test('with $argument throws error', () {
+          expect(() => Offset.fromMicroseconds(argument), throwsRangeError);
         });
       }
     });
@@ -168,16 +168,16 @@ void main() {
     });
 
 
-    group('+', () {
-      test('succeeds', () => expect(Offset() + const Duration(hours: 1, minutes: 2, seconds: 3), Offset(1, 2, 3)));
+    group('plus', () {
+      test('succeeds', () => expect(Offset().plus(const Duration(hours: 1, minutes: 2, seconds: 3)), Offset(1, 2, 3)));
 
-      test('fails', () => expect(() => Offset(10) + const Duration(hours: 10), throwsRangeError));
+      test('fails', () => expect(() => Offset(10).plus(const Duration(hours: 10)), throwsRangeError));
     });
 
-    group('+', () {
-      test('succeeds', () => expect(Offset() - const Duration(hours: 1, minutes: 2, seconds: 3), Offset(-1, 2, 3)));
+    group('minus', () {
+      test('succeeds', () => expect(Offset().minus(const Duration(hours: 1, minutes: 2, seconds: 3)), Offset(-1, 2, 3)));
 
-      test('fails', () => expect(() => Offset(-10) - const Duration(hours: 10), throwsRangeError));
+      test('fails', () => expect(() => Offset(-10).minus(const Duration(hours: 10)), throwsRangeError));
     });
 
     test('difference(...)', () => expect(Offset(10).difference(Offset(-10)), const Duration(hours: 20)));
@@ -188,7 +188,7 @@ void main() {
       [Offset(1, 2, 3), true],
       [Offset(1, 2, 4), false],
       [Offset(-1, 2, 3), false],
-      [const RawOffset('+01:02:03', 3723), true]
+      [const LiteralOffset('+01:02:03', 3723), true]
     ]) {
       test('equality ', () {
         final other = argument[0] as Offset;
@@ -202,22 +202,22 @@ void main() {
 
   });
 
-  group('RawOffset', () {
-    test('constructor throws exception', () => expect(() => RawOffset('+01:02:03', -100000000), throwsA(anything)));
+  group('LiteralOffset', () {
+    test('constructor throws exception', () => expect(() => LiteralOffset('+01:02:03', -100000000), throwsA(anything)));
 
     for (final argument in [
       [Offset(1, 2, 3), true],
       [Offset(1, 2, 4), false],
       [Offset(-1, 2, 3), false],
-      [const RawOffset('+01:02:03', 3723), true]
+      [const LiteralOffset('+01:02:03', 3723), true]
     ]) {
       test('equality ', () {
         final other = argument[0] as Offset;
         final expected = argument[1] as bool;
 
-        expect(const RawOffset('+01:02:03', 3723) == other, expected);
-        expect(const RawOffset('+01:02:03', 3723).compareTo(other) == 0, expected);
-        expect(const RawOffset('+01:02:03', 3723).hashCode == other.hashCode, expected);
+        expect(const LiteralOffset('+01:02:03', 3723) == other, expected);
+        expect(const LiteralOffset('+01:02:03', 3723).compareTo(other) == 0, expected);
+        expect(const LiteralOffset('+01:02:03', 3723).hashCode == other.hashCode, expected);
       });
     }
   });

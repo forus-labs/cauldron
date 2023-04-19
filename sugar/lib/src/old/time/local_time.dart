@@ -1,4 +1,4 @@
-part of 'time.dart';
+part of '../../time/time.dart';
 
 /// Represents the time of the day as seen on a wall clock, i.e. `10:15:30`. Time is stored to microsecond precision.
 ///
@@ -73,7 +73,7 @@ class LocalTime extends Time with Orderable<LocalTime> {
   ///
   /// See [add].
   @useResult LocalTime plus({int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-    LocalTime._copy(Time.plus(_native, hours, minutes, seconds, milliseconds, microseconds));
+    LocalTime._copy(Time.add(_native, hours, minutes, seconds, milliseconds, microseconds));
 
   /// Returns a copy of this [LocalTime] with the given time subtracted. The calculation wraps around midnight.
   ///
@@ -85,7 +85,7 @@ class LocalTime extends Time with Orderable<LocalTime> {
   ///
   /// See [subtract].
   @useResult LocalTime minus({int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-    LocalTime._copy(Time.minus(_native, hours, minutes, seconds, milliseconds, microseconds));
+    LocalTime._copy(Time.subtract(_native, hours, minutes, seconds, milliseconds, microseconds));
 
 
   /// Returns a copy of this [LocalTime] with the given [duration] added. The calculation wraps around midnight.

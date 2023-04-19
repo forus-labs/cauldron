@@ -74,7 +74,6 @@ class DynamicTimezoneRules implements TimezoneRules {
       }
     }
 
-    print(adjustedOffset);
     return adjustedTimezone;
   }
 

@@ -1,4 +1,4 @@
-part of 'time.dart';
+part of '../../time/time.dart';
 
 /// Represents the time of the day with an offset from UTC/Greenwich, i.e. `10:15:30+08:00`. Time is stored to microsecond precision.
 ///
@@ -54,7 +54,7 @@ class OffsetTime extends Time {
   ///
   /// See [add].
   @useResult OffsetTime plus({int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-      OffsetTime._copy(offset, Time.plus(_native, hours, minutes, seconds, milliseconds, microseconds));
+      OffsetTime._copy(offset, Time.add(_native, hours, minutes, seconds, milliseconds, microseconds));
 
   /// Returns a copy of this [OffsetTime] with the given time subtracted. The calculation wraps around midnight.
   ///
@@ -66,7 +66,7 @@ class OffsetTime extends Time {
   ///
   /// See [subtract].
   @useResult OffsetTime minus({int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-      OffsetTime._copy(offset, Time.minus(_native, hours, minutes, seconds, milliseconds, microseconds));
+      OffsetTime._copy(offset, Time.subtract(_native, hours, minutes, seconds, milliseconds, microseconds));
 
 
   /// Returns a copy of this [OffsetTime] with the given [duration] added. The calculation wraps around midnight.

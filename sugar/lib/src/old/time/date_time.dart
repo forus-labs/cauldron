@@ -1,11 +1,11 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 import 'package:sugar/math.dart';
-import 'package:sugar/src/time/date.dart';
+import 'package:sugar/src/old/time/date.dart';
 import 'package:sugar/src/time/time.dart';
 import 'package:sugar/time.dart';
 
-part 'local_date_time.dart';
+part '../../time/local_date_time.dart';
 part 'zoned_date_time.dart';
 
 /// Provides functions for working with Dart's [DateTime]s.

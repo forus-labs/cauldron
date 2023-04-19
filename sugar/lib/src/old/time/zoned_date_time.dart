@@ -42,7 +42,7 @@ class ZonedDateTime extends DateTimeBase {
     final timezone = rules.from(local: local.millisecondsSinceEpoch);
     final utc = DateTime.fromMicrosecondsSinceEpoch(local.microsecondsSinceEpoch - (timezone.toOffsetMilliseconds() * 1000), isUtc: true);
     final f = rules.at(utc.millisecondsSinceEpoch);
-    return ZonedDateTime._(rules, f, utc, utc.add(f.offset.toDuration()));
+    return ZonedDateTime._(rules, timezone, utc, utc.add(timezone.offset.toDuration()));
   }
 
   ZonedDateTime._(this.rules, this.timezone, this._utc, super._native): super.fromNativeDateTime();
@@ -111,7 +111,7 @@ class ZonedDateTime extends DateTimeBase {
     var ms = _threeDigits(millisecond);
     var us = microsecond == 0 ? '' : _threeDigits(microsecond);
 
-    if (offset == Offset.zero) {
+    if (offset == Offset.utc) {
       return "$y-$m-$d$sep$h:$min:$sec.$ms${us}Z";
     } else {
       return "$y-$m-$d$sep$h:$min:$sec.$ms$us$offset";

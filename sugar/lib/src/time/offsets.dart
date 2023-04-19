@@ -6,21 +6,22 @@ part of 'offset.dart';
 /// * `Z` - for UTC (ISO-8601)
 /// * `+hh:mm`/`-hh:mm` - if the seconds are zero (ISO-8601)
 /// * `+hh:mm:ss`/`-hh:mm:ss` - if the seconds are non-zero (not ISO-8601)
-@internal String format(int seconds) {
-  if (seconds == 0) {
+@internal String format(int microseconds) {
+  if (microseconds == 0) {
     return 'Z';
   }
 
-  final sign = seconds.isNegative ? '-' : '+';
-  seconds = seconds.abs();
+  var value = microseconds ~/ 1000 ~/ 1000;
+  final sign = value.isNegative ? '-' : '+';
+  value = value.abs();
 
-  final second = seconds % 60;
-  seconds ~/= 60;
+  final second = value % 60;
+  value ~/= 60;
 
-  final minute = seconds % 60;
-  seconds ~/= 60;
+  final minute = value % 60;
+  value ~/= 60;
 
-  final hour = seconds % 60;
+  final hour = value % 60;
 
 
   final hours = hour.toString().padLeft(2, '0');
@@ -46,19 +47,17 @@ The following offset formats are accepted:
 ''';
 
 
-/// An [Offset] that only performs range validation at compile-time.
-///
-/// This is only available internally since it does not perform runtime validation. External users may create a non-const [RawOffset],
-/// thereby potentially violating the range invariant where offsets must be between -18:00 and 18:00.
-@internal class RawOffset extends Offset {
+/// An [Offset] that validates its value at compile-time. Since this does validate its value at runtime, the range invariant
+/// may be violated. Hence, it is not available to external users.
+@internal class LiteralOffset extends Offset {
 
   final String _string;
 
-  /// Creates a [RawOffset].
-  const RawOffset(this._string, int seconds): assert(
+  /// Creates a [LiteralOffset].
+  const LiteralOffset(this._string, int seconds): assert(
     -64800 <= seconds && seconds <= 64800,
     'Invalid offset: $seconds, offset is out of bounds. Valid range: "-64800 <= offset <= 64800"',
-  ),  super._(seconds);
+  ),  super._(seconds * Duration.microsecondsPerSecond);
 
   @override
   String toString() => _string;
@@ -66,16 +65,16 @@ The following offset formats are accepted:
 }
 
 
-/// An [Offset] that performs range validation at runtime. This is the default subclass exposed to external users.
+/// An [Offset] that validates its value at runtime-time.
 class _Offset extends Offset {
 
-  /// Determines if the given [seconds] is within [range]. Throws a [RangeError] otherwise.
+  /// Determines if the [microseconds] is within [range]. Throws a [RangeError] otherwise.
   ///
   /// This method differs from [RangeError.checkValueInInterval] as it parses the seconds into a more human-friendly format.
   @Possible({RangeError})
-  static void _precondition(int seconds) {
-    if (seconds < -18 * Duration.secondsPerHour || 18 * Duration.secondsPerHour < seconds) {
-      throw RangeError('Invalid offset: ${format(seconds)}, offset is out of bounds. Valid range: "-18:00 <= offset <= +18:00"');
+  static void _precondition(int microseconds) {
+    if (microseconds < -18 * Duration.microsecondsPerHour || 18 * Duration.microsecondsPerHour < microseconds) {
+      throw RangeError('Invalid offset: ${format(microseconds)}, offset is out of bounds. Valid range: "-18:00 <= offset <= +18:00"');
     }
   }
 
@@ -156,33 +155,33 @@ class _Offset extends Offset {
     }
   }
 
-  _Offset.current(): this.fromDuration(DateTime.now().timeZoneOffset);
-
-  _Offset.fromDuration(Duration duration): super._(duration.inSeconds) {
-    _precondition(_seconds);
-  }
+  _Offset.current(): this.fromMicroseconds(DateTime.now().timeZoneOffset.inMicroseconds);
   
-  _Offset.fromSeconds(super.seconds): super._() {
-    _precondition(_seconds);
+  _Offset.fromSeconds(int seconds): super._(seconds * Duration.microsecondsPerSecond) {
+    _precondition(_microseconds);
   }
 
-  _Offset([int hour = 0, int minute = 0, int second = 0]): super._(_toSeconds(hour, minute, second)) {
+  _Offset.fromMicroseconds(super._microseconds): super._() {
+    _precondition(_microseconds);
+  }
+
+  _Offset([int hour = 0, int minute = 0, int second = 0]): super._(_toMicroseconds(hour, minute, second)) {
     RangeError.checkValueInInterval(hour, -18, 18, 'hour');
     RangeError.checkValueInInterval(minute, 0, 59, 'minute');
     RangeError.checkValueInInterval(second, 0, 59, 'second');
-    _precondition(_seconds);
+    _precondition(_microseconds);
   }
 
-  static int _toSeconds(int hour, int minute, int second) {
+  static int _toMicroseconds(int hour, int minute, int second) {
     if (hour.isNegative) {
-      return -1 *  Seconds.from(hour.abs(), minute, second);
+      return -1 *  sumMicroseconds(hour.abs(), minute, second);
     } else {
-      return Seconds.from(hour, minute, second);
+      return sumMicroseconds(hour, minute, second);
     }
   }
 
 
   @override
-  String toString() => _string ??= format(_seconds);
+  String toString() => _string ??= format(_microseconds);
 
 }
