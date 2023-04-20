@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/core_runtime.dart';
 
-/// Creates a [FakeRuntime] used for testing purposes.
+/// Creates a [FakeRuntime] for testing purposes.
 @visibleForTesting
 class FakeRuntime implements Runtime {
 

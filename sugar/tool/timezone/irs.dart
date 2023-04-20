@@ -13,7 +13,7 @@ class NamespaceIR {
   /// The nested namespaces.
   final List<NamespaceIR> namespaces = [];
   /// The locations.
-  final List<TimezoneRulesIR> timezones = [];
+  final List<TimezoneIR> timezones = [];
 
   NamespaceIR(this.name): typeName = name.toPascalCase();
 
@@ -22,7 +22,7 @@ class NamespaceIR {
   StringBuffer toExtension() {
     final buffer = StringBuffer('extension $typeName on Never {\n');
     for (final timezone in timezones) {
-      buffer.writeln('  static final TimezoneRules ${timezone.variableName} = ${timezone.toConstructor(4)}\n');
+      buffer.writeln('  static final Timezone ${timezone.variableName} = ${timezone.toConstructor(4)}\n');
     }
 
     return buffer..writeln('}\n');
@@ -30,14 +30,14 @@ class NamespaceIR {
 }
 
 /// An intermediate representation of a timezone.
-abstract class TimezoneRulesIR {
+abstract class TimezoneIR {
 
   /// The location derived from the corresponding zic compiled file.
   final Location location;
   /// The timezone's name in camel case, i.e. `Asia/Singapore` will be renamed as `singapore`.
   final String variableName;
 
-  factory TimezoneRulesIR(String path, File file) {
+  factory TimezoneIR(String path, File file) {
     final location = Location.fromBytes(path, file.readAsBytesSync());
     final variableName = path.split('/').last.toEscapedCamelCase();
 
@@ -52,19 +52,19 @@ abstract class TimezoneRulesIR {
     }
   }
 
-  TimezoneRulesIR._(this.location, this.variableName);
+  TimezoneIR._(this.location, this.variableName);
 
   String toConstructor(int indentation);
 
 }
 
 /// An intermediate representation of a dynamic timezone.
-class DynamicTimezoneIR extends TimezoneRulesIR {
+class DynamicTimezoneIR extends TimezoneIR {
 
   DynamicTimezoneIR(super.path, super.file): super._();
 
   @override
-  String toConstructor(int indentation) => (StringBuffer('DynamicTimezoneRules(\n')
+  String toConstructor(int indentation) => (StringBuffer('DynamicTimezone(\n')
     ..writeIndented(indentation, "'${location.name}',\n")
     ..writeIndented(indentation, '${_initial(indentation + 2)},\n')
     ..writeIndented(indentation, 'Int64List.fromList([ ${location.transitionAt.map((e) => e * 1000).join(', ')} ]),\n')
@@ -76,12 +76,11 @@ class DynamicTimezoneIR extends TimezoneRulesIR {
 
   String _initial(int indentation) {
     final zone = location.first;
-    return (StringBuffer('DynamicTimezone(\n')
+    return (StringBuffer('DynamicTimezoneSpan(\n')
       ..writeIndented(indentation, '-1,\n')
       ..writeIndented(indentation, '${zone.offset * 1000},\n')
-      ..writeIndented(indentation, "'${location.name}',\n")
       ..writeIndented(indentation, "'${location.abbreviations[zone.abbreviationIndex]}',\n")
-      ..writeIndented(indentation, 'null,\n')
+      ..writeIndented(indentation, 'TimezoneSpan.range.min,\n')
       ..writeIndented(indentation, '${location.transitionAt[0]},\n')
       ..writeIndented(indentation, 'dst: ${zone.isDst},\n')
       ..writeIndented(indentation - 2, ')'))
@@ -118,25 +117,27 @@ class DynamicTimezoneIR extends TimezoneRulesIR {
 }
 
 /// An intermediate representation of a fixed timezone.
-class FixedTimezoneIR extends TimezoneRulesIR {
+class FixedTimezoneIR extends TimezoneIR {
 
   FixedTimezoneIR(super.path, super.file): super._();
 
   @override
   String toConstructor(int indentation) {
     final zone = location.zones.single;
-    return (StringBuffer('FixedTimezoneRules(FixedTimezone(\n')
-      ..writeIndented(indentation, '${_offset(zone)},\n')
+    return (StringBuffer('FixedTimezone(\n')
       ..writeIndented(indentation, "'${location.name}',\n")
-      ..writeIndented(indentation, "'${location.abbreviations.single}',\n")
-      ..writeIndented(indentation, 'null,\n')
-      ..writeIndented(indentation, 'null,\n')
-      ..writeIndented(indentation, 'dst: ${zone.isDst},\n')
-      ..writeIndented(indentation - 2, '));'))
+      ..writeIndented(indentation, 'FixedTimezoneSpan(\n')
+      ..writeIndented(indentation + 2, '${_offset(zone)},\n')
+      ..writeIndented(indentation + 2, "'${location.abbreviations.single}',\n")
+      ..writeIndented(indentation + 2, 'TimezoneSpan.range.min,\n')
+      ..writeIndented(indentation + 2, 'TimezoneSpan.range.max,\n')
+      ..writeIndented(indentation + 2, 'dst: ${zone.isDst},\n')
+      ..writeIndented(indentation, '),\n')
+      ..writeIndented(indentation - 2, ');'))
       .toString();
   }
 
-  String _offset(TimeZone zone) => "const RawOffset('${format(zone.offset)}', ${zone.offset})";
+  String _offset(TimeZone zone) => "const LiteralOffset('${format(zone.offset)}', ${zone.offset})";
 
 }
 

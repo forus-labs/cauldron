@@ -10,21 +10,21 @@
 ///
 /// The following table describes the types of ranges supported by this library.
 ///
-/// | Notation  | Range                 | Type/Constructor      |
-/// | --------- | --------------------- | --------------------- |
-/// | `(a..+∞)` | `{ x \| a < x }`       | [Min]                 |
-/// | `[a..+∞)` | `{ x \| a <= x }`      | [Min]                 |
-/// | `(a..b)`  | `{ x \| a < x < b }`   | [Interval.open]       |
-/// | `(a..b]`  | `{ x \| a < x <= b }`  | [Interval.openClosed] |
-/// | `[a..b]`  | `{ x \| a <= x <= b }` | [Interval.closed]     |
-/// | `[a..b)`  | `{ x \| a < x <= b }`  | [Interval.closedOpen] |
-/// | `(-∞..b)` | `{ x \| x < b }`       | [Max]                 |
-/// | `(-∞..b]` | `{ x \| x <= b }`      | [Max]                 |
+/// | Notation   | Range                  | Type/Constructor      |
+/// | ---------- | ---------------------- | --------------------- |
+/// | `(a..+∞)`  | `{ x \| a < x }`       | [Min]                 |
+/// | `[a..+∞)`  | `{ x \| a <= x }`      | [Min]                 |
+/// | `(a..b)`   | `{ x \| a < x < b }`   | [Interval.open]       |
+/// | `(a..b]`   | `{ x \| a < x <= b }`  | [Interval.openClosed] |
+/// | `[a..b]`   | `{ x \| a <= x <= b }` | [Interval.closed]     |
+/// | `[a..b)`   | `{ x \| a < x <= b }`  | [Interval.closedOpen] |
+/// | `(-∞..b)`  | `{ x \| x < b }`       | [Max]                 |
+/// | `(-∞..b]`  | `{ x \| x <= b }`      | [Max]                 |
+/// | `(-∞..+∞)` | `{ x \| x }`           | [Range.all]           |
 ///
 /// In addition, the following ranges are valid:
 /// * singleton ranges - `[a..a]`
 /// * empty ranges - `[a..a)` and `(a..a]`
-/// * infinite ranges - `(-∞..+∞)`
 ///
 /// Ranges with open bounds and, equal minimum and maximum values, i.e. `(a..b)` are *not* valid.
 library sugar.core.range;

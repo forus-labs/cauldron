@@ -12,7 +12,7 @@ final _localtime =  File('/etc/localtime');
 @internal String get posixTimezone {
   try {
     final variable = Platform.environment['TZ'];
-    if (variable != null && timezones.contains(variable)) {
+    if (variable != null && known.contains(variable)) {
       return variable;
     }
 
@@ -21,7 +21,7 @@ final _localtime =  File('/etc/localtime');
     }
 
     final path = _localtime.resolveSymbolicLinksSync().split('zoneinfo/').last;
-    return timezones.contains(path) ? path : 'Factory';
+    return known.contains(path) ? path : 'Factory';
 
   } on FileSystemException {
     return 'Factory';
