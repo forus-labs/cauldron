@@ -1,5 +1,7 @@
+import 'package:meta/meta.dart';
 import 'package:sugar/src/time/temporal_unit.dart';
 import 'package:sugar/src/time/zone/info/root.g.dart';
+import 'package:sugar/src/time/zone/timezone_provider.dart';
 import 'package:sugar/time_zone.dart';
 
 /// A timezone that contains rules defining how an offset varies for a single timezone. By default, most timezones in the
@@ -7,7 +9,7 @@ import 'package:sugar/time_zone.dart';
 ///
 /// There are two types of [Timezone]s:
 /// * Those that have a fixed offset for all points in time.
-/// * Those that have offsets which vary across points in time, typically due to Daylight saving time.
+/// * Those that have offsets which vary across points in time, typically due to daylight savings time.
 abstract class Timezone {
 
   /// A callback that retrieves the platform's timezone. It may be replaced to change timezone retrieval.
@@ -92,10 +94,10 @@ abstract class Timezone {
   ///
   /// If the given local datetime falls in the middle of an overlap, the [TimezoneSpan] before the overlap, i.e. "winter"
   /// time is returned.
-  MapEntry<EpochMicroseconds, TimezoneSpan> convert({required int local}); // TODO: convert to tuple in Dart 3.0
+  @useResult MapEntry<EpochMicroseconds, TimezoneSpan> convert({required int local}); // TODO: convert to tuple in Dart 3.0
 
   /// Returns the [TimezoneSpan] at the given microseconds since Unix epoch.
-  TimezoneSpan span({required EpochMicroseconds at});
+  @useResult TimezoneSpan span({required EpochMicroseconds at});
 
   @override
   String toString() => 'name';

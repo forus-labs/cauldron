@@ -8,9 +8,9 @@ import 'package:sugar/time_zone.dart';
 @internal class DefaultTimezoneProvider extends UnmodifiableMapBase<String, Timezone> {
 
   @override
-  Timezone? operator [](Object? key) => key is String ? parseTimezone(key) : null;
+  @useResult Timezone? operator [](Object? key) => key is String ? parseTimezone(key) : null;
 
   @override
-  Iterable<String> get keys => known;
+  @useResult Set<String> get keys => known;
 
 }

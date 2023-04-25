@@ -54,7 +54,7 @@ class OffsetTime extends Time {
   ///
   /// See [add].
   @useResult OffsetTime plus({int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-      OffsetTime._copy(offset, Time.add(_native, hours, minutes, seconds, milliseconds, microseconds));
+      OffsetTime._copy(offset, Time.plus(_native, hours, minutes, seconds, milliseconds, microseconds));
 
   /// Returns a copy of this [OffsetTime] with the given time subtracted. The calculation wraps around midnight.
   ///
@@ -66,7 +66,7 @@ class OffsetTime extends Time {
   ///
   /// See [subtract].
   @useResult OffsetTime minus({int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-      OffsetTime._copy(offset, Time.subtract(_native, hours, minutes, seconds, milliseconds, microseconds));
+      OffsetTime._copy(offset, Time.minus(_native, hours, minutes, seconds, milliseconds, microseconds));
 
 
   /// Returns a copy of this [OffsetTime] with the given [duration] added. The calculation wraps around midnight.
@@ -76,7 +76,7 @@ class OffsetTime extends Time {
   ///
   /// OffsetTime(Offset(8), 20).add(Duration(hours: 8)); // '04:00+08:00'
   /// ```
-  @useResult OffsetTime add(Duration duration) => OffsetTime._copy(offset, _native.add(duration));
+  @useResult OffsetTime add(Duration duration) => OffsetTime._copy(offset, _native.plus(duration));
 
   /// Returns a copy of this [OffsetTime] with the given [duration] subtracted. The calculation wraps around midnight.
   ///
@@ -85,7 +85,7 @@ class OffsetTime extends Time {
   ///
   /// OffsetTime(Offset(8), 4).subtract(Duration(hours: 6)); // '22:00+08:00'
   /// ```
-  @useResult OffsetTime subtract(Duration duration) => OffsetTime._copy(offset, _native.subtract(duration));
+  @useResult OffsetTime subtract(Duration duration) => OffsetTime._copy(offset, _native.minus(duration));
 
 
   /// Returns a copy of this [OffsetTime] truncated to the given time unit.

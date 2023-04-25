@@ -142,42 +142,42 @@ void main() {
     });
 
 
-    group('add', () {
-      test('succeeds', () => expect(Offset().add(hours: 1, minutes: 2, seconds: 3), Offset(1, 2, 3)));
-
-      test('fails', () => expect(() => Offset(10).add(hours: 10), throwsRangeError));
-    });
-
-    group('subtract', () {
-      test('succeeds', () => expect(Offset().subtract(hours: 1, minutes: 2, seconds: 3), Offset(-1, 2, 3)));
-
-      test('fails', () => expect(() => Offset(-10).subtract(hours: 10), throwsRangeError));
-    });
-
-
-    group('tryAdd', () {
-      test('succeeds', () => expect(Offset().tryAdd(hours: 1, minutes: 2, seconds: 3), Offset(1, 2, 3)));
-
-      test('fails', () => expect(Offset(10).tryAdd(hours: 10), null));
-    });
-
-    group('trySubtract', () {
-      test('succeeds', () => expect(Offset().trySubtract(hours: 1, minutes: 2, seconds: 3), Offset(-1, 2, 3)));
-
-      test('fails', () => expect(Offset(-10).trySubtract(hours: 10), null));
-    });
-
-
     group('plus', () {
-      test('succeeds', () => expect(Offset().plus(const Duration(hours: 1, minutes: 2, seconds: 3)), Offset(1, 2, 3)));
+      test('succeeds', () => expect(Offset().plus(hours: 1, minutes: 2, seconds: 3), Offset(1, 2, 3)));
 
-      test('fails', () => expect(() => Offset(10).plus(const Duration(hours: 10)), throwsRangeError));
+      test('fails', () => expect(() => Offset(10).plus(hours: 10), throwsRangeError));
     });
 
     group('minus', () {
-      test('succeeds', () => expect(Offset().minus(const Duration(hours: 1, minutes: 2, seconds: 3)), Offset(-1, 2, 3)));
+      test('succeeds', () => expect(Offset().minus(hours: 1, minutes: 2, seconds: 3), Offset(-1, 2, 3)));
 
-      test('fails', () => expect(() => Offset(-10).minus(const Duration(hours: 10)), throwsRangeError));
+      test('fails', () => expect(() => Offset(-10).minus(hours: 10), throwsRangeError));
+    });
+
+
+    group('tryPlus', () {
+      test('succeeds', () => expect(Offset().tryPlus(hours: 1, minutes: 2, seconds: 3), Offset(1, 2, 3)));
+
+      test('fails', () => expect(Offset(10).tryPlus(hours: 10), null));
+    });
+
+    group('tryMinus', () {
+      test('succeeds', () => expect(Offset().tryMinus(hours: 1, minutes: 2, seconds: 3), Offset(-1, 2, 3)));
+
+      test('fails', () => expect(Offset(-10).tryMinus(hours: 10), null));
+    });
+
+
+    group('add', () {
+      test('succeeds', () => expect(Offset().add(const Duration(hours: 1, minutes: 2, seconds: 3)), Offset(1, 2, 3)));
+
+      test('fails', () => expect(() => Offset(10).add(const Duration(hours: 10)), throwsRangeError));
+    });
+
+    group('subtract', () {
+      test('succeeds', () => expect(Offset().subtract(const Duration(hours: 1, minutes: 2, seconds: 3)), Offset(-1, 2, 3)));
+
+      test('fails', () => expect(() => Offset(-10).subtract(const Duration(hours: 10)), throwsRangeError));
     });
 
     test('difference(...)', () => expect(Offset(10).difference(Offset(-10)), const Duration(hours: 20)));

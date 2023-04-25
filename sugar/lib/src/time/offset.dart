@@ -64,7 +64,6 @@ part 'offsets.dart';
 
   /// Creates an [Offset] from the total seconds. Throws a [RangeError] if [seconds] is outside the valid [range].
   ///
-  /// ## Example:
   /// ```dart
   /// Offset.fromSeconds(28800); // UTC+8
   /// ```
@@ -74,7 +73,6 @@ part 'offsets.dart';
   /// Creates an [Offset] from the total microseconds, truncated to the nearest second. Throws a [RangeError] if [microseconds]
   /// is outside the valid [range].
   ///
-  /// ## Example:
   /// ```dart
   /// Offset.fromMicroseconds(28800000000); // UTC+8
   /// ```
@@ -83,7 +81,6 @@ part 'offsets.dart';
 
   /// Creates an [Offset] from the individual parts. Throws a [RangeError] if the [Offset] is outside the valid [range].
   ///
-  /// ## Example:
   /// ```dart
   /// Offset(-10, 0, 0); // UTC-10:00
   ///
@@ -101,40 +98,37 @@ part 'offsets.dart';
   /// Returns a copy of this [Offset] with the sum of the individual parts added. Throws a [RangeError] if the [Offset] is
   /// outside the valid [range].
   ///
-  /// ## Example:
   /// ```dart
-  /// Offset(16).add(hours: 2); // Offset(18)
+  /// Offset(16).plus(hours: 2); // Offset(18)
   ///
-  /// Offset(18).add(hours: 2); // throws RangeError
+  /// Offset(18).plus(hours: 2); // throws RangeError
   /// ```
   @Possible({RangeError})
   @useResult
-  Offset add({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromMicroseconds(_microseconds + sumMicroseconds(hours, minutes, seconds));
+  Offset plus({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromMicroseconds(_microseconds + sumMicroseconds(hours, minutes, seconds));
 
   /// Returns a copy of this [Offset] with the sum of the individual parts subtracted. Throws a [RangeError] if the [Offset]
   /// is outside the valid [range].
   ///
-  /// ## Example:
   /// ```dart
-  /// Offset(-16).subtract(hours: 2); // Offset(-18)
+  /// Offset(-16).minus(hours: 2); // Offset(-18)
   ///
-  /// Offset(-18).subtract(hours: 2); // throws RangeError
+  /// Offset(-18).minus(hours: 2); // throws RangeError
   /// ```
   @Possible({RangeError})
   @useResult
-  Offset subtract({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromMicroseconds(_microseconds - sumMicroseconds(hours, minutes, seconds));
+  Offset minus({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromMicroseconds(_microseconds - sumMicroseconds(hours, minutes, seconds));
 
 
   /// Returns a copy of this [Offset] with the sum of the individual parts added. Otherwise returns `null` if the [Offset]
   /// is outside the valid [range].
   ///
-  /// ## Example:
   /// ```dart
-  /// Offset(16).tryAdd(hours: 2); // Offset(18)
+  /// Offset(16).tryPlus(hours: 2); // Offset(18)
   ///
-  /// Offset(18).tryAdd(hours: 2); // null
+  /// Offset(18).tryPlus(hours: 2); // null
   /// ```
-  @useResult Offset? tryAdd({int hours = 0, int minutes = 0, int seconds = 0}) {
+  @useResult Offset? tryPlus({int hours = 0, int minutes = 0, int seconds = 0}) {
     final total = _microseconds + sumMicroseconds(hours, minutes, seconds);
     if (-18 * Duration.microsecondsPerHour <= total && total <= 18 * Duration.microsecondsPerHour) {
       return Offset.fromMicroseconds(total);
@@ -146,13 +140,12 @@ part 'offsets.dart';
   /// Returns a copy of this [Offset] with the sum of the individual parts subtracted. Otherwise returns `null` if the
   /// [Offset] is outside the valid [range].
   ///
-  /// ## Example:
   /// ```dart
-  /// Offset(-16).trySubtract(hours: 2); // Offset(-18)
+  /// Offset(-16).tryMinus(hours: 2); // Offset(-18)
   ///
-  /// Offset(-18).trySubtract(hours: 2); // null
+  /// Offset(-18).tryMinus(hours: 2); // null
   /// ```
-  @useResult Offset? trySubtract({int hours = 0, int minutes = 0, int seconds = 0}) {
+  @useResult Offset? tryMinus({int hours = 0, int minutes = 0, int seconds = 0}) {
     final total = _microseconds - sumMicroseconds(hours, minutes, seconds);
     if (-18 * Duration.microsecondsPerHour <= total && total <= 18 * Duration.microsecondsPerHour) {
       return Offset.fromMicroseconds(total);
@@ -164,26 +157,24 @@ part 'offsets.dart';
 
   /// Returns a copy of this [Offset] with the [duration] added. Throws a [RangeError] if the [Offset] is outside the valid [range].
   ///
-  /// ## Example:
   /// ```dart
-  /// Offset(16).plus(Duration(hours: 2)); // Offset(18)
+  /// Offset(16).add(Duration(hours: 2)); // Offset(18)
   ///
-  /// Offset(18).plus(Duration(hours: 2)); // throws RangeError
+  /// Offset(18).add(Duration(hours: 2)); // throws RangeError
   /// ```
   @Possible({RangeError})
-  @useResult Offset plus(Duration duration) => Offset.fromMicroseconds(_microseconds + duration.inMicroseconds);
+  @useResult Offset add(Duration duration) => Offset.fromMicroseconds(_microseconds + duration.inMicroseconds);
 
   /// Returns a copy of this [Offset] with the [duration] subtracted. Throws a [RangeError] if the [Offset] is outside
   /// the valid [range].
   ///
-  /// ## Example:
   /// ```dart
-  /// Offset(-16).minus(Duration(hours: 2)); // Offset(-18)
+  /// Offset(-16).subtract(Duration(hours: 2)); // Offset(-18)
   ///
-  /// Offset(-18).minus(Duration(hours: 2)); // throws RangeError
+  /// Offset(-18).subtract(Duration(hours: 2)); // throws RangeError
   /// ```
   @Possible({RangeError})
-  @useResult Offset minus(Duration duration) => Offset.fromMicroseconds(_microseconds - duration.inMicroseconds);
+  @useResult Offset subtract(Duration duration) => Offset.fromMicroseconds(_microseconds - duration.inMicroseconds);
 
 
   // TODO: add period
@@ -191,7 +182,6 @@ part 'offsets.dart';
 
   /// Returns the difference between the two offsets. The difference may be negative.
   ///
-  /// ## Example:
   /// ```dart
   /// Offset(-1).difference(Offset(2)); // Duration(hours: -3)
   /// ```
@@ -199,7 +189,6 @@ part 'offsets.dart';
 
   /// Convert this [Offset] into a [Duration].
   ///
-  /// ## Example:
   /// ```dart
   /// // Duration(hours: 1, minutes: 2, _seconds: 3);
   /// Offset(1, 2, 3).toDuration();
@@ -237,7 +226,6 @@ part 'offsets.dart';
   /// * `+hh:mm`/`-hh:mm` - if the _seconds are zero (ISO-8601)
   /// * `+hh:mm:ss`/`-hh:mm:ss` - if the _seconds are non-zero (not ISO-8601)
   ///
-  /// ## Example:
   /// ```dart
   /// final utc = Offset();
   /// print(utc); // 'Z'

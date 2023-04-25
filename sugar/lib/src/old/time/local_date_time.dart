@@ -43,7 +43,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   ///
   /// See [add].
   @useResult LocalDateTime plus({int years = 0, int months = 0, int days = 0, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-      LocalDateTime._copy(DateTimeBase.add(
+      LocalDateTime._copy(DateTimeBase.plus(
           _native,
           years,
           months,
@@ -62,7 +62,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   ///
   /// See [subtract].
   @useResult LocalDateTime minus({int years = 0, int months = 0, int days = 0, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-      LocalDateTime._copy(DateTimeBase.subtract(
+      LocalDateTime._copy(DateTimeBase.minus(
           _native,
           years,
           months,
@@ -81,7 +81,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   /// ```
   ///
   /// See [plus].
-  @useResult LocalDateTime add(Duration duration) => LocalDateTime._copy(_native.add(duration));
+  @useResult LocalDateTime add(Duration duration) => LocalDateTime._copy(_native.plus(duration));
 
   /// Returns a copy of this [LocalDateTime] with the given [duration] subtracted.
   ///
@@ -90,7 +90,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   /// ```
   ///
   /// See [minus].
-  @useResult LocalDateTime subtract(Duration duration) => LocalDateTime._copy(_native.subtract(duration));
+  @useResult LocalDateTime subtract(Duration duration) => LocalDateTime._copy(_native.minus(duration));
 
 
   /// Returns a copy of this [LocalDate] truncated to the given time unit.

@@ -3,7 +3,7 @@ import 'package:sugar/src/time/offset.dart';
 import 'package:sugar/src/time/temporal_unit.dart';
 
 /// A [TimezoneSpan] contains information about a timezone between two points in time. In most cases, [TimezoneSpan]s
-/// represent the "summer" and "winter" times of a timezone with daylight saving time.
+/// represent the "summer" and "winter" times of a timezone with daylight savings time.
 abstract class TimezoneSpan {
 
   /// The valid range of the start and end microseconds since epoch.
@@ -15,7 +15,7 @@ abstract class TimezoneSpan {
   final EpochMicroseconds start;
   /// This span's ending time in microseconds since Unix epoch.
   final EpochMicroseconds end;
-  /// Whether this span is currently Daylight saving time.
+  /// Whether this span is currently daylight savings time.
   final bool dst;
 
   /// Creates a [TimezoneSpan].

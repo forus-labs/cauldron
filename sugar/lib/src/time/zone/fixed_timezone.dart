@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:sugar/src/time/offset.dart';
 import 'package:sugar/src/time/temporal_unit.dart';
 import 'package:sugar/time_zone.dart';
@@ -11,10 +12,10 @@ class FixedTimezone extends Timezone {
   FixedTimezone(super.name, this._span);
 
   @override
-  MapEntry<EpochMicroseconds, TimezoneSpan> convert({required int local}) => MapEntry(local - _span.offset.toMicroseconds(), _span);
+  @useResult MapEntry<EpochMicroseconds, TimezoneSpan> convert({required int local}) => MapEntry(local - _span.offset.toMicroseconds(), _span);
 
   @override
-  TimezoneSpan span({required EpochMicroseconds at}) => _span;
+  @useResult TimezoneSpan span({required EpochMicroseconds at}) => _span;
 
 }
 

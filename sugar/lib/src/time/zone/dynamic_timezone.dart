@@ -17,7 +17,7 @@ import 'package:sugar/time_zone.dart';
   final Int32List _offsets;
   /// The abbreviations. It should never be empty.
   final List<String> _abbreviations; // TODO: replace with int map to reduce memory footprint
-  /// Whether the timezone is Daylight saving time. It should never be empty.
+  /// Whether the timezone is daylight savings time. It should never be empty.
   final List<bool> _dsts; // TODO: replace with more bitfield to reduce memory footprint
   /// The range of the least recently used offset in seconds.
   late Range<int> _range;
@@ -33,7 +33,7 @@ import 'package:sugar/time_zone.dart';
     _timezone = _initial;
 
   @override
-  MapEntry<EpochMicroseconds, DynamicTimezoneSpan> convert({required int local}) {
+  @useResult MapEntry<EpochMicroseconds, DynamicTimezoneSpan> convert({required int local}) {
     // Adapted from https://github.com/JodaOrg/joda-time/blob/main/src/main/java/org/joda/time/DateTimeZone.java#L951
     // Get the offset at local (first estimate).
     final localInstant = local;
@@ -73,7 +73,7 @@ import 'package:sugar/time_zone.dart';
   }
 
   @override
-  DynamicTimezoneSpan span({required EpochMicroseconds at}) {
+  @useResult DynamicTimezoneSpan span({required EpochMicroseconds at}) {
     final atSeconds = at ~/ Duration.microsecondsPerSecond;
     if (_range.contains(atSeconds)) {
       return _timezone;
