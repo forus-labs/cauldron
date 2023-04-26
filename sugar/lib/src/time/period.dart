@@ -64,7 +64,7 @@ class Period {
                             + minutes * Duration.microsecondsPerSecond + seconds * Duration.microsecondsPerSecond
                             + milliseconds * Duration.microsecondsPerMillisecond + microseconds;
 
-    var totalMonths =
+    var totalMonths = years * 12 + months;
 
 
     var normalizedYears = years;
