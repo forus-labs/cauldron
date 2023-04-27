@@ -12,7 +12,7 @@ class FixedTimezone extends Timezone {
   FixedTimezone(super.name, this._span);
 
   @override
-  @useResult MapEntry<EpochMicroseconds, TimezoneSpan> convert({required int local}) => MapEntry(local - _span.offset.toMicroseconds(), _span);
+  @useResult MapEntry<EpochMicroseconds, TimezoneSpan> convert({required int local}) => MapEntry(local - _span.offset.inMicroseconds, _span);
 
   @override
   @useResult TimezoneSpan span({required EpochMicroseconds at}) => _span;

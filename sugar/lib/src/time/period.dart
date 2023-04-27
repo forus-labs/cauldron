@@ -1,16 +1,11 @@
 import 'package:meta/meta.dart';
 
-void main() {
-  print(13 % 12);
-  print(-13 % 12);
-}
-
 /// A [Period] represents a quantity of time in terms of its individual parts. This is different from [Duration] which
 /// sums all provided individual parts and stores them in microseconds.
 ///
 /// Durations and periods differ in their treatment of daylight savings time when added to Dart's [DateTime] or this
 /// library's [ZonedDateTime]. A [Duration] will add an exact number of microseconds. This means a duration of 1 day is
-/// always 24 hours. On the contrary, a [Period] will add a conceptual date.
+/// always 24 hours. On the contrary, a [Period] will add a conceptual unit of time.
 ///
 /// ```dart
 /// /// DST occurs at 2023-03-12 02:00
@@ -45,7 +40,11 @@ class Period {
   /// The microseconds.
   final int microseconds;
 
-  /// Creates a [Period].
+  /// Creates a [Period]. The individual units of time may be negative. No normalization is performed.
+  ///
+  /// ```dart
+  /// Period(years: 1, minutes: -2); // '1 year, -2 minutes'
+  /// ```
   const Period({
     this.years = 0,
     this.months = 0,
@@ -59,64 +58,26 @@ class Period {
 
 
   /// Returns a normalized copy of this [Period].
+  ///
+  /// This normalizes all units of time except for the days. For example, a period of "13 months, 50 days and 24 hours"
+  /// will be normalized to "1 year, 1 month and 51 days".
+  ///
+  /// ```dart
+  /// final foo = Period(months: 13, days: 50, hours: 24).normalize();
+  /// print(foo); // 1 year, 1 month, 51 days
+  /// ```
   @useResult Period normalize() {
-    var totalMicroseconds = days + Duration.microsecondsPerDay + hours * Duration.microsecondsPerHour
-                            + minutes * Duration.microsecondsPerSecond + seconds * Duration.microsecondsPerSecond
-                            + milliseconds * Duration.microsecondsPerMillisecond + microseconds;
+    final totalMonths = years * 12 + months;
+    final normalizedMonths = totalMonths.remainder(12);
+    final normalizedYears = totalMonths ~/ 12;
 
-    var totalMonths = years * 12 + months;
-
-
-    var normalizedYears = years;
-    var normalizedMonths = months;
-    var normalizedDays = days;
-    var normalizedHours = hours;
-    var normalizedMinutes = minutes;
-    var normalizedSeconds = seconds;
-    var normalizedMilliseconds = milliseconds;
-    var normalizedMicroseconds = microseconds;
-
-    var extraDays = 0;
-    var extraMonths = 0;
-    var extraYears = 0;
-
-    if (normalizedMicroseconds.abs() >= Duration.microsecondsPerSecond) {
-      normalizedSeconds += normalizedMicroseconds ~/ Duration.microsecondsPerSecond;
-      normalizedMicroseconds = normalizedMicroseconds.remainder(Duration.microsecondsPerSecond);
-    }
-
-    if (normalizedMilliseconds.abs() >= Duration.millisecondsPerSecond) {
-      normalizedSeconds += normalizedMilliseconds ~/ Duration.millisecondsPerSecond;
-      normalizedMilliseconds = normalizedMilliseconds.remainder(Duration.millisecondsPerSecond);
-    }
-
-    if (normalizedSeconds.abs() >= Duration.secondsPerMinute) {
-      normalizedMinutes += normalizedSeconds ~/ Duration.secondsPerMinute;
-      normalizedSeconds = normalizedSeconds.remainder(Duration.secondsPerMinute);
-    }
-
-    if (normalizedMinutes.abs() >= Duration.minutesPerHour) {
-      normalizedHours += normalizedMinutes ~/ Duration.minutesPerHour;
-      normalizedMinutes = normalizedMinutes.remainder(Duration.minutesPerHour);
-    }
-
-    if (normalizedHours.abs() >= Duration.hoursPerDay) {
-      extraDays = normalizedHours ~/ Duration.hoursPerDay;
-      normalizedHours = normalizedHours.remainder(Duration.hoursPerDay);
-    }
-
-    if (normalizedMonths.abs() >= 12) {
-      extraYears = normalizedMonths ~/ 12;
-      normalizedMonths = normalizedMonths.remainder(12);
-    }
-
-    print(normalizedYears);
-    print(extraYears);
-
-    normalizedDays += extraDays;
-    normalizedMonths += extraMonths;
-    normalizedYears += extraYears;
-    print(normalizedYears);
+    var total = inMicroseconds;
+    final normalizedMicroseconds = total.remainder(1000);
+    final normalizedMilliseconds = (total ~/= 1000).remainder(1000);
+    final normalizedSeconds = (total ~/= 1000).remainder(60);
+    final normalizedMinutes = (total ~/= 60).remainder(60);
+    final normalizedHours = (total ~/= 60).remainder(24);
+    final normalizedDays = total ~/ 24;
 
     return Period(
       years: normalizedYears,
@@ -239,6 +200,16 @@ class Period {
     microseconds: microseconds ?? this.milliseconds,
   );
 
+
+  /// This [Period] in microseconds.
+  int get inMicroseconds => days * Duration.microsecondsPerDay
+    + hours * Duration.microsecondsPerHour
+    + minutes * Duration.microsecondsPerMinute
+    + seconds * Duration.microsecondsPerSecond
+    + milliseconds * Duration.microsecondsPerMillisecond
+    + microseconds;
+
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is Period &&
     runtimeType == other.runtimeType &&
@@ -263,6 +234,6 @@ class Period {
     microseconds.hashCode;
 
   @override
-  String toString() => 'Period[$years years $months months $days days $hours hours $minutes minutes $seconds seconds $milliseconds milliseconds $microseconds microseconds]';
+  String toString() => 'Period[$years years, $months months, $days days, $hours hours, $minutes minutes, $seconds seconds, $milliseconds milliseconds, $microseconds microseconds]';
 
 }

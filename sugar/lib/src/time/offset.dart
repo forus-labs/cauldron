@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import 'package:sugar/core.dart';
+import 'package:sugar/time.dart';
 import 'package:sugar/src/time/temporal_unit.dart';
 
 part 'offsets.dart';
@@ -177,7 +178,27 @@ part 'offsets.dart';
   @useResult Offset subtract(Duration duration) => Offset.fromMicroseconds(_microseconds - duration.inMicroseconds);
 
 
-  // TODO: add period
+  /// Returns a copy of this [Offset] with the [Period] added. Throws a [RangeError] if the [Offset] is outside the valid
+  /// [range].
+  ///
+  /// ```dart
+  /// Offset(16).add(Period(hours: 2)); // Offset(18)
+  ///
+  /// Offset(18).add(Period(years: 1)); // throws RangeError
+  /// ```
+  @Possible({RangeError})
+  @useResult Offset operator + (Period period) => Offset.fromMicroseconds(_microseconds + period.inMicroseconds);
+
+  /// Returns a copy of this [Offset] with the [Period] subtracted. Throws a [RangeError] if the [Offset] is outside
+  /// the valid [range].
+  ///
+  /// ```dart
+  /// Offset(-16).subtract(Period(hours: 2)); // Offset(-18)
+  ///
+  /// Offset(-18).subtract(Period(years: 1)); // throws RangeError
+  /// ```
+  @Possible({RangeError})
+  @useResult Offset operator - (Period period) => Offset.fromMicroseconds(_microseconds - period.inMicroseconds);
 
 
   /// Returns the difference between the two offsets. The difference may be negative.
@@ -196,11 +217,11 @@ part 'offsets.dart';
   @useResult Duration toDuration() => Duration(microseconds: _microseconds);
 
 
-  /// Returns this offset in seconds.
-  int toSeconds() => _microseconds ~/ 1000 ~/ 1000;
+  /// This offset in seconds.
+  int get inSeconds => _microseconds ~/ 1000 ~/ 1000;
 
-  /// Returns this offset in milliseconds.
-  int toMicroseconds() => _microseconds;
+  /// This offset in microseconds.
+  int get inMicroseconds => _microseconds;
 
 
   // This method is overridden to allow equality between [_Offset]s and [RawOffset]s.

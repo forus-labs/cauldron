@@ -7,13 +7,21 @@ import 'package:sugar/sugar.dart';
 /// to use this library's provided date & time types.
 extension DateTimes on DateTime {
 
-  /// Returns a copy of this [DateTime] with the given time added.
+  /// Returns a copy of this [DateTime] with the given time added. This method behaves similarly to [+]. Unlike [add] which
+  /// adds an exact number of microseconds, this method adds the conceptual units of time. Consequentially, the resulting
+  /// [DateTime] may be different due to DST.
   ///
   /// ```dart
-  /// DateTime(2023, 4, 10, 8).plus(months: -1, hours: 1); // '2023-04-10T09:00'
-  /// ```
+  /// /// DST occurs at 2023-03-12 02:00
+  /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
   ///
-  /// See [add].
+  /// // We assume the current timezone is `America/Detroit`.
+  /// final datetime = DateTime(2023, 3, 12);
+  ///
+  /// datetime.plus(days: 1); // 2023-03-13 00:00
+  ///
+  /// datetime.add(Duration(days: 1)); // 2023-03-13 01:00
+  /// ```
   @useResult DateTime plus({
     int years = 0,
     int months = 0,
@@ -34,13 +42,21 @@ extension DateTimes on DateTime {
     microsecond: microsecond + microseconds,
   );
 
-  /// Returns a copy of this [DateTime] with the given time subtracted.
+  /// Returns a copy of this [DateTime] with the given time subtracted. This method behaves similarly to [-]. Unlike
+  /// [subtract] which subtracts an exact number of microseconds, this method subtracts the conceptual units of time.
+  /// Consequentially, the resulting [DateTime] may be different due to DST.
   ///
   /// ```dart
-  /// DateTime(2023, 4, 10, 8).minus(months: -1, hours: 1); // '2023-05-10T07:00'
-  /// ```
+  /// /// DST occurs at 2023-03-12 02:00
+  /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
   ///
-  /// See [subtract].
+  /// // We assume the current timezone is `America/Detroit`.
+  /// final datetime = DateTime(2023, 3, 13);
+  ///
+  /// datetime.minus(days: 1); // 2023-03-12 00:00
+  ///
+  /// datetime.subtract(Duration(days: 1)); // 2023-03-11 23:00
+  /// ```
   @useResult DateTime minus({
     int years = 0,
     int months = 0,
@@ -59,6 +75,59 @@ extension DateTimes on DateTime {
     second: second - seconds,
     millisecond: millisecond - milliseconds,
     microsecond: microsecond - microseconds,
+  );
+
+
+  /// Returns a copy of this [DateTime] with the given time added. This method behaves similarly to [plus]. Unlike [add]
+  /// which adds an exact number of microseconds, this method adds the conceptual units of time. Consequentially, the
+  /// resulting [DateTime] may be different due to DST.
+  ///
+  /// ```dart
+  /// /// DST occurs at 2023-03-12 02:00
+  /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
+  ///
+  /// // We assume the current timezone is `America/Detroit`.
+  /// final datetime = DateTime(2023, 3, 12);
+  ///
+  /// datetime + Period(days: 1); // 2023-03-13 00:00
+  ///
+  /// datetime.add(Duration(days: 1)); // 2023-03-13 01:00
+  /// ```
+  @useResult DateTime operator + (Period period) => copyWith(
+    year: year + period.years,
+    month: month + period.months,
+    day: day + period.days,
+    hour: hour + period.hours,
+    minute: minute + period.minutes,
+    second: second + period.seconds,
+    millisecond: millisecond + period.milliseconds,
+    microsecond: microsecond + period.microseconds,
+  );
+
+  /// Returns a copy of this [DateTime] with the given time subtracted. This method behaves similarly to [minus]. Unlike
+  /// [subtract] which subtracts an exact number of microseconds, this method subtracts the conceptual units of time.
+  /// Consequentially, the resulting [DateTime] may be different due to DST.
+  ///
+  /// ```dart
+  /// /// DST occurs at 2023-03-12 02:00
+  /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
+  ///
+  /// // We assume the current timezone is `America/Detroit`.
+  /// final datetime = DateTime(2023, 3, 13);
+  ///
+  /// datetime - Period(days: 1); // 2023-03-12 00:00
+  ///
+  /// datetime.subtract(Duration(days: 1)); // 2023-03-11 23:00
+  /// ```
+  @useResult DateTime operator - (Period period) => copyWith(
+    year: year - period.years,
+    month: month - period.months,
+    day: day - period.days,
+    hour: hour - period.hours,
+    minute: minute - period.minutes,
+    second: second - period.seconds,
+    millisecond: millisecond - period.milliseconds,
+    microsecond: microsecond - period.microseconds,
   );
 
 
@@ -147,6 +216,10 @@ extension DateTimes on DateTime {
         throw UnsupportedError('$to is not supported.'); // TODO: remove once sealed types are available.
     }
   }
+
+
+  /// The offset.
+  @useResult Offset get offset => Offset.fromMicroseconds(timeZoneOffset.inMicroseconds);
 
 
   /// The ordinal week of the year. Following ISO-8601, a week is between `1` and `53`, inclusive.
