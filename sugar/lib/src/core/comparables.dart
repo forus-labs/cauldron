@@ -6,6 +6,10 @@ import 'package:sugar/core.dart';
 /// Signifies that the implementing type has an intrinsic ordering. An [Orderable] implements all comparison operators,
 /// including [==], using [compareTo]. In most cases, [T] is the implementing type.
 ///
+/// In general, implementing types should contain only one canonical representation for a given value. One counterexample
+/// is [DateTime]. There are several [DateTime]s (with different timezone offsets) that represent the same instant in time.
+/// Therefore, [DateTime] cannot safely implement [Orderable].
+///
 /// Implementing types should override the following:
 /// * [compareTo]
 /// * [hashValue]
@@ -13,9 +17,9 @@ import 'package:sugar/core.dart';
 /// Overriding [==] is not recommended as [Orderable] requires that its ordering agree with its operator [==] equality.
 ///
 /// It is important that [hash] follows the contract defined in [Object.hashCode]. In particular, hash codes must be the
-/// same for [Orderable]s that are equal to each other according to [==]. The following code snippet illustrates  a common mistake.
+/// same for [Orderable]s that are equal to each other according to [==]. The following code snippet illustrates a common mistake.
 ///
-/// ### Example:
+/// ## Counterexample:
 /// ```dart
 /// class Wrong with Orderable<Wrong> {
 ///   final int key;

@@ -3,8 +3,9 @@ import 'package:sugar/src/time/temporal_unit.dart';
 
 import 'package:sugar/sugar.dart';
 
-/// Provides functions for working with Dart's [DateTime]s. These functions should only be used when it is not feasible
-/// to use this library's provided date & time types.
+/// Provides functions for working with Dart's [DateTime]s.
+///
+/// These functions should only be used when it is not feasible to use the datetime types provided in `sugar.time`.
 extension DateTimes on DateTime {
 
   /// Returns a copy of this [DateTime] with the given time added. This method behaves similarly to [+]. Unlike [add] which
@@ -76,7 +77,6 @@ extension DateTimes on DateTime {
     millisecond: millisecond - milliseconds,
     microsecond: microsecond - microseconds,
   );
-
 
   /// Returns a copy of this [DateTime] with the given time added. This method behaves similarly to [plus]. Unlike [add]
   /// which adds an exact number of microseconds, this method adds the conceptual units of time. Consequentially, the
@@ -160,7 +160,7 @@ extension DateTimes on DateTime {
   }
 
   /// Returns a copy of this [DateTime] with the given temporal unit rounded to the nearest value. Throws a [RangeError]
-  /// if [to] is not positive.
+  /// if [value] is not positive.
   ///
   /// ```dart
   /// DateTime(2023, 4, 15).round(6, DateUnit.months); // '2023-06-15'
@@ -168,10 +168,10 @@ extension DateTimes on DateTime {
   /// DateTime(2023, 8, 15)).round(6, DateUnit.months); // '2023-06-15'
   /// ```
   @Possible({RangeError})
-  @useResult DateTime round(int to, DateUnit unit) => _adjust(to, unit, (date, to) => date.roundTo(to));
+  @useResult DateTime round(int value, TemporalUnit unit) => _adjust(value, unit, (date, to) => date.roundTo(to));
 
   /// Returns a copy of this [DateTime] with the given temporal unit ceiled to the nearest value. Throws a [RangeError]
-  /// if [to] is not positive.
+  /// if [value] is not positive.
   ///
   /// ```dart
   /// DateTime(2023, 4, 15).ceil(6, DateUnit.months); // '2023-06-15'
@@ -179,10 +179,10 @@ extension DateTimes on DateTime {
   /// DateTime(2023, 8, 15)).ceil(6, DateUnit.months); // '2023-12-15'
   /// ```
   @Possible({RangeError})
-  @useResult DateTime ceil(int to, TemporalUnit unit) => _adjust(to, unit, (date, to) => date.ceilTo(to));
+  @useResult DateTime ceil(int value, TemporalUnit unit) => _adjust(value, unit, (date, to) => date.ceilTo(to));
 
   /// Returns a copy of this [DateTime] with the given temporal unit floored to the nearest value. Throws a [RangeError]
-  /// if [to] is not positive.
+  /// if [value] is not positive.
   ///
   /// ```dart
   ///
@@ -192,30 +192,75 @@ extension DateTimes on DateTime {
   /// DateTime(2023, 8, 15)).floor(6, DateUnit.months); // '2023-06-15'
   /// ```
   @Possible({RangeError})
-  @useResult DateTime floor(int to, TemporalUnit unit) => _adjust(to, unit, (date, to) => date.floorTo(to));
+  @useResult DateTime floor(int value, TemporalUnit unit) => _adjust(value, unit, (date, to) => date.floorTo(to));
 
-  DateTime _adjust(int to, TemporalUnit unit, int Function(int time, int to) apply) {
+  DateTime _adjust(int value, TemporalUnit unit, int Function(int time, int to) apply) {
     switch (unit) {
       case DateUnit.years:
-        return copyWith(year: apply(year, to));
+        return copyWith(year: apply(year, value));
       case DateUnit.months:
-        return copyWith(month: apply(month, to));
+        return copyWith(month: apply(month, value));
       case DateUnit.days:
-        return copyWith(day: apply(day, to));
+        return copyWith(day: apply(day, value));
       case TimeUnit.hours:
-        return copyWith(hour: apply(hour, to));
+        return copyWith(hour: apply(hour, value));
       case TimeUnit.minutes:
-        return copyWith(minute: apply(minute, to));
+        return copyWith(minute: apply(minute, value));
       case TimeUnit.seconds:
-        return copyWith(second: apply(second, to));
+        return copyWith(second: apply(second, value));
       case TimeUnit.milliseconds:
-        return copyWith(millisecond: apply(millisecond, to));
+        return copyWith(millisecond: apply(millisecond, value));
       case TimeUnit.microseconds:
-        return copyWith(microsecond: apply(microsecond, to));
+        return copyWith(microsecond: apply(microsecond, value));
       default:
-        throw UnsupportedError('$to is not supported.'); // TODO: remove once sealed types are available.
+        throw UnsupportedError('$value is not supported.'); // TODO: remove once sealed types are available.
     }
   }
+  
+  
+  /// Returns the difference when subtracting [other] from this. Unlike [difference] which subtracts the exact number of
+  /// microseconds, this method subtracts the conceptual units of time. Consequentially, the resulting [Period] may be
+  /// different due to DST.
+  ///
+  /// The returned [Period] will be negative if [other] occurs after this.
+  ///
+  /// ```dart
+  /// /// DST occurs at 2023-03-12 02:00
+  /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
+  ///
+  /// // We assume the current timezone is `America/Detroit`.
+  /// final foo = DateTime(2023, 3, 12);
+  /// final bar = DateTime(2023, 3, 13);
+  /// 
+  /// print(bar.gap(foo)); // 1 day
+  /// print(bar.difference(foo)); // 23 hours
+  /// ```
+  Period gap(DateTime other) => Period(
+    years: year - other.year,
+    months: month - other.month,
+    days: day - other.day,
+    hours: hour - other.hour,
+    minutes: minute - other.minute,
+    seconds: second - other.second,
+    milliseconds: millisecond - other.millisecond,
+    microseconds: microsecond - other.microsecond,
+  );
+  
+
+  /// Formats this [DateTime]'s date as a ISO-8601 date, ignoring the time.
+  ///
+  /// ```dart
+  /// print(DateTime(2023, 4, 1, 10, 30)); // 2023-04-01
+  /// ```
+  String toDateString() => Dates.format(year, month, day);
+
+  /// Formats this [DateTime]'s time as a ISO-8601 time, ignoring the date.
+  ///
+  /// ```dart
+  /// final datetime = DateTime(1, 1, 1, 20, 30, 40, 5, 6);
+  /// datetime.toTimeString(); // 20:30:40.005006
+  /// ```
+  String toTimeString() => Times.format(hour, minute, second, millisecond, microsecond);
 
 
   /// The offset.

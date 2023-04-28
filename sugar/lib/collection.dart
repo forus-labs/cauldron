@@ -1,4 +1,8 @@
 library sugar.collection;
 
-export 'collection_aggregate.dart';
-export 'collection_collection.dart';
+export 'src/collection/algorithms.dart';
+export 'src/collection/iterables.dart';
+export 'src/collection/lists.dart';
+export 'src/collection/maps.dart';
+export 'src/collection/move.dart';
+export 'src/collection/sets.dart';

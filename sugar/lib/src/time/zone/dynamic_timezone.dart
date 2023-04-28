@@ -2,9 +2,7 @@ import 'dart:typed_data';
 
 import 'package:meta/meta.dart';
 
-import 'package:sugar/core.dart';
-import 'package:sugar/time.dart';
-import 'package:sugar/time_zone.dart';
+import 'package:sugar/sugar.dart';
 
 /// A [Timezone] with abbreviations and/or offsets that vary throughout points in time.
 @sealed class DynamicTimezone extends Timezone {

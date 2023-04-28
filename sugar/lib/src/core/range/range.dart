@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import 'package:sugar/core.dart';
+import 'package:sugar/sugar.dart';
 import 'package:sugar/src/core/range/all.dart';
 
 /// A [Range] represents a convex (contiguous) portion of a domain.

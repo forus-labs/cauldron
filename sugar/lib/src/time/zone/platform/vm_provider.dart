@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import 'package:sugar/core.dart';
+import 'package:sugar/core_runtime.dart';
 import 'package:sugar/src/time/zone/platform/posix_timezone.dart';
 import 'package:sugar/src/time/zone/platform/windows_timezone.dart';
 

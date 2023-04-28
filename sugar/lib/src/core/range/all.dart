@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import 'package:sugar/core.dart';
+import 'package:sugar/sugar.dart';
 
 /// An [All] represents a convex (contiguous) portion of a domain unbounded on both ends, i.e. `{ x | x }`.
 @internal class All<T extends Comparable<Object?>> extends Range<T> {

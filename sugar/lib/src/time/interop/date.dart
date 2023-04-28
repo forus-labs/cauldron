@@ -9,12 +9,12 @@ extension Dates on Never {
   static const _cumulative = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
   static const _months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-  /// Formats the given date using the ISO-8601 format.
+  /// Formats the date as a ISO-8601 date.
   ///
   /// ```dart
   /// print(Dates.format(2023, 4, 1)); // 2023-04-01
   /// ```
-  @useResult String format(int year, int month, int day) {
+  @useResult static  String format(int year, [int month = 1, int day = 1]) {
     final sign = year < 0 ? '-' : '';
     final yyyy = year.abs().toString().padLeft(4, '0');
     final mm = month.toString().padLeft(2, '0');

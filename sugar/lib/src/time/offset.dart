@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 
-import 'package:sugar/core.dart';
-import 'package:sugar/time.dart';
+import 'package:sugar/sugar.dart';
 import 'package:sugar/src/time/temporal_unit.dart';
 
 part 'offsets.dart';

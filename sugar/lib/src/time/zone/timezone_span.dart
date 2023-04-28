@@ -1,6 +1,4 @@
-import 'package:sugar/core.dart';
-import 'package:sugar/src/time/offset.dart';
-import 'package:sugar/src/time/temporal_unit.dart';
+import 'package:sugar/sugar.dart';
 
 /// A [TimezoneSpan] contains information about a timezone between two points in time. In most cases, [TimezoneSpan]s
 /// represent the "summer" and "winter" times of a timezone with daylight savings time.

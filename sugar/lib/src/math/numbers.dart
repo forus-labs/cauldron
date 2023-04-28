@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import 'package:sugar/core.dart';
+import 'package:sugar/sugar.dart';
 import 'package:sugar/src/math/numbers_web.dart'
   if (dart.library.io) 'package:sugar/src/math/numbers_vm.dart';
 

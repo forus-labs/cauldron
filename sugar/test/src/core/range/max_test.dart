@@ -1,4 +1,4 @@
-import 'package:sugar/core.dart';
+import 'package:sugar/sugar.dart';
 import 'package:test/test.dart';
 
 void main() {
