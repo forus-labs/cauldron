@@ -211,6 +211,13 @@ class LocalTime extends Time with Orderable<LocalTime> {
   );
 
 
+  /// Combines this time with an offset to create an [OffsetTime].
+  ///
+  /// ```dart
+  /// LocalTime(12).at(Offset(8)); // '12:00+08:00'
+  /// ```
+  @useResult OffsetTime at(Offset offset) => OffsetTime._(offset, _native);
+
   /// Returns a native [DateTime] in UTC that represents this [LocalTime].
   ///
   /// The date is always set to 1970 January 1st (Unix epoch).

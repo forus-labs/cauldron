@@ -193,8 +193,13 @@ class LocalDate extends Date with Orderable<LocalDate> {
   );
 
 
+  /// Returns a [LocalDateTime] on this date at the given time.
+  @useResult LocalDateTime at(LocalTime time) => LocalDateTime(year, month, day, time.hour, time.minute, time.second, time.millisecond, time.microsecond);
+
   /// Returns a native [DateTime] in UTC that represents this [LocalDate].
   @useResult DateTime toNative() => _native;
+
+
 
 
   @override

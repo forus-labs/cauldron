@@ -1,5 +1,3 @@
-import 'package:sugar/time_interop.dart';
-
 /// Provides low-level functions for working with times.
 ///
 /// These functions should be used only if it's not feasible to use the other provided high-level components, such as when

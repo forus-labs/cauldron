@@ -219,6 +219,9 @@ part 'offsets.dart';
   /// This offset in seconds.
   int get inSeconds => _microseconds ~/ 1000 ~/ 1000;
 
+  /// This offset in milliseconds.
+  int get inMilliseconds => _microseconds ~/ 1000;
+
   /// This offset in microseconds.
   int get inMicroseconds => _microseconds;
 
