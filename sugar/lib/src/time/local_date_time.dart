@@ -9,7 +9,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
 
   String? _string;
 
-  /// Creates a [LocalDateTime] with the given milliseconds since Unix epoch (January 1st 1970), treating [LocalDateTime]
+  /// Creates a [LocalDateTime] from the milliseconds since Unix epoch (January 1st 1970), treating [LocalDateTime]
   /// as being in UTC.
   ///
   /// ```dart
@@ -17,8 +17,8 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   /// ```
   LocalDateTime.fromEpochMilliseconds(super.milliseconds) : super.fromEpochMilliseconds();
 
-  /// Creates a [LocalDateTime] with the given milliseconds since Unix epoch (January 1st 1970), treating [LocalDateTime]
-  /// as being in UTC.
+  /// Creates a [LocalDateTime] from the milliseconds since Unix epoch (January 1st 1970), treating [LocalDateTime] as
+  /// being in UTC.
   ///
   /// ```dart
   /// LocalDateTime.fromEpochMicroseconds(946684800000000); // '2000-01-01T00:00'

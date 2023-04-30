@@ -8,7 +8,7 @@ import 'package:meta/meta.dart';
 /// always 24 hours. On the contrary, a [Period] will add a conceptual unit of time.
 ///
 /// ```dart
-/// /// DST occurs at 2023-03-12 02:00
+/// // DST occurs at 2023-03-12 02:00
 /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
 ///
 /// final datetime = ZoneDateTime('America/Detroit', 2023, 3, 12);

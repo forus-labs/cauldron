@@ -25,7 +25,7 @@ abstract class Timezone {
   /// All known TZ database timezone identifiers associated with the timezones. It may be replaced to support other timezone
   /// sources.
   ///
-  /// Retrieving a timezone directly from this map is discouraged. Users should prefer [Timezone.parse].
+  /// Retrieving a timezone directly from this map is discouraged. Users should prefer [Timezone.new].
   ///
   /// The default implementation is unmodifiable and lazy. Iterating through the entries/values is discouraged since it
   /// will initialize the iterated [Timezone]s thereby increasing memory footprint. However, iterating over the keys is
@@ -56,7 +56,7 @@ abstract class Timezone {
   factory Timezone.now() {
     final timezone = platformTimezoneProvider();
     if (_timezone.name != timezone) {
-      _timezone = Timezone.parse(timezone);
+      _timezone = Timezone(timezone);
     }
 
     return _timezone;
@@ -67,15 +67,15 @@ abstract class Timezone {
   ///
   /// ```dart
   /// // `Asia/Singapore`
-  /// final singapore = Timezone.parse('Asia/Singapore');
+  /// final singapore = Timezone('Asia/Singapore');
   ///
   /// // `Factory`
-  /// final factory = Timezone.parse('invalid');
+  /// final factory = Timezone('invalid');
   /// ```
-  factory Timezone.parse(String name) => timezoneProvider[name] ?? factory;
+  factory Timezone(String name) => timezoneProvider[name] ?? factory;
 
   /// Creates a [Timezone].
-  const Timezone(this.name);
+  const Timezone.from(this.name);
 
 
   /// Converts the given [local] datetime in microseconds to microseconds since Unix epoch (in UTC). The corresponding

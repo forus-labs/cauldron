@@ -9,7 +9,7 @@ class FixedTimezone extends Timezone {
   final FixedTimezoneSpan _span;
 
   /// Creates a [FixedTimezone].
-  FixedTimezone(super.name, this._span);
+  FixedTimezone(super.name, this._span): super.from();
 
   @override
   @useResult MapEntry<EpochMicroseconds, TimezoneSpan> convert({required int local}) => MapEntry(local - _span.offset.inMicroseconds, _span);

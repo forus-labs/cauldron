@@ -64,21 +64,53 @@ class DynamicTimezoneIR extends TimezoneIR {
   DynamicTimezoneIR(super.path, super.file): super._();
 
   @override
-  String toConstructor(int indentation) => (StringBuffer('DynamicTimezone(\n')
+  String toConstructor(int indentation) {
+    final tuple = _compressOffsets(); // TODO: Dart 3 destructuring
+    return (StringBuffer('DynamicTimezone(\n')
     ..writeIndented(indentation, "'${location.name}',\n")
     ..writeIndented(indentation, '${_initial(indentation + 2)},\n')
-    ..writeIndented(indentation, 'Int64List.fromList([ ${location.transitionAt.map((e) => e * 1000).join(', ')} ]),\n')
-    ..writeIndented(indentation, '$_offsets,\n')
+    ..writeIndented(indentation, 'Int64List.fromList([ ${location.transitionAt.join(', ')} ]),\n')
+    ..writeIndented(indentation, '${_offsets(tuple.key, tuple.value)},\n')
+    ..writeIndented(indentation, '${tuple.value},\n')
     ..writeIndented(indentation, '$_abbreviations,\n')
     ..writeIndented(indentation, '$_dsts,\n')
     ..writeIndented(indentation - 2, ');'))
     .toString();
+  }
+
+  MapEntry<List<int>, int> _compressOffsets() { // TODO: Dart 3, replace with tuple
+    if (location.name == 'Africa/Abidjan') {
+      print(location.zones.map((e) => e.offset));
+    }
+
+    final zones = [
+      for (int i = 0; i < location.transitionAt.length; i++)
+        location.zones[location.transitionZone[i]].offset,
+    ];
+
+    final int divisor;
+    final int unit;
+    if (zones.every((z) => z % 3600 == 0)) {
+      divisor = 3600;
+      unit = Duration.microsecondsPerHour;
+
+    } else if (zones.every((z) => z % 60 == 0)) {
+      divisor = 60;
+      unit = Duration.microsecondsPerMinute;
+
+    } else {
+      divisor = 1;
+      unit = Duration.microsecondsPerSecond;
+    }
+
+    return MapEntry(zones.map((z) => z ~/ divisor).toList(), unit);
+  }
 
   String _initial(int indentation) {
     final zone = location.first;
     return (StringBuffer('DynamicTimezoneSpan(\n')
       ..writeIndented(indentation, '-1,\n')
-      ..writeIndented(indentation, '${zone.offset * 1000},\n')
+      ..writeIndented(indentation, '${zone.offset},\n')
       ..writeIndented(indentation, "'${location.abbreviations[zone.abbreviationIndex]}',\n")
       ..writeIndented(indentation, 'TimezoneSpan.range.min,\n')
       ..writeIndented(indentation, '${location.transitionAt[0]},\n')
@@ -87,13 +119,17 @@ class DynamicTimezoneIR extends TimezoneIR {
         .toString();
   }
 
-  String get _offsets {
-    final zones = [
-      for (int i = 0; i < location.transitionAt.length; i++)
-        location.zones[location.transitionZone[i]].offset * 1000,
-    ];
-
-    return 'Int32List.fromList([ ${zones.join(', ')} ])';
+  String _offsets(List<int> offsets, int unit) {
+    switch (unit) {
+      case Duration.microsecondsPerHour:
+        return 'Int8List.fromList([ ${offsets.join(', ')} ])';
+      case Duration.microsecondsPerMinute:
+        return 'Int16List.fromList([ ${offsets.join(', ')} ])';
+      case Duration.microsecondsPerSecond:
+        return 'Int32List.fromList([ ${offsets.join(', ')} ])';
+      default:
+        throw StateError('Unknown unit: $unit');
+    }
   }
 
   String get _abbreviations {

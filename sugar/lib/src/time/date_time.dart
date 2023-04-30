@@ -4,6 +4,7 @@ import 'package:sugar/src/time/time.dart';
 import 'package:sugar/sugar.dart';
 
 part 'local_date_time.dart';
+part 'zoned_date_time.dart';
 
 /// A temporal with date and time units.
 @internal class DateTimeBase implements Date, Time {

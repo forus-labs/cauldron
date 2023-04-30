@@ -11,8 +11,11 @@ import 'package:sugar/sugar.dart';
   final DynamicTimezoneSpan _initial;
   /// The seconds since epoch at which the timezone transition. It should never be empty. Stored as seconds to reduce memory usage.
   final Int64List _transitions;
-  /// The offsets in seconds. It should never be empty. Stored as seconds to reduce memory usage.
-  final Int32List _offsets;
+  /// The offsets in seconds. It should never be empty. The offset may be stored in hours, minutes or seconds depending on
+  /// [_unit]. This is done to reduce memory footprint.
+  final List<int> _offsets;
+  /// The amount used to convert an offset to microseconds, i.e. [Duration.microsecondsPerSecond].
+  final int _unit;
   /// The abbreviations. It should never be empty.
   final List<String> _abbreviations; // TODO: replace with int map to reduce memory footprint
   /// Whether the timezone is daylight savings time. It should never be empty.
@@ -26,9 +29,10 @@ import 'package:sugar/sugar.dart';
   ///
   /// ## Contract:
   /// The transitions, offsets, abbreviations and DSTs should be non-empty and have the same length.
-  DynamicTimezone(super._name, this._initial, this._transitions, this._offsets, this._abbreviations, this._dsts):
+  DynamicTimezone(super._name, this._initial, this._transitions, this._offsets, this._unit, this._abbreviations, this._dsts):
     _range = const Interval.empty(0),
-    _timezone = _initial;
+    _timezone = _initial,
+    super.from();
 
   @override
   @useResult MapEntry<EpochMicroseconds, DynamicTimezoneSpan> convert({required int local}) {
@@ -111,7 +115,7 @@ import 'package:sugar/sugar.dart';
 
     return _timezone = DynamicTimezoneSpan(
       min,
-      _offsets[min] * Duration.microsecondsPerSecond,
+      _offsets[min] * _unit,
       _abbreviations[min],
       _transitions[min] * Duration.microsecondsPerSecond,
       end,

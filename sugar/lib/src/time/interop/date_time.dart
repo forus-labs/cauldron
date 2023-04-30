@@ -10,10 +10,10 @@ extension DateTimes on DateTime {
 
   /// Returns a copy of this [DateTime] with the given time added. This method behaves similarly to [+]. Unlike [add] which
   /// adds an exact number of microseconds, this method adds the conceptual units of time. Consequentially, the resulting
-  /// [DateTime] may be different due to DST.
+  /// [DateTime] may be affected by DST.
   ///
   /// ```dart
-  /// /// DST occurs at 2023-03-12 02:00
+  /// // DST occurs at 2023-03-12 02:00
   /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
   ///
   /// // We assume the current timezone is `America/Detroit`.
@@ -45,10 +45,10 @@ extension DateTimes on DateTime {
 
   /// Returns a copy of this [DateTime] with the given time subtracted. This method behaves similarly to [-]. Unlike
   /// [subtract] which subtracts an exact number of microseconds, this method subtracts the conceptual units of time.
-  /// Consequentially, the resulting [DateTime] may be different due to DST.
+  /// Consequentially, the resulting [DateTime] may be affected by DST.
   ///
   /// ```dart
-  /// /// DST occurs at 2023-03-12 02:00
+  /// // DST occurs at 2023-03-12 02:00
   /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
   ///
   /// // We assume the current timezone is `America/Detroit`.
@@ -80,10 +80,10 @@ extension DateTimes on DateTime {
 
   /// Returns a copy of this [DateTime] with the given time added. This method behaves similarly to [plus]. Unlike [add]
   /// which adds an exact number of microseconds, this method adds the conceptual units of time. Consequentially, the
-  /// resulting [DateTime] may be different due to DST.
+  /// resulting [DateTime] may be affected by DST.
   ///
   /// ```dart
-  /// /// DST occurs at 2023-03-12 02:00
+  /// // DST occurs at 2023-03-12 02:00
   /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
   ///
   /// // We assume the current timezone is `America/Detroit`.
@@ -106,10 +106,10 @@ extension DateTimes on DateTime {
 
   /// Returns a copy of this [DateTime] with the given time subtracted. This method behaves similarly to [minus]. Unlike
   /// [subtract] which subtracts an exact number of microseconds, this method subtracts the conceptual units of time.
-  /// Consequentially, the resulting [DateTime] may be different due to DST.
+  /// Consequentially, the resulting [DateTime] may be affected by DST.
   ///
   /// ```dart
-  /// /// DST occurs at 2023-03-12 02:00
+  /// // DST occurs at 2023-03-12 02:00
   /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
   ///
   /// // We assume the current timezone is `America/Detroit`.
@@ -225,7 +225,7 @@ extension DateTimes on DateTime {
   /// The returned [Period] will be negative if [other] occurs after this.
   ///
   /// ```dart
-  /// /// DST occurs at 2023-03-12 02:00
+  /// // DST occurs at 2023-03-12 02:00
   /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
   ///
   /// // We assume the current timezone is `America/Detroit`.
