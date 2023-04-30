@@ -5,7 +5,7 @@ part of 'date_time.dart';
 /// It cannot be used to represent a specific point in time without an additional offset or timezone.
 ///
 /// A [LocalDateTime] is immutable and should be treated as a value-type.
-class LocalDateTime extends DateTimeBase {
+class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
 
   String? _string;
 
@@ -179,5 +179,143 @@ class LocalDateTime extends DateTimeBase {
       millisecond ?? this.millisecond,
       microsecond ?? this.microsecond,
     );
+
+
+  /// Returns the difference between this [LocalDateTime] and other.
+  ///
+  /// ```dart
+  /// LocalDateTime(22).difference(LocalDateTime(12)); // 10 hours
+  ///
+  /// LocalDateTime(13).difference(LocalDateTime(23)); // -10 hours
+  /// ```
+  @useResult Duration difference(LocalDateTime other) => Duration(microseconds: epochMicroseconds - other.epochMicroseconds);
+
+  /// Returns the difference when subtracting [other] from this.
+  ///
+  /// The returned [Period] will be negative if [other] occurs after this.
+  ///
+  /// ```dart
+  /// final foo = LocalDateTime(2023, 3, 12);
+  /// final bar = LocalDateTime(2023, 3, 13);
+  ///
+  /// print(bar.gap(foo)); // 1 day
+  /// ```
+  @useResult Period gap(LocalDateTime other) => Period(
+    years: year - other.year,
+    months: month - other.month,
+    days: day - other.day,
+    hours: hour - other.hour,
+    minutes: minute - other.minute,
+    seconds: second - other.second,
+    milliseconds: millisecond - other.millisecond,
+    microseconds: microsecond - other.microsecond,
+  );
+
+
+  /// Returns a native [DateTime] in UTC that represents this [LocalDateTime].
+  @useResult DateTime toNative() => _native;
+
+  /// The date.
+  @useResult LocalDate get date => LocalDate(year, month, day);
+
+  /// The time.
+  @useResult LocalTime get time => LocalTime(hour, minute, second, millisecond, microsecond);
+
+
+  @override
+  @useResult int compareTo(LocalDateTime other) => epochMicroseconds.compareTo(other.epochMicroseconds);
+
+  @override
+  @useResult int get hashValue => runtimeType.hashCode ^ epochMicroseconds;
+
+  @override
+  @useResult String toString() {
+    if (_string != null) {
+      return _string!;
+    }
+
+    final string = _native.toIso8601String();
+    return _string = string.endsWith('Z') ? string.substring(0, string.length - 1) : string;
+  }
+
+
+  /// The day of the week. Following ISO-8601, a week starts on Monday which has a value of `1` and ends on Sunday which
+  /// has a value of `7`.
+  ///
+  /// ```dart
+  /// LocalDateTime(1969, 7, 20).weekday; // Sunday, 7
+  /// ```
+  @useResult int get weekday => _native.weekday;
+
+
+  /// The ordinal week of the year. Following ISO-8601, a week is between `1` and `53`, inclusive.
+  ///
+  /// ```dart
+  /// LocalDateTime(2023, 4, 1).weekOfYear; // 13
+  /// ```
+  @useResult int get weekOfYear => _native.weekOfYear;
+
+  /// The ordinal day of the year.
+  ///
+  /// ```dart
+  /// LocalDateTime(2023, 4, 1).dayOfYear; // 91
+  /// ```
+  @useResult int get dayOfYear => _native.dayOfYear;
+
+
+  /// The first day of this week.
+  ///
+  /// ```dart
+  /// final tuesday = LocalDateTime(2023, 4, 11);
+  /// final monday = tuesday.firstDayOfWeek; // '2023-04-10'
+  /// ```
+  @useResult LocalDateTime get firstDayOfWeek => LocalDateTime._(_native.firstDayOfWeek);
+
+  /// The last day of this week.
+  ///
+  /// ```dart
+  /// final tuesday = LocalDateTime(2023, 4, 11);
+  /// final sunday = tuesday.lastDayOfWeek; // '2023-04-16'
+  /// ```
+  @useResult LocalDateTime get lastDayOfWeek => LocalDateTime._(_native.lastDayOfWeek);
+
+
+  /// The first day of this month.
+  ///
+  /// ```dart
+  /// LocalDateTime(2023, 4, 11).firstDayOfMonth; // '2023-04-01'
+  /// ```
+  @useResult LocalDateTime get firstDayOfMonth => LocalDateTime._(_native.firstDayOfMonth);
+
+  /// The last day of this month.
+  ///
+  /// ```dart
+  /// LocalDateTime(2023, 4, 11).lastDayOfMonth; // '2023-04-30'
+  /// ```
+  @useResult LocalDateTime get lastDayOfMonth => LocalDateTime._(_native.lastDayOfMonth);
+
+
+  /// The number of days in the given month.
+  ///
+  /// ```dart
+  /// LocalDateTime(2019, 2).daysInMonth; // 28
+  /// LocalDateTime(2020, 2).daysInMonth; // 29
+  /// ```
+  @useResult int get daysInMonth => _native.daysInMonth;
+
+  /// Whether this year is a leap year.
+  ///
+  /// ```dart
+  /// LocalDateTime(2020).leapYear; // true
+  /// LocalDateTime(2021).leapYear; // false
+  /// ```
+  @useResult bool get leapYear => _native.leapYear;
+
+
+  /// The milliseconds since Unix epoch (January 1st 1970), treating this date as being in UTC.
+  @useResult EpochMilliseconds get epochMilliseconds => _native.millisecondsSinceEpoch;
+
+  /// The microseconds since Unix epoch (January 1st 1970), treating this date as being in UTC.
+  @useResult EpochMicroseconds get epochMicroseconds => _native.microsecondsSinceEpoch;
 
 }

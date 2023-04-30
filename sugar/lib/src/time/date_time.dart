@@ -51,5 +51,4 @@ part 'local_date_time.dart';
   @override
   int get microsecond => _native.microsecond;
 
-
 }

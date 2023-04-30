@@ -200,8 +200,6 @@ class LocalDate extends Date with Orderable<LocalDate> {
   @useResult DateTime toNative() => _native;
 
 
-
-
   @override
   @useResult int compareTo(LocalDate other) => epochMicroseconds.compareTo(other.epochMicroseconds);
 
@@ -268,7 +266,7 @@ class LocalDate extends Date with Orderable<LocalDate> {
   @useResult LocalDate get lastDayOfMonth => LocalDate._(_native.lastDayOfMonth);
 
 
-  /// Returns the number of days in the given month.
+  /// The number of days in the given month.
   ///
   /// ```dart
   /// LocalDate(2019, 2).daysInMonth; // 28
@@ -276,7 +274,7 @@ class LocalDate extends Date with Orderable<LocalDate> {
   /// ```
   @useResult int get daysInMonth => _native.daysInMonth;
 
-  /// Whether this [DateTime]'s year is a leap year.
+  /// Whether this year is a leap year.
   ///
   /// ```dart
   /// LocalDate(2020).leapYear; // true
