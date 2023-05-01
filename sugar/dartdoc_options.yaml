@@ -1,3 +1,21 @@
 dartdoc:
+  categories:
+    "Sugar":
+      name: "Sugar"
+    "Core":
+      name: "Core"
+    "Collection":
+      name: "Collection"
+    "Time":
+      name: "Time"
+  categoryOrder:
+    - Sugar
+    - Core
+    - Collection
+    - Math
+    - Time
   ignore:
     - ambiguous-reexport
+  linkToSource:
+    root: '.'
+    uriTemplate: "https://github.com/forus-labs/cauldron/tree/master/sugar/%f%#L%l%"

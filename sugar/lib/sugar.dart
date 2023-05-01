@@ -1,3 +1,4 @@
+/// {@category Sugar}
 library sugar;
 
 export 'collection.dart';

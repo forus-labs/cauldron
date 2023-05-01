@@ -1,3 +1,4 @@
+/// {@category Time}
 library sugar.time.interop;
 
 export 'src/time/interop/date.dart';

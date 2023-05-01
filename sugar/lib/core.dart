@@ -1,3 +1,5 @@
+/// {@category Core}
+///
 /// General purpose utilities for every Dart program.
 ///
 /// This library provides the following:

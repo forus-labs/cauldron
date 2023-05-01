@@ -1,3 +1,5 @@
+/// {@category Collection}
+///
 /// Utilities for aggregating and sorting collections.
 ///
 /// Operations in this library create new collections rather than mutate the original collections.

@@ -1,3 +1,4 @@
+/// {@category Time}
 library sugar.time.zone;
 
 export 'src/time/zone/timezone.dart';

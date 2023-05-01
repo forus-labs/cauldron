@@ -1,3 +1,4 @@
+/// {@category Collection}
 library sugar.collection;
 
 export 'src/collection/algorithms.dart';

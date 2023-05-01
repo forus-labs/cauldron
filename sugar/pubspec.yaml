@@ -1,8 +1,10 @@
 name: sugar
-description: Forus Labs' Core Dart library. Provides sweet syntax sugar for common patterns related to the collections, core sand time.
+description: Forus Labs' extended standard library. Provide syntax sugar for working with collections, date-times, monads & timezones.
 version: 3.0.0
 homepage: https://github.com/forus-labs/cauldron
 repository: https://github.com/forus-labs/cauldron
+issue_tracker: https://github.com/forus-labs/cauldron/issues
+documentation: https://pub.dev/documentation/sugar/latest/
 
 environment:
   sdk: '>=2.19.0 <3.0.0'
@@ -18,4 +20,3 @@ dev_dependencies:
   path: ^1.8.3
   test: ^1.17.9
   timezone: ^0.9.1
-  vm_service: ^11.3.0

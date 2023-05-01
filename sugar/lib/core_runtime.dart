@@ -1,3 +1,5 @@
+/// {@category Core}
+///
 /// Platform agnostic utilities for retrieving information about the current platform across both native and web.
 /// This is an alternative to `dart:io`'s `Platform` class that only works on native platforms.
 ///

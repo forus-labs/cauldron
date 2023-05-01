@@ -1,3 +1,5 @@
+/// {@category Core}
+///
 /// Utilities for representing and manipulating a range of values in a domain.
 ///
 /// A [Range] is a convex (contiguous) portion of a domain. It may be finitely constrained, i.e. `0 <= x < 5`,

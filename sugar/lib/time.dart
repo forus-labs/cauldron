@@ -1,3 +1,4 @@
+/// {@category Time}
 library sugar.time;
 
 export 'src/time/date.dart' hide Date;
