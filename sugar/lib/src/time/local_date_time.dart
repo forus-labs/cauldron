@@ -128,7 +128,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   /// ```dart
   /// LocalDateTime(2023, 4, 15).round(6, DateUnit.months); // '2023-06-15'
   ///
-  /// LocalDateTime(2023, 8, 15)).round(6, DateUnit.months); // '2023-06-15'
+  /// LocalDateTime(2023, 8, 15).round(6, DateUnit.months); // '2023-06-15'
   /// ```
   @Possible({RangeError})
   @useResult LocalDateTime round(int value, TemporalUnit unit) => LocalDateTime._(_native.round(value, unit));
@@ -142,7 +142,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   /// ```dart
   /// LocalDateTime(2023, 4, 15).ceil(6, DateUnit.months); // '2023-06-15'
   ///
-  /// LocalDateTime(2023, 8, 15)).ceil(6, DateUnit.months); // '2023-12-15'
+  /// LocalDateTime(2023, 8, 15).ceil(6, DateUnit.months); // '2023-12-15'
   /// ```
   @Possible({RangeError})
   @useResult LocalDateTime ceil(int value, TemporalUnit unit) => LocalDateTime._(_native.ceil(value, unit));
@@ -157,7 +157,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   /// ```dart
   /// LocalDateTime(2023, 4, 15).floor(6, DateUnit.months); // '2023-01-15'
   ///
-  /// LocalDateTime(2023, 8, 15)).floor(6, DateUnit.months); // '2023-06-15'
+  /// LocalDateTime(2023, 8, 15).floor(6, DateUnit.months); // '2023-06-15'
   /// ```
   @Possible({RangeError})
   @useResult LocalDateTime floor(int value, TemporalUnit unit) => LocalDateTime._(_native.floor(value, unit));
@@ -211,6 +211,9 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
     microseconds: microsecond - other.microsecond,
   );
 
+
+  //// Converts this [LocalDateTime] to a [ZonedDateTime].
+  @useResult ZonedDateTime at(Timezone timezone) => ZonedDateTime._(timezone, _native);
 
   /// Returns a native [DateTime] in UTC that represents this [LocalDateTime].
   @useResult DateTime toNative() => _native;

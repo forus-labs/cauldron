@@ -199,7 +199,7 @@ class OffsetTime extends Time {
   /// final foo = OffsetTime(Offset(4), 12); // '12:00+04:00'
   /// final bar = OffsetTime(Offset(0), 8); // '08:00Z'
   ///
-  /// print(bar.isAfter(foo)); // true
+  /// print(bar.isSameMomentAs(foo)); // true
   /// ```
   bool isSameMomentAs(OffsetTime other) => _instant == other._instant;
 

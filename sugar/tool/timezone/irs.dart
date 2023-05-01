@@ -79,10 +79,6 @@ class DynamicTimezoneIR extends TimezoneIR {
   }
 
   MapEntry<List<int>, int> _compressOffsets() { // TODO: Dart 3, replace with tuple
-    if (location.name == 'Africa/Abidjan') {
-      print(location.zones.map((e) => e.offset));
-    }
-
     final zones = [
       for (int i = 0; i < location.transitionAt.length; i++)
         location.zones[location.transitionZone[i]].offset,

@@ -46,7 +46,7 @@ class ZonedDateTime extends DateTimeBase {
   ///
   /// print(date); // 2023-4-30T22:30+08:00
   /// ```
-  factory ZonedDateTime.fromEpochMilliseconds(Timezone timezone, EpochMilliseconds milliseconds) => ZonedDateTime._from(
+  factory ZonedDateTime.fromEpochMilliseconds(Timezone timezone, EpochMilliseconds milliseconds) => ZonedDateTime._(
       timezone,
       DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: true)
   );
@@ -62,7 +62,7 @@ class ZonedDateTime extends DateTimeBase {
   ///
   /// print(date); // 2023-4-30T22:30+08:00
   /// ```
-  factory ZonedDateTime.fromEpochMicroseconds(Timezone timezone, EpochMicroseconds microseconds) => ZonedDateTime._from(
+  factory ZonedDateTime.fromEpochMicroseconds(Timezone timezone, EpochMicroseconds microseconds) => ZonedDateTime._(
     timezone,
       DateTime.fromMicrosecondsSinceEpoch(microseconds, isUtc: true)
   );
@@ -73,7 +73,7 @@ class ZonedDateTime extends DateTimeBase {
   /// ## Note
   /// By default, detecting and retrieving the platform's current timezone is only supported on Windows, MacOS, Linux &
   /// Web platforms. See [Timezone.platformTimezoneProvider] for more information.
-  factory ZonedDateTime.now([Timezone? timezone]) => ZonedDateTime._from(
+  factory ZonedDateTime.now([Timezone? timezone]) => ZonedDateTime._(
     timezone ?? Timezone.now(),
     DateTime.now().toUtc(), // TODO: Dart 3 replace with DateTime.timestamp()
   );
@@ -87,7 +87,7 @@ class ZonedDateTime extends DateTimeBase {
     int second = 0, 
     int millisecond = 0, 
     int microsecond = 0,
-  ]) => ZonedDateTime._from(timezone, DateTime.utc(year, month, day, hour, minute, second, millisecond, microsecond));
+  ]) => ZonedDateTime._(timezone, DateTime.utc(year, month, day, hour, minute, second, millisecond, microsecond));
 
   /// Creates a [ZonedDateTime]. This is a convenience constructor for [ZonedDateTime.from].
   factory ZonedDateTime(String timezone, int year, [
@@ -100,12 +100,12 @@ class ZonedDateTime extends DateTimeBase {
     int microsecond = 0,
   ]) => ZonedDateTime.from(Timezone(timezone), year, month, day, hour, minute, second, millisecond, microsecond);
 
-  factory ZonedDateTime._from(Timezone timezone, DateTime date) {
+  factory ZonedDateTime._(Timezone timezone, DateTime date) {
     final tuple = timezone.convert(local: date.microsecondsSinceEpoch); // TODO: Dart 3 destructuring
-    return ZonedDateTime._(timezone, tuple.value, tuple.key, date);
+    return ZonedDateTime._fromNative(timezone, tuple.value, tuple.key, date);
   }
 
-  ZonedDateTime._(this.timezone, this.span, this.epochMicroseconds, super._native): super.fromNative();
+  ZonedDateTime._fromNative(this.timezone, this.span, this.epochMicroseconds, super._native): super.fromNative();
 
 
   /// Returns a copy of this [ZonedDateTime] with the [duration] added. Unlike [+] which adds the conceptual units of time,
@@ -161,7 +161,7 @@ class ZonedDateTime extends DateTimeBase {
   /// datetime.add(Duration(days: 1)); // 2023-03-13T01:00-04:00
   /// ```
   @useResult ZonedDateTime plus({int years = 0, int months = 0, int days = 0, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-    ZonedDateTime._from(timezone, _native.plus(
+    ZonedDateTime._(timezone, _native.plus(
       years: years,
       months: months,
       days: days,
@@ -187,7 +187,7 @@ class ZonedDateTime extends DateTimeBase {
   /// datetime.subtract(Duration(days: 1)); // 2023-03-11T23:00-04:00
   /// ```
   @useResult ZonedDateTime minus({int years = 0, int months = 0, int days = 0, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-      ZonedDateTime._from(timezone, _native.minus(
+      ZonedDateTime._(timezone, _native.minus(
         years: years,
         months: months,
         days: days,
@@ -212,7 +212,7 @@ class ZonedDateTime extends DateTimeBase {
   ///
   /// datetime.add(Duration(days: 1)); // 2023-03-13T01:00-04:00
   /// ```
-  @useResult ZonedDateTime operator + (Period period) => ZonedDateTime._from(timezone, _native + period);
+  @useResult ZonedDateTime operator + (Period period) => ZonedDateTime._(timezone, _native + period);
 
   /// Returns a copy of this [ZonedDateTime] with the given time subtracted. This method behaves similarly to [minus].
   /// Unlike [subtract] which subtracts an exact number of microseconds, this method subtracts the conceptual units of time.
@@ -228,10 +228,164 @@ class ZonedDateTime extends DateTimeBase {
   ///
   /// datetime.subtract(Duration(days: 1)); // 2023-03-11T23:00-04:00
   /// ```
-  @useResult ZonedDateTime operator - (Period period) => ZonedDateTime._from(timezone, _native - period);
+  @useResult ZonedDateTime operator - (Period period) => ZonedDateTime._(timezone, _native - period);
 
 
+  /// Returns a copy of this [ZonedDateTime] truncated to the given temporal unit.
+  ///
+  /// ```dart
+  /// final date = ZonedDateTime('Asia/Singapore', 2023, 4, 15);
+  /// date.truncate(to: DateUnit.months); // '2023-04-01T00:00+08:00'
+  /// ```
+  @useResult ZonedDateTime truncate({required TemporalUnit to}) => ZonedDateTime._(timezone, _native.truncate(to: to));
 
+  /// Returns a copy of this [ZonedDateTime] with only the given temporal unit rounded to the nearest [value].
+  ///
+  /// ## Contract
+  /// [value] must be positive, i.e. `1 < to`. Throws A [RangeError] otherwise.
+  ///
+  /// ## Example
+  /// ```dart
+  /// final foo = ZonedDateTime('Asia/Singapore', 2023, 4, 15);
+  /// foo.round(6, DateUnit.months); // '2023-06-15T00:00+08:00'
+  ///
+  /// final bar = ZonedDateTime(2023, 8, 15);
+  /// bar.round(6, DateUnit.months); // '2023-06-15T00:00+08:00'
+  /// ```
+  @Possible({RangeError})
+  @useResult ZonedDateTime round(int value, TemporalUnit unit) => ZonedDateTime._(timezone, _native.round(value, unit));
+
+  /// Returns a copy of this [ZonedDateTime] with only the given temporal unit ceil to the nearest [value].
+  ///
+  /// ## Contract
+  /// [value] must be positive, i.e. `1 < to`. Throws A [RangeError] otherwise.
+  ///
+  /// ## Example
+  /// ```dart
+  /// final foo = ZonedDateTime('Asia/Singapore', 2023, 4, 15);
+  /// foo.ceil(6, DateUnit.months); // '2023-06-15T00:00+08:00'
+  ///
+  /// final bar = ZonedDateTime('Asia/Singapore', 2023, 8, 15);
+  /// bar.ceil(6, DateUnit.months); // '2023-12-15T00:00+08:00'
+  /// ```
+  @Possible({RangeError})
+  @useResult ZonedDateTime ceil(int value, TemporalUnit unit) => ZonedDateTime._(timezone, _native.ceil(value, unit));
+
+  /// Returns a copy of this [ZonedDateTime] with only the given temporal unit floored to the nearest [value].
+  ///
+  /// ## Contract
+  /// [value] must be positive, i.e. `1 < to`. Throws A [RangeError] otherwise.
+  ///
+  ///
+  /// ## Example
+  /// ```dart
+  /// final foo = ZonedDateTime('Asia/Singapore', 2023, 4, 15);
+  /// foo.floor(6, DateUnit.months); // '2023-01-15T00:00+08:00'
+  ///
+  /// final bar = ZonedDateTime('Asia/Singapore', 2023, 8, 15);
+  /// bar.floor(6, DateUnit.months); // '2023-06-15T00:00+08:00'
+  /// ```
+  @Possible({RangeError})
+  @useResult ZonedDateTime floor(int value, TemporalUnit unit) => ZonedDateTime._(timezone, _native.floor(value, unit));
+
+
+  /// Returns a copy of this [ZonedDateTime] with the given updated parts.
+  ///
+  /// ```dart
+  /// final foo = ZonedDateTime('Asia/Singapore', 2023, 4, 15);
+  /// foo.copyWith(day: 20); // '2023-04-20T00:00+08:00'
+  /// ```
+  @useResult ZonedDateTime copyWith({Timezone? timezone, int? year, int? month, int? day, int? hour, int? minute, int? second, int? millisecond, int? microsecond}) =>
+    ZonedDateTime.from(
+      timezone ?? this.timezone,
+      year ?? this.year,
+      month ?? this.month,
+      day ?? this.day,
+      hour ?? this.hour,
+      minute ?? this.minute,
+      second ?? this.second,
+      millisecond ?? this.millisecond,
+      microsecond ?? this.microsecond,
+    );
+
+
+  /// Returns the difference in exact microseconds between this [ZonedDateTime] and other. This method will be affected
+  /// by DST if the two dates are across DST transitions. The difference may also be negative.
+  ///
+  /// ```dart
+  /// // DST occurs at 2023-03-12 02:00
+  /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
+  ///
+  /// final winter = ZonedDateTime('America/Detroit', 2023, 3, 12);
+  /// final summer = ZonedDateTime('America/Detroit', 2023, 3, 13);
+  ///
+  /// print(summer.difference(winter)); // 23:00:00.000000
+  ///
+  /// print(winter.difference(summer)); // -23:00:00.000000
+  /// ```
+  @useResult Duration difference(ZonedDateTime other) => Duration(microseconds: epochMicroseconds - other.epochMicroseconds);
+
+  /// Returns the difference when subtracting the individual conceptual time units of [other] from this. This method will
+  /// not be affected by DST even if the two dates are across DST transitions.
+  ///
+  /// The returned [Period] will be negative if [other] occurs after this.
+  ///
+  /// ```dart
+  /// // DST occurs at 2023-03-12 02:00
+  /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
+  ///
+  /// final winter = ZonedDateTime('America/Detroit', 2023, 3, 12);
+  /// final summer = ZonedDateTime('America/Detroit', 2023, 3, 13);
+  ///
+  /// print(summer.gap(winter)); // 1 days
+  ///
+  /// print(winter.gap(summer)); // -1 days
+  /// ```
+  @useResult Period gap(ZonedDateTime other) => Period(
+    years: year - other.year,
+    months: month - other.month,
+    days: day - other.day,
+    hours: hour - other.hour,
+    minutes: minute - other.minute,
+    seconds: second - other.second,
+    milliseconds: millisecond - other.millisecond,
+    microseconds: microsecond - other.microsecond,
+  );
+
+
+  /// Converts this [ZonedDateTime] to a [LocalDateTime].
+  @useResult LocalDateTime toLocal() => LocalDateTime._(_native);
+
+
+  /// Returns true if this [ZonedDateTime] is before [other].
+  ///
+  /// ```dart
+  /// final foo = ZonedDateTime('Asia/Singapore', 2023, 4, 20, 12); // '2023-04-20T12:00+08:00[Asia/Singapore]'
+  /// final bar = ZonedDateTime('Europe/London', 2023, 4, 20, 12); // '2023-04-20T12:00+01:00[Europe/London]'
+  ///
+  /// print(foo.isBefore(bar)); // true
+  /// ```
+  bool isBefore(ZonedDateTime other) => epochMicroseconds < other.epochMicroseconds;
+
+  /// Returns true if this [ZonedDateTime] occurs at the same moment as [other].
+  ///
+  /// ```dart
+  /// final foo = ZonedDateTime('Asia/Singapore', 2023, 4, 20, 12); // '2023-04-20T12:00+08:00[Asia/Singapore]'
+  /// final bar = ZonedDateTime('Europe/London', 2023, 4, 20, 5); // '2023-04-20T05:00+01:00[Europe/London]'
+  ///
+  /// print(bar.isSameMomentAs(foo)); // true
+  /// ```
+  bool isSameMomentAs(ZonedDateTime other) => epochMicroseconds == other.epochMicroseconds;
+
+  /// Returns true if this [ZonedDateTime] is after [other].
+  ///
+  /// ```dart
+  /// final foo = ZonedDateTime('Asia/Singapore', 2023, 4, 20, 12); // '2023-04-20T12:00+08:00[Asia/Singapore]'
+  /// final bar = ZonedDateTime('Europe/London', 2023, 4, 20, 12); // '2023-04-20T12:00+01:00[Europe/London]'
+  ///
+  /// print(bar.isAfter(foo)); // true
+  /// ```
+  bool isAfter(ZonedDateTime other) => epochMicroseconds > other.epochMicroseconds;
 
 
   @override
@@ -271,6 +425,79 @@ class ZonedDateTime extends DateTimeBase {
   /// ```
   @override
   String toString() => _string ??= '${_native.toDateString()}T${_native.toTimeString()}${span.offset}[${timezone.name}]';
+
+
+  /// The day of the week. Following ISO-8601, a week starts on Monday which has a value of `1` and ends on Sunday which
+  /// has a value of `7`.
+  ///
+  /// ```dart
+  /// ZonedDateTime('Asia/Singapore', 1969, 7, 20).weekday; // Sunday, 7
+  /// ```
+  @useResult int get weekday => _native.weekday;
+
+
+  /// The ordinal week of the year. Following ISO-8601, a week is between `1` and `53`, inclusive.
+  ///
+  /// ```dart
+  /// ZonedDateTime('Asia/Singapore', 2023, 4, 1).weekOfYear; // 13
+  /// ```
+  @useResult int get weekOfYear => _native.weekOfYear;
+
+  /// The ordinal day of the year.
+  ///
+  /// ```dart
+  /// ZonedDateTime('Asia/Singapore', 2023, 4, 1).dayOfYear; // 91
+  /// ```
+  @useResult int get dayOfYear => _native.dayOfYear;
+
+
+  /// The first day of this week.
+  ///
+  /// ```dart
+  /// final tuesday = ZonedDateTime('Asia/Singapore', 2023, 4, 11);
+  /// final monday = tuesday.firstDayOfWeek; // '2023-04-10'
+  /// ```
+  @useResult ZonedDateTime get firstDayOfWeek => ZonedDateTime._(timezone, _native.firstDayOfWeek);
+
+  /// The last day of this week.
+  ///
+  /// ```dart
+  /// final tuesday = ZonedDateTime('Asia/Singapore', 2023, 4, 11);
+  /// final sunday = tuesday.lastDayOfWeek; // '2023-04-16'
+  /// ```
+  @useResult ZonedDateTime get lastDayOfWeek => ZonedDateTime._(timezone, _native.lastDayOfWeek);
+
+
+  /// The first day of this month.
+  ///
+  /// ```dart
+  /// ZonedDateTime('Asia/Singapore', 2023, 4, 11).firstDayOfMonth; // '2023-04-01'
+  /// ```
+  @useResult ZonedDateTime get firstDayOfMonth => ZonedDateTime._(timezone, _native.firstDayOfMonth);
+
+  /// The last day of this month.
+  ///
+  /// ```dart
+  /// ZonedDateTime('Asia/Singapore', 2023, 4, 11).lastDayOfMonth; // '2023-04-30'
+  /// ```
+  @useResult LocalDateTime get lastDayOfMonth => LocalDateTime._(_native.lastDayOfMonth);
+
+
+  /// The number of days in the given month.
+  ///
+  /// ```dart
+  /// ZonedDateTime('Asia/Singapore', 2019, 2).daysInMonth; // 28
+  /// ZonedDateTime('Asia/Singapore', 2020, 2).daysInMonth; // 29
+  /// ```
+  @useResult int get daysInMonth => _native.daysInMonth;
+
+  /// Whether this year is a leap year.
+  ///
+  /// ```dart
+  /// ZonedDateTime('Asia/Singapore', 2020).leapYear; // true
+  /// ZonedDateTime('Asia/Singapore', 2021).leapYear; // false
+  /// ```
+  @useResult bool get leapYear => _native.leapYear;
 
 
   /// The milliseconds since Unix epoch.
