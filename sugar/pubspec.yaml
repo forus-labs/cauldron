@@ -15,6 +15,7 @@ dependencies:
   meta: ^1.8.0
 
 dev_dependencies:
+  coverage: ^1.6.3
   flint: ^2.6.0
   http: ^0.13.5
   path: ^1.8.3

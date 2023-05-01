@@ -4,37 +4,24 @@ import 'package:meta/meta.dart';
 import 'package:sugar/collection_aggregate.dart';
 import 'package:sugar/core.dart';
 
-/// Provides functions for working with iterables.
+/// Adds functions for transforming [Iterable]s to other collections.
 extension Iterables<E> on Iterable<E> {
 
-  /// Returns a lazy [Iterable] that contains only distinct elements.
+  /// Returns a lazy [Iterable] with only distinct elements.
   ///
-  /// Two elements are considered distinct if the values returned by [by] are not equal according to [==].
+  /// Two elements are distinct if the values returned by [by] are not equal according to [==].
   ///
-  /// ### Note:
-  /// When this [Iterable] contains multiple elements with the same value, only the first element is returned.
-  /// Thus, this operation is not idempotent if this [Iterable] is unordered, i.e. [HashSet].
+  /// If this [Iterable] contains identical elements, only the first of the identical elements is returned. This means
+  /// that this function is non-deterministic when this [Iterable] is unordered, i.e. [HashSet].
   ///
-  /// This means to say, a different element with the same value may be returned each time the returned [Iterable] is
-  /// iterated over.
-  ///
-  /// ### Example:
   /// ```dart
-  /// class Foo {
-  ///   final String id;
-  ///   final int value;
+  /// final set = {('a', 1), ('b', 1), ('c', 2)};
+  /// final unordered = set.distinct(by: (e) => e.$2);
   ///
-  ///   Foo(this.id, this.value);
-  /// }
-  ///
-  /// [Foo('a', 1), Foo('b', 1), Foo('c', 1), Foo('a', 2)].distinct(by: (foo) => foo.id); // [Foo('a', 1), Foo('b', 1), Foo('c', 1)]
-  ///
-  /// final set = HashSet()..addAll({Foo('a', 1), Foo('b', 1), Foo('c', 1), Foo('a', 2)});
-  /// final distinct = set.distinct(by: (foo) => foo.id);
-  /// print(distinct); // Either {Foo('a', 1), Foo('b', 1), Foo('c', 1)} or {Foo('a', 2), Foo('b', 1), Foo('c', 1)}
+  /// print(unordered); // [('a', 1), ('c', 2)] or [('b', 1), ('c', 2)]
   /// ```
   ///
-  /// See [Iterable.toSet] for creating a distinct [Iterable] by comparing elements.
+  /// See [toSet] for creating a distinct [Iterable] by comparing elements.
   @lazy @useResult Iterable<E> distinct({required Select<E, Object?> by}) sync* {
     final existing = <Object?>{};
     for (final element in this) {
@@ -44,13 +31,13 @@ extension Iterables<E> on Iterable<E> {
     }
   }
 
-  /// Returns a lazy [Iterable] that contains this [Iterable]'s elements' indexes and elements.
+  /// Returns a lazy [Iterable] with records that contain a iteration index and element.
   ///
-  /// ### Example:
   /// ```dart
-  /// ['a', 'b', 'c'].indexed(); // [MapEntry(1, 'a'), MapEntry(2, 'b'), MapEntry(3, 'c')];
+  /// final iterable = ['a', 'b', 'c'].indexed();
+  /// print(iterable); // [(1, 'a'), (2, 'b'), (3, 'c')];
   /// ```
-  @lazy @useResult Iterable<MapEntry<int, E>> indexed() sync* {
+  @lazy @useResult Iterable<MapEntry<int, E>> indexed() sync* { // TODO: Dart 3 records
     var count = 0;
     for (final element in this) {
       yield MapEntry(count++, element);
@@ -66,7 +53,6 @@ extension Iterables<E> on Iterable<E> {
   ///
   /// It is a convenience function for similarly creating a map via [Map.fromIterable] and map comprehension.
   ///
-  /// ### Example:
   /// ```dart
   /// class Foo {
   ///   final String id;

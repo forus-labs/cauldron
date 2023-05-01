@@ -1,20 +1,19 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 
-/// Returns true if the given [Iterable]s have no elements in common.
+/// Returns true if [a] and [b] have no common elements.
 ///
-/// ### Example:
+/// ## Example
 /// ```dart
-/// disjoint([1, 2], [3, 4]); // true
+/// print(disjoint([1, 2], [3, 4])); // true
+/// print(disjoint([1, 2], [])); // true
 ///
-/// disjoint([1, 2], [2, 3]); // false
-///
-/// disjoint([1, 2], []); // true
+/// print(disjoint([1, 2], [2, 3])); // false
 /// ```
 ///
-/// ### Implementation details:
-/// This implementation assumes that the given iterables have efficient length computations, i.e. the length is cached.
-/// This is true for most standard library collections.
+/// ## Implementation details
+/// This function assumes that the iterables have efficient length computations, i.e. the length is cached. This is true
+/// for most standard library collections.
 @useResult bool disjoint(Iterable<Object?> a, Iterable<Object?> b) {
   // This implementation is borrowed from Java's Collections.disjoint(...) method.
   var iterable = a;
@@ -46,32 +45,13 @@ import 'package:sugar/core.dart';
   return true;
 }
 
-/// Returns a copy of the given [list] with elements separated by all elements in [by].
+/// Returns a copy of the [list] with its elements separated by those in [by].
 ///
-/// ### Example:
 /// ```dart
-/// final column = Column(
-///   children: separate([
-///     Widget(),
-///     Widget(),
-///     Widget(),
-///   ], by: [
-///     Divider(),
-///     Space(),
-///   ]),
-/// );
+/// final original = [ Fi(), Fo(), Fum() ];
+/// final list = separate(original, by: [ A(), B() ]);
 ///
-/// // Column(
-/// //   children: [
-/// //     Widget(),
-/// //     Divider(),
-/// //     Space(),
-/// //     Widget(),
-/// //     Divider(),
-/// //     Space(),
-/// //     Widget(),
-/// //   ],
-/// // );
+/// print(list); // [ Fi(), A(), B(), Fo(), A(), B(), Fum() ]
 /// ```
 @useResult List<E> separate<E>(List<E> list, {required List<E> by}) {
   // No errors are thrown if [list] or [by] is empty as it is extremely disruptive to prototyping UIs in Flutter.
@@ -86,16 +66,17 @@ import 'package:sugar/core.dart';
   return result;
 }
 
-/// Reverses a list, or a part of a list, in-place.
+/// Reverses a list, or part of between [start], inclusive and [end], exclusive, in-place.
 ///
-/// ### Contract:
-/// 0 <= [start] < [end] <= [list] length. A [RangeError] will otherwise be thrown.
+/// ## Contract
+/// 0 <= [start] < [end] <= [list] length. Throws a [RangeError] otherwise.
 /// 
-/// ### Example:
+/// ## Example
 /// ```dart
 /// final list = [0, 1, 2, 3, 4];
-/// reverse(list, 1, 4);
-/// print(list); // [0, 3, 2, 1, 4]
+/// reverse(list, 1, 5);
+/// 
+/// print(list); // [0, 4, 3, 2, 1]
 /// ```
 @Possible({RangeError})
 void reverse(@mutated List<Object?> list, [int start = 0, int? end]) {

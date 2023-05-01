@@ -20,7 +20,10 @@ jobs:
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
       - run: dart analyze --fatal-warnings
-      - run: dart test
+      - run: dart run coverage:test_with_coverage
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./sugar/coverage/lcov.info
 
   test-windows:
     name: Run platform-dependent tests on Windows
