@@ -1,34 +1,35 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 
-/// Provides functions for accessing moving functions.
+/// Provides functions for moving elements in lists to other collections.
 ///
 /// See [ListMove] for more information.
 extension MovableList<E> on List<E> {
 
-  /// A [ListMove] that is used to move elements from this [List] tp various collections.
+  /// Returns a [ListMove] used to move elements from this list to other collections.
   ///
-  /// ### Example:
   /// ```dart
   /// final foo = [1, 2, 3, 4, 5];
-  /// final bar = foo.move(where: (e) => e.isOdd).toList();
+  /// final bar = foo.move(where: (e) => e.isEven).toList();
+  ///
+  /// print(foo); // [1, 3, 5]
+  /// print(bar); // [2, 4]
   /// ```
   @lazy @useResult ListMove<E> move({required Predicate<E> where}) => ListMove(this, where);
 
 }
 
-/// An intermediate operation for moving elements in a [List] to other collections.
+/// A namespace for functions that move a [List]'s elements to other collections.
 ///
-/// ### Contract:
-/// The given predicate should not modify the underlying [List]. A [ConcurrentModificationError] will otherwise be thrown.
+/// ## Contract
+/// A [ConcurrentModificationError] is thrown if a predicate modifies the list.
 ///
-/// ### Example:
 /// ```dart
 /// final foo = [1, 2, 3, 4, 5];
-/// foo.move(where: (e) => foo.remove(e)).toList(); // throws ConcurrentModificationError
+/// foo.move(where: foo.remove).toList(); // throws ConcurrentModificationError
 /// ```
 ///
-/// See [SetMove] for moving elements in a [Set].
+/// See [SetMove] for moving a [Set]'s elements.
 class ListMove<E> {
 
   final List<E> _list;
@@ -37,57 +38,67 @@ class ListMove<E> {
   /// Creates a [ListMove] with the given backing list and predicate.
   ListMove(this._list, this._predicate);
 
-  /// Move elements this [List] into another [List]. The ordering of elements in the returned list is the same as this [List].
+  /// Move the list's elements that satisfy the predicate to another [List].
   ///
-  /// ### Example:
+  /// The ordering of elements in the returned list is the same as the list.
+  ///
+  /// ## Contract
+  /// A [ConcurrentModificationError] is thrown if the predicate modifies the list.
+  ///
+  /// ## Example
   /// ```dart
   /// final foo = [1, 2, 3, 4, 5];
-  /// final bar = foo.move(where: (e) => e.isOdd).toList();
+  /// final bar = foo.move(where: (e) => e.isEven).toList();
   ///
-  /// print(foo); // [2, 4]
-  /// print(bar); // [1, 3, 5]
+  /// print(foo); // [1, 3, 5]
+  /// print(bar); // [2, 4]
   /// ```
-  @Possible({ConcurrentModificationError}, when: 'predicate directly modifies underlying list')
+  @Possible({ConcurrentModificationError})
   @useResult List<E> toList() {
     final moved = <E>[];
     collect(moved.add);
     return moved;
   }
 
-  /// Moves elements in this [List] to a [Set]. The ordering of elements in the returned set is not guaranteed.
+  /// Move the list's elements that satisfy the predicate to a [Set].
   ///
-  /// ### Example:
+  /// The ordering of elements in the returned set is undefined.
+  ///
+  /// ## Contract
+  /// A [ConcurrentModificationError] is thrown if the predicate modifies the list.
+  ///
   /// ```dart
   /// final foo = [1, 2, 3, 4, 5];
-  /// final bar = foo.move(where: (e) => e.isOdd).toSet();
+  /// final bar = foo.move(where: (e) => e.isEven).toSet();
   ///
-  /// print(foo); // [2, 4]
-  /// print(bar); // {1, 3, 5}
+  /// print(foo); // [1, 3, 5]
+  /// print(bar); // {2, 4}
   /// ```
-  @Possible({ConcurrentModificationError}, when: 'predicate directly modifies underlying list')
+  @Possible({ConcurrentModificationError})
   @useResult Set<E> toSet() {
     final moved = <E>{};
     collect(moved.add);
     return moved;
   }
 
-  /// Moves elements in this [List] to the given [consume]. The elements are passed to the [consume] according to their
-  /// order in this [List].
+  /// Moves the list's elements that satisfy the predicate to [consume].
   ///
-  /// ### Contract:
-  /// The given [consume] should not modify this [List]. A [ConcurrentModificationError] will otherwise be thrown.
+  /// The elements are passed to [consume] in the same order as in the list.
   ///
-  /// ### Example:
+  /// ## Contract
+  /// A [ConcurrentModificationError] is thrown if [consume] modifies the list.
+  ///
+  /// ## Example
   /// ```dart
   /// final foo = [1, 2, 3, 4, 5];
   /// final bar = [];
   ///
-  /// foo.move(where: (e) => e.isOdd).collect(bar.add);
+  /// foo.move(where: (e) => e.isEven).collect(bar.add);
   ///
-  /// print(foo); // [2, 4]
-  /// print(bar); // [1, 3, 5]
+  /// print(foo); // [1, 3, 5]
+  /// print(bar); // [2, 4]
   /// ```
-  @Possible({ConcurrentModificationError}, when: 'predicate or consumer directly modifies underlying list')
+  @Possible({ConcurrentModificationError})
   void collect(Consume<E> consume) {
     final retained = <E>[];
     final length = _list.length;
@@ -112,34 +123,36 @@ class ListMove<E> {
 
 }
 
-/// Provides functions for accessing moving functions.
+/// Provides functions for moving elements in sets to other collections.
 ///
 /// See [SetMove] for more information.
 extension MovableSet<E> on Set<E> {
 
-  /// A [SetMove] that is used to move elements from this [Set] to various collections.
+  /// Returns a [SetMove] used to move elements in this [Set] to other collections.
   ///
-  /// ### Example:
+  /// ## Example
   /// ```dart
   /// final foo = {1, 2, 3, 4, 5};
-  /// final bar = foo.move(where: (e) => e.isOdd).toSet();
+  /// final bar = foo.move(where: (e) => e.isEven).toSet();
+  /// 
+  /// print(foo); // {1, 3, 5}
+  /// print(bar); // {2, 4}
   /// ```
   @lazy @useResult SetMove<E> move({required Predicate<E> where}) => SetMove(this, where);
 
 }
 
-/// An intermediate operation for moving elements in a [Set] to various collections.
+/// A namespace for functions that move a [Set]'s elements to other collections.
+/// 
+/// ## Contract
+/// A [ConcurrentModificationError] is thrown if a predicate modifies the list.
 ///
-/// ### Contract:
-/// The given predicate should not modify the underlying [Set]. A [ConcurrentModificationError] will otherwise be thrown.
-///
-/// ### Example:
 /// ```dart
 /// final foo = {1, 2, 3, 4, 5};
-/// foo.move(where: (e) => foo.remove(e)); // throws ConcurrentModificationError
+/// foo.move(where: foo.remove).toSet(); // throws ConcurrentModificationError
 /// ```
 ///
-/// See [ListMove] for moving elements in a [List].
+/// See [ListMove] for moving a [List]'s elements.
 class SetMove<E> {
 
   final Set<E> _set;
@@ -148,39 +161,42 @@ class SetMove<E> {
   /// Creates a [SetMove] with the given backing set and predicate.
   SetMove(this._set, this._predicate);
 
-  /// Moves elements in this this [Set] to another [Set]. The ordering of elements in the returned set is not guaranteed.
+  /// Move the set's elements that satisfy the predicate to another [Set].
   ///
-  /// ### Example:
+  /// ## Contract
+  /// A [ConcurrentModificationError] is thrown if the predicate modifies the set.
+  ///
+  /// ## Example
   /// ```dart
   /// final foo = {1, 2, 3, 4, 5};
-  /// final bar = foo.move(where: (e) => e.isOdd).toSet();
+  /// final bar = foo.move(where: (e) => e.isEven).toSet();
   ///
-  /// print(foo); // {2, 4}
-  /// print(bar); // {1, 3, 5}
+  /// print(foo); // {1, 3, 5}
+  /// print(bar); // {2, 4}
   /// ```
-  @Possible({ConcurrentModificationError}, when: 'predicate modifies underlying set')
+  @Possible({ConcurrentModificationError})
   @useResult Set<E> toSet() {
     final moved = <E>{};
     collect(moved.add);
     return moved;
   }
 
-  /// Moves elements in this [Set] to the given [consume]. The ordering of elements in the return set is not guaranteed.
+  /// Moves the set's elements that satisfy the predicate to [consume].
   ///
-  /// ### Contract:
-  /// The given [consume] should not modify this [Set]. A [ConcurrentModificationError] will otherwise be thrown.
+  /// ## Contract
+  /// A [ConcurrentModificationError] is thrown if [consume] modifies the set.
   ///
-  /// ### Example:
+  /// ## Example
   /// ```dart
   /// final foo = {1, 2, 3, 4, 5};
-  /// final bar = {};
+  /// final bar = [];
   ///
-  /// foo.move(where: (e) => e.isOdd).collect(bar.add);
+  /// foo.move(where: (e) => e.isEven).collect(bar.add);
   ///
-  /// print(foo); // {2, 4}
-  /// print(bar); // {1, 3, 5}
+  /// print(foo); // {1, 3, 5}
+  /// print(bar); // [2, 4]
   /// ```
-  @Possible({ConcurrentModificationError}, when: 'predicate or consumer modifies underlying set')
+  @Possible({ConcurrentModificationError})
   void collect(Consume<E> consume) {
     final removed = <E>[];
     for (final element in _set) {

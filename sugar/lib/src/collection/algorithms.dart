@@ -5,10 +5,10 @@ import 'package:sugar/core.dart';
 ///
 /// ## Example
 /// ```dart
-/// print(disjoint([1, 2], [3, 4])); // true
-/// print(disjoint([1, 2], [])); // true
+/// disjoint([1, 2], [3, 4]); // true
+/// disjoint([1, 2], []); // true
 ///
-/// print(disjoint([1, 2], [2, 3])); // false
+/// disjoint([1, 2], [2, 3]); // false
 /// ```
 ///
 /// ## Implementation details
@@ -69,7 +69,7 @@ import 'package:sugar/core.dart';
 /// Reverses a list, or part of between [start], inclusive and [end], exclusive, in-place.
 ///
 /// ## Contract
-/// 0 <= [start] < [end] <= [list] length. Throws a [RangeError] otherwise.
+/// `0 <= start < end <= list's length`. Throws a [RangeError] otherwise.
 /// 
 /// ## Example
 /// ```dart

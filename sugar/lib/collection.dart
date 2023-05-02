@@ -4,7 +4,7 @@
 ///
 /// This includes:
 /// * Bulk operations such as [Lists.removeAll].
-/// * Functions for creating a collection from another collection such as [Iterables.toUnmodifiableList].
+/// * Functions for creating a collection from another such as [Iterables.toUnmodifiableList].
 /// * Functions for working nullable elements such as [NonNullableList.addIfNonNull].
 /// * Move operations that move elements between collections such as [MovableList.move].
 ///

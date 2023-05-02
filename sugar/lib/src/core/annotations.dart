@@ -26,11 +26,9 @@ import 'package:meta/meta_meta.dart';
 
   /// The possible thrown exceptions or returned error codes.
   final Set<Object> states;
-  /// The conditions under which [states] occur.
-  final String when;
 
   /// Creates a [Possible] with the given parameters.
-  const Possible(this.states, {this.when = ''});
+  const Possible(this.states);
 
 }
 

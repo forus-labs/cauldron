@@ -5,14 +5,18 @@ import 'package:sugar/collection_aggregate.dart';
 import 'package:sugar/core.dart';
 
 /// Adds functions for transforming [Iterable]s to other collections.
+///
+/// Functions that rely on the ordering of elements are non-deterministic if an iterable is unordered, i.e. [HashSet].
 extension Iterables<E> on Iterable<E> {
 
-  /// Returns a lazy [Iterable] with only distinct elements.
+  /// Returns a lazy iterable with only distinct elements.
   ///
-  /// Two elements are distinct if the values returned by [by] are not equal according to [==].
+  /// Two elements are distinct if the values returned by [by] are not equal according to [==]. Earlier elements are
+  /// replaced by later elements if their values are equal.
   ///
-  /// If this [Iterable] contains identical elements, only the first of the identical elements is returned. This means
-  /// that this function is non-deterministic when this [Iterable] is unordered, i.e. [HashSet].
+  /// This function is non-deterministic when this iterable is unordered, i.e. [HashSet].
+  ///
+  /// See [toSet] for creating a distinct [Iterable] by comparing elements.
   ///
   /// ```dart
   /// final set = {('a', 1), ('b', 1), ('c', 2)};
@@ -20,8 +24,6 @@ extension Iterables<E> on Iterable<E> {
   ///
   /// print(unordered); // [('a', 1), ('c', 2)] or [('b', 1), ('c', 2)]
   /// ```
-  ///
-  /// See [toSet] for creating a distinct [Iterable] by comparing elements.
   @lazy @useResult Iterable<E> distinct({required Select<E, Object?> by}) sync* {
     final existing = <Object?>{};
     for (final element in this) {
@@ -31,11 +33,12 @@ extension Iterables<E> on Iterable<E> {
     }
   }
 
-  /// Returns a lazy [Iterable] with records that contain a iteration index and element.
+  /// Returns a lazy iterable with records that contain an iteration index and element.
+  ///
+  /// This function is non-deterministic when this iterable is unordered, i.e. [HashSet].
   ///
   /// ```dart
-  /// final iterable = ['a', 'b', 'c'].indexed();
-  /// print(iterable); // [(1, 'a'), (2, 'b'), (3, 'c')];
+  /// ['a', 'b', 'c'].indexed(); // [(1, 'a'), (2, 'b'), (3, 'c')]
   /// ```
   @lazy @useResult Iterable<MapEntry<int, E>> indexed() sync* { // TODO: Dart 3 records
     var count = 0;
@@ -45,97 +48,101 @@ extension Iterables<E> on Iterable<E> {
   }
 
 
-  /// Creates a map that associates a value returned by the given function with an element in this iterable. An earlier
-  /// entry will be overridden by a newer entry if duplicate keys exist.
+  /// Returns a map that associates values returned by [by] with elements in this iterable.
   ///
-  /// This function is meant for mapping a single key to a single element in this iterable, (1:1). For aggregating several
-  /// elements by the same key, (1:N), it is recommended to use the functions in [Group] instead.
+  /// Earlier entries are replaced by later entries if they contain the same key.
   ///
-  /// It is a convenience function for similarly creating a map via [Map.fromIterable] and map comprehension.
+  /// This function is a convenience function similar to [Map.fromIterable] and map comprehension. It is intended for
+  /// 1:1 mappings. See [Group] for aggregating several elements by the same key (1:N).
+  ///
+  /// This function is non-deterministic when this iterable is unordered, i.e. [HashSet].
   ///
   /// ```dart
-  /// class Foo {
-  ///   final String id;
+  /// final list = [('A'), ('B'), ('C')];
+  /// final map = list.associate(by: (foo) => foo.$1);
   ///
-  ///   Foo(this.id);
-  /// }
-  ///
-  /// final map = [Foo('A'), Foo('B'), Foo('C')].associate(by: (foo) => foo.id);
-  /// print(map); // { 'A': Foo('A'), 'B': Foo('B'), 'C': Foo('C') }
+  /// print(map); // { 'A': ('A'), 'B': ('B'), 'C': ('C') }
   /// ```
   @useResult Map<R, E> associate<R>({required Select<E, R> by}) => { for (final element in this) by(element): element };
 
-  /// Creates an unmodifiable [Map] using [key] and [value] to produce keys and values from elements in this [Iterable].
-  /// An entry may be replaced by a later entry if they both contain the same key.
+  /// Returns a modifiable map using [create] to produce entries from elements in this iterable.
   ///
-  /// This method is an alternative to Dart's in-built map comprehension. It is recommended to use this method only when
-  /// there are multiple steps to producing a key or value that cannot be expressed clearly in a single expression.
+  /// Earlier entries are replaced by later entries if they contain the same key.
   ///
-  /// ### Example:
+  /// This function is an alternative to map comprehension when there are multiple steps in producing entries that
+  /// cannot be expressed in a single expression.
+  ///
+  /// This function is non-deterministic when this iterable is unordered, i.e. [HashSet].
+  ///
+  /// See [toUnmodifiableMap] for creating a unmodifiable [Map].
+  ///
   /// ```dart
-  /// ['a', 'b', 'c'].toMap(
-  ///   (element) {
-  ///     final foo = someFunction(element);
-  ///     return someOtherFunction(foo) ?? yetAnotherFunction(foo);
-  ///   },
-  ///   (element) => element,
-  /// );
+  /// ['a', 'b', 'c'].toMap((element) {
+  ///   final foo = someFunction(element);
+  ///   return someOtherFunction(foo) ?? yetAnotherFunction(foo);
+  /// });
   /// ```
-  @useResult Map<K, V> toMap<K, V>(K Function(E element) key, V Function(E element) value) => { for (final element in this) key(element): value(element) };
+  @useResult Map<K, V> toMap<K, V>(MapEntry<K, V> Function(E element) create) => { // TODO: Dart 3 records
+    for (final entry in map((e) => create(e)))
+      entry.key: entry.value,
+  };
 
 
-  /// Creates an unmodifiable [List] using elements in this [Iterable].
+  /// Transforms this iterable into an unmodifiable [List].
   ///
-  /// ### Example:
+  /// This function is non-deterministic when this iterable is unordered, i.e. [HashSet].
+  ///
+  /// See [toList] for creating a modifiable [List].
+  ///
   /// ```dart
-  /// [1, 2, 3].toUnmodifiableList(); //  [1, 2, 3] - unmodifiable
+  /// [1, 2, 3].toUnmodifiableList(); //  [1, 2, 3]
   /// ```
-  ///
-  /// See [toList] for creating a mutable [List].
   @useResult List<E> toUnmodifiableList() => List.unmodifiable(this);
 
-  /// Creates an unmodifiable [Set] using elements in this [Iterable].
+  /// Transforms this iterable into an unmodifiable [Set].
   ///
-  /// ### Example:
+  /// See [toSet] for creating a modifiable [Set].
+  ///
   /// ```dart
-  /// {1, 2, 3}.toUnmodifiableSet(); //  {1, 2, 3} - unmodifiable
+  /// {1, 2, 3}.toUnmodifiableSet(); //  {1, 2, 3}
   /// ```
-  ///
-  /// See [toSet] for creating a mutable [Set].
   @useResult Set<E> toUnmodifiableSet() => Set.unmodifiable(this);
 
-  /// Creates an unmodifiable [Map] using [key] and [value] to produce keys and values from elements in this [Iterable].
-  /// An entry may be replaced by a later entry if they both contain the same key.
+  /// Returns an unmodifiable map using [create] to produce entries from elements in this iterable.
   ///
-  /// This method is an alternative to Dart's in-built map comprehension. It is recommended to use this method only when
-  /// there are multiple steps to producing a key or value that cannot be expressed clearly in a single expression.
+  /// Earlier entries are replaced by later entries if they contain the same key. It is an alternative to map
+  /// comprehension when there are multiple steps in producing entries that cannot be expressed in a single expression.
   ///
-  /// ### Example:
+  /// This function is non-deterministic when this iterable is unordered, i.e. [HashSet].
+  ///
+  /// See [toMap] for creating a modifiable [Map].
+  ///
   /// ```dart
   /// ['a', 'b', 'c'].toUnmodifiableMap(
-  ///   (element) {
-  ///     final foo = someFunction(element);
-  ///     return someOtherFunction(foo) ?? yetAnotherFunction(foo);
-  ///   },
-  ///   (element) => element,
+  ///   final foo = someFunction(element);
+  ///   return someOtherFunction(foo) ?? yetAnotherFunction(foo);
   /// );
   /// ```
-  ///
-  /// See [toMap] for creating a mutable [Map].
-  @useResult Map<K, V> toUnmodifiableMap<K, V>(K Function(E element) key, V Function(E element) value) => Map.unmodifiable({
-    for (final element in this) key(element): value(element),
+  @useResult Map<K, V> toUnmodifiableMap<K, V>(MapEntry<K, V> Function(E element) create) => Map.unmodifiable({
+    // TODO: Dart 3 records
+    for (final entry in map((e) => create(e)))
+      entry.key: entry.value,
   });
 
 }
 
-/// Provides functions for working with nested [Iterable]s.
+/// Provides functions for working with nested iterables.
+///
+/// Functions that rely on the ordering of elements are non-deterministic if an iterable is unordered, i.e. [HashSet].
 extension IterableIterable<E> on Iterable<Iterable<E>> {
 
-  /// Returns a lazy [Iterable] which contains elements in all nested [Iterable]s in this [Iterable].
+  /// Returns a lazy iterable that flattens all nested iterables in this iterable.
   ///
-  /// ### Example:
+  /// This function is non-deterministic when this iterable or its nested iterables are unordered, i.e. [HashSet].
+  ///
   /// ```dart
-  /// [[1, 2], [3, 4], [5]].flatten().toList(); // [1, 2, 3, 4, 5]
+  /// final nested = [[1, 2], [3, 4], [5]];
+  /// print(nested.flatten()); // [1, 2, 3, 4, 5]
   /// ```
   @lazy @useResult Iterable<E> flatten() sync* {
     for (final iterable in this) {

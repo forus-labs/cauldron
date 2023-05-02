@@ -7,20 +7,20 @@ void main() {
 
   group('Maps', () {
     group('merge(...)', () {
-      test('empty', () => expect(Maps.merge({}, {}, ifConflicts: (key, a, b) => a), {}));
+      test('empty', () => expect(Maps.merge({}, {}, resolve: (key, a, b) => a), {}));
 
       test('no conflicts', () => expect(
-        Maps.merge({'a': 1}, {'b': 2}, ifConflicts: (key, a, b) => min(a, b)),
+        Maps.merge({'a': 1}, {'b': 2}, resolve: (key, a, b) => min(a, b)),
         {'a': 1, 'b': 2},
       ));
 
       test('first wins', () => expect(
-        Maps.merge({'a': 1}, {'a': 2, 'b': 2}, ifConflicts: (key, a, b) => min(a, b)),
+        Maps.merge({'a': 1}, {'a': 2, 'b': 2}, resolve: (key, a, b) => min(a, b)),
         {'a': 1, 'b': 2},
       ));
 
       test('second wins', () => expect(
-        Maps.merge({'a': 2}, {'a': 1, 'b': 2}, ifConflicts: (key, a, b) => min(a, b)),
+        Maps.merge({'a': 2}, {'a': 1, 'b': 2}, resolve: (key, a, b) => min(a, b)),
         {'a': 1, 'b': 2},
       ));
     });
@@ -28,21 +28,21 @@ void main() {
     group('putAll(...)', () {
       test('empty', () {
         final a = <String, int>{};
-        expect(a..putAll({}, ifExists: (k, a, b) => min(a, b)), <String, int>{});
+        expect(a..putAll({}, resolve: (k, a, b) => min(a, b)), <String, int>{});
       });
 
       test('no conflicts', () => expect(
-        {'a': 1}..putAll({'b': 2}, ifExists: (k, a, b) => min(a, b)),
+        {'a': 1}..putAll({'b': 2}, resolve: (k, a, b) => min(a, b)),
         {'a': 1, 'b': 2},
       ));
 
       test('first wins', () => expect(
-        {'a': 1}..putAll({'a': 2, 'b': 2}, ifExists: (k, a, b) => min(a, b)),
+        {'a': 1}..putAll({'a': 2, 'b': 2}, resolve: (k, a, b) => min(a, b)),
         {'a': 1, 'b': 2},
       ));
 
       test('second wins', () => expect(
-        {'a': 2}..putAll({'a': 1, 'b': 2}, ifExists: (k, a, b) => min(a, b)),
+        {'a': 2}..putAll({'a': 1, 'b': 2}, resolve: (k, a, b) => min(a, b)),
         {'a': 1, 'b': 2},
       ));
     });

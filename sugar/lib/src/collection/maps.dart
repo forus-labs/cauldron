@@ -1,55 +1,55 @@
 import 'package:meta/meta.dart';
 
-/// Provides functions for working with maps.
+/// Provides functions for working with [Map]s.
 extension Maps<K, V> on Map<K, V> {
 
-  /// Merges [a] and [b], using the given [ifConflicts] function to resolve conflicting entries.
-  ///
-  /// ### Example:
-  /// ```dart
-  /// final foo = {'a': 1, 'b': 2, 'c': 3};
-  /// final bar = {'a': 1, 'b': 3, 'c': 2};
-  ///
-  /// Maps.merge(foo, bar, ifConflicts: (k, v1, v2) => min(v1, v2)); // {'a': 1, 'b': 3, 'c': 3}
-  /// ```
+  /// Merges [a] and [b], using [resolve] to resolve conflicting entries.
   ///
   /// See [putAll] for merging maps in-place.
-  @useResult
-  static Map<K, V> merge<K, V>(Map<K, V> a, Map<K, V> b, {required V Function(K key, V a, V b) ifConflicts}) {
+  ///
+  /// ```dart
+  /// final foo = {'a': 1, 'b': 2};
+  /// final bar = {'a': 1, 'b': 3};
+  ///
+  /// final merged = Maps.merge(foo, bar, resolve: (k, v1, v2) => min(v1, v2));
+  ///
+  /// print(merged); // {'a': 1, 'b': 2}
+  /// ```
+  @useResult static Map<K, V> merge<K, V>(Map<K, V> a, Map<K, V> b, {required V Function(K key, V a, V b) resolve}) {
     final result = Map.of(a);
     for (final entry in b.entries) {
       final existing = a[entry.key];
-      result[entry.key] = existing == null ? entry.value : ifConflicts(entry.key, existing, entry.value);
+      result[entry.key] = existing == null ? entry.value : resolve(entry.key, existing, entry.value);
     }
 
     return result;
   }
 
 
-  /// Adds all entries in [other] to this [Map], using the given [ifExists] function to resolve conflicting entries.
-  ///
-  /// ### Example:
-  /// ```dart
-  /// final foo = {'a': 1, 'b': 2, 'c': 3};
-  /// final bar = {'a': 1, 'b': 3, 'c': 2};
-  ///
-  /// foo.merge(bar, ifConflicts: (k, v1, v2) => min(v1, v2)); // {'a': 1, 'b': 3, 'c': 3}
-  /// ```
+  /// Adds all entries in [other] to this map, using [resolve] to resolve conflicting entries.
   ///
   /// See [merge] for merging maps without mutating this map.
-  void putAll(Map<K, V> other, {required V Function(K key, V existing, V other) ifExists}) {
+  ///
+  /// ```dart
+  /// final foo = {'a': 1, 'b': 2};
+  /// final bar = {'a': 1, 'b': 3};
+  ///
+  /// foo.merge(bar, resolve: (k, v1, v2) => min(v1, v2));
+  ///
+  /// print(foo); // {'a': 1, 'b': 2}
+  /// ```
+  void putAll(Map<K, V> other, {required V Function(K key, V existing, V other) resolve}) {
     for (final entry in other.entries) {
       final existing = this[entry.key];
-      this[entry.key] = existing == null ? entry.value : ifExists(entry.key, existing, entry.value);
+      this[entry.key] = existing == null ? entry.value : resolve(entry.key, existing, entry.value);
     }
   }
 
-  /// Retains all entries of this map that satisfy the given [predicate].
+  /// Retains all entries that satisfy the given [predicate].
   ///
-  /// ### Example:
   /// ```dart
-  /// final foo = {'a': 1, 'b': 2, 'c': 3};
-  /// foo.retainWhere((k, v) => v < 3); // {'a': 1, 'b': 2}
+  /// final foo = {'a': 1, 'b': 2};
+  /// foo.retainWhere((k, v) => v < 2); // {'b': 2}
   /// ```
   void retainWhere(bool Function(K key, V value) predicate) {
     final removed = <K>[];
@@ -63,15 +63,13 @@ extension Maps<K, V> on Map<K, V> {
   }
 
 
-  /// Returns a [Map] where each entry is inverted, with the key becoming the value and the value becoming the key.
+  /// Inverts this map with keys becoming values and vice versa.
   ///
-  /// ### Example:
   /// ```dart
-  /// final foo = {'a': 1, 'b': 2, 'c': 3, 'd': 3};
-  /// final bar = foo.inverse(); //  {1: ['a'], 2: ['b'], 3: ['c', 'd']}
+  /// final foo = {'a': 1, 'b': 2, 'c': 2};
+  /// foo.inverse(); //  {1: ['a'], 2: ['b', 'c']}
   /// ```
-  @useResult
-  Map<V, List<K>> inverse() {
+  @useResult Map<V, List<K>> inverse() {
     final result = <V, List<K>>{};
     for (final entry in entries) {
       (result[entry.value] ??= []).add(entry.key);
@@ -80,65 +78,53 @@ extension Maps<K, V> on Map<K, V> {
     return result;
   }
 
-  /// Returns a [Map] that contains only entries that satisfy the given predicate.
+  /// Eagerly returns a map with only entries that satisfy the given predicate.
   ///
-  /// ### Note:
-  /// This function is eager. That is to say, the resulting [Map] is immediately computed.
-  ///
-  /// ### Example:
   /// ```dart
   /// final foo = {'a': 1, 'b': 2, 'c': 3};
   /// final bar = foo.where((k, v) => k == 'a' || v == 2); // {'a': 1, 'b': 2}
   /// ```
-  @useResult
-  Map<K, V> where(bool Function(K key, V value) predicate) => {
+  @useResult Map<K, V> where(bool Function(K key, V value) predicate) => {
     for (final entry in entries)
       if (predicate(entry.key, entry.value))
         entry.key: entry.value
   };
 
-  /// Returns a [Map] that contains this [Map]'s [keys] transformed using the given [convert] function associated with
-  /// the same [values].
+  /// Returns a copy of this map with its keys transformed using [convert].
   ///
-  /// ### Contract:
-  /// [convert] should produce unique keys. Earlier entries may be overridden by newer entries if [convert] produces
-  /// duplicate keys.
+  /// ## Contract
+  /// [convert] should always return distinct keys. Earlier entries may be replaced by later entries with the same key
+  /// otherwise.
   ///
-  /// ### Example:
+  /// ## Example
   /// ```dart
-  /// final foo = {1: 1, 2: 2, 3: 3};
-  /// final bar = foo.rekey((k) => k.toString()); // {'1': 1, '2': 2, '3': 3}
+  /// final foo = {1: 1, 2: 2};
+  /// final bar = foo.rekey((k) => '$k'); // {'1': 1, '2': 2}
   /// ```
-  /// See [revalue] for converting values only.
-  /// See [map] for converting both keys and entries.
-  @useResult
-  Map<K1, V> rekey<K1>(K1 Function(K key) convert) => { for (final entry in entries) convert(entry.key): entry.value };
+  ///
+  /// See [revalue] for converting values and [map] for converting entries.
+  @useResult Map<K1, V> rekey<K1>(K1 Function(K key) convert) => { for (final entry in entries) convert(entry.key): entry.value };
 
-  /// Returns a [Map] that contains this [Map]'s [keys] associated with its [values] transformed using the given [convert]
-  /// function.
+  /// Returns a copy of this map with its values transformed using [convert].
   ///
-  /// ### Example:
   /// ```dart
-  /// final foo = {1: 1, 2: 2, 3: 3};
-  /// final bar = foo.revalue((v) => v.toString()); // {1: '1', 2: '2', 3: '3'}
+  /// final foo = {1: 1, 2: 2};
+  /// final bar = foo.revalue((v) => '$v'); // {1: '1', 2: '2'}
   /// ```
   ///
-  /// See [rekey] for converting values only.
-  /// See [map] for converting both keys and entries.
+  /// See [rekey] for converting values and [map] for converting entries.
   @useResult
   Map<K, V1> revalue<V1>(V1 Function(V value) convert) => { for (final entry in entries) entry.key: convert(entry.value) };
 
 }
 
-/// Provides functions for working with [Map]s of null-nullable entries.
+/// Provides functions for working with [Map]s with null-nullable entries.
 extension NonNullableMap<K extends Object, V extends Object> on Map<K, V> {
 
-  /// Associates the [key] with the given [value] if neither is null.
+  /// Associates the [key] with the given [value], and returns true, if neither is null.
   ///
-  /// Returns `true` if the [key] was associated with the given [value]. That is to say, if neither was null. Otherwise,
-  /// returns `false`.
+  /// Replaces an entry if it already exists.
   ///
-  /// ### Example:
   /// ```dart
   /// <String, int>{}.putIfNotNull('a', 1); // true, {'a': 1}
   ///

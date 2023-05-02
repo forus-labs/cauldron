@@ -3,23 +3,29 @@ import 'package:sugar/core.dart';
 /// Provides functions for working with [Set]s.
 extension Sets<E> on Set<E> {
 
-  /// Replaces all elements in this [Set] using the given function. The given function accepts another function used to
-  /// add replacement(s). An element can be replaced by zero or more elements.
+  /// Replaces elements using [function].
   ///
-  /// This function is the equivalent of a mutating [fold].
+  /// [function] accepts a [Consume] used to specify an element's replacements. An element can be replaced by zero or more
+  /// elements. This function is an in-place 1:N [map] function.
   ///
-  /// ### Example:
-  /// ```dart
-  /// {1, 2, 3, 4}.replaceAll((replace, element) { if (element.isOdd) replace(element * 10); }); // [10, 30]
-  /// ```
-  ///
-  /// ### Contract:
-  /// The given [function] should not modify this [Set]. A [ConcurrentModificationError] will otherwise be thrown.
+  /// ## Contract
+  /// A [ConcurrentModificationError] is thrown if [function] directly modifies this set.
   ///
   /// ```dart
   /// final foo = {1};
-  /// foo.replaceAll((replace, element) => foo.remove(0)); // throws ConcurrentModificationError
+  /// foo.replaceAll((_, __) => foo.remove(0)); // throws ConcurrentModificationError
   /// ```
+  ///
+  /// ## Example
+  /// ```dart
+  /// void multiplyOdd(Consume<int> add, int element) {
+  ///   if (element.isOdd)
+  ///     replace(element * 10);
+  /// }
+  ///
+  /// {1, 2, 3, 4}.replaceAll(multiplyOdd); // {10, 30}
+  /// ```
+  ///
   @Possible({ConcurrentModificationError})
   void replaceAll(void Function(bool Function(E element) replace, E element) function) {
     final retained = <E>{};
@@ -42,18 +48,12 @@ extension Sets<E> on Set<E> {
 /// Provides functions for working with [Set]s of null-nullable elements.
 extension NonNullableSet<E extends Object> on Set<E> {
 
-  /// Adds the [element] to this [Set] if not null.
+  /// Adds the [element] to this set and returns `true` if it is not null.
   ///
-  /// Returns `true` if the element was added to this [Set]. That is to say, if the element was not null and this [Set] did not
-  /// already contain the element. Otherwise, returns `false`.
-  ///
-  /// ### Example:
   /// ```dart
   /// {}.addIfNonNull(1); // {1}, true
   ///
-  /// {1}.addIfNonNull(1); // {1}, false
-  ///
-  /// {}}.addIfNonNull(null); // {}, false
+  /// {}.addIfNonNull(null); // {}, false
   /// ```
   bool addIfNonNull(E? element) => element != null && add(element);
 

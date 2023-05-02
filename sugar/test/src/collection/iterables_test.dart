@@ -78,17 +78,17 @@ void main() {
     });
 
     group('toMap(...)', () {
-      test('empty', () => expect([].toMap((e) => e, (e) => e), {}));
+      test('empty', () => expect([].toMap((e) => MapEntry(e, e)), {}));
 
-      test('single value', () => expect([Foo('a')].toMap((e) => e.id, (e) => e.toString()), {'a': 'Foo{id: a}'}));
+      test('single value', () => expect([Foo('a')].toMap((e) => MapEntry(e.id, e.toString())), {'a': 'Foo{id: a}'}));
 
-      test('multiple unique values', () => expect([Foo('a'), Foo('b'), Foo('c')].toMap((e) => e.id, (e) => e.toString()), {
+      test('multiple unique values', () => expect([Foo('a'), Foo('b'), Foo('c')].toMap((e) => MapEntry(e.id, e.toString())), {
         'a': 'Foo{id: a}',
         'b': 'Foo{id: b}',
         'c': 'Foo{id: c}',
       }));
 
-      test('multiple duplicate values', () => expect([Foo('a'), Foo('a'), Foo('b'), Foo('c')].toMap((e) => e.id, (e) => e.toString()), {
+      test('multiple duplicate values', () => expect([Foo('a'), Foo('a'), Foo('b'), Foo('c')].toMap((e) => MapEntry(e.id, e.toString())), {
         'a': 'Foo{id: a}',
         'b': 'Foo{id: b}',
         'c': 'Foo{id: c}',
@@ -114,7 +114,7 @@ void main() {
 
     test('toUnmodifiableMap()', () {
       final original = {1, 2, 3};
-      final unmodifiable = original.toUnmodifiableMap((e) => e, (e) => e.toString());
+      final unmodifiable = original.toUnmodifiableMap((e) => MapEntry(e, e.toString()));
 
       expect(unmodifiable, {1: '1', 2: '2', 3: '3'});
       expect(() => unmodifiable.remove(1), throwsUnsupportedError);
