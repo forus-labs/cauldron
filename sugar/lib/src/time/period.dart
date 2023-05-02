@@ -72,7 +72,14 @@ class Period {
     final normalizedMonths = totalMonths.remainder(12);
     final normalizedYears = totalMonths ~/ 12;
 
-    var total = inMicroseconds;
+    var total =
+        days * Duration.microsecondsPerDay
+      + hours * Duration.microsecondsPerHour
+      + minutes * Duration.microsecondsPerMinute
+      + seconds * Duration.microsecondsPerSecond
+      + milliseconds * Duration.microsecondsPerMillisecond
+      + microseconds;
+
     final normalizedMicroseconds = total.remainder(1000);
     final normalizedMilliseconds = (total ~/= 1000).remainder(1000);
     final normalizedSeconds = (total ~/= 1000).remainder(60);
@@ -133,14 +140,14 @@ class Period {
     int milliseconds = 0,
     int microseconds = 0,
   }) => copyWith(
-    years: this.years + years,
-    months: this.months + months,
-    days: this.days + days,
-    hours: this.hours + hours,
-    minutes: this.minutes + minutes,
-    seconds: this.seconds + seconds,
-    milliseconds: this.milliseconds + milliseconds,
-    microseconds: this.microseconds + microseconds,
+    years: this.years - years,
+    months: this.months - months,
+    days: this.days - days,
+    hours: this.hours - hours,
+    minutes: this.minutes - minutes,
+    seconds: this.seconds - seconds,
+    milliseconds: this.milliseconds - milliseconds,
+    microseconds: this.microseconds - microseconds,
   );
 
 
@@ -193,22 +200,14 @@ class Period {
     int? microseconds,
   }) => Period(
     years: years ?? this.years,
-    months: years ?? this.months,
+    months: months ?? this.months,
     days: days ?? this.days,
     hours: hours ?? this.hours,
     minutes: minutes ?? this.minutes,
+    seconds: seconds ?? this.seconds,
     milliseconds: milliseconds ?? this.milliseconds,
-    microseconds: microseconds ?? this.milliseconds,
+    microseconds: microseconds ?? this.microseconds,
   );
-
-
-  /// This [Period] in microseconds.
-  int get inMicroseconds => days * Duration.microsecondsPerDay
-    + hours * Duration.microsecondsPerHour
-    + minutes * Duration.microsecondsPerMinute
-    + seconds * Duration.microsecondsPerSecond
-    + milliseconds * Duration.microsecondsPerMillisecond
-    + microseconds;
 
 
   @override

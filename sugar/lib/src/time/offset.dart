@@ -95,6 +95,28 @@ part 'offsets.dart';
   const Offset._(this._microseconds);
 
 
+  /// Returns a copy of this [Offset] with the [duration] added. Throws a [RangeError] if the [Offset] is outside the valid [range].
+  ///
+  /// ```dart
+  /// Offset(16).add(Duration(hours: 2)); // Offset(18)
+  ///
+  /// Offset(18).add(Duration(hours: 2)); // throws RangeError
+  /// ```
+  @Possible({RangeError})
+  @useResult Offset add(Duration duration) => Offset.fromMicroseconds(_microseconds + duration.inMicroseconds);
+
+  /// Returns a copy of this [Offset] with the [duration] subtracted. Throws a [RangeError] if the [Offset] is outside
+  /// the valid [range].
+  ///
+  /// ```dart
+  /// Offset(-16).subtract(Duration(hours: 2)); // Offset(-18)
+  ///
+  /// Offset(-18).subtract(Duration(hours: 2)); // throws RangeError
+  /// ```
+  @Possible({RangeError})
+  @useResult Offset subtract(Duration duration) => Offset.fromMicroseconds(_microseconds - duration.inMicroseconds);
+
+
   /// Returns a copy of this [Offset] with the sum of the individual parts added. Throws a [RangeError] if the [Offset] is
   /// outside the valid [range].
   ///
@@ -153,51 +175,6 @@ part 'offsets.dart';
       return null;
     }
   }
-
-
-  /// Returns a copy of this [Offset] with the [duration] added. Throws a [RangeError] if the [Offset] is outside the valid [range].
-  ///
-  /// ```dart
-  /// Offset(16).add(Duration(hours: 2)); // Offset(18)
-  ///
-  /// Offset(18).add(Duration(hours: 2)); // throws RangeError
-  /// ```
-  @Possible({RangeError})
-  @useResult Offset add(Duration duration) => Offset.fromMicroseconds(_microseconds + duration.inMicroseconds);
-
-  /// Returns a copy of this [Offset] with the [duration] subtracted. Throws a [RangeError] if the [Offset] is outside
-  /// the valid [range].
-  ///
-  /// ```dart
-  /// Offset(-16).subtract(Duration(hours: 2)); // Offset(-18)
-  ///
-  /// Offset(-18).subtract(Duration(hours: 2)); // throws RangeError
-  /// ```
-  @Possible({RangeError})
-  @useResult Offset subtract(Duration duration) => Offset.fromMicroseconds(_microseconds - duration.inMicroseconds);
-
-
-  /// Returns a copy of this [Offset] with the [Period] added. Throws a [RangeError] if the [Offset] is outside the valid
-  /// [range].
-  ///
-  /// ```dart
-  /// Offset(16).add(Period(hours: 2)); // Offset(18)
-  ///
-  /// Offset(18).add(Period(years: 1)); // throws RangeError
-  /// ```
-  @Possible({RangeError})
-  @useResult Offset operator + (Period period) => Offset.fromMicroseconds(_microseconds + period.inMicroseconds);
-
-  /// Returns a copy of this [Offset] with the [Period] subtracted. Throws a [RangeError] if the [Offset] is outside
-  /// the valid [range].
-  ///
-  /// ```dart
-  /// Offset(-16).subtract(Period(hours: 2)); // Offset(-18)
-  ///
-  /// Offset(-18).subtract(Period(years: 1)); // throws RangeError
-  /// ```
-  @Possible({RangeError})
-  @useResult Offset operator - (Period period) => Offset.fromMicroseconds(_microseconds - period.inMicroseconds);
 
 
   /// Returns the difference between the two offsets. The difference may be negative.

@@ -14,7 +14,7 @@ extension Dates on Never {
   /// ```dart
   /// print(Dates.format(2023, 4, 1)); // 2023-04-01
   /// ```
-  @useResult static  String format(int year, [int month = 1, int day = 1]) {
+  @useResult static String format(int year, [int month = 1, int day = 1]) {
     final sign = year < 0 ? '-' : '';
     final yyyy = year.abs().toString().padLeft(4, '0');
     final mm = month.toString().padLeft(2, '0');

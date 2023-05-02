@@ -142,6 +142,19 @@ void main() {
     });
 
 
+    group('add', () {
+      test('succeeds', () => expect(Offset().add(const Duration(hours: 1, minutes: 2, seconds: 3)), Offset(1, 2, 3)));
+
+      test('fails', () => expect(() => Offset(10).add(const Duration(hours: 10)), throwsRangeError));
+    });
+
+    group('subtract', () {
+      test('succeeds', () => expect(Offset().subtract(const Duration(hours: 1, minutes: 2, seconds: 3)), Offset(-1, 2, 3)));
+
+      test('fails', () => expect(() => Offset(-10).subtract(const Duration(hours: 10)), throwsRangeError));
+    });
+
+
     group('plus', () {
       test('succeeds', () => expect(Offset().plus(hours: 1, minutes: 2, seconds: 3), Offset(1, 2, 3)));
 
@@ -168,21 +181,17 @@ void main() {
     });
 
 
-    group('add', () {
-      test('succeeds', () => expect(Offset().add(const Duration(hours: 1, minutes: 2, seconds: 3)), Offset(1, 2, 3)));
-
-      test('fails', () => expect(() => Offset(10).add(const Duration(hours: 10)), throwsRangeError));
-    });
-
-    group('subtract', () {
-      test('succeeds', () => expect(Offset().subtract(const Duration(hours: 1, minutes: 2, seconds: 3)), Offset(-1, 2, 3)));
-
-      test('fails', () => expect(() => Offset(-10).subtract(const Duration(hours: 10)), throwsRangeError));
-    });
-
     test('difference(...)', () => expect(Offset(10).difference(Offset(-10)), const Duration(hours: 20)));
 
     test('toDuration()', () => expect(Offset(-1, 2, 3).toDuration(), const Duration(hours: -1, minutes: -2, seconds: -3)));
+
+
+    test('inSeconds', () => expect(Offset(1, 2, 3).inSeconds, 3723));
+
+    test('inMilliseconds', () => expect(Offset(1, 2, 3).inMilliseconds, 3723000));
+
+    test('inMicroseconds', () => expect(Offset(1, 2, 3).inMicroseconds, 3723000000));
+
 
     for (final argument in [
       [Offset(1, 2, 3), true],
@@ -203,6 +212,12 @@ void main() {
   });
 
   group('LiteralOffset', () {
+    test('constructor', () {
+      const offset = LiteralOffset('+01:02:03', 3723);
+      expect(offset.inSeconds, 3723);
+      expect(offset.toString(), '+01:02:03');
+    });
+
     test('constructor throws exception', () => expect(() => LiteralOffset('+01:02:03', -100000000), throwsA(anything)));
 
     for (final argument in [
