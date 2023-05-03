@@ -35,43 +35,43 @@ void main() {
 
   group('window(...)', () {
     for (final length in [-1, 0]) {
-      test('invalid length', () => expect(() => [1].split.window(length: length), throwsRangeError));
+      test('invalid length', () => expect(() => [1].split.window(size: length), throwsRangeError));
     }
 
     for (final by in [-1, 0]) {
-      test('invalid by', () => expect(() => [1].split.window(length: 1, by: by), throwsRangeError));
+      test('invalid by', () => expect(() => [1].split.window(size: 1, by: by), throwsRangeError));
     }
 
     group('partial', () {
-      test('overlapping windows, partial ending', () => expect([1, 2, 3, 4].split.window(length: 3, by: 2, partial: true).toList(), [[1, 2, 3], [3, 4]]));
+      test('overlapping windows, partial ending', () => expect([1, 2, 3, 4].split.window(size: 3, by: 2, partial: true).toList(), [[1, 2, 3], [3, 4]]));
 
-      test('overlapping windows, no partial ending', () => expect([1, 2, 3, 4, 5].split.window(length: 3, by: 2, partial: true).toList(), [[1, 2, 3], [3, 4, 5]]));
-
-
-      test('exact windows, partial ending', () => expect([1, 2, 3, 4, 5].split.window(length: 2, by: 2, partial: true).toList(), [[1, 2], [3, 4], [5]]));
-
-      test('exact windows, no partial ending', () => expect([1, 2, 3, 4].split.window(length: 2, by: 2, partial: true).toList(), [[1, 2], [3, 4]]));
+      test('overlapping windows, no partial ending', () => expect([1, 2, 3, 4, 5].split.window(size: 3, by: 2, partial: true).toList(), [[1, 2, 3], [3, 4, 5]]));
 
 
-      test('non-overlapping windows, partial ending', () => expect([1, 2, 3, 4, 5, 6, 7].split.window(length: 2, by: 3, partial: true).toList(), [[1, 2], [4, 5], [7]]));
+      test('exact windows, partial ending', () => expect([1, 2, 3, 4, 5].split.window(size: 2, by: 2, partial: true).toList(), [[1, 2], [3, 4], [5]]));
 
-      test('non-overlapping windows, no partial ending', () => expect([1, 2, 3, 4, 5].split.window(length: 2, by: 3, partial: true).toList(), [[1, 2], [4, 5]]));
+      test('exact windows, no partial ending', () => expect([1, 2, 3, 4].split.window(size: 2, by: 2, partial: true).toList(), [[1, 2], [3, 4]]));
+
+
+      test('non-overlapping windows, partial ending', () => expect([1, 2, 3, 4, 5, 6, 7].split.window(size: 2, by: 3, partial: true).toList(), [[1, 2], [4, 5], [7]]));
+
+      test('non-overlapping windows, no partial ending', () => expect([1, 2, 3, 4, 5].split.window(size: 2, by: 3, partial: true).toList(), [[1, 2], [4, 5]]));
     });
 
     group('not partial', () {
-      test('overlapping windows, partial ending', () => expect([1, 2, 3, 4].split.window(length: 3, by: 2).toList(), [[1, 2, 3]]));
+      test('overlapping windows, partial ending', () => expect([1, 2, 3, 4].split.window(size: 3, by: 2).toList(), [[1, 2, 3]]));
 
-      test('overlapping windows, no partial ending', () => expect([1, 2, 3, 4, 5].split.window(length: 3, by: 2).toList(), [[1, 2, 3], [3, 4, 5]]));
-
-
-      test('exact windows, partial ending', () => expect([1, 2, 3, 4, 5].split.window(length: 2, by: 2).toList(), [[1, 2], [3, 4]]));
-
-      test('exact windows, no partial ending', () => expect([1, 2, 3, 4].split.window(length: 2, by: 2).toList(), [[1, 2], [3, 4]]));
+      test('overlapping windows, no partial ending', () => expect([1, 2, 3, 4, 5].split.window(size: 3, by: 2).toList(), [[1, 2, 3], [3, 4, 5]]));
 
 
-      test('non-overlapping windows, partial ending', () => expect([1, 2, 3, 4, 5, 6, 7].split.window(length: 2, by: 3).toList(), [[1, 2], [4, 5]]));
+      test('exact windows, partial ending', () => expect([1, 2, 3, 4, 5].split.window(size: 2, by: 2).toList(), [[1, 2], [3, 4]]));
 
-      test('non-overlapping windows, no partial ending', () => expect([1, 2, 3, 4, 5].split.window(length: 2, by: 3).toList(), [[1, 2], [4, 5]]));
+      test('exact windows, no partial ending', () => expect([1, 2, 3, 4].split.window(size: 2, by: 2).toList(), [[1, 2], [3, 4]]));
+
+
+      test('non-overlapping windows, partial ending', () => expect([1, 2, 3, 4, 5, 6, 7].split.window(size: 2, by: 3).toList(), [[1, 2], [4, 5]]));
+
+      test('non-overlapping windows, no partial ending', () => expect([1, 2, 3, 4, 5].split.window(size: 2, by: 3).toList(), [[1, 2], [4, 5]]));
     });
   });
 }

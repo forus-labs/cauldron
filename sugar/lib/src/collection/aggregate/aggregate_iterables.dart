@@ -5,42 +5,32 @@ import 'package:sugar/core.dart';
 /// Provides aggregate functions for [Iterable]s.
 extension AggregateIterable<E> on Iterable<E> {
 
-  /// Computes the average of all values returned by the given [select]. [double.nan] will always be returned if this
-  /// [Iterable] is empty, or [double.nan] is present.
+  /// Computes the average of all values. Values are created from this iterable's elements using [select].
   ///
-  /// ### Example:
+  /// Returns [double.nan] if empty, or if [select] returns [double.nan].
+  ///
+  /// ## Example
   /// ```dart
-  /// class Foo {
-  ///   final int value;
-  ///
-  ///   Foo(this.value);
-  /// }
-  ///
-  /// [Foo(1), Foo(2), Foo(3)].average((foo) => foo.value); // 2
+  /// final list = [('a', 1), ('b', 3), ('c', 5)];
+  /// list.average((e) => e.$2); // 3
   /// ```
   ///
-  /// ### Implementation details:
-  /// This implementation assumes that computing each number is inexpensive. Under this assumption, it is more beneficial
-  /// to recompute each value than maintain a map/list of numbers.
+  /// ## Implementation details
+  /// Computing values is assumed to be cheap. Hence, values are recomputed each time rather than cached.
   @useResult double average(Select<E, num> select) => sum(select) / length;
 
-  /// Computes the sum of values returned by the given [select], starting with the given initial value. The initial value
-  /// is 0 if unspecified. [double.nan] will always be returned if present.
+  /// Computes the sum of all values. Values are created from this iterable's elements using [select].
   ///
-  /// ### Example:
+  /// The initial value is 0 if unspecified. Returns [double.nan] if [select] returns [double.nan].
+  ///
+  /// ## Example
   /// ```dart
-  /// class Foo {
-  ///   final int value;
-  ///
-  ///   Foo(this.value);
-  /// }
-  ///
-  /// [Foo(1), Foo(2), Foo(3)].sum((foo) => foo.value, initial: 5); // 11
+  /// final list = [('a', 2), ('b', 3), ('c', 4)];
+  /// list.sum((e) => e.$2, initial: 1); // 10
   /// ```
   ///
-  /// ### Implementation details:
-  /// This implementation assumes that computing each [R] is inexpensive. Under this assumption, it is more beneficial
-  /// to recompute each value than maintain a map/list of [R]s.
+  /// ## Implementation details
+  /// Computing values is assumed to be cheap. Hence, values are recomputed each time rather than cached.
   @useResult R sum<R extends num>(Select<E, num> select, {R? initial}) {
     var sum = initial ?? 0;
     for (final element in this) {
@@ -54,16 +44,15 @@ extension AggregateIterable<E> on Iterable<E> {
 }
 
 
-/// Provides aggregate functions for [Iterable]s of [Comparable]s.
+/// Provides ordering functions for [Iterable]s of [Comparable]s.
 ///
-/// See also [OrderableIterable] for ordering types that don't extend [Comparable].
+/// See [OrderableIterable] for ordering elements that are not [Comparable].
 extension AggregateComparableIterable<E extends Comparable<Object>> on Iterable<E> {
 
-  /// The smallest element in this [Iterable] or `null` if empty.
+  /// The minimum element in this iterable, or `null` if empty.
   ///
-  /// ### Example:
   /// ```dart
-  /// ['a', 'b', 'c'].min; // 'a'
+  /// ['b', 'a', 'c'].min; // 'a'
   /// ```
   @useResult E? get min {
     final iterator = this.iterator;
@@ -82,11 +71,10 @@ extension AggregateComparableIterable<E extends Comparable<Object>> on Iterable<
     return min;
   }
 
-  /// The largest element in this [Iterable] or `null` if empty.
+  /// The maximum element in this iterable, or `null` if empty.
   ///
-  /// ### Example:
   /// ```dart
-  /// ['a', 'b', 'c'].min; // 'c'
+  /// ['a', 'c', 'b'].max; // 'c'
   /// ```
   @useResult E? get max {
     final iterator = this.iterator;
@@ -109,20 +97,19 @@ extension AggregateComparableIterable<E extends Comparable<Object>> on Iterable<
 
 /// Provides aggregate functions for [Iterable]s of [num]s.
 ///
-/// This is a specialized version of [AggregateIterable] since [num]s require special handling of [double.nan].
+/// This is a specialized implementation of [AggregateIterable] and [AggregateComparableIterable] that handles
+/// [double.nan] elements properly.
 extension AggregateNumberIterable<E extends num> on Iterable<E> {
 
-  /// The average of all elements in this [Iterable], or [double.nan] if empty.
+  /// The average of all elements in this iterable, or [double.nan] if empty.
   ///
-  /// ### Example:
   /// ```dart
   /// [1, 2, 3].average; // 2.0
   /// ```
   @useResult double get average => sum / length;
 
-  /// The sum of all elements in this [Iterable]. [double.nan] will always be returned if present in this [Iterable].
+  /// The sum of all elements in this iterable. Returns [double.nan] if present.
   ///
-  /// ### Example:
   /// ```dart
   /// [1, 2, 3].sum; // 6
   /// ```
@@ -137,10 +124,8 @@ extension AggregateNumberIterable<E extends num> on Iterable<E> {
   }
 
 
-  /// The smallest element in this [Iterable] or `null` if empty. [double.nan] will always be returned if present in this
-  /// [Iterable].
+  /// The minimum element in this iterable or `null` if empty. Returns [double.nan] if present.
   ///
-  /// ### Example:
   /// ```dart
   /// [1, 2, 3].min; // 1
   ///
@@ -171,10 +156,8 @@ extension AggregateNumberIterable<E extends num> on Iterable<E> {
     return min;
   }
 
-  /// The smallest element in this [Iterable] or `null` if empty. [double.nan] will always be returned if present in this
-  /// [Iterable].
+  /// The maximum element in this iterable or `null` if empty. Returns [double.nan] if present.
   ///
-  /// ### Example:
   /// ```dart
   /// [1, 2, 3].max; // 3
   ///

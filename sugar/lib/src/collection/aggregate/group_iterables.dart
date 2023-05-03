@@ -1,50 +1,61 @@
+import 'dart:collection';
+
 import 'package:meta/meta.dart';
+
 import 'package:sugar/collection.dart';
 import 'package:sugar/core.dart';
 
-/// Provides functions for grouping elements in an [Iterable].
+/// Provides functions for grouping an [Iterable]'s elements.
 ///
 /// See [Group] for more information.
 extension GroupableIterable<E> on Iterable<E> {
 
-  /// A [Group] that used to group elements in this [Iterable].
+  /// A [Group] used to group elements in this [Iterable].
   ///
-  /// ### Example:
   /// ```dart
-  /// final iterable = ['a', 'b', 'aa', 'bb', 'cc'];
-  /// final aggregate = iterable.group.lists(by: (string) => string.length);
+  /// final iterable = [('a', 1), ('a', 2), ('b', 3)];
+  /// final aggregate = iterable.group.lists(by: (e) => e.$1);
   ///
-  /// print(aggregate); // {1: ['a', 'b'], 2: ['aa', 'bb', 'cc']}
+  /// print(aggregate); // {'a': [('a', 1), ('a', 2)], 'b': [('b', 3)]}
   /// ```
   @lazy @useResult Group<E> get group => Group._(this);
 
 }
 
 
-/// An intermediate operation for grouping elements in an [Iterable]. Provides functions for grouping elements in an [Iterable].
+/// A namespace for functions that group an [Iterable]'s elements.
 ///
-/// These functions are meant for aggregating several elements by the same key, (1:N). It is recommended to use
-/// [Iterables.associate] instead if each key is mostly mapped to one element, (1:1).
+/// To access [Group], call the [GroupableIterable.group] extension getter on an iterable.
+///
+/// These functions are intended for 1:N mappings. See [Iterables.associate] for associating one element by one key (1:1).
+///
+/// ## Example
+/// ```dart
+/// final iterable = [('a', 1), ('a', 2), ('b', 3)];
+/// final aggregate = iterable.group.lists(by: (e) => e.$1);
+///
+/// print(aggregate); // {'a': [('a', 1), ('a', 2)], 'b': [('b', 3)]}
+/// ```
 class Group<E> {
 
   final Iterable<E> _iterable;
 
   Group._(this._iterable);
 
-  /// Groups the elements in an [Iterable] by the returned values of the given function. The grouped elements are subsequently
-  /// folded using the given [as] function.
+  /// Groups the iterable's elements by keys returned by [by] before being folded using [as].
   ///
-  /// ### Example:
+  /// The order of elements passed to [as] is non-deterministic when the iterable is unordered, i.e. [HashSet].
+  ///
+  /// ## Example
   /// ```dart
-  /// final iterable = ['a', 'b', 'aa', 'bb', 'cc'];
-  /// final counts = iterable.group.by((string) => string.length, as: (count, string) => (count ?? 0) + 1);
+  /// final list = [('a', 1), ('a', 2), ('b', 4)];
+  /// final counts = list.group.by((e) => e.$1, as: (count, e) => (count ?? 0) + e.$2);
   ///
-  /// print(counts); // {1: 2, 2: 3}
+  /// print(counts); // {'a': 3, 'b': 4}
   /// ```
   ///
-  /// ### Implementation details:
-  /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
-  /// recompute each [K] than maintain a map/list of [K]s.
+  /// ## Implementation details
+  /// Computing [K] is assumed to be cheap. Hence, [K]s are recomputed each time rather than cached.
   @useResult Map<K, V> by<K, V>(Select<E, K> by, {required V Function(V? previous, E current) as}) {
     final results = <K, V>{};
     for (final element in _iterable) {
@@ -55,19 +66,20 @@ class Group<E> {
     return results;
   }
 
-  /// Groups the elements in an [Iterable] by the returned values of the given function.
+  /// Groups the iterable's elements in lists by keys returned by [by].
   ///
-  /// ### Example:
+  /// The order of elements grouped in a list is non-deterministic when the iterable is unordered, i.e. [HashSet].
+  ///
+  /// ## Example
   /// ```dart
-  /// final iterable = ['a', 'b', 'aa', 'bb', 'cc'];
-  /// final aggregate = iterable.group.lists(by: (string) => string.length);
+  /// final list = [('a', 1), ('a', 2), ('b', 4)];
+  /// final aggregate = list.group.lists(by: (e) => e.$1);
   ///
-  /// print(aggregate); // {1: ['a', 'b'], 2: ['aa', 'bb', 'cc']}
+  /// print(aggregate); // {'a': [('a', 1), ('a', 2)], 'b': [('b', 4)]}
   /// ```
   ///
-  /// ### Implementation details:
-  /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
-  /// recompute each [K] than maintain a map/list of [K]s.
+  /// ## Implementation details
+  /// Computing [K] is assumed to be cheap. Hence, [K]s are recomputed each time rather than cached.
   @useResult Map<K, List<E>> lists<K>({required Select<E, K> by}) {
     final results = <K, List<E>>{};
     for (final element in _iterable) {
@@ -77,19 +89,18 @@ class Group<E> {
     return results;
   }
 
-  /// Groups the elements in an [Iterable] by the returned values of the given function.
+  /// Groups the iterable's elements in sets by keys returned by [by].
   ///
-  /// ### Example:
+  /// ## Example
   /// ```dart
-  /// final iterable = ['a', 'b', 'aa', 'bb', 'cc'];
-  /// final aggregate = iterable.group.sets(by: (string) => string.length);
+  /// final list = [('a', 1), ('a', 2), ('b', 4)];
+  /// final aggregate = list.group.sets(by: (e) => e.$1);
   ///
-  /// print(aggregate); // {1: {'a', 'b'}, 2: {'aa', 'bb', 'cc'}}
+  /// print(aggregate); // {'a': {('a', 1), ('a', 2)}, 'b': {('b', 4)}}
   /// ```
   ///
-  /// ### Implementation details:
-  /// This implementation assumes that computing each [K] is inexpensive. Under this assumption, it is more beneficial to
-  /// recompute each [K] than maintain a map/list of [K]s.
+  /// ## Implementation details
+  /// Computing [K] is assumed to be cheap. Hence, [K]s are recomputed each time rather than cached.
   @useResult Map<K, Set<E>> sets<K>({required Select<E, K> by}) {
     final results = <K, Set<E>>{};
     for (final element in _iterable) {

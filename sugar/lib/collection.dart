@@ -1,6 +1,6 @@
 /// {@category Collection}
 ///
-/// Non-aggregating utilities for working with Dart's collections.
+/// Non-aggregating utilities for working with collections.
 ///
 /// This includes:
 /// * Bulk operations such as [Lists.removeAll].

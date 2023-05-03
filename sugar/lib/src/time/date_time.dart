@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/src/time/date.dart';
 import 'package:sugar/src/time/time.dart';
+import 'package:sugar/src/core/constants.dart';
 import 'package:sugar/sugar.dart';
 
 part 'local_date_time.dart';
@@ -25,7 +26,7 @@ part 'zoned_date_time.dart';
   DateTimeBase(int year, [int month = 1, int day = 1, int hour = 0, int minute = 0, int second = 0, int millisecond = 0, int microsecond = 0]):
     _native = DateTime.utc(year, month, day, hour, minute, second, millisecond, microsecond);
 
-  DateTimeBase._(this._native);
+  DateTimeBase._(this._native): assert(_native.isUtc, '$_native is in local timezone. Should be UTC. $issueTracker');
 
   /// The year.
   @override

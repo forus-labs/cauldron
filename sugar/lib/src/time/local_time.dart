@@ -139,7 +139,7 @@ class LocalTime extends Time with Orderable<LocalTime> {
   /// LocalTime(12, 34, 59).round(5, TimeUnit.minutes); // '12:35:59'
   /// ```
   @Possible({RangeError})
-  @useResult LocalTime round(int value, TimeUnit unit) => LocalTime._(_native.round(value, unit));
+  @useResult LocalTime round(TimeUnit unit, int value) => LocalTime._(_native.round(unit, value));
 
   /// Returns a copy of this [LocalTime] with only the time unit ceil to the nearest [value].
   ///
@@ -153,7 +153,7 @@ class LocalTime extends Time with Orderable<LocalTime> {
   /// LocalTime(12, 34, 59).round(5, TimeUnit.minutes); // '12:35:59'
   /// ```
   @Possible({RangeError})
-  @useResult LocalTime ceil(int value, TimeUnit unit) => LocalTime._(_native.ceil(value, unit));
+  @useResult LocalTime ceil(TimeUnit unit, int value) => LocalTime._(_native.ceil(unit, value));
 
   /// Returns a copy of this [LocalTime] with only the time unit floored to the nearest [value].
   ///
@@ -167,7 +167,7 @@ class LocalTime extends Time with Orderable<LocalTime> {
   /// LocalTime(12, 34, 59).round(5, TimeUnit.minutes); // '12:30:59'
   /// ```
   @Possible({RangeError})
-  @useResult LocalTime floor(int value, TimeUnit unit) => LocalTime._(_native.floor(value, unit));
+  @useResult LocalTime floor(TimeUnit unit, int value) => LocalTime._(_native.floor(unit, value));
 
 
   /// Returns a copy of this [LocalTime] with the given updated parts.

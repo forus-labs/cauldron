@@ -21,6 +21,8 @@ extension MovableList<E> on List<E> {
 
 /// A namespace for functions that move a [List]'s elements to other collections.
 ///
+/// To access [ListMove], call the [MovableList.move] extension method on a list.
+///
 /// ## Contract
 /// A [ConcurrentModificationError] is thrown if a predicate modifies the list.
 ///
@@ -143,7 +145,9 @@ extension MovableSet<E> on Set<E> {
 }
 
 /// A namespace for functions that move a [Set]'s elements to other collections.
-/// 
+///
+/// To access [SetMove], call the [MovableSet.move] extension method on a set.
+///
 /// ## Contract
 /// A [ConcurrentModificationError] is thrown if a predicate modifies the list.
 ///

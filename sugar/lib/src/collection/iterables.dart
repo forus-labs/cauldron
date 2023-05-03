@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:sugar/collection_aggregate.dart';
 import 'package:sugar/core.dart';
 
-/// Adds functions for transforming [Iterable]s to other collections.
+/// Provides functions for transforming [Iterable]s to other collections.
 ///
 /// Functions that rely on the ordering of elements are non-deterministic if an iterable is unordered, i.e. [HashSet].
 extension Iterables<E> on Iterable<E> {

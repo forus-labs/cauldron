@@ -126,7 +126,7 @@ class OffsetTime extends Time {
   /// final bar =OffsetTime(Offset(8), 12, 34, 59);
   /// bar.round(5, TimeUnit.minutes); // '12:35:59+08:00'
   /// ```
-  @useResult OffsetTime round(int value, TimeUnit unit) => OffsetTime._(offset, _native.round(value, unit));
+  @useResult OffsetTime round(TimeUnit unit, int value) => OffsetTime._(offset, _native.round(unit, value));
 
   /// Returns a copy of this [OffsetTime] with the time unit ceil to the nearest [value].
   ///
@@ -137,7 +137,7 @@ class OffsetTime extends Time {
   /// final bar = OffsetTime(Offset(8), 12, 34, 59);
   /// bar.ceil(5, TimeUnit.minutes); // '12:35:59+08:00'
   /// ```
-  @useResult OffsetTime ceil(int value, TimeUnit unit) => OffsetTime._(offset, _native.ceil(value, unit));
+  @useResult OffsetTime ceil(TimeUnit unit, int value) => OffsetTime._(offset, _native.ceil(unit, value));
 
   /// Returns a copy of this [OffsetTime] with the time unit floored to the nearest [value].
   ///
@@ -148,7 +148,7 @@ class OffsetTime extends Time {
   /// final bar = OffsetTime(Offset(8), 12, 34, 59);
   /// bar.floor(5, TimeUnit.minutes); // '12:30:59+08:00'
   /// ```
-  @useResult OffsetTime floor(int value, TimeUnit unit) => OffsetTime._(offset, _native.floor(value, unit));
+  @useResult OffsetTime floor(TimeUnit unit, int value) => OffsetTime._(offset, _native.floor(unit, value));
 
 
   /// Returns a copy of this [OffsetTime] with the given updated parts.

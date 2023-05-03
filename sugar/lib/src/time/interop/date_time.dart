@@ -136,84 +136,63 @@ extension DateTimes on DateTime {
   /// ```dart
   /// DateTime(2023, 4, 1).truncate(to: TemporalUnit.years); // 2023-01-01
   /// ```
-  @useResult DateTime truncate({required TemporalUnit to}) {
-    switch (to) {
-      case DateUnit.years:
-        return copyWith(month: 1, day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
-      case DateUnit.months:
-        return copyWith(day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
-      case DateUnit.days:
-        return copyWith(hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
-      case TimeUnit.hours:
-        return copyWith(minute: 0, second: 0, millisecond: 0, microsecond: 0);
-      case TimeUnit.minutes:
-        return copyWith(second: 0, millisecond: 0, microsecond: 0);
-      case TimeUnit.seconds:
-        return copyWith(millisecond: 0, microsecond: 0);
-      case TimeUnit.milliseconds:
-        return copyWith(microsecond: 0);
-      case TimeUnit.microseconds:
-        return this;
-      default:
-        throw UnsupportedError('$to is not supported.'); // TODO: remove once sealed types are available.
-    }
-  }
+  @useResult DateTime truncate({required TemporalUnit to}) => _adjust(to, (time) => time);
 
   /// Returns a copy of this [DateTime] with the given temporal unit rounded to the nearest value. Throws a [RangeError]
   /// if [value] is not positive.
   ///
   /// ```dart
-  /// DateTime(2023, 4, 15).round(6, DateUnit.months); // '2023-06-15'
+  /// DateTime(2023, 4, 15).round(6, DateUnit.months); // '2023-06-01'
   ///
-  /// DateTime(2023, 8, 15)).round(6, DateUnit.months); // '2023-06-15'
+  /// DateTime(2023, 8, 15)).round(6, DateUnit.months); // '2023-06-01'
   /// ```
   @Possible({RangeError})
-  @useResult DateTime round(int value, TemporalUnit unit) => _adjust(value, unit, (date, to) => date.roundTo(to));
+  @useResult DateTime round(TemporalUnit unit, int value) => _adjust(unit, (date) => date.roundTo(value));
 
   /// Returns a copy of this [DateTime] with the given temporal unit ceiled to the nearest value. Throws a [RangeError]
   /// if [value] is not positive.
   ///
   /// ```dart
-  /// DateTime(2023, 4, 15).ceil(6, DateUnit.months); // '2023-06-15'
+  /// DateTime(2023, 4, 15).ceil(6, DateUnit.months); // '2023-06-01'
   ///
-  /// DateTime(2023, 8, 15)).ceil(6, DateUnit.months); // '2023-12-15'
+  /// DateTime(2023, 8, 15)).ceil(6, DateUnit.months); // '2023-12-01'
   /// ```
   @Possible({RangeError})
-  @useResult DateTime ceil(int value, TemporalUnit unit) => _adjust(value, unit, (date, to) => date.ceilTo(to));
+  @useResult DateTime ceil(TemporalUnit unit, int value) => _adjust(unit, (date) => date.ceilTo(value));
 
   /// Returns a copy of this [DateTime] with the given temporal unit floored to the nearest value. Throws a [RangeError]
   /// if [value] is not positive.
   ///
   /// ```dart
   ///
-  /// DateTime(2023, 4, 15).floor(6, DateUnit.months); // '2023-01-15'
+  /// DateTime(2023, 4, 15).floor(6, DateUnit.months); // '2023-01-01'
   ///
   ///
-  /// DateTime(2023, 8, 15)).floor(6, DateUnit.months); // '2023-06-15'
+  /// DateTime(2023, 8, 15)).floor(6, DateUnit.months); // '2023-06-01'
   /// ```
   @Possible({RangeError})
-  @useResult DateTime floor(int value, TemporalUnit unit) => _adjust(value, unit, (date, to) => date.floorTo(to));
+  @useResult DateTime floor(TemporalUnit unit, int value) => _adjust(unit, (date) => date.floorTo(value));
 
-  DateTime _adjust(int value, TemporalUnit unit, int Function(int time, int to) apply) {
+  DateTime _adjust(TemporalUnit unit, int Function(int time) apply) {
     switch (unit) {
       case DateUnit.years:
-        return copyWith(year: apply(year, value));
+        return copyWith(year: apply(year), month: 1, day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
       case DateUnit.months:
-        return copyWith(month: apply(month, value));
+        return copyWith(month: apply(month), day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
       case DateUnit.days:
-        return copyWith(day: apply(day, value));
+        return copyWith(day: apply(day), hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
       case TimeUnit.hours:
-        return copyWith(hour: apply(hour, value));
+        return copyWith(hour: apply(hour), minute: 0, second: 0, millisecond: 0, microsecond: 0);
       case TimeUnit.minutes:
-        return copyWith(minute: apply(minute, value));
+        return copyWith(minute: apply(minute), second: 0, millisecond: 0, microsecond: 0);
       case TimeUnit.seconds:
-        return copyWith(second: apply(second, value));
+        return copyWith(second: apply(second), millisecond: 0, microsecond: 0);
       case TimeUnit.milliseconds:
-        return copyWith(millisecond: apply(millisecond, value));
+        return copyWith(millisecond: apply(millisecond), microsecond: 0);
       case TimeUnit.microseconds:
-        return copyWith(microsecond: apply(microsecond, value));
+        return copyWith(microsecond: apply(microsecond));
       default:
-        throw UnsupportedError('$value is not supported.'); // TODO: remove once sealed types are available.
+        throw UnsupportedError('$unit is not supported.'); // TODO: remove once sealed types are available.
     }
   }
   
@@ -288,7 +267,7 @@ extension DateTimes on DateTime {
   /// final tuesday = DateTime(2023, 4, 11);
   /// final monday = tuesday.firstDayOfWeek; // '2023-04-10'
   /// ```
-  @useResult DateTime get firstDayOfWeek => copyWith(day: day - weekday - 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
+  @useResult DateTime get firstDayOfWeek => copyWith(day: day - weekday + 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
 
   /// The last day of this week.
   ///
@@ -296,7 +275,7 @@ extension DateTimes on DateTime {
   /// final tuesday = DateTime(2023, 4, 11);
   /// final sunday = tuesday.lastDayOfWeek; // '2023-04-16'
   /// ```
-  @useResult DateTime get lastDayOfWeek => copyWith(day: day + 8 - weekday, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
+  @useResult DateTime get lastDayOfWeek => copyWith(day: day + 7 - weekday, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
 
 
   /// The first day of this month.

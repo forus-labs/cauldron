@@ -253,7 +253,7 @@ class ZonedDateTime extends DateTimeBase {
   /// bar.round(6, DateUnit.months); // '2023-06-15T00:00+08:00'
   /// ```
   @Possible({RangeError})
-  @useResult ZonedDateTime round(int value, TemporalUnit unit) => ZonedDateTime._(timezone, _native.round(value, unit));
+  @useResult ZonedDateTime round(TemporalUnit unit, int value) => ZonedDateTime._(timezone, _native.round(unit, value));
 
   /// Returns a copy of this [ZonedDateTime] with only the given temporal unit ceil to the nearest [value].
   ///
@@ -269,7 +269,7 @@ class ZonedDateTime extends DateTimeBase {
   /// bar.ceil(6, DateUnit.months); // '2023-12-15T00:00+08:00'
   /// ```
   @Possible({RangeError})
-  @useResult ZonedDateTime ceil(int value, TemporalUnit unit) => ZonedDateTime._(timezone, _native.ceil(value, unit));
+  @useResult ZonedDateTime ceil(TemporalUnit unit, int value) => ZonedDateTime._(timezone, _native.ceil(unit, value));
 
   /// Returns a copy of this [ZonedDateTime] with only the given temporal unit floored to the nearest [value].
   ///
@@ -286,7 +286,7 @@ class ZonedDateTime extends DateTimeBase {
   /// bar.floor(6, DateUnit.months); // '2023-06-15T00:00+08:00'
   /// ```
   @Possible({RangeError})
-  @useResult ZonedDateTime floor(int value, TemporalUnit unit) => ZonedDateTime._(timezone, _native.floor(value, unit));
+  @useResult ZonedDateTime floor(TemporalUnit unit, int value) => ZonedDateTime._(timezone, _native.floor(unit, value));
 
 
   /// Returns a copy of this [ZonedDateTime] with the given updated parts.

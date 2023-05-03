@@ -55,14 +55,14 @@ class LocalDate extends Date with Orderable<LocalDate> {
   /// ```dart
   /// LocalDate(2023, 4, 1).add(Duration(days: 1)); // '2023-04-02'
   /// ```
-  @useResult LocalDate add(Duration duration) => LocalDate._(_native.add(duration));
+  @useResult LocalDate add(Duration duration) => LocalDate._(_native.plus(days: duration.inDays));
 
   /// Returns a copy of this [LocalDate] with the [duration] subtracted.
   ///
   /// ```dart
   /// LocalDate(2023, 4, 1).subtract(Duration(days: 1)); // '2023-03-31'
   /// ```
-  @useResult LocalDate subtract(Duration duration) => LocalDate._(_native.subtract(duration));
+  @useResult LocalDate subtract(Duration duration) => LocalDate._(_native.minus(days: duration.inDays));
 
   /// Returns a copy of this [LocalDate] with the units of date added.
   ///
@@ -91,15 +91,22 @@ class LocalDate extends Date with Orderable<LocalDate> {
   /// ```dart
   /// LocalDate(2023, 4, 1) + Period(days: 1); // '2023-04-02'
   /// ```
-  @useResult LocalDate operator + (Period period) => LocalDate._(_native + period);
+  @useResult LocalDate operator + (Period period) => LocalDate._(_native.plus(
+    years: period.years,
+    months: period.months,
+    days: period.days,
+  ));
 
   /// Returns a copy of this [LocalDate] with the [Period] subtracted.
   ///
   /// ```dart
   /// LocalDate(2023, 4, 1) - Period(days: 1); // '2023-03-31'
   /// ```
-  @useResult LocalDate operator - (Period period) => LocalDate._(_native - period);
-
+  @useResult LocalDate operator - (Period period) => LocalDate._(_native.minus(
+    years: period.years,
+    months: period.months,
+    days: period.days,
+  ));
 
 
   /// Returns a copy of this [LocalDate] truncated to the given date unit.
@@ -121,7 +128,7 @@ class LocalDate extends Date with Orderable<LocalDate> {
   /// LocalDate(2023, 8, 15)).round(6, DateUnit.months); // '2023-06-15'
   /// ```
   @Possible({RangeError})
-  @useResult LocalDate round(int value, DateUnit unit) => LocalDate._(_native.round(value, unit));
+  @useResult LocalDate round(DateUnit unit, int value) => LocalDate._(_native.round(unit, value));
 
   /// Returns a copy of this [LocalDate] with only the given date unit ceil to the nearest [value].
   ///
@@ -135,7 +142,7 @@ class LocalDate extends Date with Orderable<LocalDate> {
   /// LocalDate(2023, 8, 15)).ceil(6, DateUnit.months); // '2023-12-15'
   /// ```
   @Possible({RangeError})
-  @useResult LocalDate ceil(int value, DateUnit unit) => LocalDate._(_native.ceil(value, unit));
+  @useResult LocalDate ceil(DateUnit unit, int value) => LocalDate._(_native.ceil(unit, value));
 
   /// Returns a copy of this [LocalDate] with only the given date unit floored to the nearest [value].
   ///
@@ -149,7 +156,7 @@ class LocalDate extends Date with Orderable<LocalDate> {
   /// LocalDate(2023, 8, 15)).floor(6, DateUnit.months); // '2023-06-15'
   /// ```
   @Possible({RangeError})
-  @useResult LocalDate floor(int value, DateUnit unit) => LocalDate._(_native.floor(value, unit));
+  @useResult LocalDate floor(DateUnit unit, int value) => LocalDate._(_native.floor(unit, value));
 
 
   /// Returns a copy of this [LocalDate] with the given updated parts.

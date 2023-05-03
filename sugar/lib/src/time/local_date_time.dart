@@ -131,7 +131,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   /// LocalDateTime(2023, 8, 15).round(6, DateUnit.months); // '2023-06-15'
   /// ```
   @Possible({RangeError})
-  @useResult LocalDateTime round(int value, TemporalUnit unit) => LocalDateTime._(_native.round(value, unit));
+  @useResult LocalDateTime round(TemporalUnit unit, int value) => LocalDateTime._(_native.round(unit, value));
 
   /// Returns a copy of this [LocalDateTime] with only the given temporal unit ceil to the nearest [value].
   ///
@@ -145,7 +145,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   /// LocalDateTime(2023, 8, 15).ceil(6, DateUnit.months); // '2023-12-15'
   /// ```
   @Possible({RangeError})
-  @useResult LocalDateTime ceil(int value, TemporalUnit unit) => LocalDateTime._(_native.ceil(value, unit));
+  @useResult LocalDateTime ceil(TemporalUnit unit, int value) => LocalDateTime._(_native.ceil(unit, value));
 
   /// Returns a copy of this [LocalDateTime] with only the given temporal unit floored to the nearest [value].
   ///
@@ -160,7 +160,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   /// LocalDateTime(2023, 8, 15).floor(6, DateUnit.months); // '2023-06-15'
   /// ```
   @Possible({RangeError})
-  @useResult LocalDateTime floor(int value, TemporalUnit unit) => LocalDateTime._(_native.floor(value, unit));
+  @useResult LocalDateTime floor(TemporalUnit unit, int value) => LocalDateTime._(_native.floor(unit, value));
 
 
   /// Returns a copy of this [LocalDateTime] with the given updated parts.
