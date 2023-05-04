@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:sugar/src/core/constants.dart';
 import 'package:sugar/sugar.dart';
 
 part 'local_time.dart';
@@ -22,7 +23,7 @@ part 'offset_time.dart';
   Time([int hour = 0, int minute = 0, int second = 0, int millisecond = 0, int microsecond = 0]):
         _native = DateTime.utc(1970, 1, 1, hour, minute, second, millisecond, microsecond);
 
-  Time._(this._native);
+  Time._(this._native): assert(_native.isUtc, '$_native is in local timezone. Should be UTC. $issueTracker');
 
   /// The hour.
   int get hour => _native.hour;

@@ -313,17 +313,6 @@ extension DateTimes on DateTime {
   /// The days since Unix epoch.
   int get daysSinceEpoch => millisecondsSinceEpoch ~/ Duration.millisecondsPerDay;
 
-  /// The seconds since Unix epoch.
-  int get secondsSinceEpoch => millisecondsSinceEpoch ~/ Duration.millisecondsPerSecond;
-
-
-  /// The time as seconds since midnight.
-  ///
-  /// DateTime(2023, 4, 1, 12).secondsSinceMidnight; // 43200 ('12:00')
-  int get secondsSinceMidnight =>
-    hour * Duration.secondsPerHour +
-    minute * Duration.secondsPerMinute +
-    second;
 
   /// The time as milliseconds since midnight.
   ///

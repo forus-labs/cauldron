@@ -21,7 +21,7 @@ class LocalTime extends Time with Orderable<LocalTime> {
   /// Creates a [LocalTime] with the milliseconds since midnight which wraps around midnight.
   ///
   /// ```dart
-  /// LocalTime.fromDayMilliseconds(43200000000); // '12:00'
+  /// LocalTime.fromDayMilliseconds(43200000); // '12:00'
   ///
   /// LocalTime.fromDayMilliseconds(Duration.millisecondsPerDay); // '00:00'
   /// ```
@@ -30,13 +30,14 @@ class LocalTime extends Time with Orderable<LocalTime> {
   /// Creates a [LocalTime] with the microseconds since midnight which wraps around midnight.
   ///
   /// ```dart
-  /// LocalTime.fromDayMicroseconds(43200000); // '12:00'
+  /// LocalTime.fromDayMicroseconds(43200000000); // '12:00'
   ///
   /// LocalTime.fromDayMicroseconds(Duration.microsecondsPerDay); // '00:00'
   /// ```
   LocalTime.fromDayMicroseconds(super.microseconds): super.fromDayMicroseconds();
 
   /// Creates a [LocalTime] that represents the current time.
+  @NotTested(because: 'current time is non-deterministic which leads to flaky and unreliable tests')
   LocalTime.now(): super.fromNative(DateTime.now());
 
   /// Creates a [LocalTime].

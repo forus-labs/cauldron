@@ -338,10 +338,6 @@ void main() {
 
   test('daysSinceEpoch', () => expect(DateTime.utc(2023, 5, 2).daysSinceEpoch, 19479));
 
-  test('secondsSinceEpoch', () => expect(DateTime.utc(2023, 5, 2).secondsSinceEpoch, 1682985600));
-
-  test('secondsSinceMidnight', () => expect(DateTime(2023, 5, 2, 1, 2, 3, 4, 5).secondsSinceMidnight, 3723));
-
   test('millisecondsSinceMidnight', () => expect(DateTime(2023, 5, 2, 1, 2, 3, 4, 5).millisecondsSinceMidnight, 3723004));
 
   test('microsecondsSinceMidnight', () => expect(DateTime(2023, 5, 2, 1, 2, 3, 4, 5).microsecondsSinceMidnight, 3723004005));

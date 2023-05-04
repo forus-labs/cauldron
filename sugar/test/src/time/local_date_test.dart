@@ -54,7 +54,7 @@ void main() {
   group('+', () {
     test('positive date units', () => expect(LocalDate(2023, 4, 5) + const Period(days: 1), LocalDate(2023, 4, 6)));
 
-    test('negative date units', () => expect(LocalDate(2023, 4, 5) - const Period(days: 1), LocalDate(2023, 4, 4)));
+    test('negative date units', () => expect(LocalDate(2023, 4, 5) + const Period(days: -1), LocalDate(2023, 4, 4)));
 
     test('time units', () => expect(LocalDate(2023, 4, 5) + const Period(days: 1, microseconds: 1), LocalDate(2023, 4, 6)));
   });
@@ -127,7 +127,7 @@ void main() {
 
 
   group('copyWith(...)', () {
-    test('nothing', () => expect(LocalDate(2023, 5, 2).copyWith(year: 2024, month: 6, day: 3), LocalDate(2024, 6, 3)));
+    test('values', () => expect(LocalDate(2023, 5, 2).copyWith(year: 2024, month: 6, day: 3), LocalDate(2024, 6, 3)));
 
     test('nothing', () => expect(LocalDate(2023, 5, 2).copyWith(), LocalDate(2023, 5, 2)));
   });
@@ -143,7 +143,7 @@ void main() {
   test('toNative()', () => expect(LocalDate(2023, 5, 10).toNative(), DateTime.utc(2023, 5, 10)));
 
 
-  group('compareTo(...)', () {
+  group('compareTo(...) & hashValue', () {
     test('-1', () {
       expect(LocalDate(2023, 5, 10).compareTo(LocalDate(2023, 5, 11)), -1);
       expect(LocalDate(2023, 5, 10).hashValue, isNot(LocalDate(2023, 5, 11).hashValue));

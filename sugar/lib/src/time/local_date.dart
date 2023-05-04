@@ -34,6 +34,7 @@ class LocalDate extends Date with Orderable<LocalDate> {
   LocalDate.fromEpochMicroseconds(super.microseconds): super.fromEpochMicroseconds();
 
   /// Creates a [LocalDate] that represents the current date.
+  @NotTested(because: 'current time is non-deterministic which leads to flaky and unreliable tests')
   LocalDate.now(): super.fromNative(DateTime.now());
 
   /// Creates a [LocalDate].
