@@ -26,6 +26,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   LocalDateTime.fromEpochMicroseconds(super.microseconds) : super.fromEpochMicroseconds();
 
   /// Creates a [LocalDate] that represents the current date-time.
+  @NotTested(because: 'current time is non-deterministic which leads to flaky and unreliable tests')
   LocalDateTime.now() : super.fromNative(DateTime.now());
 
   /// Creates a [LocalDateTime].
@@ -66,14 +67,14 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   /// ```
   @useResult LocalDateTime plus({int years = 0, int months = 0, int days = 0, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
     LocalDateTime._(_native.plus(
-        years: years,
-        months: months,
-        days: days,
-        hours: hours,
-        minutes: minutes,
-        seconds: seconds,
-        milliseconds: milliseconds,
-        microseconds: microseconds,
+      years: years,
+      months: months,
+      days: days,
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds,
+      milliseconds: milliseconds,
+      microseconds: microseconds,
     ));
 
   /// Returns a copy of this [LocalDateTime] with the given time added.
@@ -232,14 +233,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   @useResult int get hashValue => runtimeType.hashCode ^ epochMicroseconds;
 
   @override
-  @useResult String toString() {
-    if (_string != null) {
-      return _string!;
-    }
-
-    final string = _native.toIso8601String();
-    return _string = string.endsWith('Z') ? string.substring(0, string.length - 1) : string;
-  }
+  @useResult String toString() => _string ??= '${_native.toDateString()}T${_native.toTimeString()}';
 
 
   /// The day of the week. Following ISO-8601, a week starts on Monday which has a value of `1` and ends on Sunday which

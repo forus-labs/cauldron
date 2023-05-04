@@ -16,7 +16,7 @@ part 'zoned_date_time.dart';
   DateTimeBase.fromEpochMilliseconds(EpochMilliseconds milliseconds): _native = DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: true);
 
   /// Creates a [DateTimeBase] from the given microseconds since Unix epoch.
-  DateTimeBase.fromEpochMicroseconds(EpochMicroseconds microseconds): _native = DateTime.fromMillisecondsSinceEpoch(microseconds, isUtc: true);
+  DateTimeBase.fromEpochMicroseconds(EpochMicroseconds microseconds): _native = DateTime.fromMicrosecondsSinceEpoch(microseconds, isUtc: true);
 
   /// Creates a [DateTimeBase] from the native [DateTime].
   DateTimeBase.fromNative(DateTime date): _native = DateTime.utc(date.year, date.month, date.day, date.hour, date.minute, date.second, date.millisecond, date.microsecond);

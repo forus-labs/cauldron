@@ -33,10 +33,6 @@ part 'local_date.dart';
     assert(_native.microsecond == 0, 'Microsecond is ${_native.microsecond}. Should be 0. $issueTracker');
   }
 
-
-  /// Creates a [Date] from the native [DateTime].
-  Date.fromNative(DateTime date): _native = DateTime.utc(date.year, date.month, date.day);
-
   /// Creates a [Date].
   Date(int year, [int month = 1, int day = 1]): _native = DateTime.utc(year, month, day);
 

@@ -35,7 +35,10 @@ class LocalDate extends Date with Orderable<LocalDate> {
 
   /// Creates a [LocalDate] that represents the current date.
   @NotTested(because: 'current time is non-deterministic which leads to flaky and unreliable tests')
-  LocalDate.now(): super.fromNative(DateTime.now());
+  factory LocalDate.now() {
+    final date = DateTime.now();
+    return LocalDate(date.year, date.month, date.day);
+  }
 
   /// Creates a [LocalDate].
   ///

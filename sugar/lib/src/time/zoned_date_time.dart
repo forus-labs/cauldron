@@ -391,7 +391,6 @@ class ZonedDateTime extends DateTimeBase {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ZonedDateTime && runtimeType == other.runtimeType &&
     timezone == other.timezone &&
-    span == other.span &&
     epochMicroseconds == other.epochMicroseconds;
 
   @override

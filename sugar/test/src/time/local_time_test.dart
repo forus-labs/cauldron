@@ -2,6 +2,14 @@ import 'package:sugar/sugar.dart';
 import 'package:test/test.dart';
 
 void main() {
+  for (final argument in [LocalTime(), LocalTime(12), LocalTime(23, 59, 59, 999, 999)]) {
+    test('range allow $argument', () => expect(LocalTime.range.contains(argument), true));
+  }
+  
+  test('midnight', () => expect(LocalTime(), LocalTime.midnight));
+  
+  test('noon', () => expect(LocalTime(12), LocalTime.noon));
+
   test('fromDayMilliseconds(...)', () => expect(LocalTime.fromDayMilliseconds(43200000), LocalTime(12)));
 
   test('fromDayMicroseconds(...)', () => expect(LocalTime.fromDayMicroseconds(43200000000), LocalTime(12)));
@@ -163,6 +171,11 @@ void main() {
   });
 
 
+  test('difference(...)', () => expect(
+    LocalTime(5, 7, 9, 11, 13).difference(LocalTime(2, 3, 4, 5, 6)),
+    const Duration(microseconds: 11045006007),
+  ));
+
   group('gap(...)', () {
     test('positive', () => expect(
       LocalTime(5, 7, 9, 11, 13).gap(LocalTime(1, 2, 3, 4, 5)),
@@ -195,6 +208,11 @@ void main() {
       expect(LocalTime(2).compareTo(LocalTime(1)), 1);
       expect(LocalTime(2).hashValue, isNot(LocalTime(1).hashValue));
     });
+
+    test('overflow equality', () {
+      expect(LocalTime(1).compareTo(LocalTime(25)), 0);
+      expect(LocalTime(1).hashValue, LocalTime(25).hashValue);
+    });
   });
 
   for (final arguments in [
@@ -210,6 +228,7 @@ void main() {
 
     test('toString()', () => expect(time.toString(), string));
   }
+
 
   test('dayMilliseconds', () => expect(LocalTime(1, 2, 3, 4, 5).dayMilliseconds, 3723004));
 

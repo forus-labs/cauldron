@@ -18,9 +18,19 @@ void main() {
   });
 
   group('LocalDate(...)', () {
-    test('date', () => expect(LocalDate(2023, 4, 5).toString(), '2023-04-05'));
+    test('values', () {
+      final date = LocalDate(2023, 5, 3);
+      expect(date.year, 2023);
+      expect(date.month, 5);
+      expect(date.day, 3);
+    });
 
-    test('default values', () => expect(LocalDate(2023).toString(), '2023-01-01'));
+    test('default', () {
+      final date = LocalDate(2023);
+      expect(date.year, 2023);
+      expect(date.month, 1);
+      expect(date.day, 1);
+    });
   });
 
   group('add(...)', () {
@@ -245,13 +255,6 @@ void main() {
     test('non-leap year', () => expect(LocalDate(2021).leapYear, false));
   });
 
-
-  test('getters', () {
-    final date = LocalDate(2023, 5, 3);
-    expect(date.year, 2023);
-    expect(date.month, 5);
-    expect(date.day, 3);
-  });
 
   test('epochDays', () => expect(LocalDate(2023, 5, 3).epochDays, 19480));
 
