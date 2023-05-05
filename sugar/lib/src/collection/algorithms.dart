@@ -79,7 +79,7 @@ import 'package:sugar/core.dart';
 /// print(list); // [0, 4, 3, 2, 1]
 /// ```
 @Possible({RangeError})
-void reverse(@mutated List<Object?> list, [int start = 0, int? end]) {
+void reverse(List<Object?> list, [int start = 0, int? end]) {
   end = RangeError.checkValidRange(start, end, list.length);
   for (var i = start, j = end - 1; i < j; i++, j--) {
     final element = list[i];

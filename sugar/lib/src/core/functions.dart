@@ -1,5 +1,3 @@
-import 'dart:async';
-
 /// An operation that accepts a single argument and returns nothing.
 typedef Consume<T> = void Function(T value);
 
@@ -13,4 +11,4 @@ typedef Select<T, R> = R Function(T value);
 typedef Supply<T> = T Function();
 
 /// A callback that has no arguments and returns nothing.
-typedef Callback = FutureOr<void> Function();
+typedef Callback = void Function();

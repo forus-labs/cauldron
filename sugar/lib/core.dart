@@ -2,25 +2,21 @@
 ///
 /// General purpose utilities for every Dart program.
 ///
-/// This library provides the following:
-///
 /// ## Annotations
 /// Annotations that express intent, similar to those in `package:meta`.
 ///
 /// * [Possible]
 /// * [NotTested]
 /// * [lazy]
-/// * [mutated]
 ///
 /// ## Comparables & Equality
-/// Mixins that simplify implementation of [Comparable], utilities for working with [Comparable]s, and determining deep
+/// Mixins that simplify implementation of [Comparable], utilities for working with [Comparable], and determining deep
 /// equality of inbuilt collections.
 ///
 /// Mixin for implementing [Comparable]:
 /// * [Orderable]
 ///
 /// [Comparable] & [Comparator] utilities:
-/// * [ComparableDateTimes]
 /// * [Comparators]
 /// * [min]
 /// * [max]

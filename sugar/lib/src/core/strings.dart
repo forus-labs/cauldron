@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 
-/// Provides functions for manipulating [String]s.
+/// Provides functions that manipulate [String]s.
 extension Strings on String {
 
-  /// The default separators recognized by [toCamelCase] and other related methods.
+  /// The default separators recognized by [toCamelCase] and other related functions.
   ///
   /// The recognized separators are:
   /// * Consecutive uppercase characters
@@ -13,29 +13,26 @@ extension Strings on String {
   /// * `-` - hyphen
   /// * `_` - underscore
   ///
-  /// These separators are used to indicate word boundaries. For example, `separate by-multiple_YAMLWords` will be seperated
-  /// into `separate`, `by`, `multiple`, `YAML` and `Words`. Notice that all separators are removed except for the consecutive
-  /// uppercase characters.
+  /// All separators are removed except for consecutive uppercase characters. For example, `separate by-multiple_YAMLWords`
+  /// will be split into `separate`, `by`, `multiple`, `YAML` and `Words`.
   ///
-  /// It is recommended to use [partialWordSeparators] instead if the input strings are not expected to be camel-cased or pascal-cased.
+  /// [partialWordSeparators] should be used if this is not camel-cased or pascal-cased.
   static final Pattern wordSeparators = RegExp(r'((\s|-|_)+)|(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])'); // Adapted from: https://stackoverflow.com/a/7599674/4189771
 
-  /// A subset of the default separators, [wordSeparators]. It does not support separation by capitalized letters. For example,
-  /// `PascalCase` will be separated into `PascalCase`.
+  /// A subset of [wordSeparators] that do not separate consecutive uppercase characters.
   ///
   /// The recognized separators are:
   /// * ` ` - space character
   /// * `-` - hyphen
   /// * `_` - underscore
   ///
-  /// These separators are used to indicate word boundaries. For example, `separate by-multiple_wordsAndLetters` will be
-  /// seperated into `separate`, `by`, `multiple` and `wordsAndLetters`.
+  /// All separators are removed. For example, `separate by-multiple_wordsAndLetters` will be split into `separate`,
+  /// `by`, `multiple` and `wordsAndLetters`.
   static final Pattern partialWordSeparators = RegExp(r'(\s|-|_)+');
 
 
-  /// Returns `true` if this [String] and [other] are equal, ignoring capitalization.
+  /// Returns `true` if this and [other] are equal, ignoring capitalization.
   ///
-  /// ### Example:
   /// ```dart
   /// 'aBc'.equalsIgnoreCase('abC'); // true
   ///
@@ -43,9 +40,8 @@ extension Strings on String {
   /// ```
   @useResult bool equalsIgnoreCase(String other) => toLowerCase() == other.toLowerCase();
 
-  /// Returns `true` if this [String] matches the given [pattern].
+  /// Returns `true` if this matches [pattern].
   ///
-  /// ### Example:
   /// ```dart
   /// 'abc'.matches('abC'); // true
   ///
@@ -59,9 +55,8 @@ extension Strings on String {
   }
 
 
-  /// Returns a copy of this string with the first letter capitalized.
+  /// Capitalizes the first character.
   ///
-  /// ### Example:
   /// ```dart
   /// 'abc'.capitalize(); // 'Abc'
   ///
@@ -72,9 +67,10 @@ extension Strings on String {
   @useResult String capitalize() => isEmpty ? this : this[0].toUpperCase() + substring(1);
 
 
-  /// Returns a camel-cased copy of this string. If [separators] is unspecified, [wordSeparators] is used to separate words.
+  /// Camel-cases this string.
   ///
-  /// ### Example:
+  /// [wordSeparators] is used to separate words if [separators] is not given.
+  ///
   /// ```dart
   /// 'camelCase'.toCamelCase(); // 'camelCase'
   ///
@@ -102,10 +98,10 @@ extension Strings on String {
     return buffer.toString();
   }
 
-  /// Returns a pascal-cased copy of this string. If [separators] is unspecified, [wordSeparators] is used to separate
-  /// words.
+  /// Pascal-cases this string.
   ///
-  /// ### Example:
+  /// [wordSeparators] is used to separate words if [separators] is not given.
+  ///
   /// ```dart
   /// 'camelCase'.toPascalCase(); // 'CamelCase'
   ///
@@ -132,10 +128,10 @@ extension Strings on String {
     return buffer.toString();
   }
 
-  /// Returns a screaming-cased copy of this string. If [separators] is unspecified, [wordSeparators] is used to separate
-  /// words.
+  /// Screaming-cases this string.
   ///
-  /// ### Example:
+  /// [wordSeparators] is used to separate words if [separators] is not given.
+  ///
   /// ```dart
   /// 'camelCase'.toScreamingCase(); // 'CAMEL_CASE'
   ///
@@ -156,9 +152,10 @@ extension Strings on String {
     .join('_')
     .toUpperCase();
 
-  /// Returns a snake-cased copy of this string. If [separators] is unspecified, [wordSeparators] is used to separate words.
+  /// Snake-cases this string.
   ///
-  /// ### Example:
+  /// [wordSeparators] is used to separate words if [separators] is not given.
+  ///
   /// ```dart
   /// 'camelCase'.toSnakeCase(); // 'camel_case'
   ///
@@ -179,9 +176,10 @@ extension Strings on String {
     .join('_')
     .toLowerCase();
 
-  /// Returns a snake-cased copy of this string. If [separators] is unspecified, [wordSeparators] is used to separate words.
+  /// Kebab-cases this string.
   ///
-  /// ### Example:
+  /// [wordSeparators] is used to separate words if [separators] is not given.
+  ///
   /// ```dart
   /// 'camelCase'.toKebabCase(); // 'camel-case'
   ///
@@ -202,9 +200,10 @@ extension Strings on String {
     .join('-')
     .toLowerCase();
 
-  /// Returns a title-cased copy of this string. If [separators] is unspecified, [wordSeparators] is used to separate words.
+  /// Title-cases this string.
   ///
-  /// ### Example:
+  /// [wordSeparators] is used to separate words if [separators] is not given.
+  ///
   /// ```dart
   /// 'camelCase'.toTitleCase(); // 'Camel Case'
   ///
@@ -227,10 +226,10 @@ extension Strings on String {
     .map((e) => e.capitalize())
     .join(' ');
 
-  /// Returns a sentence-cased copy of this string. If [separators] is unspecified, [wordSeparators] is used to separate words.
-  /// A word is assumed to be an acronym if it is fully uppercase and will not be uncapitalized.
+  /// Sentence-cases this string.
   ///
-  /// ### Example:
+  /// [wordSeparators] is used to separate words if [separators] is not given.
+  ///
   /// ```dart
   /// 'camelCase'.toSentenceCase(); // 'Camel case'
   ///
@@ -255,7 +254,7 @@ extension Strings on String {
       .capitalize();
 
 
-  /// Lazily splits this [String] into individual lines.
+  /// Lazily splits this into individual lines.
   ///
   /// A line is terminated by either:
   /// * a CR, carriage return: U+000D ('\r')
@@ -265,27 +264,26 @@ extension Strings on String {
   ///
   /// The resulting lines do not contain the line terminators.
   ///
-  /// ### Example:
   /// ```dart
-  /// final lines =
+  /// final string =
   ///   'Dart is: \r an object-oriented \n class-based \n garbage-collected '
-  ///   '\r\n language with C-style syntax \r\n'.lines;
+  ///   '\r\n language with C-style syntax \r\n';
   ///
-  /// for (final line in lines) {
-  ///   print(line);
-  /// }
   ///
   /// // 'Dart is: '
   /// // ' an object-oriented '
   /// // ' class-based '
   /// // ' garbage-collected '
   /// // ' language with C-style syntax '
+  /// for (final line in string.lines) {
+  ///   print(line);
+  /// }
   ///
   ///
   /// ''.lines // []
   /// ```
   ///
-  /// This an alternative to [LineSplitter.convert] that returns a lazy [Iterable] rather than an eager [List].
+  /// This is a lazy alternative to [LineSplitter.convert], which is eager.
   @lazy
   @useResult Iterable<String> get lines sync* {
     const LF = 10; // ignore: constant_identifier_names
@@ -316,9 +314,8 @@ extension Strings on String {
   }
 
 
-  /// Whether this string is comprised entirely of uppercase characters.
+  /// Whether this is comprised of only uppercase characters.
   ///
-  /// ### Example:
   /// ```dart
   /// 'HELLO'.isUpperCase; // true
   ///
@@ -326,9 +323,8 @@ extension Strings on String {
   /// ```
   @useResult bool get isUpperCase => this == toUpperCase();
 
-  /// Whether this string is comprised entirely of uppercase characters.
+  /// Whether this is comprised of only uppercase characters.
   ///
-  /// ### Example:
   /// ```dart
   /// 'hello'.isLowerCase; // true
   ///
@@ -336,9 +332,8 @@ extension Strings on String {
   /// ```
   @useResult bool get isLowerCase => this == toLowerCase();
 
-  /// Whether this string is comprised of only whitespaces.
+  /// Whether this is comprised of only whitespaces.
   ///
-  /// ### Example:
   /// ```dart
   /// '  '.isBlank; // true
   ///
@@ -375,7 +370,6 @@ extension Strings on String {
 
   /// Whether this string is not comprised of only whitespaces.
   ///
-  /// ### Example:
   /// ```dart
   /// '  '.isNotBlank; // false
   ///

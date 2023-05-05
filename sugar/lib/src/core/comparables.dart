@@ -3,55 +3,54 @@ import 'dart:math' as math;
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 
-/// Signifies that the implementing type has an intrinsic ordering. An [Orderable] implements all comparison operators,
-/// including [==], using [compareTo]. In most cases, [T] is the implementing type.
+/// Simplifies implementation of naturally ordered types.
 ///
-/// In general, implementing types should contain only one canonical representation for a given value. One counterexample
-/// is [DateTime]. There are several [DateTime]s (with different timezone offsets) that represent the same instant in time.
-/// Therefore, [DateTime] cannot safely implement [Orderable].
+/// [Orderable] implements all comparison operators, including [==], using [compareTo]. Implementations should have only
+/// one representation for a value. Otherwise [==] will disagree with the ordering. A counterexample is [DateTime].
+/// Several `DateTime`s in different timezones may represent the same instant in time. However, two `DateTime`s are only
+/// equal if they represent the same instant and share the same timezone.
 ///
-/// Implementing types should override the following:
+/// Implementations should override only the following:
 /// * [compareTo]
 /// * [hashValue]
 ///
-/// Overriding [==] is not recommended as [Orderable] requires that its ordering agree with its operator [==] equality.
+/// Objects where [compareTo] is 0 should have the same [hashValue]. A common mistake is to use an unrelated field when
+/// computing a `hashValue`.
 ///
-/// It is important that [hash] follows the contract defined in [Object.hashCode]. In particular, hash codes must be the
-/// same for [Orderable]s that are equal to each other according to [==]. The following code snippet illustrates a common mistake.
-///
-/// ## Counterexample:
+/// Counterexample:
 /// ```dart
-/// class Wrong with Orderable<Wrong> {
-///   final int key;
+/// class Foo with Orderable<Foo> {
+///   final String key;
 ///   final int value;
 ///
-///   Wrong(this.key, [this.value = 0]);
+///   Foo(String.key, this.value);
 ///
 ///   @override
 ///   int compareTo(Wrong other) => key.compareTo(other.key);
 ///
 ///   @override
-///   int get hashValue => Object.hash(key, value); // wrong hashCode implementation
+///   int get hashValue => Object.hash(key, value);
 /// }
 ///
-/// Wrong(1, 1) == Wrong(1, 2); // true
-/// Wrong(1, 1).hashCode == Wrong(1, 2).hashCode // false, violates hashCode contract
+/// Foo('a', 1) == Foo('a', 2); // true
+///
+/// Foo('a', 1).hashCode == Foo('a', 2).hashCode; // false, violates hash code contract
 /// ```
 mixin Orderable<T extends Orderable<T>> implements Comparable<T> {
 
-  /// Returns `true` if this [T] is less than [other].
+  /// Returns true if this is less than [other].
   @nonVirtual
   @useResult bool operator < (T other) => compareTo(other) < 0;
-  //
-  /// Returns `true` if this [T] is more than [other].
+
+  /// Returns true if this is more than [other].
   @nonVirtual
   @useResult bool operator > (T other) => compareTo(other) > 0;
 
-  /// Returns `true` if this [T] is equal to or less than [other].
+  /// Returns true if this is equal to or less than [other].
   @nonVirtual
   @useResult bool operator <= (T other) => compareTo(other) <= 0;
 
-  /// Returns `true` if this [T] is equal to or more than [other].
+  /// Returns `true` if this is equal to or more than [other].
   @nonVirtual
   @useResult bool operator >= (T other) => compareTo(other) >= 0;
 
@@ -63,48 +62,61 @@ mixin Orderable<T extends Orderable<T>> implements Comparable<T> {
       && runtimeType == other.runtimeType
       && compareTo(other) == 0;
 
-  /// The hash code for this object. Hash computation is delegated to [hashValue].
-  ///
-  /// ### Implementation details:
-  /// This is done to enforce overriding of hash computation and prevent a bad interaction between annotating [==]
-  /// with @[nonVirtual] and the `hash_and_equals` lint rule.
   @override
   @nonVirtual
   @useResult int get hashCode => hashValue;
 
-  /// The hash code for this object. Implementations must follow the [hashCode] contract. See [Orderable]'s documentation
-  /// for more information.
+  /// This object's hash.
+  ///
+  /// Objects where [compareTo] is 0 should have the same [hashValue]. A common mistake is to use an unrelated field when
+  /// computing a `hashValue`.
+  ///
+  /// Counterexample:
+  /// ```dart
+  /// class Foo with Orderable<Foo> {
+  ///   final String key;
+  ///   final int value;
+  ///
+  ///   Foo(String.key, this.value);
+  ///
+  ///   @override
+  ///   int compareTo(Wrong other) => key.compareTo(other.key);
+  ///
+  ///   @override
+  ///   int get hashValue => Object.hash(key, value);
+  /// }
+  ///
+  /// Foo('a', 1) == Foo('a', 2); // true
+  ///
+  /// Foo('a', 1).hashCode == Foo('a', 2).hashCode; // false, violates hash code contract
+  /// ```
   @protected int get hashValue;
 
 }
 
 
-/// Returns the lesser of [a] and [b] using [Comparable.compareTo]. If [by] is specified, the [Comparable] produced is used.
-/// Otherwise, [T] must be a [Comparable].
+/// Returns the lesser of [a] and [b].
 ///
-/// This function is unstable, either [a] or [b] may be returned if both are equal.
+/// If [by] is given, the produced [Comparable] is used. Otherwise [a] and [b] must be `Comparable`s.
 ///
-/// ### Example:
+/// This function is unstable, either [a] or [b] may be returned if both are equal. Unlike [math.min], it works on all
+/// `Comparable`s.
+///
 /// ```dart
-/// min(MapEntry(1, 'a'), MapEntry(2, 'a'), by: (e) => e.key); // MapEntry(1, 'a')
+/// min(('a', 1), ('a', 2), by: (e) => e.$2); // ('a', 1)
 ///
 /// min(1, 2); // 1
-///
-/// max(MapEntry(1, 'a'), MapEntry(1, 'b'), by: (e) => e.key); // MapEntry(1, 'a') or MapEntry(1, 'b')
 /// ```
 ///
-/// ### Note:
-/// The result of [min] and [math.min] differs when comparing numbers and either argument is [double.nan].
-/// [min] will always return the other numeric argument while [math.min] will always return [double.nan].
+/// ## [double.nan] values
+/// This function and [math.min] handles `double.nan` differently. This function returns the other argument while
+/// `math.min` returns `double.nan`.
 ///
-/// ### Example:
 /// ```dart
 /// min(1.0, double.nan); // 1.0
 ///
 /// math.min(1.0, double.nan); // double.nan
 /// ```
-///
-/// This is an alternative to [math.min] that works on all [Comparable]s.
 @Possible({TypeError})
 @useResult T min<T>(T a, T b, {Select<T, Comparable<Object>>? by}) {
   if (by != null) {
@@ -116,21 +128,18 @@ mixin Orderable<T extends Orderable<T>> implements Comparable<T> {
 }
 
 
-/// Returns the greater of [a] and [b] using [Comparable.compareTo]. If [by] is specified, the [Comparable] produced is used.
-/// Otherwise, [T] must be a [Comparable].
+/// Returns the greater of [a] and [b].
 ///
-/// This function is unstable, either [a] or [b] may be returned if both are equal.
+/// If [by] is given, the produced [Comparable] is used. Otherwise [a] and [b] must be `Comparable`s.
 ///
-/// ### Example:
+/// This function is unstable, either [a] or [b] may be returned if both are equal. Unlike [math.max], it works on all
+/// `Comparable`s.
+///
 /// ```dart
-/// max(MapEntry(1, 'a'), MapEntry(2, 'a'), by: (e) => e.key); // MapEntry(2, 'a')
+/// max(('a', 1), ('a', 2), by: (e) => e.$2); // ('a', 2)
 ///
 /// max(1, 2); // 2
-///
-/// max(MapEntry(1, 'a'), MapEntry(1, 'b'), by: (e) => e.key); // MapEntry(1, 'a') or MapEntry(1, 'b')
 /// ```
-///
-/// This is an alternative to [math.max] that works on all [Comparable]s.
 @Possible({TypeError})
 @useResult T max<T>(T a, T b, {Select<T, Comparable<Object>>? by}) {
   if (by != null) {
@@ -147,16 +156,14 @@ extension Comparators<T> on Comparator<T> {
 
   /// Returns a [Comparator] that compares two [T]s using the values produced by [select].
   ///
-  /// ### Example:
   /// ```dart
-  /// final compare = Comparators.by<MapEntry<int, String>>((e) => e.key);
-  /// compare(MapEntry(1, 'b'), MapEntry(2, 'a')); // -1
+  /// final compare = Comparators.by<(String, int)>((e) => e.$2);
+  /// compare(('b', 1), MapEntry('a', 2)); // -1
   /// ```
   @useResult static Comparator<T> by<T>(Select<T, Comparable<Object>> select) => (a, b) => select(a).compareTo(select(b));
 
-  /// Returns a [Comparator] that reverses the ordering produced by this [Comparator].
+  /// Reverses the ordering of this `Comparator`.
   ///
-  /// ### Example:
   /// ```dart
   /// final Comparator<int> compare = (a, b) => a.compareTo(b);
   ///
@@ -166,94 +173,18 @@ extension Comparators<T> on Comparator<T> {
   /// ```
   @useResult Comparator<T> reverse() => (a, b) => this(a, b) * -1;
 
-  /// Returns a [Comparator] that uses [tiebreaker] to break ties when this [Comparator] considers two elements to be equal,
-  /// i.e. `comparator(a, b) == 0`.
+  /// Returns a [Comparator] that uses [tiebreaker] to break ties.
   ///
-  /// ```
-  /// final Comparator<MapEntry<int, int>> foo = (a, b) => a.key.compareTo(b.key);
-  /// foo(MapEntry(1, 1), MapEntry(1, 2)); // 0
+  /// ```dart
+  /// final Comparator<(int, int)> foo = (a, b) => a.$1.compareTo(b.$1);
+  /// foo((1, 1), (1, 2)); // 0
   ///
-  /// final bar = foo.and((a, b) => a.value.compareTo(b.value));
-  /// bar(MapEntry(1, 1), MapEntry(1, 2)); // -1
+  /// final bar = foo.and((a, b) => a.$2.compareTo(b.$2));
+  /// bar((1, 1), (1, 2)); // -1
   /// ```
   @useResult Comparator<T> and(Comparator<T> tiebreaker) => (a, b) {
     final comparison = this(a, b);
     return comparison != 0 ? comparison : tiebreaker(a, b);
   };
-
-}
-
-
-/// Provides comparison operator overloads, i.e. `<=`, for [DateTime]s.
-///
-/// Unlike [DateTime.isBefore] and other related methods, the provided comparison operators require compared [DateTime]s
-/// to be in the same timezone. Comparing [DateTime]s in different timezones will always return `false`. This is to
-/// to ensure that comparison operators agree with [DateTime]'s [DateTime.==].
-///
-/// ### Example:
-/// ```dart
-/// DateTime.now() > DateTime(1970); // true
-///
-/// DateTime.now() > DateTime.utc(1970); // false
-/// ```
-///
-/// See [DateTime.isBefore] and other related methods for comparing [DateTime]s independent of timezones.
-extension ComparableDateTimes<T extends DateTime> on T {
-
-  /// Returns `true` if this [DateTime] and [other] are in the same timezone and this [DateTime] occurs before [other].
-  ///
-  /// ### Example:
-  /// ```dart
-  /// DateTime(1970) < DateTime(1980); // true
-  ///
-  /// DateTime(1980) < DateTime(1970); // false
-  ///
-  /// DateTime(1970) < DateTime.utc(1980); // false
-  /// ```
-  ///
-  /// See [DateTime.isBefore] for comparing [DateTime]s independent of timezones.
-  @useResult bool operator < (T other) => timeZoneName == other.timeZoneName && isBefore(other);
-
-  /// Returns `true` if this [DateTime] and [other] are in the same timezone and this [DateTime] occurs after [other].
-  ///
-  /// ### Example:
-  /// ```dart
-  /// DateTime(1980) > DateTime(1970); // true
-  ///
-  /// DateTime(1970) > DateTime(1980); // false
-  ///
-  /// DateTime(1980) > DateTime.utc(1970); // false
-  /// ```
-  ///
-  /// See [DateTime.isAfter] for comparing [DateTime]s independent of timezones.
-  @useResult bool operator > (T other) => timeZoneName == other.timeZoneName && isAfter(other);
-
-  /// Returns `true` if this [DateTime] and [other] are in the same timezone, and this [DateTime] occurs before or at [other].
-  ///
-  /// ### Example:
-  /// ```dart
-  /// DateTime(1970) <= DateTime(1980); // true
-  ///
-  /// DateTime(1980) <= DateTime(1970); // false
-  ///
-  /// DateTime(1970) <= DateTime.utc(1980); // false
-  /// ```
-  ///
-  /// See [DateTime.isBefore] and [DateTime.isAtSameMomentAs] for comparing [DateTime]s independent of timezones.
-  @useResult bool operator <= (T other) => timeZoneName == other.timeZoneName && (isBefore(other) || isAtSameMomentAs(other));
-
-  /// Returns `true` if this [DateTime] and [other] are in the same timezone and this [DateTime] occurs after or at [other].
-  ///
-  /// ### Example:
-  /// ```dart
-  /// DateTime(1980) >= DateTime(1970); // true
-  ///
-  /// DateTime(1970) >= DateTime(1980); // false
-  ///
-  /// DateTime(1980) >= DateTime.utc(1970); // false
-  /// ```
-  ///
-  /// See [DateTime.isAfter] and [DateTime.isAtSameMomentAs] for comparing [DateTime]s independent of timezones.
-  @useResult bool operator >= (T other) => timeZoneName == other.timeZoneName && (isAfter(other) || isAtSameMomentAs(other));
 
 }

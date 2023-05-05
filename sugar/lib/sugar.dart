@@ -1,4 +1,14 @@
 /// {@category Sugar}
+///
+/// Aggregates and exports all other libraries.
+///
+/// All libraries are aggregated and exported so that they can be imported in a single line:
+/// ```dart
+/// import 'package:sugar/sugar.dart';
+/// ````
+///
+/// It is recommended to treat this library as an index and browse through the individual libraries. Trying to understand
+/// the package using this library can be overwhelming.
 library sugar;
 
 export 'collection.dart';

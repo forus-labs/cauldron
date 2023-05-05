@@ -1,31 +1,43 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/core.dart';
 
-/// A monad that represents the result of an operation. A result is always either a [Success] or [Failure].
+/// A [Result] represents the result of an operation. It is a [Success] or [Failure].
 ///
-/// Results are an alternative error-handling mechanism to Dart's exception-based mechanism. It is highly inspired by functional
-/// programming languages, Rust and Swift.
+/// Results are an alternative error-handling mechanism to exceptions. It is inspired by other languages such as Rust
+/// and Swift.
+///
+/// To represent a success:
+/// ```dart
+/// Result<String, int> httpGet() {
+///   if (successful) return Success('HTTP body in plain text');
+/// }
+///```
+///
+/// To represent a failure:
+/// ```dart
+/// Result<String, int> httpGet() {
+///   if (notFound) return Failure(404);
+/// }
+/// ```
 ///
 /// See [Maybe] for representing a value and the possible absence thereof.
 @sealed abstract class Result<S extends Object, F extends Object> {
 
   static void _nothing(Object? value) {}
 
-  /// Creates a [Result] by executing the given function that may throw an exception.
+  /// Wraps [throwing], which may throw an exception, in a [Result].
   ///
-  /// If the function executes successfully, creates a [Success] that contains the function's [S].
-  /// Otherwise returns a [Failure] that contains the [Exception] thrown by the given function.
+  /// Returns a [Success] if [throwing] executes successfully. Otherwise returns a [Failure] that contains the exception
+  /// thrown.
   ///
-  /// Conversion of thrown [Error]s into [Result]s is intentionally avoided. This is because an [Error]
-  /// represent a failure that the programmer should have avoided.
+  /// Errors are intentionally uncaught since they represent programmatic errors.
   ///
-  /// ### Example:
   /// ```dart
-  /// Result.of(throwing: () => 1)); // Success(1);
+  /// Result.of(() => 1)); // Success(1);
   ///
-  /// Result.of(throwing: () => throws ArgumentError)); // Failure(ArgumentError);
+  /// Result.of(() => throws FooException())); // Failure(FooException());
   /// ```
-  static Result<S, F> of<S extends Object, F extends Exception>({required Supply<S> throwing}) {
+  static Result<S, F> of<S extends Object, F extends Exception>(Supply<S> throwing) {
     try {
       return Success(throwing());
 
@@ -37,115 +49,103 @@ import 'package:sugar/core.dart';
   const Result._();
 
 
-  /// If this [Result] is a [Success], produces a [Success] that contains a [T]. Otherwise returns a [Failure] with its [F]
-  /// untouched.
+  /// If this is a `Success`, maps [S] to [T], otherwise returns [F] untouched.
   ///
-  /// A [T] is produced by applying the given function on this [Result]'s [S].
-  ///
-  /// ### Example:
   /// ```dart
-  /// Success(1).map((value) => value.toString()); // Success('1')
+  /// Success(1).map((v) => v.toString()); // Success('1')
   ///
-  /// Failure(2).map((value) => value.toString()); // Failure(2)
+  /// Failure(2).map((v) => v.toString()); // Failure(2)
   /// ```
   @useResult Result<T, F> map<T extends Object>(T Function(S success) function);
 
-  /// If this [Result] is a [Failure], produces a [Failure] that contains a [T]. Otherwise returns a [Success] with its [S]
-  /// untouched.
+  /// If this is a `Failure`, maps [F] to [T], otherwise returns [S] untouched.
   ///
-  /// A [T] is produced by applying the given function on this [Result]'s [F].
-  ///
-  /// ### Example:
   /// ```dart
-  /// Success(1).mapFailure((value) => value.toString()); // Success(1)
+  /// Success(1).mapFailure((v) => v.toString()); // Success(1)
   ///
-  /// Failure(2).mapFailure((value) => value.toString()); // Failure('2')
+  /// Failure(2).mapFailure((v) => v.toString()); // Failure('2')
   /// ```
   @useResult Result<S, T> mapFailure<T extends Object>(T Function(F failure) function);
 
 
-  /// If this [Result] is a [Success], return a [Result] produced by the give function. Otherwise returns a [Failure] with
-  /// its [F] untouched.
+  /// If this is a `Success`, maps [S] to [Result], otherwise returns [F] untouched.
   ///
   /// See [pipe] for an asynchronous variant of this function.
   ///
-  /// ### Example:
   /// ```dart
-  /// Success(1).bind((value) => Failure(value.toString())); // Failure('1')
+  /// Success(1).bind((v) => Failure(v.toString())); // Failure('1')
   ///
-  /// Failure(2).bind((value) => Failure(value.toString())); // Failure(2)
+  /// Failure(2).bind((v) => Failure(v.toString())); // Failure(2)
   /// ```
   @useResult Result<T, F> bind<T extends Object>(Result<T, F> Function(S success) function);
 
-  /// If this [Result] is a [Failure], return a [Result] produced by the give function. Otherwise returns a [Success] with
-  /// its [S] untouched.
+  /// If this is a `Failure`, maps [F] to [Result], otherwise returns [S] untouched.
   ///
   /// See [pipeFailure] for an asynchronous variant of this function.
   ///
-  /// ### Example:
   /// ```dart
-  /// Success(1).bindFailure((value) => Failure(value.toString())); // Success(1)
+  /// Success(1).bindFailure((v) => Failure(v.toString())); // Success(1)
   ///
-  /// Failure(2).bindFailure((value) => Success(value.toString())); // Success('2')
+  /// Failure(2).bindFailure((v) => Success(v.toString())); // Success('2')
   /// ```
   @useResult Result<S, T> bindFailure<T extends Object>(Result<S, T> Function(F failure) function);
 
-  /// If this [Result] is a [Success], return a [Result] produced by the give function. Otherwise returns a [Failure] with
-  /// its [F] untouched.
+  /// If this is a `Success`, asynchronously maps [S] to [Result], otherwise returns [F] untouched.
   ///
   /// See [bind] for a synchronous variant of this function.
   ///
-  /// ### Example:
   /// ```dart
-  /// Success(1).pipe((value) async => Failure(value.toString())); // Failure('1')
+  /// Future<String> stringifyAsync(int value) async => Failure(v.toString());
   ///
-  /// Failure(2).pipe((value) async => Failure(value.toString())); // Failure(2)
+  /// Success(1).pipe(stringifyAsync); // Failure('1')
+  ///
+  /// Failure(2).pipe(stringifyAsync); // Failure(2)
   /// ```
   @useResult Future<Result<T, F>> pipe<T extends Object>(Future<Result<T, F>> Function(S success) function);
 
-  /// If this [Result] is a [Failure], return a [Result] produced by the give function. Otherwise returns a [Success] with
-  /// its [S] untouched.
+  /// If this is a `Failure`, asynchronously maps [F] to [Result], otherwise returns [S] untouched.
   ///
   /// See [bindFailure] for a synchronous variant of this function.
   ///
-  /// ### Example:
   /// ```dart
-  /// Success(1).pipeFailure((value) async => Failure(value.toString())); // Success(1)
+  /// Future<String> stringifyAsync(int value) async => Success(v.toString());
   ///
-  /// Failure(2).pipeFailure((value) async => Success(value.toString())); // Success('2')
+  /// Success(1).pipeFailure(stringifyAsync); // Success(1)
+  ///
+  /// Failure(2).pipeFailure(stringifyAsync); // Success('2')
   /// ```
   @useResult Future<Result<S, T>> pipeFailure<T extends Object>(Future<Result<S, T>> Function(F failure) function);
 
 
-  /// If this [Result] is a [Success], calls [success], otherwise calls [failure]. By default, [success] and [failure]
-  /// does nothing.
+  /// Calls [success] if this is a `Success`, or [failure] if this is a `Failure`.
   ///
-  /// ### Example:
   /// ```dart
-  /// Success('s').when(success: print, failure: print); // 's'
+  /// Success('s').when(success: print); // 's'
   ///
-  /// Failure('f').when(success: print, failure: print); // 'f'
+  /// Failure('f').when(success: print); // nothing
   /// ```
   void when({Consume<S> success = _nothing, Consume<F> failure = _nothing});
 
 
-  /// Transforms this [Result] into a [Maybe]. [Success] is mapped to non-nullable [S], while [Failure] is mapped to `null`.
+  /// The value if this is a `Success` or `null` otherwise.
   ///
-  /// ### Example:
+  /// See [Maybe].
+  ///
   /// ```dart
-  /// int foo(Result<int, String> result) => result.success!;
+  /// Success(2).success; // 2
   ///
-  /// foo(2); // 4
+  /// Failure(2).success; // null
   /// ```
   @useResult S? get success;
 
-  /// Transforms this [Result] into a [Maybe]. [Failure] is mapped to a non-nullable [F], while [Success] is mapped to `null`.
+  /// The value if this is a `Failure` or `null` otherwise.
   ///
-  /// ### Example:
+  /// See [Maybe].
+  ///
   /// ```dart
-  /// int foo(Result<int, String> result) => result.failure!;
+  /// Success(2).failure; // null
   ///
-  /// foo('f'); // 'f'
+  /// Failure(2).failure; // 2
   /// ```
   @useResult F? get failure;
 
@@ -157,7 +157,7 @@ class Success<S extends Object, F extends Object> extends Result<S, F> {
   @override
   final S success;
 
-  /// Creates a [Success] with the given value.
+  /// Creates a [Success].
   const Success(this.success): super._();
 
 
@@ -204,7 +204,7 @@ class Failure<S extends Object, F extends Object> extends Result<S, F> {
   @override
   final F failure;
 
-  /// Creates a [Failure] with the given value.
+  /// Creates a [Failure].
   const Failure(this.failure): super._();
 
 

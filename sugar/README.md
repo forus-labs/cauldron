@@ -10,28 +10,4 @@ Sugar is an extension to Dart's standard library. It provides the following (and
 * Syntax sugar for aggregating & manipulating collections.
 * Types for representing and working with ranges & intervals.
 
-
-## Getting Started
-
-With Dart:
-```shell
-dart pub add sugar 
-```
-
-With Flutter:
-```shell
-flutter pub add sugar 
-```
-
-This will add the following to your package's pubspec.yaml:
-```yaml
-dependencies:
-  sugar: ^3.0.0
-```
-
-Now in your Dart code, you can use:
-```dart
-import 'package:sugar/sugar.dart';
-```
-
 Check out the [documentation](https://pub.dev/documentation/sugar/latest/) to get started!

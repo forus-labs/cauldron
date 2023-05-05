@@ -6,126 +6,127 @@ import 'package:sugar/core.dart';
 
 /// A [Maybe] monad that may or may not contain a [T].
 ///
-/// See [Result] for representing either of two possible values.
+/// _All nullable types are `Maybe` monads_. Leveraging on the type system, this implementation is not an explicit container.
 ///
-/// This implementation leverages on Dart's type system, foregoing any explicit container types. Assuming that [T] is a
-/// value, then `Maybe(T) = Some(T) | None()` can be represented as `T? = T | null` in Dart's type system. In other words,
-///  _all nullable types are treated as `Maybe` monads_. All `Maybe` functions can be accessed on all nullable objects.
+/// Assuming:
+/// ```
+/// Maybe(T) = Some(T) | None()
+/// ```
 ///
-/// This makes the following two functions equivalent:
-/// ### Example:
+/// It can be represented in the type system as:
+/// ```
+/// T? = T | null
+/// ```
+///
+/// Example:
 /// ```dart
-/// String foo(int? bar) { // int? is treated as a Maybe monad for integers.
+/// String foo(int? bar) { // int? is a Maybe(int) monad.
 ///   return bar.where((e) => e == 1).map((e) => e.toString())!;
 /// }
-
-/// String foo(Maybe<int> bar) {
-///   return bar.where((e) => e == 1).map((e) => e.toString()).unwrap();
-/// }
 /// ```
 ///
-/// ### [Maybe] and collection types
-/// Leveraging on Dart's type system has the downside where most methods will not work with collection types due to
-/// conflicting method names. However, it is believed to be an acceptable tradeoff since `None` should be represented
-/// by an empty collection instead.
+/// ## [Maybe] and collections
+/// It is recommended to use an empty collection to represent `None()`. Thus, most of [Maybe]'s functions deliberately
+/// do not work on collections.
 ///
-/// Instead of using a nullable collection:
-/// ### Example:
-/// ```dart
-/// List<String>? foo() {
-///   if (somethingGoesWrong) return null;
-/// }
-/// ```
-///
-/// Prefer using an empty collection instead:
-/// ### Example:
+/// **Good:**
 /// ```dart
 /// List<String> foo() {
-///   if (somethingGoesWrong) return [];
+///   if (notFound) return [];
 /// }
 /// ```
+///
+/// **Bad**:
+/// ```dart
+/// List<String>? foo() {
+///   if (notFound) return null;
+/// }
+/// ```
+///
+/// See:
+/// * [FutureMaybe] for working with asynchronous `Maybe`s.
+/// * [Result] for representing successes and failures.
 extension Maybe<T extends Object> on T? {
 
-  /// If this is not null and satisfies the given [predicate], return this, otherwise returns `null`.
+  /// Returns this if it is not null and satisfies [predicate]. Otherwise returns `null`.
   ///
-  /// ### Example:
   /// ```dart
-  /// String? value = 'value';
+  /// String? foo = 'value';
   ///
-  /// value.where((string) => string == 'value'); // 'value'
+  /// foo.where((v) => v == 'value'); // 'value'
   ///
-  /// value.where((string) => string == 'other'); // null
+  /// foo.where((v) => v == 'other'); // null
   ///
   ///
-  /// String? value = null;
+  /// String? bar = null;
   ///
-  /// value.where((string) => string == 'value'); // null
+  /// bar.where((e) => e == 'value'); // null
   /// ```
   @useResult T? where(Predicate<T> predicate) => this != null && predicate(this!) ? this : null;
 
-  /// If this is not null, returns the `R?` produced by [function], otherwise returns null.
+  /// Returns [R?] produced by [function] if this is not null. Otherwise returns `null`.
   ///
-  /// This method is similar to [map] except that the given function returns a `T?` instead of [T].
+  /// This function is similar to [map] except that it returns [R?] instead of [R].
   ///
-  /// ### Example:
   /// ```dart
-  /// String? value = 'value';
+  /// String? foo = 'value';
   ///
-  /// value.bind((value) => 'other value'); // 'other value';
+  /// foo.bind((v) => 'other value'); // 'other value';
   ///
-  /// value.bind((value) => null); // null;
+  /// foo.bind((v) => null); // null;
   ///
   ///
-  /// String? value = null;
+  /// String? bar = null;
   ///
-  /// value.bind((value) => 'other value'); // null
+  /// bar.bind((v) => 'other value'); // null
   /// ```
-  R? bind<R>(R? Function(T value) function) => this == null ? null : function(this!);
+  @useResult R? bind<R>(R? Function(T value) function) => this == null ? null : function(this!);
 
-  /// If this is not null, returns the [R] produced by [map], otherwise returns null.
+  /// Returns [R] if this is not null. Otherwise returns null.
   ///
-  /// This method is similar to [bind] except that the given function returns a [T] instead of `T?`.
+  /// This function is similar to [bind] except that it returns [R] instead of [R?]
   ///
-  /// ### Example:
   /// ```dart
-  /// String? value = 'value';
-  /// value.map((value) => 'other value'); // 'other value'
+  /// String? foo = 'value';
+  /// foo.map((v) => 'other value'); // 'other value'
   ///
-  /// String? value = null;
-  /// value.map((value) => 'other value'); // null
+  /// String? bar = null;
+  /// bar.map((v) => 'other value'); // null
   /// ```
   @useResult R? map<R extends Object>(R Function(T value) function) => this == null ? null : function(this!);
 
 }
 
 /// Provides functions for working with asynchronous `Maybe`s.
+///
+/// See [Maybe] for working with synchronous `Maybe`s.
 extension FutureMaybe<T extends Object> on Future<T?> {
 
-  /// If this is not null, returns the [Future] produced by [function], otherwise returns null.
+  /// Returns a [Future<R?>] if this `Future` does not complete as null. Otherwise returns a `Future` that completes as
+  /// null.
   ///
-  /// This method is similar to:
-  /// * [Maybe.bind] except that the given function asynchronously computes a [Future].
-  /// * [then] except that it forwards null values instead of thrown errors.
+  /// This function is similar to [Maybe.bind] which does not compose `Future`s.
   ///
-  /// ### Example:
+  /// Example:
   /// ```dart
   /// Future<int?> computeAsync<T>(T value) async => 1;
   ///
-  /// String? value = 'value';
-  /// 'value'.pipe(computeAsync); // Future(1)
+  /// Future<String?> foo = Future.value('value');
+  /// foo.pipe(computeAsync); // Future(1)
   ///
-  /// String? value = null;
-  /// value.pipe(computeAsync); // Future(null)
+  /// Future<String?> bar = null;
+  /// bar.pipe(computeAsync); // Future(null)
   /// ```
   ///
-  /// Chaining this function in succession.
-  /// ### Example:
+  /// Chaining this function:
   /// ```dart
-  /// Future<int?> computeAsync<T>(T value) async => value + 1;
+  /// Future<int?> addAsync<T>(T value) async => value + 1;
   ///
-  /// 1.pipe(computeAsync).pipe(computeAsync); // Future(3)
+  /// Future<int?> one = Future.value(1);
+  ///
+  /// one.pipe(addAsync).pipe(addAsync); // Future(3)
   /// ```
-  Future<R?> pipe<R>(FutureOr<R?> Function(T value) function) async {
+  @useResult Future<R?> pipe<R>(FutureOr<R?> Function(T value) function) async {
     final value = await this;
     return value == null ? null : function(value);
   }

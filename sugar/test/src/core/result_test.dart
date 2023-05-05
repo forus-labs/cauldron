@@ -5,11 +5,11 @@ import 'package:test/test.dart';
 
 void main() {
   group('Result', () {
-    test('of non-throwing function', () => expect(Result.of(throwing: () => 1), Success(1)));
+    test('of non-throwing function', () => expect(Result.of(() => 1), Success(1)));
 
     test('of throwing function', () {
       final exception = Exception();
-      expect(Result.of(throwing: () => throw exception), Failure(exception));
+      expect(Result.of(() => throw exception), Failure(exception));
     });
   });
   

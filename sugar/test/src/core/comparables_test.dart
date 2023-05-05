@@ -173,33 +173,4 @@ void main() {
       test('less greater than right', () => expect(compare(Box(2, 1), Box(1, 2)), 1));
     });
   });
-
-  group('ComparableDateTimes', () {
-    test('smaller < larger', () => expect(DateTime(1) < DateTime(2), true));
-
-    test('same < same', () => expect(DateTime(1) < DateTime(1), false));
-
-    test('larger < smaller', () => expect(DateTime(2) < DateTime(1), false));
-
-
-    test('smaller > larger', () => expect(DateTime(1) > DateTime(2), false));
-
-    test('same > same', () => expect(DateTime(1) > DateTime(1), false));
-
-    test('larger > smaller', () => expect(DateTime(2) > DateTime(1), true));
-
-
-    test('smaller <= larger', () => expect(DateTime(1) <= DateTime(2), true));
-
-    test('same <= same', () => expect(DateTime(1) <= DateTime(1), true));
-
-    test('larger <= smaller', () => expect(DateTime(2) <= DateTime(1), false));
-
-
-    test('smaller >= larger', () => expect(DateTime(1) >= DateTime(2), false));
-
-    test('same >= same', () => expect(DateTime(1) >= DateTime(1), true));
-
-    test('larger >= smaller', () => expect(DateTime(2) >= DateTime(1), true));
-  });
 }
