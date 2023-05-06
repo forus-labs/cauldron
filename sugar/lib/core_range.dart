@@ -1,3 +1,5 @@
+// TODO: fix docs once https://github.com/dart-lang/dartdoc/issues/3409 is resolved
+
 /// {@category Core}
 ///
 /// Utilities for representing and manipulating a range of values in a domain.
@@ -14,6 +16,7 @@
 ///
 /// | Notation   | Range                  | Type/Constructor      |
 /// | ---------- | ---------------------- | --------------------- |
+/// | `(-∞..+∞)` | `{ x \| x }`           | [Range.all]           |
 /// | `(a..+∞)`  | `{ x \| a < x }`       | [Min]                 |
 /// | `[a..+∞)`  | `{ x \| a <= x }`      | [Min]                 |
 /// | `(a..b)`   | `{ x \| a < x < b }`   | [Interval.open]       |
@@ -22,13 +25,21 @@
 /// | `[a..b)`   | `{ x \| a < x <= b }`  | [Interval.closedOpen] |
 /// | `(-∞..b)`  | `{ x \| x < b }`       | [Max]                 |
 /// | `(-∞..b]`  | `{ x \| x <= b }`      | [Max]                 |
-/// | `(-∞..+∞)` | `{ x \| x }`           | [Range.all]           |
 ///
 /// In addition, the following ranges are valid:
 /// * singleton ranges - `[a..a]`
 /// * empty ranges - `[a..a)` and `(a..a]`
 ///
 /// Ranges with open bounds and, equal minimum and maximum values, i.e. `(a..b)` are *not* valid.
+///
+/// ## Example
+/// ```dart
+/// final hoursInDay = Interval.closedOpen(0, 24);
+///
+/// print(hoursInDay.contains(0); // true
+/// print(hoursInDay.contains(12); // true
+/// print(hoursInDay.contains(24); // false
+/// ```
 library sugar.core.range;
 
 import 'package:sugar/src/core/range/range.dart';

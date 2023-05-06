@@ -7,18 +7,24 @@ import 'package:sugar/src/core/range/range.dart';
 /// A [Min] represents a convex (contiguous) portion of a domain bounded on the lower end, i.e. `{ x | value < x }`.
 ///
 /// [T] is expected to be immutable. If [T] is mutable, the value produced by [Comparable.compare] must not change when
-/// used in a [Range]. Doing so will result in undefined behaviour.
+/// used in a [Min]. Doing so will result in undefined behaviour.
 class Min<T extends Comparable<Object?>> extends Range<T> with IterableRange<T> {
 
   /// The minimum value.
   final T value;
-  /// Whether the lower bound is open. That is to say, whether the range excludes [value], i.e. `{ x | value < x }`.
+  /// Whether the lower bound is open.
+  ///
+  /// In other words, whether this range excludes [value], i.e. `{ x | value < x }`.
   final bool open;
 
-  /// Creates a [Min] with the given open lower bound. That is to say, this range excludes [value], i.e. `{ x | value < x }`.
+  /// Creates a [Min] with the open lower bound.
+  ///
+  /// In other words, this range excludes [value], i.e. `{ x | value < x }`.
   const Min.open(this.value): open = true;
 
-  /// Creates a [Min] with the given closed lower bound. That is to say, this range includes [value], i.e. `{ x | value <= x }`.
+  /// Creates a [Min] with the closed lower bound.
+  ///
+  /// In other words, this range includes [value], i.e. `{ x | value <= x }`.
   const Min.closed(this.value): open = false;
 
   @override
@@ -117,7 +123,9 @@ class Min<T extends Comparable<Object?>> extends Range<T> with IterableRange<T> 
   @override
   bool get empty => false;
 
-  /// Whether the lower bound is closed. That is to say, whether the range includes [value], i.e. `{ x | value <= x }`.
+  /// Whether the lower bound is closed.
+  ///
+  /// In other words, whether this range includes [value], i.e. `{ x | value <= x }`.
   bool get closed => !open;
 
 

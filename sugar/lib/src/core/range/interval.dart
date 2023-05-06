@@ -3,10 +3,10 @@ import 'package:sugar/sugar.dart';
 import 'package:sugar/src/core/range/all.dart';
 import 'package:sugar/src/core/range/range.dart';
 
-/// A [Interval] represents a convex (contiguous) portion of a domain bounded on both ends, i.e. `{ x | min < x < max }`.
+/// An [Interval] represents a convex (contiguous) portion of a domain bounded on both ends, i.e. `{ x | min < x < max }`.
 ///
 /// [T] is expected to be immutable. If [T] is mutable, the value produced by [Comparable.compare] must not change when
-/// used in a [Range]. Doing so will result in undefined behaviour.
+/// used in an `Interval`. Doing so will result in undefined behaviour.
 class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRange<T> {
 
   static void _precondition<T extends Comparable<Object?>>(String start, T min, T max, String end) {
@@ -17,42 +17,50 @@ class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRang
 
   /// The minimum value.
   final T min;
-  /// Whether the lower bound is open. That is to say, whether the range excludes [min], i.e. `{ x | min < x }`.
+  /// Whether the lower bound is open.
+  ///
+  /// In other words, whether this interval excludes [min], i.e. `{ x | min < x }`.
   final bool minOpen;
   /// The maximum value.
   final T max;
-  /// Whether the lower bound is open. That is to say, whether the range excludes [max], i.e. `{ x | x < max }`.
+  /// Whether the lower bound is open.
+  ///
+  /// In other words, whether this interval excludes [max], i.e. `{ x | x < max }`.
   final bool maxOpen;
 
-  /// Creates an [Interval] with the given closed lower bound and open upper bound. That is to say, this range includes [min]
-  /// and excludes [max], i.e. `{ x | min <= x < max }`.
+  /// Creates an [Interval] with the closed lower bound and open upper bound.
   ///
-  /// ### Contract:
-  /// [min] must be equal to or less than [max]. A [RangeError] will otherwise be thrown.
+  /// In other words, this interval includes [min] and excludes [max], i.e. `{ x | min <= x < max }`.
+  ///
+  /// ## Contract
+  /// Throws a [RangeError] if `min >= max`.
   @Possible({RangeError})
   Interval.closedOpen(this.min, this.max): minOpen = false, maxOpen = true { _precondition('[', min, max, ')'); }
 
-  /// Creates an [Interval] with the given closed lower and upper bounds. That is to say, this range includes both [min] and [max],
-  /// i.e. `{ x | min <= x <= max }`.
+  /// Creates an [Interval] with the closed lower and upper bounds.
   ///
-  /// ### Contract:
-  /// [min] must be equal to or less than [max]. A [RangeError] will otherwise be thrown.
+  /// In other words, this interval includes both [min] and [max], i.e. `{ x | min <= x <= max }`.
+  ///
+  /// ## Contract
+  /// Throws a [RangeError] if `min > max`.
   @Possible({RangeError})
   Interval.closed(this.min, this.max): minOpen = false, maxOpen = false { _precondition('[', min, max, ']'); }
 
-  /// Creates an [Interval] with the given open lower bound and closed upper bound. That is to say, this range excludes [min]
-  /// and includes [max], i.e. `{ x | min < x <= max }`.
+  /// Creates an [Interval] with the open lower bound and closed upper bound.
   ///
-  /// ### Contract:
-  /// [min] must be equal to or less than [max]. A [RangeError] will otherwise be thrown.
+  /// In other words, this interval excludes [min] and includes [max], i.e. `{ x | min < x <= max }`.
+  ///
+  /// ## Contract
+  /// Throws a [RangeError] if `min >= max`.
   @Possible({RangeError})
   Interval.openClosed(this.min, this.max): minOpen = true, maxOpen = false { _precondition('(', min, max, ']'); }
 
-  /// Creates an [Interval] with the given open lower and upper bounds. That is to say, this range excludes both [min] and [max],
-  /// i.e. `{ x | min < x < max }`.
+  /// Creates an [Interval] with the open lower and upper bounds.
   ///
-  /// ### Contract:
-  /// [min] must be less than [max]. A [RangeError] will otherwise be thrown.
+  /// In other words, this interval excludes both [min] and [max], i.e. `{ x | min < x < max }`.
+  ///
+  /// ## Contract
+  /// Throws a [RangeError] if `min >= max`.
   @Possible({RangeError})
   Interval.open(this.min, this.max): minOpen = true, maxOpen = true {
     final value = min.compareTo(max);
@@ -68,9 +76,9 @@ class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRang
     }
   }
 
-  /// Creates an empty [Interval] with the given [value], i.e. `{ x | value <= x < value }`.
+  /// Creates an empty [Interval] with [value], i.e. `{ x | value <= x < value }`.
   ///
-  /// This constructor is an alias for [Interval.closedOpen].
+  /// This is an alias for [Interval.closedOpen].
   const Interval.empty(T value): min = value, minOpen = false, max = value, maxOpen = true;
 
   const Interval._(this.min, this.minOpen, this.max, this.maxOpen);
@@ -179,10 +187,14 @@ class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRang
   @override
   bool get empty => minOpen == maxClosed && min == max;
 
-  /// Whether the lower bound is closed. That is to say, whether the range includes [min], i.e. `{ x | min <= x }`.
+  /// Whether the lower bound is closed.
+  ///
+  /// In other words, whether this interval includes [min], i.e. `{ x | min <= x }`.
   bool get minClosed => !minOpen;
 
-  /// Whether the upper bound is closed. That is to say, whether the range includes [max], i.e. `{ x | x <= max }`.
+  /// Whether the upper bound is closed.
+  ///
+  /// In other words, whether this interval includes [max], i.e. `{ x | x <= max }`.
   bool get maxClosed => !maxOpen;
 
   @override

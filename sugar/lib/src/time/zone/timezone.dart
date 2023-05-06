@@ -4,6 +4,17 @@ import 'package:sugar/src/time/zone/info/root.g.dart';
 import 'package:sugar/src/time/zone/timezone_provider.dart';
 import 'package:sugar/time_zone.dart';
 
+// withTimezone(String timezone, available timezones, LocalDateTime datetime) => {
+//   // mock current timezone
+//   // mock available timezones
+//   // mock current time -> how to represent current time.
+// }
+//
+// class Timezone {
+//   Timezone([int? a], {int b = 0})
+// }
+
+
 /// A timezone that contains rules defining how an offset varies for a single timezone. By default, most timezones in the
 /// 2023c TZ database are supported. This can be configured by replacing [timezoneProvider].
 ///
