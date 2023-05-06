@@ -175,18 +175,6 @@ void main() {
     LocalTime(5, 7, 9, 11, 13).difference(LocalTime(2, 3, 4, 5, 6)),
     const Duration(microseconds: 11045006007),
   ));
-
-  group('gap(...)', () {
-    test('positive', () => expect(
-      LocalTime(5, 7, 9, 11, 13).gap(LocalTime(1, 2, 3, 4, 5)),
-      const Period(hours: 4, minutes: 5, seconds: 6, milliseconds: 7, microseconds: 8),
-    ));
-
-    test('negative', () => expect(
-      LocalTime(1, 2, 3, 4, 5).gap(LocalTime(5, 7, 9, 11, 13)),
-      const Period(hours: -4, minutes: -5, seconds: -6, milliseconds: -7, microseconds: -8),
-    ));
-  });
   
   
   test('at(...)', () => expect(LocalTime(1, 2, 3, 4, 5).at(Offset(8)), OffsetTime(Offset(8), 1, 2, 3, 4, 5)));

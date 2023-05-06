@@ -191,27 +191,6 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   /// ```
   @useResult Duration difference(LocalDateTime other) => Duration(microseconds: epochMicroseconds - other.epochMicroseconds);
 
-  /// Returns the difference when subtracting [other] from this.
-  ///
-  /// The returned [Period] will be negative if [other] occurs after this.
-  ///
-  /// ```dart
-  /// final foo = LocalDateTime(2023, 3, 12);
-  /// final bar = LocalDateTime(2023, 3, 13);
-  ///
-  /// print(bar.gap(foo)); // 1 day
-  /// ```
-  @useResult Period gap(LocalDateTime other) => Period(
-    years: year - other.year,
-    months: month - other.month,
-    days: day - other.day,
-    hours: hour - other.hour,
-    minutes: minute - other.minute,
-    seconds: second - other.second,
-    milliseconds: millisecond - other.millisecond,
-    microseconds: microsecond - other.microsecond,
-  );
-
 
   //// Converts this [LocalDateTime] to a [ZonedDateTime].
   @useResult ZonedDateTime at(Timezone timezone) => ZonedDateTime._(timezone, _native);

@@ -223,19 +223,6 @@ void main() {
   }
 
 
-  group('gap(...)', () {
-    test('positive', () => expect(
-      DateTime.utc(2, 4, 6, 8, 10, 12, 14, 16).gap(DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8)),
-      const Period(years: 1, months: 2, days: 3, hours: 4, minutes: 5, seconds: 6, milliseconds: 7, microseconds: 8),
-    ));
-
-    test('negative', () => expect(
-      DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8).gap(DateTime.utc(2, 4, 6, 8, 10, 12, 14, 16)),
-      const Period(years: -1, months: -2, days: -3, hours: -4, minutes: -5, seconds: -6, milliseconds: -7, microseconds: -8),
-    ));
-  });
-
-
   group('toDateString()', () {
     test('pads year', () => expect(DateTime(0999, 12, 15, 1).toDateString(), '0999-12-15'));
 

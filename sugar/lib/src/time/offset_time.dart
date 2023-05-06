@@ -3,20 +3,30 @@ part of 'time.dart';
 /// The time of the day with an offset from UTC/Greenwich, i.e. `10:15+08:00`. Time is stored to microsecond precision.
 ///
 /// An [OffsetTime] is immutable and should be treated as a value-type.
-///
-/// See [range] for more information on the valid range of [OffsetTime]s.
 class OffsetTime extends Time {
-
-  /// The valid range of [OffsetTime]s in microseconds from `00:00+18:00` to `23:59:59.999999-18:00`, inclusive.
-  static final Interval<int> range = Interval.closed(
-    -18 * Duration.microsecondsPerHour,
-    (Duration.millisecondsPerDay + 18 * Duration.microsecondsPerHour) - 1,
-  );
-
 
   /// The offset.
   final Offset offset;
   String? _string;
+
+
+  /// Creates a [OffsetTime] with the offset and milliseconds since midnight which wraps around midnight.
+  ///
+  /// ```dart
+  /// OffsetTime.fromDayMilliseconds(Offset(8), Offset43200000); // '12:00+08:00'
+  ///
+  /// OffsetTime.fromDayMilliseconds(Offset(8), Duration.millisecondsPerDay); // '00:00+08:00'
+  /// ```
+  OffsetTime.fromDayMilliseconds(this.offset, super.milliseconds): super.fromDayMilliseconds();
+
+  /// Creates a [OffsetTime] with the offset and microseconds since midnight which wraps around midnight.
+  ///
+  /// ```dart
+  /// OffsetTime.fromDayMicroseconds(Offset(8), 43200000000); // '12:00+08:00'
+  ///
+  /// OffsetTime.fromDayMicroseconds(Offset(8), Duration.microsecondsPerDay); // '00:00+08:00'
+  /// ```
+  OffsetTime.fromDayMicroseconds(this.offset, super.microseconds): super.fromDayMicroseconds();
 
   /// Creates a [OffsetTime] that represents the current time.
   OffsetTime.now(): this._now(DateTime.now());
@@ -216,7 +226,7 @@ class OffsetTime extends Time {
 
   @override
   @useResult bool operator ==(Object other) => identical(this, other) || other is OffsetTime && runtimeType == other.runtimeType &&
-      offset == other.offset && _native.microsecondsSinceMidnight == _native.microsecondsSinceMidnight;
+      offset == other.offset && _native.microsecondsSinceMidnight == other._native.microsecondsSinceMidnight;
 
   @override
   @useResult int get hashCode => runtimeType.hashCode ^ offset.hashCode ^ _native.microsecondsSinceMidnight;

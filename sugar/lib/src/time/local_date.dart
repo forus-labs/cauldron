@@ -187,22 +187,6 @@ class LocalDate extends Date with Orderable<LocalDate> {
   /// ```
   @useResult Duration difference(LocalDate other) => Duration(microseconds: epochMicroseconds - other.epochMicroseconds);
 
-  /// Returns the difference when subtracting [other] from this.
-  ///
-  /// The returned [Period] will be negative if [other] occurs after this.
-  ///
-  /// ```dart
-  /// final foo = LocalDate(2023, 3, 12);
-  /// final bar = LocalDate(2023, 3, 13);
-  ///
-  /// print(bar.gap(foo)); // 1 day
-  /// ```
-  @useResult Period gap(LocalDate other) => Period(
-    years: year - other.year,
-    months: month - other.month,
-    days: day - other.day,
-  );
-
 
   /// Returns a [LocalDateTime] on this date at the given time.
   @useResult LocalDateTime at(LocalTime time) => LocalDateTime(year, month, day, time.hour, time.minute, time.second, time.millisecond, time.microsecond);

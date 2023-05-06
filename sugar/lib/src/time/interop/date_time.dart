@@ -195,36 +195,7 @@ extension DateTimes on DateTime {
         throw UnsupportedError('$unit is not supported.'); // TODO: remove once sealed types are available.
     }
   }
-  
-  
-  /// Returns the difference when subtracting [other] from this. Unlike [difference] which subtracts the exact number of
-  /// microseconds, this method subtracts the conceptual units of time. Consequentially, the resulting [Period] may be
-  /// different due to DST.
-  ///
-  /// The returned [Period] will be negative if [other] occurs after this.
-  ///
-  /// ```dart
-  /// // DST occurs at 2023-03-12 02:00
-  /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
-  ///
-  /// // We assume the current timezone is `America/Detroit`.
-  /// final foo = DateTime(2023, 3, 12);
-  /// final bar = DateTime(2023, 3, 13);
-  /// 
-  /// print(bar.gap(foo)); // 1 day
-  /// print(bar.difference(foo)); // 23 hours
-  /// ```
-  Period gap(DateTime other) => Period(
-    years: year - other.year,
-    months: month - other.month,
-    days: day - other.day,
-    hours: hour - other.hour,
-    minutes: minute - other.minute,
-    seconds: second - other.second,
-    milliseconds: millisecond - other.millisecond,
-    microseconds: microsecond - other.microsecond,
-  );
-  
+
 
   /// Formats this [DateTime]'s date as a ISO-8601 date, ignoring the time.
   ///

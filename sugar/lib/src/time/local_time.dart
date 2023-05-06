@@ -194,23 +194,6 @@ class LocalTime extends Time with Orderable<LocalTime> {
   /// ```
   @useResult Duration difference(LocalTime other) => Duration(microseconds: dayMicroseconds - other.dayMicroseconds);
 
-  /// Returns the difference between this [LocalTime] and other.
-  ///
-  /// The returned [Period] will be negative if [other] occurs after this.
-  ///
-  /// ```dart
-  /// LocalTime(22).gap(LocalTime(12)); // 10 hours
-  ///
-  /// LocalTime(13).gap(LocalTime(23)); // -10 hours
-  /// ```
-  @useResult Period gap(LocalTime other) => Period(
-    hours: hour - other.hour,
-    minutes: minute - other.minute,
-    seconds: second - other.second,
-    milliseconds: millisecond - other.millisecond,
-    microseconds: microsecond - other.microsecond,
-  );
-
 
   /// Combines this time with an offset to create an [OffsetTime].
   ///

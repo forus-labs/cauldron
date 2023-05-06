@@ -325,33 +325,6 @@ class ZonedDateTime extends DateTimeBase {
   /// ```
   @useResult Duration difference(ZonedDateTime other) => Duration(microseconds: epochMicroseconds - other.epochMicroseconds);
 
-  /// Returns the difference when subtracting the individual conceptual time units of [other] from this. This method will
-  /// not be affected by DST even if the two dates are across DST transitions.
-  ///
-  /// The returned [Period] will be negative if [other] occurs after this.
-  ///
-  /// ```dart
-  /// // DST occurs at 2023-03-12 02:00
-  /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
-  ///
-  /// final winter = ZonedDateTime('America/Detroit', 2023, 3, 12);
-  /// final summer = ZonedDateTime('America/Detroit', 2023, 3, 13);
-  ///
-  /// print(summer.gap(winter)); // 1 days
-  ///
-  /// print(winter.gap(summer)); // -1 days
-  /// ```
-  @useResult Period gap(ZonedDateTime other) => Period(
-    years: year - other.year,
-    months: month - other.month,
-    days: day - other.day,
-    hours: hour - other.hour,
-    minutes: minute - other.minute,
-    seconds: second - other.second,
-    milliseconds: millisecond - other.millisecond,
-    microseconds: microsecond - other.microsecond,
-  );
-
 
   /// Converts this [ZonedDateTime] to a [LocalDateTime].
   @useResult LocalDateTime toLocal() => LocalDateTime._(_native);

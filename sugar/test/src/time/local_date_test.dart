@@ -145,8 +145,6 @@ void main() {
 
   test('difference(...)', () => expect(LocalDate(2023, 5, 10).difference(LocalDate(2022, 3, 7)), const Duration(days: 429)));
 
-  test('gap(...)', () => expect(LocalDate(2023, 5, 10).gap(LocalDate(2022, 3, 7)), const Period(years: 1, months: 2, days: 3)));
-
 
   test('at(...)', () => expect(LocalDate(2023, 5, 10).at(LocalTime(1, 2, 3, 4, 5)), LocalDateTime(2023, 5, 10, 1, 2, 3, 4, 5)));
 

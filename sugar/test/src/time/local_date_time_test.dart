@@ -256,18 +256,6 @@ void main() {
     const Duration(microseconds: 105689227007007),
   ));
 
-  group('gap(...)', () {
-    test('positive', () => expect(
-      LocalDateTime(2, 4, 6, 8, 10, 12, 14, 16).gap(LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8)),
-      const Period(years: 1, months: 2, days: 3, hours: 4, minutes: 5, seconds: 6, milliseconds: 7, microseconds: 8),
-    ));
-
-    test('negative', () => expect(
-      LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8).gap(LocalDateTime(2, 4, 6, 8, 10, 12, 14, 16)),
-      const Period(years: -1, months: -2, days: -3, hours: -4, minutes: -5, seconds: -6, milliseconds: -7, microseconds: -8),
-    ));
-  });
-
 
   test('at(...)', () => expect(
     LocalDateTime(2023, 1, 2, 3, 4, 5, 6, 7).at(Timezone('Asia/Singapore')),
