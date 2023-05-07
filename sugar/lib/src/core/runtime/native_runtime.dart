@@ -2,48 +2,30 @@
 
 import 'dart:io';
 
-/// Provides information about the current runtime.
-///
-/// This class provides a platform agnostic way to retrieve information about the platform.
 class Runtime {
 
-  /// Creates [Runtime].
   const Runtime();
 
-  /// The current platform. For example, `"Windows 10 Pro" 10.0 (Build 19043)`.
-  ///
-  /// Returns `unknown` if the platform is unknown.
   String get platform => Platform.operatingSystemVersion;
 
-  /// The current platform type.
-  ///
-  /// See [PlatformType].
   PlatformType get type => PlatformType._cache ??= PlatformType._current;
 
-  /// Whether the current runtime type is `android`.
   bool get android => Platform.isAndroid;
 
-  /// Whether the current runtime type is `fuchsia`.
   bool get fuchsia => Platform.isFuchsia;
 
-  /// Whether the current runtime type is `ios`.
   bool get ios => Platform.isIOS;
 
-  /// Whether the current runtime type is `linux`.
   bool get linux => Platform.isLinux;
 
-  /// Whether the current runtime type is `macos`.
   bool get macos => Platform.isMacOS;
 
-  /// Whether the current runtime type is `windows`.
   bool get windows => Platform.isWindows;
 
-  /// Whether the current runtime type is `web`.
   bool get web => false;
 
 }
 
-/// The runtime's type.
 enum PlatformType {
   android,
   fuchsia,

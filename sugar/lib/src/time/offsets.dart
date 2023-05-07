@@ -155,7 +155,7 @@ class _Offset extends Offset {
     }
   }
 
-  _Offset.current(): this.fromMicroseconds(DateTime.now().timeZoneOffset.inMicroseconds);
+  _Offset.now(): this.fromMicroseconds(DateTime.now().timeZoneOffset.inMicroseconds);
   
   _Offset.fromSeconds(int seconds): super._(seconds * Duration.microsecondsPerSecond) {
     _precondition(_microseconds);

@@ -2,46 +2,46 @@
 
 import 'package:meta/meta.dart';
 
-/// Provides a platform agnostic way to retrieve information about the platform at runtime.
+/// Provides a platform agnostic way to retrieve information about the platform.
 class Runtime {
 
-  /// Creates [Runtime].
+  /// Creates a [Runtime].
   const Runtime();
 
-  /// The current platform. For example, `"Windows 10 Pro" 10.0 (Build 19043)` on Windows, or
-  /// `5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5359.100 Safari/537.36`
-  /// on Chrome.
+  /// The current platform.
   ///
-  /// Note: Information about the current web browser version may not be accurate since it relies on the `User-Agent` header.
+  /// The browser information may not be accurate since it relies on the `User-Agent` header.
   ///
-  /// Returns `unknown` if the platform is unknown.
-  @useResult String get platform => 'unknown';
+  /// For example:
+  /// * Chrome - `5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5359.100 Safari/537.36`
+  /// * Windows - `"Windows 10 Pro" 10.0 (Build 19043)`
+  @useResult external String get platform;
 
   /// The current platform type.
   ///
   /// See [PlatformType].
-  @useResult PlatformType get type => PlatformType.unknown;
+  @useResult external PlatformType get type;
 
   /// Whether the current runtime type is `android`.
-  @useResult bool get android => false;
+  @useResult external bool get android;
 
   /// Whether the current runtime type is `fuchsia`.
-  @useResult bool get fuchsia => false;
+  @useResult external bool get fuchsia;
 
   /// Whether the current runtime type is `ios`.
-  @useResult bool get ios => false;
+  @useResult external bool get ios;
 
   /// Whether the current runtime type is `linux`.
-  @useResult bool get linux => false;
+  @useResult external bool get linux;
 
   /// Whether the current runtime type is `macos`.
-  @useResult bool get macos => false;
+  @useResult external bool get macos;
 
   /// Whether the current runtime type is `windows`.
-  @useResult bool get windows => false;
+  @useResult external bool get windows;
 
   /// Whether the current runtime type is `web`.
-  @useResult bool get web => false;
+  @useResult external bool get web;
 
 }
 

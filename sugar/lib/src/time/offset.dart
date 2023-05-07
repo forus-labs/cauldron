@@ -60,7 +60,7 @@ part 'offsets.dart';
   factory Offset.parse(String offset) => _Offset.parse(offset);
 
   /// Creates an [Offset] for the current timezone.
-  factory Offset.current() => _Offset.current();
+  factory Offset.now() => _Offset.now();
 
   /// Creates an [Offset] from the total seconds. Throws a [RangeError] if [seconds] is outside the valid [range].
   ///

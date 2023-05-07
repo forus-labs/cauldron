@@ -63,7 +63,7 @@ void main() {
       }
     });
 
-    test('current()', () => expect(Offset.current().toDuration(), DateTime.now().timeZoneOffset));
+    test('now()', () => expect(Offset.now().toDuration(), DateTime.now().timeZoneOffset));
 
     group('fromSeconds(...)', () {
       for (final argument in [

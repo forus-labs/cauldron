@@ -1,24 +1,29 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/sugar.dart';
 import 'package:sugar/src/math/numbers_web.dart'
-  if (dart.library.io) 'package:sugar/src/math/numbers_vm.dart';
+  if (dart.library.io) 'package:sugar/src/math/numbers_native.dart';
 
 /// Provides functions for working with [int]s.
 ///
-/// See [Numbers in Dart](https://dart.dev/guides/language/numbers) for behaviour discrepancies between native and web platforms.
+/// See [Numbers in Dart](https://dart.dev/guides/language/numbers) for behaviour discrepancies between native and web.
 extension Integers on int {
 
   /// The range of [int] on the current platform.
   ///
-  /// The range of [int] is `[-(2^63)..2^63 - 1]` on native platforms and `[-(2^53 - 1)..(2^53 - 1)]` on web platforms.
+  /// Platforms:
+  /// * native - `-2^63` to `2^63 - 1`
+  /// * web  - `-2^53` to `2^53 - 1`
   static Interval<int> get range => platformRange;
 
 
-  /// Returns this [int] rounded to the closest multiple of the given [factor].
+  /// Rounds this to the closest multiple of [factor].
   ///
-  /// The returned [int] may overflow or underflow if sufficiently large or small respectively.
+  /// The returned [int] may overflow or underflow if sufficiently large or small.
   ///
-  /// ### Example:
+  /// ## Contract
+  /// Throws [RangeError] if `factor <= 0`.
+  ///
+  /// ## Example
   /// ```dart
   /// 12.roundTo(10); // 10
   ///
@@ -26,19 +31,19 @@ extension Integers on int {
   ///
   /// 25.roundTo(10) // 30
   ///
-  /// 1.roundTo(-5); // throws RangeError
+  /// 25.roundTo(-5); // throws RangeError
   /// ```
-  ///
-  /// ### Contract:
-  /// [factor] must be a positive integer, i.e. `1 < factor`. A [RangeError] will otherwise be thrown.
   @Possible({RangeError})
   @useResult int roundTo(int factor) => this % factor >= (factor.toDouble() / 2) ? ceilTo(factor) : floorTo(factor);
 
-  /// Returns this [int] rounded up to the closest multiple of the given [factor].
+  /// Ceils this to the closest multiple of [factor].
   ///
   /// The returned [int] may overflow if sufficiently large.
   ///
-  /// ### Example:
+  /// ## Contract
+  /// Throws [RangeError] if `factor <= 0`.
+  ///
+  /// ## Example
   /// ```dart
   /// 12.ceilTo(10); // 20
   ///
@@ -46,11 +51,8 @@ extension Integers on int {
   ///
   /// 25.ceilTo(10) // 30
   ///
-  /// 1.ceilTo(-5); // throws RangeError
+  /// 25.ceilTo(-5); // throws RangeError
   /// ```
-  ///
-  /// ### Contract:
-  /// [factor] must be a positive integer, i.e. `1 < factor`. A [RangeError] will otherwise be thrown.
   @Possible({RangeError})
   @useResult int ceilTo(int factor) {
     if (factor < 1) {
@@ -61,11 +63,14 @@ extension Integers on int {
     return sum - (sum % factor);
   }
 
-  /// Returns this [int] rounded down to the closest multiple of the given [factor].
+  /// Floors this to the closest multiple of [factor].
   ///
   /// The returned [int] may underflow if sufficiently small.
   ///
-  /// ### Example:
+  /// ## Contract
+  /// Throws [RangeError] if `factor <= 0`.
+  ///
+  /// ## Example
   /// ```dart
   /// 12.floorTo(10); // 10
   ///
@@ -75,9 +80,6 @@ extension Integers on int {
   ///
   /// 1.floorTo(-5); // throws RangeError
   /// ```
-  ///
-  /// ### Contract:
-  /// [factor] must be a positive integer, i.e. `1 < factor`. A [RangeError] will otherwise be thrown.
   @Possible({RangeError})
   @useResult int floorTo(int factor) {
     if (factor < 1) {
@@ -90,7 +92,6 @@ extension Integers on int {
 
   /// If `0`, returns `false`, otherwise returns `true`.
   ///
-  /// ### Example:
   /// ```dart
   /// 3.toBool(); // true
   /// -1.toBool(); // true
@@ -104,9 +105,8 @@ extension Integers on int {
 /// Provides functions for working with [double]s.
 extension Doubles on double {
 
-  /// Returns true if this [double] and [other] are within the given [epsilon] of each other.
+  /// Returns true if this and [other] are within the [epsilon] of each other.
   ///
-  /// ### Example:
   /// ```dart
   /// 1.0002.approximately(1.0, 0.01); // true
   ///

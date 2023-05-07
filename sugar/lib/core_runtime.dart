@@ -1,13 +1,24 @@
 /// {@category Core}
 ///
-/// Platform agnostic utilities for retrieving information about the current platform across both native and web.
-/// This is an alternative to `dart:io`'s `Platform` class that only works on native platforms.
+/// Platform agnostic utilities for retrieving information about the current platform.
 ///
-/// A [Runtime] provides utilities for retrieving information about the current platform. This includes the current
-/// operating system name & version if called on Dart native, and the current web browser on Dart web. Information about
-/// the current web browser version may not be accurate since it relies on the `User-Agent` header.
+/// A [Runtime] provides functions for retrieving the current platform's information. Unlike `dart:io` `Platform`,
+/// `Runtime` works on both native and web. The information includes the operating system name & version on native, and
+/// the browser information on web. The browser information may not be accurate since it is derived from the `User-Agent`
+/// header.
 ///
-/// A [FakeRuntime] is also provided for testing purposes.
+/// ```dart
+/// // Assuming that the current platform is Android.
+/// print(const Runtime().android); true
+/// print(const Runtime().web); false
+/// ```
+///
+/// A [FakeRuntime] is also provided for testing.
+///
+/// ```dart
+/// print(const FakeRuntime(PlatformType.android).android); true
+/// print(const FakeRuntime(PlatformType.android).web); false
+/// ```
 library sugar.core.runtime;
 
 import 'package:sugar/src/core/runtime/abstract_runtime.dart';
