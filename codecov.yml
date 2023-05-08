@@ -1,31 +1,22 @@
 coverage:
-  range: 80..100
   status:
     project:
-      default: off
+      default:
+        flags: [off]
       flint:
-        flags: flint
-      out_of_context:
-        flags: out_of_context
-      mock_of_context:
-        flags: mock_of_context
+        flags: [flint]
       sugar:
-        flags: sugar
+        flags: [sugar]
 
 ignore:
   - "**/flutter-tools"
+  - "**/*.g.dart"
 
 flags:
   # filter the folder(s) you wish to measure by that flag
   flint:
     paths:
       - flint/lib/
-  out_of_context:
-    paths:
-      - out_of_context/lib/
-  mock_of_context:
-    paths:
-      - mock_of_context/lib/
   sugar:
     paths:
       - sugar/lib/
