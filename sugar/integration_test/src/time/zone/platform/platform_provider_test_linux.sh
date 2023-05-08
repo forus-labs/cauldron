@@ -1,5 +1,4 @@
-CURRENT_TIMEZONE=$(realpath /etc/localtime)
-CURRENT_TIMEZONE=${CURRENT_TIMEZONE#"zoneinfo/"}
+CURRENT_TIMEZONE=$(cat /etc/timezone)
 
 sudo timedatectl set-timezone "Asia/Tokyo"
 
