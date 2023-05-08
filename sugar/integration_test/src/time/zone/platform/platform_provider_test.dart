@@ -9,8 +9,16 @@ void main() {
     final timezone = defaultPlatformTimezoneProvider();
 
     expect(timezones.containsKey(timezone), true);
+    expect(timezone, isNot('Factory'));
+  }, testOn: 'windows');
+
+  test('defaultPlatformTimezoneProvider() return current timezone', () {
+    final timezones = DefaultTimezoneProvider();
+    final timezone = defaultPlatformTimezoneProvider();
+
+    expect(timezones.containsKey(timezone), true);
     expect(timezone, 'Asia/Tokyo');
-  });
+  }, testOn: '!windows');
 
   group('posix', () {
     test('defaultPlatformTimezoneProvider() known TZ environment variable', () {

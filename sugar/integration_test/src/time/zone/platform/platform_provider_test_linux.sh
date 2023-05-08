@@ -25,4 +25,4 @@ unset TZ
 
 
 dart run coverage:format_coverage --packages=.dart_tool/package_config.json --lcov -i coverage/coverage.json -o coverage/lcov.info
-sudo systemsetup -settimezone "$CURRENT_TIMEZONE"
+sudo timedatectl set-timezone "$CURRENT_TIMEZONE"
