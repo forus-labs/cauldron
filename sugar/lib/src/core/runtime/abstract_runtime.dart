@@ -15,33 +15,33 @@ class Runtime {
   /// For example:
   /// * Chrome - `5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5359.100 Safari/537.36`
   /// * Windows - `"Windows 10 Pro" 10.0 (Build 19043)`
-  @useResult external String get platform;
+  @useResult String get platform => '';
 
   /// The current platform type.
   ///
   /// See [PlatformType].
-  @useResult external PlatformType get type;
+  @useResult PlatformType get type => PlatformType.unknown;
 
   /// Whether the current runtime type is `android`.
-  @useResult external bool get android;
+  @useResult bool get android => false;
 
   /// Whether the current runtime type is `fuchsia`.
-  @useResult external bool get fuchsia;
+  @useResult bool get fuchsia => false;
 
   /// Whether the current runtime type is `ios`.
-  @useResult external bool get ios;
+  @useResult bool get ios => false;
 
   /// Whether the current runtime type is `linux`.
-  @useResult external bool get linux;
+  @useResult bool get linux => false;
 
   /// Whether the current runtime type is `macos`.
-  @useResult external bool get macos;
+  @useResult bool get macos => false;
 
   /// Whether the current runtime type is `windows`.
-  @useResult external bool get windows;
+  @useResult bool get windows => false;
 
   /// Whether the current runtime type is `web`.
-  @useResult external bool get web;
+  @useResult bool get web => false;
 
 }
 

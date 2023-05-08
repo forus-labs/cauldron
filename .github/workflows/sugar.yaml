@@ -20,7 +20,7 @@ jobs:
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
       - run: dart analyze --fatal-warnings
-      - run: dart pub global run coverage:test_with_coverage
+      - run: dart run coverage:test_with_coverage
       - run: apt-get update -y
       - run: apt-get install -y lcov
       - run: lcov --remove ./coverage/lcov.info '**.g.dart' -o ./coverage/lcov.info
@@ -30,8 +30,7 @@ jobs:
 
 
   test-windows:
-    name: Run platform-dependent tests on Windows
-    needs: [ test ]
+    name: Run integration tests on Windows
     runs-on: windows-latest
     defaults:
       run:
@@ -41,14 +40,13 @@ jobs:
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
       - run: dart test -t "platform-specific"
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./sugar/coverage/lcov.info
 
-  test-posix:
-    name: Run platform-dependent tests on POSIX platforms
-    needs: [ test ]
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ macos-latest, ubuntu-latest ]
+  test-macos:
+    name: Run integration tests on macOS
+    runs-on: macos-latest
     defaults:
       run:
         working-directory: sugar
@@ -56,27 +54,43 @@ jobs:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
-      - run: dart test -t "platform-specific"
+      - run: ./integration_test/platform_provider_test_macos.sh
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./sugar/coverage/lcov.info
 
-  test-web:
-    name: Run platform-dependent tests on web platforms
-    needs: [ test ]
+  test-linux:
+    name: Run integration tests on macOS
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: sugar
     steps:
       - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: ./integration_test/platform_provider_test_linux.sh
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./sugar/coverage/lcov.info
 
+  test-web:
+    name: Run integration tests on web
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sugar
+    steps:
+      - uses: actions/checkout@v3
       - uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: stable
-
       - uses: browser-actions/setup-firefox@v1
         with:
           firefox-version: latest
-
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
-      - run: dart test -t "platform-specific" -p "chrome"
-      - run: dart test -t "platform-specific" -p "firefox"
+      - run: ./integration_test/platform_provider_test_browser.sh
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./sugar/coverage/lcov.info
