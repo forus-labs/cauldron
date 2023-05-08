@@ -54,13 +54,13 @@ jobs:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
-      - run: ./integration_test/platform_provider_test_macos.sh
+      - run: ./integration_test/src/time/zone/platform/platform_provider_test_macos.sh
       - uses: codecov/codecov-action@v3
         with:
           files: ./sugar/coverage/lcov.info
 
   test-linux:
-    name: Run integration tests on macOS
+    name: Run integration tests on linux
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -69,7 +69,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
-      - run: ./integration_test/platform_provider_test_linux.sh
+      - run: ./integration_test/src/time/zone/platform/platform_provider_test_linux.sh
       - uses: codecov/codecov-action@v3
         with:
           files: ./sugar/coverage/lcov.info
@@ -90,7 +90,7 @@ jobs:
           firefox-version: latest
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
-      - run: ./integration_test/platform_provider_test_browser.sh
+      - run: ./integration_test/src/time/zone/platform/platform_provider_test_browser.sh
       - uses: codecov/codecov-action@v3
         with:
           files: ./sugar/coverage/lcov.info
