@@ -19,7 +19,7 @@ extension Atlantic on Never {
     'Atlantic/Azores',
     DynamicTimezoneSpan(
       -1,
-      -6160,
+      -6160000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713904240,
@@ -36,7 +36,7 @@ extension Atlantic on Never {
     'Atlantic/Bermuda',
     DynamicTimezoneSpan(
       -1,
-      -15558,
+      -15558000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524506042,
@@ -53,7 +53,7 @@ extension Atlantic on Never {
     'Atlantic/Canary',
     DynamicTimezoneSpan(
       -1,
-      -3696,
+      -3696000000,
       'LMT',
       TimezoneSpan.range.min,
       -1509663504,
@@ -70,7 +70,7 @@ extension Atlantic on Never {
     'Atlantic/Cape_Verde',
     DynamicTimezoneSpan(
       -1,
-      -5644,
+      -5644000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830376800,
@@ -87,7 +87,7 @@ extension Atlantic on Never {
     'Atlantic/Faeroe',
     DynamicTimezoneSpan(
       -1,
-      -1624,
+      -1624000000,
       'LMT',
       TimezoneSpan.range.min,
       -1955748776,
@@ -104,7 +104,7 @@ extension Atlantic on Never {
     'Atlantic/Faroe',
     DynamicTimezoneSpan(
       -1,
-      -1624,
+      -1624000000,
       'LMT',
       TimezoneSpan.range.min,
       -1955748776,
@@ -121,7 +121,7 @@ extension Atlantic on Never {
     'Atlantic/Jan_Mayen',
     DynamicTimezoneSpan(
       -1,
-      3208,
+      3208000000,
       'LMT',
       TimezoneSpan.range.min,
       -2422054408,
@@ -138,7 +138,7 @@ extension Atlantic on Never {
     'Atlantic/Madeira',
     DynamicTimezoneSpan(
       -1,
-      -4056,
+      -4056000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713906344,
@@ -155,7 +155,7 @@ extension Atlantic on Never {
     'Atlantic/Reykjavik',
     DynamicTimezoneSpan(
       -1,
-      -968,
+      -968000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830383032,
@@ -172,7 +172,7 @@ extension Atlantic on Never {
     'Atlantic/South_Georgia',
     DynamicTimezoneSpan(
       -1,
-      -8768,
+      -8768000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524512832,
@@ -189,7 +189,7 @@ extension Atlantic on Never {
     'Atlantic/St_Helena',
     DynamicTimezoneSpan(
       -1,
-      -968,
+      -968000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830383032,
@@ -206,7 +206,7 @@ extension Atlantic on Never {
     'Atlantic/Stanley',
     DynamicTimezoneSpan(
       -1,
-      -13884,
+      -13884000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524507716,

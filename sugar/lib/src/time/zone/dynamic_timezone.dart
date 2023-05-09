@@ -64,7 +64,7 @@ import 'package:sugar/sugar.dart';
         final previousOffset = previousSpan._microseconds;
         final difference = previousOffset - localOffset;
 
-        if (adjustedInstant - adjustedSpan.start <= difference) {
+        if (adjustedInstant - adjustedSpan.start < difference) {
           microseconds = localInstant - previousOffset;
         }
       }

@@ -19,7 +19,7 @@ extension Europe on Never {
     'Europe/Amsterdam',
     DynamicTimezoneSpan(
       -1,
-      1050,
+      1050000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840141850,
@@ -36,7 +36,7 @@ extension Europe on Never {
     'Europe/Andorra',
     DynamicTimezoneSpan(
       -1,
-      364,
+      364000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177453164,
@@ -53,7 +53,7 @@ extension Europe on Never {
     'Europe/Astrakhan',
     DynamicTimezoneSpan(
       -1,
-      11532,
+      11532000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441249932,
@@ -70,7 +70,7 @@ extension Europe on Never {
     'Europe/Athens',
     DynamicTimezoneSpan(
       -1,
-      5692,
+      5692000000,
       'LMT',
       TimezoneSpan.range.min,
       -2344642492,
@@ -87,7 +87,7 @@ extension Europe on Never {
     'Europe/Belfast',
     DynamicTimezoneSpan(
       -1,
-      -75,
+      -75000000,
       'LMT',
       TimezoneSpan.range.min,
       -3852662325,
@@ -104,7 +104,7 @@ extension Europe on Never {
     'Europe/Belgrade',
     DynamicTimezoneSpan(
       -1,
-      4920,
+      4920000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713915320,
@@ -121,7 +121,7 @@ extension Europe on Never {
     'Europe/Berlin',
     DynamicTimezoneSpan(
       -1,
-      3208,
+      3208000000,
       'LMT',
       TimezoneSpan.range.min,
       -2422054408,
@@ -138,7 +138,7 @@ extension Europe on Never {
     'Europe/Bratislava',
     DynamicTimezoneSpan(
       -1,
-      3464,
+      3464000000,
       'LMT',
       TimezoneSpan.range.min,
       -3786829064,
@@ -155,7 +155,7 @@ extension Europe on Never {
     'Europe/Brussels',
     DynamicTimezoneSpan(
       -1,
-      1050,
+      1050000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840141850,
@@ -172,7 +172,7 @@ extension Europe on Never {
     'Europe/Bucharest',
     DynamicTimezoneSpan(
       -1,
-      6264,
+      6264000000,
       'LMT',
       TimezoneSpan.range.min,
       -2469404664,
@@ -189,7 +189,7 @@ extension Europe on Never {
     'Europe/Budapest',
     DynamicTimezoneSpan(
       -1,
-      4580,
+      4580000000,
       'LMT',
       TimezoneSpan.range.min,
       -2498260580,
@@ -206,7 +206,7 @@ extension Europe on Never {
     'Europe/Busingen',
     DynamicTimezoneSpan(
       -1,
-      2048,
+      2048000000,
       'LMT',
       TimezoneSpan.range.min,
       -3675198848,
@@ -223,7 +223,7 @@ extension Europe on Never {
     'Europe/Chisinau',
     DynamicTimezoneSpan(
       -1,
-      6920,
+      6920000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840147720,
@@ -240,7 +240,7 @@ extension Europe on Never {
     'Europe/Copenhagen',
     DynamicTimezoneSpan(
       -1,
-      3208,
+      3208000000,
       'LMT',
       TimezoneSpan.range.min,
       -2422054408,
@@ -257,7 +257,7 @@ extension Europe on Never {
     'Europe/Dublin',
     DynamicTimezoneSpan(
       -1,
-      -1521,
+      -1521000000,
       'LMT',
       TimezoneSpan.range.min,
       -2821649679,
@@ -274,7 +274,7 @@ extension Europe on Never {
     'Europe/Gibraltar',
     DynamicTimezoneSpan(
       -1,
-      -1284,
+      -1284000000,
       'LMT',
       TimezoneSpan.range.min,
       -2821649916,
@@ -291,7 +291,7 @@ extension Europe on Never {
     'Europe/Guernsey',
     DynamicTimezoneSpan(
       -1,
-      -75,
+      -75000000,
       'LMT',
       TimezoneSpan.range.min,
       -3852662325,
@@ -308,7 +308,7 @@ extension Europe on Never {
     'Europe/Helsinki',
     DynamicTimezoneSpan(
       -1,
-      5989,
+      5989000000,
       'LMT',
       TimezoneSpan.range.min,
       -2890258789,
@@ -325,7 +325,7 @@ extension Europe on Never {
     'Europe/Isle_of_Man',
     DynamicTimezoneSpan(
       -1,
-      -75,
+      -75000000,
       'LMT',
       TimezoneSpan.range.min,
       -3852662325,
@@ -342,7 +342,7 @@ extension Europe on Never {
     'Europe/Istanbul',
     DynamicTimezoneSpan(
       -1,
-      6952,
+      6952000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840147752,
@@ -359,7 +359,7 @@ extension Europe on Never {
     'Europe/Jersey',
     DynamicTimezoneSpan(
       -1,
-      -75,
+      -75000000,
       'LMT',
       TimezoneSpan.range.min,
       -3852662325,
@@ -376,7 +376,7 @@ extension Europe on Never {
     'Europe/Kaliningrad',
     DynamicTimezoneSpan(
       -1,
-      4920,
+      4920000000,
       'LMT',
       TimezoneSpan.range.min,
       -2422056120,
@@ -393,7 +393,7 @@ extension Europe on Never {
     'Europe/Kiev',
     DynamicTimezoneSpan(
       -1,
-      7324,
+      7324000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840148124,
@@ -410,7 +410,7 @@ extension Europe on Never {
     'Europe/Kirov',
     DynamicTimezoneSpan(
       -1,
-      11928,
+      11928000000,
       'LMT',
       TimezoneSpan.range.min,
       -1593820800,
@@ -427,7 +427,7 @@ extension Europe on Never {
     'Europe/Kyiv',
     DynamicTimezoneSpan(
       -1,
-      7324,
+      7324000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840148124,
@@ -444,7 +444,7 @@ extension Europe on Never {
     'Europe/Lisbon',
     DynamicTimezoneSpan(
       -1,
-      -2205,
+      -2205000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830384000,
@@ -461,7 +461,7 @@ extension Europe on Never {
     'Europe/Ljubljana',
     DynamicTimezoneSpan(
       -1,
-      4920,
+      4920000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713915320,
@@ -478,7 +478,7 @@ extension Europe on Never {
     'Europe/London',
     DynamicTimezoneSpan(
       -1,
-      -75,
+      -75000000,
       'LMT',
       TimezoneSpan.range.min,
       -3852662325,
@@ -495,7 +495,7 @@ extension Europe on Never {
     'Europe/Luxembourg',
     DynamicTimezoneSpan(
       -1,
-      1050,
+      1050000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840141850,
@@ -512,7 +512,7 @@ extension Europe on Never {
     'Europe/Madrid',
     DynamicTimezoneSpan(
       -1,
-      -884,
+      -884000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177452800,
@@ -529,7 +529,7 @@ extension Europe on Never {
     'Europe/Malta',
     DynamicTimezoneSpan(
       -1,
-      3484,
+      3484000000,
       'LMT',
       TimezoneSpan.range.min,
       -2403478684,
@@ -546,7 +546,7 @@ extension Europe on Never {
     'Europe/Mariehamn',
     DynamicTimezoneSpan(
       -1,
-      5989,
+      5989000000,
       'LMT',
       TimezoneSpan.range.min,
       -2890258789,
@@ -563,7 +563,7 @@ extension Europe on Never {
     'Europe/Minsk',
     DynamicTimezoneSpan(
       -1,
-      6616,
+      6616000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840147416,
@@ -580,7 +580,7 @@ extension Europe on Never {
     'Europe/Monaco',
     DynamicTimezoneSpan(
       -1,
-      561,
+      561000000,
       'LMT',
       TimezoneSpan.range.min,
       -2486592561,
@@ -597,7 +597,7 @@ extension Europe on Never {
     'Europe/Moscow',
     DynamicTimezoneSpan(
       -1,
-      9017,
+      9017000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840149817,
@@ -614,7 +614,7 @@ extension Europe on Never {
     'Europe/Nicosia',
     DynamicTimezoneSpan(
       -1,
-      8008,
+      8008000000,
       'LMT',
       TimezoneSpan.range.min,
       -1518920008,
@@ -631,7 +631,7 @@ extension Europe on Never {
     'Europe/Oslo',
     DynamicTimezoneSpan(
       -1,
-      3208,
+      3208000000,
       'LMT',
       TimezoneSpan.range.min,
       -2422054408,
@@ -648,7 +648,7 @@ extension Europe on Never {
     'Europe/Paris',
     DynamicTimezoneSpan(
       -1,
-      561,
+      561000000,
       'LMT',
       TimezoneSpan.range.min,
       -2486592561,
@@ -665,7 +665,7 @@ extension Europe on Never {
     'Europe/Podgorica',
     DynamicTimezoneSpan(
       -1,
-      4920,
+      4920000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713915320,
@@ -682,7 +682,7 @@ extension Europe on Never {
     'Europe/Prague',
     DynamicTimezoneSpan(
       -1,
-      3464,
+      3464000000,
       'LMT',
       TimezoneSpan.range.min,
       -3786829064,
@@ -699,7 +699,7 @@ extension Europe on Never {
     'Europe/Riga',
     DynamicTimezoneSpan(
       -1,
-      5794,
+      5794000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840146594,
@@ -716,7 +716,7 @@ extension Europe on Never {
     'Europe/Rome',
     DynamicTimezoneSpan(
       -1,
-      2996,
+      2996000000,
       'LMT',
       TimezoneSpan.range.min,
       -3252098996,
@@ -733,7 +733,7 @@ extension Europe on Never {
     'Europe/Samara',
     DynamicTimezoneSpan(
       -1,
-      12020,
+      12020000000,
       'LMT',
       TimezoneSpan.range.min,
       -1593820800,
@@ -750,7 +750,7 @@ extension Europe on Never {
     'Europe/San_Marino',
     DynamicTimezoneSpan(
       -1,
-      2996,
+      2996000000,
       'LMT',
       TimezoneSpan.range.min,
       -3252098996,
@@ -767,7 +767,7 @@ extension Europe on Never {
     'Europe/Sarajevo',
     DynamicTimezoneSpan(
       -1,
-      4920,
+      4920000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713915320,
@@ -784,7 +784,7 @@ extension Europe on Never {
     'Europe/Saratov',
     DynamicTimezoneSpan(
       -1,
-      11058,
+      11058000000,
       'LMT',
       TimezoneSpan.range.min,
       -1593820800,
@@ -801,7 +801,7 @@ extension Europe on Never {
     'Europe/Simferopol',
     DynamicTimezoneSpan(
       -1,
-      8184,
+      8184000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840148984,
@@ -818,7 +818,7 @@ extension Europe on Never {
     'Europe/Skopje',
     DynamicTimezoneSpan(
       -1,
-      4920,
+      4920000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713915320,
@@ -835,7 +835,7 @@ extension Europe on Never {
     'Europe/Sofia',
     DynamicTimezoneSpan(
       -1,
-      5596,
+      5596000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840146396,
@@ -852,7 +852,7 @@ extension Europe on Never {
     'Europe/Stockholm',
     DynamicTimezoneSpan(
       -1,
-      3208,
+      3208000000,
       'LMT',
       TimezoneSpan.range.min,
       -2422054408,
@@ -869,7 +869,7 @@ extension Europe on Never {
     'Europe/Tallinn',
     DynamicTimezoneSpan(
       -1,
-      5940,
+      5940000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840146740,
@@ -886,7 +886,7 @@ extension Europe on Never {
     'Europe/Tirane',
     DynamicTimezoneSpan(
       -1,
-      4760,
+      4760000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767230360,
@@ -903,7 +903,7 @@ extension Europe on Never {
     'Europe/Tiraspol',
     DynamicTimezoneSpan(
       -1,
-      6920,
+      6920000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840147720,
@@ -920,7 +920,7 @@ extension Europe on Never {
     'Europe/Ulyanovsk',
     DynamicTimezoneSpan(
       -1,
-      11616,
+      11616000000,
       'LMT',
       TimezoneSpan.range.min,
       -1593820800,
@@ -937,7 +937,7 @@ extension Europe on Never {
     'Europe/Uzhgorod',
     DynamicTimezoneSpan(
       -1,
-      7324,
+      7324000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840148124,
@@ -954,7 +954,7 @@ extension Europe on Never {
     'Europe/Vaduz',
     DynamicTimezoneSpan(
       -1,
-      2048,
+      2048000000,
       'LMT',
       TimezoneSpan.range.min,
       -3675198848,
@@ -971,7 +971,7 @@ extension Europe on Never {
     'Europe/Vatican',
     DynamicTimezoneSpan(
       -1,
-      2996,
+      2996000000,
       'LMT',
       TimezoneSpan.range.min,
       -3252098996,
@@ -988,7 +988,7 @@ extension Europe on Never {
     'Europe/Vienna',
     DynamicTimezoneSpan(
       -1,
-      3921,
+      3921000000,
       'LMT',
       TimezoneSpan.range.min,
       -2422055121,
@@ -1005,7 +1005,7 @@ extension Europe on Never {
     'Europe/Vilnius',
     DynamicTimezoneSpan(
       -1,
-      6076,
+      6076000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840146876,
@@ -1022,7 +1022,7 @@ extension Europe on Never {
     'Europe/Volgograd',
     DynamicTimezoneSpan(
       -1,
-      10660,
+      10660000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577761060,
@@ -1039,7 +1039,7 @@ extension Europe on Never {
     'Europe/Warsaw',
     DynamicTimezoneSpan(
       -1,
-      5040,
+      5040000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840145840,
@@ -1056,7 +1056,7 @@ extension Europe on Never {
     'Europe/Zagreb',
     DynamicTimezoneSpan(
       -1,
-      4920,
+      4920000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713915320,
@@ -1073,7 +1073,7 @@ extension Europe on Never {
     'Europe/Zaporozhye',
     DynamicTimezoneSpan(
       -1,
-      7324,
+      7324000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840148124,
@@ -1090,7 +1090,7 @@ extension Europe on Never {
     'Europe/Zurich',
     DynamicTimezoneSpan(
       -1,
-      2048,
+      2048000000,
       'LMT',
       TimezoneSpan.range.min,
       -3675198848,

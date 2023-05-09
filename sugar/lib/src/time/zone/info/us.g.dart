@@ -19,7 +19,7 @@ extension Us on Never {
     'US/Alaska',
     DynamicTimezoneSpan(
       -1,
-      50424,
+      50424000000,
       'LMT',
       TimezoneSpan.range.min,
       -3225223727,
@@ -36,7 +36,7 @@ extension Us on Never {
     'US/Aleutian',
     DynamicTimezoneSpan(
       -1,
-      44002,
+      44002000000,
       'LMT',
       TimezoneSpan.range.min,
       -3225223727,
@@ -53,7 +53,7 @@ extension Us on Never {
     'US/Arizona',
     DynamicTimezoneSpan(
       -1,
-      -26898,
+      -26898000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717643600,
@@ -70,7 +70,7 @@ extension Us on Never {
     'US/Central',
     DynamicTimezoneSpan(
       -1,
-      -21036,
+      -21036000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -87,7 +87,7 @@ extension Us on Never {
     'US/East-Indiana',
     DynamicTimezoneSpan(
       -1,
-      -20678,
+      -20678000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -104,7 +104,7 @@ extension Us on Never {
     'US/Eastern',
     DynamicTimezoneSpan(
       -1,
-      -17762,
+      -17762000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717650800,
@@ -121,7 +121,7 @@ extension Us on Never {
     'US/Hawaii',
     DynamicTimezoneSpan(
       -1,
-      -37886,
+      -37886000000,
       'LMT',
       TimezoneSpan.range.min,
       -2334101314,
@@ -138,7 +138,7 @@ extension Us on Never {
     'US/Indiana-Starke',
     DynamicTimezoneSpan(
       -1,
-      -20790,
+      -20790000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -155,7 +155,7 @@ extension Us on Never {
     'US/Michigan',
     DynamicTimezoneSpan(
       -1,
-      -19931,
+      -19931000000,
       'LMT',
       TimezoneSpan.range.min,
       -2051202469,
@@ -172,7 +172,7 @@ extension Us on Never {
     'US/Mountain',
     DynamicTimezoneSpan(
       -1,
-      -25196,
+      -25196000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717643600,
@@ -189,7 +189,7 @@ extension Us on Never {
     'US/Pacific',
     DynamicTimezoneSpan(
       -1,
-      -28378,
+      -28378000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717640000,
@@ -206,7 +206,7 @@ extension Us on Never {
     'US/Samoa',
     DynamicTimezoneSpan(
       -1,
-      45432,
+      45432000000,
       'LMT',
       TimezoneSpan.range.min,
       -2445424632,

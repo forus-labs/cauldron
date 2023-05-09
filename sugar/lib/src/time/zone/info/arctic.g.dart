@@ -19,7 +19,7 @@ extension Arctic on Never {
     'Arctic/Longyearbyen',
     DynamicTimezoneSpan(
       -1,
-      3208,
+      3208000000,
       'LMT',
       TimezoneSpan.range.min,
       -2422054408,

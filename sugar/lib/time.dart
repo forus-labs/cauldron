@@ -1,5 +1,50 @@
 /// {@category Time}
+///
+/// Defines new types for representing and manipulating dates, times and timezones.
+///
+/// All classes in this library are based on the ISO calendar system. It is a non-goal to support other calendar systems.
+/// Furthermore, they are all immutable.
+///
+/// All dates and times are stored to microsecond precision. Following ISO-8601, all weeks start on a Monday and end on
+/// a Sunday.
+///
+/// The classes do not accept or return native [DateTime]s except for the occasional `toNative()` function. See
+/// `sugar.time.interop` for working with native [DateTime]s.
+///
+/// ## Dates and times
+/// [LocalDate] stores a date without a time such as `2023-05-08`.
+///
+/// [LocalTime] stores a time without a date such as `11:30`.
+///
+/// [LocalDateTime] stores a date and time such as `2023-05-08T11:30`.
+///
+/// [OffsetTime] stores a time and fixed offset from UTC without a date such as `11:30+08:00`.
+///
+/// [ZonedDateTime] stores a date and time with a timezone such as `2023-05-08T11:30+08:00[Asia/Singapore]`. It is useful
+/// for representing dates and times with a dynamic offset, typically due to Daylight saving time (DST). When possible,
+/// a simpler class without a timezone should be used.
+///
+/// ## [Duration]s vs [Period]s
+/// While a [Duration] stores a fixed amount of time in microseconds, a [Period] stores the conceptual units of time.
+/// For example, a duration of 1 day is always 24 hours while a period of 1 day is 1 "day". Consequently, they produce
+/// different results when added to a [DateTime] or [ZonedDateTime] nearing a DST transition.
+///
+/// ```dart
+/// // DST occurs at 2023-03-12 02:00
+/// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
+///
+/// final datetime = ZoneDateTime('America/Detroit', 2023, 3, 12);
+///
+/// datetime.add(Duration(days: 1)); // 2023-03-13 01:00
+///
+/// datetime + Period(days: 1); // 2023-03-13 00:00
+/// ```
 library sugar.time;
+
+import 'package:sugar/src/time/date.dart';
+import 'package:sugar/src/time/date_time.dart';
+import 'package:sugar/src/time/period.dart';
+import 'package:sugar/src/time/time.dart';
 
 export 'src/time/date.dart' hide Date;
 export 'src/time/date_time.dart' hide DateTimeBase;

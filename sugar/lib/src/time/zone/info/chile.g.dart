@@ -19,7 +19,7 @@ extension Chile on Never {
     'Chile/Continental',
     DynamicTimezoneSpan(
       -1,
-      -16965,
+      -16965000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524504635,
@@ -36,7 +36,7 @@ extension Chile on Never {
     'Chile/EasterIsland',
     DynamicTimezoneSpan(
       -1,
-      -26248,
+      -26248000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524495352,

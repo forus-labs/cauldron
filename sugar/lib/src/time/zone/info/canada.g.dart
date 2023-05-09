@@ -19,7 +19,7 @@ extension Canada on Never {
     'Canada/Atlantic',
     DynamicTimezoneSpan(
       -1,
-      -15264,
+      -15264000000,
       'LMT',
       TimezoneSpan.range.min,
       -2131645536,
@@ -36,7 +36,7 @@ extension Canada on Never {
     'Canada/Central',
     DynamicTimezoneSpan(
       -1,
-      -23316,
+      -23316000000,
       'LMT',
       TimezoneSpan.range.min,
       -2602258284,
@@ -53,7 +53,7 @@ extension Canada on Never {
     'Canada/Eastern',
     DynamicTimezoneSpan(
       -1,
-      -19052,
+      -19052000000,
       'LMT',
       TimezoneSpan.range.min,
       -2366736148,
@@ -70,7 +70,7 @@ extension Canada on Never {
     'Canada/Mountain',
     DynamicTimezoneSpan(
       -1,
-      -27232,
+      -27232000000,
       'LMT',
       TimezoneSpan.range.min,
       -1998663968,
@@ -87,7 +87,7 @@ extension Canada on Never {
     'Canada/Newfoundland',
     DynamicTimezoneSpan(
       -1,
-      -12652,
+      -12652000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713897748,
@@ -104,7 +104,7 @@ extension Canada on Never {
     'Canada/Pacific',
     DynamicTimezoneSpan(
       -1,
-      -29548,
+      -29548000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713880852,
@@ -121,7 +121,7 @@ extension Canada on Never {
     'Canada/Saskatchewan',
     DynamicTimezoneSpan(
       -1,
-      -25116,
+      -25116000000,
       'LMT',
       TimezoneSpan.range.min,
       -2030202084,
@@ -138,7 +138,7 @@ extension Canada on Never {
     'Canada/Yukon',
     DynamicTimezoneSpan(
       -1,
-      -32412,
+      -32412000000,
       'LMT',
       TimezoneSpan.range.min,
       -2188997988,

@@ -19,7 +19,7 @@ extension Argentina on Never {
     'America/Argentina/Buenos_Aires',
     DynamicTimezoneSpan(
       -1,
-      -14028,
+      -14028000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372097972,
@@ -36,7 +36,7 @@ extension Argentina on Never {
     'America/Argentina/Catamarca',
     DynamicTimezoneSpan(
       -1,
-      -15788,
+      -15788000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372096212,
@@ -53,7 +53,7 @@ extension Argentina on Never {
     'America/Argentina/ComodRivadavia',
     DynamicTimezoneSpan(
       -1,
-      -15788,
+      -15788000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372096212,
@@ -70,7 +70,7 @@ extension Argentina on Never {
     'America/Argentina/Cordoba',
     DynamicTimezoneSpan(
       -1,
-      -15408,
+      -15408000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372096592,
@@ -87,7 +87,7 @@ extension Argentina on Never {
     'America/Argentina/Jujuy',
     DynamicTimezoneSpan(
       -1,
-      -15672,
+      -15672000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372096328,
@@ -104,7 +104,7 @@ extension Argentina on Never {
     'America/Argentina/La_Rioja',
     DynamicTimezoneSpan(
       -1,
-      -16044,
+      -16044000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372095956,
@@ -121,7 +121,7 @@ extension Argentina on Never {
     'America/Argentina/Mendoza',
     DynamicTimezoneSpan(
       -1,
-      -16516,
+      -16516000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372095484,
@@ -138,7 +138,7 @@ extension Argentina on Never {
     'America/Argentina/Rio_Gallegos',
     DynamicTimezoneSpan(
       -1,
-      -16612,
+      -16612000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372095388,
@@ -155,7 +155,7 @@ extension Argentina on Never {
     'America/Argentina/Salta',
     DynamicTimezoneSpan(
       -1,
-      -15700,
+      -15700000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372096300,
@@ -172,7 +172,7 @@ extension Argentina on Never {
     'America/Argentina/San_Juan',
     DynamicTimezoneSpan(
       -1,
-      -16444,
+      -16444000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372095556,
@@ -189,7 +189,7 @@ extension Argentina on Never {
     'America/Argentina/San_Luis',
     DynamicTimezoneSpan(
       -1,
-      -15924,
+      -15924000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372096076,
@@ -206,7 +206,7 @@ extension Argentina on Never {
     'America/Argentina/Tucuman',
     DynamicTimezoneSpan(
       -1,
-      -15652,
+      -15652000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372096348,
@@ -223,7 +223,7 @@ extension Argentina on Never {
     'America/Argentina/Ushuaia',
     DynamicTimezoneSpan(
       -1,
-      -16392,
+      -16392000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372095608,

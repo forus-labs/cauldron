@@ -19,7 +19,7 @@ extension Indian on Never {
     'Indian/Antananarivo',
     DynamicTimezoneSpan(
       -1,
-      8836,
+      8836000000,
       'LMT',
       TimezoneSpan.range.min,
       -1946168836,
@@ -36,7 +36,7 @@ extension Indian on Never {
     'Indian/Chagos',
     DynamicTimezoneSpan(
       -1,
-      17380,
+      17380000000,
       'LMT',
       TimezoneSpan.range.min,
       -1988167780,
@@ -53,7 +53,7 @@ extension Indian on Never {
     'Indian/Christmas',
     DynamicTimezoneSpan(
       -1,
-      24124,
+      24124000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840164924,
@@ -70,7 +70,7 @@ extension Indian on Never {
     'Indian/Cocos',
     DynamicTimezoneSpan(
       -1,
-      23087,
+      23087000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840163887,
@@ -87,7 +87,7 @@ extension Indian on Never {
     'Indian/Comoro',
     DynamicTimezoneSpan(
       -1,
-      8836,
+      8836000000,
       'LMT',
       TimezoneSpan.range.min,
       -1946168836,
@@ -104,7 +104,7 @@ extension Indian on Never {
     'Indian/Kerguelen',
     DynamicTimezoneSpan(
       -1,
-      17640,
+      17640000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840158440,
@@ -121,7 +121,7 @@ extension Indian on Never {
     'Indian/Mahe',
     DynamicTimezoneSpan(
       -1,
-      13272,
+      13272000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577936472,
@@ -138,7 +138,7 @@ extension Indian on Never {
     'Indian/Maldives',
     DynamicTimezoneSpan(
       -1,
-      17640,
+      17640000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840158440,
@@ -155,7 +155,7 @@ extension Indian on Never {
     'Indian/Mauritius',
     DynamicTimezoneSpan(
       -1,
-      13800,
+      13800000000,
       'LMT',
       TimezoneSpan.range.min,
       -1988164200,
@@ -172,7 +172,7 @@ extension Indian on Never {
     'Indian/Mayotte',
     DynamicTimezoneSpan(
       -1,
-      8836,
+      8836000000,
       'LMT',
       TimezoneSpan.range.min,
       -1946168836,
@@ -189,7 +189,7 @@ extension Indian on Never {
     'Indian/Reunion',
     DynamicTimezoneSpan(
       -1,
-      13272,
+      13272000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577936472,

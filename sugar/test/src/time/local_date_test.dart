@@ -17,6 +17,17 @@ void main() {
     test('floors', () => expect(LocalDate.fromEpochMicroseconds(946684800000100), LocalDate(2000)));
   });
 
+  test('now()', () {
+    final date = LocalDate.now();
+    final native = DateTime.now();
+
+    expect(date.epochMicroseconds, DateTime.utc(native.year, native.month, native.day).microsecondsSinceEpoch);
+
+    expect(date.year, native.year);
+    expect(date.month, native.month);
+    expect(date.day, native.day);
+  }, tags: ['flaky']);
+
   group('LocalDate(...)', () {
     test('values', () {
       final date = LocalDate(2023, 5, 3);

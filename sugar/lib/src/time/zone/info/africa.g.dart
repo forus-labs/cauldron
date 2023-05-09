@@ -19,7 +19,7 @@ extension Africa on Never {
     'Africa/Abidjan',
     DynamicTimezoneSpan(
       -1,
-      -968,
+      -968000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830383032,
@@ -36,7 +36,7 @@ extension Africa on Never {
     'Africa/Accra',
     DynamicTimezoneSpan(
       -1,
-      -968,
+      -968000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830383032,
@@ -53,7 +53,7 @@ extension Africa on Never {
     'Africa/Addis_Ababa',
     DynamicTimezoneSpan(
       -1,
-      8836,
+      8836000000,
       'LMT',
       TimezoneSpan.range.min,
       -1946168836,
@@ -70,7 +70,7 @@ extension Africa on Never {
     'Africa/Algiers',
     DynamicTimezoneSpan(
       -1,
-      732,
+      732000000,
       'LMT',
       TimezoneSpan.range.min,
       -2486592732,
@@ -87,7 +87,7 @@ extension Africa on Never {
     'Africa/Asmara',
     DynamicTimezoneSpan(
       -1,
-      8836,
+      8836000000,
       'LMT',
       TimezoneSpan.range.min,
       -1946168836,
@@ -104,7 +104,7 @@ extension Africa on Never {
     'Africa/Asmera',
     DynamicTimezoneSpan(
       -1,
-      8836,
+      8836000000,
       'LMT',
       TimezoneSpan.range.min,
       -1946168836,
@@ -121,7 +121,7 @@ extension Africa on Never {
     'Africa/Bamako',
     DynamicTimezoneSpan(
       -1,
-      -968,
+      -968000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830383032,
@@ -155,7 +155,7 @@ extension Africa on Never {
     'Africa/Banjul',
     DynamicTimezoneSpan(
       -1,
-      -968,
+      -968000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830383032,
@@ -172,7 +172,7 @@ extension Africa on Never {
     'Africa/Bissau',
     DynamicTimezoneSpan(
       -1,
-      -3740,
+      -3740000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830380400,
@@ -189,7 +189,7 @@ extension Africa on Never {
     'Africa/Blantyre',
     DynamicTimezoneSpan(
       -1,
-      7820,
+      7820000000,
       'LMT',
       TimezoneSpan.range.min,
       -2109291020,
@@ -223,7 +223,7 @@ extension Africa on Never {
     'Africa/Bujumbura',
     DynamicTimezoneSpan(
       -1,
-      7820,
+      7820000000,
       'LMT',
       TimezoneSpan.range.min,
       -2109291020,
@@ -240,7 +240,7 @@ extension Africa on Never {
     'Africa/Cairo',
     DynamicTimezoneSpan(
       -1,
-      7509,
+      7509000000,
       'LMT',
       TimezoneSpan.range.min,
       -2185409109,
@@ -257,7 +257,7 @@ extension Africa on Never {
     'Africa/Casablanca',
     DynamicTimezoneSpan(
       -1,
-      -1820,
+      -1820000000,
       'LMT',
       TimezoneSpan.range.min,
       -1773012580,
@@ -274,7 +274,7 @@ extension Africa on Never {
     'Africa/Ceuta',
     DynamicTimezoneSpan(
       -1,
-      -1276,
+      -1276000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177452800,
@@ -291,7 +291,7 @@ extension Africa on Never {
     'Africa/Conakry',
     DynamicTimezoneSpan(
       -1,
-      -968,
+      -968000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830383032,
@@ -308,7 +308,7 @@ extension Africa on Never {
     'Africa/Dakar',
     DynamicTimezoneSpan(
       -1,
-      -968,
+      -968000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830383032,
@@ -325,7 +325,7 @@ extension Africa on Never {
     'Africa/Dar_es_Salaam',
     DynamicTimezoneSpan(
       -1,
-      8836,
+      8836000000,
       'LMT',
       TimezoneSpan.range.min,
       -1946168836,
@@ -342,7 +342,7 @@ extension Africa on Never {
     'Africa/Djibouti',
     DynamicTimezoneSpan(
       -1,
-      8836,
+      8836000000,
       'LMT',
       TimezoneSpan.range.min,
       -1946168836,
@@ -376,7 +376,7 @@ extension Africa on Never {
     'Africa/El_Aaiun',
     DynamicTimezoneSpan(
       -1,
-      -3168,
+      -3168000000,
       'LMT',
       TimezoneSpan.range.min,
       -1136070432,
@@ -393,7 +393,7 @@ extension Africa on Never {
     'Africa/Freetown',
     DynamicTimezoneSpan(
       -1,
-      -968,
+      -968000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830383032,
@@ -410,7 +410,7 @@ extension Africa on Never {
     'Africa/Gaborone',
     DynamicTimezoneSpan(
       -1,
-      7820,
+      7820000000,
       'LMT',
       TimezoneSpan.range.min,
       -2109291020,
@@ -427,7 +427,7 @@ extension Africa on Never {
     'Africa/Harare',
     DynamicTimezoneSpan(
       -1,
-      7820,
+      7820000000,
       'LMT',
       TimezoneSpan.range.min,
       -2109291020,
@@ -444,7 +444,7 @@ extension Africa on Never {
     'Africa/Johannesburg',
     DynamicTimezoneSpan(
       -1,
-      6720,
+      6720000000,
       'LMT',
       TimezoneSpan.range.min,
       -2458173120,
@@ -461,7 +461,7 @@ extension Africa on Never {
     'Africa/Juba',
     DynamicTimezoneSpan(
       -1,
-      7588,
+      7588000000,
       'LMT',
       TimezoneSpan.range.min,
       -1230775588,
@@ -478,7 +478,7 @@ extension Africa on Never {
     'Africa/Kampala',
     DynamicTimezoneSpan(
       -1,
-      8836,
+      8836000000,
       'LMT',
       TimezoneSpan.range.min,
       -1946168836,
@@ -495,7 +495,7 @@ extension Africa on Never {
     'Africa/Khartoum',
     DynamicTimezoneSpan(
       -1,
-      7808,
+      7808000000,
       'LMT',
       TimezoneSpan.range.min,
       -1230775808,
@@ -512,7 +512,7 @@ extension Africa on Never {
     'Africa/Kigali',
     DynamicTimezoneSpan(
       -1,
-      7820,
+      7820000000,
       'LMT',
       TimezoneSpan.range.min,
       -2109291020,
@@ -580,7 +580,7 @@ extension Africa on Never {
     'Africa/Lome',
     DynamicTimezoneSpan(
       -1,
-      -968,
+      -968000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830383032,
@@ -614,7 +614,7 @@ extension Africa on Never {
     'Africa/Lubumbashi',
     DynamicTimezoneSpan(
       -1,
-      7820,
+      7820000000,
       'LMT',
       TimezoneSpan.range.min,
       -2109291020,
@@ -631,7 +631,7 @@ extension Africa on Never {
     'Africa/Lusaka',
     DynamicTimezoneSpan(
       -1,
-      7820,
+      7820000000,
       'LMT',
       TimezoneSpan.range.min,
       -2109291020,
@@ -665,7 +665,7 @@ extension Africa on Never {
     'Africa/Maputo',
     DynamicTimezoneSpan(
       -1,
-      7820,
+      7820000000,
       'LMT',
       TimezoneSpan.range.min,
       -2109291020,
@@ -682,7 +682,7 @@ extension Africa on Never {
     'Africa/Maseru',
     DynamicTimezoneSpan(
       -1,
-      6720,
+      6720000000,
       'LMT',
       TimezoneSpan.range.min,
       -2458173120,
@@ -699,7 +699,7 @@ extension Africa on Never {
     'Africa/Mbabane',
     DynamicTimezoneSpan(
       -1,
-      6720,
+      6720000000,
       'LMT',
       TimezoneSpan.range.min,
       -2458173120,
@@ -716,7 +716,7 @@ extension Africa on Never {
     'Africa/Mogadishu',
     DynamicTimezoneSpan(
       -1,
-      8836,
+      8836000000,
       'LMT',
       TimezoneSpan.range.min,
       -1946168836,
@@ -733,7 +733,7 @@ extension Africa on Never {
     'Africa/Monrovia',
     DynamicTimezoneSpan(
       -1,
-      -2588,
+      -2588000000,
       'LMT',
       TimezoneSpan.range.min,
       -2776979812,
@@ -750,7 +750,7 @@ extension Africa on Never {
     'Africa/Nairobi',
     DynamicTimezoneSpan(
       -1,
-      8836,
+      8836000000,
       'LMT',
       TimezoneSpan.range.min,
       -1946168836,
@@ -767,7 +767,7 @@ extension Africa on Never {
     'Africa/Ndjamena',
     DynamicTimezoneSpan(
       -1,
-      3612,
+      3612000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830387612,
@@ -801,7 +801,7 @@ extension Africa on Never {
     'Africa/Nouakchott',
     DynamicTimezoneSpan(
       -1,
-      -968,
+      -968000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830383032,
@@ -818,7 +818,7 @@ extension Africa on Never {
     'Africa/Ouagadougou',
     DynamicTimezoneSpan(
       -1,
-      -968,
+      -968000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830383032,
@@ -852,7 +852,7 @@ extension Africa on Never {
     'Africa/Sao_Tome',
     DynamicTimezoneSpan(
       -1,
-      1616,
+      1616000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713912016,
@@ -869,7 +869,7 @@ extension Africa on Never {
     'Africa/Timbuktu',
     DynamicTimezoneSpan(
       -1,
-      -968,
+      -968000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830383032,
@@ -886,7 +886,7 @@ extension Africa on Never {
     'Africa/Tripoli',
     DynamicTimezoneSpan(
       -1,
-      3164,
+      3164000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577926364,
@@ -903,7 +903,7 @@ extension Africa on Never {
     'Africa/Tunis',
     DynamicTimezoneSpan(
       -1,
-      2444,
+      2444000000,
       'LMT',
       TimezoneSpan.range.min,
       -2797202444,
@@ -920,7 +920,7 @@ extension Africa on Never {
     'Africa/Windhoek',
     DynamicTimezoneSpan(
       -1,
-      4104,
+      4104000000,
       'LMT',
       TimezoneSpan.range.min,
       -2458170504,

@@ -7,7 +7,17 @@ void main() {
 
   test('fromDayMicroseconds(...)', () => expect(OffsetTime.fromDayMicroseconds(Offset(8), 43200000000), OffsetTime(Offset(8), 12)));
 
-  group('LocalTime', () {
+  test('now()', () {
+    final time = OffsetTime.now();
+    final native = DateTime.now();
+
+    expect(time.offset, native.offset);
+    expect(time.hour, native.hour);
+    expect(time.minute, native.minute);
+    expect(time.second, native.second);
+  }, tags: ['flaky']);
+
+  group('OffsetTime', () {
     test('value', () {
       final time = OffsetTime(Offset(8), 1, 2, 3, 4, 5);
       expect(time.offset, Offset(8));

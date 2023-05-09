@@ -100,6 +100,6 @@ abstract class Timezone {
   @useResult TimezoneSpan span({required EpochMicroseconds at});
 
   @override
-  String toString() => 'name';
+  String toString() => name;
 
 }

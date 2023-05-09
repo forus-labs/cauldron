@@ -12,6 +12,18 @@ void main() {
     LocalDateTime(2000, 1, 2, 3, 4, 5, 6, 7)),
   );
 
+  test('now()', () {
+    final date = LocalDateTime.now();
+    final native = DateTime.now();
+
+    expect(date.year, native.year);
+    expect(date.month, native.month);
+    expect(date.day, native.day);
+    expect(date.hour, native.hour);
+    expect(date.minute, native.minute);
+    expect(date.second, native.second);
+  }, tags: ['flaky']);
+
   group('LocalDateTime', () {
     test('value', () {
       final date = LocalDateTime(2000, 1, 2, 3, 4, 5, 6, 7);
@@ -166,26 +178,26 @@ void main() {
   }
 
   for (final arguments in [
-    [DateTime(3, 2), DateUnit.years, DateTime(5)],
-    [DateTime(7, 2), DateUnit.years, DateTime(5)],
-    [DateTime(1, 3, 2), DateUnit.months, DateTime(1, 5)],
-    [DateTime(1, 7, 2), DateUnit.months, DateTime(1, 5)],
-    [DateTime(1, 1, 3, 2), DateUnit.days, DateTime(1, 1, 5)],
-    [DateTime(1, 1, 7, 2), DateUnit.days, DateTime(1, 1, 5)],
-    [DateTime(1, 1, 1, 3, 2), TimeUnit.hours, DateTime(1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 7, 2), TimeUnit.hours, DateTime(1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 3, 2), TimeUnit.minutes, DateTime(1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 7, 2), TimeUnit.minutes, DateTime(1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 3, 2), TimeUnit.seconds, DateTime(1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 7, 2), TimeUnit.seconds, DateTime(1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 3, 2), TimeUnit.milliseconds, DateTime(1, 1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 7, 2), TimeUnit.milliseconds, DateTime(1, 1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 1, 3), TimeUnit.microseconds, DateTime(1, 1, 1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 1, 7), TimeUnit.microseconds, DateTime(1, 1, 1, 1, 1, 1, 1, 5)],
+    [LocalDateTime(3, 2), DateUnit.years, LocalDateTime(5)],
+    [LocalDateTime(7, 2), DateUnit.years, LocalDateTime(5)],
+    [LocalDateTime(1, 3, 2), DateUnit.months, LocalDateTime(1, 5)],
+    [LocalDateTime(1, 7, 2), DateUnit.months, LocalDateTime(1, 5)],
+    [LocalDateTime(1, 1, 3, 2), DateUnit.days, LocalDateTime(1, 1, 5)],
+    [LocalDateTime(1, 1, 7, 2), DateUnit.days, LocalDateTime(1, 1, 5)],
+    [LocalDateTime(1, 1, 1, 3, 2), TimeUnit.hours, LocalDateTime(1, 1, 1, 5)],
+    [LocalDateTime(1, 1, 1, 7, 2), TimeUnit.hours, LocalDateTime(1, 1, 1, 5)],
+    [LocalDateTime(1, 1, 1, 1, 3, 2), TimeUnit.minutes, LocalDateTime(1, 1, 1, 1, 5)],
+    [LocalDateTime(1, 1, 1, 1, 7, 2), TimeUnit.minutes, LocalDateTime(1, 1, 1, 1, 5)],
+    [LocalDateTime(1, 1, 1, 1, 1, 3, 2), TimeUnit.seconds, LocalDateTime(1, 1, 1, 1, 1, 5)],
+    [LocalDateTime(1, 1, 1, 1, 1, 7, 2), TimeUnit.seconds, LocalDateTime(1, 1, 1, 1, 1, 5)],
+    [LocalDateTime(1, 1, 1, 1, 1, 1, 3, 2), TimeUnit.milliseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 5)],
+    [LocalDateTime(1, 1, 1, 1, 1, 1, 7, 2), TimeUnit.milliseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 5)],
+    [LocalDateTime(1, 1, 1, 1, 1, 1, 1, 3), TimeUnit.microseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 1, 5)],
+    [LocalDateTime(1, 1, 1, 1, 1, 1, 1, 7), TimeUnit.microseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 1, 5)],
   ]) {
-    final date = arguments[0] as DateTime;
+    final date = arguments[0] as LocalDateTime;
     final unit = arguments[1] as TemporalUnit;
-    final truncated = arguments[2] as DateTime;
+    final truncated = arguments[2] as LocalDateTime;
 
     test('round $unit to 5', () => expect(date.round(unit, 5), truncated));
   }
@@ -301,6 +313,7 @@ void main() {
     test('toString()', () => expect(date.toString(), string));
   }
 
+  test('weekday', () => expect(LocalDateTime(2023, 5, 3).weekday, 3));
 
   group('weekOfYear', () {
     test('last week of previous year', () => expect(LocalDateTime(2023).weekOfYear, 52));

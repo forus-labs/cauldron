@@ -36,7 +36,7 @@ extension Antarctica on Never {
     'Antarctica/Davis',
     DynamicTimezoneSpan(
       -1,
-      25200,
+      25200000000,
       '+07',
       TimezoneSpan.range.min,
       -409190400,
@@ -53,7 +53,7 @@ extension Antarctica on Never {
     'Antarctica/DumontDUrville',
     DynamicTimezoneSpan(
       -1,
-      35320,
+      35320000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840176120,
@@ -104,7 +104,7 @@ extension Antarctica on Never {
     'Antarctica/McMurdo',
     DynamicTimezoneSpan(
       -1,
-      41944,
+      41944000000,
       'LMT',
       TimezoneSpan.range.min,
       -3192435544,
@@ -155,7 +155,7 @@ extension Antarctica on Never {
     'Antarctica/South_Pole',
     DynamicTimezoneSpan(
       -1,
-      41944,
+      41944000000,
       'LMT',
       TimezoneSpan.range.min,
       -3192435544,
@@ -172,7 +172,7 @@ extension Antarctica on Never {
     'Antarctica/Syowa',
     DynamicTimezoneSpan(
       -1,
-      11212,
+      11212000000,
       'LMT',
       TimezoneSpan.range.min,
       -719636812,
@@ -206,7 +206,7 @@ extension Antarctica on Never {
     'Antarctica/Vostok',
     DynamicTimezoneSpan(
       -1,
-      21020,
+      21020000000,
       'LMT',
       TimezoneSpan.range.min,
       -1325483420,

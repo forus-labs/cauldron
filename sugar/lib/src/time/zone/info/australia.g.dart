@@ -19,7 +19,7 @@ extension Australia on Never {
     'Australia/ACT',
     DynamicTimezoneSpan(
       -1,
-      36292,
+      36292000000,
       'LMT',
       TimezoneSpan.range.min,
       -2364113092,
@@ -36,7 +36,7 @@ extension Australia on Never {
     'Australia/Adelaide',
     DynamicTimezoneSpan(
       -1,
-      33260,
+      33260000000,
       'LMT',
       TimezoneSpan.range.min,
       -2364110060,
@@ -53,7 +53,7 @@ extension Australia on Never {
     'Australia/Brisbane',
     DynamicTimezoneSpan(
       -1,
-      36728,
+      36728000000,
       'LMT',
       TimezoneSpan.range.min,
       -2366791928,
@@ -70,7 +70,7 @@ extension Australia on Never {
     'Australia/Broken_Hill',
     DynamicTimezoneSpan(
       -1,
-      33948,
+      33948000000,
       'LMT',
       TimezoneSpan.range.min,
       -2364110748,
@@ -87,7 +87,7 @@ extension Australia on Never {
     'Australia/Canberra',
     DynamicTimezoneSpan(
       -1,
-      36292,
+      36292000000,
       'LMT',
       TimezoneSpan.range.min,
       -2364113092,
@@ -104,7 +104,7 @@ extension Australia on Never {
     'Australia/Currie',
     DynamicTimezoneSpan(
       -1,
-      35356,
+      35356000000,
       'LMT',
       TimezoneSpan.range.min,
       -2345795356,
@@ -121,7 +121,7 @@ extension Australia on Never {
     'Australia/Darwin',
     DynamicTimezoneSpan(
       -1,
-      31400,
+      31400000000,
       'LMT',
       TimezoneSpan.range.min,
       -2364108200,
@@ -138,7 +138,7 @@ extension Australia on Never {
     'Australia/Eucla',
     DynamicTimezoneSpan(
       -1,
-      30928,
+      30928000000,
       'LMT',
       TimezoneSpan.range.min,
       -2337928528,
@@ -155,7 +155,7 @@ extension Australia on Never {
     'Australia/Hobart',
     DynamicTimezoneSpan(
       -1,
-      35356,
+      35356000000,
       'LMT',
       TimezoneSpan.range.min,
       -2345795356,
@@ -172,7 +172,7 @@ extension Australia on Never {
     'Australia/LHI',
     DynamicTimezoneSpan(
       -1,
-      38180,
+      38180000000,
       'LMT',
       TimezoneSpan.range.min,
       -2364114980,
@@ -189,7 +189,7 @@ extension Australia on Never {
     'Australia/Lindeman',
     DynamicTimezoneSpan(
       -1,
-      35756,
+      35756000000,
       'LMT',
       TimezoneSpan.range.min,
       -2366790956,
@@ -206,7 +206,7 @@ extension Australia on Never {
     'Australia/Lord_Howe',
     DynamicTimezoneSpan(
       -1,
-      38180,
+      38180000000,
       'LMT',
       TimezoneSpan.range.min,
       -2364114980,
@@ -223,7 +223,7 @@ extension Australia on Never {
     'Australia/Melbourne',
     DynamicTimezoneSpan(
       -1,
-      34792,
+      34792000000,
       'LMT',
       TimezoneSpan.range.min,
       -2364111592,
@@ -240,7 +240,7 @@ extension Australia on Never {
     'Australia/NSW',
     DynamicTimezoneSpan(
       -1,
-      36292,
+      36292000000,
       'LMT',
       TimezoneSpan.range.min,
       -2364113092,
@@ -257,7 +257,7 @@ extension Australia on Never {
     'Australia/North',
     DynamicTimezoneSpan(
       -1,
-      31400,
+      31400000000,
       'LMT',
       TimezoneSpan.range.min,
       -2364108200,
@@ -274,7 +274,7 @@ extension Australia on Never {
     'Australia/Perth',
     DynamicTimezoneSpan(
       -1,
-      27804,
+      27804000000,
       'LMT',
       TimezoneSpan.range.min,
       -2337925404,
@@ -291,7 +291,7 @@ extension Australia on Never {
     'Australia/Queensland',
     DynamicTimezoneSpan(
       -1,
-      36728,
+      36728000000,
       'LMT',
       TimezoneSpan.range.min,
       -2366791928,
@@ -308,7 +308,7 @@ extension Australia on Never {
     'Australia/South',
     DynamicTimezoneSpan(
       -1,
-      33260,
+      33260000000,
       'LMT',
       TimezoneSpan.range.min,
       -2364110060,
@@ -325,7 +325,7 @@ extension Australia on Never {
     'Australia/Sydney',
     DynamicTimezoneSpan(
       -1,
-      36292,
+      36292000000,
       'LMT',
       TimezoneSpan.range.min,
       -2364113092,
@@ -342,7 +342,7 @@ extension Australia on Never {
     'Australia/Tasmania',
     DynamicTimezoneSpan(
       -1,
-      35356,
+      35356000000,
       'LMT',
       TimezoneSpan.range.min,
       -2345795356,
@@ -359,7 +359,7 @@ extension Australia on Never {
     'Australia/Victoria',
     DynamicTimezoneSpan(
       -1,
-      34792,
+      34792000000,
       'LMT',
       TimezoneSpan.range.min,
       -2364111592,
@@ -376,7 +376,7 @@ extension Australia on Never {
     'Australia/West',
     DynamicTimezoneSpan(
       -1,
-      27804,
+      27804000000,
       'LMT',
       TimezoneSpan.range.min,
       -2337925404,
@@ -393,7 +393,7 @@ extension Australia on Never {
     'Australia/Yancowinna',
     DynamicTimezoneSpan(
       -1,
-      33948,
+      33948000000,
       'LMT',
       TimezoneSpan.range.min,
       -2364110748,

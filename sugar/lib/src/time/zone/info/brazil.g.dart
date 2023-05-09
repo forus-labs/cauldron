@@ -19,7 +19,7 @@ extension Brazil on Never {
     'Brazil/Acre',
     DynamicTimezoneSpan(
       -1,
-      -16272,
+      -16272000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767209328,
@@ -36,7 +36,7 @@ extension Brazil on Never {
     'Brazil/DeNoronha',
     DynamicTimezoneSpan(
       -1,
-      -7780,
+      -7780000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767217820,
@@ -53,7 +53,7 @@ extension Brazil on Never {
     'Brazil/East',
     DynamicTimezoneSpan(
       -1,
-      -11188,
+      -11188000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767214412,
@@ -70,7 +70,7 @@ extension Brazil on Never {
     'Brazil/West',
     DynamicTimezoneSpan(
       -1,
-      -14404,
+      -14404000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767211196,

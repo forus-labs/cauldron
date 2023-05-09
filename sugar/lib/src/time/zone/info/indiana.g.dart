@@ -19,7 +19,7 @@ extension Indiana on Never {
     'America/Indiana/Indianapolis',
     DynamicTimezoneSpan(
       -1,
-      -20678,
+      -20678000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -36,7 +36,7 @@ extension Indiana on Never {
     'America/Indiana/Knox',
     DynamicTimezoneSpan(
       -1,
-      -20790,
+      -20790000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -53,7 +53,7 @@ extension Indiana on Never {
     'America/Indiana/Marengo',
     DynamicTimezoneSpan(
       -1,
-      -20723,
+      -20723000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -70,7 +70,7 @@ extension Indiana on Never {
     'America/Indiana/Petersburg',
     DynamicTimezoneSpan(
       -1,
-      -20947,
+      -20947000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -87,7 +87,7 @@ extension Indiana on Never {
     'America/Indiana/Tell_City',
     DynamicTimezoneSpan(
       -1,
-      -20823,
+      -20823000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -104,7 +104,7 @@ extension Indiana on Never {
     'America/Indiana/Vevay',
     DynamicTimezoneSpan(
       -1,
-      -20416,
+      -20416000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -121,7 +121,7 @@ extension Indiana on Never {
     'America/Indiana/Vincennes',
     DynamicTimezoneSpan(
       -1,
-      -21007,
+      -21007000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -138,7 +138,7 @@ extension Indiana on Never {
     'America/Indiana/Winamac',
     DynamicTimezoneSpan(
       -1,
-      -20785,
+      -20785000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,

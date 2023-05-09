@@ -106,7 +106,7 @@ class DynamicTimezoneIR extends TimezoneIR {
     final zone = location.first;
     return (StringBuffer('DynamicTimezoneSpan(\n')
       ..writeIndented(indentation, '-1,\n')
-      ..writeIndented(indentation, '${zone.offset},\n')
+      ..writeIndented(indentation, '${zone.offset * 1000 * 1000},\n')
       ..writeIndented(indentation, "'${location.abbreviations[zone.abbreviationIndex]}',\n")
       ..writeIndented(indentation, 'TimezoneSpan.range.min,\n')
       ..writeIndented(indentation, '${location.transitionAt[0]},\n')

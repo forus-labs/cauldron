@@ -26,7 +26,6 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   LocalDateTime.fromEpochMicroseconds(super.microseconds) : super.fromEpochMicroseconds();
 
   /// Creates a [LocalDate] that represents the current date-time.
-  @NotTested(because: 'current time is non-deterministic which leads to flaky and unreliable tests')
   LocalDateTime.now() : super.fromNative(DateTime.now());
 
   /// Creates a [LocalDateTime].
@@ -193,7 +192,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
 
 
   //// Converts this [LocalDateTime] to a [ZonedDateTime].
-  @useResult ZonedDateTime at(Timezone timezone) => ZonedDateTime._(timezone, _native);
+  @useResult ZonedDateTime at(Timezone timezone) => ZonedDateTime._convert(timezone, _native);
 
   /// Returns a native [DateTime] in UTC that represents this [LocalDateTime].
   @useResult DateTime toNative() => _native;

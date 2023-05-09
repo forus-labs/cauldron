@@ -19,7 +19,7 @@ extension Root on Never {
     'CET',
     DynamicTimezoneSpan(
       -1,
-      3600,
+      3600000000,
       'CET',
       TimezoneSpan.range.min,
       -1693706400,
@@ -36,7 +36,7 @@ extension Root on Never {
     'CST6CDT',
     DynamicTimezoneSpan(
       -1,
-      -21600,
+      -21600000000,
       'CST',
       TimezoneSpan.range.min,
       -1633276800,
@@ -53,7 +53,7 @@ extension Root on Never {
     'Cuba',
     DynamicTimezoneSpan(
       -1,
-      -19768,
+      -19768000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524501832,
@@ -70,7 +70,7 @@ extension Root on Never {
     'EET',
     DynamicTimezoneSpan(
       -1,
-      7200,
+      7200000000,
       'EET',
       TimezoneSpan.range.min,
       228877200,
@@ -98,7 +98,7 @@ extension Root on Never {
     'EST5EDT',
     DynamicTimezoneSpan(
       -1,
-      -18000,
+      -18000000000,
       'EST',
       TimezoneSpan.range.min,
       -1633280400,
@@ -115,7 +115,7 @@ extension Root on Never {
     'Egypt',
     DynamicTimezoneSpan(
       -1,
-      7509,
+      7509000000,
       'LMT',
       TimezoneSpan.range.min,
       -2185409109,
@@ -132,7 +132,7 @@ extension Root on Never {
     'Eire',
     DynamicTimezoneSpan(
       -1,
-      -1521,
+      -1521000000,
       'LMT',
       TimezoneSpan.range.min,
       -2821649679,
@@ -160,7 +160,7 @@ extension Root on Never {
     'GB',
     DynamicTimezoneSpan(
       -1,
-      -75,
+      -75000000,
       'LMT',
       TimezoneSpan.range.min,
       -3852662325,
@@ -177,7 +177,7 @@ extension Root on Never {
     'GB-Eire',
     DynamicTimezoneSpan(
       -1,
-      -75,
+      -75000000,
       'LMT',
       TimezoneSpan.range.min,
       -3852662325,
@@ -260,7 +260,7 @@ extension Root on Never {
     'Hongkong',
     DynamicTimezoneSpan(
       -1,
-      27402,
+      27402000000,
       'LMT',
       TimezoneSpan.range.min,
       -2056690800,
@@ -277,7 +277,7 @@ extension Root on Never {
     'Iceland',
     DynamicTimezoneSpan(
       -1,
-      -968,
+      -968000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830383032,
@@ -294,7 +294,7 @@ extension Root on Never {
     'Iran',
     DynamicTimezoneSpan(
       -1,
-      12344,
+      12344000000,
       'LMT',
       TimezoneSpan.range.min,
       -1704165944,
@@ -311,7 +311,7 @@ extension Root on Never {
     'Israel',
     DynamicTimezoneSpan(
       -1,
-      8454,
+      8454000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840149254,
@@ -328,7 +328,7 @@ extension Root on Never {
     'Jamaica',
     DynamicTimezoneSpan(
       -1,
-      -18430,
+      -18430000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524503170,
@@ -345,7 +345,7 @@ extension Root on Never {
     'Japan',
     DynamicTimezoneSpan(
       -1,
-      33539,
+      33539000000,
       'LMT',
       TimezoneSpan.range.min,
       -2587712400,
@@ -362,7 +362,7 @@ extension Root on Never {
     'Kwajalein',
     DynamicTimezoneSpan(
       -1,
-      40160,
+      40160000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177492960,
@@ -379,7 +379,7 @@ extension Root on Never {
     'Libya',
     DynamicTimezoneSpan(
       -1,
-      3164,
+      3164000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577926364,
@@ -396,7 +396,7 @@ extension Root on Never {
     'MET',
     DynamicTimezoneSpan(
       -1,
-      3600,
+      3600000000,
       'MET',
       TimezoneSpan.range.min,
       -1693706400,
@@ -424,7 +424,7 @@ extension Root on Never {
     'MST7MDT',
     DynamicTimezoneSpan(
       -1,
-      -25200,
+      -25200000000,
       'MST',
       TimezoneSpan.range.min,
       -1633273200,
@@ -441,7 +441,7 @@ extension Root on Never {
     'NZ',
     DynamicTimezoneSpan(
       -1,
-      41944,
+      41944000000,
       'LMT',
       TimezoneSpan.range.min,
       -3192435544,
@@ -458,7 +458,7 @@ extension Root on Never {
     'NZ-CHAT',
     DynamicTimezoneSpan(
       -1,
-      44028,
+      44028000000,
       'LMT',
       TimezoneSpan.range.min,
       -3192437628,
@@ -475,7 +475,7 @@ extension Root on Never {
     'Navajo',
     DynamicTimezoneSpan(
       -1,
-      -25196,
+      -25196000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717643600,
@@ -492,7 +492,7 @@ extension Root on Never {
     'PRC',
     DynamicTimezoneSpan(
       -1,
-      29143,
+      29143000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177481943,
@@ -509,7 +509,7 @@ extension Root on Never {
     'PST8PDT',
     DynamicTimezoneSpan(
       -1,
-      -28800,
+      -28800000000,
       'PST',
       TimezoneSpan.range.min,
       -1633269600,
@@ -526,7 +526,7 @@ extension Root on Never {
     'Poland',
     DynamicTimezoneSpan(
       -1,
-      5040,
+      5040000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840145840,
@@ -543,7 +543,7 @@ extension Root on Never {
     'Portugal',
     DynamicTimezoneSpan(
       -1,
-      -2205,
+      -2205000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830384000,
@@ -560,7 +560,7 @@ extension Root on Never {
     'ROC',
     DynamicTimezoneSpan(
       -1,
-      29160,
+      29160000000,
       'LMT',
       TimezoneSpan.range.min,
       -2335248360,
@@ -577,7 +577,7 @@ extension Root on Never {
     'ROK',
     DynamicTimezoneSpan(
       -1,
-      30472,
+      30472000000,
       'LMT',
       TimezoneSpan.range.min,
       -1948782472,
@@ -594,7 +594,7 @@ extension Root on Never {
     'Singapore',
     DynamicTimezoneSpan(
       -1,
-      24925,
+      24925000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177477725,
@@ -611,7 +611,7 @@ extension Root on Never {
     'Turkey',
     DynamicTimezoneSpan(
       -1,
-      6952,
+      6952000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840147752,
@@ -661,7 +661,7 @@ extension Root on Never {
     'W-SU',
     DynamicTimezoneSpan(
       -1,
-      9017,
+      9017000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840149817,

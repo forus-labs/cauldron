@@ -19,7 +19,7 @@ extension Pacific on Never {
     'Pacific/Apia',
     DynamicTimezoneSpan(
       -1,
-      45184,
+      45184000000,
       'LMT',
       TimezoneSpan.range.min,
       -2445424384,
@@ -36,7 +36,7 @@ extension Pacific on Never {
     'Pacific/Auckland',
     DynamicTimezoneSpan(
       -1,
-      41944,
+      41944000000,
       'LMT',
       TimezoneSpan.range.min,
       -3192435544,
@@ -53,7 +53,7 @@ extension Pacific on Never {
     'Pacific/Bougainville',
     DynamicTimezoneSpan(
       -1,
-      37336,
+      37336000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840178136,
@@ -70,7 +70,7 @@ extension Pacific on Never {
     'Pacific/Chatham',
     DynamicTimezoneSpan(
       -1,
-      44028,
+      44028000000,
       'LMT',
       TimezoneSpan.range.min,
       -3192437628,
@@ -87,7 +87,7 @@ extension Pacific on Never {
     'Pacific/Chuuk',
     DynamicTimezoneSpan(
       -1,
-      35320,
+      35320000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840176120,
@@ -104,7 +104,7 @@ extension Pacific on Never {
     'Pacific/Easter',
     DynamicTimezoneSpan(
       -1,
-      -26248,
+      -26248000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524495352,
@@ -121,7 +121,7 @@ extension Pacific on Never {
     'Pacific/Efate',
     DynamicTimezoneSpan(
       -1,
-      40396,
+      40396000000,
       'LMT',
       TimezoneSpan.range.min,
       -1829387596,
@@ -155,7 +155,7 @@ extension Pacific on Never {
     'Pacific/Fakaofo',
     DynamicTimezoneSpan(
       -1,
-      -41096,
+      -41096000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177411704,
@@ -172,7 +172,7 @@ extension Pacific on Never {
     'Pacific/Fiji',
     DynamicTimezoneSpan(
       -1,
-      42944,
+      42944000000,
       'LMT',
       TimezoneSpan.range.min,
       -1709985344,
@@ -189,7 +189,7 @@ extension Pacific on Never {
     'Pacific/Funafuti',
     DynamicTimezoneSpan(
       -1,
-      41524,
+      41524000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177494324,
@@ -206,7 +206,7 @@ extension Pacific on Never {
     'Pacific/Galapagos',
     DynamicTimezoneSpan(
       -1,
-      -21504,
+      -21504000000,
       'LMT',
       TimezoneSpan.range.min,
       -1230746496,
@@ -223,7 +223,7 @@ extension Pacific on Never {
     'Pacific/Gambier',
     DynamicTimezoneSpan(
       -1,
-      -32388,
+      -32388000000,
       'LMT',
       TimezoneSpan.range.min,
       -1806678012,
@@ -240,7 +240,7 @@ extension Pacific on Never {
     'Pacific/Guadalcanal',
     DynamicTimezoneSpan(
       -1,
-      38388,
+      38388000000,
       'LMT',
       TimezoneSpan.range.min,
       -1806748788,
@@ -257,7 +257,7 @@ extension Pacific on Never {
     'Pacific/Guam',
     DynamicTimezoneSpan(
       -1,
-      -51660,
+      -51660000000,
       'LMT',
       TimezoneSpan.range.min,
       -3944626740,
@@ -274,7 +274,7 @@ extension Pacific on Never {
     'Pacific/Honolulu',
     DynamicTimezoneSpan(
       -1,
-      -37886,
+      -37886000000,
       'LMT',
       TimezoneSpan.range.min,
       -2334101314,
@@ -291,7 +291,7 @@ extension Pacific on Never {
     'Pacific/Johnston',
     DynamicTimezoneSpan(
       -1,
-      -37886,
+      -37886000000,
       'LMT',
       TimezoneSpan.range.min,
       -2334101314,
@@ -325,7 +325,7 @@ extension Pacific on Never {
     'Pacific/Kiritimati',
     DynamicTimezoneSpan(
       -1,
-      -37760,
+      -37760000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177415040,
@@ -342,7 +342,7 @@ extension Pacific on Never {
     'Pacific/Kosrae',
     DynamicTimezoneSpan(
       -1,
-      -47284,
+      -47284000000,
       'LMT',
       TimezoneSpan.range.min,
       -3944631116,
@@ -359,7 +359,7 @@ extension Pacific on Never {
     'Pacific/Kwajalein',
     DynamicTimezoneSpan(
       -1,
-      40160,
+      40160000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177492960,
@@ -376,7 +376,7 @@ extension Pacific on Never {
     'Pacific/Majuro',
     DynamicTimezoneSpan(
       -1,
-      41524,
+      41524000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177494324,
@@ -393,7 +393,7 @@ extension Pacific on Never {
     'Pacific/Marquesas',
     DynamicTimezoneSpan(
       -1,
-      -33480,
+      -33480000000,
       'LMT',
       TimezoneSpan.range.min,
       -1806676920,
@@ -410,7 +410,7 @@ extension Pacific on Never {
     'Pacific/Midway',
     DynamicTimezoneSpan(
       -1,
-      45432,
+      45432000000,
       'LMT',
       TimezoneSpan.range.min,
       -2445424632,
@@ -427,7 +427,7 @@ extension Pacific on Never {
     'Pacific/Nauru',
     DynamicTimezoneSpan(
       -1,
-      40060,
+      40060000000,
       'LMT',
       TimezoneSpan.range.min,
       -1545131260,
@@ -444,7 +444,7 @@ extension Pacific on Never {
     'Pacific/Niue',
     DynamicTimezoneSpan(
       -1,
-      -40780,
+      -40780000000,
       'LMT',
       TimezoneSpan.range.min,
       -543069620,
@@ -461,7 +461,7 @@ extension Pacific on Never {
     'Pacific/Norfolk',
     DynamicTimezoneSpan(
       -1,
-      40312,
+      40312000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177493112,
@@ -478,7 +478,7 @@ extension Pacific on Never {
     'Pacific/Noumea',
     DynamicTimezoneSpan(
       -1,
-      39948,
+      39948000000,
       'LMT',
       TimezoneSpan.range.min,
       -1829387148,
@@ -495,7 +495,7 @@ extension Pacific on Never {
     'Pacific/Pago_Pago',
     DynamicTimezoneSpan(
       -1,
-      45432,
+      45432000000,
       'LMT',
       TimezoneSpan.range.min,
       -2445424632,
@@ -512,7 +512,7 @@ extension Pacific on Never {
     'Pacific/Palau',
     DynamicTimezoneSpan(
       -1,
-      -54124,
+      -54124000000,
       'LMT',
       TimezoneSpan.range.min,
       -3944624276,
@@ -529,7 +529,7 @@ extension Pacific on Never {
     'Pacific/Pitcairn',
     DynamicTimezoneSpan(
       -1,
-      -31220,
+      -31220000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177421580,
@@ -546,7 +546,7 @@ extension Pacific on Never {
     'Pacific/Pohnpei',
     DynamicTimezoneSpan(
       -1,
-      38388,
+      38388000000,
       'LMT',
       TimezoneSpan.range.min,
       -1806748788,
@@ -563,7 +563,7 @@ extension Pacific on Never {
     'Pacific/Ponape',
     DynamicTimezoneSpan(
       -1,
-      38388,
+      38388000000,
       'LMT',
       TimezoneSpan.range.min,
       -1806748788,
@@ -580,7 +580,7 @@ extension Pacific on Never {
     'Pacific/Port_Moresby',
     DynamicTimezoneSpan(
       -1,
-      35320,
+      35320000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840176120,
@@ -597,7 +597,7 @@ extension Pacific on Never {
     'Pacific/Rarotonga',
     DynamicTimezoneSpan(
       -1,
-      48056,
+      48056000000,
       'LMT',
       TimezoneSpan.range.min,
       -2209555256,
@@ -614,7 +614,7 @@ extension Pacific on Never {
     'Pacific/Saipan',
     DynamicTimezoneSpan(
       -1,
-      -51660,
+      -51660000000,
       'LMT',
       TimezoneSpan.range.min,
       -3944626740,
@@ -631,7 +631,7 @@ extension Pacific on Never {
     'Pacific/Samoa',
     DynamicTimezoneSpan(
       -1,
-      45432,
+      45432000000,
       'LMT',
       TimezoneSpan.range.min,
       -2445424632,
@@ -648,7 +648,7 @@ extension Pacific on Never {
     'Pacific/Tahiti',
     DynamicTimezoneSpan(
       -1,
-      -35896,
+      -35896000000,
       'LMT',
       TimezoneSpan.range.min,
       -1806674504,
@@ -665,7 +665,7 @@ extension Pacific on Never {
     'Pacific/Tarawa',
     DynamicTimezoneSpan(
       -1,
-      41524,
+      41524000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177494324,
@@ -682,7 +682,7 @@ extension Pacific on Never {
     'Pacific/Tongatapu',
     DynamicTimezoneSpan(
       -1,
-      44352,
+      44352000000,
       'LMT',
       TimezoneSpan.range.min,
       -767189952,
@@ -699,7 +699,7 @@ extension Pacific on Never {
     'Pacific/Truk',
     DynamicTimezoneSpan(
       -1,
-      35320,
+      35320000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840176120,
@@ -716,7 +716,7 @@ extension Pacific on Never {
     'Pacific/Wake',
     DynamicTimezoneSpan(
       -1,
-      41524,
+      41524000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177494324,
@@ -733,7 +733,7 @@ extension Pacific on Never {
     'Pacific/Wallis',
     DynamicTimezoneSpan(
       -1,
-      41524,
+      41524000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177494324,
@@ -750,7 +750,7 @@ extension Pacific on Never {
     'Pacific/Yap',
     DynamicTimezoneSpan(
       -1,
-      35320,
+      35320000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840176120,

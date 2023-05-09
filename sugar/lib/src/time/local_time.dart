@@ -37,7 +37,6 @@ class LocalTime extends Time with Orderable<LocalTime> {
   LocalTime.fromDayMicroseconds(super.microseconds): super.fromDayMicroseconds();
 
   /// Creates a [LocalTime] that represents the current time.
-  @NotTested(because: 'current time is non-deterministic which leads to flaky and unreliable tests')
   LocalTime.now(): super.fromNative(DateTime.now());
 
   /// Creates a [LocalTime].

@@ -14,6 +14,17 @@ void main() {
 
   test('fromDayMicroseconds(...)', () => expect(LocalTime.fromDayMicroseconds(43200000000), LocalTime(12)));
 
+  test('now()', () {
+    final time = LocalTime.now();
+    final native = DateTime.now();
+
+    expect(time.dayMicroseconds, closeTo(native.microsecondsSinceMidnight, 10000));
+
+    expect(time.hour, native.hour);
+    expect(time.minute, native.minute);
+    expect(time.second, native.second);
+  }, tags: ['flaky']);
+
   group('LocalTime', () {
     test('value', () {
       final time = LocalTime(1, 2, 3, 4, 5);

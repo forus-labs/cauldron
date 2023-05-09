@@ -19,7 +19,7 @@ extension America on Never {
     'America/Adak',
     DynamicTimezoneSpan(
       -1,
-      44002,
+      44002000000,
       'LMT',
       TimezoneSpan.range.min,
       -3225223727,
@@ -36,7 +36,7 @@ extension America on Never {
     'America/Anchorage',
     DynamicTimezoneSpan(
       -1,
-      50424,
+      50424000000,
       'LMT',
       TimezoneSpan.range.min,
       -3225223727,
@@ -53,7 +53,7 @@ extension America on Never {
     'America/Anguilla',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -70,7 +70,7 @@ extension America on Never {
     'America/Antigua',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -87,7 +87,7 @@ extension America on Never {
     'America/Araguaina',
     DynamicTimezoneSpan(
       -1,
-      -11568,
+      -11568000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767214032,
@@ -104,7 +104,7 @@ extension America on Never {
     'America/Aruba',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -121,7 +121,7 @@ extension America on Never {
     'America/Asuncion',
     DynamicTimezoneSpan(
       -1,
-      -13840,
+      -13840000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524507760,
@@ -138,7 +138,7 @@ extension America on Never {
     'America/Atikokan',
     DynamicTimezoneSpan(
       -1,
-      -19088,
+      -19088000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524502512,
@@ -155,7 +155,7 @@ extension America on Never {
     'America/Atka',
     DynamicTimezoneSpan(
       -1,
-      44002,
+      44002000000,
       'LMT',
       TimezoneSpan.range.min,
       -3225223727,
@@ -172,7 +172,7 @@ extension America on Never {
     'America/Bahia',
     DynamicTimezoneSpan(
       -1,
-      -9244,
+      -9244000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767216356,
@@ -189,7 +189,7 @@ extension America on Never {
     'America/Bahia_Banderas',
     DynamicTimezoneSpan(
       -1,
-      -25260,
+      -25260000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514739600,
@@ -206,7 +206,7 @@ extension America on Never {
     'America/Barbados',
     DynamicTimezoneSpan(
       -1,
-      -14309,
+      -14309000000,
       'LMT',
       TimezoneSpan.range.min,
       -1841256091,
@@ -223,7 +223,7 @@ extension America on Never {
     'America/Belem',
     DynamicTimezoneSpan(
       -1,
-      -11636,
+      -11636000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767213964,
@@ -240,7 +240,7 @@ extension America on Never {
     'America/Belize',
     DynamicTimezoneSpan(
       -1,
-      -21168,
+      -21168000000,
       'LMT',
       TimezoneSpan.range.min,
       -1822500432,
@@ -257,7 +257,7 @@ extension America on Never {
     'America/Blanc-Sablon',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -274,7 +274,7 @@ extension America on Never {
     'America/Boa_Vista',
     DynamicTimezoneSpan(
       -1,
-      -14560,
+      -14560000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767211040,
@@ -291,7 +291,7 @@ extension America on Never {
     'America/Bogota',
     DynamicTimezoneSpan(
       -1,
-      -17776,
+      -17776000000,
       'LMT',
       TimezoneSpan.range.min,
       -2707671824,
@@ -308,7 +308,7 @@ extension America on Never {
     'America/Boise',
     DynamicTimezoneSpan(
       -1,
-      -27889,
+      -27889000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717640000,
@@ -325,7 +325,7 @@ extension America on Never {
     'America/Buenos_Aires',
     DynamicTimezoneSpan(
       -1,
-      -14028,
+      -14028000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372097972,
@@ -359,7 +359,7 @@ extension America on Never {
     'America/Campo_Grande',
     DynamicTimezoneSpan(
       -1,
-      -13108,
+      -13108000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767212492,
@@ -376,7 +376,7 @@ extension America on Never {
     'America/Cancun',
     DynamicTimezoneSpan(
       -1,
-      -20824,
+      -20824000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514743200,
@@ -393,7 +393,7 @@ extension America on Never {
     'America/Caracas',
     DynamicTimezoneSpan(
       -1,
-      -16064,
+      -16064000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524505536,
@@ -410,7 +410,7 @@ extension America on Never {
     'America/Catamarca',
     DynamicTimezoneSpan(
       -1,
-      -15788,
+      -15788000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372096212,
@@ -427,7 +427,7 @@ extension America on Never {
     'America/Cayenne',
     DynamicTimezoneSpan(
       -1,
-      -12560,
+      -12560000000,
       'LMT',
       TimezoneSpan.range.min,
       -1846269040,
@@ -444,7 +444,7 @@ extension America on Never {
     'America/Cayman',
     DynamicTimezoneSpan(
       -1,
-      -19088,
+      -19088000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524502512,
@@ -461,7 +461,7 @@ extension America on Never {
     'America/Chicago',
     DynamicTimezoneSpan(
       -1,
-      -21036,
+      -21036000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -478,7 +478,7 @@ extension America on Never {
     'America/Chihuahua',
     DynamicTimezoneSpan(
       -1,
-      -25460,
+      -25460000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514739600,
@@ -495,7 +495,7 @@ extension America on Never {
     'America/Ciudad_Juarez',
     DynamicTimezoneSpan(
       -1,
-      -25556,
+      -25556000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514739600,
@@ -512,7 +512,7 @@ extension America on Never {
     'America/Coral_Harbour',
     DynamicTimezoneSpan(
       -1,
-      -19088,
+      -19088000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524502512,
@@ -529,7 +529,7 @@ extension America on Never {
     'America/Cordoba',
     DynamicTimezoneSpan(
       -1,
-      -15408,
+      -15408000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372096592,
@@ -546,7 +546,7 @@ extension America on Never {
     'America/Costa_Rica',
     DynamicTimezoneSpan(
       -1,
-      -20173,
+      -20173000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524501427,
@@ -563,7 +563,7 @@ extension America on Never {
     'America/Creston',
     DynamicTimezoneSpan(
       -1,
-      -26898,
+      -26898000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717643600,
@@ -580,7 +580,7 @@ extension America on Never {
     'America/Cuiaba',
     DynamicTimezoneSpan(
       -1,
-      -13460,
+      -13460000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767212140,
@@ -597,7 +597,7 @@ extension America on Never {
     'America/Curacao',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -614,7 +614,7 @@ extension America on Never {
     'America/Danmarkshavn',
     DynamicTimezoneSpan(
       -1,
-      -4480,
+      -4480000000,
       'LMT',
       TimezoneSpan.range.min,
       -1686091520,
@@ -631,7 +631,7 @@ extension America on Never {
     'America/Dawson',
     DynamicTimezoneSpan(
       -1,
-      -33460,
+      -33460000000,
       'LMT',
       TimezoneSpan.range.min,
       -2188996940,
@@ -648,7 +648,7 @@ extension America on Never {
     'America/Dawson_Creek',
     DynamicTimezoneSpan(
       -1,
-      -28856,
+      -28856000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713881544,
@@ -665,7 +665,7 @@ extension America on Never {
     'America/Denver',
     DynamicTimezoneSpan(
       -1,
-      -25196,
+      -25196000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717643600,
@@ -682,7 +682,7 @@ extension America on Never {
     'America/Detroit',
     DynamicTimezoneSpan(
       -1,
-      -19931,
+      -19931000000,
       'LMT',
       TimezoneSpan.range.min,
       -2051202469,
@@ -699,7 +699,7 @@ extension America on Never {
     'America/Dominica',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -716,7 +716,7 @@ extension America on Never {
     'America/Edmonton',
     DynamicTimezoneSpan(
       -1,
-      -27232,
+      -27232000000,
       'LMT',
       TimezoneSpan.range.min,
       -1998663968,
@@ -733,7 +733,7 @@ extension America on Never {
     'America/Eirunepe',
     DynamicTimezoneSpan(
       -1,
-      -16768,
+      -16768000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767208832,
@@ -750,7 +750,7 @@ extension America on Never {
     'America/El_Salvador',
     DynamicTimezoneSpan(
       -1,
-      -21408,
+      -21408000000,
       'LMT',
       TimezoneSpan.range.min,
       -1546279392,
@@ -767,7 +767,7 @@ extension America on Never {
     'America/Ensenada',
     DynamicTimezoneSpan(
       -1,
-      -28084,
+      -28084000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514739600,
@@ -784,7 +784,7 @@ extension America on Never {
     'America/Fort_Nelson',
     DynamicTimezoneSpan(
       -1,
-      -29447,
+      -29447000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713880953,
@@ -801,7 +801,7 @@ extension America on Never {
     'America/Fort_Wayne',
     DynamicTimezoneSpan(
       -1,
-      -20678,
+      -20678000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -818,7 +818,7 @@ extension America on Never {
     'America/Fortaleza',
     DynamicTimezoneSpan(
       -1,
-      -9240,
+      -9240000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767216360,
@@ -835,7 +835,7 @@ extension America on Never {
     'America/Glace_Bay',
     DynamicTimezoneSpan(
       -1,
-      -14388,
+      -14388000000,
       'LMT',
       TimezoneSpan.range.min,
       -2131646412,
@@ -852,7 +852,7 @@ extension America on Never {
     'America/Godthab',
     DynamicTimezoneSpan(
       -1,
-      -12416,
+      -12416000000,
       'LMT',
       TimezoneSpan.range.min,
       -1686083584,
@@ -869,7 +869,7 @@ extension America on Never {
     'America/Goose_Bay',
     DynamicTimezoneSpan(
       -1,
-      -14500,
+      -14500000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713895900,
@@ -886,7 +886,7 @@ extension America on Never {
     'America/Grand_Turk',
     DynamicTimezoneSpan(
       -1,
-      -17072,
+      -17072000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524504528,
@@ -903,7 +903,7 @@ extension America on Never {
     'America/Grenada',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -920,7 +920,7 @@ extension America on Never {
     'America/Guadeloupe',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -937,7 +937,7 @@ extension America on Never {
     'America/Guatemala',
     DynamicTimezoneSpan(
       -1,
-      -21724,
+      -21724000000,
       'LMT',
       TimezoneSpan.range.min,
       -1617040676,
@@ -954,7 +954,7 @@ extension America on Never {
     'America/Guayaquil',
     DynamicTimezoneSpan(
       -1,
-      -19160,
+      -19160000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524502440,
@@ -971,7 +971,7 @@ extension America on Never {
     'America/Guyana',
     DynamicTimezoneSpan(
       -1,
-      -13959,
+      -13959000000,
       'LMT',
       TimezoneSpan.range.min,
       -1843589241,
@@ -988,7 +988,7 @@ extension America on Never {
     'America/Halifax',
     DynamicTimezoneSpan(
       -1,
-      -15264,
+      -15264000000,
       'LMT',
       TimezoneSpan.range.min,
       -2131645536,
@@ -1005,7 +1005,7 @@ extension America on Never {
     'America/Havana',
     DynamicTimezoneSpan(
       -1,
-      -19768,
+      -19768000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524501832,
@@ -1022,7 +1022,7 @@ extension America on Never {
     'America/Hermosillo',
     DynamicTimezoneSpan(
       -1,
-      -26632,
+      -26632000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514739600,
@@ -1039,7 +1039,7 @@ extension America on Never {
     'America/Indianapolis',
     DynamicTimezoneSpan(
       -1,
-      -20678,
+      -20678000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -1090,7 +1090,7 @@ extension America on Never {
     'America/Jamaica',
     DynamicTimezoneSpan(
       -1,
-      -18430,
+      -18430000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524503170,
@@ -1107,7 +1107,7 @@ extension America on Never {
     'America/Jujuy',
     DynamicTimezoneSpan(
       -1,
-      -15672,
+      -15672000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372096328,
@@ -1124,7 +1124,7 @@ extension America on Never {
     'America/Juneau',
     DynamicTimezoneSpan(
       -1,
-      54139,
+      54139000000,
       'LMT',
       TimezoneSpan.range.min,
       -3225223727,
@@ -1141,7 +1141,7 @@ extension America on Never {
     'America/Knox_IN',
     DynamicTimezoneSpan(
       -1,
-      -20790,
+      -20790000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -1158,7 +1158,7 @@ extension America on Never {
     'America/Kralendijk',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -1175,7 +1175,7 @@ extension America on Never {
     'America/La_Paz',
     DynamicTimezoneSpan(
       -1,
-      -16356,
+      -16356000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524505244,
@@ -1192,7 +1192,7 @@ extension America on Never {
     'America/Lima',
     DynamicTimezoneSpan(
       -1,
-      -18492,
+      -18492000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524503108,
@@ -1209,7 +1209,7 @@ extension America on Never {
     'America/Los_Angeles',
     DynamicTimezoneSpan(
       -1,
-      -28378,
+      -28378000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717640000,
@@ -1226,7 +1226,7 @@ extension America on Never {
     'America/Louisville',
     DynamicTimezoneSpan(
       -1,
-      -20582,
+      -20582000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -1243,7 +1243,7 @@ extension America on Never {
     'America/Lower_Princes',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -1260,7 +1260,7 @@ extension America on Never {
     'America/Maceio',
     DynamicTimezoneSpan(
       -1,
-      -8572,
+      -8572000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767217028,
@@ -1277,7 +1277,7 @@ extension America on Never {
     'America/Managua',
     DynamicTimezoneSpan(
       -1,
-      -20708,
+      -20708000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524500892,
@@ -1294,7 +1294,7 @@ extension America on Never {
     'America/Manaus',
     DynamicTimezoneSpan(
       -1,
-      -14404,
+      -14404000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767211196,
@@ -1311,7 +1311,7 @@ extension America on Never {
     'America/Marigot',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -1328,7 +1328,7 @@ extension America on Never {
     'America/Martinique',
     DynamicTimezoneSpan(
       -1,
-      -14660,
+      -14660000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524506940,
@@ -1345,7 +1345,7 @@ extension America on Never {
     'America/Matamoros',
     DynamicTimezoneSpan(
       -1,
-      -23400,
+      -23400000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514743200,
@@ -1362,7 +1362,7 @@ extension America on Never {
     'America/Mazatlan',
     DynamicTimezoneSpan(
       -1,
-      -25540,
+      -25540000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514739600,
@@ -1379,7 +1379,7 @@ extension America on Never {
     'America/Mendoza',
     DynamicTimezoneSpan(
       -1,
-      -16516,
+      -16516000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372095484,
@@ -1396,7 +1396,7 @@ extension America on Never {
     'America/Menominee',
     DynamicTimezoneSpan(
       -1,
-      -21027,
+      -21027000000,
       'LMT',
       TimezoneSpan.range.min,
       -2659759773,
@@ -1413,7 +1413,7 @@ extension America on Never {
     'America/Merida',
     DynamicTimezoneSpan(
       -1,
-      -21508,
+      -21508000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514743200,
@@ -1430,7 +1430,7 @@ extension America on Never {
     'America/Metlakatla',
     DynamicTimezoneSpan(
       -1,
-      54822,
+      54822000000,
       'LMT',
       TimezoneSpan.range.min,
       -3225223727,
@@ -1447,7 +1447,7 @@ extension America on Never {
     'America/Mexico_City',
     DynamicTimezoneSpan(
       -1,
-      -23796,
+      -23796000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514739600,
@@ -1464,7 +1464,7 @@ extension America on Never {
     'America/Miquelon',
     DynamicTimezoneSpan(
       -1,
-      -13480,
+      -13480000000,
       'LMT',
       TimezoneSpan.range.min,
       -1850328920,
@@ -1481,7 +1481,7 @@ extension America on Never {
     'America/Moncton',
     DynamicTimezoneSpan(
       -1,
-      -15548,
+      -15548000000,
       'LMT',
       TimezoneSpan.range.min,
       -2715882052,
@@ -1498,7 +1498,7 @@ extension America on Never {
     'America/Monterrey',
     DynamicTimezoneSpan(
       -1,
-      -24076,
+      -24076000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514743200,
@@ -1515,7 +1515,7 @@ extension America on Never {
     'America/Montevideo',
     DynamicTimezoneSpan(
       -1,
-      -13491,
+      -13491000000,
       'LMT',
       TimezoneSpan.range.min,
       -1942690509,
@@ -1532,7 +1532,7 @@ extension America on Never {
     'America/Montreal',
     DynamicTimezoneSpan(
       -1,
-      -19052,
+      -19052000000,
       'LMT',
       TimezoneSpan.range.min,
       -2366736148,
@@ -1549,7 +1549,7 @@ extension America on Never {
     'America/Montserrat',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -1566,7 +1566,7 @@ extension America on Never {
     'America/Nassau',
     DynamicTimezoneSpan(
       -1,
-      -19052,
+      -19052000000,
       'LMT',
       TimezoneSpan.range.min,
       -2366736148,
@@ -1583,7 +1583,7 @@ extension America on Never {
     'America/New_York',
     DynamicTimezoneSpan(
       -1,
-      -17762,
+      -17762000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717650800,
@@ -1600,7 +1600,7 @@ extension America on Never {
     'America/Nipigon',
     DynamicTimezoneSpan(
       -1,
-      -19052,
+      -19052000000,
       'LMT',
       TimezoneSpan.range.min,
       -2366736148,
@@ -1617,7 +1617,7 @@ extension America on Never {
     'America/Nome',
     DynamicTimezoneSpan(
       -1,
-      46702,
+      46702000000,
       'LMT',
       TimezoneSpan.range.min,
       -3225223727,
@@ -1634,7 +1634,7 @@ extension America on Never {
     'America/Noronha',
     DynamicTimezoneSpan(
       -1,
-      -7780,
+      -7780000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767217820,
@@ -1651,7 +1651,7 @@ extension America on Never {
     'America/Nuuk',
     DynamicTimezoneSpan(
       -1,
-      -12416,
+      -12416000000,
       'LMT',
       TimezoneSpan.range.min,
       -1686083584,
@@ -1668,7 +1668,7 @@ extension America on Never {
     'America/Ojinaga',
     DynamicTimezoneSpan(
       -1,
-      -25060,
+      -25060000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514739600,
@@ -1685,7 +1685,7 @@ extension America on Never {
     'America/Panama',
     DynamicTimezoneSpan(
       -1,
-      -19088,
+      -19088000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524502512,
@@ -1719,7 +1719,7 @@ extension America on Never {
     'America/Paramaribo',
     DynamicTimezoneSpan(
       -1,
-      -13240,
+      -13240000000,
       'LMT',
       TimezoneSpan.range.min,
       -1861906760,
@@ -1736,7 +1736,7 @@ extension America on Never {
     'America/Phoenix',
     DynamicTimezoneSpan(
       -1,
-      -26898,
+      -26898000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717643600,
@@ -1753,7 +1753,7 @@ extension America on Never {
     'America/Port-au-Prince',
     DynamicTimezoneSpan(
       -1,
-      -17360,
+      -17360000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524504240,
@@ -1770,7 +1770,7 @@ extension America on Never {
     'America/Port_of_Spain',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -1787,7 +1787,7 @@ extension America on Never {
     'America/Porto_Acre',
     DynamicTimezoneSpan(
       -1,
-      -16272,
+      -16272000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767209328,
@@ -1804,7 +1804,7 @@ extension America on Never {
     'America/Porto_Velho',
     DynamicTimezoneSpan(
       -1,
-      -15336,
+      -15336000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767210264,
@@ -1821,7 +1821,7 @@ extension America on Never {
     'America/Puerto_Rico',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -1838,7 +1838,7 @@ extension America on Never {
     'America/Punta_Arenas',
     DynamicTimezoneSpan(
       -1,
-      -17020,
+      -17020000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524504580,
@@ -1855,7 +1855,7 @@ extension America on Never {
     'America/Rainy_River',
     DynamicTimezoneSpan(
       -1,
-      -23316,
+      -23316000000,
       'LMT',
       TimezoneSpan.range.min,
       -2602258284,
@@ -1889,7 +1889,7 @@ extension America on Never {
     'America/Recife',
     DynamicTimezoneSpan(
       -1,
-      -8376,
+      -8376000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767217224,
@@ -1906,7 +1906,7 @@ extension America on Never {
     'America/Regina',
     DynamicTimezoneSpan(
       -1,
-      -25116,
+      -25116000000,
       'LMT',
       TimezoneSpan.range.min,
       -2030202084,
@@ -1940,7 +1940,7 @@ extension America on Never {
     'America/Rio_Branco',
     DynamicTimezoneSpan(
       -1,
-      -16272,
+      -16272000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767209328,
@@ -1957,7 +1957,7 @@ extension America on Never {
     'America/Rosario',
     DynamicTimezoneSpan(
       -1,
-      -15408,
+      -15408000000,
       'LMT',
       TimezoneSpan.range.min,
       -2372096592,
@@ -1974,7 +1974,7 @@ extension America on Never {
     'America/Santa_Isabel',
     DynamicTimezoneSpan(
       -1,
-      -28084,
+      -28084000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514739600,
@@ -1991,7 +1991,7 @@ extension America on Never {
     'America/Santarem',
     DynamicTimezoneSpan(
       -1,
-      -13128,
+      -13128000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767212472,
@@ -2008,7 +2008,7 @@ extension America on Never {
     'America/Santiago',
     DynamicTimezoneSpan(
       -1,
-      -16965,
+      -16965000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524504635,
@@ -2025,7 +2025,7 @@ extension America on Never {
     'America/Santo_Domingo',
     DynamicTimezoneSpan(
       -1,
-      -16776,
+      -16776000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524504824,
@@ -2042,7 +2042,7 @@ extension America on Never {
     'America/Sao_Paulo',
     DynamicTimezoneSpan(
       -1,
-      -11188,
+      -11188000000,
       'LMT',
       TimezoneSpan.range.min,
       -1767214412,
@@ -2059,7 +2059,7 @@ extension America on Never {
     'America/Scoresbysund',
     DynamicTimezoneSpan(
       -1,
-      -5272,
+      -5272000000,
       'LMT',
       TimezoneSpan.range.min,
       -1686090728,
@@ -2076,7 +2076,7 @@ extension America on Never {
     'America/Shiprock',
     DynamicTimezoneSpan(
       -1,
-      -25196,
+      -25196000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717643600,
@@ -2093,7 +2093,7 @@ extension America on Never {
     'America/Sitka',
     DynamicTimezoneSpan(
       -1,
-      53927,
+      53927000000,
       'LMT',
       TimezoneSpan.range.min,
       -3225223727,
@@ -2110,7 +2110,7 @@ extension America on Never {
     'America/St_Barthelemy',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -2127,7 +2127,7 @@ extension America on Never {
     'America/St_Johns',
     DynamicTimezoneSpan(
       -1,
-      -12652,
+      -12652000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713897748,
@@ -2144,7 +2144,7 @@ extension America on Never {
     'America/St_Kitts',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -2161,7 +2161,7 @@ extension America on Never {
     'America/St_Lucia',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -2178,7 +2178,7 @@ extension America on Never {
     'America/St_Thomas',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -2195,7 +2195,7 @@ extension America on Never {
     'America/St_Vincent',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -2212,7 +2212,7 @@ extension America on Never {
     'America/Swift_Current',
     DynamicTimezoneSpan(
       -1,
-      -25880,
+      -25880000000,
       'LMT',
       TimezoneSpan.range.min,
       -2030201320,
@@ -2229,7 +2229,7 @@ extension America on Never {
     'America/Tegucigalpa',
     DynamicTimezoneSpan(
       -1,
-      -20932,
+      -20932000000,
       'LMT',
       TimezoneSpan.range.min,
       -1538503868,
@@ -2246,7 +2246,7 @@ extension America on Never {
     'America/Thule',
     DynamicTimezoneSpan(
       -1,
-      -16508,
+      -16508000000,
       'LMT',
       TimezoneSpan.range.min,
       -1686079492,
@@ -2263,7 +2263,7 @@ extension America on Never {
     'America/Thunder_Bay',
     DynamicTimezoneSpan(
       -1,
-      -19052,
+      -19052000000,
       'LMT',
       TimezoneSpan.range.min,
       -2366736148,
@@ -2280,7 +2280,7 @@ extension America on Never {
     'America/Tijuana',
     DynamicTimezoneSpan(
       -1,
-      -28084,
+      -28084000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514739600,
@@ -2297,7 +2297,7 @@ extension America on Never {
     'America/Toronto',
     DynamicTimezoneSpan(
       -1,
-      -19052,
+      -19052000000,
       'LMT',
       TimezoneSpan.range.min,
       -2366736148,
@@ -2314,7 +2314,7 @@ extension America on Never {
     'America/Tortola',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -2331,7 +2331,7 @@ extension America on Never {
     'America/Vancouver',
     DynamicTimezoneSpan(
       -1,
-      -29548,
+      -29548000000,
       'LMT',
       TimezoneSpan.range.min,
       -2713880852,
@@ -2348,7 +2348,7 @@ extension America on Never {
     'America/Virgin',
     DynamicTimezoneSpan(
       -1,
-      -15865,
+      -15865000000,
       'LMT',
       TimezoneSpan.range.min,
       -2233035335,
@@ -2365,7 +2365,7 @@ extension America on Never {
     'America/Whitehorse',
     DynamicTimezoneSpan(
       -1,
-      -32412,
+      -32412000000,
       'LMT',
       TimezoneSpan.range.min,
       -2188997988,
@@ -2382,7 +2382,7 @@ extension America on Never {
     'America/Winnipeg',
     DynamicTimezoneSpan(
       -1,
-      -23316,
+      -23316000000,
       'LMT',
       TimezoneSpan.range.min,
       -2602258284,
@@ -2399,7 +2399,7 @@ extension America on Never {
     'America/Yakutat',
     DynamicTimezoneSpan(
       -1,
-      52865,
+      52865000000,
       'LMT',
       TimezoneSpan.range.min,
       -3225223727,
@@ -2416,7 +2416,7 @@ extension America on Never {
     'America/Yellowknife',
     DynamicTimezoneSpan(
       -1,
-      -27232,
+      -27232000000,
       'LMT',
       TimezoneSpan.range.min,
       -1998663968,

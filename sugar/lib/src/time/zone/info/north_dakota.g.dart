@@ -19,7 +19,7 @@ extension NorthDakota on Never {
     'America/North_Dakota/Beulah',
     DynamicTimezoneSpan(
       -1,
-      -24427,
+      -24427000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717643600,
@@ -36,7 +36,7 @@ extension NorthDakota on Never {
     'America/North_Dakota/Center',
     DynamicTimezoneSpan(
       -1,
-      -24312,
+      -24312000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717643600,
@@ -53,7 +53,7 @@ extension NorthDakota on Never {
     'America/North_Dakota/New_Salem',
     DynamicTimezoneSpan(
       -1,
-      -24339,
+      -24339000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717643600,

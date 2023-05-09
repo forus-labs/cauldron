@@ -19,7 +19,7 @@ extension Mexico on Never {
     'Mexico/BajaNorte',
     DynamicTimezoneSpan(
       -1,
-      -28084,
+      -28084000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514739600,
@@ -36,7 +36,7 @@ extension Mexico on Never {
     'Mexico/BajaSur',
     DynamicTimezoneSpan(
       -1,
-      -25540,
+      -25540000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514739600,
@@ -53,7 +53,7 @@ extension Mexico on Never {
     'Mexico/General',
     DynamicTimezoneSpan(
       -1,
-      -23796,
+      -23796000000,
       'LMT',
       TimezoneSpan.range.min,
       -1514739600,

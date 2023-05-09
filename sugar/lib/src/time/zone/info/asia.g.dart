@@ -19,7 +19,7 @@ extension Asia on Never {
     'Asia/Aden',
     DynamicTimezoneSpan(
       -1,
-      11212,
+      11212000000,
       'LMT',
       TimezoneSpan.range.min,
       -719636812,
@@ -36,7 +36,7 @@ extension Asia on Never {
     'Asia/Almaty',
     DynamicTimezoneSpan(
       -1,
-      18468,
+      18468000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441170468,
@@ -53,7 +53,7 @@ extension Asia on Never {
     'Asia/Amman',
     DynamicTimezoneSpan(
       -1,
-      8624,
+      8624000000,
       'LMT',
       TimezoneSpan.range.min,
       -1230776624,
@@ -70,7 +70,7 @@ extension Asia on Never {
     'Asia/Anadyr',
     DynamicTimezoneSpan(
       -1,
-      42596,
+      42596000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441194596,
@@ -87,7 +87,7 @@ extension Asia on Never {
     'Asia/Aqtau',
     DynamicTimezoneSpan(
       -1,
-      12064,
+      12064000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441164064,
@@ -104,7 +104,7 @@ extension Asia on Never {
     'Asia/Aqtobe',
     DynamicTimezoneSpan(
       -1,
-      13720,
+      13720000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441165720,
@@ -121,7 +121,7 @@ extension Asia on Never {
     'Asia/Ashgabat',
     DynamicTimezoneSpan(
       -1,
-      14012,
+      14012000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441166012,
@@ -138,7 +138,7 @@ extension Asia on Never {
     'Asia/Ashkhabad',
     DynamicTimezoneSpan(
       -1,
-      14012,
+      14012000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441166012,
@@ -155,7 +155,7 @@ extension Asia on Never {
     'Asia/Atyrau',
     DynamicTimezoneSpan(
       -1,
-      12464,
+      12464000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441164464,
@@ -172,7 +172,7 @@ extension Asia on Never {
     'Asia/Baghdad',
     DynamicTimezoneSpan(
       -1,
-      10660,
+      10660000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524532260,
@@ -189,7 +189,7 @@ extension Asia on Never {
     'Asia/Bahrain',
     DynamicTimezoneSpan(
       -1,
-      12368,
+      12368000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577935568,
@@ -206,7 +206,7 @@ extension Asia on Never {
     'Asia/Baku',
     DynamicTimezoneSpan(
       -1,
-      11964,
+      11964000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441163964,
@@ -223,7 +223,7 @@ extension Asia on Never {
     'Asia/Bangkok',
     DynamicTimezoneSpan(
       -1,
-      24124,
+      24124000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840164924,
@@ -240,7 +240,7 @@ extension Asia on Never {
     'Asia/Barnaul',
     DynamicTimezoneSpan(
       -1,
-      20100,
+      20100000000,
       'LMT',
       TimezoneSpan.range.min,
       -1579844100,
@@ -257,7 +257,7 @@ extension Asia on Never {
     'Asia/Beirut',
     DynamicTimezoneSpan(
       -1,
-      8520,
+      8520000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840149320,
@@ -274,7 +274,7 @@ extension Asia on Never {
     'Asia/Bishkek',
     DynamicTimezoneSpan(
       -1,
-      17904,
+      17904000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441169904,
@@ -291,7 +291,7 @@ extension Asia on Never {
     'Asia/Brunei',
     DynamicTimezoneSpan(
       -1,
-      26480,
+      26480000000,
       'LMT',
       TimezoneSpan.range.min,
       -1383463280,
@@ -308,7 +308,7 @@ extension Asia on Never {
     'Asia/Calcutta',
     DynamicTimezoneSpan(
       -1,
-      21208,
+      21208000000,
       'LMT',
       TimezoneSpan.range.min,
       -3645237208,
@@ -325,7 +325,7 @@ extension Asia on Never {
     'Asia/Chita',
     DynamicTimezoneSpan(
       -1,
-      27232,
+      27232000000,
       'LMT',
       TimezoneSpan.range.min,
       -1579419232,
@@ -342,7 +342,7 @@ extension Asia on Never {
     'Asia/Choibalsan',
     DynamicTimezoneSpan(
       -1,
-      27480,
+      27480000000,
       'LMT',
       TimezoneSpan.range.min,
       -2032933080,
@@ -359,7 +359,7 @@ extension Asia on Never {
     'Asia/Chongqing',
     DynamicTimezoneSpan(
       -1,
-      29143,
+      29143000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177481943,
@@ -376,7 +376,7 @@ extension Asia on Never {
     'Asia/Chungking',
     DynamicTimezoneSpan(
       -1,
-      29143,
+      29143000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177481943,
@@ -393,7 +393,7 @@ extension Asia on Never {
     'Asia/Colombo',
     DynamicTimezoneSpan(
       -1,
-      19164,
+      19164000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840159964,
@@ -410,7 +410,7 @@ extension Asia on Never {
     'Asia/Dacca',
     DynamicTimezoneSpan(
       -1,
-      21700,
+      21700000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524543300,
@@ -427,7 +427,7 @@ extension Asia on Never {
     'Asia/Damascus',
     DynamicTimezoneSpan(
       -1,
-      8712,
+      8712000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577931912,
@@ -444,7 +444,7 @@ extension Asia on Never {
     'Asia/Dhaka',
     DynamicTimezoneSpan(
       -1,
-      21700,
+      21700000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524543300,
@@ -461,7 +461,7 @@ extension Asia on Never {
     'Asia/Dili',
     DynamicTimezoneSpan(
       -1,
-      30140,
+      30140000000,
       'LMT',
       TimezoneSpan.range.min,
       -1830414140,
@@ -478,7 +478,7 @@ extension Asia on Never {
     'Asia/Dubai',
     DynamicTimezoneSpan(
       -1,
-      13272,
+      13272000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577936472,
@@ -495,7 +495,7 @@ extension Asia on Never {
     'Asia/Dushanbe',
     DynamicTimezoneSpan(
       -1,
-      16512,
+      16512000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441168512,
@@ -512,7 +512,7 @@ extension Asia on Never {
     'Asia/Famagusta',
     DynamicTimezoneSpan(
       -1,
-      8148,
+      8148000000,
       'LMT',
       TimezoneSpan.range.min,
       -1518920148,
@@ -529,7 +529,7 @@ extension Asia on Never {
     'Asia/Gaza',
     DynamicTimezoneSpan(
       -1,
-      8272,
+      8272000000,
       'LMT',
       TimezoneSpan.range.min,
       -2185409872,
@@ -546,7 +546,7 @@ extension Asia on Never {
     'Asia/Harbin',
     DynamicTimezoneSpan(
       -1,
-      29143,
+      29143000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177481943,
@@ -563,7 +563,7 @@ extension Asia on Never {
     'Asia/Hebron',
     DynamicTimezoneSpan(
       -1,
-      8423,
+      8423000000,
       'LMT',
       TimezoneSpan.range.min,
       -2185410023,
@@ -580,7 +580,7 @@ extension Asia on Never {
     'Asia/Ho_Chi_Minh',
     DynamicTimezoneSpan(
       -1,
-      25590,
+      25590000000,
       'LMT',
       TimezoneSpan.range.min,
       -2004073590,
@@ -597,7 +597,7 @@ extension Asia on Never {
     'Asia/Hong_Kong',
     DynamicTimezoneSpan(
       -1,
-      27402,
+      27402000000,
       'LMT',
       TimezoneSpan.range.min,
       -2056690800,
@@ -614,7 +614,7 @@ extension Asia on Never {
     'Asia/Hovd',
     DynamicTimezoneSpan(
       -1,
-      21996,
+      21996000000,
       'LMT',
       TimezoneSpan.range.min,
       -2032927596,
@@ -631,7 +631,7 @@ extension Asia on Never {
     'Asia/Irkutsk',
     DynamicTimezoneSpan(
       -1,
-      25025,
+      25025000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840165825,
@@ -648,7 +648,7 @@ extension Asia on Never {
     'Asia/Istanbul',
     DynamicTimezoneSpan(
       -1,
-      6952,
+      6952000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840147752,
@@ -665,7 +665,7 @@ extension Asia on Never {
     'Asia/Jakarta',
     DynamicTimezoneSpan(
       -1,
-      25632,
+      25632000000,
       'LMT',
       TimezoneSpan.range.min,
       -3231299232,
@@ -682,7 +682,7 @@ extension Asia on Never {
     'Asia/Jayapura',
     DynamicTimezoneSpan(
       -1,
-      33768,
+      33768000000,
       'LMT',
       TimezoneSpan.range.min,
       -1172913768,
@@ -699,7 +699,7 @@ extension Asia on Never {
     'Asia/Jerusalem',
     DynamicTimezoneSpan(
       -1,
-      8454,
+      8454000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840149254,
@@ -716,7 +716,7 @@ extension Asia on Never {
     'Asia/Kabul',
     DynamicTimezoneSpan(
       -1,
-      16608,
+      16608000000,
       'LMT',
       TimezoneSpan.range.min,
       -2524538208,
@@ -733,7 +733,7 @@ extension Asia on Never {
     'Asia/Kamchatka',
     DynamicTimezoneSpan(
       -1,
-      38076,
+      38076000000,
       'LMT',
       TimezoneSpan.range.min,
       -1487759676,
@@ -750,7 +750,7 @@ extension Asia on Never {
     'Asia/Karachi',
     DynamicTimezoneSpan(
       -1,
-      16092,
+      16092000000,
       'LMT',
       TimezoneSpan.range.min,
       -1988166492,
@@ -767,7 +767,7 @@ extension Asia on Never {
     'Asia/Kashgar',
     DynamicTimezoneSpan(
       -1,
-      21020,
+      21020000000,
       'LMT',
       TimezoneSpan.range.min,
       -1325483420,
@@ -784,7 +784,7 @@ extension Asia on Never {
     'Asia/Kathmandu',
     DynamicTimezoneSpan(
       -1,
-      20476,
+      20476000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577943676,
@@ -801,7 +801,7 @@ extension Asia on Never {
     'Asia/Katmandu',
     DynamicTimezoneSpan(
       -1,
-      20476,
+      20476000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577943676,
@@ -818,7 +818,7 @@ extension Asia on Never {
     'Asia/Khandyga',
     DynamicTimezoneSpan(
       -1,
-      32533,
+      32533000000,
       'LMT',
       TimezoneSpan.range.min,
       -1579424533,
@@ -835,7 +835,7 @@ extension Asia on Never {
     'Asia/Kolkata',
     DynamicTimezoneSpan(
       -1,
-      21208,
+      21208000000,
       'LMT',
       TimezoneSpan.range.min,
       -3645237208,
@@ -852,7 +852,7 @@ extension Asia on Never {
     'Asia/Krasnoyarsk',
     DynamicTimezoneSpan(
       -1,
-      22286,
+      22286000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577513486,
@@ -869,7 +869,7 @@ extension Asia on Never {
     'Asia/Kuala_Lumpur',
     DynamicTimezoneSpan(
       -1,
-      24925,
+      24925000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177477725,
@@ -886,7 +886,7 @@ extension Asia on Never {
     'Asia/Kuching',
     DynamicTimezoneSpan(
       -1,
-      26480,
+      26480000000,
       'LMT',
       TimezoneSpan.range.min,
       -1383463280,
@@ -903,7 +903,7 @@ extension Asia on Never {
     'Asia/Kuwait',
     DynamicTimezoneSpan(
       -1,
-      11212,
+      11212000000,
       'LMT',
       TimezoneSpan.range.min,
       -719636812,
@@ -920,7 +920,7 @@ extension Asia on Never {
     'Asia/Macao',
     DynamicTimezoneSpan(
       -1,
-      27250,
+      27250000000,
       'LMT',
       TimezoneSpan.range.min,
       -2056692850,
@@ -937,7 +937,7 @@ extension Asia on Never {
     'Asia/Macau',
     DynamicTimezoneSpan(
       -1,
-      27250,
+      27250000000,
       'LMT',
       TimezoneSpan.range.min,
       -2056692850,
@@ -954,7 +954,7 @@ extension Asia on Never {
     'Asia/Magadan',
     DynamicTimezoneSpan(
       -1,
-      36192,
+      36192000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441188192,
@@ -971,7 +971,7 @@ extension Asia on Never {
     'Asia/Makassar',
     DynamicTimezoneSpan(
       -1,
-      28656,
+      28656000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577951856,
@@ -988,7 +988,7 @@ extension Asia on Never {
     'Asia/Manila',
     DynamicTimezoneSpan(
       -1,
-      -57360,
+      -57360000000,
       'LMT',
       TimezoneSpan.range.min,
       -3944621040,
@@ -1005,7 +1005,7 @@ extension Asia on Never {
     'Asia/Muscat',
     DynamicTimezoneSpan(
       -1,
-      13272,
+      13272000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577936472,
@@ -1022,7 +1022,7 @@ extension Asia on Never {
     'Asia/Nicosia',
     DynamicTimezoneSpan(
       -1,
-      8008,
+      8008000000,
       'LMT',
       TimezoneSpan.range.min,
       -1518920008,
@@ -1039,7 +1039,7 @@ extension Asia on Never {
     'Asia/Novokuznetsk',
     DynamicTimezoneSpan(
       -1,
-      20928,
+      20928000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441259328,
@@ -1056,7 +1056,7 @@ extension Asia on Never {
     'Asia/Novosibirsk',
     DynamicTimezoneSpan(
       -1,
-      19900,
+      19900000000,
       'LMT',
       TimezoneSpan.range.min,
       -1579476700,
@@ -1073,7 +1073,7 @@ extension Asia on Never {
     'Asia/Omsk',
     DynamicTimezoneSpan(
       -1,
-      17610,
+      17610000000,
       'LMT',
       TimezoneSpan.range.min,
       -1582088010,
@@ -1090,7 +1090,7 @@ extension Asia on Never {
     'Asia/Oral',
     DynamicTimezoneSpan(
       -1,
-      12324,
+      12324000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441164324,
@@ -1107,7 +1107,7 @@ extension Asia on Never {
     'Asia/Phnom_Penh',
     DynamicTimezoneSpan(
       -1,
-      24124,
+      24124000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840164924,
@@ -1124,7 +1124,7 @@ extension Asia on Never {
     'Asia/Pontianak',
     DynamicTimezoneSpan(
       -1,
-      26240,
+      26240000000,
       'LMT',
       TimezoneSpan.range.min,
       -1946186240,
@@ -1141,7 +1141,7 @@ extension Asia on Never {
     'Asia/Pyongyang',
     DynamicTimezoneSpan(
       -1,
-      30180,
+      30180000000,
       'LMT',
       TimezoneSpan.range.min,
       -1948782180,
@@ -1158,7 +1158,7 @@ extension Asia on Never {
     'Asia/Qatar',
     DynamicTimezoneSpan(
       -1,
-      12368,
+      12368000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577935568,
@@ -1175,7 +1175,7 @@ extension Asia on Never {
     'Asia/Qostanay',
     DynamicTimezoneSpan(
       -1,
-      15268,
+      15268000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441167268,
@@ -1192,7 +1192,7 @@ extension Asia on Never {
     'Asia/Qyzylorda',
     DynamicTimezoneSpan(
       -1,
-      15712,
+      15712000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441167712,
@@ -1209,7 +1209,7 @@ extension Asia on Never {
     'Asia/Rangoon',
     DynamicTimezoneSpan(
       -1,
-      23087,
+      23087000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840163887,
@@ -1226,7 +1226,7 @@ extension Asia on Never {
     'Asia/Riyadh',
     DynamicTimezoneSpan(
       -1,
-      11212,
+      11212000000,
       'LMT',
       TimezoneSpan.range.min,
       -719636812,
@@ -1243,7 +1243,7 @@ extension Asia on Never {
     'Asia/Saigon',
     DynamicTimezoneSpan(
       -1,
-      25590,
+      25590000000,
       'LMT',
       TimezoneSpan.range.min,
       -2004073590,
@@ -1260,7 +1260,7 @@ extension Asia on Never {
     'Asia/Sakhalin',
     DynamicTimezoneSpan(
       -1,
-      34248,
+      34248000000,
       'LMT',
       TimezoneSpan.range.min,
       -2031039048,
@@ -1277,7 +1277,7 @@ extension Asia on Never {
     'Asia/Samarkand',
     DynamicTimezoneSpan(
       -1,
-      16073,
+      16073000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441168073,
@@ -1294,7 +1294,7 @@ extension Asia on Never {
     'Asia/Seoul',
     DynamicTimezoneSpan(
       -1,
-      30472,
+      30472000000,
       'LMT',
       TimezoneSpan.range.min,
       -1948782472,
@@ -1311,7 +1311,7 @@ extension Asia on Never {
     'Asia/Shanghai',
     DynamicTimezoneSpan(
       -1,
-      29143,
+      29143000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177481943,
@@ -1328,7 +1328,7 @@ extension Asia on Never {
     'Asia/Singapore',
     DynamicTimezoneSpan(
       -1,
-      24925,
+      24925000000,
       'LMT',
       TimezoneSpan.range.min,
       -2177477725,
@@ -1345,7 +1345,7 @@ extension Asia on Never {
     'Asia/Srednekolymsk',
     DynamicTimezoneSpan(
       -1,
-      36892,
+      36892000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441188892,
@@ -1362,7 +1362,7 @@ extension Asia on Never {
     'Asia/Taipei',
     DynamicTimezoneSpan(
       -1,
-      29160,
+      29160000000,
       'LMT',
       TimezoneSpan.range.min,
       -2335248360,
@@ -1379,7 +1379,7 @@ extension Asia on Never {
     'Asia/Tashkent',
     DynamicTimezoneSpan(
       -1,
-      16631,
+      16631000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441168631,
@@ -1396,7 +1396,7 @@ extension Asia on Never {
     'Asia/Tbilisi',
     DynamicTimezoneSpan(
       -1,
-      10751,
+      10751000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840151551,
@@ -1413,7 +1413,7 @@ extension Asia on Never {
     'Asia/Tehran',
     DynamicTimezoneSpan(
       -1,
-      12344,
+      12344000000,
       'LMT',
       TimezoneSpan.range.min,
       -1704165944,
@@ -1430,7 +1430,7 @@ extension Asia on Never {
     'Asia/Tel_Aviv',
     DynamicTimezoneSpan(
       -1,
-      8454,
+      8454000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840149254,
@@ -1447,7 +1447,7 @@ extension Asia on Never {
     'Asia/Thimbu',
     DynamicTimezoneSpan(
       -1,
-      21516,
+      21516000000,
       'LMT',
       TimezoneSpan.range.min,
       -706341516,
@@ -1464,7 +1464,7 @@ extension Asia on Never {
     'Asia/Thimphu',
     DynamicTimezoneSpan(
       -1,
-      21516,
+      21516000000,
       'LMT',
       TimezoneSpan.range.min,
       -706341516,
@@ -1481,7 +1481,7 @@ extension Asia on Never {
     'Asia/Tokyo',
     DynamicTimezoneSpan(
       -1,
-      33539,
+      33539000000,
       'LMT',
       TimezoneSpan.range.min,
       -2587712400,
@@ -1498,7 +1498,7 @@ extension Asia on Never {
     'Asia/Tomsk',
     DynamicTimezoneSpan(
       -1,
-      20391,
+      20391000000,
       'LMT',
       TimezoneSpan.range.min,
       -1578807591,
@@ -1515,7 +1515,7 @@ extension Asia on Never {
     'Asia/Ujung_Pandang',
     DynamicTimezoneSpan(
       -1,
-      28656,
+      28656000000,
       'LMT',
       TimezoneSpan.range.min,
       -1577951856,
@@ -1532,7 +1532,7 @@ extension Asia on Never {
     'Asia/Ulaanbaatar',
     DynamicTimezoneSpan(
       -1,
-      25652,
+      25652000000,
       'LMT',
       TimezoneSpan.range.min,
       -2032931252,
@@ -1549,7 +1549,7 @@ extension Asia on Never {
     'Asia/Ulan_Bator',
     DynamicTimezoneSpan(
       -1,
-      25652,
+      25652000000,
       'LMT',
       TimezoneSpan.range.min,
       -2032931252,
@@ -1566,7 +1566,7 @@ extension Asia on Never {
     'Asia/Urumqi',
     DynamicTimezoneSpan(
       -1,
-      21020,
+      21020000000,
       'LMT',
       TimezoneSpan.range.min,
       -1325483420,
@@ -1583,7 +1583,7 @@ extension Asia on Never {
     'Asia/Ust-Nera',
     DynamicTimezoneSpan(
       -1,
-      34374,
+      34374000000,
       'LMT',
       TimezoneSpan.range.min,
       -1579426374,
@@ -1600,7 +1600,7 @@ extension Asia on Never {
     'Asia/Vientiane',
     DynamicTimezoneSpan(
       -1,
-      24124,
+      24124000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840164924,
@@ -1617,7 +1617,7 @@ extension Asia on Never {
     'Asia/Vladivostok',
     DynamicTimezoneSpan(
       -1,
-      31651,
+      31651000000,
       'LMT',
       TimezoneSpan.range.min,
       -1487321251,
@@ -1634,7 +1634,7 @@ extension Asia on Never {
     'Asia/Yakutsk',
     DynamicTimezoneSpan(
       -1,
-      31138,
+      31138000000,
       'LMT',
       TimezoneSpan.range.min,
       -1579423138,
@@ -1651,7 +1651,7 @@ extension Asia on Never {
     'Asia/Yangon',
     DynamicTimezoneSpan(
       -1,
-      23087,
+      23087000000,
       'LMT',
       TimezoneSpan.range.min,
       -2840163887,
@@ -1668,7 +1668,7 @@ extension Asia on Never {
     'Asia/Yekaterinburg',
     DynamicTimezoneSpan(
       -1,
-      14553,
+      14553000000,
       'LMT',
       TimezoneSpan.range.min,
       -1688270553,
@@ -1685,7 +1685,7 @@ extension Asia on Never {
     'Asia/Yerevan',
     DynamicTimezoneSpan(
       -1,
-      10680,
+      10680000000,
       'LMT',
       TimezoneSpan.range.min,
       -1441162680,

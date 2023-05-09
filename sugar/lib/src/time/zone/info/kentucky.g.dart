@@ -19,7 +19,7 @@ extension Kentucky on Never {
     'America/Kentucky/Louisville',
     DynamicTimezoneSpan(
       -1,
-      -20582,
+      -20582000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
@@ -36,7 +36,7 @@ extension Kentucky on Never {
     'America/Kentucky/Monticello',
     DynamicTimezoneSpan(
       -1,
-      -20364,
+      -20364000000,
       'LMT',
       TimezoneSpan.range.min,
       -2717647200,
