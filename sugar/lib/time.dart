@@ -1,33 +1,31 @@
 /// {@category Time}
 ///
-/// Defines new types for representing and manipulating dates, times and timezones.
+/// The main API for dates, times and timezones.
 ///
-/// All classes in this library are based on the ISO calendar system. It is a non-goal to support other calendar systems.
-/// Furthermore, they are all immutable.
+/// All classes in this library are based on the ISO calendar system. It is not a goal to support other calendar systems.
 ///
-/// All dates and times are stored to microsecond precision. Following ISO-8601, all weeks start on a Monday and end on
-/// a Sunday.
+/// All dates and times are all immutable. They are stored to microsecond precision. Weeks start on Monday and end on Sunday.
 ///
-/// The classes do not accept or return native [DateTime]s except for the occasional `toNative()` function. See
-/// `sugar.time.interop` for working with native [DateTime]s.
+/// Except for the `toNative()` functions, classes do not use or return [DateTime]s.  See `sugar.time.interop` for
+/// working with native `DateTime`s.
 ///
 /// ## Dates and times
 /// [LocalDate] stores a date without a time such as `2023-05-08`.
 ///
 /// [LocalTime] stores a time without a date such as `11:30`.
 ///
-/// [LocalDateTime] stores a date and time such as `2023-05-08T11:30`.
+/// [LocalDateTime] stores a date-time such as `2023-05-08 11:30`.
 ///
-/// [OffsetTime] stores a time and fixed offset from UTC without a date such as `11:30+08:00`.
+/// [OffsetTime] stores a time with a fixed offset from UTC such as `11:30+08:00`.
 ///
-/// [ZonedDateTime] stores a date and time with a timezone such as `2023-05-08T11:30+08:00[Asia/Singapore]`. It is useful
-/// for representing dates and times with a dynamic offset, typically due to Daylight saving time (DST). When possible,
-/// a simpler class without a timezone should be used.
+/// [ZonedDateTime] stores a date-time and timezone such as `2023-05-08T11:30+08:00[Asia/Singapore]`. It is useful
+/// for representing date-times with a dynamic offset, typically due to Daylight Saving Time (DST). A class without a
+/// timezone should be preferred whenever possible.
 ///
-/// ## [Duration]s vs [Period]s
-/// While a [Duration] stores a fixed amount of time in microseconds, a [Period] stores the conceptual units of time.
-/// For example, a duration of 1 day is always 24 hours while a period of 1 day is 1 "day". Consequently, they produce
-/// different results when added to a [DateTime] or [ZonedDateTime] nearing a DST transition.
+/// ## Durations and Periods
+/// A [Duration] stores a fixed amount of time in microseconds while a [Period] stores the conceptual units of time.
+/// For a example, a duration of 1 day is always 86,400,000,000 microseconds while a period of 1 day is 1 "day".
+/// Adding either to a [DateTime] or [ZonedDateTime] nearing a DST transition can produce different results.
 ///
 /// ```dart
 /// // DST occurs at 2023-03-12 02:00

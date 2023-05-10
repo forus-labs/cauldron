@@ -1,12 +1,12 @@
 coverage:
   status:
     project:
-      default:
-        flags: [off]
+      default: false
       flint:
         flags: [flint]
       sugar:
         flags: [sugar]
+    patch: false
 
 ignore:
   - "**/flutter-tools"
