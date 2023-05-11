@@ -1,10 +1,11 @@
 import 'package:sugar/sugar.dart';
 
-/// A [TimezoneSpan] contains information about a timezone between two points in time. In most cases, [TimezoneSpan]s
-/// represent the "summer" and "winter" times of a timezone with daylight savings time.
+/// A [TimezoneSpan] contains information about a timezone between two points in time.
+///
+/// In most cases, [TimezoneSpan]s represent the "summer" and "winter" times of a timezone with Daylight Saving Time.
 abstract class TimezoneSpan {
 
-  /// The valid range of the start and end microseconds since epoch.
+  /// The valid range of the start and end microseconds, inclusive.
   static final Interval<int> range = Interval.closed(-8640000000000000000, 8640000000000000000);
 
   /// The abbreviation, i.e. `EST`.

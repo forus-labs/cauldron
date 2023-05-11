@@ -3,7 +3,7 @@ import 'package:sugar/src/time/offset.dart';
 import 'package:sugar/src/time/temporal_unit.dart';
 import 'package:sugar/time_zone.dart';
 
-/// A [FixedTimezone] with a fixed abbreviation and offset throughout points in time.
+/// A [FixedTimezone] that has a fixed abbreviation and offset throughout all points in time.
 class FixedTimezone extends Timezone {
 
   final FixedTimezoneSpan _span;
@@ -19,7 +19,7 @@ class FixedTimezone extends Timezone {
 
 }
 
-/// A [TimezoneSpan] for a TZ database timezone with a fixed offset throughout points in time.
+/// A [TimezoneSpan] for a TZ database timezone with a fixed offset throughout all points in time.
 class FixedTimezoneSpan extends TimezoneSpan {
 
   @override

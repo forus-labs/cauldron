@@ -4,7 +4,9 @@ import 'package:meta/meta.dart';
 
 import 'package:sugar/sugar.dart';
 
-/// A [Timezone] with abbreviations and/or offsets that vary throughout points in time.
+/// A [Timezone] with abbreviations and offsets that vary throughout points in time.
+///
+/// This is typically a geographical location.
 @sealed class DynamicTimezone extends Timezone {
 
   /// The span before the first timezone transition.
@@ -27,7 +29,7 @@ import 'package:sugar/sugar.dart';
 
   /// Creates a [DynamicTimezone].
   ///
-  /// ## Contract:
+  /// ## Contract
   /// The transitions, offsets, abbreviations and DSTs should be non-empty and have the same length.
   DynamicTimezone(super._name, this._initial, this._transitions, this._offsets, this._unit, this._abbreviations, this._dsts):
     _range = const Interval.empty(0),
