@@ -3,24 +3,23 @@ import 'package:sugar/src/time/temporal_unit.dart';
 
 import 'package:sugar/sugar.dart';
 
-/// Provides functions for working with Dart's [DateTime]s.
+/// Provides functions for working with in-built [DateTime]s.
 ///
-/// These functions should only be used when it is not feasible to use the datetime types provided in `sugar.time`.
+/// These functions should only be used when it is not feasible to use `sugar.time`.
 extension DateTimes on DateTime {
 
-  /// Returns a copy of this [DateTime] with the given time added. This method behaves similarly to [+]. Unlike [add] which
-  /// adds an exact number of microseconds, this method adds the conceptual units of time. Consequentially, the resulting
-  /// [DateTime] may be affected by DST.
+  /// Returns a copy of this with the units of time added.
+  ///
+  /// This function adds the conceptual units of time like [+].
   ///
   /// ```dart
   /// // DST occurs at 2023-03-12 02:00
   /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
   ///
-  /// // We assume the current timezone is `America/Detroit`.
+  /// // Assume the current timezone is `America/Detroit`.
   /// final datetime = DateTime(2023, 3, 12);
   ///
-  /// datetime.plus(days: 1); // 2023-03-13 00:00
-  ///
+  /// datetime.plus(days: 1);          // 2023-03-13 00:00
   /// datetime.add(Duration(days: 1)); // 2023-03-13 01:00
   /// ```
   @useResult DateTime plus({
@@ -43,19 +42,18 @@ extension DateTimes on DateTime {
     microsecond: microsecond + microseconds,
   );
 
-  /// Returns a copy of this [DateTime] with the given time subtracted. This method behaves similarly to [-]. Unlike
-  /// [subtract] which subtracts an exact number of microseconds, this method subtracts the conceptual units of time.
-  /// Consequentially, the resulting [DateTime] may be affected by DST.
+  /// Returns a copy of this with the units of time subtracted.
+  ///
+  /// This function subtracts the conceptual units of time like [-].
   ///
   /// ```dart
   /// // DST occurs at 2023-03-12 02:00
   /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
   ///
-  /// // We assume the current timezone is `America/Detroit`.
+  /// // Assume the current timezone is `America/Detroit`.
   /// final datetime = DateTime(2023, 3, 13);
   ///
-  /// datetime.minus(days: 1); // 2023-03-12 00:00
-  ///
+  /// datetime.minus(days: 1);              // 2023-03-12 00:00
   /// datetime.subtract(Duration(days: 1)); // 2023-03-11 23:00
   /// ```
   @useResult DateTime minus({
@@ -78,20 +76,19 @@ extension DateTimes on DateTime {
     microsecond: microsecond - microseconds,
   );
 
-  /// Returns a copy of this [DateTime] with the given time added. This method behaves similarly to [plus]. Unlike [add]
-  /// which adds an exact number of microseconds, this method adds the conceptual units of time. Consequentially, the
-  /// resulting [DateTime] may be affected by DST.
+  /// Returns a copy of this with the [period] added.
+  ///
+  /// This function adds the conceptual units of time unlike [add].
   ///
   /// ```dart
   /// // DST occurs at 2023-03-12 02:00
   /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
   ///
-  /// // We assume the current timezone is `America/Detroit`.
-  /// final datetime = DateTime(2023, 3, 12);
+  /// // Assume the current timezone is `America/Detroit`.
+  /// final foo = DateTime(2023, 3, 12);
   ///
-  /// datetime + Period(days: 1); // 2023-03-13 00:00
-  ///
-  /// datetime.add(Duration(days: 1)); // 2023-03-13 01:00
+  /// foo + Period(days: 1);      // 2023-03-13 00:00
+  /// foo.add(Duration(days: 1)); // 2023-03-13 01:00
   /// ```
   @useResult DateTime operator + (Period period) => copyWith(
     year: year + period.years,
@@ -104,20 +101,19 @@ extension DateTimes on DateTime {
     microsecond: microsecond + period.microseconds,
   );
 
-  /// Returns a copy of this [DateTime] with the given time subtracted. This method behaves similarly to [minus]. Unlike
-  /// [subtract] which subtracts an exact number of microseconds, this method subtracts the conceptual units of time.
-  /// Consequentially, the resulting [DateTime] may be affected by DST.
+  /// Returns a copy of this with the [period] subtracted.
+  ///
+  /// This function adds the conceptual units of time unlike [subtract].
   ///
   /// ```dart
   /// // DST occurs at 2023-03-12 02:00
   /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
   ///
-  /// // We assume the current timezone is `America/Detroit`.
-  /// final datetime = DateTime(2023, 3, 13);
+  /// // Assume the current timezone is `America/Detroit`.
+  /// final foo = DateTime(2023, 3, 12);
   ///
-  /// datetime - Period(days: 1); // 2023-03-12 00:00
-  ///
-  /// datetime.subtract(Duration(days: 1)); // 2023-03-11 23:00
+  /// foo - Period(days: 1);           // 2023-03-12 00:00-04:00
+  /// foo.subtract(Duration(days: 1)); // 2023-03-11 23:00-04:00
   /// ```
   @useResult DateTime operator - (Period period) => copyWith(
     year: year - period.years,
@@ -131,44 +127,49 @@ extension DateTimes on DateTime {
   );
 
 
-  /// Returns a copy of this [DateTime] truncated to the given temporal unit.
+  /// Returns a copy of this truncated to the [TemporalUnit].
   ///
   /// ```dart
-  /// DateTime(2023, 4, 1).truncate(to: TemporalUnit.years); // 2023-01-01
+  /// DateTime(2023, 4, 15).truncate(to: DateUnit.months); // 2023-04-01 00:00
   /// ```
   @useResult DateTime truncate({required TemporalUnit to}) => _adjust(to, (time) => time);
 
-  /// Returns a copy of this [DateTime] with the given temporal unit rounded to the nearest value. Throws a [RangeError]
-  /// if [value] is not positive.
+  /// Returns a copy of this rounded to the nearest [unit] and [value].
   ///
+  /// ## Contract
+  /// Throws [RangeError] if `value <= 0`.
+  ///
+  /// ## Example
   /// ```dart
-  /// DateTime(2023, 4, 15).round(6, DateUnit.months); // '2023-06-01'
-  ///
-  /// DateTime(2023, 8, 15)).round(6, DateUnit.months); // '2023-06-01'
+  /// DateTime(2023, 4, 15).round(DateUnit.months, 6); // 2023-06-01 00:00
+  /// DateTime(2023, 8, 15).round(DateUnit.months, 6); // 2023-06-01 00:00
   /// ```
   @Possible({RangeError})
   @useResult DateTime round(TemporalUnit unit, int value) => _adjust(unit, (date) => date.roundTo(value));
 
-  /// Returns a copy of this [DateTime] with the given temporal unit ceiled to the nearest value. Throws a [RangeError]
-  /// if [value] is not positive.
+  /// Returns a copy of this ceiled to the nearest [unit] and [value].
   ///
+  /// ## Contract
+  /// Throws [RangeError] if `value <= 0`.
+  ///
+  /// ## Example
   /// ```dart
-  /// DateTime(2023, 4, 15).ceil(6, DateUnit.months); // '2023-06-01'
-  ///
-  /// DateTime(2023, 8, 15)).ceil(6, DateUnit.months); // '2023-12-01'
+  /// DateTime(2023, 4, 15).ceil(DateUnit.months, 6); // 2023-06-01 00:00
+  /// DateTime(2023, 8, 15).ceil(DateUnit.months, 6); // 2023-12-01 00:00
   /// ```
   @Possible({RangeError})
   @useResult DateTime ceil(TemporalUnit unit, int value) => _adjust(unit, (date) => date.ceilTo(value));
 
-  /// Returns a copy of this [DateTime] with the given temporal unit floored to the nearest value. Throws a [RangeError]
-  /// if [value] is not positive.
+  /// Returns a copy of this floored to the nearest [unit] and [value].
   ///
+  /// ## Contract
+  /// Throws [RangeError] if `value <= 0`.
+  ///
+  ///
+  /// ## Example
   /// ```dart
-  ///
-  /// DateTime(2023, 4, 15).floor(6, DateUnit.months); // '2023-01-01'
-  ///
-  ///
-  /// DateTime(2023, 8, 15)).floor(6, DateUnit.months); // '2023-06-01'
+  /// DateTime(2023, 4, 15).floor(DateUnit.months, 6); // 2023-01-01 00:00
+  /// DateTime(2023, 8, 15).floor(DateUnit.months, 6); // 2023-06-01 00:00
   /// ```
   @Possible({RangeError})
   @useResult DateTime floor(TemporalUnit unit, int value) => _adjust(unit, (date) => date.floorTo(value));
@@ -200,15 +201,14 @@ extension DateTimes on DateTime {
   /// Formats this [DateTime]'s date as a ISO-8601 date, ignoring the time.
   ///
   /// ```dart
-  /// print(DateTime(2023, 4, 1, 10, 30)); // 2023-04-01
+  /// DateTime(2023, 4, 1, 10, 30).toDateString(); // 2023-04-01
   /// ```
   String toDateString() => Dates.format(year, month, day);
 
   /// Formats this [DateTime]'s time as a ISO-8601 time, ignoring the date.
   ///
   /// ```dart
-  /// final datetime = DateTime(1, 1, 1, 20, 30, 40, 5, 6);
-  /// datetime.toTimeString(); // 20:30:40.005006
+  /// DateTime(1, 1, 1, 20, 30, 40, 5, 6).toTimeString(); // 20:30:40.005006
   /// ```
   String toTimeString() => Times.format(hour, minute, second, millisecond, microsecond);
 
@@ -217,7 +217,11 @@ extension DateTimes on DateTime {
   @useResult Offset get offset => Offset.fromMicroseconds(timeZoneOffset.inMicroseconds);
 
 
-  /// The ordinal week of the year. Following ISO-8601, a week is between `1` and `53`, inclusive.
+  /// The ordinal week of the year.
+  ///
+  /// A week is between `1` and `53`, inclusive.
+  ///
+  /// See [weeks per year](https://en.wikipedia.org/wiki/ISO_week_date#Weeks_per_year).
   ///
   /// ```dart
   /// DateTime(2023, 4, 1).weekOfYear; // 13
@@ -232,39 +236,39 @@ extension DateTimes on DateTime {
   @useResult int get dayOfYear => Dates.dayOfYear(year, month, day);
 
 
-  /// The first day of this week.
+  /// The first day of the week.
   ///
   /// ```dart
   /// final tuesday = DateTime(2023, 4, 11);
-  /// final monday = tuesday.firstDayOfWeek; // '2023-04-10'
+  /// final monday = tuesday.firstDayOfWeek; // 2023-04-10
   /// ```
   @useResult DateTime get firstDayOfWeek => copyWith(day: day - weekday + 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
 
-  /// The last day of this week.
+  /// The last day of the week.
   ///
   /// ```dart
   /// final tuesday = DateTime(2023, 4, 11);
-  /// final sunday = tuesday.lastDayOfWeek; // '2023-04-16'
+  /// final sunday = tuesday.lastDayOfWeek; // 2023-04-16
   /// ```
   @useResult DateTime get lastDayOfWeek => copyWith(day: day + 7 - weekday, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
 
 
-  /// The first day of this month.
+  /// The first day of the month.
   ///
   /// ```dart
-  /// DateTime(2023, 4, 11).firstDayOfMonth; // '2023-04-01'
+  /// DateTime(2023, 4, 11).firstDayOfMonth; // 2023-04-01
   /// ```
   @useResult DateTime get firstDayOfMonth => copyWith(day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
 
-  /// The last day of this month.
+  /// The last day of the month.
   ///
   /// ```dart
-  /// DateTime(2023, 4, 11).lastDayOfMonth; // '2023-04-30'
+  /// DateTime(2023, 4, 11).lastDayOfMonth; // 2023-04-30
   /// ```
   @useResult DateTime get lastDayOfMonth => copyWith(day: daysInMonth, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
 
 
-  /// The number of days in this month taking leap years into account.
+  /// The number of days in the month, taking leap years into account.
   ///
   /// ```dart
   /// DateTime(2019, 2).daysInMonth; // 28
@@ -272,7 +276,7 @@ extension DateTimes on DateTime {
   /// ```
   @useResult int get daysInMonth => Dates.daysInMonth(year, month);
 
-  /// True if this is year is a leap year.
+  /// Whether the is year is a leap year.
   ///
   /// ```dart
   /// DateTime(2020).leapYear; // true
@@ -287,7 +291,9 @@ extension DateTimes on DateTime {
 
   /// The time as milliseconds since midnight.
   ///
+  /// ```dart
   /// DateTime(2023, 4, 1, 12).millisecondsSinceMidnight; // 43200000 ('12:00')
+  /// ```
   int get millisecondsSinceMidnight =>
     hour * Duration.millisecondsPerHour +
     minute * Duration.millisecondsPerMinute +
@@ -296,7 +302,9 @@ extension DateTimes on DateTime {
 
   /// The time as microseconds since midnight.
   ///
+  /// ```dart
   /// DateTime(2023, 4, 1, 12).microsecondsSinceMidnight; // 43200000000 ('12:00')
+  /// ```
   int get microsecondsSinceMidnight => sumMicroseconds(hour, minute, second, millisecond, microsecond);
 
 }

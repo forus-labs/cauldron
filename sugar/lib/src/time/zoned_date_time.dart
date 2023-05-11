@@ -331,10 +331,10 @@ class ZonedDateTime extends DateTimeBase {
   /// ## Example
   /// ```dart
   /// final foo = ZonedDateTime('Asia/Singapore', 2023, 4, 15);
-  /// foo.round(6, DateUnit.months); // 2023-06-00T00:00+08:00[Asia/Singapore]
+  /// foo.round(DateUnit.months, 6); // 2023-06-01T00:00+08:00[Asia/Singapore]
   ///
-  /// final bar = ZonedDateTime('Asia/Singapore'2023, 8, 15);
-  /// bar.round(6, DateUnit.months); // 2023-06-00T00:00+08:00[Asia/Singapore]
+  /// final bar = ZonedDateTime('Asia/Singapore', DateTime2023, 8, 15);
+  /// bar.round(DateUnit.months, 6); // 2023-06-01T00:00+08:00[Asia/Singapore]
   /// ```
   @Possible({RangeError})
   @useResult ZonedDateTime round(TemporalUnit unit, int value) => ZonedDateTime._convert(timezone, _native.round(unit, value));
@@ -347,10 +347,10 @@ class ZonedDateTime extends DateTimeBase {
   /// ## Example
   /// ```dart
   /// final foo = ZonedDateTime('Asia/Singapore', 2023, 4, 15);
-  /// foo.ceil(6, DateUnit.months); // 2023-06-15T00:00+08:00[Asia/Singapore]
+  /// foo.ceil(DateUnit.months, 6); // 2023-06-01T00:00+08:00[Asia/Singapore]
   ///
   /// final bar = ZonedDateTime('Asia/Singapore', 2023, 8, 15);
-  /// bar.ceil(6, DateUnit.months); // 2023-12-00T00:00+08:00[Asia/Singapore]
+  /// bar.ceil(DateUnit.months, 6); // 2023-12-01T00:00+08:00[Asia/Singapore]
   /// ```
   @Possible({RangeError})
   @useResult ZonedDateTime ceil(TemporalUnit unit, int value) => ZonedDateTime._convert(timezone, _native.ceil(unit, value));
@@ -364,10 +364,10 @@ class ZonedDateTime extends DateTimeBase {
   /// ## Example
   /// ```dart
   /// final foo = ZonedDateTime('Asia/Singapore', 2023, 4, 15);
-  /// foo.floor(6, DateUnit.months); // 2023-01-00T00:00+08:00[Asia/Singapore]
+  /// foo.floor(DateUnit.months, 6); // 2023-01-01T00:00+08:00[Asia/Singapore]
   ///
   /// final bar = ZonedDateTime('Asia/Singapore', 2023, 8, 15);
-  /// bar.floor(6, DateUnit.months); // 2023-06-15T00:00+08:00[Asia/Singapore]
+  /// bar.floor(DateUnit.months, 6); // 2023-06-01T00:00+08:00[Asia/Singapore]
   /// ```
   @Possible({RangeError})
   @useResult ZonedDateTime floor(TemporalUnit unit, int value) => ZonedDateTime._convert(timezone, _native.floor(unit, value));

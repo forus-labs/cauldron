@@ -1,7 +1,7 @@
 /// Provides low-level functions for working with times.
 ///
-/// These functions should be used only if it's not feasible to use the other provided high-level components, such as when
-/// working with 3rd party datetime types.
+/// These functions should only be used when it is not feasible to use `sugar.time`, such as when working with 3rd-party
+/// date-time types.
 extension Times on Never {
 
   /// Formats the time as a ISO-8601 time.

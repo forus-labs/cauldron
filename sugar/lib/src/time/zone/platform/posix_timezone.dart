@@ -7,8 +7,9 @@ final _localtime =  File('/etc/localtime');
 
 /// The current timezone name on MacOS/Linux, or `Factory` if the timezone name could not be inferred.
 ///
-/// ### Contract:
-/// This field should only be accessed on MacOS/Linux. Accessing this field on other platforms will result in undefined behaviour.
+/// ## Contract
+/// This field should only be accessed on MacOS/Linux. Accessing this field on other platforms will result in undefined
+/// behaviour.
 @internal String get posixTimezone {
   try {
     final variable = Platform.environment['TZ'];

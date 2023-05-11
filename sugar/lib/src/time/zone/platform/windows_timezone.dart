@@ -14,9 +14,9 @@ final _kernel32 = DynamicLibrary.open('kernel32.dll');
 final _GetDynamicTimeZoneInformation = _kernel32.lookup<NativeFunction<_NativeGetDynamicTimeZoneInformation>>('GetDynamicTimeZoneInformation');
 
 
-/// The current timezone name on Windows, or `Factory` if the timezone name could not be mapped.
+/// The current timezone on Windows, or `Factory` if the timezone name could not be mapped.
 ///
-/// ### Contract:
+/// ## Contract
 /// This field should only be accessed on Windows. Accessing this field on other platforms will result in undefined behaviour.
 @internal String get windowsTimezone {
   Pointer<_DYNAMIC_TIME_ZONE_INFORMATION>? pointer;

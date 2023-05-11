@@ -2,8 +2,8 @@ import 'package:meta/meta.dart';
 
 /// Provides low-level functions for working with dates.
 ///
-/// These functions should be used only if it's not feasible to use the other provided high-level components, such as when
-/// working with 3rd party datetime types.
+/// These functions should only be used when it is not feasible to use `sugar.time`, such as when working with 3rd-party
+/// date-time types.
 extension Dates on Never {
 
   static const _cumulative = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
@@ -12,7 +12,7 @@ extension Dates on Never {
   /// Formats the date as a ISO-8601 date.
   ///
   /// ```dart
-  /// print(Dates.format(2023, 4, 1)); // 2023-04-01
+  /// print(Dates.format(2023, 4, 1)); // '2023-04-01'
   /// ```
   @useResult static String format(int year, [int month = 1, int day = 1]) {
     final sign = year < 0 ? '-' : '';
@@ -24,18 +24,19 @@ extension Dates on Never {
   }
 
 
-  /// Computes the ordinal day of the week. Following ISO-8601, a week starts on Monday, which has a value of `1`, and
-  /// Sunday, which has a value of `7`.
+  /// Computes the ordinal day of the week.
   ///
-  /// ## Example:
+  /// A week starts on Monday (1) and ends Sunday (7).
+  ///
+  /// ## Example
   /// ```dart
   /// Dates.weekday(1969, 7, 20); // 7 (Sunday)
   /// ```
   ///
-  /// ## Implementation details:
+  /// ## Implementation details
   /// This function uses a modified version of of Tomohiko Sakamoto's algorithm where Monday = 1 and Sunday = 7.
   ///
-  /// See https://en.wikipedia.org/wiki/Determination_of_the_day_of_the_week#Sakamoto's_methods
+  /// See [Sakamoto's methods](https://en.wikipedia.org/wiki/Determination_of_the_day_of_the_week#Sakamoto's_methods).
   @useResult static int weekday(int year, int month, int day) {
     const table = [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4];
     final adjustedYear = month < 3 ? year - 1 : year;
@@ -43,13 +44,15 @@ extension Dates on Never {
     return weekday == 0 ? 7 : weekday;
   }
 
-  /// Computes the ordinal week of the year. Following ISO-8601, a week is between `1` and `53`, inclusive.
+  /// Computes the ordinal week of the year.
+  ///
+  /// A week is between `1` and `53`, inclusive.
+  ///
+  /// See [weeks per year]( https://en.wikipedia.org/wiki/ISO_week_date#Weeks_per_year).
   ///
   /// ```dart
   /// Dates.weekOfYear(2023, 4, 1); // 13
   /// ```
-  ///
-  /// See https://en.wikipedia.org/wiki/ISO_week_date#Weeks_per_year
   @useResult static int weekOfYear(int year, int month, int day) {
     final ordinal = (dayOfYear(year, month, day) - weekday(year, month, day) + 10) ~/ 7;
     if (ordinal == 0) {
@@ -79,7 +82,7 @@ extension Dates on Never {
   /// ```
   @useResult static int daysInMonth(int year, int month) => month == 2 ? (leapYear(year) ? 29 : 28) : _months[month - 1];
 
-  /// Returns true if the given [year] is a leap year.
+  /// Returns true if the [year] is a leap year.
   ///
   /// ```dart
   /// Dates.leapYear(2020); // true
