@@ -1,10 +1,9 @@
 part of 'time.dart';
 
-/// A time without a timezone, as seen on a wall clock, such as. `12:30`.
+/// The time of the day without a timezone, as seen on a wall clock, such as. `12:30`.
 ///
-/// It cannot be used to represent a specific point in time without an additional offset or timezone.
-///
-/// A [LocalTime] is immutable. Time is stored to microsecond precision See [range] for the valid range of `LocalTime`s.
+/// A [LocalTime] is immutable.  It cannot represent a specific point in time without an additional offset or timezone.
+/// Time is stored to microsecond precision See [range] for the valid range of `LocalTime`s.
 ///
 /// ## Working with `LocalTime`s
 ///
@@ -33,13 +32,13 @@ part of 'time.dart';
 /// print(latest >= evenLater); // true
 /// ```
 ///
-/// You can also round [truncate], [round], [ceil] and [floor] `LocalTime`.
+/// You can also [truncate], [round], [ceil] and [floor] `LocalTime`.
 ///
 /// ```dart
 /// print(moonLanding.truncate(to: TimeUnit.hours); // 18:00
-/// print(moonLanding.round(TimeUnit.minutes, 5); // 18:05
-/// print(moonLanding.ceil(TimeUnit.minutes, 5); // 18:05
-/// print(moonLanding.floor(TimeUnit.minutes, 5); // 18:00
+/// print(moonLanding.round(TimeUnit.minutes, 5);   // 18:05
+/// print(moonLanding.ceil(TimeUnit.minutes, 5);    // 18:05
+/// print(moonLanding.floor(TimeUnit.minutes, 5);   // 18:00
 /// ```
 ///
 /// ## Other resources

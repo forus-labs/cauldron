@@ -24,7 +24,7 @@
 ///
 /// ## Durations and Periods
 /// A [Duration] stores a fixed amount of time in microseconds while a [Period] stores the conceptual units of time.
-/// For a example, a duration of 1 day is always 86,400,000,000 microseconds while a period of 1 day is 1 "day".
+/// For example, a duration of 1 day is always 86,400,000,000 microseconds while a period of 1 day is 1 "day".
 /// Adding either to a [DateTime] or [ZonedDateTime] nearing a DST transition can produce different results.
 ///
 /// ```dart
@@ -33,9 +33,8 @@
 ///
 /// final datetime = ZoneDateTime('America/Detroit', 2023, 3, 12);
 ///
-/// datetime.add(Duration(days: 1)); // 2023-03-13 01:00
-///
-/// datetime + Period(days: 1); // 2023-03-13 00:00
+/// datetime.add(Duration(days: 1)); // 2023-03-13 01:00 [America/Detroit]
+/// datetime + Period(days: 1);      // 2023-03-13 00:00 [America/Detroit]
 /// ```
 library sugar.time;
 

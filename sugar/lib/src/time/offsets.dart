@@ -47,8 +47,9 @@ The following offset formats are accepted:
 ''';
 
 
-/// An [Offset] that validates its value at compile-time. Since this does validate its value at runtime, the range invariant
-/// may be violated. Hence, it is not available to external users.
+/// An [Offset] that validates its value at compile-time.
+///
+/// As the range is not validated at runtime, the range may be invalid. Thus, it is not available to external users.
 @internal class LiteralOffset extends Offset {
 
   final String _string;
@@ -68,9 +69,12 @@ The following offset formats are accepted:
 /// An [Offset] that validates its value at runtime-time.
 class _Offset extends Offset {
 
-  /// Determines if the [microseconds] is within [range]. Throws a [RangeError] otherwise.
+  /// Determines if the [microseconds] is within [range].
   ///
-  /// This method differs from [RangeError.checkValueInInterval] as it parses the seconds into a more human-friendly format.
+  /// Throws a [RangeError] otherwise.
+  ///
+  /// This method differs from [RangeError.checkValueInInterval] as it converts the seconds into a more human-friendly
+  /// format.
   @Possible({RangeError})
   static void _precondition(int microseconds) {
     if (microseconds < -18 * Duration.microsecondsPerHour || 18 * Duration.microsecondsPerHour < microseconds) {
@@ -88,7 +92,6 @@ class _Offset extends Offset {
     }
 
     // Derived from Java's java.time.ZoneOffset.of(String)
-
     int parse(int position, {required bool colon}) {
       if (colon && offset[position - 1] != ':') {
         throw FormatException('Invalid offset format: "$offset". A colon was not found when expected. \n$_allowed');

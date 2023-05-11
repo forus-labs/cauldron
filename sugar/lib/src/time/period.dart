@@ -1,27 +1,26 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/time.dart';
 
-/// A [Period] represents a quantity of time in terms of its individual parts. This is different from [Duration] which
-/// sums all provided individual parts and stores them in microseconds.
+/// A [Period] represents a quantity of time in terms of its individual parts.
 ///
-/// Durations and periods differ in their treatment of daylight savings time when added to Dart's [DateTime] or this
-/// library's [ZonedDateTime]. A [Duration] will add an exact number of microseconds. This means a duration of 1 day is
-/// always 24 hours. On the contrary, a [Period] will add a conceptual unit of time.
+/// This is different from [Duration] which stores a quantity of time in microseconds.  For example, a duration of 1 day
+/// is always 86,400,000,000 microseconds while a period of 1 day is 1 "day". Adding either to a [DateTime] or
+/// [ZonedDateTime] nearing a DST transition can produce different results.
 ///
 /// ```dart
 /// // DST occurs at 2023-03-12 02:00
 /// // https://www.timeanddate.com/time/change/usa/detroit?year=2023
 ///
 /// final datetime = ZoneDateTime('America/Detroit', 2023, 3, 12);
-/// datetime.add(Duration(days: 1)); // 2023-03-13 01:00
 ///
-/// datetime + Period(days: 1); // 2023-03-13 00:00
+/// datetime.add(Duration(days: 1)); // 2023-03-13 01:00 [America/Detroit]
+/// datetime + Period(days: 1);      // 2023-03-13 00:00 [America/Detroit]
 /// ```
 ///
-/// Unless otherwise stated, methods do not perform normalization. A period of "15 months" isn't automatically converted
+/// A `Period` is immutable. It's individual parts may be negative.
+//
+/// Unless otherwise stated, functions do not perform normalization. A period of "15 months" isn't automatically converted
 /// to a period of "1 year and 3 months". Likewise, the aforementioned periods are not equal.
-///
-/// A [Period] is immutable and should be treated as a value-type. Also, it's individual parts may be negative.
 class Period {
 
   /// The years.
@@ -41,10 +40,12 @@ class Period {
   /// The microseconds.
   final int microseconds;
 
-  /// Creates a [Period]. The individual units of time may be negative. No normalization is performed.
+  /// Creates a [Period].
+  ///
+  /// The individual units of time may be negative. No normalization is performed.
   ///
   /// ```dart
-  /// Period(years: 1, minutes: -2); // '1 year, -2 minutes'
+  /// Period(years: 1, minutes: -2); // 1 year, -2 minutes
   /// ```
   const Period({
     this.years = 0,
@@ -58,14 +59,13 @@ class Period {
   });
 
 
-  /// Returns a normalized copy of this [Period].
+  /// Returns a normalized copy of this.
   ///
   /// This normalizes all units of time except for the days. For example, a period of "13 months, 50 days and 24 hours"
-  /// will be normalized to "1 year, 1 month and 51 days".
+  /// will be normalized as "1 year, 1 month and 51 days".
   ///
   /// ```dart
-  /// final foo = Period(months: 13, days: 50, hours: 24).normalize();
-  /// print(foo); // 1 year, 1 month, 51 days
+  /// Period(months: 13, days: 50, hours: 24).normalize(); // 1 year, 1 month, 51 days
   /// ```
   @useResult Period normalize() {
     final totalMonths = years * 12 + months;
@@ -100,7 +100,9 @@ class Period {
   }
 
 
-  /// Returns a copy of this [Period] with the individual parts added. No normalization is performed.
+  /// Returns a copy of this with the units of time added.
+  ///
+  /// No normalization is performed.
   ///
   /// ```dart
   /// Period(years: 1, months: 1).plus(months: 12); // 1 year 13 months
@@ -125,7 +127,9 @@ class Period {
     microseconds: this.microseconds + microseconds,
   );
 
-  /// Returns a copy of this [Period] with the individual parts subtracted. No normalization is performed.
+  /// Returns a copy of this with the units of time subtracted.
+  ///
+  /// No normalization is performed.
   ///
   /// ```dart
   /// Period(years: 1, months: 1).minus(months: 12); // 1 year -11 months
@@ -151,7 +155,9 @@ class Period {
   );
 
 
-  /// Returns the sum of this [Period] and [other]. No normalization is performed.
+  /// Returns the sum of this and [other].
+  ///
+  /// No normalization is performed.
   ///
   /// ```dart
   /// Period(years: 1, months: 1) + Period(months: 12); // 1 year 13 months
@@ -167,7 +173,9 @@ class Period {
     microseconds: microseconds + other.microseconds,
   );
 
-  /// Returns a copy of this [Period] with [other] subtracted from it. No normalization is performed.
+  /// Returns a copy of this with [other] subtracted.
+  ///
+  /// No normalization is performed.
   ///
   /// ```dart
   /// Period(years: 1, months: 1) - Period(months: 12); // 1 year -11 months
@@ -184,7 +192,9 @@ class Period {
   );
 
 
-  /// Creates a copy of this [Period] with the given updated parts. No normalization is performed.
+  /// Creates a copy of this with the updated units of time.
+  ///
+  /// No normalization is performed.
   ///
   /// ```dart
   /// Period(years: 1, months: 1).copyWith(months: 13); // 1 year 13 months

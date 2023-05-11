@@ -2,9 +2,7 @@ part of 'date.dart';
 
 /// A date without a timezone, as seen in a calendar, such as `2023-04-11`.
 ///
-/// It cannot be used to represent a specific point in time without an additional offset or timezone.
-///
-/// A `LocalDate` is immutable.
+/// A `LocalDate` is immutable. It cannot represent a specific point in time without an additional offset or timezone.
 ///
 /// ## Working with `LocalDate`s
 ///
@@ -34,13 +32,13 @@ part of 'date.dart';
 /// print(dayAfterTomorrow >= today); // true
 /// ```
 ///
-/// You can also round [truncate], [round], [ceil] and [floor] `LocalDate`.
+/// You can also [truncate], [round], [ceil] and [floor] `LocalDate`.
 ///
 /// ```dart
 /// print(moonLanding.truncate(to: DateUnit.months); // 1969-07-01
-/// print(moonLanding.round(DateUnit.days, 7); // 1969-07-21
-/// print(moonLanding.ceil(DateUnit.days, 7); // 1969-07-21
-/// print(moonLanding.floor(DateUnit.days, 7); // 1969-07-14
+/// print(moonLanding.round(DateUnit.days, 7);       // 1969-07-21
+/// print(moonLanding.ceil(DateUnit.days, 7);        // 1969-07-21
+/// print(moonLanding.floor(DateUnit.days, 7);       // 1969-07-14
 /// ```
 ///
 /// ## Other resources

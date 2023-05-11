@@ -5,7 +5,7 @@ import 'package:sugar/sugar.dart';
 part 'local_time.dart';
 part 'offset_time.dart';
 
-/// A temporal that contains units of time. All calculations wrap around midnight.
+/// A time of the day. All calculations wrap around midnight.
 @internal abstract class Time {
 
   final DateTime _native;

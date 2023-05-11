@@ -5,23 +5,27 @@ import 'package:sugar/src/time/temporal_unit.dart';
 
 part 'offsets.dart';
 
-/// An offset is the amount of time that a timezone differs from UTC. A positive and negative offset signifies that the
-/// timezone is ahead and behind of UTC respectively.
+/// An offset is the time difference between a timezone and UTC.
+///
+/// A positive offset indicates a timezone ahead of UTC, while a negative offset indicates a timezone behind UTC.
 ///
 /// ![Map of the world](https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/World_Time_Zones_Map.png/650px-World_Time_Zones_Map.png)
 ///
-/// Offsets are stored to second precision. This allows all offsets in the TZ database to be represented. It may present
-/// issues in obscure or fictional cases when used with other timezone data sources.
+/// An [Offset] is immutable. It is always in the range, `-18:00` to `+18:00`, inclusive.
 ///
-/// An [Offset] is immutable and should be treated as a value-type. It is always in the range, `-18:00` to `+18:00`, inclusive.
+/// Offsets are stored to second precision. This allows all offsets in the TZ database to be represented. It can cause
+/// issues in rare or fictional cases when used with other timezone data sources.
+///
+/// See:
+/// * [OffsetTime] to represent times with fixed offsets.
+/// * [ZonedDateTime] to represent date-times with timezones.
 @sealed abstract class Offset with Orderable<Offset> {
 
   /// The valid range of [Offset]s, from `-18:00` to `+18:00`, inclusive.
   ///
-  /// ## Note:
-  /// As of February 2023, actual offsets range from `-12:00` to `+14:00`, inclusive. To ensure forward compatibility,
-  /// the range is restricted to `-18:00` to `+18:00`, inclusive. The range was last extended in 1995 when the island of
-  /// Kiribati moved its timezone eastward by one day, leading to the creation of `+14:00`.
+  /// As of February 2023, actual offsets range from `-12:00` to `+14:00`, inclusive. The range was last extended in 1995
+  /// when the island of Kiribati moved its timezone eastward by one day, leading to the creation of `+14:00`. To ensure
+  /// forward compatibility, the range is restricted to `-18:00` to `+18:00`, inclusive.
   static final Interval<Offset> range = Interval.closed(const LiteralOffset('-18:00', -64800), const LiteralOffset('+18:00', 64800));
   /// An offset of zero.
   static const Offset utc = LiteralOffset('Z', 0);
@@ -31,11 +35,7 @@ part 'offsets.dart';
 
   /// Creates an [Offset] from the formatted [offset].
   ///
-  /// ## Contract:
-  /// Throws [RangeError] if the [offset] is outside the valid [range].
-  /// Throws [FormatException] if the [offset] is malformed.
-  ///
-  /// The following formats, which include the string returned by [toString], are accepted:
+  /// The following formats, including the result of [toString], are accepted:
   /// * `Z` - for UTC
   /// * `+h`
   /// * `+hh`
@@ -48,7 +48,11 @@ part 'offsets.dart';
   /// * `+hhmmss`
   /// * `-hhmmss`
   ///
-  /// ## Example:
+  /// ## Contract
+  /// Throws [RangeError] if [offset] is outside the valid [range].
+  /// Throws [FormatException] if [offset] is malformed.
+  ///
+  /// ## Example
   /// ```dart
   /// Offset.parse('-01:02:03'); // '-01:02:03'
   ///
@@ -59,67 +63,87 @@ part 'offsets.dart';
   @Possible({FormatException, RangeError})
   factory Offset.parse(String offset) => _Offset.parse(offset);
 
-  /// Creates an [Offset] for the current timezone.
+  /// Creates an [Offset] that represents the current offset.
   factory Offset.now() => _Offset.now();
 
-  /// Creates an [Offset] from the total seconds. Throws a [RangeError] if [seconds] is outside the valid [range].
+  /// Creates an [Offset] from the total [seconds].
   ///
+  /// ## Contract
+  /// Throws a [RangeError] if [seconds] is outside the valid [range].
+  ///
+  /// ## Example
   /// ```dart
-  /// Offset.fromSeconds(28800); // UTC+8
+  /// Offset.fromSeconds(28800); // +08:00
   /// ```
   @Possible({RangeError})
   factory Offset.fromSeconds(int seconds) => _Offset.fromSeconds(seconds);
 
-  /// Creates an [Offset] from the total microseconds, truncated to the nearest second. Throws a [RangeError] if [microseconds]
-  /// is outside the valid [range].
+  /// Creates an [Offset] from the total [microseconds], truncated to the nearest second.
   ///
+  /// ## Contract
+  /// Throws a [RangeError] if [microseconds] is outside the valid [range].
+  ///
+  /// ## Example
   /// ```dart
-  /// Offset.fromMicroseconds(28800000000); // UTC+8
+  /// Offset.fromMicroseconds(28800000000); // +08:00
   /// ```
   @Possible({RangeError})
   factory Offset.fromMicroseconds(int microseconds) => _Offset.fromMicroseconds(microseconds);
 
-  /// Creates an [Offset] from the individual parts. Throws a [RangeError] if the [Offset] is outside the valid [range].
+  /// Creates an [Offset].
   ///
+  /// ## Contract
+  /// Throws a [RangeError] if the [Offset] is outside the valid [range].
+  ///
+  /// ## Example
   /// ```dart
-  /// Offset(-10, 0, 0); // UTC-10:00
+  /// Offset(-10, 0, 0); // -10:00
   ///
-  /// Offset(-10, -2, -3)); // throws error
+  /// Offset(-10, -2, -3)); // throws RangeError
   ///
   /// Offset(-10, 2, 3)); // -10:02:03
   /// ```
   @Possible({RangeError})
   factory Offset([int hour = 0, int minute = 0, int second = 0]) => _Offset(hour, minute, second);
 
-  /// Creates an [Offset].
   const Offset._(this._microseconds);
 
 
-  /// Returns a copy of this [Offset] with the [duration] added. Throws a [RangeError] if the [Offset] is outside the valid [range].
+  /// Returns a copy of this with the [duration] added.
   ///
+  /// ## Contract
+  /// Throws a [RangeError] if the result is outside the valid [range].
+  ///
+  /// ## Example
   /// ```dart
   /// Offset(16).add(Duration(hours: 2)); // Offset(18)
   ///
   /// Offset(18).add(Duration(hours: 2)); // throws RangeError
   /// ```
   @Possible({RangeError})
-  @useResult Offset add(Duration duration) => Offset.fromMicroseconds(_microseconds + duration.inMicroseconds);
+  @useResult Offset add(Duration duration) => Offset.fromMicroseconds(_microseconds + duration.inSeconds * 1000 * 1000);
 
-  /// Returns a copy of this [Offset] with the [duration] subtracted. Throws a [RangeError] if the [Offset] is outside
-  /// the valid [range].
+  /// Returns a copy of this with the [duration] subtracted.
   ///
+  /// ## Contract
+  /// Throws a [RangeError] if the result is outside the valid [range].
+  ///
+  /// ## Example
   /// ```dart
   /// Offset(-16).subtract(Duration(hours: 2)); // Offset(-18)
   ///
   /// Offset(-18).subtract(Duration(hours: 2)); // throws RangeError
   /// ```
   @Possible({RangeError})
-  @useResult Offset subtract(Duration duration) => Offset.fromMicroseconds(_microseconds - duration.inMicroseconds);
+  @useResult Offset subtract(Duration duration) => Offset.fromMicroseconds(_microseconds - duration.inSeconds * 1000 * 1000);
 
 
-  /// Returns a copy of this [Offset] with the sum of the individual parts added. Throws a [RangeError] if the [Offset] is
-  /// outside the valid [range].
+  /// Returns a copy of this with the sum of the units of time added.
   ///
+  /// ## Contract
+  /// Throws a [RangeError] if the result is outside the valid [range].
+  ///
+  /// ## Example
   /// ```dart
   /// Offset(16).plus(hours: 2); // Offset(18)
   ///
@@ -129,9 +153,12 @@ part 'offsets.dart';
   @useResult
   Offset plus({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromMicroseconds(_microseconds + sumMicroseconds(hours, minutes, seconds));
 
-  /// Returns a copy of this [Offset] with the sum of the individual parts subtracted. Throws a [RangeError] if the [Offset]
-  /// is outside the valid [range].
+  /// Returns a copy of this with the sum of the units of time subtracted.
   ///
+  /// ## Contract
+  /// Throws a [RangeError] if the result is outside the valid [range].
+  ///
+  /// ## Example
   /// ```dart
   /// Offset(-16).minus(hours: 2); // Offset(-18)
   ///
@@ -142,8 +169,9 @@ part 'offsets.dart';
   Offset minus({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromMicroseconds(_microseconds - sumMicroseconds(hours, minutes, seconds));
 
 
-  /// Returns a copy of this [Offset] with the sum of the individual parts added. Otherwise returns `null` if the [Offset]
-  /// is outside the valid [range].
+  /// Returns a copy of this with the sum of the units of time added.
+  ///
+  /// Otherwise returns `null` if the result is outside the valid [range].
   ///
   /// ```dart
   /// Offset(16).tryPlus(hours: 2); // Offset(18)
@@ -159,8 +187,9 @@ part 'offsets.dart';
     }
   }
 
-  /// Returns a copy of this [Offset] with the sum of the individual parts subtracted. Otherwise returns `null` if the
-  /// [Offset] is outside the valid [range].
+  /// Returns a copy of this with the sum of the units of time subtracted.
+  ///
+  /// Otherwise returns `null` if the result is outside the valid [range].
   ///
   /// ```dart
   /// Offset(-16).tryMinus(hours: 2); // Offset(-18)
@@ -177,18 +206,19 @@ part 'offsets.dart';
   }
 
 
-  /// Returns the difference between the two offsets. The difference may be negative.
+  /// Returns the difference between this and [other].
+  ///
+  /// The difference may be negative.
   ///
   /// ```dart
   /// Offset(-1).difference(Offset(2)); // Duration(hours: -3)
   /// ```
   @useResult Duration difference(Offset other) => Duration(microseconds: _microseconds - other._microseconds);
 
-  /// Convert this [Offset] into a [Duration].
+  /// Convert this to a [Duration].
   ///
   /// ```dart
-  /// // Duration(hours: 1, minutes: 2, _seconds: 3);
-  /// Offset(1, 2, 3).toDuration();
+  /// Offset(1, 2, 3).toDuration(); // Duration(hours: 1, minutes: 2, seconds: 3)
   /// ```
   @useResult Duration toDuration() => Duration(microseconds: _microseconds);
 
@@ -227,14 +257,11 @@ part 'offsets.dart';
   /// * `+hh:mm:ss`/`-hh:mm:ss` - if the _seconds are non-zero (not ISO-8601)
   ///
   /// ```dart
-  /// final utc = Offset();
-  /// print(utc); // 'Z'
+  /// print(Offset()); // 'Z'
   ///
-  /// final foo = Offset(1, 2);
-  /// print(foo); // '+01:02'
+  /// print(Offset(1, 2)); // '+01:02'
   ///
-  /// final bar = Offset(1, 2, 3);
-  /// print(bar); // '+01:02:03'
+  /// print(Offset(1, 2, 3)); // '+01:02:03'
   /// ```
   @override
   @mustBeOverridden
