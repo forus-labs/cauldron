@@ -1,4 +1,3 @@
-import 'package:sugar/sugar.dart';
 import 'package:sugar/src/core/range/range.dart';
 
 import 'package:test/test.dart';
@@ -109,29 +108,29 @@ void main() {
     });
 
     group('within(...)', () {
-      test('middle', () => expect(Intersects.within(Interval.closed(1, 5), 3, closed: true), true));
+      test('middle', () => expect(Intersects._within(Interval.closed(1, 5), 3, closed: true), true));
 
-      test('less than', () => expect(Intersects.within(Interval.closed(1, 5), 0, closed: true), false));
+      test('less than', () => expect(Intersects._within(Interval.closed(1, 5), 0, closed: true), false));
 
-      test('more than', () => expect(Intersects.within(Interval.closed(1, 5), 6, closed: true), false));
-
-
-      test('min, both closed', () => expect(Intersects.within(Interval.closed(1, 5), 1, closed: true), true));
-
-      test('min, both open', () => expect(Intersects.within(Interval.open(1, 5), 1, closed: false), false));
-
-      test('min closed point open', () => expect(Intersects.within(Interval.closed(1, 5), 1, closed: false), false));
-
-      test('min open point closed', () => expect(Intersects.within(Interval.open(1, 5), 1, closed: true), false));
+      test('more than', () => expect(Intersects._within(Interval.closed(1, 5), 6, closed: true), false));
 
 
-      test('max, both closed', () => expect(Intersects.within(Interval.closed(1, 5), 5, closed: true), true));
+      test('min, both closed', () => expect(Intersects._within(Interval.closed(1, 5), 1, closed: true), true));
 
-      test('max, both open', () => expect(Intersects.within(Interval.open(1, 5), 5, closed: false), false));
+      test('min, both open', () => expect(Intersects._within(Interval.open(1, 5), 1, closed: false), false));
 
-      test('max closed point open', () => expect(Intersects.within(Interval.closed(1, 5), 5, closed: false), false));
+      test('min closed point open', () => expect(Intersects._within(Interval.closed(1, 5), 1, closed: false), false));
 
-      test('max open point closed', () => expect(Intersects.within(Interval.open(1, 5), 5, closed: true), false));
+      test('min open point closed', () => expect(Intersects._within(Interval.open(1, 5), 1, closed: true), false));
+
+
+      test('max, both closed', () => expect(Intersects._within(Interval.closed(1, 5), 5, closed: true), true));
+
+      test('max, both open', () => expect(Intersects._within(Interval.open(1, 5), 5, closed: false), false));
+
+      test('max closed point open', () => expect(Intersects._within(Interval.closed(1, 5), 5, closed: false), false));
+
+      test('max open point closed', () => expect(Intersects._within(Interval.open(1, 5), 5, closed: true), false));
     });
   });
 

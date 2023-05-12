@@ -40,10 +40,10 @@ extension Iterables<E> on Iterable<E> {
   /// ```dart
   /// ['a', 'b', 'c'].indexed(); // [(1, 'a'), (2, 'b'), (3, 'c')]
   /// ```
-  @lazy @useResult Iterable<MapEntry<int, E>> indexed() sync* { // TODO: Dart 3 records
+  @lazy @useResult Iterable<(int index, E element)> indexed() sync* {
     var count = 0;
     for (final element in this) {
-      yield MapEntry(count++, element);
+      yield (count++, element);
     }
   }
 
@@ -82,9 +82,9 @@ extension Iterables<E> on Iterable<E> {
   ///   return someOtherFunction(foo) ?? yetAnotherFunction(foo);
   /// });
   /// ```
-  @useResult Map<K, V> toMap<K, V>(MapEntry<K, V> Function(E element) create) => { // TODO: Dart 3 records
-    for (final entry in map((e) => create(e)))
-      entry.key: entry.value,
+  @useResult Map<K, V> toMap<K, V>((K, V) Function(E element) create) => {
+    for (final (key, value) in map((e) => create(e)))
+      key: value,
   };
 
 
@@ -123,10 +123,9 @@ extension Iterables<E> on Iterable<E> {
   ///   return someOtherFunction(foo) ?? yetAnotherFunction(foo);
   /// );
   /// ```
-  @useResult Map<K, V> toUnmodifiableMap<K, V>(MapEntry<K, V> Function(E element) create) => Map.unmodifiable({
-    // TODO: Dart 3 records
-    for (final entry in map((e) => create(e)))
-      entry.key: entry.value,
+  @useResult Map<K, V> toUnmodifiableMap<K, V>((K, V) Function(E element) create) => Map.unmodifiable({
+    for (final (key, value) in map((e) => create(e)))
+      key: value,
   });
 
 }

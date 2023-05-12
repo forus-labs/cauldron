@@ -49,10 +49,10 @@ extension Strings on String {
   ///
   /// 'abcabc'.matches('abc'); // false
   /// ```
-  @useResult bool matches(Pattern pattern) {
-    final match = pattern.matchAsPrefix(this);
-    return match != null && match.start == 0 && match.end == length;
-  }
+  @useResult bool matches(Pattern pattern) => switch(pattern.matchAsPrefix(this)) {
+    final match? when match.start == 0 && match.end == length => true,
+    _ => false,
+  };
 
 
   /// Capitalizes the first character.
@@ -292,20 +292,18 @@ extension Strings on String {
     var start = 0;
     for (var char = 0, i = 0; i < length; i++) {
       final previous = char;
-      char = codeUnitAt(i);
-
-      if (char != CR) {
-        if (char != LF) {
+      switch (char = codeUnitAt(i)) {
+        case != CR && != LF:
           continue; // Normal characters
 
-        } else if (previous == CR) {
+        case != CR when previous == CR:
           start = i + 1;
           continue; // CR LF
-        }
-      }
 
-      yield substring(start, i);
-      start = i + 1;
+        default:
+          yield substring(start, i);
+          start = i + 1;
+      }
     }
 
     if (start < length) {

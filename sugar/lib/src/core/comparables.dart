@@ -118,14 +118,10 @@ mixin Orderable<T extends Orderable<T>> implements Comparable<T> {
 /// math.min(1.0, double.nan); // double.nan
 /// ```
 @Possible({TypeError})
-@useResult T min<T>(T a, T b, {Select<T, Comparable<Object>>? by}) {
-  if (by != null) {
-    return by(a).compareTo(by(b)) < 0 ? a : b;
-
-  } else {
-    return (a as Comparable).compareTo(b) < 0 ? a : b;
-  }
-}
+@useResult T min<T>(T a, T b, {Select<T, Comparable<Object>>? by}) => switch (by) {
+  final by? => by(a).compareTo(by(b)) < 0 ? a : b,
+  _ => (a as Comparable).compareTo(b) < 0 ? a : b,
+};
 
 
 /// Returns the greater of [a] and [b].
@@ -141,14 +137,10 @@ mixin Orderable<T extends Orderable<T>> implements Comparable<T> {
 /// max(1, 2); // 2
 /// ```
 @Possible({TypeError})
-@useResult T max<T>(T a, T b, {Select<T, Comparable<Object>>? by}) {
-  if (by != null) {
-    return by(a).compareTo(by(b)) > 0 ? a : b;
-
-  } else {
-    return (a as Comparable).compareTo(b) > 0 ? a : b;
-  }
-}
+@useResult T max<T>(T a, T b, {Select<T, Comparable<Object>>? by}) => switch (by) {
+  final by? => by(a).compareTo(by(b)) > 0 ? a : b,
+  _ => (a as Comparable).compareTo(b) > 0 ? a : b,
+};
 
 
 /// Provides functions for working with [Comparator]s.
@@ -182,9 +174,9 @@ extension Comparators<T> on Comparator<T> {
   /// final bar = foo.and((a, b) => a.$2.compareTo(b.$2));
   /// bar((1, 1), (1, 2)); // -1
   /// ```
-  @useResult Comparator<T> and(Comparator<T> tiebreaker) => (a, b) {
-    final comparison = this(a, b);
-    return comparison != 0 ? comparison : tiebreaker(a, b);
+  @useResult Comparator<T> and(Comparator<T> tiebreaker) => (a, b) => switch(this(a, b)) {
+    0 => tiebreaker(a, b),
+    final value => value,
   };
 
 }

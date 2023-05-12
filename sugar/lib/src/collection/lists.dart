@@ -16,9 +16,9 @@ extension Lists<E> on List<E> {
     RangeError.checkValidIndex(a, this, 'a');
     RangeError.checkValidIndex(b, this, 'b');
 
-    final temporary = this[a];
-    this[a] = this[b];
-    this[b] = temporary;
+    final (a1, b1) = (this[a], this[b]);
+    this[a] = b1;
+    this[b] = a1;
   }
 
   /// Whether this list contains all elements in [other].

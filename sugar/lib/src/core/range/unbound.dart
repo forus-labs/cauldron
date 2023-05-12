@@ -1,8 +1,11 @@
-import 'package:meta/meta.dart';
-import 'package:sugar/sugar.dart';
+part of 'range.dart';
 
-/// An [All] represents a convex (contiguous) portion of a domain unbounded on both ends, i.e. `{ x | x }`.
-@internal class All<T extends Comparable<Object?>> extends Range<T> {
+/// An [Unbound] interval represents a convex (contiguous) portion of a domain unbounded on both ends, i.e. `{ x | x }`.
+final class Unbound<T extends Comparable<Object?>> extends Range<T> {
+
+  /// Creates an [Unbound].
+  const Unbound();
+
   @override
   bool besides(Range<T> other) => false;
 
@@ -25,7 +28,7 @@ import 'package:sugar/sugar.dart';
   bool get empty => false;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is All && runtimeType == other.runtimeType;
+  bool operator ==(Object other) => identical(this, other) || other is Unbound && runtimeType == other.runtimeType;
 
   @override
   int get hashCode => runtimeType.hashCode;

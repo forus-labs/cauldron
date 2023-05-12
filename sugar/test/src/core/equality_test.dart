@@ -5,7 +5,7 @@ void main() {
   group('DeepEqualityIterable', () {
     test('list equals other list', () => expect([1].equals([1]), true));
 
-    test('list not equal set', () => expect([1].equals({1}), false));
+    test('list equal set', () => expect([1, 2].equals({2, 1}), true));
 
     test('list hash equals other hash', () => expect([1].hashValue, [1].hashValue));
 
@@ -72,7 +72,7 @@ void main() {
 
         test('same length', () => expect(Equality.deep(['a'], ['b']), false));
 
-        test('list and set', () => expect(Equality.deep(['a'], {'a'}), false));
+        test('list and set', () => expect(Equality.deep(['a', 'b'], {'b', 'a'}), true));
 
         test('different order', () => expect(Equality.deep(['a', 'b'], ['b', 'a']), false));
 

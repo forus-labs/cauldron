@@ -1,13 +1,10 @@
-import 'package:meta/meta.dart';
-import 'package:sugar/sugar.dart';
-import 'package:sugar/src/core/range/all.dart';
-import 'package:sugar/src/core/range/range.dart';
+part of 'range.dart';
 
 /// An [Interval] represents a convex (contiguous) portion of a domain bounded on both ends, i.e. `{ x | min < x < max }`.
 ///
 /// [T] is expected to be immutable. If [T] is mutable, the value produced by [Comparable.compare] must not change when
 /// used in an `Interval`. Doing so will result in undefined behaviour.
-class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRange<T> {
+final class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRange<T> {
 
   static void _precondition<T extends Comparable<Object?>>(String start, T min, T max, String end) {
     if (min.compareTo(max) > 0) {
@@ -15,18 +12,15 @@ class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRang
     }
   }
 
-  /// The minimum value.
-  final T min;
-  /// Whether the lower bound is open.
+  /// The minimum value and whether the lower bound is open.
   ///
   /// In other words, whether this interval excludes [min], i.e. `{ x | min < x }`.
-  final bool minOpen;
-  /// The maximum value.
-  final T max;
-  /// Whether the lower bound is open.
+  final ({T value, bool open}) min;
+
+  /// The maximum value and whether the upper bound is open.
   ///
   /// In other words, whether this interval excludes [max], i.e. `{ x | x < max }`.
-  final bool maxOpen;
+  final ({T value, bool open}) max;
 
   /// Creates an [Interval] with the closed lower bound and open upper bound.
   ///
@@ -35,7 +29,9 @@ class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRang
   /// ## Contract
   /// Throws a [RangeError] if `min >= max`.
   @Possible({RangeError})
-  Interval.closedOpen(this.min, this.max): minOpen = false, maxOpen = true { _precondition('[', min, max, ')'); }
+  Interval.closedOpen(T min, T max): min = (value: min, open: false), max = (value: max, open: true) {
+    _precondition('[', min, max, ')');
+  }
 
   /// Creates an [Interval] with the closed lower and upper bounds.
   ///
@@ -44,7 +40,9 @@ class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRang
   /// ## Contract
   /// Throws a [RangeError] if `min > max`.
   @Possible({RangeError})
-  Interval.closed(this.min, this.max): minOpen = false, maxOpen = false { _precondition('[', min, max, ']'); }
+  Interval.closed(T min, T max): min = (value: min, open: false), max = (value: max, open: false) {
+    _precondition('[', min, max, ']');
+  }
 
   /// Creates an [Interval] with the open lower bound and closed upper bound.
   ///
@@ -53,7 +51,9 @@ class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRang
   /// ## Contract
   /// Throws a [RangeError] if `min >= max`.
   @Possible({RangeError})
-  Interval.openClosed(this.min, this.max): minOpen = true, maxOpen = false { _precondition('(', min, max, ']'); }
+  Interval.openClosed(T min, T max): min = (value: min, open: true), max = (value: max, open: true) {
+    _precondition('(', min, max, ']');
+  }
 
   /// Creates an [Interval] with the open lower and upper bounds.
   ///
@@ -62,7 +62,7 @@ class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRang
   /// ## Contract
   /// Throws a [RangeError] if `min >= max`.
   @Possible({RangeError})
-  Interval.open(this.min, this.max): minOpen = true, maxOpen = true {
+  Interval.open(T min, T max): min = (value: min, open: true), max = (value: max, open: true) {
     final value = min.compareTo(max);
     if (value < 0) {
       return;
@@ -79,7 +79,7 @@ class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRang
   /// Creates an empty [Interval] with [value], i.e. `{ x | value <= x < value }`.
   ///
   /// This is an alias for [Interval.closedOpen].
-  const Interval.empty(T value): min = value, minOpen = false, max = value, maxOpen = true;
+  const Interval.empty(T value): min = (value: value, open: false), max = (value: value, open: true);
 
   const Interval._(this.min, this.minOpen, this.max, this.maxOpen);
 
@@ -123,7 +123,7 @@ class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRang
     } else if (other is Max<T>) {
       return Intersections.maxInterval(other, this);
 
-    } else if (other is All<T>) {
+    } else if (other is Unbound<T>) {
       return this;
 
     } else {
@@ -216,6 +216,10 @@ class Interval<T extends Comparable<Object?>> extends Range<T> with IterableRang
 
 /// Provides functions for computing the gap between two [Range]s.
 @internal extension Gaps on Never {
+
+  @useResult static Interval<T>? gap<T extends Comparable<Object?>>(Range<T> a, Range<T> b) => switch ((a, b)) {
+    (final Min<T> a, final Max<T> b)
+  };
 
   /// If [min] does not intersect [max], return the gap in between. Otherwise returns `null`.
   @useResult static Interval<T>? minMax<T extends C>(Min<T> min, Max<T> max) => Intersects.minMax(min, max) ? null : Interval._(max.value, !max.open, min.value, !min.open);

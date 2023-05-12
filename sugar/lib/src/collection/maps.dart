@@ -17,9 +17,9 @@ extension Maps<K, V> on Map<K, V> {
   /// ```
   @useResult static Map<K, V> merge<K, V>(Map<K, V> a, Map<K, V> b, {required V Function(K key, V a, V b) resolve}) {
     final result = Map.of(a);
-    for (final entry in b.entries) {
-      final existing = a[entry.key];
-      result[entry.key] = existing == null ? entry.value : resolve(entry.key, existing, entry.value);
+    for (final MapEntry(:key, :value) in b.entries) {
+      final existing = a[key];
+      result[key] = existing == null ? value : resolve(key, existing, value);
     }
 
     return result;
@@ -39,9 +39,9 @@ extension Maps<K, V> on Map<K, V> {
   /// print(foo); // {'a': 1, 'b': 2}
   /// ```
   void putAll(Map<K, V> other, {required V Function(K key, V existing, V other) resolve}) {
-    for (final entry in other.entries) {
-      final existing = this[entry.key];
-      this[entry.key] = existing == null ? entry.value : resolve(entry.key, existing, entry.value);
+    for (final MapEntry(:key, :value) in other.entries) {
+      final existing = this[key];
+      this[key] = existing == null ? value : resolve(key, existing, value);
     }
   }
 
@@ -52,14 +52,8 @@ extension Maps<K, V> on Map<K, V> {
   /// foo.retainWhere((k, v) => v < 2); // {'b': 2}
   /// ```
   void retainWhere(bool Function(K key, V value) predicate) {
-    final removed = <K>[];
-    for (final entry in entries) {
-      if (!predicate(entry.key, entry.value)) {
-        removed.add(entry.key);
-      }
-    }
-
-    removed.forEach(remove);
+    // We remove all elements at the end to ensure atomicity.
+    [ for (final MapEntry(:key, :value) in entries) if (!predicate(key, value)) key ].forEach(remove);
   }
 
 
@@ -71,8 +65,8 @@ extension Maps<K, V> on Map<K, V> {
   /// ```
   @useResult Map<V, List<K>> inverse() {
     final result = <V, List<K>>{};
-    for (final entry in entries) {
-      (result[entry.value] ??= []).add(entry.key);
+    for (final MapEntry(:key, :value) in entries) {
+      (result[value] ??= []).add(key);
     }
 
     return result;
@@ -85,9 +79,9 @@ extension Maps<K, V> on Map<K, V> {
   /// final bar = foo.where((k, v) => k == 'a' || v == 2); // {'a': 1, 'b': 2}
   /// ```
   @useResult Map<K, V> where(bool Function(K key, V value) predicate) => {
-    for (final entry in entries)
-      if (predicate(entry.key, entry.value))
-        entry.key: entry.value
+    for (final MapEntry(:key, :value) in entries)
+      if (predicate(key, value))
+        key: value,
   };
 
   /// Returns a copy of this map with its keys transformed using [convert].
@@ -103,7 +97,10 @@ extension Maps<K, V> on Map<K, V> {
   /// ```
   ///
   /// See [revalue] for converting values and [map] for converting entries.
-  @useResult Map<K1, V> rekey<K1>(K1 Function(K key) convert) => { for (final entry in entries) convert(entry.key): entry.value };
+  @useResult Map<K1, V> rekey<K1>(K1 Function(K key) convert) => {
+    for (final MapEntry(:key, :value) in entries)
+      convert(key): value,
+  };
 
   /// Returns a copy of this map with its values transformed using [convert].
   ///
@@ -114,7 +111,10 @@ extension Maps<K, V> on Map<K, V> {
   ///
   /// See [rekey] for converting values and [map] for converting entries.
   @useResult
-  Map<K, V1> revalue<V1>(V1 Function(V value) convert) => { for (final entry in entries) entry.key: convert(entry.value) };
+  Map<K, V1> revalue<V1>(V1 Function(V value) convert) => {
+    for (final MapEntry(:key, :value) in entries)
+      key: convert(value),
+  };
 
 }
 

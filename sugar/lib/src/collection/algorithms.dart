@@ -15,26 +15,14 @@ import 'package:sugar/core.dart';
 /// This function assumes that the iterables have efficient length computations, i.e. the length is cached. This is true
 /// for most standard library collections.
 @useResult bool disjoint(Iterable<Object?> a, Iterable<Object?> b) {
-  // This implementation is borrowed from Java's Collections.disjoint(...) method.
-  var iterable = a;
-  var contains = b;
-
-  if (a is Set<Object?>) {
-    iterable = b;
-    contains = a;
-
-  } else if (b is! Set<Object?>) {
-    final aLength = a.length;
-    final bLength = b.length;
-    if (aLength == 0 || bLength == 0) {
-      return true;
-    }
-
-    if (aLength > bLength) {
-      iterable = b;
-      contains = a;
-    }
+  if (a.isEmpty || b.isEmpty) {
+    return true;
   }
+
+  final (iterable, contains) = switch ((a, b)) {
+    (final a, final b) when a is Set<Object?> || (b is! Set<Object?> && a.length > b.length) => (b, a),
+    _ => (a, b),
+  };
 
   for (final element in iterable) {
     if (contains.contains(element)) {
@@ -82,8 +70,8 @@ import 'package:sugar/core.dart';
 void reverse(List<Object?> list, [int start = 0, int? end]) {
   end = RangeError.checkValidRange(start, end, list.length);
   for (var i = start, j = end - 1; i < j; i++, j--) {
-    final element = list[i];
-    list[i] = list[j];
-    list[j] = element;
+    final (a, b) = (list[i], list[j]);
+    list[i] = b;
+    list[j] = a;
   }
 }

@@ -1,18 +1,14 @@
-import 'package:meta/meta.dart';
-import 'package:sugar/core_range.dart';
-import 'package:sugar/src/core/range/all.dart';
-import 'package:sugar/src/core/range/interval.dart';
-import 'package:sugar/src/core/range/range.dart';
+part of 'range.dart';
 
 /// A [Max] represents a convex (contiguous) portion of a domain bounded on the upper end, i.e. `{ x |  x < value }`.
 ///
 /// [T] is expected to be immutable. If [T] is mutable, the value produced by [Comparable.compare] must not change when
 /// used in a [Max]. Doing so will result in undefined behaviour.
-class Max<T extends Comparable<Object?>> extends Range<T> with IterableRange<T> {
+final class Max<T extends Comparable<Object?>> extends Range<T> with IterableRange<T> {
 
   /// The maximum value.
   final T value;
-  /// Whether the lower bound is open.
+  /// Whether the upper bound is open.
   ///
   /// In other words, whether the range excludes [value], i.e. `{ x | x < value }`.
   final bool open;
@@ -70,7 +66,7 @@ class Max<T extends Comparable<Object?>> extends Range<T> with IterableRange<T> 
     } else if (other is Min<T>) {
       return Intersections.minMax(other, this);
 
-    } else if (other is All<T>) {
+    } else if (other is Unbound<T>) {
       return this;
 
     } else {

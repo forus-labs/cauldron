@@ -16,7 +16,7 @@
 ///
 /// | Notation   | Range                  | Type/Constructor      |
 /// | ---------- | ---------------------- | --------------------- |
-/// | `(-∞..+∞)` | `{ x \| x }`           | [Range.all]           |
+/// | `(-∞..+∞)` | `{ x \| x }`           | [Unbound]             |
 /// | `(a..+∞)`  | `{ x \| a < x }`       | [Min]                 |
 /// | `[a..+∞)`  | `{ x \| a <= x }`      | [Min]                 |
 /// | `(a..b)`   | `{ x \| a < x < b }`   | [Interval.open]       |
@@ -43,11 +43,5 @@
 library sugar.core.range;
 
 import 'package:sugar/src/core/range/range.dart';
-import 'package:sugar/src/core/range/interval.dart';
-import 'package:sugar/src/core/range/max.dart';
-import 'package:sugar/src/core/range/min.dart';
 
-export 'src/core/range/interval.dart' hide Gaps, Intersections;
-export 'src/core/range/max.dart';
-export 'src/core/range/min.dart';
-export 'src/core/range/range.dart' hide Besides, C, Intersects;
+export 'src/core/range/range.dart' hide Besides, C, Gaps, Intersections, Intersects;

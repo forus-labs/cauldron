@@ -53,7 +53,7 @@ final _GetDynamicTimeZoneInformation = _kernel32.lookup<NativeFunction<_NativeGe
 /// See [DYNAMIC_TIME_ZONE_INFORMATION](https://learn.microsoft.com/en-us/windows/win32/api/timezoneapi/ns-timezoneapi-dynamic_time_zone_information.)
 ///
 /// Derived from https://github.com/timsneath/win32/blob/ffb2f5526b38266e2791fec34a22a51348a5d367/lib/src/structs.g.dart#L8483
-class _DYNAMIC_TIME_ZONE_INFORMATION extends Struct {
+final class _DYNAMIC_TIME_ZONE_INFORMATION extends Struct {
   @Int32()
   external int bias;
 
@@ -86,7 +86,7 @@ class _DYNAMIC_TIME_ZONE_INFORMATION extends Struct {
 /// See [SYSTEMTIME](https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-systemtime) for more information.
 ///
 /// Derived from https://github.com/timsneath/win32/blob/ffb2f5526b38266e2791fec34a22a51348a5d367/lib/src/structs.g.dart#L8483
-class _SYSTEMTIME extends Struct {
+final class _SYSTEMTIME extends Struct {
   @Uint16()
   external int wYear;
 

@@ -20,8 +20,20 @@ import 'package:sugar/core.dart';
 /// }
 /// ```
 ///
+/// You can also perform pattern matching on a `Result`.
+/// ```dart
+/// void handle() {
+///   switch (httpGet()) {
+///     case Success(:final success):
+///       // handle success
+///     case Failure(:final failure):
+///       // handle failure
+///   }
+/// }
+/// ```
+///
 /// See [Maybe] for representing a value and the possible absence thereof.
-@sealed abstract class Result<S extends Object, F extends Object> {
+sealed class Result<S extends Object, F extends Object> {
 
   static void _nothing(Object? value) {}
 
@@ -152,7 +164,7 @@ import 'package:sugar/core.dart';
 }
 
 /// Represents a success.
-class Success<S extends Object, F extends Object> extends Result<S, F> {
+final class Success<S extends Object, F extends Object> extends Result<S, F> {
 
   @override
   final S success;
@@ -199,7 +211,7 @@ class Success<S extends Object, F extends Object> extends Result<S, F> {
 }
 
 /// Represents a failure.
-class Failure<S extends Object, F extends Object> extends Result<S, F> {
+final class Failure<S extends Object, F extends Object> extends Result<S, F> {
 
   @override
   final F failure;

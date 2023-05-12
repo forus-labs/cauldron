@@ -10,7 +10,8 @@ extension DeepEqualityIterable on Iterable<Object?> {
 
   /// Determines if this and [other] are deeply equal.
   ///
-  /// A list is only equal to a list. Likewise for sets. All other iterables must have the same order to be equal.
+  /// A list is only equal to another list if they contain the same elements in the same order. All other iterables only
+  /// need to contain the same elements to be equal.
   ///
   /// This function is unlike [Iterable.==] which is identity-based.
   ///
@@ -77,8 +78,9 @@ extension Equality on Never {
 
   /// Determines if [a] and [b] are deeply equal.
   ///
-  /// This function handles lists, maps, sets, iterables and map entries specially. A list is only always equal to a list.
-  /// Likewise for maps and sets. All other iterables must have the same order to be equal.
+  /// This function handles lists, maps, sets, iterables and map entries specially. A list is only equal to another list
+  /// if they contain the same elements in the same order. All other iterables only need to contain the same elements to
+  /// be equal.
   ///
   /// Where possible, [DeepEqualityIterable.equals] and [DeepEqualityMap.equals] are preferred.
   ///
@@ -92,26 +94,14 @@ extension Equality on Never {
   /// Equality.deep(a, ['some other list']) // Throws StackOverflowError
   /// ```
   @Possible({StackOverflowError})
-  @useResult static bool deep(Object? a, Object? b) {
-    if (identical(a, b)) {
-      return true;
-
-    } else if (a is Set && b is Set) {
-      return _unordered(a, b);
-
-    } else if (a is Map && b is Map) {
-      return _unordered(a.entries, b.entries);
-
-    } else if ((a is List == b is List) && a is Iterable && b is Iterable) { // This should only be called when both objects, or neither objects are lists.
-      return _ordered(a, b);
-
-    } else if (a is MapEntry && b is MapEntry) {
-      return deep(a.key, b.key) && deep(a.value, b.value);
-
-    } else {
-      return a == b;
-    }
-  }
+  @useResult static bool deep(Object? a, Object? b) => switch ((a, b)) {
+    (final a, final b) when identical(a, b) => true,
+    (final List a, final List b) =>  _ordered(a, b),
+    (final Iterable a, final Iterable b) => _unordered(a, b),
+    (Map(entries: final a), Map(entries: final b)) => _unordered(a, b),
+    (final MapEntry a, final MapEntry b) => deep(a.key, b.key) && deep(a.value, b.value),
+    _ => a == b,
+  };
 
   static bool _unordered(Iterable<Object?> a, Iterable<Object?> b) {
     if (a.length != b.length) {
@@ -179,26 +169,14 @@ extension HashCodes on Never {
   /// HashCodes.deep(a) // Throws a StackOverflowError
   /// ```
   @Possible({StackOverflowError})
-  @useResult static int deep(Object? value) {
-    if (value is List) {
-      return _ordered(_list, value);
-
-    } else if (value is Set) {
-      return _unordered(_set, value);
-
-    } else if (value is Iterable) {
-      return _unordered(_iterable, value);
-
-    } else if (value is Map) {
-      return _unordered(_map, value.entries);
-
-    } else if (value is MapEntry) {
-      return _ordered(_entry, [value.key, value.value]);
-
-    } else {
-      return value.hashCode;
-    }
-  }
+  @useResult static int deep(Object? value) => switch (value) {
+    final List v => _ordered(_list, v),
+    final Set v => _unordered(_set, v),
+    final Iterable v => _unordered(_iterable, v),
+    Map(:final entries) => _unordered(_map, entries),
+    MapEntry(:final key, :final value) => _ordered(_entry, [key, value]),
+    _ => value.hashCode,
+  };
 
   static int _ordered(Type type, Iterable<Object?> iterable) {
     var value = type.hashCode; // This is to reduce hash collisions between different types.
