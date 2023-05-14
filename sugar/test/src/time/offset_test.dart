@@ -10,29 +10,29 @@ void main() {
     });
 
     group('parse(...)', () {
-      for (final arguments in [
-        ['Z', 'Z'],
-        ['+0', 'Z'],
-        ['-0', 'Z'],
-        ['+8', '+08:00'],
-        ['-8', '-08:00'],
-        ['+08', '+08:00'],
-        ['-08', '-08:00'],
-        ['+18', '+18:00'],
-        ['-18', '-18:00'],
-        ['+08:12', '+08:12'],
-        ['-08:12', '-08:12'],
-        ['+0812', '+08:12'],
-        ['-0812', '-08:12'],
-        ['+08:12:34', '+08:12:34'],
-        ['-08:12:34', '-08:12:34'],
-        ['+081234', '+08:12:34'],
-        ['-081234', '-08:12:34'],
+      for (final (input, output) in [
+        ('Z', 'Z'),
+        ('+0', 'Z'),
+        ('-0', 'Z'),
+        ('+8', '+08:00'),
+        ('-8', '-08:00'),
+        ('+08', '+08:00'),
+        ('-08', '-08:00'),
+        ('+18', '+18:00'),
+        ('-18', '-18:00'),
+        ('+08:12', '+08:12'),
+        ('-08:12', '-08:12'),
+        ('+0812', '+08:12'),
+        ('-0812', '-08:12'),
+        ('+08:12:34', '+08:12:34'),
+        ('-08:12:34', '-08:12:34'),
+        ('+081234', '+08:12:34'),
+        ('-081234', '-08:12:34'),
       ]) {
-        test('accepts ${arguments[0]}', () => expect(Offset.parse(arguments[0]).toString(), arguments[1]));
+        test('accepts $input', () => expect(Offset.parse(input).toString(), output));
       }
 
-      for (final argument in [
+      for (final input in [
         'z',
         '0',
         '+19',
@@ -59,84 +59,74 @@ void main() {
         '-01234',
         '+01234',
       ]) {
-        test('with $argument throws error', () => expect(() => Offset.parse(argument).toString(), throwsA(anything)));
+        test('with $input throws error', () => expect(() => Offset.parse(input).toString(), throwsA(anything)));
       }
     });
 
     test('now()', () => expect(Offset.now().toDuration(), DateTime.now().timeZoneOffset));
 
     group('fromSeconds(...)', () {
-      for (final argument in [
-        [(-18 * Duration.secondsPerHour), '-18:00'],
-        [(18 * Duration.secondsPerHour), '+18:00'],
-        [123, '+00:02:03'],
+      for (final (seconds, output) in [
+        ((-18 * Duration.secondsPerHour), '-18:00'),
+        ((18 * Duration.secondsPerHour), '+18:00'),
+        (123, '+00:02:03'),
       ]) {
-        test('accepts ${argument[0]}', () {
-          expect(Offset.fromSeconds(argument[0] as int).toString(), argument[1]);
-        });
+        test('accepts $seconds', () => expect(Offset.fromSeconds(seconds).toString(), output));
       }
 
-      for (final argument in [
+      for (final seconds in [
         (-18 * Duration.secondsPerHour) - 1,
         (18 * Duration.secondsPerHour) + 1,
       ]) {
-        test('with $argument throws error', () {
-          expect(() => Offset.fromSeconds(argument), throwsRangeError);
-        });
+        test('with $seconds throws error', () => expect(() => Offset.fromSeconds(seconds), throwsRangeError));
       }
     });
 
     group('fromMicroseconds(...)', () {
-      for (final argument in [
-        [(-18 * Duration.microsecondsPerHour), '-18:00'],
-        [(18 * Duration.microsecondsPerHour), '+18:00'],
-        [123 * Duration.microsecondsPerSecond, '+00:02:03'],
+      for (final (microseconds, output) in [
+        ((-18 * Duration.microsecondsPerHour), '-18:00'),
+        ((18 * Duration.microsecondsPerHour), '+18:00'),
+        (123 * Duration.microsecondsPerSecond, '+00:02:03'),
       ]) {
-        test('accepts ${argument[0]}', () {
-          expect(Offset.fromMicroseconds(argument[0] as int).toString(), argument[1]);
-        });
+        test('accepts $microseconds', () => expect(Offset.fromMicroseconds(microseconds).toString(), output));
       }
 
-      for (final argument in [
+      for (final microseconds in [
         (-18 * Duration.microsecondsPerHour) - 1,
         (18 * Duration.microsecondsPerHour) + 1,
       ]) {
-        test('with $argument throws error', () {
-          expect(() => Offset.fromMicroseconds(argument), throwsRangeError);
-        });
+        test('with $microseconds throws error', () => expect(() => Offset.fromMicroseconds(microseconds), throwsRangeError));
       }
     });
 
     group('unnamed constructor', () {
-      for (final arguments in [
-        [-18, 0, 0, '-18:00'],
-        [18, 0, 0, '+18:00'],
-        [18, 0, 0, '+18:00'],
-        [0, 59, 0, '+00:59'],
-        [0, 0, 59, '+00:00:59'],
-        [17, 59, 59, '+17:59:59'],
-        [-17, 59, 59, '-17:59:59'],
-        [-1, 30, 30, '-01:30:30'],
-        [0, 0, 0, 'Z'],
+      for (final (hour, minute, second, output) in [
+        (-18, 0, 0, '-18:00'),
+        (18, 0, 0, '+18:00'),
+        (18, 0, 0, '+18:00'),
+        (0, 59, 0, '+00:59'),
+        (0, 0, 59, '+00:00:59'),
+        (17, 59, 59, '+17:59:59'),
+        (-17, 59, 59, '-17:59:59'),
+        (-1, 30, 30, '-01:30:30'),
+        (0, 0, 0, 'Z'),
       ]) {
-        test('accepts $arguments', () {
-          expect(Offset(arguments[0] as int, arguments[1] as int, arguments[2] as int).toString(), arguments[3]);
-        });
+        test('accepts $hour $minute $second', () => expect(Offset(hour, minute, second).toString(), output));
       }
 
-      for (final arguments in [
-        [-19, 0, 0],
-        [19, 0, 0],
-        [18, 0, 1],
-        [18, 0, -1],
-        [0, 60, 0],
-        [0, -1, 0],
-        [0, 0, 60],
-        [0, 0, -1],
-        [-18, -1, -1],
+      for (final (hour, minute, second) in [
+        (-19, 0, 0),
+        (19, 0, 0),
+        (18, 0, 1),
+        (18, 0, -1),
+        (0, 60, 0),
+        (0, -1, 0),
+        (0, 0, 60),
+        (0, 0, -1),
+        (-18, -1, -1),
       ]) {
-        test('with $arguments throws error', () {
-          expect(() => Offset(arguments[0], arguments[1], arguments[2]), throwsRangeError);
+        test('with $hour $minute $second throws error', () {
+          expect(() => Offset(hour, minute, second), throwsRangeError);
         });
       }
     });
@@ -193,16 +183,13 @@ void main() {
     test('inMicroseconds', () => expect(Offset(1, 2, 3).inMicroseconds, 3723000000));
 
 
-    for (final argument in [
-      [Offset(1, 2, 3), true],
-      [Offset(1, 2, 4), false],
-      [Offset(-1, 2, 3), false],
-      [const LiteralOffset('+01:02:03', 3723), true]
+    for (final (other, expected) in [
+      (Offset(1, 2, 3), true),
+      (Offset(1, 2, 4), false),
+      (Offset(-1, 2, 3), false),
+      (const LiteralOffset('+01:02:03', 3723), true)
     ]) {
       test('equality ', () {
-        final other = argument[0] as Offset;
-        final expected = argument[1] as bool;
-
         expect(Offset(1, 2, 3) == other, expected);
         expect(Offset(1, 2, 3).compareTo(other) == 0, expected);
         expect(Offset(1, 2, 3).hashCode == other.hashCode, expected);
@@ -220,16 +207,13 @@ void main() {
 
     test('constructor throws exception', () => expect(() => LiteralOffset('+01:02:03', -100000000), throwsA(anything)));
 
-    for (final argument in [
-      [Offset(1, 2, 3), true],
-      [Offset(1, 2, 4), false],
-      [Offset(-1, 2, 3), false],
-      [const LiteralOffset('+01:02:03', 3723), true]
+    for (final (other, expected) in [
+      (Offset(1, 2, 3), true),
+      (Offset(1, 2, 4), false),
+      (Offset(-1, 2, 3), false),
+      (const LiteralOffset('+01:02:03', 3723), true)
     ]) {
       test('equality ', () {
-        final other = argument[0] as Offset;
-        final expected = argument[1] as bool;
-
         expect(const LiteralOffset('+01:02:03', 3723) == other, expected);
         expect(const LiteralOffset('+01:02:03', 3723).compareTo(other) == 0, expected);
         expect(const LiteralOffset('+01:02:03', 3723).hashCode == other.hashCode, expected);

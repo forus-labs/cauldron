@@ -130,96 +130,81 @@ void main() {
     test('nothing', () => expect(DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8) - const Period(), DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8)));
   });
 
-  for (final arguments in [
-    [DateUnit.years, DateTime(10)],
-    [DateUnit.months, DateTime(10, 2)],
-    [DateUnit.days, DateTime(10, 2, 3)],
-    [TimeUnit.hours, DateTime(10, 2, 3, 4)],
-    [TimeUnit.minutes, DateTime(10, 2, 3, 4, 5)],
-    [TimeUnit.seconds, DateTime(10, 2, 3, 4, 5, 6)],
-    [TimeUnit.milliseconds, DateTime(10, 2, 3, 4, 5, 6, 7)],
-    [TimeUnit.microseconds, DateTime(10, 2, 3, 4, 5, 6, 7, 8)],
+  for (final (unit, truncated) in [
+    (DateUnit.years, DateTime(10)),
+    (DateUnit.months, DateTime(10, 2)),
+    (DateUnit.days, DateTime(10, 2, 3)),
+    (TimeUnit.hours, DateTime(10, 2, 3, 4)),
+    (TimeUnit.minutes, DateTime(10, 2, 3, 4, 5)),
+    (TimeUnit.seconds, DateTime(10, 2, 3, 4, 5, 6)),
+    (TimeUnit.milliseconds, DateTime(10, 2, 3, 4, 5, 6, 7)),
+    (TimeUnit.microseconds, DateTime(10, 2, 3, 4, 5, 6, 7, 8)),
   ]) {
     final date = DateTime(10, 2, 3, 4, 5, 6, 7, 8);
-    final unit = arguments[0] as TemporalUnit;
-    final truncated = arguments[1] as DateTime;
-
-    test('truncate to $unit', () => expect(date.truncate(to: unit), truncated));
+    test('truncate to $unit', () => expect(date.truncate(to: unit as TemporalUnit), truncated));
   }
 
-  for (final arguments in [
-    [DateTime(3, 2), DateUnit.years, DateTime(5)],
-    [DateTime(7, 2), DateUnit.years, DateTime(5)],
-    [DateTime(1, 3, 2), DateUnit.months, DateTime(1, 5)],
-    [DateTime(1, 7, 2), DateUnit.months, DateTime(1, 5)],
-    [DateTime(1, 1, 3, 2), DateUnit.days, DateTime(1, 1, 5)],
-    [DateTime(1, 1, 7, 2), DateUnit.days, DateTime(1, 1, 5)],
-    [DateTime(1, 1, 1, 3, 2), TimeUnit.hours, DateTime(1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 7, 2), TimeUnit.hours, DateTime(1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 3, 2), TimeUnit.minutes, DateTime(1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 7, 2), TimeUnit.minutes, DateTime(1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 3, 2), TimeUnit.seconds, DateTime(1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 7, 2), TimeUnit.seconds, DateTime(1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 3, 2), TimeUnit.milliseconds, DateTime(1, 1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 7, 2), TimeUnit.milliseconds, DateTime(1, 1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 1, 3), TimeUnit.microseconds, DateTime(1, 1, 1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 1, 7), TimeUnit.microseconds, DateTime(1, 1, 1, 1, 1, 1, 1, 5)],
+  for (final (date, unit, truncated) in [
+    (DateTime(3, 2), DateUnit.years, DateTime(5)),
+    (DateTime(7, 2), DateUnit.years, DateTime(5)),
+    (DateTime(1, 3, 2), DateUnit.months, DateTime(1, 5)),
+    (DateTime(1, 7, 2), DateUnit.months, DateTime(1, 5)),
+    (DateTime(1, 1, 3, 2), DateUnit.days, DateTime(1, 1, 5)),
+    (DateTime(1, 1, 7, 2), DateUnit.days, DateTime(1, 1, 5)),
+    (DateTime(1, 1, 1, 3, 2), TimeUnit.hours, DateTime(1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 7, 2), TimeUnit.hours, DateTime(1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 3, 2), TimeUnit.minutes, DateTime(1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 7, 2), TimeUnit.minutes, DateTime(1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 3, 2), TimeUnit.seconds, DateTime(1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 7, 2), TimeUnit.seconds, DateTime(1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 1, 3, 2), TimeUnit.milliseconds, DateTime(1, 1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 1, 7, 2), TimeUnit.milliseconds, DateTime(1, 1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 1, 1, 3), TimeUnit.microseconds, DateTime(1, 1, 1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 1, 1, 7), TimeUnit.microseconds, DateTime(1, 1, 1, 1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as DateTime;
-    final unit = arguments[1] as TemporalUnit;
-    final truncated = arguments[2] as DateTime;
-
-    test('round $unit to 5', () => expect(date.round(unit, 5), truncated));
+    test('round $unit to 5', () => expect(date.round(unit as TemporalUnit, 5), truncated));
   }
 
-  for (final arguments in [
-    [DateTime(2, 9), DateUnit.years, DateTime(5)],
-    [DateTime(4, 9), DateUnit.years, DateTime(5)],
-    [DateTime(1, 2, 9), DateUnit.months, DateTime(1, 5)],
-    [DateTime(1, 4, 9), DateUnit.months, DateTime(1, 5)],
-    [DateTime(1, 1, 2, 9), DateUnit.days, DateTime(1, 1, 5)],
-    [DateTime(1, 1, 4, 9), DateUnit.days, DateTime(1, 1, 5)],
-    [DateTime(1, 1, 1, 2, 9), TimeUnit.hours, DateTime(1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 4, 9), TimeUnit.hours, DateTime(1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 2, 9), TimeUnit.minutes, DateTime(1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 4, 9), TimeUnit.minutes, DateTime(1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 2, 9), TimeUnit.seconds, DateTime(1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 4, 9), TimeUnit.seconds, DateTime(1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 2, 9), TimeUnit.milliseconds, DateTime(1, 1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 4, 9), TimeUnit.milliseconds, DateTime(1, 1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 1, 2), TimeUnit.microseconds, DateTime(1, 1, 1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 1, 4), TimeUnit.microseconds, DateTime(1, 1, 1, 1, 1, 1, 1, 5)],
+  for (final (date, unit, truncated) in [
+    (DateTime(2, 9), DateUnit.years, DateTime(5)),
+    (DateTime(4, 9), DateUnit.years, DateTime(5)),
+    (DateTime(1, 2, 9), DateUnit.months, DateTime(1, 5)),
+    (DateTime(1, 4, 9), DateUnit.months, DateTime(1, 5)),
+    (DateTime(1, 1, 2, 9), DateUnit.days, DateTime(1, 1, 5)),
+    (DateTime(1, 1, 4, 9), DateUnit.days, DateTime(1, 1, 5)),
+    (DateTime(1, 1, 1, 2, 9), TimeUnit.hours, DateTime(1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 4, 9), TimeUnit.hours, DateTime(1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 2, 9), TimeUnit.minutes, DateTime(1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 4, 9), TimeUnit.minutes, DateTime(1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 2, 9), TimeUnit.seconds, DateTime(1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 4, 9), TimeUnit.seconds, DateTime(1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 1, 2, 9), TimeUnit.milliseconds, DateTime(1, 1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 1, 4, 9), TimeUnit.milliseconds, DateTime(1, 1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 1, 1, 2), TimeUnit.microseconds, DateTime(1, 1, 1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 1, 1, 4), TimeUnit.microseconds, DateTime(1, 1, 1, 1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as DateTime;
-    final unit = arguments[1] as TemporalUnit;
-    final truncated = arguments[2] as DateTime;
-
-    test('ceil $unit to 5', () => expect(date.ceil(unit, 5), truncated));
+    test('ceil $unit to 5', () => expect(date.ceil(unit as TemporalUnit, 5), truncated));
   }
 
-  for (final arguments in [
-    [DateTime(6, 2), DateUnit.years, DateTime(5)],
-    [DateTime(9, 2), DateUnit.years, DateTime(5)],
-    [DateTime(1, 6, 2), DateUnit.months, DateTime(1, 5)],
-    [DateTime(1, 9, 2), DateUnit.months, DateTime(1, 5)],
-    [DateTime(1, 1, 6, 2), DateUnit.days, DateTime(1, 1, 5)],
-    [DateTime(1, 1, 9, 2), DateUnit.days, DateTime(1, 1, 5)],
-    [DateTime(1, 1, 1, 6, 2), TimeUnit.hours, DateTime(1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 9, 2), TimeUnit.hours, DateTime(1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 6, 2), TimeUnit.minutes, DateTime(1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 9, 2), TimeUnit.minutes, DateTime(1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 6, 2), TimeUnit.seconds, DateTime(1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 9, 2), TimeUnit.seconds, DateTime(1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 6, 2), TimeUnit.milliseconds, DateTime(1, 1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 9, 2), TimeUnit.milliseconds, DateTime(1, 1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 1, 6), TimeUnit.microseconds, DateTime(1, 1, 1, 1, 1, 1, 1, 5)],
-    [DateTime(1, 1, 1, 1, 1, 1, 1, 9), TimeUnit.microseconds, DateTime(1, 1, 1, 1, 1, 1, 1, 5)],
+  for (final (date, unit, truncated) in [
+    (DateTime(6, 2), DateUnit.years, DateTime(5)),
+    (DateTime(9, 2), DateUnit.years, DateTime(5)),
+    (DateTime(1, 6, 2), DateUnit.months, DateTime(1, 5)),
+    (DateTime(1, 9, 2), DateUnit.months, DateTime(1, 5)),
+    (DateTime(1, 1, 6, 2), DateUnit.days, DateTime(1, 1, 5)),
+    (DateTime(1, 1, 9, 2), DateUnit.days, DateTime(1, 1, 5)),
+    (DateTime(1, 1, 1, 6, 2), TimeUnit.hours, DateTime(1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 9, 2), TimeUnit.hours, DateTime(1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 6, 2), TimeUnit.minutes, DateTime(1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 9, 2), TimeUnit.minutes, DateTime(1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 6, 2), TimeUnit.seconds, DateTime(1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 9, 2), TimeUnit.seconds, DateTime(1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 1, 6, 2), TimeUnit.milliseconds, DateTime(1, 1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 1, 9, 2), TimeUnit.milliseconds, DateTime(1, 1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 1, 1, 6), TimeUnit.microseconds, DateTime(1, 1, 1, 1, 1, 1, 1, 5)),
+    (DateTime(1, 1, 1, 1, 1, 1, 1, 9), TimeUnit.microseconds, DateTime(1, 1, 1, 1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as DateTime;
-    final unit = arguments[1] as TemporalUnit;
-    final truncated = arguments[2] as DateTime;
-
-    test('floor $unit to 5', () => expect(date.floor(unit, 5), truncated));
+    test('floor $unit to 5', () => expect(date.floor(unit as TemporalUnit, 5), truncated));
   }
 
 
@@ -231,17 +216,14 @@ void main() {
     test('pads day', () => expect(DateTime(2023, 12, 5, 1).toDateString(), '2023-12-05'));
   });
 
-  for (final arguments in [
-    [DateTime(2023, 4, 15, 1, 2, 3, 4, 5), '01:02:03.004005'],
-    [DateTime(2023, 4, 15, 1), '01:00'],
-    [DateTime(2023, 4, 15, 0, 1), '00:01'],
-    [DateTime(2023, 4, 15, 0, 0, 1), '00:00:01'],
-    [DateTime(2023, 4, 15, 0, 0, 0, 1), '00:00:00.001'],
-    [DateTime(2023, 4, 15, 0, 0, 0, 0, 1), '00:00:00.000001'],
+  for (final (date, string) in [
+    (DateTime(2023, 4, 15, 1, 2, 3, 4, 5), '01:02:03.004005'),
+    (DateTime(2023, 4, 15, 1), '01:00'),
+    (DateTime(2023, 4, 15, 0, 1), '00:01'),
+    (DateTime(2023, 4, 15, 0, 0, 1), '00:00:01'),
+    (DateTime(2023, 4, 15, 0, 0, 0, 1), '00:00:00.001'),
+    (DateTime(2023, 4, 15, 0, 0, 0, 0, 1), '00:00:00.000001'),
   ]) {
-    final date = arguments[0] as DateTime;
-    final string = arguments[1] as String;
-
     test('toTimeString()', () => expect(date.toTimeString(), string));
   }
 

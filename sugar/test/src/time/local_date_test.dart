@@ -89,60 +89,45 @@ void main() {
   });
 
 
-  for (final arguments in [
-    [DateUnit.years, LocalDate(10)],
-    [DateUnit.months, LocalDate(10, 2)],
-    [DateUnit.days, LocalDate(10, 2, 3)],
+  for (final (unit, truncated) in [
+    (DateUnit.years, LocalDate(10)),
+    (DateUnit.months, LocalDate(10, 2)),
+    (DateUnit.days, LocalDate(10, 2, 3)),
   ]) {
     final date = LocalDate(10, 2, 3);
-    final unit = arguments[0] as DateUnit;
-    final truncated = arguments[1] as LocalDate;
-
     test('truncate to $unit', () => expect(date.truncate(to: unit), truncated));
   }
 
-  for (final arguments in [
-    [LocalDate(3, 2), DateUnit.years, LocalDate(5)],
-    [LocalDate(7, 2), DateUnit.years, LocalDate(5)],
-    [LocalDate(1, 3, 2), DateUnit.months, LocalDate(1, 5)],
-    [LocalDate(1, 7, 2), DateUnit.months, LocalDate(1, 5)],
-    [LocalDate(1, 1, 3), DateUnit.days, LocalDate(1, 1, 5)],
-    [LocalDate(1, 1, 7), DateUnit.days, LocalDate(1, 1, 5)],
+  for (final (date, unit, truncated) in [
+    (LocalDate(3, 2), DateUnit.years, LocalDate(5)),
+    (LocalDate(7, 2), DateUnit.years, LocalDate(5)),
+    (LocalDate(1, 3, 2), DateUnit.months, LocalDate(1, 5)),
+    (LocalDate(1, 7, 2), DateUnit.months, LocalDate(1, 5)),
+    (LocalDate(1, 1, 3), DateUnit.days, LocalDate(1, 1, 5)),
+    (LocalDate(1, 1, 7), DateUnit.days, LocalDate(1, 1, 5)),
   ]) {
-    final date = arguments[0] as LocalDate;
-    final unit = arguments[1] as DateUnit;
-    final truncated = arguments[2] as LocalDate;
-
     test('round $unit to 5', () => expect(date.round(unit, 5), truncated));
   }
 
-  for (final arguments in [
-    [LocalDate(2, 9), DateUnit.years, LocalDate(5)],
-    [LocalDate(4, 9), DateUnit.years, LocalDate(5)],
-    [LocalDate(1, 2, 9), DateUnit.months, LocalDate(1, 5)],
-    [LocalDate(1, 4, 9), DateUnit.months, LocalDate(1, 5)],
-    [LocalDate(1, 1, 2), DateUnit.days, LocalDate(1, 1, 5)],
-    [LocalDate(1, 1, 4), DateUnit.days, LocalDate(1, 1, 5)],
+  for (final (date, unit, truncated) in [
+    (LocalDate(2, 9), DateUnit.years, LocalDate(5)),
+    (LocalDate(4, 9), DateUnit.years, LocalDate(5)),
+    (LocalDate(1, 2, 9), DateUnit.months, LocalDate(1, 5)),
+    (LocalDate(1, 4, 9), DateUnit.months, LocalDate(1, 5)),
+    (LocalDate(1, 1, 2), DateUnit.days, LocalDate(1, 1, 5)),
+    (LocalDate(1, 1, 4), DateUnit.days, LocalDate(1, 1, 5)),
   ]) {
-    final date = arguments[0] as LocalDate;
-    final unit = arguments[1] as DateUnit;
-    final truncated = arguments[2] as LocalDate;
-
     test('ceil $unit to 5', () => expect(date.ceil(unit, 5), truncated));
   }
 
-  for (final arguments in [
-    [LocalDate(6, 2), DateUnit.years, LocalDate(5)],
-    [LocalDate(9, 2), DateUnit.years, LocalDate(5)],
-    [LocalDate(1, 6, 2), DateUnit.months, LocalDate(1, 5)],
-    [LocalDate(1, 9, 2), DateUnit.months, LocalDate(1, 5)],
-    [LocalDate(1, 1, 6), DateUnit.days, LocalDate(1, 1, 5)],
-    [LocalDate(1, 1, 9), DateUnit.days, LocalDate(1, 1, 5)],
+  for (final (date, unit, truncated) in [
+    (LocalDate(6, 2), DateUnit.years, LocalDate(5)),
+    (LocalDate(9, 2), DateUnit.years, LocalDate(5)),
+    (LocalDate(1, 6, 2), DateUnit.months, LocalDate(1, 5)),
+    (LocalDate(1, 9, 2), DateUnit.months, LocalDate(1, 5)),
+    (LocalDate(1, 1, 6), DateUnit.days, LocalDate(1, 1, 5)),
+    (LocalDate(1, 1, 9), DateUnit.days, LocalDate(1, 1, 5)),
   ]) {
-    final date = arguments[0] as LocalDate;
-    final unit = arguments[1] as DateUnit;
-    final truncated = arguments[2] as LocalDate;
-
     test('floor $unit to 5', () => expect(date.floor(unit, 5), truncated));
   }
 

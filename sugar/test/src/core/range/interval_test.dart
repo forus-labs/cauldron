@@ -6,15 +6,9 @@ void main() {
   group('Interval', () {
     group('closedOpen(...)', () {
       test('non-empty range', () {
-        final interval = Interval.closedOpen(1, 2);
-
-        expect(interval.min.value, 1);
-        expect(!interval.min.open, true);
-        expect(interval.min.open, false);
-
-        expect(interval.max.value, 2);
-        expect(!interval.max.open, false);
-        expect(interval.max.open, true);
+        final Interval(:min, :max) = Interval.closedOpen(1, 2);
+        expect(min, (value: 1, open: false));
+        expect(max, (value: 2, open: true));
       });
 
       test('empty range', () => expect(() => Interval.closedOpen(1, 1), returnsNormally));
@@ -24,15 +18,9 @@ void main() {
 
     group('closed(...)', () {
       test('non-empty range', () {
-        final interval = Interval.closed(1, 2);
-
-        expect(interval.min.value, 1);
-        expect(!interval.min.open, true);
-        expect(interval.min.open, false);
-
-        expect(interval.max.value, 2);
-        expect(!interval.max.open, true);
-        expect(interval.max.open, false);
+        final Interval(:min, :max) = Interval.closed(1, 2);
+        expect(min, (value: 1, open: false));
+        expect(max, (value: 2, open: false));
       });
 
       test('empty range', () => expect(() => Interval.closed(1, 1), returnsNormally));
@@ -42,13 +30,9 @@ void main() {
 
     group('openClosed(...)', () {
       test('non-empty range', () {
-        final interval = Interval.openClosed(1, 2);
-
-        expect(interval.min.value, 1);
-        expect(interval.min.open, true);
-
-        expect(interval.max.value, 2);
-        expect(interval.max.open, false);
+        final Interval(:min, :max) = Interval.openClosed(1, 2);
+        expect(min, (value: 1, open: true));
+        expect(max, (value: 2, open: false));
       });
 
       test('empty range', () => expect(() => Interval.openClosed(1, 1), returnsNormally));
@@ -58,13 +42,9 @@ void main() {
 
     group('open(...)', () {
       test('non-empty range', () {
-        final interval = Interval.open(1, 2);
-
-        expect(interval.min.value, 1);
-        expect(interval.min.open, true);
-
-        expect(interval.max.value, 2);
-        expect(interval.max.open, true);
+        final Interval(:min, :max) = Interval.open(1, 2);
+        expect(min, (value: 1, open: true));
+        expect(max, (value: 2, open: true));
       });
 
       test('empty range', () => expect(() => Interval.open(1, 1), throwsRangeError));
@@ -301,16 +281,16 @@ void main() {
       test('not empty', () => expect(interval.empty, false));
     }
 
-    for (final entry in {
-      Interval.open(1, 3): true,
-      Interval.open(0, 4): false,
-      Interval.closedOpen(1, 3): false,
-      Interval.openClosed(1, 3): false,
-      const Max.open(1): false,
-    }.entries) {
-      test('equality - ${Interval.open(1, 3)} and ${entry.key}', () {
-        expect(Interval.open(1, 3) == entry.key, entry.value);
-        expect(Interval.open(1, 3).hashCode == entry.key.hashCode, entry.value);
+    for (final (range, expected) in [
+      (Interval.open(1, 3), true),
+      (Interval.open(0, 4), false),
+      (Interval.closedOpen(1, 3), false),
+      (Interval.openClosed(1, 3), false),
+      (const Max.open(1), false),
+    ]) {
+      test('equality - ${Interval.open(1, 3)} and $range', () {
+        expect(Interval.open(1, 3) == range, expected);
+        expect(Interval.open(1, 3).hashCode == range.hashCode, expected);
       });
     }
 

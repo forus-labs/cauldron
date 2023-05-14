@@ -30,7 +30,7 @@ class NamespaceIR {
 }
 
 /// An intermediate representation of a timezone.
-abstract class TimezoneIR {
+sealed class TimezoneIR {
 
   /// The location derived from the corresponding zic compiled file.
   final Location location;
@@ -41,15 +41,12 @@ abstract class TimezoneIR {
     final location = Location.fromBytes(path, file.readAsBytesSync());
     final variableName = path.split('/').last.toEscapedCamelCase();
 
-    if (location.transitionAt.isNotEmpty && location.transitionZone.isNotEmpty) {
-      return DynamicTimezoneIR(location, variableName);
+    return switch (location) {
+      _ when location.transitionAt.isNotEmpty && location.transitionZone.isNotEmpty => DynamicTimezoneIR(location, variableName),
+      _ when location.transitionAt.isEmpty && location.transitionZone.isEmpty => FixedTimezoneIR(location, variableName),
+      _ => throw StateError('${location.name} has ${location.transitionAt.length} times and ${location.transitionZone.length} zones'),
+    };
 
-    } else if (location.transitionAt.isEmpty && location.transitionZone.isEmpty) {
-      return FixedTimezoneIR(location, variableName);
-
-    } else {
-      throw StateError('${location.name} has ${location.transitionAt.length} times and ${location.transitionZone.length} zones');
-    }
   }
 
   TimezoneIR._(this.location, this.variableName);
@@ -59,47 +56,40 @@ abstract class TimezoneIR {
 }
 
 /// An intermediate representation of a dynamic timezone.
-class DynamicTimezoneIR extends TimezoneIR {
+final class DynamicTimezoneIR extends TimezoneIR {
 
   DynamicTimezoneIR(super.path, super.file): super._();
 
   @override
   String toConstructor(int indentation) {
-    final tuple = _compressOffsets(); // TODO: Dart 3 destructuring
+    final (offsets, unit) = _offsets;
     return (StringBuffer('DynamicTimezone(\n')
     ..writeIndented(indentation, "'${location.name}',\n")
     ..writeIndented(indentation, '${_initial(indentation + 2)},\n')
     ..writeIndented(indentation, 'Int64List.fromList([ ${location.transitionAt.join(', ')} ]),\n')
-    ..writeIndented(indentation, '${_offsets(tuple.key, tuple.value)},\n')
-    ..writeIndented(indentation, '${tuple.value},\n')
+    ..writeIndented(indentation, '$offsets,\n')
+    ..writeIndented(indentation, '$unit,\n')
     ..writeIndented(indentation, '$_abbreviations,\n')
     ..writeIndented(indentation, '$_dsts,\n')
     ..writeIndented(indentation - 2, ');'))
     .toString();
   }
 
-  MapEntry<List<int>, int> _compressOffsets() { // TODO: Dart 3, replace with tuple
+  (String, int) get _offsets {
     final zones = [
       for (int i = 0; i < location.transitionAt.length; i++)
         location.zones[location.transitionZone[i]].offset,
     ];
 
-    final int divisor;
-    final int unit;
-    if (zones.every((z) => z % 3600 == 0)) {
-      divisor = 3600;
-      unit = Duration.microsecondsPerHour;
+    return switch (zones) {
+      _ when zones.every((z) => z % 3600 == 0) =>
+        ('Int8List.fromList([ ${zones.map((z) => z ~/ 3600).toList().join(', ')} ])', Duration.microsecondsPerHour),
 
-    } else if (zones.every((z) => z % 60 == 0)) {
-      divisor = 60;
-      unit = Duration.microsecondsPerMinute;
+      _ when zones.every((z) => z % 60 == 0) =>
+        ('Int16List.fromList([ ${zones.map((z) => z ~/ 60).toList().join(', ')} ])', Duration.microsecondsPerMinute),
 
-    } else {
-      divisor = 1;
-      unit = Duration.microsecondsPerSecond;
-    }
-
-    return MapEntry(zones.map((z) => z ~/ divisor).toList(), unit);
+      _ => ('Int32List.fromList([ ${zones.join(', ')} ])', Duration.microsecondsPerSecond),
+    };
   }
 
   String _initial(int indentation) {
@@ -113,19 +103,6 @@ class DynamicTimezoneIR extends TimezoneIR {
       ..writeIndented(indentation, 'dst: ${zone.isDst},\n')
       ..writeIndented(indentation - 2, ')'))
         .toString();
-  }
-
-  String _offsets(List<int> offsets, int unit) {
-    switch (unit) {
-      case Duration.microsecondsPerHour:
-        return 'Int8List.fromList([ ${offsets.join(', ')} ])';
-      case Duration.microsecondsPerMinute:
-        return 'Int16List.fromList([ ${offsets.join(', ')} ])';
-      case Duration.microsecondsPerSecond:
-        return 'Int32List.fromList([ ${offsets.join(', ')} ])';
-      default:
-        throw StateError('Unknown unit: $unit');
-    }
   }
 
   String get _abbreviations {
@@ -149,7 +126,7 @@ class DynamicTimezoneIR extends TimezoneIR {
 }
 
 /// An intermediate representation of a fixed timezone.
-class FixedTimezoneIR extends TimezoneIR {
+final class FixedTimezoneIR extends TimezoneIR {
 
   FixedTimezoneIR(super.path, super.file): super._();
 

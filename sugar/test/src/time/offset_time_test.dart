@@ -97,75 +97,60 @@ void main() {
     test('date units', () => expect(OffsetTime(Offset(8), 1, 2, 3, 4, 5) - const Period(days: 1, seconds: 1), OffsetTime(Offset(8), 1, 2, 2, 4, 5)));
   });
 
-  for (final arguments in [
-    [TimeUnit.hours, OffsetTime(Offset(8), 1)],
-    [TimeUnit.minutes, OffsetTime(Offset(8), 1, 2)],
-    [TimeUnit.seconds, OffsetTime(Offset(8), 1, 2, 3)],
-    [TimeUnit.milliseconds, OffsetTime(Offset(8), 1, 2, 3, 4)],
-    [TimeUnit.microseconds, OffsetTime(Offset(8), 1, 2, 3, 4, 5)],
+  for (final (unit, truncated) in [
+    (TimeUnit.hours, OffsetTime(Offset(8), 1)),
+    (TimeUnit.minutes, OffsetTime(Offset(8), 1, 2)),
+    (TimeUnit.seconds, OffsetTime(Offset(8), 1, 2, 3)),
+    (TimeUnit.milliseconds, OffsetTime(Offset(8), 1, 2, 3, 4)),
+    (TimeUnit.microseconds, OffsetTime(Offset(8), 1, 2, 3, 4, 5)),
   ]) {
     final time = OffsetTime(Offset(8), 1, 2, 3, 4, 5);
-    final unit = arguments[0] as TimeUnit;
-    final truncated = arguments[1] as OffsetTime;
-
     test('truncate to $unit', () => expect(time.truncate(to: unit), truncated));
   }
 
-  for (final arguments in [
-    [OffsetTime(Offset(8), 3, 2), TimeUnit.hours, OffsetTime(Offset(8), 5)],
-    [OffsetTime(Offset(8), 7, 2), TimeUnit.hours, OffsetTime(Offset(8), 5)],
-    [OffsetTime(Offset(8), 1, 3, 2), TimeUnit.minutes, OffsetTime(Offset(8), 1, 5)],
-    [OffsetTime(Offset(8), 1, 7, 2), TimeUnit.minutes, OffsetTime(Offset(8), 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 3, 2), TimeUnit.seconds, OffsetTime(Offset(8), 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 7, 2), TimeUnit.seconds, OffsetTime(Offset(8), 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 1, 3, 2), TimeUnit.milliseconds, OffsetTime(Offset(8), 1, 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 1, 7, 2), TimeUnit.milliseconds, OffsetTime(Offset(8), 1, 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 1, 1, 3), TimeUnit.microseconds, OffsetTime(Offset(8), 1, 1, 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 1, 1, 7), TimeUnit.microseconds, OffsetTime(Offset(8), 1, 1, 1, 1, 5)],
+  for (final (time, unit, truncated) in [
+    (OffsetTime(Offset(8), 3, 2), TimeUnit.hours, OffsetTime(Offset(8), 5)),
+    (OffsetTime(Offset(8), 7, 2), TimeUnit.hours, OffsetTime(Offset(8), 5)),
+    (OffsetTime(Offset(8), 1, 3, 2), TimeUnit.minutes, OffsetTime(Offset(8), 1, 5)),
+    (OffsetTime(Offset(8), 1, 7, 2), TimeUnit.minutes, OffsetTime(Offset(8), 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 3, 2), TimeUnit.seconds, OffsetTime(Offset(8), 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 7, 2), TimeUnit.seconds, OffsetTime(Offset(8), 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 1, 3, 2), TimeUnit.milliseconds, OffsetTime(Offset(8), 1, 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 1, 7, 2), TimeUnit.milliseconds, OffsetTime(Offset(8), 1, 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 1, 1, 3), TimeUnit.microseconds, OffsetTime(Offset(8), 1, 1, 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 1, 1, 7), TimeUnit.microseconds, OffsetTime(Offset(8), 1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as OffsetTime;
-    final unit = arguments[1] as TimeUnit;
-    final truncated = arguments[2] as OffsetTime;
-
-    test('round $unit to 5', () => expect(date.round(unit, 5), truncated));
+    test('round $unit to 5', () => expect(time.round(unit, 5), truncated));
   }
 
-  for (final arguments in [
-    [OffsetTime(Offset(8), 2, 9), TimeUnit.hours, OffsetTime(Offset(8), 5)],
-    [OffsetTime(Offset(8), 4, 9), TimeUnit.hours, OffsetTime(Offset(8), 5)],
-    [OffsetTime(Offset(8), 1, 2, 9), TimeUnit.minutes, OffsetTime(Offset(8), 1, 5)],
-    [OffsetTime(Offset(8), 1, 4, 9), TimeUnit.minutes, OffsetTime(Offset(8), 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 2, 9), TimeUnit.seconds, OffsetTime(Offset(8), 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 4, 9), TimeUnit.seconds, OffsetTime(Offset(8), 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 1, 2, 9), TimeUnit.milliseconds, OffsetTime(Offset(8), 1, 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 1, 4, 9), TimeUnit.milliseconds, OffsetTime(Offset(8), 1, 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 1, 1, 2), TimeUnit.microseconds, OffsetTime(Offset(8), 1, 1, 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 1, 1, 4), TimeUnit.microseconds, OffsetTime(Offset(8), 1, 1, 1, 1, 5)],
+  for (final (time, unit, truncated)  in [
+    (OffsetTime(Offset(8), 2, 9), TimeUnit.hours, OffsetTime(Offset(8), 5)),
+    (OffsetTime(Offset(8), 4, 9), TimeUnit.hours, OffsetTime(Offset(8), 5)),
+    (OffsetTime(Offset(8), 1, 2, 9), TimeUnit.minutes, OffsetTime(Offset(8), 1, 5)),
+    (OffsetTime(Offset(8), 1, 4, 9), TimeUnit.minutes, OffsetTime(Offset(8), 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 2, 9), TimeUnit.seconds, OffsetTime(Offset(8), 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 4, 9), TimeUnit.seconds, OffsetTime(Offset(8), 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 1, 2, 9), TimeUnit.milliseconds, OffsetTime(Offset(8), 1, 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 1, 4, 9), TimeUnit.milliseconds, OffsetTime(Offset(8), 1, 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 1, 1, 2), TimeUnit.microseconds, OffsetTime(Offset(8), 1, 1, 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 1, 1, 4), TimeUnit.microseconds, OffsetTime(Offset(8), 1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as OffsetTime;
-    final unit = arguments[1] as TimeUnit;
-    final truncated = arguments[2] as OffsetTime;
-
-    test('ceil $unit to 5', () => expect(date.ceil(unit, 5), truncated));
+    test('ceil $unit to 5', () => expect(time.ceil(unit, 5), truncated));
   }
 
-  for (final arguments in [
-    [OffsetTime(Offset(8), 6, 2), TimeUnit.hours, OffsetTime(Offset(8), 5)],
-    [OffsetTime(Offset(8), 9, 2), TimeUnit.hours, OffsetTime(Offset(8), 5)],
-    [OffsetTime(Offset(8), 1, 6, 2), TimeUnit.minutes, OffsetTime(Offset(8), 1, 5)],
-    [OffsetTime(Offset(8), 1, 9, 2), TimeUnit.minutes, OffsetTime(Offset(8), 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 6, 2), TimeUnit.seconds, OffsetTime(Offset(8), 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 9, 2), TimeUnit.seconds, OffsetTime(Offset(8), 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 1, 6, 2), TimeUnit.milliseconds, OffsetTime(Offset(8), 1, 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 1, 9, 2), TimeUnit.milliseconds, OffsetTime(Offset(8), 1, 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 1, 1, 6), TimeUnit.microseconds, OffsetTime(Offset(8), 1, 1, 1, 1, 5)],
-    [OffsetTime(Offset(8), 1, 1, 1, 1, 9), TimeUnit.microseconds, OffsetTime(Offset(8), 1, 1, 1, 1, 5)],
+  for (final (time, unit, truncated)  in [
+    (OffsetTime(Offset(8), 6, 2), TimeUnit.hours, OffsetTime(Offset(8), 5)),
+    (OffsetTime(Offset(8), 9, 2), TimeUnit.hours, OffsetTime(Offset(8), 5)),
+    (OffsetTime(Offset(8), 1, 6, 2), TimeUnit.minutes, OffsetTime(Offset(8), 1, 5)),
+    (OffsetTime(Offset(8), 1, 9, 2), TimeUnit.minutes, OffsetTime(Offset(8), 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 6, 2), TimeUnit.seconds, OffsetTime(Offset(8), 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 9, 2), TimeUnit.seconds, OffsetTime(Offset(8), 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 1, 6, 2), TimeUnit.milliseconds, OffsetTime(Offset(8), 1, 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 1, 9, 2), TimeUnit.milliseconds, OffsetTime(Offset(8), 1, 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 1, 1, 6), TimeUnit.microseconds, OffsetTime(Offset(8), 1, 1, 1, 1, 5)),
+    (OffsetTime(Offset(8), 1, 1, 1, 1, 9), TimeUnit.microseconds, OffsetTime(Offset(8), 1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as OffsetTime;
-    final unit = arguments[1] as TimeUnit;
-    final truncated = arguments[2] as OffsetTime;
-
-    test('floor $unit to 5', () => expect(date.floor(unit, 5), truncated));
+    test('floor $unit to 5', () => expect(time.floor(unit, 5), truncated));
   }
 
 
@@ -236,17 +221,14 @@ void main() {
     });
   });
 
-  for (final arguments in [
-    [OffsetTime(Offset(8), 1, 2, 3, 4, 5), '01:02:03.004005+08:00'],
-    [OffsetTime(Offset(8), 1), '01:00+08:00'],
-    [OffsetTime(Offset(8), 0, 1), '00:01+08:00'],
-    [OffsetTime(Offset(8), 0, 0, 1), '00:00:01+08:00'],
-    [OffsetTime(Offset(8), 0, 0, 0, 1), '00:00:00.001+08:00'],
-    [OffsetTime(Offset(8), 0, 0, 0, 0, 1), '00:00:00.000001+08:00'],
+  for (final (time, string) in [
+    (OffsetTime(Offset(8), 1, 2, 3, 4, 5), '01:02:03.004005+08:00'),
+    (OffsetTime(Offset(8), 1), '01:00+08:00'),
+    (OffsetTime(Offset(8), 0, 1), '00:01+08:00'),
+    (OffsetTime(Offset(8), 0, 0, 1), '00:00:01+08:00'),
+    (OffsetTime(Offset(8), 0, 0, 0, 1), '00:00:00.001+08:00'),
+    (OffsetTime(Offset(8), 0, 0, 0, 0, 1), '00:00:00.000001+08:00'),
   ]) {
-    final time = arguments[0] as OffsetTime;
-    final string = arguments[1] as String;
-
     test('toString()', () => expect(time.toString(), string));
   }
 

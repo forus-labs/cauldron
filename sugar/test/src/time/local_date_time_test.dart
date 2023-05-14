@@ -160,96 +160,81 @@ void main() {
   });
 
 
-  for (final arguments in [
-    [DateUnit.years, LocalDateTime(10)],
-    [DateUnit.months, LocalDateTime(10, 2)],
-    [DateUnit.days, LocalDateTime(10, 2, 3)],
-    [TimeUnit.hours, LocalDateTime(10, 2, 3, 4)],
-    [TimeUnit.minutes, LocalDateTime(10, 2, 3, 4, 5)],
-    [TimeUnit.seconds, LocalDateTime(10, 2, 3, 4, 5, 6)],
-    [TimeUnit.milliseconds, LocalDateTime(10, 2, 3, 4, 5, 6, 7)],
-    [TimeUnit.microseconds, LocalDateTime(10, 2, 3, 4, 5, 6, 7, 8)],
+  for (final (unit, truncated) in [
+    (DateUnit.years, LocalDateTime(10)),
+    (DateUnit.months, LocalDateTime(10, 2)),
+    (DateUnit.days, LocalDateTime(10, 2, 3)),
+    (TimeUnit.hours, LocalDateTime(10, 2, 3, 4)),
+    (TimeUnit.minutes, LocalDateTime(10, 2, 3, 4, 5)),
+    (TimeUnit.seconds, LocalDateTime(10, 2, 3, 4, 5, 6)),
+    (TimeUnit.milliseconds, LocalDateTime(10, 2, 3, 4, 5, 6, 7)),
+    (TimeUnit.microseconds, LocalDateTime(10, 2, 3, 4, 5, 6, 7, 8)),
   ]) {
     final date = LocalDateTime(10, 2, 3, 4, 5, 6, 7, 8);
-    final unit = arguments[0] as TemporalUnit;
-    final truncated = arguments[1] as LocalDateTime;
-
-    test('truncate to $unit', () => expect(date.truncate(to: unit), truncated));
+    test('truncate to $unit', () => expect(date.truncate(to: unit as TemporalUnit), truncated));
   }
 
-  for (final arguments in [
-    [LocalDateTime(3, 2), DateUnit.years, LocalDateTime(5)],
-    [LocalDateTime(7, 2), DateUnit.years, LocalDateTime(5)],
-    [LocalDateTime(1, 3, 2), DateUnit.months, LocalDateTime(1, 5)],
-    [LocalDateTime(1, 7, 2), DateUnit.months, LocalDateTime(1, 5)],
-    [LocalDateTime(1, 1, 3, 2), DateUnit.days, LocalDateTime(1, 1, 5)],
-    [LocalDateTime(1, 1, 7, 2), DateUnit.days, LocalDateTime(1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 3, 2), TimeUnit.hours, LocalDateTime(1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 7, 2), TimeUnit.hours, LocalDateTime(1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 3, 2), TimeUnit.minutes, LocalDateTime(1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 7, 2), TimeUnit.minutes, LocalDateTime(1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 3, 2), TimeUnit.seconds, LocalDateTime(1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 7, 2), TimeUnit.seconds, LocalDateTime(1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 1, 3, 2), TimeUnit.milliseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 1, 7, 2), TimeUnit.milliseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 1, 1, 3), TimeUnit.microseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 1, 1, 7), TimeUnit.microseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 1, 5)],
+  for (final (date, unit, truncated) in [
+    (LocalDateTime(3, 2), DateUnit.years, LocalDateTime(5)),
+    (LocalDateTime(7, 2), DateUnit.years, LocalDateTime(5)),
+    (LocalDateTime(1, 3, 2), DateUnit.months, LocalDateTime(1, 5)),
+    (LocalDateTime(1, 7, 2), DateUnit.months, LocalDateTime(1, 5)),
+    (LocalDateTime(1, 1, 3, 2), DateUnit.days, LocalDateTime(1, 1, 5)),
+    (LocalDateTime(1, 1, 7, 2), DateUnit.days, LocalDateTime(1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 3, 2), TimeUnit.hours, LocalDateTime(1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 7, 2), TimeUnit.hours, LocalDateTime(1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 3, 2), TimeUnit.minutes, LocalDateTime(1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 7, 2), TimeUnit.minutes, LocalDateTime(1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 3, 2), TimeUnit.seconds, LocalDateTime(1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 7, 2), TimeUnit.seconds, LocalDateTime(1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 1, 3, 2), TimeUnit.milliseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 1, 7, 2), TimeUnit.milliseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 1, 1, 3), TimeUnit.microseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 1, 1, 7), TimeUnit.microseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as LocalDateTime;
-    final unit = arguments[1] as TemporalUnit;
-    final truncated = arguments[2] as LocalDateTime;
-
-    test('round $unit to 5', () => expect(date.round(unit, 5), truncated));
+    test('round $unit to 5', () => expect(date.round(unit as TemporalUnit, 5), truncated));
   }
 
-  for (final arguments in [
-    [LocalDateTime(2, 9), DateUnit.years, LocalDateTime(5)],
-    [LocalDateTime(4, 9), DateUnit.years, LocalDateTime(5)],
-    [LocalDateTime(1, 2, 9), DateUnit.months, LocalDateTime(1, 5)],
-    [LocalDateTime(1, 4, 9), DateUnit.months, LocalDateTime(1, 5)],
-    [LocalDateTime(1, 1, 2, 9), DateUnit.days, LocalDateTime(1, 1, 5)],
-    [LocalDateTime(1, 1, 4, 9), DateUnit.days, LocalDateTime(1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 2, 9), TimeUnit.hours, LocalDateTime(1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 4, 9), TimeUnit.hours, LocalDateTime(1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 2, 9), TimeUnit.minutes, LocalDateTime(1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 4, 9), TimeUnit.minutes, LocalDateTime(1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 2, 9), TimeUnit.seconds, LocalDateTime(1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 4, 9), TimeUnit.seconds, LocalDateTime(1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 1, 2, 9), TimeUnit.milliseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 1, 4, 9), TimeUnit.milliseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 1, 1, 2), TimeUnit.microseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 1, 1, 4), TimeUnit.microseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 1, 5)],
+  for (final (date, unit, truncated) in [
+    (LocalDateTime(2, 9), DateUnit.years, LocalDateTime(5)),
+    (LocalDateTime(4, 9), DateUnit.years, LocalDateTime(5)),
+    (LocalDateTime(1, 2, 9), DateUnit.months, LocalDateTime(1, 5)),
+    (LocalDateTime(1, 4, 9), DateUnit.months, LocalDateTime(1, 5)),
+    (LocalDateTime(1, 1, 2, 9), DateUnit.days, LocalDateTime(1, 1, 5)),
+    (LocalDateTime(1, 1, 4, 9), DateUnit.days, LocalDateTime(1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 2, 9), TimeUnit.hours, LocalDateTime(1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 4, 9), TimeUnit.hours, LocalDateTime(1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 2, 9), TimeUnit.minutes, LocalDateTime(1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 4, 9), TimeUnit.minutes, LocalDateTime(1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 2, 9), TimeUnit.seconds, LocalDateTime(1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 4, 9), TimeUnit.seconds, LocalDateTime(1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 1, 2, 9), TimeUnit.milliseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 1, 4, 9), TimeUnit.milliseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 1, 1, 2), TimeUnit.microseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 1, 1, 4), TimeUnit.microseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as LocalDateTime;
-    final unit = arguments[1] as TemporalUnit;
-    final truncated = arguments[2] as LocalDateTime;
-
-    test('ceil $unit to 5', () => expect(date.ceil(unit, 5), truncated));
+    test('ceil $unit to 5', () => expect(date.ceil(unit as TemporalUnit, 5), truncated));
   }
 
-  for (final arguments in [
-    [LocalDateTime(6, 2), DateUnit.years, LocalDateTime(5)],
-    [LocalDateTime(9, 2), DateUnit.years, LocalDateTime(5)],
-    [LocalDateTime(1, 6, 2), DateUnit.months, LocalDateTime(1, 5)],
-    [LocalDateTime(1, 9, 2), DateUnit.months, LocalDateTime(1, 5)],
-    [LocalDateTime(1, 1, 6, 2), DateUnit.days, LocalDateTime(1, 1, 5)],
-    [LocalDateTime(1, 1, 9, 2), DateUnit.days, LocalDateTime(1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 6, 2), TimeUnit.hours, LocalDateTime(1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 9, 2), TimeUnit.hours, LocalDateTime(1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 6, 2), TimeUnit.minutes, LocalDateTime(1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 9, 2), TimeUnit.minutes, LocalDateTime(1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 6, 2), TimeUnit.seconds, LocalDateTime(1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 9, 2), TimeUnit.seconds, LocalDateTime(1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 1, 6, 2), TimeUnit.milliseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 1, 9, 2), TimeUnit.milliseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 1, 1, 6), TimeUnit.microseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 1, 5)],
-    [LocalDateTime(1, 1, 1, 1, 1, 1, 1, 9), TimeUnit.microseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 1, 5)],
+  for (final (date, unit, truncated) in [
+    (LocalDateTime(6, 2), DateUnit.years, LocalDateTime(5)),
+    (LocalDateTime(9, 2), DateUnit.years, LocalDateTime(5)),
+    (LocalDateTime(1, 6, 2), DateUnit.months, LocalDateTime(1, 5)),
+    (LocalDateTime(1, 9, 2), DateUnit.months, LocalDateTime(1, 5)),
+    (LocalDateTime(1, 1, 6, 2), DateUnit.days, LocalDateTime(1, 1, 5)),
+    (LocalDateTime(1, 1, 9, 2), DateUnit.days, LocalDateTime(1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 6, 2), TimeUnit.hours, LocalDateTime(1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 9, 2), TimeUnit.hours, LocalDateTime(1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 6, 2), TimeUnit.minutes, LocalDateTime(1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 9, 2), TimeUnit.minutes, LocalDateTime(1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 6, 2), TimeUnit.seconds, LocalDateTime(1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 9, 2), TimeUnit.seconds, LocalDateTime(1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 1, 6, 2), TimeUnit.milliseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 1, 9, 2), TimeUnit.milliseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 1, 1, 6), TimeUnit.microseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 1, 5)),
+    (LocalDateTime(1, 1, 1, 1, 1, 1, 1, 9), TimeUnit.microseconds, LocalDateTime(1, 1, 1, 1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as LocalDateTime;
-    final unit = arguments[1] as TemporalUnit;
-    final truncated = arguments[2] as LocalDateTime;
-
-    test('floor $unit to 5', () => expect(date.floor(unit, 5), truncated));
+    test('floor $unit to 5', () => expect(date.floor(unit as TemporalUnit, 5), truncated));
   }
 
   
@@ -299,17 +284,14 @@ void main() {
     });
   });
 
-  for (final arguments in [
-    [LocalDateTime(2023, 4, 6, 1, 2, 3, 4, 5), '2023-04-06T01:02:03.004005'],
-    [LocalDateTime(2023, 4, 15, 1), '2023-04-15T01:00'],
-    [LocalDateTime(2023, 4, 15, 0, 1), '2023-04-15T00:01'],
-    [LocalDateTime(2023, 4, 15, 0, 0, 1), '2023-04-15T00:00:01'],
-    [LocalDateTime(2023, 4, 15, 0, 0, 0, 1), '2023-04-15T00:00:00.001'],
-    [LocalDateTime(2023, 4, 15, 0, 0, 0, 0, 1), '2023-04-15T00:00:00.000001'],
+  for (final (date, string) in [
+    (LocalDateTime(2023, 4, 6, 1, 2, 3, 4, 5), '2023-04-06T01:02:03.004005'),
+    (LocalDateTime(2023, 4, 15, 1), '2023-04-15T01:00'),
+    (LocalDateTime(2023, 4, 15, 0, 1), '2023-04-15T00:01'),
+    (LocalDateTime(2023, 4, 15, 0, 0, 1), '2023-04-15T00:00:01'),
+    (LocalDateTime(2023, 4, 15, 0, 0, 0, 1), '2023-04-15T00:00:00.001'),
+    (LocalDateTime(2023, 4, 15, 0, 0, 0, 0, 1), '2023-04-15T00:00:00.000001'),
   ]) {
-    final date = arguments[0] as LocalDateTime;
-    final string = arguments[1] as String;
-
     test('toString()', () => expect(date.toString(), string));
   }
 

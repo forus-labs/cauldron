@@ -2,24 +2,24 @@ import 'package:sugar/sugar.dart';
 import 'package:test/test.dart';
 
 void main() {
-  for (final arguments in [
-    [const Period(), const Period()],
+  for (final (actual, expected) in [
+    (const Period(), const Period()),
 
-    [const Period(months: 11), const Period(months: 11)],
-    [const Period(months: 13), const Period(years: 1, months: 1)],
+    (const Period(months: 11), const Period(months: 11)),
+    (const Period(months: 13), const Period(years: 1, months: 1)),
 
-    [const Period(hours: 23), const Period(hours: 23)],
-    [const Period(days: 1, hours: 23, minutes: 59, seconds: 59, milliseconds: 999, microseconds: 1001), const Period(days: 2, microseconds: 1)],
+    (const Period(hours: 23), const Period(hours: 23)),
+    (const Period(days: 1, hours: 23, minutes: 59, seconds: 59, milliseconds: 999, microseconds: 1001), const Period(days: 2, microseconds: 1)),
 
-    [const Period(years: -1, months: 1), const Period(months: -11)],
-    [const Period(days: -1, microseconds: 1), const Period(hours: -23, minutes: -59, seconds: -59, milliseconds: -999, microseconds: -999)],
+    (const Period(years: -1, months: 1), const Period(months: -11)),
+    (const Period(days: -1, microseconds: 1), const Period(hours: -23, minutes: -59, seconds: -59, milliseconds: -999, microseconds: -999)),
 
-    [const Period(years: -1, months: 1, microseconds: 1), const Period(months: -11, microseconds: 1)],
-    [const Period(years: -1, days: -1, microseconds: 1), const Period(years: -1, hours: -23, minutes: -59, seconds: -59, milliseconds: -999, microseconds: -999)],
+    (const Period(years: -1, months: 1, microseconds: 1), const Period(months: -11, microseconds: 1)),
+    (const Period(years: -1, days: -1, microseconds: 1), const Period(years: -1, hours: -23, minutes: -59, seconds: -59, milliseconds: -999, microseconds: -999)),
 
-    [const Period(days: 100), const Period(days: 100)],
+    (const Period(days: 100), const Period(days: 100)),
   ]) {
-    test('normalize()', () => expect(arguments[0].normalize(), arguments[1]));
+    test('normalize()', () => expect(actual.normalize(), expected));
   }
 
   test('plus()', () => expect(

@@ -103,75 +103,60 @@ void main() {
     test('date units', () => expect(LocalTime(1, 2, 3, 4, 5) - const Period(days: 1, seconds: 1), LocalTime(1, 2, 2, 4, 5)));
   });
 
-  for (final arguments in [
-    [TimeUnit.hours, LocalTime(1)],
-    [TimeUnit.minutes, LocalTime(1, 2)],
-    [TimeUnit.seconds, LocalTime(1, 2, 3)],
-    [TimeUnit.milliseconds, LocalTime(1, 2, 3, 4)],
-    [TimeUnit.microseconds, LocalTime(1, 2, 3, 4, 5)],
+  for (final (unit, truncated) in [
+    (TimeUnit.hours, LocalTime(1)),
+    (TimeUnit.minutes, LocalTime(1, 2)),
+    (TimeUnit.seconds, LocalTime(1, 2, 3)),
+    (TimeUnit.milliseconds, LocalTime(1, 2, 3, 4)),
+    (TimeUnit.microseconds, LocalTime(1, 2, 3, 4, 5)),
   ]) {
     final time = LocalTime(1, 2, 3, 4, 5);
-    final unit = arguments[0] as TimeUnit;
-    final truncated = arguments[1] as LocalTime;
-
     test('truncate to $unit', () => expect(time.truncate(to: unit), truncated));
   }
 
-  for (final arguments in [
-    [LocalTime(3, 2), TimeUnit.hours, LocalTime(5)],
-    [LocalTime(7, 2), TimeUnit.hours, LocalTime(5)],
-    [LocalTime(1, 3, 2), TimeUnit.minutes, LocalTime(1, 5)],
-    [LocalTime(1, 7, 2), TimeUnit.minutes, LocalTime(1, 5)],
-    [LocalTime(1, 1, 3, 2), TimeUnit.seconds, LocalTime(1, 1, 5)],
-    [LocalTime(1, 1, 7, 2), TimeUnit.seconds, LocalTime(1, 1, 5)],
-    [LocalTime(1, 1, 1, 3, 2), TimeUnit.milliseconds, LocalTime(1, 1, 1, 5)],
-    [LocalTime(1, 1, 1, 7, 2), TimeUnit.milliseconds, LocalTime(1, 1, 1, 5)],
-    [LocalTime(1, 1, 1, 1, 3), TimeUnit.microseconds, LocalTime(1, 1, 1, 1, 5)],
-    [LocalTime(1, 1, 1, 1, 7), TimeUnit.microseconds, LocalTime(1, 1, 1, 1, 5)],
+  for (final (time, unit, truncated) in [
+    (LocalTime(3, 2), TimeUnit.hours, LocalTime(5)),
+    (LocalTime(7, 2), TimeUnit.hours, LocalTime(5)),
+    (LocalTime(1, 3, 2), TimeUnit.minutes, LocalTime(1, 5)),
+    (LocalTime(1, 7, 2), TimeUnit.minutes, LocalTime(1, 5)),
+    (LocalTime(1, 1, 3, 2), TimeUnit.seconds, LocalTime(1, 1, 5)),
+    (LocalTime(1, 1, 7, 2), TimeUnit.seconds, LocalTime(1, 1, 5)),
+    (LocalTime(1, 1, 1, 3, 2), TimeUnit.milliseconds, LocalTime(1, 1, 1, 5)),
+    (LocalTime(1, 1, 1, 7, 2), TimeUnit.milliseconds, LocalTime(1, 1, 1, 5)),
+    (LocalTime(1, 1, 1, 1, 3), TimeUnit.microseconds, LocalTime(1, 1, 1, 1, 5)),
+    (LocalTime(1, 1, 1, 1, 7), TimeUnit.microseconds, LocalTime(1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as LocalTime;
-    final unit = arguments[1] as TimeUnit;
-    final truncated = arguments[2] as LocalTime;
-
-    test('round $unit to 5', () => expect(date.round(unit, 5), truncated));
+    test('round $unit to 5', () => expect(time.round(unit, 5), truncated));
   }
 
-  for (final arguments in [
-    [LocalTime(2, 9), TimeUnit.hours, LocalTime(5)],
-    [LocalTime(4, 9), TimeUnit.hours, LocalTime(5)],
-    [LocalTime(1, 2, 9), TimeUnit.minutes, LocalTime(1, 5)],
-    [LocalTime(1, 4, 9), TimeUnit.minutes, LocalTime(1, 5)],
-    [LocalTime(1, 1, 2, 9), TimeUnit.seconds, LocalTime(1, 1, 5)],
-    [LocalTime(1, 1, 4, 9), TimeUnit.seconds, LocalTime(1, 1, 5)],
-    [LocalTime(1, 1, 1, 2, 9), TimeUnit.milliseconds, LocalTime(1, 1, 1, 5)],
-    [LocalTime(1, 1, 1, 4, 9), TimeUnit.milliseconds, LocalTime(1, 1, 1, 5)],
-    [LocalTime(1, 1, 1, 1, 2), TimeUnit.microseconds, LocalTime(1, 1, 1, 1, 5)],
-    [LocalTime(1, 1, 1, 1, 4), TimeUnit.microseconds, LocalTime(1, 1, 1, 1, 5)],
+  for (final (time, unit, truncated) in [
+    (LocalTime(2, 9), TimeUnit.hours, LocalTime(5)),
+    (LocalTime(4, 9), TimeUnit.hours, LocalTime(5)),
+    (LocalTime(1, 2, 9), TimeUnit.minutes, LocalTime(1, 5)),
+    (LocalTime(1, 4, 9), TimeUnit.minutes, LocalTime(1, 5)),
+    (LocalTime(1, 1, 2, 9), TimeUnit.seconds, LocalTime(1, 1, 5)),
+    (LocalTime(1, 1, 4, 9), TimeUnit.seconds, LocalTime(1, 1, 5)),
+    (LocalTime(1, 1, 1, 2, 9), TimeUnit.milliseconds, LocalTime(1, 1, 1, 5)),
+    (LocalTime(1, 1, 1, 4, 9), TimeUnit.milliseconds, LocalTime(1, 1, 1, 5)),
+    (LocalTime(1, 1, 1, 1, 2), TimeUnit.microseconds, LocalTime(1, 1, 1, 1, 5)),
+    (LocalTime(1, 1, 1, 1, 4), TimeUnit.microseconds, LocalTime(1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as LocalTime;
-    final unit = arguments[1] as TimeUnit;
-    final truncated = arguments[2] as LocalTime;
-
-    test('ceil $unit to 5', () => expect(date.ceil(unit, 5), truncated));
+    test('ceil $unit to 5', () => expect(time.ceil(unit, 5), truncated));
   }
 
-  for (final arguments in [
-    [LocalTime(6, 2), TimeUnit.hours, LocalTime(5)],
-    [LocalTime(9, 2), TimeUnit.hours, LocalTime(5)],
-    [LocalTime(1, 6, 2), TimeUnit.minutes, LocalTime(1, 5)],
-    [LocalTime(1, 9, 2), TimeUnit.minutes, LocalTime(1, 5)],
-    [LocalTime(1, 1, 6, 2), TimeUnit.seconds, LocalTime(1, 1, 5)],
-    [LocalTime(1, 1, 9, 2), TimeUnit.seconds, LocalTime(1, 1, 5)],
-    [LocalTime(1, 1, 1, 6, 2), TimeUnit.milliseconds, LocalTime(1, 1, 1, 5)],
-    [LocalTime(1, 1, 1, 9, 2), TimeUnit.milliseconds, LocalTime(1, 1, 1, 5)],
-    [LocalTime(1, 1, 1, 1, 6), TimeUnit.microseconds, LocalTime(1, 1, 1, 1, 5)],
-    [LocalTime(1, 1, 1, 1, 9), TimeUnit.microseconds, LocalTime(1, 1, 1, 1, 5)],
+  for (final (time, unit, truncated) in [
+    (LocalTime(6, 2), TimeUnit.hours, LocalTime(5)),
+    (LocalTime(9, 2), TimeUnit.hours, LocalTime(5)),
+    (LocalTime(1, 6, 2), TimeUnit.minutes, LocalTime(1, 5)),
+    (LocalTime(1, 9, 2), TimeUnit.minutes, LocalTime(1, 5)),
+    (LocalTime(1, 1, 6, 2), TimeUnit.seconds, LocalTime(1, 1, 5)),
+    (LocalTime(1, 1, 9, 2), TimeUnit.seconds, LocalTime(1, 1, 5)),
+    (LocalTime(1, 1, 1, 6, 2), TimeUnit.milliseconds, LocalTime(1, 1, 1, 5)),
+    (LocalTime(1, 1, 1, 9, 2), TimeUnit.milliseconds, LocalTime(1, 1, 1, 5)),
+    (LocalTime(1, 1, 1, 1, 6), TimeUnit.microseconds, LocalTime(1, 1, 1, 1, 5)),
+    (LocalTime(1, 1, 1, 1, 9), TimeUnit.microseconds, LocalTime(1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as LocalTime;
-    final unit = arguments[1] as TimeUnit;
-    final truncated = arguments[2] as LocalTime;
-
-    test('floor $unit to 5', () => expect(date.floor(unit, 5), truncated));
+    test('floor $unit to 5', () => expect(time.floor(unit, 5), truncated));
   }
 
 
@@ -214,17 +199,14 @@ void main() {
     });
   });
 
-  for (final arguments in [
-    [LocalTime(1, 2, 3, 4, 5), '01:02:03.004005'],
-    [LocalTime(1), '01:00'],
-    [LocalTime(0, 1), '00:01'],
-    [LocalTime(0, 0, 1), '00:00:01'],
-    [LocalTime(0, 0, 0, 1), '00:00:00.001'],
-    [LocalTime(0, 0, 0, 0, 1), '00:00:00.000001'],
+  for (final (time, string) in [
+    (LocalTime(1, 2, 3, 4, 5), '01:02:03.004005'),
+    (LocalTime(1), '01:00'),
+    (LocalTime(0, 1), '00:01'),
+    (LocalTime(0, 0, 1), '00:00:01'),
+    (LocalTime(0, 0, 0, 1), '00:00:00.001'),
+    (LocalTime(0, 0, 0, 0, 1), '00:00:00.000001'),
   ]) {
-    final time = arguments[0] as LocalTime;
-    final string = arguments[1] as String;
-
     test('toString()', () => expect(time.toString(), string));
   }
 

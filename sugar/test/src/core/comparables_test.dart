@@ -17,22 +17,6 @@ class Box with Orderable<Box> {
   String toString() => 'Box{key: $key, value: $value}';
 }
 
-class Value {
-  final int value;
-
-  Value(this.value);
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is Value && runtimeType == other.runtimeType && value == other.value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => 'Value{value: $value}';
-}
-
 void main() {
   group('Orderable', () {
     test('smaller < larger', () => expect(Box(1) < Box(2), true));
@@ -88,13 +72,13 @@ void main() {
 
   group('min(...)', () {
     group('non-comparables', () {
-      test('by specified, left less than right', () => expect(min(Value(1), Value(2), by: (e) => e.value), Value(1)));
+      test('by specified, left less than right', () => expect(min((1,), (2,), by: (e) => e.$1), (1,)));
 
-      test('by specified, left equal right', () => expect(min(Value(1), Value(1), by: (e) => e.value), Value(1)));
+      test('by specified, left equal right', () => expect(min((1,), (1,), by: (e) => e.$1), (1,)));
 
-      test('by specified, left greater than right', () => expect(min(Value(2), Value(1), by: (e) => e.value), Value(1)));
+      test('by specified, left greater than right', () => expect(min((2,), (1,), by: (e) => e.$1), (1,)));
 
-      test('by not specified', () => expect(() => min(Value(1), Value(2)), throwsA(const TypeMatcher<TypeError>())));
+      test('by not specified', () => expect(() => min((1,), (2,)), throwsA(const TypeMatcher<TypeError>())));
     });
 
     group('comparables', () {
@@ -115,13 +99,13 @@ void main() {
 
   group('max(...)', () {
     group('non-comparables', () {
-      test('by specified, left less than right', () => expect(max(Value(1), Value(2), by: (e) => e.value), Value(2)));
+      test('by specified, left less than right', () => expect(max((1,), (2,), by: (e) => e.$1), (2,)));
 
-      test('by specified, left equal right', () => expect(max(Value(1), Value(1), by: (e) => e.value), Value(1)));
+      test('by specified, left equal right', () => expect(max((1,), (1,), by: (e) => e.$1), (1,)));
 
-      test('by specified, left greater than right', () => expect(max(Value(2), Value(1), by: (e) => e.value), Value(2)));
+      test('by specified, left greater than right', () => expect(max((2,), (1,), by: (e) => e.$1), (2,)));
 
-      test('by not specified', () => expect(() => max(Value(1), Value(2)), throwsA(const TypeMatcher<TypeError>())));
+      test('by not specified', () => expect(() => max((1,), (2,)), throwsA(const TypeMatcher<TypeError>())));
     });
 
     group('comparables', () {
@@ -142,23 +126,23 @@ void main() {
 
   group('Comparators', () {
     group('by(...)', () {
-      final compare = Comparators.by<Value>((e) => e.value);
+      final compare = Comparators.by<(int,)>((e) => e.$1);
       
-      test('left less than right', () => expect(compare(Value(1), Value(2)), -1));
+      test('left less than right', () => expect(compare((1,), (2,)), -1));
 
-      test('left equal right', () => expect(compare(Value(1), Value(1)), 0));
+      test('left equal right', () => expect(compare((1,), (1,)), 0));
 
-      test('less greater than right', () => expect(compare(Value(2), Value(1)), 1));
+      test('less greater than right', () => expect(compare((2,), (1,)), 1));
     });
 
     group('reverse(...)', () {
-      final compare = Comparators.by<Value>((e) => e.value).reverse();
+      final compare = Comparators.by<(int,)>((e) => e.$1).reverse();
 
-      test('left less than right', () => expect(compare(Value(1), Value(2)), 1));
+      test('left less than right', () => expect(compare((1,), (2,)), 1));
 
-      test('left equal right', () => expect(compare(Value(1), Value(1)), 0));
+      test('left equal right', () => expect(compare((1,), (1,)), 0));
 
-      test('less greater than right', () => expect(compare(Value(2), Value(1)), -1));
+      test('less greater than right', () => expect(compare((2,), (1,)), -1));
     });
 
     group('and(...)', () {

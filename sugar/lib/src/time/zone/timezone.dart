@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/src/time/temporal_unit.dart';
 import 'package:sugar/src/time/zone/info/root.g.dart';
-import 'package:sugar/src/time/zone/timezone_provider.dart';
 import 'package:sugar/time_zone.dart';
 
 /// A timezone that contains rules defining how an offset varies for a single timezone.

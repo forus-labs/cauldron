@@ -1,4 +1,3 @@
-import 'package:sugar/src/time/zone/timezone_provider.dart';
 import 'package:sugar/sugar.dart';
 import 'package:test/test.dart';
 

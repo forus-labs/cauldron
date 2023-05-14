@@ -222,96 +222,81 @@ void main() {
   });
 
   
-  for (final arguments in [
-    [DateUnit.years, ZonedDateTime('America/Detroit', 10)],
-    [DateUnit.months, ZonedDateTime('America/Detroit', 10, 2)],
-    [DateUnit.days, ZonedDateTime('America/Detroit', 10, 2, 3)],
-    [TimeUnit.hours, ZonedDateTime('America/Detroit', 10, 2, 3, 4)],
-    [TimeUnit.minutes, ZonedDateTime('America/Detroit', 10, 2, 3, 4, 5)],
-    [TimeUnit.seconds, ZonedDateTime('America/Detroit', 10, 2, 3, 4, 5, 6)],
-    [TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 10, 2, 3, 4, 5, 6, 7)],
-    [TimeUnit.microseconds, ZonedDateTime('America/Detroit', 10, 2, 3, 4, 5, 6, 7, 8)],
+  for (final (unit, truncated) in [
+    (DateUnit.years, ZonedDateTime('America/Detroit', 10)),
+    (DateUnit.months, ZonedDateTime('America/Detroit', 10, 2)),
+    (DateUnit.days, ZonedDateTime('America/Detroit', 10, 2, 3)),
+    (TimeUnit.hours, ZonedDateTime('America/Detroit', 10, 2, 3, 4)),
+    (TimeUnit.minutes, ZonedDateTime('America/Detroit', 10, 2, 3, 4, 5)),
+    (TimeUnit.seconds, ZonedDateTime('America/Detroit', 10, 2, 3, 4, 5, 6)),
+    (TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 10, 2, 3, 4, 5, 6, 7)),
+    (TimeUnit.microseconds, ZonedDateTime('America/Detroit', 10, 2, 3, 4, 5, 6, 7, 8)),
   ]) {
     final date = ZonedDateTime('America/Detroit', 10, 2, 3, 4, 5, 6, 7, 8);
-    final unit = arguments[0] as TemporalUnit;
-    final truncated = arguments[1] as ZonedDateTime;
-
-    test('truncate to $unit', () => expect(date.truncate(to: unit), truncated));
+    test('truncate to $unit', () => expect(date.truncate(to: unit as TemporalUnit), truncated));
   }
 
-  for (final arguments in [
-    [ZonedDateTime('America/Detroit', 3, 2), DateUnit.years, ZonedDateTime('America/Detroit', 5)],
-    [ZonedDateTime('America/Detroit', 7, 2), DateUnit.years, ZonedDateTime('America/Detroit', 5)],
-    [ZonedDateTime('America/Detroit', 1, 3, 2), DateUnit.months, ZonedDateTime('America/Detroit', 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 7, 2), DateUnit.months, ZonedDateTime('America/Detroit', 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 3, 2), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 7, 2), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 3, 2), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 7, 2), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 3, 2), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 7, 2), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 3, 2), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 7, 2), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 3, 2), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 7, 2), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 3), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 7), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)],
+  for (final (date, unit, truncated) in [
+    (ZonedDateTime('America/Detroit', 3, 2), DateUnit.years, ZonedDateTime('America/Detroit', 5)),
+    (ZonedDateTime('America/Detroit', 7, 2), DateUnit.years, ZonedDateTime('America/Detroit', 5)),
+    (ZonedDateTime('America/Detroit', 1, 3, 2), DateUnit.months, ZonedDateTime('America/Detroit', 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 7, 2), DateUnit.months, ZonedDateTime('America/Detroit', 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 3, 2), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 7, 2), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 3, 2), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 7, 2), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 3, 2), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 7, 2), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 3, 2), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 7, 2), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 3, 2), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 7, 2), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 3), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 7), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as ZonedDateTime;
-    final unit = arguments[1] as TemporalUnit;
-    final truncated = arguments[2] as ZonedDateTime;
-
-    test('round $unit to 5', () => expect(date.round(unit, 5), truncated));
+    test('round $unit to 5', () => expect(date.round(unit as TemporalUnit, 5), truncated));
   }
 
-  for (final arguments in [
-    [ZonedDateTime('America/Detroit', 2, 9), DateUnit.years, ZonedDateTime('America/Detroit', 5)],
-    [ZonedDateTime('America/Detroit', 4, 9), DateUnit.years, ZonedDateTime('America/Detroit', 5)],
-    [ZonedDateTime('America/Detroit', 1, 2, 9), DateUnit.months, ZonedDateTime('America/Detroit', 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 4, 9), DateUnit.months, ZonedDateTime('America/Detroit', 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 2, 9), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 4, 9), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 2, 9), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 4, 9), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 2, 9), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 4, 9), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 2, 9), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 4, 9), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 2, 9), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 4, 9), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 2), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 4), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)],
+  for (final (date, unit, truncated) in [
+    (ZonedDateTime('America/Detroit', 2, 9), DateUnit.years, ZonedDateTime('America/Detroit', 5)),
+    (ZonedDateTime('America/Detroit', 4, 9), DateUnit.years, ZonedDateTime('America/Detroit', 5)),
+    (ZonedDateTime('America/Detroit', 1, 2, 9), DateUnit.months, ZonedDateTime('America/Detroit', 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 4, 9), DateUnit.months, ZonedDateTime('America/Detroit', 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 2, 9), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 4, 9), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 2, 9), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 4, 9), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 2, 9), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 4, 9), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 2, 9), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 4, 9), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 2, 9), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 4, 9), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 2), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 4), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as ZonedDateTime;
-    final unit = arguments[1] as TemporalUnit;
-    final truncated = arguments[2] as ZonedDateTime;
-
-    test('ceil $unit to 5', () => expect(date.ceil(unit, 5), truncated));
+    test('ceil $unit to 5', () => expect(date.ceil(unit as TemporalUnit, 5), truncated));
   }
 
-  for (final arguments in [
-    [ZonedDateTime('America/Detroit', 6, 2), DateUnit.years, ZonedDateTime('America/Detroit', 5)],
-    [ZonedDateTime('America/Detroit', 9, 2), DateUnit.years, ZonedDateTime('America/Detroit', 5)],
-    [ZonedDateTime('America/Detroit', 1, 6, 2), DateUnit.months, ZonedDateTime('America/Detroit', 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 9, 2), DateUnit.months, ZonedDateTime('America/Detroit', 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 6, 2), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 9, 2), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 6, 2), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 9, 2), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 6, 2), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 9, 2), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 6, 2), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 9, 2), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 6, 2), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 9, 2), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 6), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)],
-    [ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 9), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)],
+  for (final (date, unit, truncated) in [
+    (ZonedDateTime('America/Detroit', 6, 2), DateUnit.years, ZonedDateTime('America/Detroit', 5)),
+    (ZonedDateTime('America/Detroit', 9, 2), DateUnit.years, ZonedDateTime('America/Detroit', 5)),
+    (ZonedDateTime('America/Detroit', 1, 6, 2), DateUnit.months, ZonedDateTime('America/Detroit', 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 9, 2), DateUnit.months, ZonedDateTime('America/Detroit', 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 6, 2), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 9, 2), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 6, 2), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 9, 2), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 6, 2), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 9, 2), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 6, 2), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 9, 2), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 6, 2), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 9, 2), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 6), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)),
+    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 9), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)),
   ]) {
-    final date = arguments[0] as ZonedDateTime;
-    final unit = arguments[1] as TemporalUnit;
-    final truncated = arguments[2] as ZonedDateTime;
-
-    test('floor $unit to 5', () => expect(date.floor(unit, 5), truncated));
+    test('floor $unit to 5', () => expect(date.floor(unit as TemporalUnit, 5), truncated));
   }
 
 

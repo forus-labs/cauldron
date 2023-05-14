@@ -154,15 +154,15 @@ void main() {
 
   test('empty', () => expect(const Max.open(1).empty, false));
 
-  for (final entry in {
-    const Max.open(1): true,
-    const Max.open(2): false,
-    const Max.closed(1): false,
-    const Min.open(1): false,
-  }.entries) {
-    test('equality - ${const Max.open(1)} and ${entry.key}', () {
-      expect(const Max.open(1) == entry.key, entry.value);
-      expect(const Max.open(1).hashCode == entry.key.hashCode, entry.value);
+  for (final (range, expected) in [
+    (const Max.open(1), true),
+    (const Max.open(2), false),
+    (const Max.closed(1), false),
+    (const Min.open(1), false),
+  ]) {
+    test('equality - ${const Max.open(1)} and $range', () {
+      expect(const Max.open(1) == range, expected);
+      expect(const Max.open(1).hashCode == range.hashCode, expected);
     });
   }
 
