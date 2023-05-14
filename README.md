@@ -9,7 +9,7 @@ Standard library extension that includes utilities for date-times, timezones, co
 
 It consolidates several micro-packages that provide bits and pieces of date-time & timezone utilities into a single package.
 
-[![Sugar](https://github.com/forus-labs/cauldron/workflows/Sugar/badge.svg)](https://github.com/forus-labs/cauldron/actions?query=workflow%3A%22Sugar+Build%22)
+[![Sugar](https://github.com/forus-labs/cauldron/actions/workflows/sugar.yaml/badge.svg)](https://github.com/forus-labs/cauldron/actions/workflows/sugar.yaml)
 [![Codecov](https://codecov.io/gh/forus-labs/cauldron/branch/master/graph/badge.svg)](https://codecov.io/gh/forus-labs/cauldron)
 [![Pub Dev](https://img.shields.io/pub/v/sugar)](https://pub.dev/packages/sugar)
 [![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/sugar/latest/)
