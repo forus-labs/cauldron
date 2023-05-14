@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:meta/meta.dart';
+
 import 'package:sugar/src/time/zone/timezones.g.dart';
 import 'package:sugar/time_zone.dart';
 

@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:meta/meta.dart';
+
 import 'package:sugar/core.dart';
 
 /// Provides functions for determining the deep equality of [Iterable]s.

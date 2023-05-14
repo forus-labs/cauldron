@@ -1,5 +1,6 @@
-import 'package:sugar/src/time/temporal_unit.dart';
 import 'package:test/test.dart';
+
+import 'package:sugar/src/time/temporal_unit.dart';
 
 void main() {
   test('sumMicroseconds(...)', () => expect(

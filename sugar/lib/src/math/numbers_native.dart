@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+
 import 'package:sugar/core_range.dart';
 
 /// The range of integers on native.

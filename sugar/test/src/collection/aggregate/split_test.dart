@@ -1,6 +1,6 @@
-import 'package:sugar/collection_aggregate.dart';
-
 import 'package:test/test.dart';
+
+import 'package:sugar/collection_aggregate.dart';
 
 void main() {
   group('by(...)', () {

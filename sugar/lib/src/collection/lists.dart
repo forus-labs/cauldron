@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+
 import 'package:sugar/core.dart';
 
 /// Provides functions for working with [List]s.

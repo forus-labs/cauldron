@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+
 import 'package:sugar/core_runtime.dart';
 
 /// Creates a [FakeRuntime] for testing.

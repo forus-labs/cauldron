@@ -1,5 +1,6 @@
-import 'package:sugar/core.dart';
 import 'package:test/test.dart';
+
+import 'package:sugar/core.dart';
 
 // ignore_for_file: prefer_const_constructors
 

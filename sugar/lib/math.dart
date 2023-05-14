@@ -12,6 +12,7 @@
 library sugar.math;
 
 import 'dart:math';
+
 import 'package:sugar/src/math/numbers.dart';
 import 'package:sugar/src/math/random.dart';
 

@@ -1,8 +1,9 @@
 @TestOn('vm')
 library;
 
-import 'package:sugar/core_runtime.dart';
 import 'package:test/test.dart';
+
+import 'package:sugar/core_runtime.dart';
 
 void main() {
   const runtime = Runtime();

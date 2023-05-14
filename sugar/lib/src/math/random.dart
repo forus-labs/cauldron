@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:meta/meta.dart';
+
 import 'package:sugar/core.dart';
 
 /// Provides functions for using [Random]s.

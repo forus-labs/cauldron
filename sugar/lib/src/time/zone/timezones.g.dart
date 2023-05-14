@@ -5,19 +5,14 @@
 // **************************************************************************
 // 
 // ignore_for_file: type=lint
+
 import 'package:meta/meta.dart';
 
-import 'package:sugar/src/time/zone/timezone.dart';
-
-import 'package:sugar/src/time/zone/info/root.g.dart';
 import 'package:sugar/src/time/zone/info/africa.g.dart';
 import 'package:sugar/src/time/zone/info/america.g.dart';
-import 'package:sugar/src/time/zone/info/argentina.g.dart';
-import 'package:sugar/src/time/zone/info/indiana.g.dart';
-import 'package:sugar/src/time/zone/info/kentucky.g.dart';
-import 'package:sugar/src/time/zone/info/north_dakota.g.dart';
 import 'package:sugar/src/time/zone/info/antarctica.g.dart';
 import 'package:sugar/src/time/zone/info/arctic.g.dart';
+import 'package:sugar/src/time/zone/info/argentina.g.dart';
 import 'package:sugar/src/time/zone/info/asia.g.dart';
 import 'package:sugar/src/time/zone/info/atlantic.g.dart';
 import 'package:sugar/src/time/zone/info/australia.g.dart';
@@ -27,9 +22,14 @@ import 'package:sugar/src/time/zone/info/chile.g.dart';
 import 'package:sugar/src/time/zone/info/etc.g.dart';
 import 'package:sugar/src/time/zone/info/europe.g.dart';
 import 'package:sugar/src/time/zone/info/indian.g.dart';
+import 'package:sugar/src/time/zone/info/indiana.g.dart';
+import 'package:sugar/src/time/zone/info/kentucky.g.dart';
 import 'package:sugar/src/time/zone/info/mexico.g.dart';
+import 'package:sugar/src/time/zone/info/north_dakota.g.dart';
 import 'package:sugar/src/time/zone/info/pacific.g.dart';
+import 'package:sugar/src/time/zone/info/root.g.dart';
 import 'package:sugar/src/time/zone/info/us.g.dart';
+import 'package:sugar/src/time/zone/timezone.dart';
 
 /// The supported TZ database timezones.
 @internal const Set<String> known = {

@@ -1,5 +1,6 @@
-import 'package:sugar/sugar.dart';
 import 'package:test/test.dart';
+
+import 'package:sugar/sugar.dart';
 
 const singapore = 'Asia/Singapore';
 

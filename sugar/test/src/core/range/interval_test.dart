@@ -1,5 +1,6 @@
-import 'package:sugar/src/core/range/range.dart';
 import 'package:test/test.dart';
+
+import 'package:sugar/src/core/range/range.dart';
 
 void main() {
 

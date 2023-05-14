@@ -1,7 +1,8 @@
 import 'package:meta/meta.dart';
+
+import 'package:sugar/src/core/constants.dart';
 import 'package:sugar/src/time/date.dart';
 import 'package:sugar/src/time/time.dart';
-import 'package:sugar/src/core/constants.dart';
 import 'package:sugar/sugar.dart';
 
 part 'local_date_time.dart';

@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
-import 'package:sugar/src/time/temporal_unit.dart';
 
+import 'package:sugar/src/time/temporal_unit.dart';
 import 'package:sugar/sugar.dart';
 
 /// Provides functions for working with in-built [DateTime]s.

@@ -1,5 +1,6 @@
-import 'package:sugar/src/time/offset.dart';
 import 'package:test/test.dart';
+
+import 'package:sugar/src/time/offset.dart';
 
 void main() {
   group('Offset', () {

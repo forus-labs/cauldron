@@ -1,5 +1,7 @@
 import 'dart:convert';
+
 import 'package:meta/meta.dart';
+
 import 'package:sugar/core.dart';
 
 /// Provides functions that manipulate [String]s.

@@ -1,5 +1,6 @@
-import 'package:sugar/src/math/random.dart';
 import 'package:test/test.dart';
+
+import 'package:sugar/src/math/random.dart';
 
 void main() {
   group('Randoms', () {

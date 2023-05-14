@@ -1,5 +1,6 @@
-import 'package:sugar/math.dart';
 import 'package:test/test.dart';
+
+import 'package:sugar/math.dart';
 
 void main() {
   group('Integers', () {

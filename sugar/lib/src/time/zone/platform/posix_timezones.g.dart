@@ -5,6 +5,7 @@
 // **************************************************************************
 // 
 // ignore_for_file: type=lint
+
 import 'package:meta/meta.dart';
 
 /// The TZ database timezones.

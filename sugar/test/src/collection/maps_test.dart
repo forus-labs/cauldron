@@ -1,7 +1,8 @@
 import 'dart:math';
 
-import 'package:sugar/collection.dart';
 import 'package:test/test.dart';
+
+import 'package:sugar/collection.dart';
 
 void main() {
 

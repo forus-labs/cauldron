@@ -1,5 +1,6 @@
-import 'package:sugar/src/time/zone/timezone_provider.dart';
 import 'package:test/test.dart';
+
+import 'package:sugar/src/time/zone/timezone_provider.dart';
 
 void main() {
   group('DefaultTimezoneProvider', () {

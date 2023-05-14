@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+
 import 'package:sugar/core.dart';
 
 /// Returns true if [a] and [b] have no common elements.

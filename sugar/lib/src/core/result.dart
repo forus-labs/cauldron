@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+
 import 'package:sugar/core.dart';
 
 /// A [Result] represents the result of an operation. It is a [Success] or [Failure].

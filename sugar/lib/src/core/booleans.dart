@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+
 import 'package:sugar/math.dart'; // documentation
 
 /// Provides functions for working with booleans.

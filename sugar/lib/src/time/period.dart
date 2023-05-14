@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+
 import 'package:sugar/time.dart';
 
 /// A [Period] represents a quantity of time in terms of its individual parts.

@@ -1,4 +1,3 @@
-
 import 'package:meta/meta.dart';
 
 /// Provides low-level functions for working with dates.

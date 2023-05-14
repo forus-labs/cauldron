@@ -1,3 +1,13 @@
+## 3.0.0 (14/05/2023)
+
+This release is a complete rework of the library, capitalizing on the real-life experiences gained over the past 2 years.
+
+* Date-time and timezone API inspired by [`java.time`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/package-summary.html).
+* Monads such as `Result<S,F>` & `Maybe<T>`.
+* Syntax sugar for aggregating & manipulating collections.
+* Types for representing and working with ranges & intervals.
+
+
 ## 2.4.1 (02/12/2022)
 
 This release fixes `Equality.equals(...)` accepting a `dynamic` instead of `Object`.

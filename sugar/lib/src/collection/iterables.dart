@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:meta/meta.dart';
+
 import 'package:sugar/collection_aggregate.dart';
 import 'package:sugar/core.dart';
 

@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:meta/meta.dart';
+
 import 'package:sugar/core.dart';
 
 /// Simplifies implementation of naturally ordered types.

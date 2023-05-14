@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+
 import 'package:sugar/src/time/zone/platform/web_timezone.dart';
 
 /// Retrieves the timezone on web.

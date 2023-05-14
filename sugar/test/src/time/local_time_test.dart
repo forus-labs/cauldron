@@ -1,5 +1,6 @@
-import 'package:sugar/sugar.dart';
 import 'package:test/test.dart';
+
+import 'package:sugar/sugar.dart';
 
 void main() {
   for (final argument in [LocalTime(), LocalTime(12), LocalTime(23, 59, 59, 999, 999)]) {
