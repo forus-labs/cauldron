@@ -12,6 +12,8 @@ It provides the following (and much more!):
 * Syntax sugar for aggregating & manipulating collections.
 * Types for representing and working with ranges & intervals.
 
+It consolidates several micro-packages that provide bits and pieces of date-time & timezone utilities into a single package.
+
 
 ## Getting Started
 

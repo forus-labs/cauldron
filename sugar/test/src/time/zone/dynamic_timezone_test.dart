@@ -10,7 +10,7 @@ void main() {
 
     test('abbreviation', () => expect(span.abbreviation, 'LMT'));
     
-    test('start', () => expect(span.start, TimezoneSpan.range.min));
+    test('start', () => expect(span.start, TimezoneSpan.range.min.value));
 
     test('end', () => expect(span.end, -2051202469));
     

@@ -81,14 +81,10 @@ extension Integers on int {
   /// 1.floorTo(-5); // throws RangeError
   /// ```
   @Possible({RangeError})
-  @useResult int floorTo(int factor) {
-    if (factor < 1) {
-      throw RangeError.range(factor, 1, null, 'factor');
-    }
-
-    return this - (this % factor);
-  }
-
+  @useResult int floorTo(int factor) => switch(factor) {
+    < 1 => throw RangeError.range(factor, 1, null, 'factor'),
+    _ => this - (this % factor),
+  };
 
   /// If `0`, returns `false`, otherwise returns `true`.
   ///

@@ -226,46 +226,7 @@ sealed class Range<T extends Comparable<Object?>> {
   ///
   /// a.besides(b); // false, [1..3) does not intersect [3..5)
   /// ```
-  @useResult bool intersects(Range<T> other) {
-    switch ((this, other)) {
-      case (final Min<T> min, final Max<T> max)
-        || (final Max<T> max, final Min<T> min):
-
-        final comparison = min.value.compareTo(max.value);
-        return (comparison < 0) || (comparison == 0 && min.closed && max.closed);
-
-      case (final Min<T> min, Interval<T>(max: (:final value, :final open)))
-        || (Interval<T>(max: (:final value, :final open)), final Min<T> min):
-
-        final comparison = min.value.compareTo(value);
-        return (comparison < 0) || (comparison == 0 && min.closed && !open);
-
-      case (final Max<T> max, Interval<T>(min: (:final value, :final open)))
-        || (Interval<T>(min: (:final value, :final open)), final Max<T> max):
-
-        final comparison = value.compareTo(max.value);
-        return (comparison < 0) || (comparison == 0 && !open && max.closed);
-
-      case (final Interval<T> a, final Interval<T> b):
-        return _within(a, b.min, closed: b.minClosed) || _within(a, b.max, closed: b.maxClosed) ||
-            _within(b, a.min, closed: a.minClosed) || _within(b, a.max, closed: a.maxClosed);
-    }
-  }
-
-  bool _within(Interval<T> interval, T point, {required bool closed}) {
-    final minimum = interval.min.value.compareTo(point);
-    if (minimum > 0 || (minimum == 0 && !(interval.minClosed && closed))) {
-      return false;
-    }
-
-    final maximum = interval.max.value.compareTo(point);
-    if (maximum < 0 || (maximum == 0 && !(interval.maxClosed && closed))) {
-      return false;
-    }
-
-    return true;
-  }
-
+  @useResult bool intersects(Range<T> other);
 
   /// Return `true` if this is empty, i.e. `[a..a)`.
   ///
@@ -283,7 +244,10 @@ sealed class Range<T extends Comparable<Object?>> {
 /// A [Range] that is also iterable.
 ///
 /// It is possible to iterate over a [Range] using [iterate].
-mixin IterableRange<T extends Comparable<Object?>> on Range<T> {
+sealed class IterableRange<T extends Comparable<Object?>> extends Range<T> {
+
+  /// Creates an [IterableRange].
+  const IterableRange();
 
   /// Returns a lazy `Iterable` by stepping through this range using [by].
   ///
@@ -301,6 +265,50 @@ mixin IterableRange<T extends Comparable<Object?>> on Range<T> {
 /// A convenience alias for [Comparable].
 @internal typedef C = Comparable<Object?>;
 
+/// Provides functions for determining whether two [Range]s intersect.
+@internal extension Intersects on Never {
+
+  /// Returns `true` if the given [min] and [max] intersect.
+  static bool minMax<T extends C>(Min<T> min, Max<T> max) {
+    final comparison = min.value.compareTo(max.value);
+    return (comparison < 0) || (comparison == 0 && min.closed && max.closed);
+  }
+
+  /// Returns `true` if the given [min] and [interval] intersect.
+  static bool minInterval<T extends C>(Min<T> min, Interval<T> interval) {
+    final comparison = min.value.compareTo(interval.max.value);
+    return (comparison < 0) || (comparison == 0 && min.closed && !interval.max.open);
+  }
+
+  /// Returns `true` if the given [max] and [interval] intersect.
+  static bool maxInterval<T extends C>(Max<T> max, Interval<T> interval) {
+    final comparison = interval.min.value.compareTo(max.value);
+    return (comparison < 0) || (comparison == 0 && !interval.min.open && max.closed);
+  }
+
+  /// Returns `true` if [a] intersects [b].
+  static bool intervalInterval<T extends C>(Interval<T> a, Interval<T> b) =>
+    within(a, b.min) || within(a, b.max) || within(b, a.min) || within(b, a.max);
+
+  /// Returns `true` if the given [interval] contains the given [bound].
+  static bool within<T extends C>(Interval<T> interval, ({T value, bool open}) bound) {
+    final (:value, :open) = bound;
+    final minimum = interval.min.value.compareTo(value);
+    if (minimum > 0 || (minimum == 0 && (interval.min.open || open))) {
+      return false;
+    }
+
+    final maximum = interval.max.value.compareTo(value);
+    if (maximum < 0 || (maximum == 0 && (interval.max.open || open))) {
+      return false;
+    }
+
+    return true;
+  }
+
+}
+
+
 /// Provides functions for determining whether two [Range]s are besides each other.
 @internal extension Besides on Never {
 
@@ -308,10 +316,9 @@ mixin IterableRange<T extends Comparable<Object?>> on Range<T> {
   static bool minMax<T extends C>(Min<T> min, Max<T> max) => min.open == max.closed && min.value == max.value;
 
   /// Returns `true` if the given [min] and [interval] are beside each other.
-  static bool minInterval<T extends C>(Min<T> min, Interval<T> interval) => min.open == interval.maxClosed && min.value == interval.max;
+  static bool minInterval<T extends C>(Min<T> min, Interval<T> interval) => min.open == !interval.max.open && min.value == interval.max.value;
 
   /// Returns `true` if the given [max] and [interval] are beside each other.
-  static bool maxInterval<T extends C> (Max<T> max, Interval<T> interval) => max.open == interval.minClosed && max.value == interval.min;
+  static bool maxInterval<T extends C> (Max<T> max, Interval<T> interval) => max.open == !interval.min.open && max.value == interval.min.value;
 
 }
-

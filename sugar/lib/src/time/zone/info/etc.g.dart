@@ -20,8 +20,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('Z', 0),
       'GMT',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -31,8 +31,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('Z', 0),
       'GMT',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -42,8 +42,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', -3600),
       '-01',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -53,8 +53,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', -36000),
       '-10',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -64,8 +64,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', -39600),
       '-11',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -75,8 +75,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', -43200),
       '-12',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -86,8 +86,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', -7200),
       '-02',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -97,8 +97,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', -10800),
       '-03',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -108,8 +108,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', -14400),
       '-04',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -119,8 +119,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', -18000),
       '-05',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -130,8 +130,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', -21600),
       '-06',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -141,8 +141,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', -25200),
       '-07',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -152,8 +152,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', -28800),
       '-08',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -163,8 +163,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', -32400),
       '-09',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -174,8 +174,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('Z', 0),
       'GMT',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -185,8 +185,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', 3600),
       '+01',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -196,8 +196,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', 36000),
       '+10',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -207,8 +207,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', 39600),
       '+11',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -218,8 +218,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', 43200),
       '+12',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -229,8 +229,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', 46800),
       '+13',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -240,8 +240,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', 50400),
       '+14',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -251,8 +251,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', 7200),
       '+02',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -262,8 +262,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', 10800),
       '+03',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -273,8 +273,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', 14400),
       '+04',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -284,8 +284,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', 18000),
       '+05',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -295,8 +295,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', 21600),
       '+06',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -306,8 +306,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', 25200),
       '+07',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -317,8 +317,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', 28800),
       '+08',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -328,8 +328,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('+00:00', 32400),
       '+09',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -339,8 +339,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('Z', 0),
       'GMT',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -350,8 +350,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('Z', 0),
       'GMT',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -361,8 +361,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('Z', 0),
       'UTC',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -372,8 +372,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('Z', 0),
       'UTC',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -383,8 +383,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('Z', 0),
       'UTC',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );
@@ -394,8 +394,8 @@ extension Etc on Never {
     FixedTimezoneSpan(
       const LiteralOffset('Z', 0),
       'UTC',
-      TimezoneSpan.range.min,
-      TimezoneSpan.range.max,
+      TimezoneSpan.range.min.value,
+      TimezoneSpan.range.max.value,
       dst: false,
     ),
   );

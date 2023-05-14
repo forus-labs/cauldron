@@ -1,3 +1,14 @@
+# 2.7.0 (13/05/2023)
+This update focuses on lint rules introduce in Dart 3.
+
+- Add `deprecated_member_use_from_same_package`
+- Add `type_literal_in_constant_pattern`
+- Add `unnecessary_breaks`
+- Add `unnecessary_nullable_for_final_variable_declarations`
+- Remove `enable_null_safety`
+- Remove ignored `invariant_booleans`
+- Remove ignored `prefer_equal_for_default_values`
+
 # 2.6.0+1 (26/01/2023)
 Fix formatting in `analysis_options.yaml`.
 

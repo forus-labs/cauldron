@@ -50,7 +50,7 @@ The following offset formats are accepted:
 /// An [Offset] that validates its value at compile-time.
 ///
 /// As the range is not validated at runtime, the range may be invalid. Thus, it is not available to external users.
-@internal class LiteralOffset extends Offset {
+final class LiteralOffset extends Offset {
 
   final String _string;
 
@@ -67,7 +67,7 @@ The following offset formats are accepted:
 
 
 /// An [Offset] that validates its value at runtime-time.
-class _Offset extends Offset {
+final class _Offset extends Offset {
 
   /// Determines if the [microseconds] is within [range].
   ///
@@ -116,31 +116,26 @@ class _Offset extends Offset {
         hour = parse(1, colon: false);
         minute = 0;
         second = 0;
-        break;
 
       case 5:
         hour = parse(1, colon: false);
         minute = parse(3, colon: false);
         second = 0;
-        break;
 
       case 6:
         hour = parse(1, colon: false);
         minute = parse(4, colon: true);
         second = 0;
-        break;
 
       case 7:
         hour = parse(1, colon: false);
         minute = parse(3, colon: false);
         second = parse(5, colon: false);
-        break;
 
       case 9:
         hour = parse(1, colon: false);
         minute = parse(4, colon: true);
         second = parse(7, colon: true);
-        break;
 
       default:
         throw FormatException('Invalid offset format: "$offset". \n$_allowed');

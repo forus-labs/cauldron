@@ -21,7 +21,7 @@ extension Arctic on Never {
       -1,
       3208000000,
       'LMT',
-      TimezoneSpan.range.min,
+      TimezoneSpan.range.min.value,
       -2422054408,
       dst: false,
     ),

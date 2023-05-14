@@ -4,7 +4,7 @@ part of 'range.dart';
 ///
 /// [T] is expected to be immutable. If [T] is mutable, the value produced by [Comparable.compare] must not change when
 /// used in a [Max]. Doing so will result in undefined behaviour.
-final class Max<T extends Comparable<Object?>> extends Range<T> with IterableRange<T> {
+final class Max<T extends Comparable<Object?>> extends IterableRange<T> {
 
   /// The maximum value.
   final T value;
@@ -34,87 +34,56 @@ final class Max<T extends Comparable<Object?>> extends Range<T> with IterableRan
   }
 
   @override
-  @useResult Interval<T>? gap(Range<T> other) {
-    if (other is Min<T>) {
-      return Gaps.minMax(other, this);
-
-    } else if (other is Interval<T>) {
-      return Gaps.maxInterval(this, other);
-
-    } else {
-      return null;
-    }
-  }
+  @useResult Interval<T>? gap(Range<T> other) => switch (other) {
+    Min<T> _ => Gaps.minMax(other, this),
+    Interval<T> _ => Gaps.maxInterval(this, other),
+    _ => null,
+  };
 
   @override
-  @useResult Range<T>? intersection(Range<T> other) {
-    if (other is Max<T>) {
-      final comparison = value.compareTo(other.value);
-      if (comparison < 0) {
-        return open ? Max.open(value) : Max.closed(value);
-
-      } else if (comparison > 0) {
-        return other.open ? Max.open(other.value) : Max.closed(other.value);
-
-      } else {
-        return (open || other.open) ? Max.open(value) : Max.closed(value);
-      }
-
-    } else if (other is Interval<T>) {
-      return Intersections.maxInterval(this, other);
-
-    } else if (other is Min<T>) {
-      return Intersections.minMax(other, this);
-
-    } else if (other is Unbound<T>) {
-      return this;
-
-    } else {
-      return null;
-    }
-  }
-
+  @useResult Range<T>? intersection(Range<T> other) => switch (other) {
+    Max<T> _ => switch (value.compareTo(other.value)) {
+      < 0 when open => Max.open(value),
+      < 0 when closed => Max.closed(value),
+      > 0 when other.open => Max.open(other.value),
+      > 0 when other.closed => Max.closed(other.value),
+      _ when open || other.open => Max.open(value),
+      _ => Max.closed(other.value),
+    },
+    Interval<T> _ => Intersections.maxInterval(this, other),
+    Min<T> _ => Intersections.minMax(other, this),
+    Unbound<T> _ => this,
+  };
 
   @override
-  @useResult bool besides(Range<T> other) {
-    if (other is Min<T>) {
-      return Besides.minMax(other, this);
-
-    } else if (other is Interval<T>) {
-      return Besides.maxInterval(this, other);
-
-    } else {
-      return false;
-    }
-  }
+  @useResult bool besides(Range<T> other) => switch (other) {
+    Min<T> _ => Besides.minMax(other, this),
+    Interval<T> _ => Besides.maxInterval(this, other),
+    _ => false,
+  };
 
   @override
   @useResult bool encloses(Range<T> other) {
-    if (other is Max<T>) {
-      final comparison = other.value.compareTo(value);
-      return (comparison < 0) || (comparison == 0 && (closed || other.open));
+    switch (other) {
+      case Max<T> _:
+        final comparison = other.value.compareTo(value);
+        return (comparison < 0) || (comparison == 0 && (closed || other.open));
 
-    } else if (other is Interval<T>) {
-      final comparison = other.max.compareTo(value);
-      return (comparison < 0) || (comparison == 0 && (closed || other.maxOpen));
+      case Interval<T> _:
+        final comparison = other.max.value.compareTo(value);
+        return (comparison < 0) || (comparison == 0 && (closed || other.max.open));
 
-    } else {
-      return false;
+      default:
+        return false;
     }
   }
 
   @override
-  @useResult bool intersects(Range<T> other) {
-    if (other is Min<T>) {
-      return Intersects.minMax(other, this);
-
-    } else if (other is Interval<T>) {
-      return Intersects.maxInterval(this, other);
-
-    } else {
-      return true;
-    }
-  }
+  @useResult bool intersects(Range<T> other) => switch (other) {
+    Min<T> _ => Intersects.minMax(other, this),
+    Interval<T> _ => Intersects.maxInterval(this, other),
+    _ => true,
+  };
 
   @override
   bool get empty => false;

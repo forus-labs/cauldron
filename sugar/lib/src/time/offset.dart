@@ -19,7 +19,7 @@ part 'offsets.dart';
 /// See:
 /// * [OffsetTime] to represent times with fixed offsets.
 /// * [ZonedDateTime] to represent date-times with timezones.
-@sealed abstract class Offset with Orderable<Offset> {
+sealed class Offset with Orderable<Offset> {
 
   /// The valid range of [Offset]s, from `-18:00` to `+18:00`, inclusive.
   ///

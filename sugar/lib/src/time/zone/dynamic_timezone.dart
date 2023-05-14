@@ -32,12 +32,12 @@ import 'package:sugar/sugar.dart';
   /// ## Contract
   /// The transitions, offsets, abbreviations and DSTs should be non-empty and have the same length.
   DynamicTimezone(super._name, this._initial, this._transitions, this._offsets, this._unit, this._abbreviations, this._dsts):
-    _range = const Interval.empty(0),
+    _range = Interval.empty(0),
     _timezone = _initial,
     super.from();
 
   @override
-  @useResult MapEntry<EpochMicroseconds, DynamicTimezoneSpan> convert({required int local}) {
+  @useResult (EpochMicroseconds, DynamicTimezoneSpan) convert({required int local}) {
     // Adapted from https://github.com/JodaOrg/joda-time/blob/main/src/main/java/org/joda/time/DateTimeZone.java#L951
     // Get the offset at local (first estimate).
     final localInstant = local;
@@ -73,7 +73,7 @@ import 'package:sugar/sugar.dart';
     }
 
     // We have to fetch the offset again otherwise it'll be incorrect for DST transitions.
-    return MapEntry(microseconds, span(at: microseconds));
+    return (microseconds, span(at: microseconds));
   }
 
   @override
@@ -108,7 +108,7 @@ import 'package:sugar/sugar.dart';
     final EpochMicroseconds end;
     if (max == _transitions.length) {
       _range = Min.closed(_transitions[min]);
-      end = TimezoneSpan.range.max;
+      end = TimezoneSpan.range.max.value;
 
     } else {
       _range = Interval.closedOpen(_transitions[min], _transitions[max]);

@@ -24,7 +24,7 @@ typedef DayMicroseconds = int;
 
 
 /// A unit of date-time, such as days or hours.
-@sealed class TemporalUnit {}
+sealed class TemporalUnit {}
 
 /// A unit of date, such as months and days.
 enum DateUnit implements TemporalUnit {

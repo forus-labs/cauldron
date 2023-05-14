@@ -54,11 +54,11 @@ linter:
     - dangling_library_doc_comments
     - depend_on_referenced_packages
     - deprecated_consistency
+    - deprecated_member_use_from_same_package
     - do_not_use_environment
     - empty_catches
     - empty_constructor_bodies
     - empty_statements
-    - enable_null_safety
     - eol_at_end_of_file
     - exhaustive_cases
     - file_names
@@ -136,9 +136,11 @@ linter:
     - tighten_type_of_initializing_formals
     - type_annotate_public_apis
     - type_init_formals
+    - type_literal_in_constant_pattern
     - unawaited_futures
     - unnecessary_await_in_return
     - unnecessary_brace_in_string_interps
+    - unnecessary_breaks
     - unnecessary_const
     - unnecessary_constructor_name
     - unnecessary_getters_setters
@@ -149,6 +151,7 @@ linter:
     - unnecessary_null_aware_assignments
     - unnecessary_null_aware_operator_on_extension_on_nullable
     - unnecessary_null_in_if_null_operators
+    - unnecessary_nullable_for_final_variable_declarations
     - unnecessary_overrides
     - unnecessary_parenthesis
     - unnecessary_raw_strings
@@ -192,7 +195,6 @@ ignore:
   - directives_ordering
   - discarded_futures
   - flutter_style_todos
-  - invariant_booleans
   - lines_longer_than_80_chars
   - no_default_cases
   - no_logic_in_create_state
@@ -200,7 +202,6 @@ ignore:
   - package_api_docs
   - parameter_assignments
   - prefer_double_quotes
-  - prefer_equal_for_default_values
   - prefer_final_parameters
   - prefer_int_literals
   - prefer_mixin

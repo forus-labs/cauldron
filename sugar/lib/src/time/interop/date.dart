@@ -1,3 +1,4 @@
+
 import 'package:meta/meta.dart';
 
 /// Provides low-level functions for working with dates.
@@ -53,18 +54,11 @@ extension Dates on Never {
   /// ```dart
   /// Dates.weekOfYear(2023, 4, 1); // 13
   /// ```
-  @useResult static int weekOfYear(int year, int month, int day) {
-    final ordinal = (dayOfYear(year, month, day) - weekday(year, month, day) + 10) ~/ 7;
-    if (ordinal == 0) {
-      return weekOfYear(year - 1, 12, 28);
-    }
-
-    if (ordinal == 53 && weekday(year, 1, 1) != 4 && weekday(year, 12, 31) != 4) {
-      return 1;
-    }
-
-    return ordinal;
-  }
+  @useResult static int weekOfYear(int year, int month, int day) => switch ((dayOfYear(year, month, day) - weekday(year, month, day) + 10) ~/ 7) {
+    0 => weekOfYear(year - 1, 12, 28),
+    53 when weekday(year, 1, 1) != 4 && weekday(year, 12, 31) != 4 => 1,
+    final ordinal => ordinal,
+  };
 
   /// Computes the ordinal day of the year.
   ///

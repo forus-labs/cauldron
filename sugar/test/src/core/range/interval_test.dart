@@ -8,13 +8,13 @@ void main() {
       test('non-empty range', () {
         final interval = Interval.closedOpen(1, 2);
 
-        expect(interval.min, 1);
-        expect(interval.minClosed, true);
-        expect(interval.minOpen, false);
+        expect(interval.min.value, 1);
+        expect(!interval.min.open, true);
+        expect(interval.min.open, false);
 
-        expect(interval.max, 2);
-        expect(interval.maxClosed, false);
-        expect(interval.maxOpen, true);
+        expect(interval.max.value, 2);
+        expect(!interval.max.open, false);
+        expect(interval.max.open, true);
       });
 
       test('empty range', () => expect(() => Interval.closedOpen(1, 1), returnsNormally));
@@ -26,13 +26,13 @@ void main() {
       test('non-empty range', () {
         final interval = Interval.closed(1, 2);
 
-        expect(interval.min, 1);
-        expect(interval.minClosed, true);
-        expect(interval.minOpen, false);
+        expect(interval.min.value, 1);
+        expect(!interval.min.open, true);
+        expect(interval.min.open, false);
 
-        expect(interval.max, 2);
-        expect(interval.maxClosed, true);
-        expect(interval.maxOpen, false);
+        expect(interval.max.value, 2);
+        expect(!interval.max.open, true);
+        expect(interval.max.open, false);
       });
 
       test('empty range', () => expect(() => Interval.closed(1, 1), returnsNormally));
@@ -44,13 +44,11 @@ void main() {
       test('non-empty range', () {
         final interval = Interval.openClosed(1, 2);
 
-        expect(interval.min, 1);
-        expect(interval.minClosed, false);
-        expect(interval.minOpen, true);
+        expect(interval.min.value, 1);
+        expect(interval.min.open, true);
 
-        expect(interval.max, 2);
-        expect(interval.maxClosed, true);
-        expect(interval.maxOpen, false);
+        expect(interval.max.value, 2);
+        expect(interval.max.open, false);
       });
 
       test('empty range', () => expect(() => Interval.openClosed(1, 1), returnsNormally));
@@ -62,13 +60,11 @@ void main() {
       test('non-empty range', () {
         final interval = Interval.open(1, 2);
 
-        expect(interval.min, 1);
-        expect(interval.minClosed, false);
-        expect(interval.minOpen, true);
+        expect(interval.min.value, 1);
+        expect(interval.min.open, true);
 
-        expect(interval.max, 2);
-        expect(interval.maxClosed, false);
-        expect(interval.maxOpen, true);
+        expect(interval.max.value, 2);
+        expect(interval.max.open, true);
       });
 
       test('empty range', () => expect(() => Interval.open(1, 1), throwsRangeError));
@@ -77,7 +73,7 @@ void main() {
     });
 
     group('empty(...)', () {
-      const interval = Interval.empty(1);
+      final interval = Interval.empty(1);
 
       test('empty', () => expect(interval.contains(1), false));
 
@@ -152,7 +148,7 @@ void main() {
 
       test('max no gap', () => expect(Interval.closed(3, 5).gap(const Max.closed(5)), null));
       
-      test('all no gap', () => expect(Interval.closed(3, 5).gap(Range.all()), null));
+      test('all no gap', () => expect(Interval.closed(3, 5).gap(const Unbound()), null));
     });
 
     group('intersection(...)', () {
@@ -168,7 +164,7 @@ void main() {
 
       test('max no intersection', () => expect(Interval.closed(3, 5).intersection(const Max.closed(1)), null));
 
-      test('all intersection', () => expect(Interval.closed(3, 5).intersection(Range.all()), Interval.closed(3, 5)));
+      test('all intersection', () => expect(Interval.closed(3, 5).intersection(const Unbound()), Interval.closed(3, 5)));
     });
 
     group('besides(...)', () {
@@ -215,7 +211,7 @@ void main() {
       test('lesser discrete range', () => expect(Interval.closed(1, 3).besides(Interval.closed(0, 1)), false));
 
 
-      test('all not besides', () => expect(Interval.closed(1, 3).besides(Range.all()), false));
+      test('all not besides', () => expect(Interval.closed(1, 3).besides(const Unbound()), false));
     });
 
     group('encloses(...)', () {
@@ -258,7 +254,7 @@ void main() {
       test('discrete range', () => expect(Interval.closed(2, 4).encloses(Interval.open(1, 5)), false));
 
 
-      test('not enclose all', () => expect(Interval.closed(1, 3).encloses(Range.all()), false));
+      test('not enclose all', () => expect(Interval.closed(1, 3).encloses(const Unbound()), false));
 
     });
 
@@ -278,7 +274,7 @@ void main() {
 
       test('does not intersect interval', () => expect(Interval.closed(1, 3).intersects(Interval.closed(5, 7)), false));
 
-      test('intersects all', () => expect(Interval.closed(1, 3).intersects(Range.all()), true));
+      test('intersects all', () => expect(Interval.closed(1, 3).intersects(const Unbound()), true));
 
       for (final other in [
         Interval.closed(3, 7),

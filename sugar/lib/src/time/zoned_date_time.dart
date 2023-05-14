@@ -187,8 +187,8 @@ class ZonedDateTime extends DateTimeBase {
   ]) => ZonedDateTime._convert(Timezone(timezone), DateTime.utc(year, month, day, hour, minute, second, millisecond, microsecond));
 
   factory ZonedDateTime._convert(Timezone timezone, DateTime date) {
-    final tuple = timezone.convert(local: date.microsecondsSinceEpoch); // TODO: Dart 3 destructuring
-    return ZonedDateTime._(timezone, tuple.value, tuple.key);
+    final (microseconds, span) = timezone.convert(local: date.microsecondsSinceEpoch);
+    return ZonedDateTime._(timezone, span, microseconds);
   }
 
   ZonedDateTime._(this.timezone, this.span, this.epochMicroseconds): super._(

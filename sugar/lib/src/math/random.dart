@@ -18,13 +18,10 @@ extension Randoms on Random {
   /// Random().nextBoundedInt(3, 3) // throws RangeError
   /// ```
   @Possible({RangeError})
-  @useResult int nextBoundedInt(int min, int max) {
-    if (min >= max) {
-      throw RangeError.range(max, min, null, 'max');
-    }
-
-    return nextInt(max - min) + min;
-  }
+  @useResult int nextBoundedInt(int min, int max) => switch (min < max) {
+    true => nextInt(max - min) + min,
+    false => throw RangeError.range(max, min, null, 'max'),
+  };
 
   /// Generates a random double in the range, `[min] <= value < [max]`.
   ///
@@ -78,11 +75,10 @@ extension Randoms on Random {
       RangeError.checkNotNegative(length, 'length');
     }
 
-    if (min >= max) {
-      throw RangeError.range(max, min, null, 'max');
-    }
-
-    return _generate(length, () => nextInt(max - min) + min);
+    return switch (min < max) {
+      true => _generate(length, () => nextInt(max - min) + min),
+      false => throw RangeError.range(max, min, null, 'max'),
+    };
   }
 
   /// Returns a [Stream] of [length] that produces random doubles in the range, `[min] <= value < [max]`.

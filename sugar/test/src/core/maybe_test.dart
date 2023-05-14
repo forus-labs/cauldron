@@ -5,7 +5,7 @@ import 'package:sugar/core.dart';
 void main() {
   Future<String?> func<T>(T value) async => 'value';
 
-  const int? nonnull = 1;
+  const int? nonnull = 1; // ignore: unnecessary_nullable_for_final_variable_declarations
   const int? nullable = null;
 
   group('not null', () {

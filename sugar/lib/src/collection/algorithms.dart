@@ -20,7 +20,7 @@ import 'package:sugar/core.dart';
   }
 
   final (iterable, contains) = switch ((a, b)) {
-    (final a, final b) when a is Set<Object?> || (b is! Set<Object?> && a.length > b.length) => (b, a),
+    (_, _) when a is Set<Object?> || (b is! Set<Object?> && a.length > b.length) => (b, a),
     _ => (a, b),
   };
 

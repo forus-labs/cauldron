@@ -174,28 +174,16 @@ extension DateTimes on DateTime {
   @Possible({RangeError})
   @useResult DateTime floor(TemporalUnit unit, int value) => _adjust(unit, (date) => date.floorTo(value));
 
-  DateTime _adjust(TemporalUnit unit, int Function(int time) apply) {
-    switch (unit) {
-      case DateUnit.years:
-        return copyWith(year: apply(year), month: 1, day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
-      case DateUnit.months:
-        return copyWith(month: apply(month), day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
-      case DateUnit.days:
-        return copyWith(day: apply(day), hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
-      case TimeUnit.hours:
-        return copyWith(hour: apply(hour), minute: 0, second: 0, millisecond: 0, microsecond: 0);
-      case TimeUnit.minutes:
-        return copyWith(minute: apply(minute), second: 0, millisecond: 0, microsecond: 0);
-      case TimeUnit.seconds:
-        return copyWith(second: apply(second), millisecond: 0, microsecond: 0);
-      case TimeUnit.milliseconds:
-        return copyWith(millisecond: apply(millisecond), microsecond: 0);
-      case TimeUnit.microseconds:
-        return copyWith(microsecond: apply(microsecond));
-      default:
-        throw UnsupportedError('$unit is not supported.'); // TODO: remove once sealed types are available.
-    }
-  }
+  DateTime _adjust(TemporalUnit unit, int Function(int time) apply) => switch (unit) {
+    DateUnit.years => copyWith(year: apply(year), month: 1, day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0),
+    DateUnit.months => copyWith(month: apply(month), day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0),
+    DateUnit.days => copyWith(day: apply(day), hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0),
+    TimeUnit.hours => copyWith(hour: apply(hour), minute: 0, second: 0, millisecond: 0, microsecond: 0),
+    TimeUnit.minutes => copyWith(minute: apply(minute), second: 0, millisecond: 0, microsecond: 0),
+    TimeUnit.seconds => copyWith(second: apply(second), millisecond: 0, microsecond: 0),
+    TimeUnit.milliseconds => copyWith(millisecond: apply(millisecond), microsecond: 0),
+    TimeUnit.microseconds => copyWith(microsecond: apply(microsecond)),
+  };
 
 
   /// Formats this [DateTime]'s date as a ISO-8601 date, ignoring the time.

@@ -119,7 +119,7 @@ mixin Orderable<T extends Orderable<T>> implements Comparable<T> {
 /// ```
 @Possible({TypeError})
 @useResult T min<T>(T a, T b, {Select<T, Comparable<Object>>? by}) => switch (by) {
-  final by? => by(a).compareTo(by(b)) < 0 ? a : b,
+  _? => by(a).compareTo(by(b)) < 0 ? a : b,
   _ => (a as Comparable).compareTo(b) < 0 ? a : b,
 };
 
@@ -138,7 +138,7 @@ mixin Orderable<T extends Orderable<T>> implements Comparable<T> {
 /// ```
 @Possible({TypeError})
 @useResult T max<T>(T a, T b, {Select<T, Comparable<Object>>? by}) => switch (by) {
-  final by? => by(a).compareTo(by(b)) > 0 ? a : b,
+  _? => by(a).compareTo(by(b)) > 0 ? a : b,
   _ => (a as Comparable).compareTo(b) > 0 ? a : b,
 };
 

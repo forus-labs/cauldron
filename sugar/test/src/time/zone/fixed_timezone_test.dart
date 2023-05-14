@@ -6,9 +6,9 @@ void main() {
   final timezone = DefaultTimezoneProvider()['Etc/GMT-8']!;
 
   test('at(...)', () {
-    final entry = timezone.convert(local: DateTime.utc(2023, 5, 9, 10).microsecondsSinceEpoch); // TODO: Dart 3
-    expect(entry.key, DateTime.utc(2023, 5, 9, 2).microsecondsSinceEpoch);
-    expect(entry.value.offset, Offset(8));
+    final (microseconds, TimezoneSpan(:offset)) = timezone.convert(local: DateTime.utc(2023, 5, 9, 10).microsecondsSinceEpoch);
+    expect(microseconds, DateTime.utc(2023, 5, 9, 2).microsecondsSinceEpoch);
+    expect(offset, Offset(8));
   });
   
   group('span(...)', () {
@@ -16,9 +16,9 @@ void main() {
 
     test('abbreviation', () => expect(span.abbreviation, '+08'));
     
-    test('start', () => expect(span.start, TimezoneSpan.range.min));
+    test('start', () => expect(span.start, TimezoneSpan.range.min.value));
 
-    test('end', () => expect(span.end, TimezoneSpan.range.max));
+    test('end', () => expect(span.end, TimezoneSpan.range.max.value));
     
     test('dst', () => expect(span.dst, false));
 

@@ -21,7 +21,7 @@ import 'package:sugar/time.dart';
 //
 /// Unless otherwise stated, functions do not perform normalization. A period of "15 months" isn't automatically converted
 /// to a period of "1 year and 3 months". Likewise, the aforementioned periods are not equal.
-class Period {
+final class Period {
 
   /// The years.
   final int years;

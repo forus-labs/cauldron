@@ -108,7 +108,7 @@ abstract class Timezone {
 
   /// Converts the [local] date-time in microseconds to microseconds since Unix epoch (in UTC). The corresponding
   /// [TimezoneSpan] is also returned.
-  @useResult MapEntry<EpochMicroseconds, TimezoneSpan> convert({required int local}); // TODO: convert to tuple in Dart 3.0
+  @useResult (EpochMicroseconds, TimezoneSpan) convert({required int local});
 
   /// Returns the [TimezoneSpan] at the microseconds since Unix epoch.
   @useResult TimezoneSpan span({required EpochMicroseconds at});

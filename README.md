@@ -1,11 +1,13 @@
 # Cauldron
 
 Forus Labs' Dart & Flutter open source projects.
-* Standard library extension that includes utilities for date-times, timezones, collections, monads & more.
-* Lint ruleset in our projects.
 
 ***
 ## Sugar - Standard library extension
+
+Standard library extension that includes utilities for date-times, timezones, collections, monads & more.
+
+It consolidates several micro-packages that provide bits and pieces of date-time & timezone utilities into a single package.
 
 [![Sugar](https://github.com/forus-labs/cauldron/workflows/Sugar/badge.svg)](https://github.com/forus-labs/cauldron/actions?query=workflow%3A%22Sugar+Build%22)
 [![Codecov](https://codecov.io/gh/forus-labs/cauldron/branch/master/graph/badge.svg)](https://codecov.io/gh/forus-labs/cauldron)
@@ -14,11 +16,13 @@ Forus Labs' Dart & Flutter open source projects.
 
 ```YAML
 dependencies:
-  sugar: ^2.4.0
+  sugar: ^3.0.0
 ```
 
 ***
 ## Flint - Because Pedantic wasn't strict enough
+
+Lint ruleset in our projects.
 
 [![Flint Build](https://github.com/forus-labs/cauldron/workflows/Flint%20Build/badge.svg)](https://github.com/forus-labs/cauldron/actions?query=workflow%3A%22Flint+Build%22)
 [![Pub Dev](https://img.shields.io/pub/v/flint)](https://pub.dev/packages/flint)
@@ -26,5 +30,5 @@ dependencies:
 
 ```YAML
 dev_dependencies:
-  flint: ^2.3.0
+  flint: ^2.7.0
 ```
