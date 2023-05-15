@@ -14,6 +14,18 @@ It provides the following (and much more!):
 
 It consolidates several micro-packages that provide bits and pieces of date-time & timezone utilities into a single package.
 
+## Why Sugar's date-time API over other packages?
+
+* Sugar is able to detect the platform's timezone, `ZonedDateTime.now()`. Other packages such as `timezone` or even Dart's standard library don't. [`DateTime.timeZoneName`](https://api.dart.dev/stable/dart-core/DateTime/timeZoneName.html) returns an ambigious abbrevation that can refer to multiple timezones. See [List of timezone abbreviations](https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations).
+
+* Sugar is less hassle to set-up. You don't need to fiddle with assets or asynchronously initialize the package. Simply create a [`ZonedDateTime`](https://pub.dev/documentation/sugar/latest/sugar.time/sugar.time-library.html).
+
+* Sugar has (in theory) zero initialization cost & a better memory footprint. Other packages often parse the timezone information from binary files at runtime. We rely on code generation to eliminate IO completely. Other packages often load the entire TZ database into memory. We rely on lazy initialization to load only timezones you use, reducing memory footprint. 
+
+* Sugar handles DST transitions similary to other packages such as Java, Python & C#. Other packages such as `timezone` don't. This can be an issue when interacting between a back-end written in one of those languages and a front-end written in Dart.
+
+* Sugar offers more than just `ZonedDateTime`. It offers classes such as `LocalTime` & `Period`, and utilities such as retrieving the ordinal week of the year.
+
 
 ## Getting Started
 
