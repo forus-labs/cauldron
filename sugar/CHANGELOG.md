@@ -1,3 +1,7 @@
+## 3.0.0+1 (15/05/2023)
+
+Update `README.md`
+
 ## 3.0.0 (14/05/2023)
 
 This release is a complete rework of the library, capitalizing on the real-life experiences gained over the past 2 years.
