@@ -1,7 +1,7 @@
 name: sugar
 description: Forus Labs' standard library extension. Utilities for date-times, timezones, collections, monads & more.
 
-version: 3.0.0+1
+version: 3.1.0
 homepage: https://github.com/forus-labs/cauldron
 repository: https://github.com/forus-labs/cauldron
 issue_tracker: https://github.com/forus-labs/cauldron/issues
