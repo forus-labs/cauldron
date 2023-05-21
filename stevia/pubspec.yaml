@@ -10,7 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  meta: ^1.9.1
   plugin_platform_interface: ^2.0.2
+  sugar: ^3.0.0+1
 
 dev_dependencies:
   flint: ^2.7.0
@@ -35,8 +37,8 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.foruslabs.stevia
-        pluginClass: SteviaPlugin
+        package: com.foruslabs.stevia.haptic
+        pluginClass: HapticPlugin
       ios:
         pluginClass: SteviaPlugin
 

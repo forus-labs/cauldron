@@ -1,4 +1,4 @@
 include: package:flint/analysis_options.flutter.yaml
-
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+analyzer:
+  errors:
+    unused_result: ignore # TODO: enable once https://github.com/dart-lang/sdk/issues/51543 is fixed
