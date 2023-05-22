@@ -88,8 +88,7 @@ class _AndroidHaptic extends StatelessWidget {
 
 class _IOSHaptic extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Column(
-    mainAxisAlignment: MainAxisAlignment.center,
+  Widget build(BuildContext context) => ListView(
     children: [
       for (final pattern in IOSHapticPattern.values)
         TextButton(

@@ -40,7 +40,7 @@ flutter:
         package: com.foruslabs.stevia.haptic
         pluginClass: HapticPlugin
       ios:
-        pluginClass: SteviaPlugin
+        pluginClass: HapticPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
