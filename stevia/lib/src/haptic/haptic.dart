@@ -1,30 +1,34 @@
 import 'package:meta/meta.dart';
 import 'package:stevia/haptic.dart';
-import 'package:stevia/src/haptic/haptic_platform.dart';
+import 'package:stevia/src/haptic/platform_haptic.dart';
 import 'package:sugar/sugar.dart';
 import 'package:flutter/services.dart';
 
 /// Provides functions for performing haptic feedback on devices.
 ///
 /// ## Testing
-/// In tests, you can replace [Haptic] with a stub implementation using [stubForTesting]. The stub implementation does
-/// not do anything and always return a specified value.
+/// In tests, you can replace [Haptic] with a stub implementation using [stubForTesting]. It is recommended to always call
+/// [stubForTesting] inside `setUp(...)`. Not doing so leads to the stub being reused across tests. This may affect the
+/// result of the tests.
 ///
 /// ```dart
 /// class UnderTest {
-///
-///   Future<bool>> foo() async => Haptic.success();
-///
+///   Future<void> foo() async => Haptic.success();
 /// }
 ///
 /// void main() {
+///   late List<(AndroidHapticPattern?, IOSHapticPattern?)> calls;
 ///
-///   setUp(() => Haptic.stubForTesting(success: false));
+///   setUp(() => calls = Haptic.stubForTesting());
 ///
 ///   test('some test', () async {
-///     expect(await UnderTest().foo(), false); // UnderTest.foo() always returns false
+///     await UnderTest().foo();
+///     expect(calls.length, 1);
 ///   });
 ///
+///   test('nothing', () {
+///     expect(calls.isEmpty, 0);
+///   });
 /// }
 /// ```
 ///
@@ -40,10 +44,33 @@ extension Haptic on Never {
 
   /// Stubs [Haptic]'s functions for testing.
   ///
-  /// The stubbed functions do not do anything. They always return [success].
+  /// Returns the calls with the given arguments to [Haptic].
+  ///
+  /// It is recommended to always call [stubForTesting] inside `setUp(...)`. Not doing so leads to the stub being reused
+  /// across tests. This may affect the result of the tests.
+  ///
+  /// ```dart
+  /// class UnderTest {
+  ///   Future<void> foo() async => Haptic.success();
+  /// }
+  ///
+  /// void main() {
+  ///   late List<(AndroidHapticPattern?, IOSHapticPattern?)> calls;
+  ///
+  ///   setUp(() => calls = Haptic.stubForTesting());
+  ///
+  ///   test('some test', () async {
+  ///     await UnderTest().foo();
+  ///     expect(calls.single, HapticPattern.success.value);
+  ///   });
+  ///
+  ///   test('nothing', () {
+  ///     expect(calls.isEmpty, 0);
+  ///   });
+  /// }
   @visibleForTesting
   @Possible({AssertionError})
-  static void stubForTesting({bool success = true}) {
+  static List<(AndroidHapticPattern?, IOSHapticPattern?)> stubForTesting() {
     var assertionsEnabled = false;
     assert(() {
       assertionsEnabled = true;
@@ -54,36 +81,39 @@ extension Haptic on Never {
       throw AssertionError('`Haptic.stubForTesting` is not intended for use in release builds.');
     }
 
-    _platform = NoopPlatformHaptic(success: success);
+    final platform = StubHaptic();
+    _platform = platform;
+
+    return platform.calls;
   }
 
   static PlatformHaptic _platform = PlatformHaptic();
 
 
   /// Performs a haptic feedback that indicates a task has completed successfully.
-  static Future<bool> success() => feedback(HapticPattern.success.value);
+  static Future<void> success() => perform(HapticPattern.success.value);
 
   /// Performs a haptic feedback that indicates a task has produced a warning.
-  static Future<bool> warning() => feedback(HapticPattern.warning.value);
+  static Future<void> warning() => perform(HapticPattern.warning.value);
 
   /// Performs a haptic feedback that indicates a task has failed.
-  static Future<bool> failure() => feedback(HapticPattern.failure.value);
+  static Future<void> failure() => perform(HapticPattern.failure.value);
 
 
   /// Performs a haptic feedback that correspond to a collision between large, heavy user interface elements.
   ///
   /// This is the equivalent of [HapticFeedback.heavyImpact].
-  static Future<bool> heavy() => feedback(HapticPattern.heavy.value);
+  static Future<void> heavy() => perform(HapticPattern.heavy.value);
 
   /// Performs a haptic feedback that correspond to a collision between moderately sized user interface elements.
   ///
   /// This is the equivalent of [HapticFeedback.mediumImpact].
-  static Future<bool> medium() => feedback(HapticPattern.medium.value);
+  static Future<void> medium() => perform(HapticPattern.medium.value);
 
   /// Performs a haptic feedback that correspond to a collision between small, light user interface elements.
   ///
   /// This is the equivalent of [HapticFeedback.lightImpact].
-  static Future<bool> light() => feedback(HapticPattern.light.value);
+  static Future<void> light() => perform(HapticPattern.light.value);
 
 
   /// Performs the haptic feedback [pattern].
@@ -97,6 +127,6 @@ extension Haptic on Never {
   /// // Does nothing on Android and performs 'success' on iOS.
   /// Haptic.feedback((null, IOSHapticPattern.success));
   /// ```
-  static Future<bool> feedback((AndroidHapticPattern?, IOSHapticPattern?) pattern) => _platform.feedback(pattern);
+  static Future<void> perform((AndroidHapticPattern?, IOSHapticPattern?) pattern) => _platform.perform(pattern);
 
 }

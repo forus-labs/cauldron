@@ -62,12 +62,12 @@ public class HapticMethodHandler implements MethodCallHandler {
             return;
         }
 
-        if (activity == null || pattern == -1) {
-            result.success(false);
-            return;
+        var activity = this.activity;
+        if (activity != null && pattern != -1) {
+            activity.getWindow().getDecorView().getRootView().performHapticFeedback(pattern);
         }
 
-        activity.getWindow().getDecorView().getRootView().performHapticFeedback(pattern);
+        result.success(false);
     }
 
 }

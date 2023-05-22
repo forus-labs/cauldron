@@ -7,7 +7,7 @@
 /// Haptic.light();
 /// ```
 ///
-/// You can also perform a custom combination of patterns across platforms using [Haptic.feedback].
+/// You can also perform a custom combination of patterns across platforms using [Haptic.perform].
 /// ```dart
 /// // Performs 'confirm' on Android and 'success' on iOS.
 /// Haptic.feedback((AndroidHapticPattern.confirm, IOSHapticPattern.success));
@@ -17,26 +17,29 @@
 /// ```
 ///
 /// ## Testing
-/// In tests, you can replace [Haptic] with a stub implementation using [Haptic.stubForTesting]. The stub implementation
-/// does not do anything and always return a specified value.
+/// In tests, you can replace [Haptic] with a stub implementation using [Haptic.stubForTesting]. It is recommended to
+/// always call [Haptic.stubForTesting] inside `setUp(...)`. Not doing so leads to the stub being reused across tests.
+/// This may affect the result of the tests.
 ///
 /// ```dart
 /// class UnderTest {
-///
-///   Future<bool>> foo() async => Haptic.success();
-///
+///   Future<void> foo() async => Haptic.success();
 /// }
 ///
 /// void main() {
+///   late List<(AndroidHapticPattern?, IOSHapticPattern?)> calls;
 ///
-///   setUp(() => Haptic.stubForTesting(success: false));
+///   setUp(() => calls = Haptic.stubForTesting());
 ///
 ///   test('some test', () async {
-///     expect(await UnderTest().foo(), false); // UnderTest.foo() always returns false
+///     await UnderTest().foo();
+///     expect(calls.length, 1);
 ///   });
 ///
+///   test('nothing', () {
+///     expect(calls.isEmpty, 0);
+///   });
 /// }
-/// ```
 ///
 /// ## Android Caveats
 /// Certain haptic feedback patterns require higher Android API levels than the minimum version of `26`. Those functions

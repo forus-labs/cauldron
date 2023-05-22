@@ -64,22 +64,20 @@ enum AndroidHapticPattern {
 ///
 /// See [UIFeedbackGenerator](https://developer.apple.com/documentation/uikit/uifeedbackgenerator).
 enum IOSHapticPattern {
-  success('success', 'UINotificationFeedbackGenerator'),
-  warning('warning', 'UINotificationFeedbackGenerator'),
-  error('error', 'UINotificationFeedbackGenerator'),
+  success('success'),
+  warning('warning'),
+  error('error'),
 
-  heavy('heavy', 'UIImpactFeedbackGenerator'),
-  medium('medium', 'UIImpactFeedbackGenerator'),
-  light('light', 'UIImpactFeedbackGenerator'),
-  rigid('rigid', 'UIImpactFeedbackGenerator'),
-  soft('soft', 'UIImpactFeedbackGenerator'),
+  heavy('heavy'),
+  medium('medium'),
+  light('light'),
+  rigid('rigid'),
+  soft('soft'),
 
-  selection('selection', 'UISelectionFeedbackGenerator');
+  selection('selection');
 
   /// The haptic feedback pattern name.
   final String name;
-  /// The haptic feedback pattern type.
-  final String type;
 
-  const IOSHapticPattern(this.name, this.type);
+  const IOSHapticPattern(this.name);
 }
