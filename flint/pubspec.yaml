@@ -9,5 +9,5 @@ environment:
 
 dev_dependencies:
   html: ^0.15.0
-  http: ^0.13.3
+  http: ^1.0.0
   yaml: ^3.1.0
