@@ -26,7 +26,7 @@ public class HapticPlugin: NSObject, FlutterPlugin {
 
 }
 
-struct HapticFeedback {
+class HapticFeedback {
   private let notificationFeedback = UINotificationFeedbackGenerator()
   private let selectionFeedback = UISelectionFeedbackGenerator()
   private let heavyImpactFeedback = UIImpactFeedbackGenerator(style: .heavy)
@@ -44,36 +44,19 @@ struct HapticFeedback {
   
   func perform(_ pattern: String) -> Any? {
     switch pattern {
-    case "success":
-      notificationFeedback.notificationOccurred(.success)
-      return true
-    case "warning":
-      notificationFeedback.notificationOccurred(.warning)
-      return true
-    case "error":
-      notificationFeedback.notificationOccurred(.error)
-      return true
-    case "selection":
-      selectionFeedback.selectionChanged()
-      return true
-    case "heavy":
-      heavyImpactFeedback.impactOccurred()
-      return true
-    case "medium":
-      mediumImpactFeedback.impactOccurred()
-      return true
-    case "light":
-      lightImpactFeedback.impactOccurred()
-      return true
-    case "rigid":
-      rigitImpactFeedback?.impactOccurred()
-      return rigitImpactFeedback != nil
-    case "soft":
-      softImpactFeedback?.impactOccurred()
-      return softImpactFeedback != nil
-      
+    case "success": notificationFeedback.notificationOccurred(.success)
+    case "warning": notificationFeedback.notificationOccurred(.warning)
+    case "error": notificationFeedback.notificationOccurred(.error)
+    case "selection": selectionFeedback.selectionChanged()
+    case "heavy": heavyImpactFeedback.impactOccurred()
+    case "medium": mediumImpactFeedback.impactOccurred()
+    case "light": lightImpactFeedback.impactOccurred()
+    case "rigid": rigitImpactFeedback?.impactOccurred()
+    case "soft": softImpactFeedback?.impactOccurred()
     default:
       return FlutterError(code: HapticPlugin.errorCode, message: "Unsupported pattern: \(pattern)", details: nil)
     }
+    
+    return nil
   }
 }
