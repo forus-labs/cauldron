@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:stevia/stevia.dart';
 
 void main() {
-  runApp(const HapticDemo());
+  runApp(const HapticExample());
 }
 
-class HapticDemo extends StatelessWidget {
-  const HapticDemo({super.key});
+/// An example application that showcases haptic feedback across all supported platforms.
+class HapticExample extends StatelessWidget {
+  /// Creates a [HapticExample].
+  const HapticExample({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) => MaterialApp(
       theme: ThemeData(useMaterial3: true),
       home: DefaultTabController(
-        initialIndex: 0,
         length: 3,
         child: Scaffold(
           appBar: AppBar(
@@ -37,37 +37,35 @@ class HapticDemo extends StatelessWidget {
         ),
       )
     );
-  }
 }
 
 class _PlatformAgnosticHaptic extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListView(
-    children: [
+    children: const [
       TextButton(
-        onPressed: () => Haptic.success(),
-        child: const Text('success'),
+        onPressed: Haptic.success,
+        child: Text('success'),
       ),
       TextButton(
-        onPressed: () => Haptic.warning(),
-        child: const Text('warning'),
+        onPressed: Haptic.warning,
+        child: Text('warning'),
       ),
       TextButton(
-        onPressed: () => Haptic.failure(),
-        child: const Text('failure'),
-      ),
-
-      TextButton(
-        onPressed: () => Haptic.heavy(),
-        child: const Text('heavy'),
+        onPressed: Haptic.failure,
+        child: Text('failure'),
       ),
       TextButton(
-        onPressed: () => Haptic.medium(),
-        child: const Text('medium'),
+        onPressed: Haptic.heavy,
+        child: Text('heavy'),
       ),
       TextButton(
-        onPressed: () => Haptic.light(),
-        child: const Text('light'),
+        onPressed: Haptic.medium,
+        child: Text('medium'),
+      ),
+      TextButton(
+        onPressed: Haptic.light,
+        child: Text('light'),
       ),
     ],
   );
@@ -79,7 +77,7 @@ class _AndroidHaptic extends StatelessWidget {
     children: [
       for (final pattern in AndroidHapticPattern.values)
         TextButton(
-          onPressed: () => Haptic.feedback((pattern, null)),
+          onPressed: () => Haptic.perform((pattern, null)),
           child: Text(pattern.toString().split('.').last),
         ),
     ],
@@ -92,7 +90,7 @@ class _IOSHaptic extends StatelessWidget {
     children: [
       for (final pattern in IOSHapticPattern.values)
         TextButton(
-          onPressed: () => Haptic.feedback((null, pattern)),
+          onPressed: () => Haptic.perform((null, pattern)),
           child: Text(pattern.toString().split('.').last),
         ),
     ],

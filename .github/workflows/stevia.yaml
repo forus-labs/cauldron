@@ -1,0 +1,70 @@
+name: Stevia
+
+on:
+  push:
+    paths: [ stevia/**, .github/workflows/stevia.yaml ]
+
+  pull_request:
+    paths: [ stevia/**, .github/workflows/stevia.yaml ]
+
+jobs:
+  test:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: stevia
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2.10.0
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+
+  android:
+    name: Run integration tests and Android build
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: stevia/example
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2.10.0
+      - run: flutter pub get
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 33
+          arch: x86_64
+          profile: Nexus 6
+          script: flutter test integration_test --verbose
+        run: flutter build appbundle --debug
+
+  ios:
+    name: Run integration tests and iOS build
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        device:
+          # The available simulators are listed by the "xcrun xctrace list devices" command
+          - "iPhone 11 Simulator (15.2)"
+    defaults:
+      run:
+        working-directory: stevia/example
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2.10.0
+      - run: flutter pub get
+      - name: "List all simulators"
+        run: "xcrun xctrace list devices"
+      - name: "Start Simulator"
+        # the command "xcrun simctl boot" expects a device identifier
+        # the assignment of the UDID variable consists of retrieving the ID of the simulator
+        # by extracting it from the command "xcrun xctrace list devices"
+        run: |
+          UDID=$(xcrun xctrace list devices | grep "^${{ matrix.device }}" | awk '{gsub(/[()]/,""); print $NF}')
+          echo $UDID
+          xcrun simctl boot "${UDID:?No Simulator with this name found}"
+
+      - run: flutter test integration_test --verbose
+      - run: flutter build ios --debug --no-codesign

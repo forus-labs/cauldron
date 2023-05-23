@@ -78,7 +78,7 @@ extension Haptic on Never {
     }(), '');
 
     if (!assertionsEnabled) {
-      throw AssertionError('`Haptic.stubForTesting` is not intended for use in release builds.');
+      throw AssertionError('`Haptic.stubForTesting()` is not intended for use in release builds.');
     }
 
     final platform = StubHaptic();
@@ -87,7 +87,7 @@ extension Haptic on Never {
     return platform.calls;
   }
 
-  static PlatformHaptic _platform = PlatformHaptic();
+  static PlatformHaptic _platform = PlatformHaptic.platform();
 
 
   /// Performs a haptic feedback that indicates a task has completed successfully.

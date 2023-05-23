@@ -14,8 +14,8 @@ import io.flutter.plugin.common.MethodChannel.*;
  */
 public class HapticMethodHandler implements MethodCallHandler {
 
-    private static final String ERROR_CODE = "invalid-haptic-pattern";
-    private static final int UNSUPPORTED_PATTERN = -100;
+    static final String ERROR_CODE = "invalid-haptic-pattern";
+    static final int UNSUPPORTED_PATTERN = -100;
 
     /**
      * The current activity.
@@ -32,7 +32,7 @@ public class HapticMethodHandler implements MethodCallHandler {
 
         String name = call.arguments();
         if (name == null) {
-            result.error(ERROR_CODE, "No pattern was specified.", null);
+            result.error(ERROR_CODE, "No pattern specified.", null);
             return;
         }
 
@@ -42,18 +42,18 @@ public class HapticMethodHandler implements MethodCallHandler {
     void hapticFeedback(@NonNull String name, @NonNull Result result) {
         var pattern = switch (name) {
             case "CLOCK_TICK" -> HapticFeedbackConstants.CLOCK_TICK;
-            case "CONFIRM" -> VERSION.SDK_INT >= VERSION_CODES.R ? HapticFeedbackConstants.CONFIRM : -1;
+            case "CONFIRM" -> supports(VERSION_CODES.R) ? HapticFeedbackConstants.CONFIRM : -1;
             case "CONTEXT_CLICK" -> HapticFeedbackConstants.CONTEXT_CLICK;
-            case "GESTURE_START" -> VERSION.SDK_INT >= VERSION_CODES.R ? HapticFeedbackConstants.GESTURE_START : - 1;
-            case "GESTURE_END" -> VERSION.SDK_INT >= VERSION_CODES.R ? HapticFeedbackConstants.GESTURE_END : - 1;
-            case "KEYBOARD_PRESS" -> VERSION.SDK_INT >= VERSION_CODES.O_MR1 ? HapticFeedbackConstants.KEYBOARD_PRESS : -1;
-            case "KEYBOARD_RELEASE" -> VERSION.SDK_INT >= VERSION_CODES.O_MR1 ? HapticFeedbackConstants.KEYBOARD_RELEASE : -1;
+            case "GESTURE_START" -> supports(VERSION_CODES.R) ? HapticFeedbackConstants.GESTURE_START : - 1;
+            case "GESTURE_END" -> supports(VERSION_CODES.R) ? HapticFeedbackConstants.GESTURE_END : - 1;
+            case "KEYBOARD_PRESS" -> supports(VERSION_CODES.O_MR1) ? HapticFeedbackConstants.KEYBOARD_PRESS : -1;
+            case "KEYBOARD_RELEASE" -> supports(VERSION_CODES.O_MR1) ? HapticFeedbackConstants.KEYBOARD_RELEASE : -1;
             case "KEYBOARD_TAP" -> HapticFeedbackConstants.KEYBOARD_TAP;
             case "LONG_PRESS" -> HapticFeedbackConstants.LONG_PRESS;
-            case "REJECT" -> VERSION.SDK_INT >= VERSION_CODES.R ? HapticFeedbackConstants.REJECT : -1;
-            case "TEXT_HANDLE_MOVE" -> VERSION.SDK_INT >= VERSION_CODES.O_MR1 ? HapticFeedbackConstants.TEXT_HANDLE_MOVE : -1;
+            case "REJECT" -> supports(VERSION_CODES.R) ? HapticFeedbackConstants.REJECT : -1;
+            case "TEXT_HANDLE_MOVE" -> supports(VERSION_CODES.O_MR1) ? HapticFeedbackConstants.TEXT_HANDLE_MOVE : -1;
             case "VIRTUAL_KEY" -> HapticFeedbackConstants.VIRTUAL_KEY;
-            case "VIRTUAL_KEY_RELEASE" -> VERSION.SDK_INT >= VERSION_CODES.O_MR1 ? HapticFeedbackConstants.VIRTUAL_KEY_RELEASE : -1;
+            case "VIRTUAL_KEY_RELEASE" -> supports(VERSION_CODES.O_MR1) ? HapticFeedbackConstants.VIRTUAL_KEY_RELEASE : -1;
             default -> UNSUPPORTED_PATTERN;
         };
 
@@ -67,7 +67,11 @@ public class HapticMethodHandler implements MethodCallHandler {
             activity.getWindow().getDecorView().getRootView().performHapticFeedback(pattern);
         }
 
-        result.success(false);
+        result.success(null);
+    }
+
+    boolean supports(int version) {
+        return VERSION.SDK_INT >= version;
     }
 
 }
