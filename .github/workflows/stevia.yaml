@@ -34,7 +34,7 @@ jobs:
       - run: flutter pub get
       - uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
+          api-level: 29
           arch: x86_64
           profile: Nexus 6
           script: flutter test integration_test --verbose
@@ -47,7 +47,7 @@ jobs:
       matrix:
         device:
           # The available simulators are listed by the "xcrun xctrace list devices" command
-          - "iPhone 14 Simulator (16.4)"
+          - "iPhone 14 Simulator (16.2)"
     defaults:
       run:
         working-directory: stevia/example
