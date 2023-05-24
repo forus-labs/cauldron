@@ -37,7 +37,8 @@ jobs:
           api-level: 29
           arch: x86_64
           profile: Nexus 6
-          script: flutter test integration_test --verbose
+          working-directory: stevia/example
+          script: flutter test integration_test
       - run: flutter build appbundle --debug
 
   ios:
@@ -47,7 +48,7 @@ jobs:
       matrix:
         device:
           # The available simulators are listed by the "xcrun xctrace list devices" command
-          - "iPhone 14 Simulator (16.2)"
+          - "iPhone 14 Simulator (16.2) + Apple Watch Series 7 (45mm) (9.1)"
     defaults:
       run:
         working-directory: stevia/example
@@ -66,5 +67,5 @@ jobs:
           echo $UDID
           xcrun simctl boot "${UDID:?No Simulator with this name found}"
 
-      - run: flutter test integration_test --verbose
+      - run: flutter test integration_test
       - run: flutter build ios --debug --no-codesign
