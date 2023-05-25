@@ -48,7 +48,7 @@ jobs:
       matrix:
         device:
           # The available simulators are listed by the "xcrun xctrace list devices" command
-          - "iPhone 14 Simulator (16.2) + Apple Watch Series 7 (45mm) (9.1)"
+          - "iPhone 14 Simulator (16.2)"
     defaults:
       run:
         working-directory: stevia/example
@@ -56,16 +56,16 @@ jobs:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2.10.0
       - run: flutter pub get
-      - name: "List all simulators"
-        run: "xcrun xctrace list devices"
+      - name: List all simulators
+        run: xcrun xctrace list devices
       - name: "Start Simulator"
         # the command "xcrun simctl boot" expects a device identifier
         # the assignment of the UDID variable consists of retrieving the ID of the simulator
         # by extracting it from the command "xcrun xctrace list devices"
         run: |
-          UDID=$(xcrun xctrace list devices | grep "^${{ matrix.device }}" | awk '{gsub(/[()]/,""); print $NF}')
+          UDID=$(xcrun xctrace list devices | grep -m 1 "^${{ matrix.device }}" | awk '{gsub(/[()]/,""); print $NF}')
           echo $UDID
-          xcrun simctl boot "${UDID:?No Simulator with this name found}"
+          open -a Simulator --args --CurrentDeviceUUID "${UDID:?No Simulator with this name found}"
 
       - run: flutter test integration_test
       - run: flutter build ios --debug --no-codesign
