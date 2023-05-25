@@ -68,4 +68,3 @@ jobs:
           open -a Simulator --args --CurrentDeviceUUID "${UDID:?No Simulator with this name found}"
 
       - run: flutter test integration_test
-      - run: flutter build ios --debug --no-codesign
