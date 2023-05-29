@@ -1,8 +1,8 @@
 import Flutter
 import UIKit
 
-public class HapticPlugin: NSObject, FlutterPlugin {
-  static let errorCode = "invalid-haptic-pattern"
+public class SteviaPlugin: NSObject, FlutterPlugin {
+  static let hapticErrorCode = "invalid-haptic-pattern"
   
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "com.foruslabs.stevia.haptic", binaryMessenger: registrar.messenger())
@@ -18,7 +18,7 @@ public class HapticPlugin: NSObject, FlutterPlugin {
     case ("hapticFeedback", let pattern as String):
       result(feedback.perform(pattern))
     case ("hapticFeedback", _):
-      result(FlutterError(code: HapticPlugin.errorCode, message: "No pattern was specified", details: nil));
+      result(FlutterError(code: SteviaPlugin.hapticErrorCode, message: "No pattern was specified", details: nil));
     default:
       result(FlutterMethodNotImplemented)
     }
@@ -54,7 +54,7 @@ class HapticFeedback {
     case "rigid": rigitImpactFeedback?.impactOccurred()
     case "soft": softImpactFeedback?.impactOccurred()
     default:
-      return FlutterError(code: HapticPlugin.errorCode, message: "Unsupported pattern: \(pattern)", details: nil)
+      return FlutterError(code: SteviaPlugin.hapticErrorCode, message: "Unsupported pattern: \(pattern)", details: nil)
     }
     
     return nil
