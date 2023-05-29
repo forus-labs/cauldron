@@ -1,25 +1,19 @@
-package com.foruslabs.stevia.haptic;
-
-import android.app.Activity;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
-import android.view.HapticFeedbackConstants;
+package com.foruslabs.stevia;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.foruslabs.stevia.haptic.*;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
-import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
-import io.flutter.plugin.common.MethodChannel.Result;
 
 /**
  * The Android implementation for Stevia's haptic feedback functions.
  */
-public class HapticPlugin implements FlutterPlugin, ActivityAware {
+public class SteviaPlugin implements FlutterPlugin, ActivityAware {
 
   private final HapticMethodHandler handler = new HapticMethodHandler();
   private @Nullable MethodChannel channel;
