@@ -6,7 +6,7 @@ public class SteviaPlugin: NSObject, FlutterPlugin {
   
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "com.foruslabs.stevia.haptic", binaryMessenger: registrar.messenger())
-    let instance = HapticPlugin()
+    let instance = SteviaPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
   
