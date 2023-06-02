@@ -21,7 +21,7 @@ dependencies:
 
 ## Stevia - Assorted utilities for Flutter
 
-Stevia includes utilities for working with Flutter. It is currently under active development.
+Stevia contains utilities for working with Flutter. It is currently under active development.
 
 [![Stevia](https://github.com/forus-labs/cauldron/actions/workflows/stevia.yaml/badge.svg)](https://github.com/forus-labs/cauldron/actions/workflows/stevia.yaml)
 [![Pub Dev](https://img.shields.io/pub/v/stevia)](https://pub.dev/packages/stevia)
