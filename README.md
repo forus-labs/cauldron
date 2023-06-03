@@ -28,11 +28,6 @@ Stevia contains utilities for working with Flutter. It is currently under active
 [![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/stevia/latest/)
 
 
-```YAML
-dependencies:
-  sugar: ^0.1.0
-```
-
 ***
 ## Flint - Because Pedantic wasn't strict enough
 
