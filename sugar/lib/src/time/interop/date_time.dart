@@ -205,6 +205,13 @@ extension DateTimes on DateTime {
   @useResult Offset get offset => Offset.fromMicroseconds(timeZoneOffset.inMicroseconds);
 
 
+  /// The next day.
+  @useResult DateTime get tomorrow => copyWith(day: day + 1);
+
+  /// The previous day.
+  @useResult DateTime get yesterday => copyWith(day: day - 1);
+
+
   /// The ordinal week of the year.
   ///
   /// A week is between `1` and `53`, inclusive.

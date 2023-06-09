@@ -231,6 +231,11 @@ void main() {
 
   test('offset', () => expect(Offset(), DateTime.utc(1).offset));
 
+
+  test('yesterday', () => expect(DateTime(2023, 1, 4).yesterday, DateTime(2023, 1, 3)));
+
+  test('tomorrow', () => expect(DateTime(2023, 1, 4).tomorrow, DateTime(2023, 1, 5)));
+
   
   group('weekOfYear', () {
     test('last week of previous year', () => expect(DateTime(2023).weekOfYear, 52));
