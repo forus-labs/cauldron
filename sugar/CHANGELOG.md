@@ -1,3 +1,10 @@
+## 3.1.0
+
+### `sugar.time.interop`
+
+- Add `DateTimes.tomorrow`
+- Add `DateTimes.yesterday`
+
 ## 3.0.0+1 (15/05/2023)
 
 Update `README.md`
