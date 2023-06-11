@@ -21,8 +21,7 @@ It consolidates several micro-packages that provide bits and pieces of date-time
   Sugar provide a TZ database timezone identifier such as `Asia/Singapore`.
   See [List of timezone abbreviations](https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations).
 
-* Sugar is less hassle to set up. You don't need to fiddle with assets or asynchronously initialize the package. 
-  Simply create a [`ZonedDateTime`](https://pub.dev/documentation/sugar/latest/sugar.time/sugar.time-library.html).
+* Sugar is less hassle to set up. You don't need to fiddle with assets or asynchronously initialize the library. Simply create a [`ZonedDateTime`](https://pub.dev/documentation/sugar/latest/sugar.time/sugar.time-library.html).
 
 * Sugar has (in theory) zero initialization cost & a better memory footprint. Other packages often parse the timezone information from binary files at runtime. 
   We rely on code generation to eliminate IO completely. Other packages often load the entire TZ database into memory. 
