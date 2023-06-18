@@ -29,6 +29,8 @@ void main() {
   });
 
   group('capitalize(...)', () {
+    test('empty string', () => expect(''.capitalize(), ''));
+
     test('all lowercase', () => expect('abc'.capitalize(), 'Abc'));
 
     test('existing uppercase', () => expect('Abc'.capitalize(), 'Abc'));
@@ -40,6 +42,8 @@ void main() {
 
 
   group('toCamelCase()', () {
+    test('empty string', () => expect(''.toCamelCase(), ''));
+
     test('single word', () => expect('abc'.toCamelCase(), 'abc'));
 
     test('camel case', () => expect('camelCase'.toCamelCase(), 'camelCase'));
@@ -58,6 +62,8 @@ void main() {
   });
 
   group('toPascalCase()', () {
+    test('empty string', () => expect(''.toPascalCase(), ''));
+
     test('single word', () => expect('abc'.toPascalCase(), 'Abc'));
 
     test('camel case', () => expect('camelCase'.toPascalCase(), 'CamelCase'));
@@ -76,6 +82,8 @@ void main() {
   });
 
   group('toScreamingCase()', () {
+    test('empty string', () => expect(''.toScreamingCase(), ''));
+
     test('single word', () => expect('abc'.toScreamingCase(), 'ABC'));
 
     test('camel case', () => expect('camelCase'.toScreamingCase(), 'CAMEL_CASE'));
@@ -94,6 +102,8 @@ void main() {
   });
 
   group('toSnakeCase()', () {
+    test('empty string', () => expect(''.toSnakeCase(), ''));
+
     test('single word', () => expect('abc'.toSnakeCase(), 'abc'));
 
     test('camel case', () => expect('camelCase'.toSnakeCase(), 'camel_case'));
@@ -112,6 +122,8 @@ void main() {
   });
 
   group('toKebabCase()', () {
+    test('empty string', () => expect(''.toKebabCase(), ''));
+
     test('single word', () => expect('abc'.toKebabCase(), 'abc'));
 
     test('camel case', () => expect('camelCase'.toKebabCase(), 'camel-case'));
@@ -130,6 +142,8 @@ void main() {
   });
 
   group('toTitleCase()', () {
+    test('empty string', () => expect(''.toTitleCase(), ''));
+
     test('single word', () => expect('abc'.toTitleCase(), 'Abc'));
 
     test('camel case', () => expect('camelCase'.toTitleCase(), 'Camel Case'));
@@ -148,6 +162,8 @@ void main() {
   });
 
   group('toSentenceCase()', () {
+    test('empty string', () => expect(''.toSentenceCase(), ''));
+
     test('single word', () => expect('abc'.toSentenceCase(), 'Abc'));
 
     test('camel case', () => expect('camelCase'.toSentenceCase(), 'Camel case'));

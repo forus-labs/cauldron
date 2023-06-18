@@ -1,5 +1,9 @@
 ## 3.1.0
 
+## `sugar.core`
+- Change `Disposable` from a mixin to an abstract interface class
+- Fix `Strings.toCamelCase()` throwing a `StateError` on empty strings
+
 ### `sugar.time.interop`
 
 - Add `DateTimes.tomorrow`

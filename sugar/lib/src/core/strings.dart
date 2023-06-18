@@ -90,6 +90,10 @@ extension Strings on String {
   /// ```
   @useResult String toCamelCase([Pattern? separators]) {
     final words = split(separators ?? wordSeparators).where((e) => e.isNotEmpty);
+    if (words.isEmpty) {
+      return '';
+    }
+
     final buffer = StringBuffer()..write(words.first.toLowerCase());
     for (final word in words.skip(1)) {
       if (isNotEmpty) {
