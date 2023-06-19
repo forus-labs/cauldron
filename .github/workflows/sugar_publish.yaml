@@ -95,6 +95,9 @@ jobs:
           files: ./sugar/coverage/lcov.info
 
   publish:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     needs: [test, test-windows, test-macos, test-linux, test-web]
     uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
     with:
