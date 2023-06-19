@@ -1,0 +1,10 @@
+# DateTime getters
+
+```dart
+DateTime.now().yesterday;
+
+DateTime.now().tomorrow;
+```
+
+These getters was extremely easy to misuse. What will it return if the time isn't exactly `00:00`? It can be easily misunderstood
+to return either a `DateTime` with either the time unchanged or set to `00:00`.

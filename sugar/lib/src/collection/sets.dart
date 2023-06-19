@@ -3,6 +3,18 @@ import 'package:sugar/core.dart';
 /// Provides functions for working with [Set]s.
 extension Sets<E> on Set<E> {
 
+  /// Adds the [element] to the set if it is not in the set, removes the [element] if it is in the set.
+  ///
+  /// ```dart
+  /// {1}.toggle(1); // {}
+  /// {}.toggle(1); // {1}
+  /// ```
+  void toggle(E element) {
+    if (!remove(element)) {
+      add(element);
+    }
+  }
+  
   /// Replaces elements using [function].
   ///
   /// [function] accepts a [Consume] used to specify an element's replacements. An element can be replaced by zero or more

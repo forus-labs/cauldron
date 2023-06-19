@@ -55,6 +55,32 @@ extension Randoms on Random {
   }
 
 
+  /// Returns a weighted boolean value based on [probability].
+  ///
+  /// The probability of this function returning true increases with the value of [probability].
+  ///
+  /// ## Contract
+  /// Throws [RangeError] if:
+  /// [probability] < 0 or 1 < [probability]
+  /// [probability] is infinite
+  /// [probability is NaN
+  ///
+  /// ## Example
+  /// ```dart
+  /// Random().nextWeightedBool(1); // Always returns true
+  ///
+  /// Random().nextWeightedBool(0); // Always returns false
+  /// ```
+  @Possible({RangeError})
+  @useResult bool nextWeightedBool(double probability) {
+    if (!(0 <= probability && probability <= 1)) {
+      throw RangeError.range(probability, 0, 1, 'probability');
+    }
+
+    return nextDouble() < probability;
+  }
+
+
   /// Returns a [Stream] of [length] that produces random integers in the range, `[min] <= value < [max]`.
   ///
   /// If [length] is not given, returns an infinite [Stream] instead.

@@ -8,6 +8,9 @@ import 'package:sugar/sugar.dart';
 /// These functions should only be used when it is not feasible to use `sugar.time`.
 extension DateTimes on DateTime {
 
+  /// Creates a [DateTime], in UTC timezone, from the [days] since Unix epoch.
+  static DateTime fromDaysSinceEpoch(int days) => DateTime.fromMillisecondsSinceEpoch(days * Duration.millisecondsPerDay, isUtc: true);
+
   /// Returns a copy of this with the units of time added.
   ///
   /// This function adds the conceptual units of time like [+].
@@ -186,6 +189,66 @@ extension DateTimes on DateTime {
   };
 
 
+  /// Converts this [DateTime] to a [LocalDate], ignoring the time and timezone.
+  ///
+  /// ```dart
+  /// DateTime(2023, 10, 10, 10, 30).toLocalDate(); // LocalDate(2023, 10, 10)
+  ///
+  /// DateTime.utc(2023, 10, 10, 10, 30).toLocalDate(); // LocalDate(2023, 10, 10)
+  /// ```
+  LocalDate toLocalDate() => LocalDate(year, month, day);
+
+  /// Converts this [DateTime] to a [LocalTime], ignoring the timezone.
+  ///
+  /// ```dart
+  /// DateTime(2023, 10, 10, 10, 30).toLocalTime(); // LocalTime(10, 30)
+  ///
+  /// DateTime.utc(2023, 10, 10, 10, 30).toLocalTime(); // LocalTime(10, 30)
+  /// ```
+  LocalTime toLocalTime() => LocalTime(hour, minute, second, millisecond, microsecond);
+
+  /// Converts this [DateTime] to a [LocalDateTime], ignoring the timezone.
+  ///
+  /// ```dart
+  /// DateTime(2023, 10, 10, 10, 30).toLocalDateTime(); // LocalDateTime(2023, 10, 10, 10, 30)
+  ///
+  /// DateTime.utc(2023, 10, 10, 10, 30).toLocalDateTime(); // LocalDateTime(2023, 10, 10, 10, 30)
+  /// ```
+  LocalDateTime toLocalDateTime() => LocalDateTime(year, month, day, hour, minute, second, millisecond, microsecond);
+
+  /// Converts this [DateTime] to a [OffsetTime], ignoring the timezone.
+  ///
+  /// ```dart
+  /// // Assuming the current offset is +08:00
+  /// DateTime(2023, 10, 10, 10, 30).toOffsetTime(); // 10:30+08:00
+  ///
+  /// DateTime.utc(2023, 10, 10, 10, 30).toOffsetTime(); // 10:30Z
+  /// ```
+  OffsetTime toOffsetTime() => OffsetTime(
+    Offset.fromMicroseconds(timeZoneOffset.inMicroseconds), 
+    hour, 
+    minute, 
+    second, 
+    millisecond, 
+    microsecond,
+  );
+
+  /// Converts this [DateTime] to a [ZonedDateTime].
+  ///
+  /// ```dart
+  /// // Assuming the current location is Singapore.
+  /// DateTime(2023, 10, 10, 10, 30).toZonedDateTime(); // 2023-10-10 10:30[Asia/Singapore]
+  ///
+  /// DateTime.utc(2023, 10, 10, 10, 30).toOffsetTime(); // 10:30Z
+  /// ```
+  ///
+  /// **By default, retrieving the platform's timezone is only only supported on Windows, MacOS, Linux & web. The
+  /// `Factory` timezone will be returned on all other platforms. See [Timezone.platformTimezoneProvider].**
+  ZonedDateTime toZonedDateTime() => isUtc ?
+    ZonedDateTime('Etc/UTC', year, month, day, hour, minute, second, millisecond, microsecond) :
+    ZonedDateTime.from(Timezone.now(), year, month, day, hour, minute, second, millisecond, microsecond);
+
+
   /// Formats this [DateTime]'s date as a ISO-8601 date, ignoring the time.
   ///
   /// ```dart
@@ -203,13 +266,6 @@ extension DateTimes on DateTime {
 
   /// The offset.
   @useResult Offset get offset => Offset.fromMicroseconds(timeZoneOffset.inMicroseconds);
-
-
-  /// The next day.
-  @useResult DateTime get tomorrow => copyWith(day: day + 1);
-
-  /// The previous day.
-  @useResult DateTime get yesterday => copyWith(day: day - 1);
 
 
   /// The ordinal week of the year.

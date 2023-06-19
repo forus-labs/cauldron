@@ -16,7 +16,7 @@ It consolidates several micro-packages that provide bits and pieces of date-time
 
 ```YAML
 dependencies:
-  sugar: ^3.0.0
+  sugar: ^3.1.0
 ```
 
 ## Stevia - Assorted utilities for Flutter

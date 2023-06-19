@@ -4,6 +4,12 @@ import 'package:sugar/collection.dart';
 
 void main() {
   group('Sets', () {
+    group('toggle()', () {
+      test('add element', () => expect({1}..toggle(2), {1, 2}));
+
+      test('remove element', () => expect({1, 2}..toggle(2), {1}));
+    });
+    
     group('replaceAll(...)', () {
       test('single replacement', () => expect({1, 3, 5}..replaceAll((replace, element) => replace(element + 1)), {2, 4, 6}));
 

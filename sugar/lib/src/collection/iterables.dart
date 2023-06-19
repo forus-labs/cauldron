@@ -41,7 +41,7 @@ extension Iterables<E> on Iterable<E> {
   /// ```dart
   /// ['a', 'b', 'c'].indexed(); // [(1, 'a'), (2, 'b'), (3, 'c')]
   /// ```
-  @lazy @useResult Iterable<(int index, E element)> indexed() sync* {
+  @lazy @useResult Iterable<(int index, E element)> get indexed sync* {
     var count = 0;
     for (final element in this) {
       yield (count++, element);

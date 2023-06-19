@@ -4,6 +4,10 @@ import 'package:sugar/sugar.dart';
 
 void main() {
 
+  test('leapYearMonths', () => expect(Dates.leapYearMonths[1], 29));
+
+  test('nonLeapYearMonths', () => expect(Dates.nonLeapYearMonths[1], 28));
+
   group('format(...)', () {
     test('pads year', () => expect(Dates.format(999, 12 ,15), '0999-12-15'));
 

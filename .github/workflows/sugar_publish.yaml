@@ -1,0 +1,102 @@
+on:
+  push:
+    tags:
+    - 'sugar-[0-9]+.[0-9]+.[0-9]+*'
+
+jobs:
+  test:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sugar
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: dart analyze --fatal-warnings
+      - run: dart run coverage:test_with_coverage
+      - run: sudo apt-get update -y
+      - run: sudo apt-get install -y lcov
+      - run: lcov --remove ./coverage/lcov.info '**.g.dart' -o ./coverage/lcov.info
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./sugar/coverage/lcov.info
+
+
+  test-windows:
+    name: Run integration tests on Windows
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: sugar
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: dart run coverage:test_with_coverage test ./integration_test/
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./sugar/coverage/lcov.info
+
+  test-macos:
+    name: Run integration tests on macOS
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: sugar
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: chmod +x ./integration_test/src/time/zone/platform/platform_provider_test_macos.sh
+      - run: ./integration_test/src/time/zone/platform/platform_provider_test_macos.sh
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./sugar/coverage/lcov.info
+
+  test-linux:
+    name: Run integration tests on linux
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sugar
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: chmod +x ./integration_test/src/time/zone/platform/platform_provider_test_linux.sh
+      - run: ./integration_test/src/time/zone/platform/platform_provider_test_linux.sh
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./sugar/coverage/lcov.info
+
+  test-web:
+    name: Run integration tests on web
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sugar
+    steps:
+      - uses: actions/checkout@v3
+      - uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+      - uses: browser-actions/setup-firefox@v1
+        with:
+          firefox-version: latest
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: chmod +x ./integration_test/src/time/zone/platform/platform_provider_test_browser.sh
+      - run: ./integration_test/src/time/zone/platform/platform_provider_test_browser.sh
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./sugar/coverage/lcov.info
+
+  publish:
+    needs: [test, test-windows, test-macos, test-linux, test-web]
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      environment: pub.dev
+      working-directory: sugar

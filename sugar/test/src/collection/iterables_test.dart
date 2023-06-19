@@ -27,11 +27,11 @@ void main() {
     });
 
     group('indexed(...)', () {
-      test('empty', () => expect(<(String, int)>[].indexed(), []));
+      test('empty', () => expect(<(String, int)>[].indexed, []));
 
-      test('single', () => expect(['a'].indexed().toList().equals([(0, 'a')]), true));
+      test('single', () => expect(['a'].indexed.toList().equals([(0, 'a')]), true));
 
-      test('multiple values', () => expect(['a', 'b', 'c'].indexed().toList().equals([(0, 'a'), (1, 'b'), (2, 'c')]), true));
+      test('multiple values', () => expect(['a', 'b', 'c'].indexed.toList().equals([(0, 'a'), (1, 'b'), (2, 'c')]), true));
     });
 
 

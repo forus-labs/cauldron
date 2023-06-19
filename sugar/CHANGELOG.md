@@ -1,13 +1,26 @@
-## 3.1.0
+## 3.1.0 (19/06/2023)
+
+## `sugar.collection`
+- Add `Sets.toggle(...)`
+- Change `Iterables.indexed()` to `Iterables.indexed` to be consistent with `List.indexed`
 
 ## `sugar.core`
+- Add `NotTested.thirdPartIntegration()`
 - Change `Disposable` from a mixin to an abstract interface class
 - Fix `Strings.toCamelCase()` throwing a `StateError` on empty strings
 
-### `sugar.time.interop`
+## `sugar.math`
+- Add `Random.nextWeightedBool(...)`
 
-- Add `DateTimes.tomorrow`
-- Add `DateTimes.yesterday`
+### `sugar.time.interop`
+- Add `Dates.leapYearMonths`
+- Add `Dates.nonLeapYearMonths`
+- ADd `DateTimes.fromDaysSinceEpoch(...)`
+- Add `DateTimes.toLocalDate()`
+- Add `DateTimes.toLocalDateTime()`
+- Add `DateTimes.toLocalTime()`
+- Add `DateTimes.toOffsetTime()`
+- Add `DateTimes.toZonedDateTime()`
 
 ## 3.0.0+1 (15/05/2023)
 
@@ -29,7 +42,7 @@ This release fixes `Equality.equals(...)` accepting a `dynamic` instead of `Obje
 
 ## 2.4.0 (09/12/2021)
 
-This release bumps the minimu supported Dart version to 2.15
+This release bumps the minimum supported Dart version to 2.15
 
 ## 2.3.3 (08/12/2021)
 

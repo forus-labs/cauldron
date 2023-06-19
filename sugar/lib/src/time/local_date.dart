@@ -261,6 +261,12 @@ class LocalDate extends Date with Orderable<LocalDate> {
   /// ```
   @useResult int get weekday => _native.weekday;
 
+  /// The next day.
+  @useResult LocalDate get tomorrow => plus(days: 1);
+
+  /// The previous day.
+  @useResult LocalDate get yesterday => minus(days: 1);
+
 
   /// The ordinal week of the year.
   ///

@@ -6,8 +6,12 @@ import 'package:meta/meta.dart';
 /// date-time types.
 extension Dates on Never {
 
+  /// The months in a leap year.
+  static const leapYearMonths = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  /// The months in a non-leap year.
+  static const nonLeapYearMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
   static const _cumulative = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-  static const _months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
   /// Formats the date as a ISO-8601 date.
   ///
@@ -73,7 +77,7 @@ extension Dates on Never {
   /// Dates.daysInMonth(2019, 2); // 28
   /// Dates.daysInMonth(2020, 2); // 29
   /// ```
-  @useResult static int daysInMonth(int year, int month) => month == 2 ? (leapYear(year) ? 29 : 28) : _months[month - 1];
+  @useResult static int daysInMonth(int year, int month) => (leapYear(year) ? leapYearMonths : nonLeapYearMonths)[month - 1];
 
   /// Returns true if the [year] is a leap year.
   ///

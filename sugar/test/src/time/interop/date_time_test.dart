@@ -3,6 +3,8 @@ import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
 
 void main() {
+  test('fromDaysSinceEpoch(...)', () => expect(DateTimes.fromDaysSinceEpoch(10000), DateTime.utc(1997, 5, 19)));
+
   group('plus(...)', () {
     test('positive', () => expect(
       DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8).plus(
@@ -208,6 +210,47 @@ void main() {
     test('floor $unit to 5', () => expect(date.floor(unit as TemporalUnit, 5), truncated));
   }
 
+  group('toLocalDate', () {
+    test('local', () => expect(DateTime(2023, 10, 11, 12, 30).toLocalDate(), LocalDate(2023, 10, 11)));
+
+    test('utc', () => expect(DateTime.utc(2023, 10, 11, 12, 30).toLocalDate(), LocalDate(2023, 10, 11)));
+  });
+
+  group('toLocalTime()', () {
+    test('local', () => expect(DateTime(2023, 10, 11, 12, 30).toLocalTime(), LocalTime(12, 30)));
+
+    test('utc', () => expect(DateTime.utc(2023, 10, 11, 12, 30).toLocalTime(), LocalTime(12, 30)));
+  });
+
+  group('toLocalDateTime()', () {
+    test('local', () => expect(DateTime(2023, 10, 11, 12, 30).toLocalDateTime(), LocalDateTime(2023, 10, 11, 12, 30)));
+
+    test('utc', () => expect(DateTime.utc(2023, 10, 11, 12, 30).toLocalDateTime(), LocalDateTime(2023, 10, 11, 12, 30)));
+  });
+
+  group('toOffsetTime()', () {
+    test('local', () {
+      final date = DateTime(2023, 10, 11, 12, 30);
+      expect(date.toOffsetTime(), OffsetTime(Offset.fromMicroseconds(date.timeZoneOffset.inMicroseconds), 12, 30));
+    });
+
+    test('utc', () {
+      final date = DateTime.utc(2023, 10, 11, 12, 30);
+      expect(date.toOffsetTime(), OffsetTime(Offset.utc, 12, 30));
+    });
+  });
+
+  group('toZonedDateTime()', () {
+    test('local', () {
+      final date = DateTime(2023, 10, 11, 12, 30);
+      expect(date.toZonedDateTime(), ZonedDateTime.from(Timezone.now(), 2023, 10, 11, 12, 30));
+    });
+
+    test('utc', () {
+      final date = DateTime.utc(2023, 10, 11, 12, 30);
+      expect(date.toZonedDateTime(), ZonedDateTime('Etc/UTC', 2023, 10, 11, 12, 30));
+    });
+  });
 
   group('toDateString()', () {
     test('pads year', () => expect(DateTime(0999, 12, 15, 1).toDateString(), '0999-12-15'));
@@ -230,11 +273,6 @@ void main() {
 
 
   test('offset', () => expect(Offset(), DateTime.utc(1).offset));
-
-
-  test('yesterday', () => expect(DateTime(2023, 1, 4).yesterday, DateTime(2023, 1, 3)));
-
-  test('tomorrow', () => expect(DateTime(2023, 1, 4).tomorrow, DateTime(2023, 1, 5)));
 
   
   group('weekOfYear', () {

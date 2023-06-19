@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:test/test.dart';
 
 import 'package:sugar/src/math/random.dart';
@@ -35,6 +37,20 @@ void main() {
       test('min infinity', () => expect(() => FakeRandom(doubles: [0]).nextBoundedDouble(double.negativeInfinity, 1.0), throwsRangeError));
 
       test('max infinity', () => expect(() => FakeRandom(doubles: [0]).nextBoundedDouble(0.0, double.infinity), throwsRangeError));
+    });
+    
+    group('nextWeightedBool(...)', () {
+      test('negative', () => expect(() => Random().nextWeightedBool(-0.1), throwsRangeError));
+
+      test('> 1', () => expect(() => Random().nextWeightedBool(1.1), throwsRangeError));
+
+      test('positive infinity', () => expect(() => Random().nextWeightedBool(double.infinity), throwsRangeError));
+
+      test('negative infinity', () => expect(() => Random().nextWeightedBool(double.negativeInfinity), throwsRangeError));
+
+      test('true', () => expect(Random().nextWeightedBool(1), true));
+
+      test('false', () => expect(Random().nextWeightedBool(0), false));
     });
 
     group('ints(...)', () {
