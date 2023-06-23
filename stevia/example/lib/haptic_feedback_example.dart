@@ -35,7 +35,7 @@ class HapticExample extends StatelessWidget {
             ],
           ),
         ),
-      )
+      ),
     );
 }
 

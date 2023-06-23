@@ -4,15 +4,12 @@ import static android.view.HapticFeedbackConstants.*;
 import static org.mockito.Mockito.*;
 
 import android.app.*;
-import android.os.*;
-import android.os.Build.*;
 import android.view.*;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.*;
 import org.junit.jupiter.params.provider.*;
 
-import java.lang.reflect.*;
 import java.util.stream.*;
 
 import io.flutter.plugin.common.*;

@@ -20,6 +20,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  sugar: ^3.1.0
   stevia:
     path: ../
 

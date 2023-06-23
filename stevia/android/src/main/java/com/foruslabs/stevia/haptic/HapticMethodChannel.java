@@ -6,13 +6,45 @@ import android.view.HapticFeedbackConstants;
 
 import androidx.annotation.*;
 
-import io.flutter.plugin.common.MethodCall;
+import com.foruslabs.stevia.*;
+
+import io.flutter.embedding.engine.plugins.FlutterPlugin.*;
+import io.flutter.plugin.common.*;
 import io.flutter.plugin.common.MethodChannel.*;
 
 /**
- * A {@code MethodCallHandler} for the {@code HapticPlugin}.
- */
-public class HapticMethodHandler implements MethodCallHandler {
+ * The method channel for haptic-related functionality.
+  */
+public class HapticMethodChannel implements Channel {
+
+    private final HapticMethodHandler handler = new HapticMethodHandler();
+    private @Nullable MethodChannel method;
+
+    @Override
+    public void attach(@NonNull FlutterPluginBinding binding) {
+        method = new MethodChannel(binding.getBinaryMessenger(), "com.foruslabs.stevia.haptic");
+        method.setMethodCallHandler(handler);
+    }
+
+    @Override
+    public void detach(@NonNull FlutterPluginBinding binding) {
+        if (method != null) {
+            method.setMethodCallHandler(null);
+        }
+    }
+
+    /**
+     * Sets this channel's activity.
+     *
+     * @param activity the activity
+     */
+    public void activity(@Nullable Activity activity) {
+        handler.activity = activity;
+    }
+
+}
+
+class HapticMethodHandler implements MethodCallHandler {
 
     static final String ERROR_CODE = "invalid-haptic-pattern";
     static final int UNSUPPORTED_PATTERN = -100;
@@ -21,7 +53,6 @@ public class HapticMethodHandler implements MethodCallHandler {
      * The current activity.
      */
     public @Nullable Activity activity;
-
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {

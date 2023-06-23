@@ -105,6 +105,22 @@ part of 'date_time.dart';
 /// print(berlinWallFall.ceil(TimeUnit.hours, 5);     // 1989-11-10 00:00
 /// print(berlinWallFall.floor(TimeUnit.hours, 5);    // 1989-11-09 12:00
 /// ```
+///
+/// ## Testing
+/// To test code that depend on the current timezone, stub [Timezone.platformTimezoneProvider].
+///
+/// ```dart
+/// void main() {
+///   setUp(() => Timezone.platformTimezoneProvider = () => 'Asia/Singapore');
+///
+///   test('some test', () => expect(
+///     ZonedDateTime.from(Timezone.now(), 2023, 6, 13),
+///     ZonedDateTime('Asia/Singapore', 2023, 6, 13),
+///   ));
+///
+///   tearDown(() => Timezone.platformTimezoneProvider = defaultPlatformTimezoneProvider);
+/// }
+/// ```
 class ZonedDateTime extends DateTimeBase {
 
   /// The timezone.

@@ -10,9 +10,6 @@ import 'package:stevia/src/haptic/haptic_pattern.dart';
 
   static final Object _token = Object();
 
-  /// The channel.
-  final MethodChannel channel = const MethodChannel('com.foruslabs.stevia.haptic');
-
   /// Creates a [PlatformHaptic] for the current platform.
   factory PlatformHaptic.platform() => switch (const Runtime().type) {
     PlatformType.android => AndroidHaptic(),
@@ -26,7 +23,10 @@ import 'package:stevia/src/haptic/haptic_pattern.dart';
   /// Performs the haptic feedback [pattern].
   ///
   /// Returns `true` if the haptic feedback was successfully performed.
-  Future<void> perform((AndroidHapticPattern?, IOSHapticPattern?) pattern) async => false;
+  Future<void> perform((AndroidHapticPattern?, IOSHapticPattern?) pattern) async {}
+
+  /// The channel.
+  MethodChannel get channel => const MethodChannel('com.foruslabs.stevia.haptic');
 
 }
 
