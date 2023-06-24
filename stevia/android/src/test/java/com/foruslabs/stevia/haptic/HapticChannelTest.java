@@ -65,7 +65,7 @@ class HapticMethodHandlerTest {
 
     static Stream<Arguments> hapticFeedback_arguments() {
         return Stream.of(
-    Arguments.of("CLOCK_TICK", true, CLOCK_TICK),
+            Arguments.of("CLOCK_TICK", true, CLOCK_TICK),
             Arguments.of("CONFIRM", true, CONFIRM),
             Arguments.of("CONFIRM", false, CONFIRM),
             Arguments.of("CLOCK_TICK", true, CLOCK_TICK),

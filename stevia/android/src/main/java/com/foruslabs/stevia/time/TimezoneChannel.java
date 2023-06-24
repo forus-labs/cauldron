@@ -58,6 +58,11 @@ class TimezoneMethodHandler implements MethodCallHandler {
             return;
         }
 
+        if (call.arguments != null) {
+            result.error("invalid-argument", "Argument should be null", null);
+            return;
+        }
+
         result.success(ZoneId.systemDefault().getId());
     }
 }
@@ -65,7 +70,7 @@ class TimezoneMethodHandler implements MethodCallHandler {
 class TimezoneStreamHandler extends BroadcastReceiver implements StreamHandler {
     static final IntentFilter filter = new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
 
-    private @Nullable EventSink sink;
+    @Nullable EventSink sink;
 
     @Override
     public void onListen(Object arguments, EventSink sink) {
