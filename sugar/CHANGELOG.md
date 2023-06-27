@@ -1,5 +1,8 @@
 ## 3.2.0 
 
+## `sugar.collection`
+- Add `Lists.toggleAll(...)`
+
 
 ## 3.1.0 (19/06/2023)
 

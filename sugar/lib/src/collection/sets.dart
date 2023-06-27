@@ -3,7 +3,7 @@ import 'package:sugar/core.dart';
 /// Provides functions for working with [Set]s.
 extension Sets<E> on Set<E> {
 
-  /// Adds the [element] to the set if it is not in the set, removes the [element] if it is in the set.
+  /// Adds the [element] to this set if it is not in the set, removes the [element] if it is in this set.
   ///
   /// ```dart
   /// {1}.toggle(1); // {}

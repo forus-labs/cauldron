@@ -22,6 +22,21 @@ extension Lists<E> on List<E> {
     this[b] = a1;
   }
 
+  /// Appends the [element] to the end of this list if it is not in this list, removes all [element]s if it is in this list.
+  ///
+  /// ```dart
+  /// [1, 2, 3].toggle(4); // [1, 2, 3, 4]
+  ///
+  /// [1, 2, 4, 3, 4].toggle(4); // [1, 2, 3]
+  /// ```
+  @useResult void toggleAll(E element) {
+    final initial = length;
+    removeWhere((e) => e == element);
+    if (initial == length) {
+      add(element);
+    }
+  }
+
   /// Whether this list contains all elements in [other].
   ///
   /// It's time-complexity is O(n²) if [other]'s [contains] function is O(n).

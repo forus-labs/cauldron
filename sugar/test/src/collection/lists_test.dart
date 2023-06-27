@@ -18,6 +18,16 @@ void main() {
       test('invalid second index', () => expect(() => [1].swap(0, 1), throwsRangeError));
     });
 
+    group('toggleAll(...)', () {
+      test('empty list', () => expect([]..toggleAll(1), [1]));
+
+      test('contains', () => expect([1, 2, 3]..toggleAll(3), [1, 2]));
+
+      test('contains many', () => expect([1, 3, 2, 3]..toggleAll(3), [1, 2]));
+
+      test('does not contain', () => expect([1, 2, 3]..toggleAll(4), [1, 2, 3, 4]));
+    });
+
     group('containsAll(...)', () {
       test('contains exact', () => expect([1, 2, 3].containsAll([1, 2, 3]), true));
 
