@@ -1,6 +1,6 @@
 # Cauldron
 
-Forus Labs' Dart & Flutter open source projects.
+Forus Labs' Dart & Flutter open source packages.
 
 ***
 ## Sugar - Standard library extension
