@@ -1,35 +1,26 @@
-name: Sugar
+name: Sugar Integration Tests
 
 on:
   push:
-    paths: [ sugar/**, .github/workflows/sugar.yaml ]
+    paths:
+      - .github/workflows/sugar_integration_test.yaml
+      - sugar/integration_test/**
+      - sugar/lib/**
+      - sugar/tool/**
+      - sugar/dart_test.yaml
+      - sugar/pubspec.yaml
 
   pull_request:
-    paths: [ sugar/**, .github/workflows/sugar.yaml ]
+    paths:
+      - .github/workflows/sugar_integration_test.yaml
+      - sugar/integration_test/**
+      - sugar/lib/**
+      - sugar/tool/**
+      - sugar/dart_test.yaml
+      - sugar/pubspec.yaml
 
 jobs:
-  test:
-    name: Run unit tests
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: sugar
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: dart-lang/setup-dart@v1
-      - run: dart pub get
-      - run: dart analyze --fatal-warnings
-      - run: dart run coverage:test_with_coverage
-      - run: sudo apt-get update -y
-      - run: sudo apt-get install -y lcov
-      - run: lcov --remove ./coverage/lcov.info '**.g.dart' -o ./coverage/lcov.info
-      - uses: codecov/codecov-action@v3
-        with:
-          files: ./sugar/coverage/lcov.info
-
-
-  test-windows:
+  windows:
     name: Run integration tests on Windows
     runs-on: windows-latest
     defaults:
@@ -44,7 +35,7 @@ jobs:
         with:
           files: ./sugar/coverage/lcov.info
 
-  test-macos:
+  macos:
     name: Run integration tests on macOS
     runs-on: macos-latest
     defaults:
@@ -60,7 +51,7 @@ jobs:
         with:
           files: ./sugar/coverage/lcov.info
 
-  test-linux:
+  linux:
     name: Run integration tests on linux
     runs-on: ubuntu-latest
     defaults:
@@ -76,7 +67,7 @@ jobs:
         with:
           files: ./sugar/coverage/lcov.info
 
-  test-web:
+  web:
     name: Run integration tests on web
     runs-on: ubuntu-latest
     defaults:

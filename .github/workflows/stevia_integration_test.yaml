@@ -1,27 +1,33 @@
-name: Stevia
+name: Stevia Integration Tests
 
 on:
   push:
-    paths: [ stevia/**, .github/workflows/stevia.yaml ]
+    paths:
+      - .github/workflows/stevia_integration_test.yaml
+      - stevia/android/**
+      - stevia/example/**
+      - stevia/ios/**
+      - stevia/lib/**
+      - stevia/test/**
+      - stevia/tool/**
+      - stevia/analysis_options.yaml
+      - stevia/dartdoc_options.yaml
+      - stevia/pubspec.yaml
 
   pull_request:
-    paths: [ stevia/**, .github/workflows/stevia.yaml ]
+    paths:
+      - .github/workflows/stevia_integration_test.yaml
+      - stevia/android/**
+      - stevia/example/**
+      - stevia/ios/**
+      - stevia/lib/**
+      - stevia/test/**
+      - stevia/tool/**
+      - stevia/analysis_options.yaml
+      - stevia/dartdoc_options.yaml
+      - stevia/pubspec.yaml
 
 jobs:
-  test:
-    name: Run unit tests
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: stevia
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2.10.0
-      - run: flutter pub get
-      - run: flutter analyze
-      - run: flutter test
-
   android:
     name: Run Android integration tests
     runs-on: macos-latest
@@ -61,4 +67,3 @@ jobs:
       - run: flutter pub get
       - run: flutter build ios --debug --no-codesign
       - run: flutter test integration_test
-

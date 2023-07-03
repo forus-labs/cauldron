@@ -1,4 +1,4 @@
-name: Publish Sugar package
+name: Publish Sugar Package
 
 on:
   push:

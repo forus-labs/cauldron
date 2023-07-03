@@ -1,0 +1,45 @@
+name: Sugar Unit Tests
+
+on:
+  push:
+    paths:
+      - .github/workflows/sugar_unit_test.yaml
+      - sugar/lib/**
+      - sugar/test/**
+      - sugar/tool/**
+      - sugar/analysis_options.yaml
+      - sugar/dart_test.yaml
+      - sugar/dartdoc_options.yaml
+      - sugar/pubspec.yaml
+
+  pull_request:
+    paths:
+      - .github/workflows/sugar_unit_test.yaml
+      - sugar/lib/**
+      - sugar/test/**
+      - sugar/tool/**
+      - sugar/analysis_options.yaml
+      - sugar/dart_test.yaml
+      - sugar/dartdoc_options.yaml
+      - sugar/pubspec.yaml
+
+jobs:
+  test:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sugar
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: dart analyze --fatal-warnings
+      - run: dart run coverage:test_with_coverage
+      - run: sudo apt-get update -y
+      - run: sudo apt-get install -y lcov
+      - run: lcov --remove ./coverage/lcov.info '**.g.dart' -o ./coverage/lcov.info
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./sugar/coverage/lcov.info

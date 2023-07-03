@@ -1,0 +1,39 @@
+name: Stevia Unit Tests
+
+on:
+  push:
+    paths:
+      - .github/workflows/stevia_unit_test.yaml
+      - stevia/example/**
+      - stevia/lib/**
+      - stevia/test/**
+      - stevia/tool/**
+      - stevia/analysis_options.yaml
+      - stevia/dartdoc_options.yaml
+      - stevia/pubspec.yaml
+
+  pull_request:
+    paths:
+      - .github/workflows/stevia_unit_test.yaml
+      - stevia/example/**
+      - stevia/lib/**
+      - stevia/test/**
+      - stevia/tool/**
+      - stevia/analysis_options.yaml
+      - stevia/dartdoc_options.yaml
+      - stevia/pubspec.yaml
+
+jobs:
+  test:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: stevia
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2.10.0
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
