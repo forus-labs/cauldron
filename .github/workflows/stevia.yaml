@@ -59,6 +59,6 @@ jobs:
         with:
           model: 'iPhone 14'
       - run: flutter pub get
-      - run: flutter build ios --debug --no-codesign --simulator
+      - run: flutter build ios --debug --no-codesign
       - run: flutter test integration_test
 
