@@ -29,7 +29,7 @@ on:
 
 jobs:
   android:
-    name: Run Android integration tests
+    name: Android integration tests
     runs-on: macos-latest
     defaults:
       run:
@@ -52,7 +52,7 @@ jobs:
           script: flutter test integration_test
 
   ios:
-    name: Run iOS integration tests
+    name: iOS integration tests
     runs-on: macos-latest
     defaults:
       run:

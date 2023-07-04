@@ -7,7 +7,8 @@
     {
       "groupName": "GitHub Actions - Major Revisions",
       "matchPaths": [".github/**"],
-      "matchUpdateTypes": ["major"]
+      "matchUpdateTypes": ["major"],
+      "automerge": true
     },
     {
       "groupName": "GitHub Actions - Minor Revisions",
@@ -26,7 +27,8 @@
     {
       "groupName": "Sugar - All Revisions",
       "matchPaths": ["sugar/**"],
-      "matchUpdateTypes": ["major", "minor", "patch", "pin", "digest"]
+      "matchUpdateTypes": ["major", "minor", "patch", "pin", "digest"],
+      "automerge": true
     }
   ]
 }

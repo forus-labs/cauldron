@@ -8,8 +8,8 @@ on:
     paths: [ flint/**, .github/workflows/flint.yaml ]
 
 jobs:
-  tests:
-    name: Automated Tests
+  analyze:
+    name: Analyze
     runs-on: ubuntu-latest
     defaults:
       run:

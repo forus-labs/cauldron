@@ -21,7 +21,7 @@ on:
 
 jobs:
   windows:
-    name: Run integration tests on Windows
+    name: Windows integration tests
     runs-on: windows-latest
     defaults:
       run:
@@ -36,7 +36,7 @@ jobs:
           files: ./sugar/coverage/lcov.info
 
   macos:
-    name: Run integration tests on macOS
+    name: macOS integration tests
     runs-on: macos-latest
     defaults:
       run:
@@ -52,7 +52,7 @@ jobs:
           files: ./sugar/coverage/lcov.info
 
   linux:
-    name: Run integration tests on linux
+    name: Linux integration tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -68,7 +68,7 @@ jobs:
           files: ./sugar/coverage/lcov.info
 
   web:
-    name: Run integration tests on web
+    name: Web integration tests
     runs-on: ubuntu-latest
     defaults:
       run:
