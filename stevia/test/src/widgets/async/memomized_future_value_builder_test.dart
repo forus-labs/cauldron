@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stevia/src/widgets/async/memomized_future_builder.dart';
+import 'package:stevia/stevia.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('FutureBuilder recomputes multiple times, MemoizedFutureBuilder does not recompute', (tester) async {
+  testWidgets('FutureBuilder recomputes multiple times, MemoizedFutureValueBuilder does not recompute', (tester) async {
     await tester.pumpWidget(UnderTest());
     await tester.tap(find.byType(FloatingActionButton));
     await tester.pumpAndSettle();
@@ -13,6 +13,19 @@ void main() {
     final state = tester.state<_UnderTestState>(find.byType(UnderTest));
     expect(state.memoizedSideEffect, 1);
     expect(state.futureSideEffect, 2);
+  });
+
+  testWidgets('shows child', (tester) async {
+    final key = GlobalKey();
+    await tester.pumpWidget(MemoizedFutureValueBuilder.value(
+      key: key,
+      future: () => null,
+      initial: 'I',
+      builder: (_, __, child) => child!,
+      child: const Text('hello', textDirection: TextDirection.ltr),
+    ));
+
+    expect(find.text('hello'), findsOneWidget);
   });
 }
 
@@ -30,9 +43,9 @@ class _UnderTestState extends State<UnderTest> {
     home: Column(
       children: [
         FloatingActionButton(onPressed: () => setState(() {})),
-        MemoizedFutureBuilder(
+        MemoizedFutureValueBuilder(
           future: memoizedBuilder,
-          builder: (_, __) => Container(),
+          builder: (_, __, ___) => Container(),
         ),
         FutureBuilder(
           future: futureBuilder(),
