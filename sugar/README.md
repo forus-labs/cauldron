@@ -1,6 +1,6 @@
 # Sugar - Standard Library Extension
-[![Codecov](https://codecov.io/gh/forus-labs/cauldron/branch/master/graph/badge.svg)](https://codecov.io/gh/forus-labs/cauldron)
 [![Pub Dev](https://img.shields.io/pub/v/sugar)](https://pub.dev/packages/sugar)
+[![Codecov](https://codecov.io/gh/forus-labs/cauldron/branch/master/graph/badge.svg)](https://codecov.io/gh/forus-labs/cauldron)
 [![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/sugar/latest/)
 
 Sugar is an extension to Dart's standard library. 
