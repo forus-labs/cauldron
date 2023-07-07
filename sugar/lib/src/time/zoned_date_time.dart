@@ -13,6 +13,9 @@ part of 'date_time.dart';
 /// `Factory` timezone will be returned on all other platforms. This is due to limitations with `dart:ffi`. See
 /// [Timezone.platformTimezoneProvider].
 ///
+/// If you're feeling adventurous, consider using [stevia](https://github.com/forus-labs/cauldron/tree/master/stevia),
+/// an experimental add-on package for retrieving the timezone on other Android and iOS.
+///
 /// ## Timezones Transitions
 ///
 /// Obtaining the offset for a local date-time is not trivial. Due to timezone transitions, it is possible for a local
@@ -169,6 +172,9 @@ class ZonedDateTime extends DateTimeBase {
   ///
   /// **By default, retrieving the platform's timezone is only only supported on Windows, MacOS, Linux & web. The
   /// `Factory` timezone will be returned on all other platforms. See [Timezone.platformTimezoneProvider].**
+  ///
+  /// If you're feeling adventurous, consider using [stevia](https://github.com/forus-labs/cauldron/tree/master/stevia),
+  /// an experimental add-on package for retrieving the timezone on other Android and iOS.
   factory ZonedDateTime.now([Timezone? timezone]) {
     timezone ??= Timezone.now();
     final now = DateTime.now().microsecondsSinceEpoch;

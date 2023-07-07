@@ -9,6 +9,9 @@ import 'package:sugar/src/time/zone/platform/web_provider.dart'
 /// * Linux - Ubuntu 22.04
 /// * Web - Latest stable versions of Chrome & Firefox
 ///
+/// Android & iOS are supported by the currently experimental [stevia](https://github.com/forus-labs/cauldron/tree/master/stevia)
+/// package.
+///
 /// ## Implementation details
 /// Retrieval of timezones is performed on a best-effort basis. There is no guarantee that the actual timezone is returned.
 ///

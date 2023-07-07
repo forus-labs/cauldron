@@ -18,6 +18,9 @@ import 'package:sugar/time_zone.dart';
 /// `Factory` timezone will be returned on all other platforms. This is due to limitations with `dart:ffi`. See
 /// [Timezone.platformTimezoneProvider].
 ///
+/// If you're feeling adventurous, consider using [stevia](https://github.com/forus-labs/cauldron/tree/master/stevia),
+/// an experimental add-on package for retrieving the timezone on other Android and iOS.
+///
 /// ## Timezones Transitions
 ///
 /// Obtaining the offset for a local date-time is not trivial. Due to timezone transitions, it is possible for a local
