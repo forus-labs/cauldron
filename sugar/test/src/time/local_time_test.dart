@@ -15,16 +15,32 @@ void main() {
 
   test('fromDayMicroseconds(...)', () => expect(LocalTime.fromDayMicroseconds(43200000000), LocalTime(12)));
 
-  test('now()', () {
-    final time = LocalTime.now();
-    final native = DateTime.now();
+  group('now(...)', () {
+    test('real date-time', () {
+      final time = LocalTime.now();
+      final native = DateTime.now();
 
-    expect(time.dayMicroseconds, closeTo(native.microsecondsSinceMidnight, 10000));
+      expect(time.dayMicroseconds, closeTo(native.microsecondsSinceMidnight, 10000));
 
-    expect(time.hour, native.hour);
-    expect(time.minute, native.minute);
-    expect(time.second, native.second);
-  }, tags: ['flaky']);
+      expect(time.hour, native.hour);
+      expect(time.minute, native.minute);
+      expect(time.second, native.second);
+    }, tags: ['flaky']);
+
+    for (final (precision, expected) in [
+      (TimeUnit.microseconds, LocalTime(4, 5, 6, 7, 8)),
+      (TimeUnit.milliseconds, LocalTime(4, 5, 6, 7)),
+      (TimeUnit.seconds, LocalTime(4, 5, 6)),
+      (TimeUnit.minutes, LocalTime(4, 5)),
+      (TimeUnit.hours, LocalTime(4)),
+    ]) {
+      test('precision', () {
+        System.currentDateTime = () => DateTime.utc(2023, 2, 3, 4, 5, 6, 7, 8);
+        expect(LocalTime.now(precision), expected);
+        System.currentDateTime = DateTime.now;
+      });
+    }
+  });
 
   group('LocalTime', () {
     test('value', () {

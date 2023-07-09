@@ -2,9 +2,18 @@
 
 import 'dart:io';
 
-class Runtime {
+import 'package:meta/meta.dart';
 
-  const Runtime();
+class System {
+
+  @useResult static DateTime Function() currentDateTime = DateTime.now;
+
+  @useResult static int get epochMilliseconds => currentDateTime().millisecondsSinceEpoch;
+
+  @useResult static int get epochMicroseconds => currentDateTime().microsecondsSinceEpoch;
+
+
+  const System();
 
   String get platform => Platform.operatingSystemVersion;
 

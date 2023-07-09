@@ -18,16 +18,30 @@ void main() {
     test('floors', () => expect(LocalDate.fromEpochMicroseconds(946684800000100), LocalDate(2000)));
   });
 
-  test('now()', () {
-    final date = LocalDate.now();
-    final native = DateTime.now();
+  group('now(...)', () {
+    test('real date-time', () {
+      final native = DateTime.now();
+      final date = LocalDate.now();
 
-    expect(date.epochMicroseconds, DateTime.utc(native.year, native.month, native.day).microsecondsSinceEpoch);
+      expect(date.epochMicroseconds, DateTime.utc(native.year, native.month, native.day).microsecondsSinceEpoch);
 
-    expect(date.year, native.year);
-    expect(date.month, native.month);
-    expect(date.day, native.day);
-  }, tags: ['flaky']);
+      expect(date.year, native.year);
+      expect(date.month, native.month);
+      expect(date.day, native.day);
+    }, tags: ['flaky']);
+
+    for (final (precision, expected) in [
+      (DateUnit.days, LocalDate(2023, 7, 9)),
+      (DateUnit.months, LocalDate(2023, 7)),
+      (DateUnit.years, LocalDate(2023)),
+    ]) {
+      test('precision', () {
+        System.currentDateTime = () => DateTime.utc(2023, 7, 9, 1, 2, 3, 4, 5);
+        expect(LocalDate.now(precision), expected);
+        System.currentDateTime = DateTime.now;
+      });
+    }
+  });
 
   group('LocalDate(...)', () {
     test('values', () {

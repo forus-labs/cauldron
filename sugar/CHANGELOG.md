@@ -1,8 +1,23 @@
-## 3.2.0 
+## 3.2.0 (Next)
 
 ## `sugar.collection`
 - Add `Lists.toggleAll(...)`
 
+## `sugar.core`
+- Add `System.currentDateTime`
+- Add `System.epochMilliseconds`
+- Add `System.epochMicroseconds`
+- **Breaking** - Change `Runtime` to `System` 
+
+## `sugar.time`
+- Add optional `DateUnit` parameter to `LocalDate.now(...)`
+- Add optional `TemporalUnit` parameter to `LocalDateTime.now(...)`
+- Add optional `TimeUnit` parameter to `LocalTime.now(...)`
+- Add optional `TimeUnit` parameter to `OffsetTime.now(...)`
+- Change `LocalDate.now(...)` to be stubbable
+- Change `LocalDateTime.now(...)` to be stubbable
+- Change `LocalTime.now(...)` to be stubbable
+- Change `OffsetTime.now(...)` to be stubbable
 
 ## 3.1.0 (19/06/2023)
 

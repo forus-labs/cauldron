@@ -41,6 +41,16 @@ part of 'date.dart';
 /// print(moonLanding.floor(DateUnit.days, 7);       // 1969-07-14
 /// ```
 ///
+/// [LocalDate.now] can be stubbed by setting [System.currentDateTime]:
+/// ```dart
+/// void main() {
+///   test('mock LocalDate.now()', () {
+///     System.currentDateTime = () => DateTime.utc(2023, 7, 9, 23, 30);
+///     expect(LocalDate.now(), LocalDate(2023, 7, 9));
+///   });
+/// }
+/// ```
+///
 /// ## Other resources
 /// See:
 /// * [LocalDateTime] to represent date -times without timezones.
@@ -77,9 +87,31 @@ class LocalDate extends Date with Orderable<LocalDate> {
   LocalDate.fromEpochMicroseconds(super.microseconds): super.fromEpochMicroseconds();
 
   /// Creates a [LocalDate] that represents the current date.
-  factory LocalDate.now() {
-    final date = DateTime.now();
-    return LocalDate(date.year, date.month, date.day);
+  ///
+  /// ## Precision
+  /// The precision of [LocalDate.now] can be configured by giving a [DateUnit]:
+  /// ```dart
+  /// // Assuming it's 2023-07-09
+  /// LocalDate.now(DateUnit.years); // 2023-01-01
+  /// ```
+  ///
+  /// ## Testing
+  /// [LocalDate.now] can be stubbed by setting [System.currentDateTime]:
+  /// ```dart
+  /// void main() {
+  ///   test('mock LocalDate.now()', () {
+  ///     System.currentDateTime = () => DateTime.utc(2023, 7, 9, 23, 30);
+  ///     expect(LocalDate.now(), LocalDate(2023, 7, 9));
+  ///   });
+  /// }
+  /// ```
+  factory LocalDate.now([DateUnit precision = DateUnit.days]) {
+    final date = System.currentDateTime();
+    return switch (precision) {
+      DateUnit.days => LocalDate(date.year, date.month, date.day),
+      DateUnit.months => LocalDate(date.year, date.month),
+      DateUnit.years => LocalDate(date.year),
+    };
   }
 
   /// Creates a [LocalDate].

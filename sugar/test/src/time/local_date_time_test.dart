@@ -13,17 +13,38 @@ void main() {
     LocalDateTime(2000, 1, 2, 3, 4, 5, 6, 7)),
   );
 
-  test('now()', () {
-    final date = LocalDateTime.now();
-    final native = DateTime.now();
+  group('now(...)', () {
+    test('real date-time', () {
+      final native = DateTime.now();
+      final date = LocalDateTime.now();
 
-    expect(date.year, native.year);
-    expect(date.month, native.month);
-    expect(date.day, native.day);
-    expect(date.hour, native.hour);
-    expect(date.minute, native.minute);
-    expect(date.second, native.second);
-  }, tags: ['flaky']);
+      expect(date.year, native.year);
+      expect(date.month, native.month);
+      expect(date.day, native.day);
+      expect(date.hour, native.hour);
+      expect(date.minute, native.minute);
+      expect(date.second, native.second);
+    }, tags: ['flaky']);
+
+    for (final (precision, expected) in <(TemporalUnit, LocalDateTime)>[
+      (TimeUnit.microseconds, LocalDateTime(2023, 2, 3, 4, 5, 6, 7, 8)),
+      (TimeUnit.milliseconds, LocalDateTime(2023, 2, 3, 4, 5, 6, 7)),
+      (TimeUnit.seconds, LocalDateTime(2023, 2, 3, 4, 5, 6)),
+      (TimeUnit.minutes, LocalDateTime(2023, 2, 3, 4, 5)),
+      (TimeUnit.hours, LocalDateTime(2023, 2, 3, 4)),
+      (DateUnit.days, LocalDateTime(2023, 2, 3)),
+      (DateUnit.months, LocalDateTime(2023, 2)),
+      (DateUnit.years, LocalDateTime(2023)),
+    ]) {
+      test('precision', () {
+        System.currentDateTime = () => DateTime.utc(2023, 2, 3, 4, 5, 6, 7, 8);
+        expect(LocalDateTime.now(precision), expected);
+        System.currentDateTime = DateTime.now;
+      });
+    }
+  });
+
+
 
   group('LocalDateTime', () {
     test('value', () {

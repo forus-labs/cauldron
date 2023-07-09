@@ -42,6 +42,16 @@ part of 'time.dart';
 /// print(moonLanding.ceil(TimeUnit.minutes, 5);    // 18:05-06:00
 /// print(moonLanding.floor(TimeUnit.minutes, 5);   // 18:00-06:00
 /// ```
+///
+/// [OffsetTime.now] can be stubbed by setting [System.currentDateTime]:
+/// ```dart
+/// void main() {
+///   test('mock OffsetTime.now()', () {
+///     System.currentDateTime = () => DateTime.utc(2023, 7, 9, 23, 30);
+///     expect(OffsetTime.now(), OffsetTime(Offset.utc, 23, 30));
+///   });
+/// }
+/// ```
 class OffsetTime extends Time {
 
   /// The offset.
@@ -71,7 +81,35 @@ class OffsetTime extends Time {
   OffsetTime.fromDayMicroseconds(this.offset, super.microseconds): super.fromDayMicroseconds();
 
   /// Creates a [OffsetTime] that represents the current time.
-  OffsetTime.now(): this._now(DateTime.now());
+  ///
+  /// ## Precision
+  /// The precision of [OffsetTime.now] can be configured by giving a [TimeUnit]:
+  /// ```dart
+  /// // Assuming it's 2023-07-09 10:30:50+00:00
+  /// OffsetTime.now(TimeUnit.hours); // 10:00+00:00
+  /// ```
+  ///
+  /// ## Testing
+  /// [OffsetTime.now] can be stubbed by setting [System.currentDateTime]:
+  /// ```dart
+  /// void main() {
+  ///   test('mock OffsetTime.now()', () {
+  ///     System.currentDateTime = () => DateTime.utc(2023, 7, 9, 23, 30);
+  ///     expect(OffsetTime.now(), OffsetTime(Offset.utc, 23, 30));
+  ///   });
+  /// }
+  /// ```
+  factory OffsetTime.now([TimeUnit precision = TimeUnit.microseconds]) {
+    final DateTime(:hour, :minute, :second, :millisecond, :microsecond, :timeZoneOffset) = System.currentDateTime();
+    final offset = Offset.fromMicroseconds(timeZoneOffset.inMicroseconds);
+    return switch (precision) {
+      TimeUnit.microseconds => OffsetTime(offset, hour, minute, second, millisecond, microsecond),
+      TimeUnit.milliseconds => OffsetTime(offset, hour, minute, second, millisecond),
+      TimeUnit.seconds => OffsetTime(offset, hour, minute, second),
+      TimeUnit.minutes => OffsetTime(offset, hour, minute),
+      TimeUnit.hours => OffsetTime(offset, hour),
+    };
+  }
 
   /// Creates a [OffsetTime].
   ///
@@ -83,8 +121,6 @@ class OffsetTime extends Time {
   /// OffsetTime(Offset(8), -1); // '23:00+08:00'
   /// ```
   OffsetTime(this.offset, [super.hour = 0, super.minute = 0, super.second = 0, super.millisecond = 0, super.microsecond = 0]);
-
-  OffsetTime._now(super.time): offset = Offset.fromMicroseconds(time.timeZoneOffset.inMicroseconds), super.fromNative();
 
   OffsetTime._(this.offset, super.time): super._();
 

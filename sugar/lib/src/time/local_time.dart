@@ -41,6 +41,16 @@ part of 'time.dart';
 /// print(moonLanding.floor(TimeUnit.minutes, 5);   // 18:00
 /// ```
 ///
+/// [LocalTime.now] can be stubbed by setting [System.currentDateTime]:
+/// ```dart
+/// void main() {
+///   test('mock LocalDateTime.now()', () {
+///     System.currentDateTime = () => DateTime.utc(2023, 7, 9, 23, 30);
+///     expect(LocalTime.now(), LocalTime(23, 30));
+///   });
+/// }
+/// ```
+///
 /// ## Other resources
 /// See [OffsetTime] to represent times with offsets.
 class LocalTime extends Time with Orderable<LocalTime> {
@@ -78,7 +88,34 @@ class LocalTime extends Time with Orderable<LocalTime> {
   LocalTime.fromDayMicroseconds(super.microseconds): super.fromDayMicroseconds();
 
   /// Creates a [LocalTime] that represents the current time.
-  LocalTime.now(): super.fromNative(DateTime.now());
+  ///
+  /// ## Precision
+  /// The precision of [LocalTime.now] can be configured by giving a [TimeUnit]:
+  /// ```dart
+  /// // Assuming it's 2023-07-09 10:30:50
+  /// LocalTime.now(TimeUnit.hours); // 10:00
+  /// ```
+  ///
+  /// ## Testing
+  /// [LocalTime.now] can be stubbed by setting [System.currentDateTime]:
+  /// ```dart
+  /// void main() {
+  ///   test('mock LocalTime.now()', () {
+  ///     System.currentDateTime = () => DateTime.utc(2023, 7, 9, 23, 30);
+  ///     expect(LocalTime.now(), LocalTime(23, 30));
+  ///   });
+  /// }
+  /// ```
+  factory LocalTime.now([TimeUnit precision = TimeUnit.microseconds]) {
+    final DateTime(:hour, :minute, :second, :millisecond, :microsecond) = System.currentDateTime();
+    return switch (precision) {
+      TimeUnit.microseconds => LocalTime(hour, minute, second, millisecond, microsecond),
+      TimeUnit.milliseconds => LocalTime(hour, minute, second, millisecond),
+      TimeUnit.seconds => LocalTime(hour, minute, second),
+      TimeUnit.minutes => LocalTime(hour, minute),
+      TimeUnit.hours => LocalTime(hour),
+    };
+  }
 
   /// Creates a [LocalTime].
   ///

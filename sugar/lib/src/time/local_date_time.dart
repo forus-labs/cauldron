@@ -42,6 +42,16 @@ part of 'date_time.dart';
 /// print(moonLanding.floor(DateUnit.days, 7);      // 1969-07-14 00:00
 /// ```
 ///
+/// [LocalDateTime.now] can be stubbed by setting [System.currentDateTime]:
+/// ```dart
+/// void main() {
+///   test('mock LocalDateTime.now()', () {
+///     System.currentDateTime = () => DateTime.utc(2023, 7, 9, 23, 30);
+///     expect(LocalDateTime.now(), LocalDateTime(2023, 7, 9, 23, 30));
+///   });
+/// }
+/// ```
+///
 /// ## Other resources
 /// See [ZonedDateTime] to represent date and times with timezones.
 class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
@@ -67,7 +77,37 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   LocalDateTime.fromEpochMicroseconds(super.microseconds) : super.fromEpochMicroseconds();
 
   /// Creates a [LocalDateTime] that represents the current date-time.
-  LocalDateTime.now() : super.fromNative(DateTime.now());
+  ///
+  /// ## Precision
+  /// The precision of [LocalDateTime.now] can be configured by giving a [TemporalUnit]:
+  /// ```dart
+  /// // Assuming it's 2023-07-09 10:30
+  /// LocalDateTime.now(DateUnit.years); // 2023-01-01 00:00
+  /// ```
+  ///
+  /// ## Testing
+  /// [LocalDateTime.now] can be stubbed by setting [System.currentDateTime]:
+  /// ```dart
+  /// void main() {
+  ///   test('mock LocalDateTime.now()', () {
+  ///     System.currentDateTime = () => DateTime.utc(2023, 7, 9, 23, 30);
+  ///     expect(LocalDateTime.now(), LocalDate(2023, 7, 9, 23, 30));
+  ///   });
+  /// }
+  /// ```
+  factory LocalDateTime.now([TemporalUnit precision = TimeUnit.microseconds]) {
+    final DateTime(:year, :month, :day, :hour, :minute, :second, :millisecond, :microsecond) = System.currentDateTime();
+    return switch (precision) {
+      TimeUnit.microseconds => LocalDateTime(year, month, day, hour, minute, second, millisecond, microsecond),
+      TimeUnit.milliseconds => LocalDateTime(year, month, day, hour, minute, second, millisecond),
+      TimeUnit.seconds => LocalDateTime(year, month, day, hour, minute, second),
+      TimeUnit.minutes => LocalDateTime(year, month, day, hour, minute),
+      TimeUnit.hours => LocalDateTime(year, month, day, hour),
+      DateUnit.days => LocalDateTime(year, month, day),
+      DateUnit.months => LocalDateTime(year, month),
+      DateUnit.years => LocalDateTime(year),
+    };
+  }
 
   /// Creates a [LocalDateTime].
   LocalDateTime(super.year, [

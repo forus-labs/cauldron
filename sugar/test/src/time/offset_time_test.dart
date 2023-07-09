@@ -8,15 +8,31 @@ void main() {
 
   test('fromDayMicroseconds(...)', () => expect(OffsetTime.fromDayMicroseconds(Offset(8), 43200000000), OffsetTime(Offset(8), 12)));
 
-  test('now()', () {
-    final time = OffsetTime.now();
-    final native = DateTime.now();
+  group('now(...)', () {
+    test('real date-time', () {
+      final time = OffsetTime.now();
+      final native = DateTime.now();
 
-    expect(time.offset, native.offset);
-    expect(time.hour, native.hour);
-    expect(time.minute, native.minute);
-    expect(time.second, native.second);
-  }, tags: ['flaky']);
+      expect(time.offset, native.offset);
+      expect(time.hour, native.hour);
+      expect(time.minute, native.minute);
+      expect(time.second, native.second);
+    }, tags: ['flaky']);
+
+    for (final (precision, expected) in [
+      (TimeUnit.microseconds, OffsetTime(Offset.utc, 4, 5, 6, 7, 8)),
+      (TimeUnit.milliseconds, OffsetTime(Offset.utc, 4, 5, 6, 7)),
+      (TimeUnit.seconds, OffsetTime(Offset.utc, 4, 5, 6)),
+      (TimeUnit.minutes, OffsetTime(Offset.utc, 4, 5)),
+      (TimeUnit.hours, OffsetTime(Offset.utc, 4)),
+    ]) {
+      test('precision', () {
+        System.currentDateTime = () => DateTime.utc(2023, 2, 3, 4, 5, 6, 7, 8);
+        expect(OffsetTime.now(precision), expected);
+        System.currentDateTime = DateTime.now;
+      });
+    }
+  });
 
   group('OffsetTime', () {
     test('value', () {

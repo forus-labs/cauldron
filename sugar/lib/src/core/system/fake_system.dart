@@ -1,16 +1,16 @@
 import 'package:meta/meta.dart';
 
-import 'package:sugar/core_runtime.dart';
+import 'package:sugar/core_system.dart';
 
-/// Creates a [FakeRuntime] for testing.
+/// Creates a [FakeSystem] for testing.
 @visibleForTesting
-class FakeRuntime implements Runtime {
+class FakeSystem implements System {
 
   @override final PlatformType type;
   @override final String platform;
 
-  /// Creates a [FakeRuntime].
-  const FakeRuntime([this.type = PlatformType.unknown, this.platform = 'unknown']);
+  /// Creates a [FakeSystem].
+  const FakeSystem([this.type = PlatformType.unknown, this.platform = 'unknown']);
 
   @override
   @useResult bool get android => type == PlatformType.android;
