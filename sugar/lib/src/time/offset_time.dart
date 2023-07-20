@@ -43,6 +43,8 @@ part of 'time.dart';
 /// print(moonLanding.floor(TimeUnit.minutes, 5);   // 18:00-06:00
 /// ```
 ///
+/// ## Testing
+///
 /// [OffsetTime.now] can be stubbed by setting [System.currentDateTime]:
 /// ```dart
 /// void main() {

@@ -68,6 +68,8 @@ part of 'future_value_builder_base.dart';
 ///   child: Text('child widget'),
 /// )
 /// ```
+///
+/// You should use it to provide child widgets that don't depend on the `future`'s result.
 final class MemoizedFutureValueBuilder<T> extends FutureValueBuilderBase<T> {
   /// A function that starts an asynchronous computation to which this builder is currently connected.
   final Future<T>? Function() future;

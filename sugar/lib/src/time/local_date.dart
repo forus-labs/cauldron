@@ -41,6 +41,8 @@ part of 'date.dart';
 /// print(moonLanding.floor(DateUnit.days, 7);       // 1969-07-14
 /// ```
 ///
+/// ## Testing
+///
 /// [LocalDate.now] can be stubbed by setting [System.currentDateTime]:
 /// ```dart
 /// void main() {

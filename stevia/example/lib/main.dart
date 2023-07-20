@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stevia/src/widgets/old/resizable_widget.dart';
 
 void main() {
   runApp(HomeWidget());
@@ -9,8 +10,16 @@ class HomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
     theme: ThemeData(useMaterial3: true),
-    home: const Scaffold(
-      body: Text('This is a placeholder. Run the other examples in the example/lib folder to get started.'),
+    home: Scaffold(
+      body: ResizableWidget(
+        isHorizontalSeparator: false,
+        separatorSize: 50,
+        children: [ // required
+          Container(color: Colors.greenAccent),
+          Container(color: Colors.yellowAccent),
+          Container(color: Colors.redAccent),
+        ],
+      ),
     ),
   );
 }

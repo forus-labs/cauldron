@@ -15,7 +15,6 @@ part 'memoized_future_value_builder.dart';
 /// * Easy differentiation between a "nullable value" and "no value yet"
 /// * Ability to pass a child to the builder function
 /// * No implicit conversion of a non-nullable [T] to [T?]
-///
 @internal abstract base class FutureValueBuilderBase<T> extends StatefulWidget {
 
   /// The build strategy currently used by this builder.

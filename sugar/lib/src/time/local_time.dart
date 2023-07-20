@@ -41,6 +41,8 @@ part of 'time.dart';
 /// print(moonLanding.floor(TimeUnit.minutes, 5);   // 18:00
 /// ```
 ///
+/// ## Testing
+///
 /// [LocalTime.now] can be stubbed by setting [System.currentDateTime]:
 /// ```dart
 /// void main() {

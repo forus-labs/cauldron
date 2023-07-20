@@ -13,7 +13,7 @@ import 'package:stevia/widgets.dart';
 /// * No implicit conversion of a non-nullable [T] to [T?]
 ///
 /// ## Working with `StreamValueBuilder`:
-/// To create a `FutureValueBuilder`:
+/// To create a `StreamValueBuilder`:
 /// ```dart
 /// StreamValueBuilder(
 ///   stream: Stream.fromIterable(['Hello', 'World']),
@@ -52,6 +52,8 @@ import 'package:stevia/widgets.dart';
 ///   child: Text('child widget'),
 /// )
 /// ```
+///
+/// You should use it to provide child widgets that don't depend on the `future`'s result.
 final class StreamValueBuilder<T> extends StatefulWidget {
 
   /// The asynchronous computation to which this builder is currently connected.
