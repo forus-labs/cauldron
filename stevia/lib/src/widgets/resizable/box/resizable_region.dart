@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:stevia/src/widgets/resizable/box/change_notifiers.dart';
 import 'package:stevia/src/widgets/resizable/box/resizable_box_region.dart';
 import 'package:stevia/src/widgets/resizable/box/slider.dart';
+import 'package:stevia/stevia.dart';
 
 /// A resizable region in a horizontal [ResizableBox].
 @internal class HorizontalResizableRegion extends StatelessWidget {
@@ -30,9 +31,9 @@ import 'package:stevia/src/widgets/resizable/box/slider.dart';
       width: notifier.current,
       child: Stack(
         children: [
+          region.builder(context, notifiers.index == index, notifier.percentage, region.child),
           _left,
           _right,
-          region.builder(context, notifiers.selected == index, notifier.percentage, region.child),
         ],
       ),
     ),
@@ -64,12 +65,18 @@ import 'package:stevia/src/widgets/resizable/box/slider.dart';
     listenable: notifier,
     builder: (context, _) => SizedBox(
       height: notifier.current,
-      child: Stack(
-        children: [
-          _top,
-          _bottom,
-          region.builder(context, notifiers.selected == index, notifier.percentage, region.child),
-        ],
+      child: GestureDetector(
+        onTap: () {
+          Haptic.light();
+          notifiers.index = index;
+        },
+        child: Stack(
+          children: [
+            region.builder(context, notifiers.index == index, notifier.percentage, region.child),
+            _top,
+            _bottom,
+          ],
+        ),
       ),
     ),
   );

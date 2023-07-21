@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 import 'package:stevia/src/widgets/resizable/box/change_notifiers.dart';
@@ -35,16 +36,18 @@ import 'package:stevia/src/widgets/resizable/box/direction.dart';
 
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-    behavior: HitTestBehavior.translucent,
-    onHorizontalDragUpdate: (details) {
-      if (notifiers.selected == index) {
-        notifiers.update(index, direction, details.delta);
-      }
-    },
-    child: Align(
-      alignment: direction.alignment,
-      child: SizedBox(width: size),
+  Widget build(BuildContext context) => Align(
+    alignment: direction.alignment,
+    child: SizedBox(
+      height: size,
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onHorizontalDragUpdate: (details) {
+          if (notifiers.index == index) {
+            notifiers.update(index, direction, details.delta);
+          }
+        },
+      ),
     ),
   );
 
@@ -61,16 +64,18 @@ import 'package:stevia/src/widgets/resizable/box/direction.dart';
 
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-    behavior: HitTestBehavior.translucent,
-    onVerticalDragUpdate: (details) {
-      if (notifiers.selected == index) {
-        notifiers.update(index, direction, details.delta);
-      }
-    },
-    child: Align(
-      alignment: direction.alignment,
-      child: SizedBox(height: size),
+  Widget build(BuildContext context) => Align(
+    alignment: direction.alignment,
+    child: SizedBox(
+      height: size,
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onVerticalDragUpdate: (details) {
+          if (notifiers.index == index) {
+            notifiers.update(index, direction, details.delta);
+          }
+        },
+      ),
     ),
   );
 

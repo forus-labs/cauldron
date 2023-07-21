@@ -15,7 +15,11 @@ class ResizableBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
-    builder: (context, constraints),
+    builder: (context, constraints) => _VerticalResizableBox(
+      constraints: constraints,
+      initialIndex: initialIndex,
+      children: children,
+    ),
   );
 
 }
@@ -48,7 +52,7 @@ class _VerticalResizableBoxState extends State<_VerticalResizableBox> {
   void didUpdateWidget(_VerticalResizableBox old) {
     super.didUpdateWidget(old);
     if (widget.constraints != old.constraints) {
-      _update(notifiers.selected);
+      _update(notifiers.index);
     }
   }
 

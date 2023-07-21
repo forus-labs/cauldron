@@ -20,13 +20,16 @@ import 'package:stevia/src/widgets/resizable/box/direction.dart';
       _ => throw StateError('This is not possible.'),
     };
 
-    if ((direction == Direction.left && 0 < offset.dx) || (direction == Direction.top && 0 < offset.dy)) {
-      final adjusted = selected.update(direction, offset);
-      neighbour.update(direction.opposite, adjusted);
+    final Offset(:dx, :dy) = offset;
+    switch (direction) {
+      case Direction.left when 0 < dx:
+      case Direction.top when 0 < dy:
+      case Direction.right when dx < 0:
+      case Direction.bottom when dy < 0:
+        neighbour.update(direction.opposite, selected.update(direction, offset));
 
-    } else {
-      final adjusted = neighbour.update(direction.opposite, offset);
-      selected.update(direction, adjusted);
+      default:
+        selected.update(direction, neighbour.update(direction.opposite, offset));
     }
 
     neighbour.notify();
@@ -34,15 +37,15 @@ import 'package:stevia/src/widgets/resizable/box/direction.dart';
   }
 
   /// The currently selected region. It should be `0 <= selected < number of regions`.
-  int get selected => _selected;
+  int get index => _selected;
 
-  set selected(int value) {
+  set index(int value) {
     if (_selected != value) {
       final old = _selected;
       _selected = value;
 
       regions[old].notify();
-      regions[selected].notify();
+      regions[index].notify();
     }
   }
 
@@ -68,14 +71,14 @@ import 'package:stevia/src/widgets/resizable/box/direction.dart';
   Offset update(Direction direction, Offset offset) {
     final Offset(:dx, :dy) = offset;
     return switch (direction) {
-      Direction.left => Offset(dx + _update(_current - dx), dy),
-      Direction.top => Offset(dx, dy + _update(_current - dy)),
-      Direction.right => Offset(dx - _update(_current + dx), dy),
-      Direction.bottom => Offset(dx, dy - _update(_current + dy)),
+      Direction.left => Offset(dx + _update(direction, _current - dx), dy),
+      Direction.top => Offset(dx, dy + _update(direction, _current - dy)),
+      Direction.right => Offset(dx - _update(direction, _current + dx), dy),
+      Direction.bottom => Offset(dx, dy - _update(direction, _current + dy)),
     };
   }
 
-  double _update(double unbound) {
+  double _update(Direction direction, double unbound) {
     if (min <= unbound) {
       _current = unbound;
       _percentage = _current / max;
