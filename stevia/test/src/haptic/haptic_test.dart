@@ -10,6 +10,7 @@ void main() {
     Haptic.heavy,
     Haptic.medium,
     Haptic.light,
+    Haptic.selection,
     () async => Haptic.perform(HapticPattern.light.value)
   ]) {
     test('function does nothing', () async => expect(() async => function(), returnsNormally));
@@ -27,6 +28,7 @@ void main() {
       Haptic.heavy,
       Haptic.medium,
       Haptic.light,
+      Haptic.selection,
       () async => Haptic.perform(HapticPattern.light.value)
     ]) {
       test('stubbed function does nothing', () async {

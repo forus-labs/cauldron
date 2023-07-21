@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 import 'package:stevia/src/widgets/resizable/box/change_notifiers.dart';
-import 'package:stevia/src/widgets/resizable/box/resizable_box_region.dart';
 import 'package:stevia/src/widgets/resizable/box/slider.dart';
 import 'package:stevia/stevia.dart';
 
@@ -67,7 +66,7 @@ import 'package:stevia/stevia.dart';
       height: notifier.current,
       child: GestureDetector(
         onTap: () {
-          Haptic.light();
+          Haptic.selection();
           notifiers.index = index;
         },
         child: Stack(

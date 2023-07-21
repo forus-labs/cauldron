@@ -115,6 +115,11 @@ extension Haptic on Never {
   /// This is the equivalent of [HapticFeedback.lightImpact].
   static Future<void> light() => perform(HapticPattern.light.value);
 
+  /// Performs a haptic feedback that correspond to a selection of a user interface element.
+  ///
+  /// This is the equivalent of [HapticFeedback.selectionClick].
+  static Future<void> selection() => perform(HapticPattern.selection.value);
+
 
   /// Performs the haptic feedback [pattern].
   ///

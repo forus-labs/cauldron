@@ -16,7 +16,10 @@ enum HapticPattern {
   medium((AndroidHapticPattern.keyboardTap, IOSHapticPattern.medium)),
 
   /// The equivalent of [HapticFeedback.lightImpact].
-  light((AndroidHapticPattern.virtualKey, IOSHapticPattern.light));
+  light((AndroidHapticPattern.virtualKey, IOSHapticPattern.light)),
+
+  /// The equivalent of [HapticFeedback.selectionClick].
+  selection((AndroidHapticPattern.clockTick, IOSHapticPattern.selection));
 
   /// The native feedback types the various platforms.
   final (AndroidHapticPattern, IOSHapticPattern) value;
