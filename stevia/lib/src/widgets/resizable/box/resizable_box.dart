@@ -1,46 +1,104 @@
 import 'package:flutter/widgets.dart';
-import 'package:stevia/src/widgets/resizable/box/change_notifiers.dart';
+import 'package:sugar/sugar.dart';
+
+import 'package:stevia/stevia.dart';
+import 'package:stevia/src/widgets/resizable/box/resizable_box_model.dart';
 import 'package:stevia/src/widgets/resizable/box/resizable_box_region.dart';
 import 'package:stevia/src/widgets/resizable/box/resizable_region.dart';
+import 'package:stevia/src/widgets/resizable/box/resizable_region_change_notifier.dart';
 
-/// A box which children can either be horizontally or vertically resized.
-class ResizableBox extends StatelessWidget {
+/// A box which children can all be resized either horizontally or vertically.
+///
+/// A child must be selected by tapping on it before it can be resized.
+///
+/// ## Contract
+/// Each child has a minimum size determined by its slider size multiplied by 2. Setting an initial size smaller than the
+/// required minimum size will result in undefined behaviour.
+///
+///
+/// ## Example
+/// To create a vertically resizable box:
+/// ```dart
+/// void main() {
+///   runApp(HomeWidget());
+/// }
+///
+/// class HomeWidget extends StatelessWidget {
+///   @override
+///   Widget build(BuildContext context) => MaterialApp(
+///     theme: ThemeData(useMaterial3: true),
+///     home: Scaffold(
+///       body: Center(
+///         child: SizedBox(
+///           height: 600,
+///           width: 300,
+///           child: ResizableBox(
+///             height: 600,
+///             width: 300,
+///             initialIndex: 1,
+///             children: [
+///               ResizableRegion(
+///                 initialSize: 200,
+///                 sliderSize: 60,
+///                 builder: (context, enabled, size, child) => child!,
+///                 child: Container(color: Colors.greenAccent),
+///               ),
+///               ResizableRegion(
+///                 initialSize: 250,
+///                 sliderSize: 60,
+///                 builder: (context, enabled, size, child) => child!,
+///                 child: Container(color: Colors.yellowAccent),
+///               ),
+///               ResizableRegion(
+///                 initialSize: 150,
+///                 sliderSize: 60,
+///                 builder: (context, enabled, size, child) => child!,
+///                 child: Container(color: Colors.redAccent),
+///               ),
+///             ],
+///           ),
+///         ),
+///       ),
+///     ),
+///   );
+/// }
+/// ```
+///
+/// [![Resizable box](https://i.imgur.com/nRgeTQI.gif)]()
+sealed class ResizableBox extends StatefulWidget {
 
+  /// The height.
+  final double height;
+  /// The width.
+  final double width;
+  /// The initially selected region.
   final int initialIndex;
-  final List<ResizableBoxRegion> children;
-  final bool verticial;
+  /// The children which may be resized.
+  final List<ResizableRegion> children;
 
   /// Creates a [ResizableBox].
-  const ResizableBox({required this.initialIndex, required this.children, this.verticial = true, super.key});
+  factory ResizableBox({
+    required double height,
+    required double width,
+    required int initialIndex,
+    required List<ResizableRegion> children,
+    bool horizontal = false,
+    Key? key,
+  }) => horizontal ?
+      _HorizontalResizableBox(height: height, width: width, initialIndex: initialIndex, children: children, key: key) :
+      _VerticalResizableBox(height: height, width: width, initialIndex: initialIndex, children: children, key: key);
 
-  @override
-  Widget build(BuildContext context) => LayoutBuilder(
-    builder: (context, constraints) => _VerticalResizableBox(
-      constraints: constraints,
-      initialIndex: initialIndex,
-      children: children,
-    ),
-  );
 
-}
-
-class _VerticalResizableBox extends StatefulWidget {
-
-  final BoxConstraints constraints;
-  final int initialIndex;
-  final List<ResizableBoxRegion> children;
-
-  const _VerticalResizableBox({required this.constraints, required this.initialIndex, required this.children});
-
-  @override
-  State<StatefulWidget> createState() => _VerticalResizableBoxState();
+  const ResizableBox._({required this.height, required this.width, required this.initialIndex, required this.children, super.key}):
+    assert(0 < height, 'The height should be positive, but it is $height'),
+    assert(0 < width, 'The width should be positive, but it is $width'),
+    assert(0 < initialIndex && initialIndex < children.length, 'The initial index should be in 0 < initialIndex < children.length, but it is $initialIndex');
 
 }
 
-class _VerticalResizableBoxState extends State<_VerticalResizableBox> {
+sealed class _ResizableBoxState<T extends ResizableBox> extends State<T> {
 
-  late ResizableRegionChangeNotifiers notifiers;
-
+  late ResizableBoxModel model;
 
   @override
   void initState() {
@@ -49,38 +107,99 @@ class _VerticalResizableBoxState extends State<_VerticalResizableBox> {
   }
 
   @override
-  void didUpdateWidget(_VerticalResizableBox old) {
+  void didUpdateWidget(T old) {
     super.didUpdateWidget(old);
-    if (widget.constraints != old.constraints) {
-      _update(notifiers.index);
+    if (widget.height != old.height || widget.width != old.width) {
+      _update(model.selected);
     }
   }
 
   void _update(int selected) {
-    final height = widget.constraints.maxHeight;
-
     final regions = <ResizableRegionChangeNotifier>[];
     for (final region in widget.children) {
       final min = region.sliderSize * 2;
-      final percentage = region.initialPercentage(min);
-      regions.add(ResizableRegionChangeNotifier(min, height, height * percentage, percentage));
+      regions.add(ResizableRegionChangeNotifier(_size, min, region.initialSize));
     }
 
-    notifiers = ResizableRegionChangeNotifiers(selected, regions);
+    model = ResizableBoxModel(regions, selected);
   }
 
+  double get _size;
+
+}
+
+
+class _HorizontalResizableBox extends ResizableBox {
+
+   _HorizontalResizableBox({
+    required super.height,
+    required super.width,
+    required super.initialIndex,
+    required super.children,
+    super.key,
+  }): assert(children.sum((e) => e.initialSize) == width, 'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the width of the RegionBox, $width.'),
+      super._();
+
+
+  @override
+  State<StatefulWidget> createState() => _HorizontalResizableBoxState();
+
+}
+
+class _HorizontalResizableBoxState extends _ResizableBoxState<_HorizontalResizableBox> {
 
   @override
   Widget build(BuildContext context) => Column(
     children: [
       for (final (index, region) in widget.children.indexed)
-        VerticalResizableRegion(
+        HorizontalResizableBoxRegion(
           index: index,
-          notifiers: notifiers,
-          notifier: notifiers.regions[index],
+          model: model,
+          notifier: model.notifiers[index],
           region: region,
         ),
     ],
   );
+
+  @override
+  double get _size => widget.height;
+
+}
+
+
+class _VerticalResizableBox extends ResizableBox {
+
+  _VerticalResizableBox({
+    required super.height,
+    required super.width,
+    required super.initialIndex,
+    required super.children,
+    super.key,
+  }): assert(children.sum((e) => e.initialSize) == height, 'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the height of the RegionBox, $height.'),
+      super._();
+
+
+  @override
+  State<StatefulWidget> createState() => _VerticalResizableBoxState();
+
+}
+
+class _VerticalResizableBoxState extends _ResizableBoxState<_VerticalResizableBox> {
+
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      for (final (index, region) in widget.children.indexed)
+        VerticalResizableBoxRegion(
+          index: index,
+          model: model,
+          notifier: model.notifiers[index],
+          region: region,
+        ),
+    ],
+  );
+
+  @override
+  double get _size => widget.height;
   
 }

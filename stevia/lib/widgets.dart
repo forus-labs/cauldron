@@ -15,4 +15,4 @@ export 'src/widgets/async/snapshot.dart';
 export 'src/widgets/async/stream_value_builder.dart';
 
 export 'src/widgets/resizable/box/resizable_box.dart';
-export 'src/widgets/resizable/box/resizable_box_region.dart';
+export 'src/widgets/resizable/box/resizable_region.dart';

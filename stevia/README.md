@@ -2,6 +2,5 @@
 
 Stevia includes utilities for working with Flutter. It is currently under active development.
 
-[![Stevia](https://github.com/forus-labs/cauldron/actions/workflows/stevia.yaml/badge.svg)](https://github.com/forus-labs/cauldron/actions/workflows/stevia.yaml)
 [![Pub Dev](https://img.shields.io/pub/v/stevia)](https://pub.dev/packages/stevia)
 [![Documentation](https://img.shields.io/badge/documentation-latest-brightgreen.svg)](https://pub.dev/documentation/stevia/latest/)

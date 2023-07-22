@@ -1,38 +1,89 @@
 import 'package:flutter/widgets.dart';
+import 'package:meta/meta.dart';
 
-/// The signature of a method for building a [ResizableBoxRegion]'s child.
-typedef RegionBuilder = Widget Function(BuildContext context, bool enabled, double percentage, Widget? child); // ignore: avoid_positional_boolean_parameters
+import 'package:stevia/stevia.dart';
+import 'package:stevia/src/widgets/resizable/box/resizable_box_model.dart';
+import 'package:stevia/src/widgets/resizable/box/resizable_region_change_notifier.dart';
+import 'package:stevia/src/widgets/resizable/box/slider.dart';
 
-/// A region in a [ResizableBox].
-final class ResizableBoxRegion {
+/// A resizable region in a horizontal [ResizableBox].
+@internal class HorizontalResizableBoxRegion extends StatelessWidget {
 
-  /// A callback that returns the initial percentage of the resizable box that this region should occupy.
-  ///
-  /// The given minimum percentage is always between 0, inclusive, and 1, exclusive.
-  ///
-  /// ## Contract
-  /// Throws a [ArgumentError]:
-  /// * if `percentage < [min] || 1 <= percentage`.
-  /// * if the sum of all [ResizableBoxRegion]s' [initialPercentage]s do not add up to 1.
-  final double Function(double min) initialPercentage;
-  /// The sliders' size, defaults to `50`. A [ResizableBoxRegion] has either 1 or 2 sliders. They are used to determine
-  /// the minimum percentage when calculating the [initialPercentage]. A larger [sliderSize] will increase the minimum
-  /// percentage.
-  ///
-  /// ## Contract
-  /// Providing a negative value will result in undefined behaviour.
-  final double sliderSize;
-  /// The builder used to create a child to display in this region.
-  final RegionBuilder builder;
-  /// A size-independent widget which is passed back to the [builder].
-  ///
-  /// This argument is optional and can be null if the entire widget subtree the [builder] builds depends on the value
-  /// of the future. For example, in the case where the future is a [String] and the [builder] returns a [Text] widget
-  /// with the current [String] value, there would be no useful [child].
-  final Widget? child;
+  /// The index.
+  final int index;
+  /// The containing resizable box's model.
+  final ResizableBoxModel model;
+  /// The notifier.
+  final ResizableRegionChangeNotifier notifier;
+  /// The region.
+  final ResizableRegion region;
+  /// The left slider.
+  final HorizontalSlider left;
+  /// The right slider.
+  final HorizontalSlider right;
 
+  /// Creates a [HorizontalResizableBoxRegion].
+  HorizontalResizableBoxRegion({required this.index, required this.model, required this.notifier, required this.region}):
+    left = HorizontalSlider.left(model: model, index: index, size: region.sliderSize),
+    right = HorizontalSlider.right(model: model, index: index, size: region.sliderSize);
 
-  /// Creates a [ResizableBoxRegion].
-  const ResizableBoxRegion({required this.initialPercentage, required this.builder, this.sliderSize = 50, this.child});
+  @override
+  Widget build(BuildContext context) => ListenableBuilder (
+    listenable: notifier,
+    builder: (context, _) => SizedBox(
+      width: notifier.current,
+      child: Stack(
+        children: [
+          region.builder(context, model.selected == index, notifier.current, region.child),
+          left,
+          right,
+        ],
+      ),
+    ),
+  );
+
+}
+
+/// A resizable region in a vertical [ResizableBox].
+@internal class VerticalResizableBoxRegion extends StatelessWidget {
+
+  /// The index.
+  final int index;
+  /// The containing resizable box's model.
+  final ResizableBoxModel model;
+  /// The notifier.
+  final ResizableRegionChangeNotifier notifier;
+  /// The region.
+  final ResizableRegion region;
+  /// The top slider.
+  final VerticalSlider top;
+  /// The bottom slider.
+  final VerticalSlider bottom;
+
+  /// Creates a [VerticalResizableBoxRegion].
+  VerticalResizableBoxRegion({required this.index, required this.model, required this.notifier, required this.region}):
+    top = VerticalSlider.top(model: model, index: index, size: region.sliderSize),
+    bottom = VerticalSlider.bottom(model: model, index: index, size: region.sliderSize);
+
+  @override
+  Widget build(BuildContext context) => ListenableBuilder(
+    listenable: notifier,
+    builder: (context, _) => SizedBox(
+      height: notifier.current,
+      child: GestureDetector(
+        onTap: () {
+          Haptic.selection();
+          model.selected = index;
+        },
+        child: Stack(
+          children: [
+            region.builder(context, model.selected == index, notifier.current, region.child),
+            top,
+            bottom,
+          ],
+        ),
+      ),
+    ),
+  );
 
 }

@@ -18,8 +18,8 @@ import 'package:meta/meta.dart';
   /// Creates a [Direction].
   const Direction(this.alignment);
 
-  /// The opposite.
-  Direction get opposite => switch (this) {
+  /// Returns the opposite direction.
+  Direction flip() => switch (this) {
     left => right,
     top => bottom,
     right => left,
