@@ -20,7 +20,7 @@ import 'package:stevia/src/widgets/resizable/box/direction.dart';
 
   /// Creates a [Slider].
   Slider({required this.model, required this.direction, required this.index, required this.size}):
-    assert(0 <= index, 'Index should be positive, but it is $index.'),
+    assert(0 <= index && index < model.notifiers.length, 'Index should be in the range: 0 <= index < ${model.notifiers.length}, but it is $index.'),
     assert(size.isFinite, 'Size should not be NaN or infinite, but it is $size.');
 
 }
