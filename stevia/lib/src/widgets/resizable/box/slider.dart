@@ -39,11 +39,11 @@ import 'package:stevia/src/widgets/resizable/box/direction.dart';
   Widget build(BuildContext context) => Align(
     alignment: direction.alignment,
     child: SizedBox(
-      height: size,
+      width: size,
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onHorizontalDragUpdate: (details) {
-          if (model.selected == index) {
+          if (model.selected == index && details.delta.dx != 0.0) {
             model.update(index, direction, details.delta);
           }
         },
@@ -71,7 +71,7 @@ import 'package:stevia/src/widgets/resizable/box/direction.dart';
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onVerticalDragUpdate: (details) {
-          if (model.selected == index) {
+          if (model.selected == index && details.delta.dy != 0.0) {
             model.update(index, direction, details.delta);
           }
         },

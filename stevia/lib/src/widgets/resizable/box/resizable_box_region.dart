@@ -28,16 +28,23 @@ import 'package:stevia/src/widgets/resizable/box/slider.dart';
     right = HorizontalSlider.right(model: model, index: index, size: region.sliderSize);
 
   @override
-  Widget build(BuildContext context) => ListenableBuilder (
+  Widget build(BuildContext context) => ListenableBuilder(
     listenable: notifier,
     builder: (context, _) => SizedBox(
       width: notifier.current,
-      child: Stack(
-        children: [
-          region.builder(context, model.selected == index, notifier.current, region.child),
-          left,
-          right,
-        ],
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          Haptic.selection();
+          model.selected = index;
+        },
+        child: Stack(
+          children: [
+            region.builder(context, model.selected == index, notifier.current, region.child),
+            left,
+            right,
+          ],
+        ),
       ),
     ),
   );
@@ -71,6 +78,7 @@ import 'package:stevia/src/widgets/resizable/box/slider.dart';
     builder: (context, _) => SizedBox(
       height: notifier.current,
       child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTap: () {
           Haptic.selection();
           model.selected = index;

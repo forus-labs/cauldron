@@ -13,9 +13,9 @@ import 'package:stevia/src/widgets/resizable/box/direction.dart';
   double _current;
 
   /// Creates a [ResizableRegionChangeNotifier].
-  ResizableRegionChangeNotifier(this.total, this.min, this._current):
-    assert(0 < total, 'Total should be positive, but it is $total.'),
+  ResizableRegionChangeNotifier(this.min, this._current, this.total):
     assert(0 < min, 'Min should be positive, but it is $min.'),
+    assert(0 < total, 'Total should be positive, but it is $total.'),
     assert(
       min < total,
       '''
@@ -24,7 +24,8 @@ import 'package:stevia/src/widgets/resizable/box/direction.dart';
         * increase the ResizableBox's size
         * decrease the ResizableRegion's slider size
       ''',
-    );
+    ),
+    assert(min <= _current && _current < total, 'Current should be in range: $min <= current < $total');
 
 
   /// Updates the current height or width and returns an offset with any overlap caused by shrinking beyond the minimum size removed.
@@ -41,6 +42,8 @@ import 'package:stevia/src/widgets/resizable/box/direction.dart';
   }
 
   double _resize(double magnitude) {
+    assert(magnitude <= total, '$magnitude should be less than $total.');
+
     if (min <= magnitude) {
       _current = magnitude;
       return 0;

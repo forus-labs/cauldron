@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:stevia/stevia.dart';
 
 /// The signature of a method for building a [ResizableRegion]'s child.
-typedef ResizableRegionBuilder = Widget Function(BuildContext context, bool enabled, double dimension, Widget? child); // ignore: avoid_positional_boolean_parameters
+typedef ResizableRegionBuilder = Widget Function(BuildContext context, bool enabled, double size, Widget? child); // ignore: avoid_positional_boolean_parameters
 
 /// A [ResizableRegion] is a region in a [ResizableBox].
 ///
@@ -36,7 +36,7 @@ final class ResizableRegion {
   /// Creates a [ResizableRegion].
   ResizableRegion({required this.initialSize, required this.builder, this.sliderSize = 50, this.child}):
     assert (0 < initialSize, 'The initial size should be positive, but it is $initialSize.'),
-    assert (2 * sliderSize <= initialSize, 'The initial size, $initialSize is less than the required minimum size, ${2 * sliderSize}.'),
-    assert (0 < sliderSize, 'The slider size should be positive, but it is $sliderSize.');
+    assert (0 < sliderSize, 'The slider size should be positive, but it is $sliderSize.'),
+    assert (2 * sliderSize <= initialSize, 'The initial size, $initialSize is less than the required minimum size, ${2 * sliderSize}.');
 
 }

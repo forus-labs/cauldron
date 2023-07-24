@@ -22,41 +22,38 @@ import 'package:stevia/src/widgets/resizable/box/resizable_region_change_notifie
 /// void main() {
 ///   runApp(HomeWidget());
 /// }
-///
+/// 
+/// /// The home widget.
 /// class HomeWidget extends StatelessWidget {
 ///   @override
 ///   Widget build(BuildContext context) => MaterialApp(
 ///     theme: ThemeData(useMaterial3: true),
 ///     home: Scaffold(
 ///       body: Center(
-///         child: SizedBox(
+///         child: ResizableBox(
 ///           height: 600,
 ///           width: 300,
-///           child: ResizableBox(
-///             height: 600,
-///             width: 300,
-///             initialIndex: 1,
-///             children: [
-///               ResizableRegion(
-///                 initialSize: 200,
-///                 sliderSize: 60,
-///                 builder: (context, enabled, size, child) => child!,
-///                 child: Container(color: Colors.greenAccent),
-///               ),
-///               ResizableRegion(
-///                 initialSize: 250,
-///                 sliderSize: 60,
-///                 builder: (context, enabled, size, child) => child!,
-///                 child: Container(color: Colors.yellowAccent),
-///               ),
-///               ResizableRegion(
-///                 initialSize: 150,
-///                 sliderSize: 60,
-///                 builder: (context, enabled, size, child) => child!,
-///                 child: Container(color: Colors.redAccent),
-///               ),
-///             ],
-///           ),
+///           initialIndex: 1,
+///           children: [
+///             ResizableRegion(
+///               initialSize: 200,
+///               sliderSize: 60,
+///               builder: (context, enabled, size, child) => child!,
+///               child: Container(color: Colors.greenAccent),
+///             ),
+///             ResizableRegion(
+///               initialSize: 250,
+///               sliderSize: 60,
+///               builder: (context, enabled, size, child) => child!,
+///               child: Container(color: Colors.yellowAccent),
+///             ),
+///             ResizableRegion(
+///               initialSize: 150,
+///               sliderSize: 60,
+///               builder: (context, enabled, size, child) => child!,
+///               child: Container(color: Colors.redAccent),
+///             ),
+///           ],
 ///         ),
 ///       ),
 ///     ),
@@ -92,7 +89,8 @@ sealed class ResizableBox extends StatefulWidget {
   const ResizableBox._({required this.height, required this.width, required this.initialIndex, required this.children, super.key}):
     assert(0 < height, 'The height should be positive, but it is $height'),
     assert(0 < width, 'The width should be positive, but it is $width'),
-    assert(0 < initialIndex && initialIndex < children.length, 'The initial index should be in 0 < initialIndex < children.length, but it is $initialIndex');
+    assert(2 <= children.length, 'A ResizableBox should have at least 2 ResizableRegions.'),
+    assert(0 <= initialIndex && initialIndex < children.length, 'The initial index should be in 0 < initialIndex < ${children.length}, but it is $initialIndex.');
 
 }
 
@@ -118,7 +116,7 @@ sealed class _ResizableBoxState<T extends ResizableBox> extends State<T> {
     final regions = <ResizableRegionChangeNotifier>[];
     for (final region in widget.children) {
       final min = region.sliderSize * 2;
-      regions.add(ResizableRegionChangeNotifier(_size, min, region.initialSize));
+      regions.add(ResizableRegionChangeNotifier(min, region.initialSize, _size));
     }
 
     model = ResizableBoxModel(regions, selected);
@@ -149,20 +147,24 @@ class _HorizontalResizableBox extends ResizableBox {
 class _HorizontalResizableBoxState extends _ResizableBoxState<_HorizontalResizableBox> {
 
   @override
-  Widget build(BuildContext context) => Column(
-    children: [
-      for (final (index, region) in widget.children.indexed)
-        HorizontalResizableBoxRegion(
-          index: index,
-          model: model,
-          notifier: model.notifiers[index],
-          region: region,
-        ),
-    ],
+  Widget build(BuildContext context) => SizedBox(
+    height: widget.height,
+    width: widget.width,
+    child: Row(
+      children: [
+        for (final (index, region) in widget.children.indexed)
+          HorizontalResizableBoxRegion(
+            index: index,
+            model: model,
+            notifier: model.notifiers[index],
+            region: region,
+          ),
+      ],
+    ),
   );
 
   @override
-  double get _size => widget.height;
+  double get _size => widget.width;
 
 }
 
@@ -187,16 +189,20 @@ class _VerticalResizableBox extends ResizableBox {
 class _VerticalResizableBoxState extends _ResizableBoxState<_VerticalResizableBox> {
 
   @override
-  Widget build(BuildContext context) => Column(
-    children: [
-      for (final (index, region) in widget.children.indexed)
-        VerticalResizableBoxRegion(
-          index: index,
-          model: model,
-          notifier: model.notifiers[index],
-          region: region,
-        ),
-    ],
+  Widget build(BuildContext context) => SizedBox(
+    height: widget.height,
+    width: widget.width,
+    child: Column(
+      children: [
+        for (final (index, region) in widget.children.indexed)
+          VerticalResizableBoxRegion(
+            index: index,
+            model: model,
+            notifier: model.notifiers[index],
+            region: region,
+          ),
+      ],
+    ),
   );
 
   @override

@@ -12,34 +12,30 @@ class HomeWidget extends StatelessWidget {
     theme: ThemeData(useMaterial3: true),
     home: Scaffold(
       body: Center(
-        child: SizedBox(
+        child: ResizableBox(
           height: 600,
           width: 300,
-          child: ResizableBox(
-            height: 600,
-            width: 300,
-            initialIndex: 1,
-            children: [
-              ResizableRegion(
-                initialSize: 200,
-                sliderSize: 60,
-                builder: (context, enabled, size, child) => child!,
-                child: Container(color: Colors.greenAccent),
-              ),
-              ResizableRegion(
-                initialSize: 250,
-                sliderSize: 60,
-                builder: (context, enabled, size, child) => child!,
-                child: Container(color: Colors.yellowAccent),
-              ),
-              ResizableRegion(
-                initialSize: 150,
-                sliderSize: 60,
-                builder: (context, enabled, size, child) => child!,
-                child: Container(color: Colors.redAccent),
-              ),
-            ],
-          ),
+          initialIndex: 1,
+          children: [
+            ResizableRegion(
+              initialSize: 200,
+              sliderSize: 60,
+              builder: (context, enabled, size, child) => child!,
+              child: Container(color: Colors.greenAccent),
+            ),
+            ResizableRegion(
+              initialSize: 250,
+              sliderSize: 60,
+              builder: (context, enabled, size, child) => child!,
+              child: Container(color: Colors.yellowAccent),
+            ),
+            ResizableRegion(
+              initialSize: 150,
+              sliderSize: 60,
+              builder: (context, enabled, size, child) => child!,
+              child: Container(color: Colors.redAccent),
+            ),
+          ],
         ),
       ),
     ),
