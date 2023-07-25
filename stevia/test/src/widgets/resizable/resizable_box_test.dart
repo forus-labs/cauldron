@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:stevia/src/widgets/resizable/box/resizable_box_region.dart';
+import 'package:stevia/src/widgets/resizable/resizable_box_region.dart';
 import 'package:stevia/stevia.dart';
 
 void main() {
   final top = ResizableRegion(
     initialSize: 30,
     sliderSize: 10,
-    builder: (context, enabled, size, child) => const SizedBox(),
+    builder: (context, snapshot, child) => const SizedBox(),
   );
 
   final bottom = ResizableRegion(
     initialSize: 70,
     sliderSize: 10,
-    builder: (context, enabled, size, child) => const SizedBox(),
+    builder: (context, snapshot, child) => const SizedBox(),
   );
 
 
@@ -23,19 +23,16 @@ void main() {
       horizontal: true,
       height: -1,
       width: 100,
-      initialIndex: 0,
       children: [top, bottom],
     ),
     () => ResizableBox(
       height: 100,
       width: -1,
-      initialIndex: 0,
       children: [top, bottom],
     ),
     () => ResizableBox(
       height: 50,
       width: 100,
-      initialIndex: 0,
       children: [top],
     ),
     () => ResizableBox(
@@ -53,14 +50,12 @@ void main() {
     () => ResizableBox(
       height: 110,
       width: 100,
-      initialIndex: 0,
       children: [top, bottom],
     ),
     () => ResizableBox(
       horizontal: true,
       height: 100,
       width: 110,
-      initialIndex: 0,
       children: [top, bottom],
     ),
   ].indexed) {
@@ -71,7 +66,6 @@ void main() {
     final vertical = ResizableBox(
       height: 100,
       width: 50,
-      initialIndex: 0,
       children: [top, bottom],
     );
     
@@ -91,7 +85,6 @@ void main() {
     final vertical = ResizableBox(
       height: 100,
       width: 50,
-      initialIndex: 0,
       children: [top, bottom],
     );
 
@@ -113,7 +106,6 @@ void main() {
     final vertical = ResizableBox(
       height: 100,
       width: 50,
-      initialIndex: 0,
       children: [top, bottom],
     );
 
@@ -134,7 +126,6 @@ void main() {
       horizontal: true,
       height: 50,
       width: 100,
-      initialIndex: 0,
       children: [top, bottom],
     );
 
@@ -155,7 +146,6 @@ void main() {
       horizontal: true,
       height: 50,
       width: 100,
-      initialIndex: 0,
       children: [top, bottom],
     );
 
@@ -176,7 +166,6 @@ void main() {
       horizontal: true,
       height: 50,
       width: 100,
-      initialIndex: 0,
       children: [top, bottom],
     );
 

@@ -33,7 +33,7 @@
 ///
 ///   test('some test', () async {
 ///     await UnderTest().foo();
-///     expect(calls.length, 1);
+///     expect(calls.size, 1);
 ///   });
 ///
 ///   test('nothing', () {

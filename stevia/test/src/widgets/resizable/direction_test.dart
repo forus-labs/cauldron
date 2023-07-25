@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:stevia/src/widgets/resizable/box/direction.dart';
+import 'package:stevia/src/widgets/resizable/direction.dart';
 
 void main() {
 

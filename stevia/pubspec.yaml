@@ -1,6 +1,6 @@
 name: stevia
-description: A new Flutter project.
-version: 0.0.1
+description: Utilities for working with Flutter, including haptic feedback and timezone utilities for Android & iOS.
+version: 0.1.0
 homepage: https://github.com/forus-labs/cauldron
 
 environment:

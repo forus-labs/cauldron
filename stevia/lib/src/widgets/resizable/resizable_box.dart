@@ -2,18 +2,18 @@ import 'package:flutter/widgets.dart';
 import 'package:sugar/sugar.dart';
 
 import 'package:stevia/stevia.dart';
-import 'package:stevia/src/widgets/resizable/box/resizable_box_model.dart';
-import 'package:stevia/src/widgets/resizable/box/resizable_box_region.dart';
-import 'package:stevia/src/widgets/resizable/box/resizable_region.dart';
-import 'package:stevia/src/widgets/resizable/box/resizable_region_change_notifier.dart';
+import 'package:stevia/src/widgets/resizable/resizable_box_model.dart';
+import 'package:stevia/src/widgets/resizable/resizable_box_region.dart';
+import 'package:stevia/src/widgets/resizable/resizable_region.dart';
+import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.dart';
 
 /// A box which children can all be resized either horizontally or vertically.
 ///
 /// Each child must be selected by tapping on it before it can be resized.
 ///
 /// ## Contract
-/// Each child has a minimum size determined by its slider size multiplied by 2. Setting an initial size smaller than the
-/// required minimum size will result in undefined behaviour.
+/// Each child has a minimum size determined by its slider size multiplied by 2. Setting an initial size smaller 
+/// than the required minimum size will result in undefined behaviour.
 ///
 /// A [ResizableBox] should contain at least two children. Passing it less than 2 children will result in undefined behaviour.
 ///
@@ -80,15 +80,15 @@ sealed class ResizableBox extends StatefulWidget {
   /// ## Contract
   /// Throws an [AssertionError] if:
   /// * either [height] or [width] is not positive.
-  /// * [initialIndex] is not in the range `0 <= initialIndex < children.length`.
+  /// * [initialIndex] is not in the range `0 <= initialIndex < children.size`.
   /// * less than two [ResizableRegion]s are given.
   /// * the size of all [ResizableRegion]s are not equal to the height, if this box is vertically resizable, or width,
   ///   if this box is horizontally resizable.
   factory ResizableBox({
     required double height,
     required double width,
-    required int initialIndex,
     required List<ResizableRegion> children,
+    int initialIndex = 0,
     bool horizontal = false,
     Key? key,
   }) => horizontal ?
@@ -124,12 +124,16 @@ sealed class _ResizableBoxState<T extends ResizableBox> extends State<T> {
 
   void _update(int selected) {
     final regions = <ResizableRegionChangeNotifier>[];
+    var min = 0.0;
     for (final region in widget.children) {
-      final min = region.sliderSize * 2;
-      regions.add(ResizableRegionChangeNotifier(min, region.initialSize, _size));
+      regions.add(ResizableRegionChangeNotifier(
+        (min: region.sliderSize * 2, max: _size),
+        min,
+        min += region.initialSize,
+      ));
     }
 
-    model = ResizableBoxModel(regions, selected);
+    model = ResizableBoxModel(regions, _size, selected);
   }
 
   double get _size;
@@ -140,12 +144,12 @@ sealed class _ResizableBoxState<T extends ResizableBox> extends State<T> {
 class _HorizontalResizableBox extends ResizableBox {
 
    _HorizontalResizableBox({
-    required super.height,
-    required super.width,
-    required super.initialIndex,
-    required super.children,
-    super.key,
-  }): assert(children.sum((e) => e.initialSize) == width, 'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the width of the RegionBox, $width.'),
+     required super.height,
+     required super.width,
+     required super.initialIndex,
+     required super.children,
+     super.key,
+   }): assert(children.sum((e) => e.initialSize) == width, 'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the width of the RegionBox, $width.'),
       super._();
 
 

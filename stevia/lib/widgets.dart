@@ -21,5 +21,5 @@ export 'src/widgets/async/future_value_builder_base.dart' hide FutureValueBuilde
 export 'src/widgets/async/snapshot.dart';
 export 'src/widgets/async/stream_value_builder.dart';
 
-export 'src/widgets/resizable/box/resizable_box.dart';
-export 'src/widgets/resizable/box/resizable_region.dart';
+export 'src/widgets/resizable/resizable_box.dart';
+export 'src/widgets/resizable/resizable_region.dart';

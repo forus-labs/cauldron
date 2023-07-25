@@ -20,19 +20,19 @@ class HomeWidget extends StatelessWidget {
             ResizableRegion(
               initialSize: 200,
               sliderSize: 60,
-              builder: (context, enabled, size, child) => child!,
+              builder: (context, snapshot, child) => child!,
               child: Container(color: Colors.greenAccent),
             ),
             ResizableRegion(
               initialSize: 250,
               sliderSize: 60,
-              builder: (context, enabled, size, child) => child!,
+              builder: (context, snapshot, child) => child!,
               child: Container(color: Colors.yellowAccent),
             ),
             ResizableRegion(
               initialSize: 150,
               sliderSize: 60,
-              builder: (context, enabled, size, child) => child!,
+              builder: (context, snapshot, child) => child!,
               child: Container(color: Colors.redAccent),
             ),
           ],

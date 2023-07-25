@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
-import 'package:stevia/src/widgets/resizable/box/resizable_box_model.dart';
-import 'package:stevia/src/widgets/resizable/box/direction.dart';
+import 'package:stevia/src/widgets/resizable/resizable_box_model.dart';
+import 'package:stevia/src/widgets/resizable/direction.dart';
 
 /// A slider to used resize the containing resizable box region in a single direction.
 @internal sealed class Slider extends StatelessWidget {

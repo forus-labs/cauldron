@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
+import 'package:stevia/src/widgets/resizable/direction.dart';
 import 'package:stevia/stevia.dart';
-import 'package:stevia/src/widgets/resizable/box/direction.dart';
-import 'package:stevia/src/widgets/resizable/box/resizable_region_change_notifier.dart';
+import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.dart';
 
 /// A resizable box's model.
 ///
@@ -13,10 +13,12 @@ import 'package:stevia/src/widgets/resizable/box/resizable_region_change_notifie
 
   /// The [ResizableRegionChangeNotifier] for all regions in this [ResizableBox].
   final List<ResizableRegionChangeNotifier> notifiers;
+  /// The total size of the [ResizableBox].
+  final double size;
   int _selected;
 
   /// Creates a [ResizableBoxModel].
-  ResizableBoxModel(this.notifiers, this._selected):
+  ResizableBoxModel(this.notifiers, this.size, this._selected):
     assert(2 <= notifiers.length, 'A ResizableBox should have at least 2 ResizableRegions.'),
     assert(0 <= _selected && _selected < notifiers.length, 'The selected index should be in 0 <= selected < number of regions, but it is $_selected.');
 

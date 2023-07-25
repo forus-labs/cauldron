@@ -3,11 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:stevia/src/widgets/resizable/box/direction.dart';
+import 'package:stevia/src/widgets/resizable/direction.dart';
 
-import 'package:stevia/src/widgets/resizable/box/resizable_box_model.dart';
-import 'package:stevia/src/widgets/resizable/box/resizable_region_change_notifier.dart';
-import 'package:stevia/src/widgets/resizable/box/slider.dart';
+import 'package:stevia/src/widgets/resizable/resizable_box_model.dart';
+import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.dart';
+import 'package:stevia/src/widgets/resizable/slider.dart';
 
 import 'slider_test.mocks.dart';
 
