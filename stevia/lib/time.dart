@@ -1,3 +1,5 @@
+/// {@category Core}
+///
 /// Utilities for retrieving the current timezone on Android on iOS.
 ///
 /// To retrieve the current timezone, first install the `sugar` package:
@@ -22,7 +24,7 @@
 /// ```
 ///
 /// After setting [Timezone.platformTimezoneProvider], [ZonedDateTime.now] and other current timezone dependent functions
-/// will return the current platform's timezone.
+/// will return the current platform's timezone on Android and iOS.
 library stevia.time;
 
 import 'package:sugar/sugar.dart';

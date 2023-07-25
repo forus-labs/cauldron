@@ -1,3 +1,5 @@
+/// {@category Widgets}
+///
 /// General purpose widgets for every Flutter program.
 ///
 /// ## Async
@@ -6,6 +8,11 @@
 /// * [FutureValueBuilder]
 /// * [MemoizedFutureValueBuilder]
 /// * [StreamValueBuilder]
+///
+/// ## Resizable
+/// Widgets that contain children which can be resized either horizontally or vertically.
+///
+/// * [ResizableBox]
 library stevia.widgets;
 
 import 'package:stevia/widgets.dart';

@@ -9,11 +9,13 @@ import 'package:stevia/src/widgets/resizable/box/resizable_region_change_notifie
 
 /// A box which children can all be resized either horizontally or vertically.
 ///
-/// A child must be selected by tapping on it before it can be resized.
+/// Each child must be selected by tapping on it before it can be resized.
 ///
 /// ## Contract
 /// Each child has a minimum size determined by its slider size multiplied by 2. Setting an initial size smaller than the
 /// required minimum size will result in undefined behaviour.
+///
+/// A [ResizableBox] should contain at least two children. Passing it less than 2 children will result in undefined behaviour.
 ///
 ///
 /// ## Example
@@ -61,7 +63,7 @@ import 'package:stevia/src/widgets/resizable/box/resizable_region_change_notifie
 /// }
 /// ```
 ///
-/// [![Resizable box](https://i.imgur.com/nRgeTQI.gif)]()
+/// ![Resizable box](https://i.imgur.com/nRgeTQI.gif)
 sealed class ResizableBox extends StatefulWidget {
 
   /// The height.
@@ -74,6 +76,14 @@ sealed class ResizableBox extends StatefulWidget {
   final List<ResizableRegion> children;
 
   /// Creates a [ResizableBox].
+  ///
+  /// ## Contract
+  /// Throws an [AssertionError] if:
+  /// * either [height] or [width] is not positive.
+  /// * [initialIndex] is not in the range `0 <= initialIndex < children.length`.
+  /// * less than two [ResizableRegion]s are given.
+  /// * the size of all [ResizableRegion]s are not equal to the height, if this box is vertically resizable, or width,
+  ///   if this box is horizontally resizable.
   factory ResizableBox({
     required double height,
     required double width,

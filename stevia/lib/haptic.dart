@@ -1,10 +1,10 @@
+/// {@category Core}
+///
 /// Utilities for performing haptic feedback on devices.
 ///
 /// To perform a pre-defined, platform-agnostic haptic feedback, call one of the functions in [Haptic]:
 /// ```dart
 /// Haptic.success();
-///
-/// Haptic.light();
 /// ```
 ///
 /// You can also perform a custom combination of patterns across platforms using [Haptic.perform].

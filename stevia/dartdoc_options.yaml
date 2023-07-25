@@ -1,0 +1,17 @@
+dartdoc:
+  categories:
+    "Stevia":
+      name: "Stevia"
+    "Core":
+      name: "Core"
+    "Widgets":
+      name: "Collection"
+  categoryOrder:
+    - Sugar
+    - Core
+    - Widgets
+  ignore:
+    - ambiguous-reexport
+  linkToSource:
+    root: '.'
+    uriTemplate: "https://github.com/forus-labs/cauldron/tree/master/stevia/%f%#L%l%"

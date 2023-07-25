@@ -1,3 +1,3 @@
-## 0.0.1
+## 0.1.0 (25/07/2023)
 
-* TODO: Describe initial release.
+Initial experimental release 🚀
