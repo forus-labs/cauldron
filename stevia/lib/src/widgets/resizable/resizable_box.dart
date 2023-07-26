@@ -101,7 +101,7 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
 /// }
 /// ```
 ///
-/// ![Resizable box](https://i.imgur.com/nRgeTQI.gif)
+/// ![Resizable box](https://i.imgur.com/h6dSgV7.gif)
 sealed class ResizableBox extends StatefulWidget {
 
   /// The height.
