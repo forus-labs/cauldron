@@ -9,47 +9,37 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
 /// A resizable region in a horizontal [ResizableBox].
 @internal class HorizontalResizableBoxRegion extends StatelessWidget {
 
-  /// The index.
-  final int index;
   /// The containing resizable box's model.
   final ResizableBoxModel model;
   /// The notifier.
   final ResizableRegionChangeNotifier notifier;
-  /// The region.
-  final ResizableRegion region;
   /// The left slider.
   final HorizontalSlider left;
   /// The right slider.
   final HorizontalSlider right;
 
   /// Creates a [HorizontalResizableBoxRegion].
-  HorizontalResizableBoxRegion({required this.index, required this.model, required this.notifier, required this.region}):
-    left = HorizontalSlider.left(model: model, index: index, size: region.sliderSize),
-    right = HorizontalSlider.right(model: model, index: index, size: region.sliderSize);
+  HorizontalResizableBoxRegion({required this.model, required this.notifier}):
+    left = HorizontalSlider.left(model: model, index: notifier.snapshot.index, size: notifier.region.sliderSize),
+    right = HorizontalSlider.right(model: model, index: notifier.snapshot.index, size: notifier.region.sliderSize);
 
   @override
   Widget build(BuildContext context) => GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {
       Haptic.selection();
-      model.selected = index;
+      model.selected = notifier.snapshot.index;
     },
     child: ListenableBuilder(
       listenable: notifier,
       builder: (context, _) => SizedBox(
-        width: notifier.size,
+        width: notifier.snapshot.size,
         child: Stack(
           children: [
-            region.builder(
+            notifier.region.builder(
               context,
-              RegionSnapshot(
-                index: index,
-                enabled: model.selected == index,
-                total: model.size,
-                min: notifier.min,
-                max: notifier.max,
-              ),
-              region.child,
+              notifier.snapshot,
+              notifier.region.child,
             ),
             left,
             right,
@@ -64,47 +54,37 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
 /// A resizable region in a vertical [ResizableBox].
 @internal class VerticalResizableBoxRegion extends StatelessWidget {
 
-  /// The index.
-  final int index;
   /// The containing resizable box's model.
   final ResizableBoxModel model;
   /// The notifier.
   final ResizableRegionChangeNotifier notifier;
-  /// The region.
-  final ResizableRegion region;
   /// The top slider.
   final VerticalSlider top;
   /// The bottom slider.
   final VerticalSlider bottom;
 
   /// Creates a [VerticalResizableBoxRegion].
-  VerticalResizableBoxRegion({required this.index, required this.model, required this.notifier, required this.region}):
-    top = VerticalSlider.top(model: model, index: index, size: region.sliderSize),
-    bottom = VerticalSlider.bottom(model: model, index: index, size: region.sliderSize);
+  VerticalResizableBoxRegion({required this.model, required this.notifier}):
+    top = VerticalSlider.top(model: model, index: notifier.snapshot.index, size: notifier.region.sliderSize),
+    bottom = VerticalSlider.bottom(model: model, index: notifier.snapshot.index, size: notifier.region.sliderSize);
 
   @override
   Widget build(BuildContext context) => GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {
       Haptic.selection();
-      model.selected = index;
+      model.selected = notifier.snapshot.index;
     },
     child: ListenableBuilder(
       listenable: notifier,
       builder: (context, _) => SizedBox(
-        height: notifier.size,
+        height: notifier.snapshot.size,
         child: Stack(
           children: [
-            region.builder(
+            notifier.region.builder(
               context,
-              RegionSnapshot(
-                index: index,
-                enabled: model.selected == index,
-                total: model.size,
-                min: notifier.min,
-                max: notifier.max,
-              ),
-              region.child,
+              notifier.snapshot,
+              notifier.region.child,
             ),
             top,
             bottom,

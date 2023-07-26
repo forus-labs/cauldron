@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-import 'package:stevia/src/widgets/resizable/direction.dart';
 import 'package:stevia/stevia.dart';
+import 'package:stevia/src/widgets/resizable/direction.dart';
 import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.dart';
 
 /// A resizable box's model.
@@ -38,19 +38,20 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
     // We always want to resize the shrunken region first. This allows us to remove any overlaps caused by shrinking a region
     // beyond the minimum size.
     final Offset(:dx, :dy) = delta;
-    switch (direction) {
-      case Direction.left when 0 < dx:
-      case Direction.top when 0 < dy:
-      case Direction.right when dx < 0:
-      case Direction.bottom when dy < 0:
-        neighbour.update(direction.flip(), selected.update(direction, delta));
+    final opposite = direction.flip();
+    final (shrink, shrinkDirection, expand, expandDirection) = switch (direction) {
+      Direction.left when 0 < dx => (selected, direction, neighbour, opposite),
+      Direction.top when 0 < dy => (selected, direction, neighbour, opposite),
+      Direction.right when dx < 0 => (selected, direction, neighbour, opposite),
+      Direction.bottom when dy < 0 => (selected, direction, neighbour, opposite),
+      _ => (neighbour, opposite, selected, direction),
+    };
 
-      default:
-        selected.update(direction, neighbour.update(direction.flip(), delta));
+    final previous = (shrink.snapshot.min, shrink.snapshot.max);
+    final adjusted = shrink.update(shrinkDirection, delta);
+    if (previous != (shrink.snapshot.min, shrink.snapshot.max)) {
+      expand.update(expandDirection, adjusted);
     }
-
-    neighbour.notify();
-    selected.notify();
   }
 
   /// The currently selected region's index. It should be `0 <= selected < number of regions`.
@@ -61,8 +62,8 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
       final old = _selected;
       _selected = value;
 
-      notifiers[old].notify();
-      notifiers[selected].notify();
+      notifiers[old].selected = false;
+      notifiers[selected].selected = true;
     }
   }
 

@@ -21,15 +21,11 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
 /// ## Example
 /// To create a vertically resizable box:
 /// ```dart
-/// void main() {
-///   runApp(HomeWidget());
-/// }
-/// 
-/// /// The home widget.
+/// void main() => runApp(HomeWidget());
+///
 /// class HomeWidget extends StatelessWidget {
 ///   @override
 ///   Widget build(BuildContext context) => MaterialApp(
-///     theme: ThemeData(useMaterial3: true),
 ///     home: Scaffold(
 ///       body: Center(
 ///         child: ResizableBox(
@@ -40,20 +36,62 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
 ///             ResizableRegion(
 ///               initialSize: 200,
 ///               sliderSize: 60,
-///               builder: (context, enabled, size, child) => child!,
-///               child: Container(color: Colors.greenAccent),
+///               builder: (context, snapshot, child) => Stack(
+///                 children: [
+///                   child!,
+///                   if (snapshot.selected)
+///                     Align(
+///                       alignment: Alignment.bottomCenter,
+///                       child: ResizableIcon.horizontal(),
+///                     ),
+///                 ],
+///               ),
+///               child: Container(
+///                 decoration: const BoxDecoration(
+///                   color: Color(0xFFF2C9D8),
+///                   borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+///                 ),
+///               ),
 ///             ),
 ///             ResizableRegion(
 ///               initialSize: 250,
 ///               sliderSize: 60,
-///               builder: (context, enabled, size, child) => child!,
-///               child: Container(color: Colors.yellowAccent),
+///               builder: (context, snapshot, child) => Stack(
+///                 children: [
+///                   child!,
+///                   if (snapshot.selected)
+///                     Container(
+///                       alignment: Alignment.topCenter,
+///                       child: ResizableIcon.horizontal(),
+///                     ),
+///                   if (snapshot.selected)
+///                     Align(
+///                       alignment: Alignment.bottomCenter,
+///                       child: ResizableIcon.horizontal(),
+///                     ),
+///                 ],
+///               ),
+///               child: Container(color: const Color(0xFFF2DAAC)),
 ///             ),
 ///             ResizableRegion(
-///               initialSize: 150,
-///               sliderSize: 60,
-///               builder: (context, enabled, size, child) => child!,
-///               child: Container(color: Colors.redAccent),
+///                 initialSize: 150,
+///                 sliderSize: 60,
+///                 builder: (context, snapshot, child) => Stack(
+///                   children: [
+///                     child!,
+///                     if (snapshot.selected)
+///                       Align(
+///                         alignment: Alignment.topCenter,
+///                         child: ResizableIcon.horizontal(),
+///                       ),
+///                   ],
+///                 ),
+///                 child: Container(
+///                   decoration: const BoxDecoration(
+///                     color: Color(0xFF8C5845),
+///                     borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
+///                   ),
+///                 )
 ///             ),
 ///           ],
 ///         ),
@@ -123,17 +161,22 @@ sealed class _ResizableBoxState<T extends ResizableBox> extends State<T> {
   }
 
   void _update(int selected) {
-    final regions = <ResizableRegionChangeNotifier>[];
+    final notifiers = <ResizableRegionChangeNotifier>[];
     var min = 0.0;
-    for (final region in widget.children) {
-      regions.add(ResizableRegionChangeNotifier(
-        (min: region.sliderSize * 2, max: _size),
-        min,
-        min += region.initialSize,
+    for (final (index, region) in widget.children.indexed) {
+      notifiers.add(ResizableRegionChangeNotifier(
+        region,
+        RegionSnapshot(
+          index: index,
+          selected: selected == index,
+          constraints: (min: region.sliderSize * 2, max: _size),
+          min: min,
+          max: min += region.initialSize,
+        )
       ));
     }
 
-    model = ResizableBoxModel(regions, _size, selected);
+    model = ResizableBoxModel(notifiers, _size, selected);
   }
 
   double get _size;
@@ -166,12 +209,10 @@ class _HorizontalResizableBoxState extends _ResizableBoxState<_HorizontalResizab
     width: widget.width,
     child: Row(
       children: [
-        for (final (index, region) in widget.children.indexed)
+        for (final notifier in model.notifiers)
           HorizontalResizableBoxRegion(
-            index: index,
             model: model,
-            notifier: model.notifiers[index],
-            region: region,
+            notifier: notifier,
           ),
       ],
     ),
@@ -208,12 +249,10 @@ class _VerticalResizableBoxState extends _ResizableBoxState<_VerticalResizableBo
     width: widget.width,
     child: Column(
       children: [
-        for (final (index, region) in widget.children.indexed)
+        for (final notifier in model.notifiers)
           VerticalResizableBoxRegion(
-            index: index,
             model: model,
-            notifier: model.notifiers[index],
-            region: region,
+            notifier: notifier,
           ),
       ],
     ),

@@ -2,68 +2,76 @@ import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 
 import 'package:stevia/src/widgets/resizable/direction.dart';
+import 'package:stevia/stevia.dart';
 
 /// A resizable region's change notifier.
 @internal class ResizableRegionChangeNotifier extends ChangeNotifier {
 
-  /// The region's minimum height or width, and the total size of the containing box.
-  final ({double min, double max}) constraints;
-  double _min;
-  double _max;
+  /// The resizable region.
+  final ResizableRegion region;
+  RegionSnapshot _snapshot;
 
   /// Creates a [ResizableRegionChangeNotifier].
-  ResizableRegionChangeNotifier(this.constraints, this._min, this._max):
-    assert(0 < constraints.min, 'Minimum size should be positive, but is ${constraints.min}'),
-    assert(0 < constraints.max, 'Maximum size should be positive, but is ${constraints.max}'),
-    assert(constraints.min < constraints.max, 'Minimum size should be less than the maximum size, but minimum is ${constraints.min} and maximum is ${constraints.max}'),
-    assert(_min < _max, 'Min offset should be less than the maximum offset, but min is $_min and max is $_max'),
-    assert(constraints.min <= _max - _min && _max - _min < constraints.max, '');
-
+  ResizableRegionChangeNotifier(this.region, this._snapshot);
 
   /// Updates the current height or width and returns an offset with any overlap caused by shrinking beyond the minimum
   /// size removed.
   Offset update(Direction direction, Offset delta) {
     final Offset(:dx, :dy) = delta;
     final (x, y) = switch (direction) {
-      Direction.left => (_resize(direction, _min + dx, _max), 0.0),
-      Direction.right => (-_resize(direction, _min, _max + dx), 0.0),
-      Direction.top => (0.0, _resize(direction, _min + dy, _max)),
-      Direction.bottom => (0.0, -_resize(direction, _min, _max + dy)),
+      Direction.left => (_resize(direction, _snapshot.min + dx, _snapshot.max), 0.0),
+      Direction.right => (-_resize(direction, _snapshot.min, _snapshot.max + dx), 0.0),
+      Direction.top => (0.0, _resize(direction, _snapshot.min + dy, _snapshot.max)),
+      Direction.bottom => (0.0, -_resize(direction, _snapshot.min, _snapshot.max + dy)),
     };
 
     return delta.translate(x, y);
   }
 
   double _resize(Direction direction, double min, double max) {
+    final snapshot = _snapshot;
+    final constraints = snapshot.constraints;
     final size = max - min;
     assert(size <= constraints.max, '$size should be less than ${constraints.max}.');
 
     if (constraints.min <= size) {
-      _min = min;
-      _max = max;
+      _snapshot = snapshot.copyWith(min: min, max: max);
+      region.onResize?.call(_snapshot);
+      notifyListeners();
       return 0;
     }
 
     if (direction == Direction.left || direction == Direction.top) {
-      _min = max - constraints.min;
+      final min = max - constraints.min;
+      if (snapshot.min != min) {
+        _snapshot = snapshot.copyWith(min: min);
+        region.onResize?.call(_snapshot);
+        notifyListeners();
+      }
+
     } else {
-      _max = min + constraints.min;
+      final max = min + constraints.min;
+      if (snapshot.max != max) {
+        _snapshot = snapshot.copyWith(max: max);
+        region.onResize?.call(_snapshot);
+        notifyListeners();
+      }
     }
 
     return size - constraints.min;
   }
 
+  /// Whether the region is selected.
+  bool get selected => _snapshot.selected;
+
   /// Notifies this [ResizableRegionChangeNotifier]'s listeners.
-  void notify() => notifyListeners();
+  set selected(bool value) {
+    _snapshot = _snapshot.copyWith(selected: value);
+    notifyListeners();
+  }
 
 
-  /// The current size.
-  double get size  => _max - _min;
-
-  /// The minimum coordinate point.
-  double get min  => _min;
-
-  /// The maximum coordinate point.
-  double get max  => _max;
+  /// The current snapshot of the region.
+  RegionSnapshot get snapshot => _snapshot;
 
 }

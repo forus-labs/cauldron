@@ -8,38 +8,57 @@ typedef ResizableRegionBuilder = Widget Function(BuildContext context, RegionSna
 final class RegionSnapshot {
   /// This region's index.
   final int index;
-  /// Whether the region is enabled.
-  final bool enabled;
-  /// The total size of the containing [ResizableBox].
-  final double total;
+  /// Whether the region is selected.
+  final bool selected;
+  /// The's minimum height or width, and the total size of the containing box.
+  final ({double min, double max}) constraints;
   /// This region's minimum as a cartesian coordinate.
   final double min;
   /// This region's maximum as a cartesian coordinate.
   final double max;
 
   /// Creates a [RegionSnapshot].
-  RegionSnapshot({required this.index, required this.enabled, required this.total, required this.min, required this.max});
+  RegionSnapshot({required this.index, required this.selected, required this.constraints, required this.min, required this.max}):
+    assert(0 <= index, 'Index should be non-negative, but is $index.'),
+    assert(0 < constraints.min, 'Minimum size should be positive, but is ${constraints.min}'),
+    assert(0 < constraints.max, 'Maximum size should be positive, but is ${constraints.max}'),
+    assert(min < max, 'Min offset should be less than the maximum offset, but min is $min and max is $max'),
+    assert(constraints.min < constraints.max, 'Minimum size should be less than the maximum size, but minimum is ${constraints.min} and maximum is ${constraints.max}'),
+    assert(constraints.min <= max - min && max - min < constraints.max, 'Region size must be within $constraints. However, it is ${max - min}.');
 
-  /// The [min] and [max] as percentages of the [total] size.
-  (double, double) get percentage => (min / total, max / total);
+
+  /// Creates a [RegionSnapshot].
+  RegionSnapshot copyWith({bool? selected, double? min, double? max}) => RegionSnapshot(
+    index: index,
+    selected: selected ?? this.selected,
+    constraints: constraints,
+    min: min ?? this.min,
+    max: max ?? this.max,
+  );
+
+  /// The [min] and [max] as percentages of the containing box's total size.
+  (double, double) get percentage => (min / constraints.max, max / constraints.max);
 
   /// This region's size.
   double get size => max - min;
 
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is RegionSnapshot && runtimeType == other.runtimeType &&
     index == other.index &&
-    enabled == other.enabled &&
-    total == other.total &&
+    selected == other.selected &&
+    constraints == other.constraints &&
     min == other.min &&
     max == other.max;
 
   @override
-  int get hashCode => index.hashCode ^ enabled.hashCode ^ total.hashCode ^ min.hashCode ^ max.hashCode;
+  int get hashCode => index.hashCode ^ selected.hashCode ^ constraints.hashCode ^ min.hashCode ^ max.hashCode;
 
   @override
-  String toString() => 'RegionSnapshot[index: $index, enabled: $enabled, total: $total, min: $min, max: $max]';
+  String toString() => 'RegionSnapshot[index: $index, selected: $selected, constraints: $constraints, min: $min, max: $max]';
+
 }
+
 
 /// A [ResizableRegion] is a region in a [ResizableBox].
 ///
@@ -68,10 +87,12 @@ final class ResizableRegion {
   /// This argument is optional and can be null if the entire widget subtree the [builder] builds depends on the size of
   /// the region.
   final Widget? child;
+  /// A function that is called when this region is resized.
+  final void Function(RegionSnapshot)? onResize;
 
 
   /// Creates a [ResizableRegion].
-  ResizableRegion({required this.initialSize, required this.builder, this.sliderSize = 50, this.child}):
+  ResizableRegion({required this.initialSize, required this.builder, this.sliderSize = 50, this.child, this.onResize}):
     assert (0 < initialSize, 'The initial size should be positive, but it is $initialSize.'),
     assert (0 < sliderSize, 'The slider size should be positive, but it is $sliderSize.'),
     assert (2 * sliderSize <= initialSize, 'The initial size, $initialSize is less than the required minimum size, ${2 * sliderSize}.');

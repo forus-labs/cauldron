@@ -6,10 +6,12 @@
 import 'dart:ui' as _i2;
 
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i7;
 import 'package:stevia/src/widgets/resizable/direction.dart' as _i5;
 import 'package:stevia/src/widgets/resizable/resizable_box_model.dart' as _i3;
 import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.dart'
     as _i4;
+import 'package:stevia/stevia.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -42,6 +44,12 @@ class MockResizableBoxModel extends _i1.Mock implements _i3.ResizableBoxModel {
         returnValue: <_i4.ResizableRegionChangeNotifier>[],
         returnValueForMissingStub: <_i4.ResizableRegionChangeNotifier>[],
       ) as List<_i4.ResizableRegionChangeNotifier>);
+  @override
+  double get size => (super.noSuchMethod(
+        Invocation.getter(#size),
+        returnValue: 0.0,
+        returnValueForMissingStub: 0.0,
+      ) as double);
   @override
   int get selected => (super.noSuchMethod(
         Invocation.getter(#selected),
@@ -81,17 +89,43 @@ class MockResizableBoxModel extends _i1.Mock implements _i3.ResizableBoxModel {
 class MockResizableRegionChangeNotifier extends _i1.Mock
     implements _i4.ResizableRegionChangeNotifier {
   @override
-  ({double max, double min}) get constraints => (super.noSuchMethod(
-        Invocation.getter(#constraints),
-        returnValue: (max: 0.0, min: 0.0),
-        returnValueForMissingStub: (max: 0.0, min: 0.0),
-      ) as ({double max, double min}));
+  _i6.ResizableRegion get region => (super.noSuchMethod(
+        Invocation.getter(#region),
+        returnValue: _i7.dummyValue<_i6.ResizableRegion>(
+          this,
+          Invocation.getter(#region),
+        ),
+        returnValueForMissingStub: _i7.dummyValue<_i6.ResizableRegion>(
+          this,
+          Invocation.getter(#region),
+        ),
+      ) as _i6.ResizableRegion);
   @override
-  double get size => (super.noSuchMethod(
-        Invocation.getter(#size),
-        returnValue: 0.0,
-        returnValueForMissingStub: 0.0,
-      ) as double);
+  bool get selected => (super.noSuchMethod(
+        Invocation.getter(#selected),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+  @override
+  set selected(bool? value) => super.noSuchMethod(
+        Invocation.setter(
+          #selected,
+          value,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i6.RegionSnapshot get snapshot => (super.noSuchMethod(
+        Invocation.getter(#snapshot),
+        returnValue: _i7.dummyValue<_i6.RegionSnapshot>(
+          this,
+          Invocation.getter(#snapshot),
+        ),
+        returnValueForMissingStub: _i7.dummyValue<_i6.RegionSnapshot>(
+          this,
+          Invocation.getter(#snapshot),
+        ),
+      ) as _i6.RegionSnapshot);
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
@@ -132,14 +166,6 @@ class MockResizableRegionChangeNotifier extends _i1.Mock
           ),
         ),
       ) as _i2.Offset);
-  @override
-  void notify() => super.noSuchMethod(
-        Invocation.method(
-          #notify,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
   @override
   void addListener(_i2.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(

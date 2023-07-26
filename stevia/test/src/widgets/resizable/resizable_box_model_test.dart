@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stevia/src/widgets/resizable/direction.dart';
 import 'package:stevia/src/widgets/resizable/resizable_box_model.dart';
+import 'package:stevia/src/widgets/resizable/resizable_region.dart';
 import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.dart';
 
 void main() {
@@ -17,9 +19,20 @@ void main() {
     middleCount = 0;
     bottomCount = 0;
 
-    top = ResizableRegionChangeNotifier((min: 10, max: 60), 0, 25)..addListener(() => topCount++);
-    middle = ResizableRegionChangeNotifier((min: 10, max: 60), 25, 40)..addListener(() => middleCount++);
-    bottom = ResizableRegionChangeNotifier((min: 10, max: 60), 40, 60)..addListener(() => bottomCount++);
+    top = ResizableRegionChangeNotifier(
+      ResizableRegion(initialSize: 25, sliderSize: 5, builder: (_, __, ___) => const SizedBox()),
+      RegionSnapshot(index: 0, selected: true, constraints: (min: 10, max: 60), min: 0, max: 25),
+    )..addListener(() => topCount++);
+
+    middle = ResizableRegionChangeNotifier(
+      ResizableRegion(initialSize: 15, sliderSize: 5, builder: (_, __, ___) => const SizedBox()),
+      RegionSnapshot(index: 1, selected: true, constraints: (min: 10, max: 60), min: 25, max: 40),
+    )..addListener(() => middleCount++);
+
+    bottom = ResizableRegionChangeNotifier(
+      ResizableRegion(initialSize: 20, sliderSize: 5, builder: (_, __, ___) => const SizedBox()),
+      RegionSnapshot(index: 1, selected: true, constraints: (min: 10, max: 60), min: 40, max: 60),
+    )..addListener(() => bottomCount++);
 
     model = ResizableBoxModel([top, middle, bottom], 60, 0);
   });
@@ -49,12 +62,12 @@ void main() {
     test('[$i] update(...) direction', () {
       model.update(index, direction, offset);
 
-      expect(top.min, topMin);
-      expect(top.max, topMax);
-      expect(middle.min, middleMin);
-      expect(middle.max, middleMax);
-      expect(bottom.min, 40);
-      expect(bottom.max, 60);
+      expect(top.snapshot.min, topMin);
+      expect(top.snapshot.max, topMax);
+      expect(middle.snapshot.min, middleMin);
+      expect(middle.snapshot.max, middleMax);
+      expect(bottom.snapshot.min, 40);
+      expect(bottom.snapshot.max, 60);
 
       expect(topCount, 1);
       expect(middleCount, 1);
@@ -78,12 +91,12 @@ void main() {
     test('[$i] update(...) edge does not cause update', () {
       model.update(index, direction, offset);
 
-      expect(top.min, 0);
-      expect(top.max, 25);
-      expect(middle.min, 25);
-      expect(middle.max, 40);
-      expect(bottom.min, 40);
-      expect(bottom.max, 60);
+      expect(top.snapshot.min, 0);
+      expect(top.snapshot.max, 25);
+      expect(middle.snapshot.min, 25);
+      expect(middle.snapshot.max, 40);
+      expect(bottom.snapshot.min, 40);
+      expect(bottom.snapshot.max, 60);
 
       expect(topCount, 0);
       expect(middleCount, 0);
@@ -98,12 +111,12 @@ void main() {
 
     expect(model.selected, 2);
 
-    expect(top.min, 0);
-    expect(top.max, 25);
-    expect(middle.min, 25);
-    expect(middle.max, 40);
-    expect(bottom.min, 40);
-    expect(bottom.max, 60);
+    expect(top.snapshot.min, 0);
+    expect(top.snapshot.max, 25);
+    expect(middle.snapshot.min, 25);
+    expect(middle.snapshot.max, 40);
+    expect(bottom.snapshot.min, 40);
+    expect(bottom.snapshot.max, 60);
 
     expect(topCount, 1);
     expect(middleCount, 0);
