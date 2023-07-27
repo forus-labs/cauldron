@@ -36,7 +36,6 @@ import 'package:stevia/stevia.dart';
 
     if (constraints.min <= size) {
       _snapshot = snapshot.copyWith(min: min, max: max);
-      region.onResize?.call(_snapshot);
       notifyListeners();
       return 0;
     }
@@ -45,7 +44,6 @@ import 'package:stevia/stevia.dart';
       final min = max - constraints.min;
       if (snapshot.min != min) {
         _snapshot = snapshot.copyWith(min: min);
-        region.onResize?.call(_snapshot);
         notifyListeners();
       }
 
@@ -53,13 +51,15 @@ import 'package:stevia/stevia.dart';
       final max = min + constraints.min;
       if (snapshot.max != max) {
         _snapshot = snapshot.copyWith(max: max);
-        region.onResize?.call(_snapshot);
         notifyListeners();
       }
     }
 
     return size - constraints.min;
   }
+
+  /// Notifies the region's callback that it has been resized.
+  void end() => region.onResizeEnd?.call(_snapshot);
 
   /// Whether the region is selected.
   bool get selected => _snapshot.selected;

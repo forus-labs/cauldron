@@ -47,6 +47,7 @@ import 'package:stevia/src/widgets/resizable/direction.dart';
             model.update(index, direction, details.delta);
           }
         },
+        onHorizontalDragEnd: (details) => model.end(index, direction),
       ),
     ),
   );
@@ -75,6 +76,7 @@ import 'package:stevia/src/widgets/resizable/direction.dart';
             model.update(index, direction, details.delta);
           }
         },
+        onVerticalDragEnd: (details) => model.end(index, direction),
       ),
     ),
   );

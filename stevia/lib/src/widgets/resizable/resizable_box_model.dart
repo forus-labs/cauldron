@@ -13,12 +13,14 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
 
   /// The [ResizableRegionChangeNotifier] for all regions in this [ResizableBox].
   final List<ResizableRegionChangeNotifier> notifiers;
+  /// A function that is called when a region is tapped.
+  final void Function(int)? onTap;
   /// The total size of the [ResizableBox].
   final double size;
   int _selected;
 
   /// Creates a [ResizableBoxModel].
-  ResizableBoxModel(this.notifiers, this.size, this._selected):
+  ResizableBoxModel(this.notifiers, this.onTap, this.size, this._selected):
     assert(2 <= notifiers.length, 'A ResizableBox should have at least 2 ResizableRegions.'),
     assert(0 <= _selected && _selected < notifiers.length, 'The selected index should be in 0 <= selected < number of regions, but it is $_selected.');
 
@@ -54,6 +56,23 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
     }
   }
 
+  /// Notifies the region at the [index] and its neighbour that it has been resized.
+  void end(int index, Direction direction) {
+    final selected = notifiers[index];
+    final neighbour = switch (direction) {
+      Direction.left || Direction.top when index != 0 => notifiers[index - 1],
+      Direction.right || Direction.bottom when index != notifiers.length - 1 => notifiers[index + 1],
+      _ => null,
+    };
+
+    if (neighbour == null) {
+      return;
+    }
+
+    selected.end();
+    neighbour.end();
+  }
+
   /// The currently selected region's index. It should be `0 <= selected < number of regions`.
   int get selected => _selected;
 
@@ -62,6 +81,7 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
       final old = _selected;
       _selected = value;
 
+      onTap?.call(value);
       notifiers[old].selected = false;
       notifiers[selected].selected = true;
     }

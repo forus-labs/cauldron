@@ -112,6 +112,8 @@ sealed class ResizableBox extends StatefulWidget {
   final int initialIndex;
   /// The children which may be resized.
   final List<ResizableRegion> children;
+  /// A function that is called when a region is selected.
+  final void Function(int index)? onTap;
 
   /// Creates a [ResizableBox].
   ///
@@ -126,15 +128,16 @@ sealed class ResizableBox extends StatefulWidget {
     required double height,
     required double width,
     required List<ResizableRegion> children,
+    void Function(int index)? onTap,
     int initialIndex = 0,
     bool horizontal = false,
     Key? key,
   }) => horizontal ?
-      _HorizontalResizableBox(height: height, width: width, initialIndex: initialIndex, children: children, key: key) :
-      _VerticalResizableBox(height: height, width: width, initialIndex: initialIndex, children: children, key: key);
+      _HorizontalResizableBox(height, width, initialIndex, children, onTap, key: key) :
+      _VerticalResizableBox(height, width, initialIndex, children, onTap, key: key);
 
 
-  const ResizableBox._({required this.height, required this.width, required this.initialIndex, required this.children, super.key}):
+  const ResizableBox._(this.height, this.width, this.initialIndex, this.children, this.onTap, {super.key}):
     assert(0 < height, 'The height should be positive, but it is $height'),
     assert(0 < width, 'The width should be positive, but it is $width'),
     assert(2 <= children.length, 'A ResizableBox should have at least 2 ResizableRegions.'),
@@ -176,7 +179,7 @@ sealed class _ResizableBoxState<T extends ResizableBox> extends State<T> {
       ));
     }
 
-    model = ResizableBoxModel(notifiers, _size, selected);
+    model = ResizableBoxModel(notifiers, widget.onTap, _size, selected);
   }
 
   double get _size;
@@ -186,13 +189,14 @@ sealed class _ResizableBoxState<T extends ResizableBox> extends State<T> {
 
 class _HorizontalResizableBox extends ResizableBox {
 
-   _HorizontalResizableBox({
-     required super.height,
-     required super.width,
-     required super.initialIndex,
-     required super.children,
-     super.key,
-   }): assert(children.sum((e) => e.initialSize) == width, 'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the width of the RegionBox, $width.'),
+   _HorizontalResizableBox(
+     super.height,
+     super.width,
+     super.initialIndex,
+     super.children,
+     super.onTap,
+     {super.key}
+   ): assert(children.sum((e) => e.initialSize) == width, 'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the width of the RegionBox, $width.'),
       super._();
 
 
@@ -226,13 +230,14 @@ class _HorizontalResizableBoxState extends _ResizableBoxState<_HorizontalResizab
 
 class _VerticalResizableBox extends ResizableBox {
 
-  _VerticalResizableBox({
-    required super.height,
-    required super.width,
-    required super.initialIndex,
-    required super.children,
-    super.key,
-  }): assert(children.sum((e) => e.initialSize) == height, 'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the height of the RegionBox, $height.'),
+  _VerticalResizableBox(
+    super.height,
+    super.width,
+    super.initialIndex,
+    super.children,
+    super.onTap,
+    {super.key}
+  ): assert(children.sum((e) => e.initialSize) == height, 'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the height of the RegionBox, $height.'),
       super._();
 
 
