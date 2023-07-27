@@ -58,9 +58,6 @@ import 'package:stevia/stevia.dart';
     return size - constraints.min;
   }
 
-  /// Notifies the region's callback that it has been resized.
-  void end() => region.onResizeEnd?.call(_snapshot);
-
   /// Whether the region is selected.
   bool get selected => _snapshot.selected;
 

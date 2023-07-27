@@ -87,12 +87,9 @@ class ResizableRegion {
   /// This argument is optional and can be null if the entire widget subtree the [builder] builds depends on the size of
   /// the region.
   final Widget? child;
-  /// A function that is called when this region has finished resizing.
-  final void Function(RegionSnapshot)? onResizeEnd;
-
 
   /// Creates a [ResizableRegion].
-  ResizableRegion({required this.initialSize, required this.builder, this.sliderSize = 50, this.child, this.onResizeEnd}):
+  ResizableRegion({required this.initialSize, required this.builder, this.sliderSize = 50, this.child}):
     assert (0 < initialSize, 'The initial size should be positive, but it is $initialSize.'),
     assert (0 < sliderSize, 'The slider size should be positive, but it is $sliderSize.'),
     assert (2 * sliderSize <= initialSize, 'The initial size, $initialSize is less than the required minimum size, ${2 * sliderSize}.');

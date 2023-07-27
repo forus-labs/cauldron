@@ -7,48 +7,52 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
 
 void main() {
   late ResizableBoxModel model;
+
   late ResizableRegionChangeNotifier top;
   late ResizableRegionChangeNotifier middle;
   late ResizableRegionChangeNotifier bottom;
+
   late int topCount;
   late int middleCount;
   late int bottomCount;
-  late int topEnd;
-  late int middleEnd;
-  late int bottomEnd;
   late int selectedIndex;
+  (RegionSnapshot, RegionSnapshot)? resize;
 
   setUp(() {
     topCount = 0;
     middleCount = 0;
     bottomCount = 0;
-    topEnd = 0;
-    middleEnd = 0;
-    bottomEnd = 0;
     selectedIndex = 0;
+    resize = null;
 
     top = ResizableRegionChangeNotifier(
-      ResizableRegion(initialSize: 25, sliderSize: 5, builder: (_, __, ___) => const SizedBox(), onResizeEnd: (_) => topEnd++),
+      ResizableRegion(initialSize: 25, sliderSize: 5, builder: (_, __, ___) => const SizedBox()),
       RegionSnapshot(index: 0, selected: true, constraints: (min: 10, max: 60), min: 0, max: 25),
     )..addListener(() => topCount++);
 
     middle = ResizableRegionChangeNotifier(
-      ResizableRegion(initialSize: 15, sliderSize: 5, builder: (_, __, ___) => const SizedBox(), onResizeEnd: (_) => middleEnd++),
+      ResizableRegion(initialSize: 15, sliderSize: 5, builder: (_, __, ___) => const SizedBox()),
       RegionSnapshot(index: 1, selected: true, constraints: (min: 10, max: 60), min: 25, max: 40),
     )..addListener(() => middleCount++);
 
     bottom = ResizableRegionChangeNotifier(
-      ResizableRegion(initialSize: 20, sliderSize: 5, builder: (_, __, ___) => const SizedBox(), onResizeEnd: (_) => bottomEnd++),
+      ResizableRegion(initialSize: 20, sliderSize: 5, builder: (_, __, ___) => const SizedBox()),
       RegionSnapshot(index: 1, selected: true, constraints: (min: 10, max: 60), min: 40, max: 60),
     )..addListener(() => bottomCount++);
 
-    model = ResizableBoxModel([top, middle, bottom], (index) => selectedIndex = index , 60, 0);
+    model = ResizableBoxModel(
+      [top, middle, bottom],
+      60,
+      0,
+      (index) => selectedIndex = index,
+      (selected, neighbour) => resize = (selected, neighbour),
+    );
   });
 
   for (final (index, constructor) in [
-    () => ResizableBoxModel([top, bottom], null, 60, -1),
-    () => ResizableBoxModel([top, bottom], null, 60, 2),
-    () => ResizableBoxModel([top], null, 60, 0),
+    () => ResizableBoxModel([top, bottom], 60, -1, null, null),
+    () => ResizableBoxModel([top, bottom], 60, 2, null, null),
+    () => ResizableBoxModel([top], 60, 0, null, null),
   ].indexed) {
     test('[$index] constructor throws error', () => expect(constructor, throwsAssertionError));
   }
@@ -113,25 +117,24 @@ void main() {
   }
 
 
-  for (final (i, (index, direction)) in [
-    (1, Direction.left),
-    (1, Direction.left),
+  for (final (i, (selected, neighbour, direction)) in [
+    (1, 0, Direction.left),
+    (1, 0, Direction.left),
 
-    (0, Direction.right),
-    (0, Direction.right),
+    (0, 1, Direction.right),
+    (0, 1, Direction.right),
 
-    (1, Direction.top),
-    (1, Direction.top),
+    (1, 0, Direction.top),
+    (1, 0, Direction.top),
 
-    (0, Direction.bottom),
-    (0, Direction.bottom),
+    (0, 1, Direction.bottom),
+    (0, 1, Direction.bottom),
   ].indexed) {
     test('[$i] end calls callback', () {
-      model.end(index, direction);
+      model.end(selected, direction);
 
-      expect(topEnd, 1);
-      expect(middleEnd, 1);
-      expect(bottomEnd, 0);
+      expect(resize?.$1.index, selected);
+      expect(resize?.$2.index, neighbour);
     });
   }
 

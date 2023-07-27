@@ -37,7 +37,7 @@ void main() {
       RegionSnapshot(index: 1, selected: false, constraints: (min: 10, max: 60), min: 40, max: 60),
     );
 
-    model = ResizableBoxModel([top, bottom], null, 60, 0);
+    model = ResizableBoxModel([top, bottom], 60, 0, null, null);
   });
 
   testWidgets('HorizontalResizableBoxRegion', (tester) async {

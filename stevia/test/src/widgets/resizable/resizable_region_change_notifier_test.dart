@@ -23,11 +23,9 @@ void main() {
     (Direction.bottom, const Offset(0, -50), const Offset(0, -20), 0.0, 10.0),
   ].indexed) {
     test('[$index] update(...) notifies listener', () {
-      RegionSnapshot? snapshot;
       var count = 0;
-
       final notifier = ResizableRegionChangeNotifier(
-        ResizableRegion(initialSize: 20, sliderSize: 5, builder: (_, __, child) => child!, onResizeEnd: (s) => snapshot = s),
+        ResizableRegion(initialSize: 20, sliderSize: 5, builder: (_, __, child) => child!),
         RegionSnapshot(index: 0, selected: true, constraints: (min: 10, max: 100), min: 0, max: 30),
       )..addListener(() => count++);
 
@@ -35,21 +33,9 @@ void main() {
 
       expect(notifier.snapshot.min, min);
       expect(notifier.snapshot.max, max);
-      expect(snapshot, null);
       expect(count, 1);
     });
   }
-
-  test('end notifies callback', () {
-    RegionSnapshot? snapshot;
-
-    ResizableRegionChangeNotifier(
-      ResizableRegion(initialSize: 20, sliderSize: 5, builder: (_, __, child) => child!, onResizeEnd: (s) => snapshot = s),
-      RegionSnapshot(index: 0, selected: true, constraints: (min: 10, max: 100), min: 0, max: 30),
-    ).end();
-
-    expect(snapshot, RegionSnapshot(index: 0, selected: true, constraints: (min: 10, max: 100), min: 0, max: 30));
-  });
 
 
   for (final (index, (direction, delta, min, max)) in [
@@ -68,7 +54,7 @@ void main() {
     test('[$index] update(...) does not notify listener', () {
       var notified = false;
       final notifier = ResizableRegionChangeNotifier(
-        ResizableRegion(initialSize: 20, sliderSize: 5, builder: (_, __, child) => child!, onResizeEnd: (_) => notified = true),
+        ResizableRegion(initialSize: 20, sliderSize: 5, builder: (_, __, child) => child!),
         RegionSnapshot(index: 0, selected: true, constraints: (min: 10, max: 100), min: min, max: max),
       )..addListener(() => notified = true);
 
@@ -92,7 +78,7 @@ void main() {
   test('selected', () {
     var notified = false;
     final notifier = ResizableRegionChangeNotifier(
-      ResizableRegion(initialSize: 20, sliderSize: 5, builder: (_, __, child) => child!, onResizeEnd: (_) => throw AssertionError()),
+      ResizableRegion(initialSize: 20, sliderSize: 5, builder: (_, __, child) => child!),
       RegionSnapshot(index: 0, selected: false, constraints: (min: 10, max: 100), min: 0, max: 10),
     )..addListener(() => notified = true);
 
@@ -109,7 +95,7 @@ void main() {
   test('unselected', () {
     var notified = false;
     final notifier = ResizableRegionChangeNotifier(
-      ResizableRegion(initialSize: 20, sliderSize: 5, builder: (_, __, child) => child!, onResizeEnd: (_) => throw AssertionError()),
+      ResizableRegion(initialSize: 20, sliderSize: 5, builder: (_, __, child) => child!),
       RegionSnapshot(index: 0, selected: true, constraints: (min: 10, max: 100), min: 0, max: 10),
     )..addListener(() => notified = true);
 
