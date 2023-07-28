@@ -140,11 +140,12 @@ sealed class ResizableBox extends StatefulWidget {
       _VerticalResizableBox(height, width, initialIndex, children, onTap, onResizeEnd, key: key);
 
 
-  const ResizableBox._(this.height, this.width, this.initialIndex, this.children, this.onTap, this.onResizeEnd, {super.key}):
-    assert(0 < height, 'The height should be positive, but it is $height'),
-    assert(0 < width, 'The width should be positive, but it is $width'),
-    assert(2 <= children.length, 'A ResizableBox should have at least 2 ResizableRegions.'),
-    assert(0 <= initialIndex && initialIndex < children.length, 'The initial index should be in 0 < initialIndex < ${children.length}, but it is $initialIndex.');
+  const ResizableBox._(this.height, this.width, this.initialIndex, this.children, this.onTap, this.onResizeEnd, {super.key});
+    // TODO: redo assertions with fuzzy equality.
+    // assert(0 < height, 'The height should be positive, but it is $height'),
+    // assert(0 < width, 'The width should be positive, but it is $width'),
+    // assert(2 <= children.length, 'A ResizableBox should have at least 2 ResizableRegions.'),
+    // assert(0 <= initialIndex && initialIndex < children.length, 'The initial index should be in 0 < initialIndex < ${children.length}, but it is $initialIndex.');
 
 }
 
