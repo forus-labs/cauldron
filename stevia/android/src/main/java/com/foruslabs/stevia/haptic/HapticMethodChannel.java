@@ -71,23 +71,7 @@ class HapticMethodHandler implements MethodCallHandler {
     }
 
     void hapticFeedback(@NonNull String name, @NonNull Result result) {
-        var pattern = switch (name) {
-            case "CLOCK_TICK" -> HapticFeedbackConstants.CLOCK_TICK;
-            case "CONFIRM" -> supports(VERSION_CODES.R) ? HapticFeedbackConstants.CONFIRM : -1;
-            case "CONTEXT_CLICK" -> HapticFeedbackConstants.CONTEXT_CLICK;
-            case "GESTURE_START" -> supports(VERSION_CODES.R) ? HapticFeedbackConstants.GESTURE_START : - 1;
-            case "GESTURE_END" -> supports(VERSION_CODES.R) ? HapticFeedbackConstants.GESTURE_END : - 1;
-            case "KEYBOARD_PRESS" -> supports(VERSION_CODES.O_MR1) ? HapticFeedbackConstants.KEYBOARD_PRESS : -1;
-            case "KEYBOARD_RELEASE" -> supports(VERSION_CODES.O_MR1) ? HapticFeedbackConstants.KEYBOARD_RELEASE : -1;
-            case "KEYBOARD_TAP" -> HapticFeedbackConstants.KEYBOARD_TAP;
-            case "LONG_PRESS" -> HapticFeedbackConstants.LONG_PRESS;
-            case "REJECT" -> supports(VERSION_CODES.R) ? HapticFeedbackConstants.REJECT : -1;
-            case "TEXT_HANDLE_MOVE" -> supports(VERSION_CODES.O_MR1) ? HapticFeedbackConstants.TEXT_HANDLE_MOVE : -1;
-            case "VIRTUAL_KEY" -> HapticFeedbackConstants.VIRTUAL_KEY;
-            case "VIRTUAL_KEY_RELEASE" -> supports(VERSION_CODES.O_MR1) ? HapticFeedbackConstants.VIRTUAL_KEY_RELEASE : -1;
-            default -> UNSUPPORTED_PATTERN;
-        };
-
+        var pattern = pattern(name);
         if (pattern == UNSUPPORTED_PATTERN) {
             result.error(ERROR_CODE, "Unsupported pattern: " + name, null);
             return;
@@ -99,6 +83,25 @@ class HapticMethodHandler implements MethodCallHandler {
         }
 
         result.success(null);
+    }
+    
+    int pattern(String name) {
+        switch (name) {
+            case "CLOCK_TICK": return  HapticFeedbackConstants.CLOCK_TICK;
+            case "CONFIRM": return supports(VERSION_CODES.R) ? HapticFeedbackConstants.CONFIRM : -1;
+            case "CONTEXT_CLICK": return HapticFeedbackConstants.CONTEXT_CLICK;
+            case "GESTURE_START": return supports(VERSION_CODES.R) ? HapticFeedbackConstants.GESTURE_START : - 1;
+            case "GESTURE_END": return supports(VERSION_CODES.R) ? HapticFeedbackConstants.GESTURE_END : - 1;
+            case "KEYBOARD_PRESS": return supports(VERSION_CODES.O_MR1) ? HapticFeedbackConstants.KEYBOARD_PRESS : -1;
+            case "KEYBOARD_RELEASE": return supports(VERSION_CODES.O_MR1) ? HapticFeedbackConstants.KEYBOARD_RELEASE : -1;
+            case "KEYBOARD_TAP": return HapticFeedbackConstants.KEYBOARD_TAP;
+            case "LONG_PRESS": return HapticFeedbackConstants.LONG_PRESS;
+            case "REJECT": return supports(VERSION_CODES.R) ? HapticFeedbackConstants.REJECT : -1;
+            case "TEXT_HANDLE_MOVE": return supports(VERSION_CODES.O_MR1) ? HapticFeedbackConstants.TEXT_HANDLE_MOVE : -1;
+            case "VIRTUAL_KEY": return HapticFeedbackConstants.VIRTUAL_KEY;
+            case "VIRTUAL_KEY_RELEASE": return supports(VERSION_CODES.O_MR1) ? HapticFeedbackConstants.VIRTUAL_KEY_RELEASE : -1;
+            default: return UNSUPPORTED_PATTERN;
+        }
     }
 
     boolean supports(int version) {
