@@ -7,7 +7,7 @@ import 'package:sugar/core.dart';
 /// Most functions modify a list in-place rather than produce a new list.
 extension Lists<E> on List<E> {
 
-  /// Swaps the elements at the given indexes in-place.
+  /// Swaps the elements at the given indexes.
   ///
   /// ```dart
   /// ['a', 'b', 'c']..swap(0, 2);  // ['c', 'b', 'a']
@@ -22,12 +22,12 @@ extension Lists<E> on List<E> {
     this[b] = a1;
   }
 
-  /// Appends the [element] to the end of this list if it is not in this list, removes all [element]s if it is in this list.
+  /// Appends [element] at the end if it is not in this list. Otherwise removes all [element]s from this list.
   ///
   /// ```dart
-  /// [1, 2, 3].toggle(4); // [1, 2, 3, 4]
+  /// [1, 2, 3]..toggleAll(4); // [1, 2, 3, 4]
   ///
-  /// [1, 2, 4, 3, 4].toggle(4); // [1, 2, 3]
+  /// [1, 2, 4, 3, 4]..toggleAll(4); // [1, 2, 3]
   /// ```
   @useResult void toggleAll(E element) {
     final initial = length;
@@ -37,9 +37,9 @@ extension Lists<E> on List<E> {
     }
   }
 
-  /// Whether this list contains all elements in [other].
+  /// Returns true if this list contains all of [other]'s elements.
   ///
-  /// It's time-complexity is O(n²) if [other]'s [contains] function is O(n).
+  /// The time-complexity is O(n²) if [other]'s [contains] is O(n).
   ///
   /// ```dart
   /// [1, 2, 3].containsAll([1, 2]); // true
@@ -68,8 +68,8 @@ extension Lists<E> on List<E> {
 
   /// Replaces elements using [function].
   ///
-  /// [function] accepts a [Consume] for specifying an element's replacements. An element can be replaced by zero or more
-  /// elements. This function is an in-place 1:N [map] function.
+  /// [function] accepts a [Consume] for specifying an element's zero or more replacement(s). It is an in-place 1:N [map]
+  /// function.
   ///
   /// ## Contract
   /// A [ConcurrentModificationError] is thrown if [function] directly modifies this list.
@@ -81,7 +81,7 @@ extension Lists<E> on List<E> {
   ///
   /// ## Example
   /// ```dart
-  /// void multiplyOdd(Consume<int> add, int element) {
+  /// void multiplyOdd(Consume<int> replace, int element) {
   ///   if (element.isOdd)
   ///     replace(element * 10);
   /// }
@@ -90,7 +90,7 @@ extension Lists<E> on List<E> {
   /// ```
   ///
   @Possible({ConcurrentModificationError})
-  void replaceAll(void Function(Consume<E> add, E element) function) {
+  void replaceAll(void Function(Consume<E> replace, E element) function) {
     final retained = <E>[];
     final length = this.length;
 
@@ -108,7 +108,7 @@ extension Lists<E> on List<E> {
 
   /// Retains all elements that are present in both this list and [other].
   ///
-  /// It's time-complexity is O(n²) if [other]'s [contains] function is O(n).
+  /// The time-complexity is O(n²) if [other]'s [contains] function is O(n).
   ///
   /// ```dart
   /// [1, 2, 3]..retainAll([1, 2, 4]); // [1, 2]
@@ -117,11 +117,11 @@ extension Lists<E> on List<E> {
   ///
   /// [1, 2, 1]..retainAll([1, 2]); // [1, 2, 1]
   /// ```
-  void retainAll(Iterable<Object?> other) => removeWhere((e) => !other.contains(e));
+  void retainAll(Iterable<Object?> other) => retainWhere(other.contains);
 
   /// Removes all elements that are present in both this list and [other].
   ///
-  /// It's time-complexity is O(n²) if [other]'s [contains] method is O(n). When possible, [clear] should be used instead.
+  /// The time-complexity is O(n²) if [other]'s [contains] method is O(n). [clear] should be used when possible.
   ///
   /// ```dart
   /// [1, 2, 3]..removeAll([1, 2, 4]); // [3]

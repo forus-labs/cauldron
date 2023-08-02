@@ -26,15 +26,6 @@ void main() {
       });
     });
 
-    group('indexed(...)', () {
-      test('empty', () => expect(<(String, int)>[].indexed, []));
-
-      test('single', () => expect(['a'].indexed.toList().equals([(0, 'a')]), true));
-
-      test('multiple values', () => expect(['a', 'b', 'c'].indexed.toList().equals([(0, 'a'), (1, 'b'), (2, 'c')]), true));
-    });
-
-
     group('associate(...)', () {
       test('empty', () => expect([].associate(by: (e) => e), <dynamic, dynamic>{}));
 

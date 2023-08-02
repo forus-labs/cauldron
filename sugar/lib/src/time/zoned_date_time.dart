@@ -68,7 +68,7 @@ part of 'date_time.dart';
 /// ```
 ///
 ///
-/// You can add and subtract different types of time intervals, including:
+/// You can add and subtract different types of time intervals, including:s
 /// * [Duration] - [add] and [subtract]
 /// * [Period] - [+] and [-]
 /// * Individual units of time - [plus] and [minus]

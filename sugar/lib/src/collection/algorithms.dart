@@ -13,8 +13,7 @@ import 'package:sugar/core.dart';
 /// ```
 ///
 /// ## Implementation details
-/// This function assumes that the iterables have efficient length computations, i.e. the length is cached. This is true
-/// for most standard library collections.
+/// This function assumes that the iterables have efficient length computations, i.e. the length is cached.
 @useResult bool disjoint(Iterable<Object?> a, Iterable<Object?> b) {
   if (a.isEmpty || b.isEmpty) {
     return true;
@@ -69,10 +68,10 @@ import 'package:sugar/core.dart';
 /// ```
 @Possible({RangeError})
 void reverse(List<Object?> list, [int start = 0, int? end]) {
-  end = RangeError.checkValidRange(start, end, list.length);
-  for (var i = start, j = end - 1; i < j; i++, j--) {
-    final (a, b) = (list[i], list[j]);
-    list[i] = b;
-    list[j] = a;
+  var last = RangeError.checkValidRange(start, end, list.length) - 1;
+  for (; start < last; start++, last--) {
+    final (a, b) = (list[start], list[last]);
+    list[start] = b;
+    list[last] = a;
   }
 }

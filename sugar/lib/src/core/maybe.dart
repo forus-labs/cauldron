@@ -46,6 +46,7 @@ import 'package:sugar/core.dart';
 /// See:
 /// * [FutureMaybe] for working with asynchronous `Maybe`s.
 /// * [Result] for representing successes and failures.
+@Deprecated('This extension was originally designed before the release of Dart 3 & pattern matching. It has been became clear that pattern matching is a superior alternative to this. It will be removed in Sugar 3.3.0')
 extension Maybe<T extends Object> on T? {
 
   /// Returns this if it is not null and satisfies [predicate]. Otherwise returns `null`.

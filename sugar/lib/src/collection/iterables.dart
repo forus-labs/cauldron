@@ -5,17 +5,23 @@ import 'package:meta/meta.dart';
 import 'package:sugar/collection_aggregate.dart';
 import 'package:sugar/core.dart';
 
-/// Provides functions for transforming [Iterable]s to other collections.
+/// Provides functions for filtering and transforming [Iterable]s into other collections.
 ///
-/// Functions that rely on the ordering of elements are non-deterministic if an iterable is unordered, i.e. [HashSet].
+/// The provided functions are non-deterministic if this iterable is unordered, e.g. [HashSet].
+///
+/// ```dart
+/// final foo = {1, 2, 3}.toUnmodifiableList();
+///
+/// print(foo); // Any of [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2] or [3, 2, 1].
+/// ```
 extension Iterables<E> on Iterable<E> {
 
   /// Returns a lazy iterable with only distinct elements.
   ///
-  /// Two elements are distinct if the values returned by [by] are not equal according to [==]. Earlier elements are
-  /// replaced by later elements if their values are equal.
+  /// Two elements are distinct if the values produced by [by] are not equal according to [==]. Later elements are ignored
+  /// if their values are equal to earlier elements.
   ///
-  /// This function is non-deterministic when this iterable is unordered, i.e. [HashSet].
+  /// This function is non-deterministic if this iterable is unordered, e.g. [HashSet].
   ///
   /// See [toSet] for creating a distinct [Iterable] by comparing elements.
   ///
@@ -34,29 +40,14 @@ extension Iterables<E> on Iterable<E> {
     }
   }
 
-  /// Returns a lazy iterable with records that contain an iteration index and element.
+  /// Associates the keys returned by [by] with this iterable's elements.
   ///
-  /// This function is non-deterministic when this iterable is unordered, i.e. [HashSet].
+  /// Earlier entries are replaced by later entries if they share the same key.
   ///
-  /// ```dart
-  /// ['a', 'b', 'c'].indexed(); // [(1, 'a'), (2, 'b'), (3, 'c')]
-  /// ```
-  @lazy @useResult Iterable<(int index, E element)> get indexed sync* {
-    var count = 0;
-    for (final element in this) {
-      yield (count++, element);
-    }
-  }
-
-
-  /// Returns a map that associates values returned by [by] with elements in this iterable.
+  /// This function is similar to [Map.fromIterable] and map comprehension. It is intended for 1:1 mappings. See [Group]
+  /// for grouping multiple elements by the same key (1:N).
   ///
-  /// Earlier entries are replaced by later entries if they contain the same key.
-  ///
-  /// This function is a convenience function similar to [Map.fromIterable] and map comprehension. It is intended for
-  /// 1:1 mappings. See [Group] for aggregating several elements by the same key (1:N).
-  ///
-  /// This function is non-deterministic when this iterable is unordered, i.e. [HashSet].
+  /// This function is non-deterministic if this iterable is unordered, e.g. [HashSet].
   ///
   /// ```dart
   /// final list = [('A'), ('B'), ('C')];
@@ -64,18 +55,17 @@ extension Iterables<E> on Iterable<E> {
   ///
   /// print(map); // { 'A': ('A'), 'B': ('B'), 'C': ('C') }
   /// ```
-  @useResult Map<R, E> associate<R>({required Select<E, R> by}) => { for (final element in this) by(element): element };
+  @useResult Map<K, E> associate<K>({required Select<E, K> by}) => { for (final element in this) by(element): element };
 
-  /// Returns a modifiable map using [create] to produce entries from elements in this iterable.
+  /// Returns a modifiable map, using [create] to produce entries from this iterable's elements.
   ///
-  /// Earlier entries are replaced by later entries if they contain the same key.
+  /// Earlier entries are replaced by later entries if they share the same key.
   ///
-  /// This function is an alternative to map comprehension when there are multiple steps in producing entries that
-  /// cannot be expressed in a single expression.
+  /// It is an alternative to map comprehension when producing an entry cannot be expressed in a single expression.
   ///
-  /// This function is non-deterministic when this iterable is unordered, i.e. [HashSet].
+  /// This function is non-deterministic if the this iterable is unordered, e.g. [HashSet].
   ///
-  /// See [toUnmodifiableMap] for creating a unmodifiable [Map].
+  /// See [toUnmodifiableMap] for creating an unmodifiable [Map].
   ///
   /// ```dart
   /// ['a', 'b', 'c'].toMap((element) {
@@ -84,14 +74,14 @@ extension Iterables<E> on Iterable<E> {
   /// });
   /// ```
   @useResult Map<K, V> toMap<K, V>((K, V) Function(E element) create) => {
-    for (final (key, value) in map((e) => create(e)))
+    for (final (key, value) in map(create))
       key: value,
   };
 
 
   /// Transforms this iterable into an unmodifiable [List].
   ///
-  /// This function is non-deterministic when this iterable is unordered, i.e. [HashSet].
+  /// This function is non-deterministic if this iterable is unordered, e.g. [HashSet].
   ///
   /// See [toList] for creating a modifiable [List].
   ///
@@ -109,12 +99,12 @@ extension Iterables<E> on Iterable<E> {
   /// ```
   @useResult Set<E> toUnmodifiableSet() => Set.unmodifiable(this);
 
-  /// Returns an unmodifiable map using [create] to produce entries from elements in this iterable.
+  /// Returns an unmodifiable map, using [create] to produce entries from this iterable's elements.
   ///
-  /// Earlier entries are replaced by later entries if they contain the same key. It is an alternative to map
-  /// comprehension when there are multiple steps in producing entries that cannot be expressed in a single expression.
+  /// Earlier entries are replaced by later entries if they share the same key. It is an alternative to map
+  /// comprehension when producing an entry cannot be expressed in a single expression.
   ///
-  /// This function is non-deterministic when this iterable is unordered, i.e. [HashSet].
+  /// This function is non-deterministic when this iterable is unordered, e.g. [HashSet].
   ///
   /// See [toMap] for creating a modifiable [Map].
   ///
@@ -133,12 +123,12 @@ extension Iterables<E> on Iterable<E> {
 
 /// Provides functions for working with nested iterables.
 ///
-/// Functions that rely on the ordering of elements are non-deterministic if an iterable is unordered, i.e. [HashSet].
+/// The provided functions are non-deterministic if this iterable is unordered, e.g. [HashSet].
 extension IterableIterable<E> on Iterable<Iterable<E>> {
 
   /// Returns a lazy iterable that flattens all nested iterables in this iterable.
   ///
-  /// This function is non-deterministic when this iterable or its nested iterables are unordered, i.e. [HashSet].
+  /// This function is non-deterministic if this iterable or its nested iterables are unordered, e.g. [HashSet].
   ///
   /// ```dart
   /// final nested = [[1, 2], [3, 4], [5]];

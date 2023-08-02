@@ -7,7 +7,7 @@ Sugar is an extension to Dart's standard library.
 
 It provides the following (and much more!):
 * Date-time and timezone API inspired by [`java.time`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/package-summary.html).
-* Monads such as `Result<S,F>` & `Maybe<T>`.
+* Monads such as `Result<S,F>`.
 * Syntax sugar for aggregating & manipulating collections.
 * Types for representing and working with ranges & intervals.
 

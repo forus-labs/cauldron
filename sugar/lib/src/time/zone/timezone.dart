@@ -10,7 +10,7 @@ import 'package:sugar/time_zone.dart';
 /// * Those that have a fixed offset at all points in time.
 /// * Those that have offsets which vary across points in time, typically due to daylight savings time.
 ///
-/// By default, most timezones in the 2023c TZ database are supported. This can be configured by replacing [timezoneProvider].
+/// As of Sugar 3.1.0, most timezones in the 2023c TZ database are supported. This can be configured by replacing [timezoneProvider].
 /// Similarly, retrieval of the platform's timezone can be configured by replacing [platformTimezoneProvider].
 ///
 /// ## Caveats

@@ -28,7 +28,7 @@ extension Maps<K, V> on Map<K, V> {
 
   /// Adds all entries in [other] to this map, using [resolve] to resolve conflicting entries.
   ///
-  /// See [merge] for merging maps without mutating this map.
+  /// See [merge] for merging maps without mutating either map.
   ///
   /// ```dart
   /// final foo = {'a': 1, 'b': 2};
@@ -49,7 +49,7 @@ extension Maps<K, V> on Map<K, V> {
   ///
   /// ```dart
   /// final foo = {'a': 1, 'b': 2};
-  /// foo.retainWhere((k, v) => v < 2); // {'b': 2}
+  /// foo.retainWhere((k, v) => v >= 2); // {'b': 2}
   /// ```
   void retainWhere(bool Function(K key, V value) predicate) {
     // We remove all elements at the end to ensure atomicity.
@@ -72,7 +72,7 @@ extension Maps<K, V> on Map<K, V> {
     return result;
   }
 
-  /// Eagerly returns a map with only entries that satisfy the given predicate.
+  /// Returns a map with only entries that satisfy the given [predicate].
   ///
   /// ```dart
   /// final foo = {'a': 1, 'b': 2, 'c': 3};
