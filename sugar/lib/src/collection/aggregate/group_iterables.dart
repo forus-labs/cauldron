@@ -10,7 +10,7 @@ import 'package:sugar/core.dart';
 /// See [Group] for more information.
 extension GroupableIterable<E> on Iterable<E> {
 
-  /// A [Group] used to group elements in this [Iterable].
+  /// A [Group] used to group this [Iterable]'s elements.
   ///
   /// ```dart
   /// final iterable = [('a', 1), ('a', 2), ('b', 3)];
@@ -27,7 +27,7 @@ extension GroupableIterable<E> on Iterable<E> {
 ///
 /// To access [Group], call the [GroupableIterable.group] extension getter on an iterable.
 ///
-/// These functions are intended for 1:N mappings. See [Iterables.associate] for associating one element by one key (1:1).
+/// These functions are intended for 1:N mappings. See [Iterables.associate] for associating one key with one element (1:1).
 ///
 /// ## Example
 /// ```dart
@@ -44,7 +44,7 @@ class Group<E> {
 
   /// Groups the iterable's elements by keys returned by [by] before being folded using [as].
   ///
-  /// The order of elements passed to [as] is non-deterministic when the iterable is unordered, i.e. [HashSet].
+  /// The order of elements passed to [as] is non-deterministic when the iterable is unordered, e.g. [HashSet].
   ///
   /// ## Example
   /// ```dart

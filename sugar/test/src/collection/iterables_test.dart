@@ -3,7 +3,6 @@ import 'dart:collection';
 import 'package:test/test.dart';
 
 import 'package:sugar/collection.dart';
-import 'package:sugar/core.dart';
 
 void main() {
   group('Iterables', () {

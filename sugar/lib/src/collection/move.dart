@@ -2,12 +2,12 @@ import 'package:meta/meta.dart';
 
 import 'package:sugar/core.dart';
 
-/// Provides functions for moving elements in lists to other collections.
+/// Provides functions for moving a list's elements to other collections.
 ///
 /// See [ListMove] for more information.
 extension MovableList<E> on List<E> {
 
-  /// Returns a [ListMove] used to move elements from this list to other collections.
+  /// Returns a [ListMove] used to move elements that satisfy [where] from this list to other collections.
   ///
   /// ```dart
   /// final foo = [1, 2, 3, 4, 5];
@@ -16,7 +16,7 @@ extension MovableList<E> on List<E> {
   /// print(foo); // [1, 3, 5]
   /// print(bar); // [2, 4]
   /// ```
-  @lazy @useResult ListMove<E> move({required Predicate<E> where}) => ListMove(this, where);
+  @lazy @useResult ListMove<E> move({required Predicate<E> where}) => ListMove._(this, where);
 
 }
 
@@ -38,12 +38,11 @@ class ListMove<E> {
   final List<E> _list;
   final Predicate<E> _predicate;
 
-  /// Creates a [ListMove] with the given backing list and predicate.
-  ListMove(this._list, this._predicate);
+  ListMove._(this._list, this._predicate);
 
   /// Move the list's elements that satisfy the predicate to another [List].
   ///
-  /// The ordering of elements in the returned list is the same as the list.
+  /// The returned list is ordered the same as the list.
   ///
   /// ## Contract
   /// A [ConcurrentModificationError] is thrown if the predicate modifies the list.
@@ -65,7 +64,7 @@ class ListMove<E> {
 
   /// Move the list's elements that satisfy the predicate to a [Set].
   ///
-  /// The ordering of elements in the returned set is undefined.
+  /// The returned set's order is undefined.
   ///
   /// ## Contract
   /// A [ConcurrentModificationError] is thrown if the predicate modifies the list.
@@ -126,12 +125,12 @@ class ListMove<E> {
 
 }
 
-/// Provides functions for moving elements in sets to other collections.
+/// Provides functions for moving a set's elements to other collections.
 ///
 /// See [SetMove] for more information.
 extension MovableSet<E> on Set<E> {
 
-  /// Returns a [SetMove] used to move elements in this [Set] to other collections.
+  /// Returns a [SetMove] used to move elements that satisfy [where] from this [Set] to other collections.
   ///
   /// ## Example
   /// ```dart
@@ -141,7 +140,7 @@ extension MovableSet<E> on Set<E> {
   /// print(foo); // {1, 3, 5}
   /// print(bar); // {2, 4}
   /// ```
-  @lazy @useResult SetMove<E> move({required Predicate<E> where}) => SetMove(this, where);
+  @lazy @useResult SetMove<E> move({required Predicate<E> where}) => SetMove._(this, where);
 
 }
 
@@ -163,8 +162,7 @@ class SetMove<E> {
   final Set<E> _set;
   final Predicate<E> _predicate;
 
-  /// Creates a [SetMove] with the given backing set and predicate.
-  SetMove(this._set, this._predicate);
+  SetMove._(this._set, this._predicate);
 
   /// Move the set's elements that satisfy the predicate to another [Set].
   ///

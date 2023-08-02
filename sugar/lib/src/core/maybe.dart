@@ -99,14 +99,10 @@ extension Maybe<T extends Object> on T? {
 }
 
 /// Provides functions for working with asynchronous `Maybe`s.
-///
-/// See [Maybe] for working with synchronous `Maybe`s.
 extension FutureMaybe<T extends Object> on Future<T?> {
 
   /// Returns a [Future<R?>] if this `Future` does not complete as null. Otherwise returns a `Future` that completes as
   /// null.
-  ///
-  /// This function is similar to [Maybe.bind] which does not compose `Future`s.
   ///
   /// Example:
   /// ```dart

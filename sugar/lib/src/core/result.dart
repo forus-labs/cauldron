@@ -32,8 +32,6 @@ import 'package:sugar/core.dart';
 ///   }
 /// }
 /// ```
-///
-/// See [Maybe] for representing a value and the possible absence thereof.
 sealed class Result<S extends Object, F extends Object> {
 
   static void _nothing(Object? value) {}
@@ -142,8 +140,6 @@ sealed class Result<S extends Object, F extends Object> {
 
   /// The value if this is a `Success` or `null` otherwise.
   ///
-  /// See [Maybe].
-  ///
   /// ```dart
   /// Success(2).success; // 2
   ///
@@ -152,8 +148,6 @@ sealed class Result<S extends Object, F extends Object> {
   @useResult S? get success;
 
   /// The value if this is a `Failure` or `null` otherwise.
-  ///
-  /// See [Maybe].
   ///
   /// ```dart
   /// Success(2).failure; // null

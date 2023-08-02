@@ -39,7 +39,6 @@
 /// * [Supply]
 ///
 /// Monads:
-/// * [Maybe]
 /// * [Result]
 ///
 /// ## Primitives
@@ -60,7 +59,6 @@ import 'package:sugar/src/core/comparables.dart';
 import 'package:sugar/src/core/disposable.dart';
 import 'package:sugar/src/core/equality.dart';
 import 'package:sugar/src/core/functions.dart';
-import 'package:sugar/src/core/maybe.dart';
 import 'package:sugar/src/core/result.dart';
 import 'package:sugar/src/core/string_buffers.dart';
 import 'package:sugar/src/core/strings.dart';

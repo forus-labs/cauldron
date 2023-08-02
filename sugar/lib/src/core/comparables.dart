@@ -7,9 +7,10 @@ import 'package:sugar/core.dart';
 /// Simplifies implementation of naturally ordered types.
 ///
 /// [Orderable] implements all comparison operators, including [==], using [compareTo]. Implementations should have only
-/// one representation for a value. Otherwise [==] will disagree with the ordering. A counterexample is [DateTime].
-/// Several `DateTime`s in different timezones may represent the same instant in time. However, two `DateTime`s are only
-/// equal if they represent the same instant and share the same timezone.
+/// one representation for a value. Otherwise [==] will disagree with the ordering.
+///
+/// A counterexample is [DateTime]. Several `DateTime`s in different timezones may represent the same instant in time.
+/// However, two `DateTime`s are only equal if they represent the same instant and share the same timezone.
 ///
 /// Implementations should override only the following:
 /// * [compareTo]

@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:sugar/collection_aggregate.dart';
 import 'package:sugar/core.dart';
 
-/// Provides functions for ordering an [Iterable].
+/// Provides functions for ordering an [Iterable]'s elements.
 ///
 /// See [AggregateComparableIterable] for working with elements that are [Comparable].
 extension OrderableIterable<E> on Iterable<E> {

@@ -72,7 +72,7 @@ extension Maps<K, V> on Map<K, V> {
     return result;
   }
 
-  /// Returns a map with only entries that satisfy the given [predicate].
+  /// Returns a map with only entries that satisfy the [predicate].
   ///
   /// ```dart
   /// final foo = {'a': 1, 'b': 2, 'c': 3};
@@ -84,11 +84,11 @@ extension Maps<K, V> on Map<K, V> {
         key: value,
   };
 
-  /// Returns a copy of this map with its keys transformed using [convert].
+  /// Transforms this map's keys using [convert].
   ///
   /// ## Contract
-  /// [convert] should always return distinct keys. Earlier entries may be replaced by later entries with the same key
-  /// otherwise.
+  /// [convert] should always return distinct keys. Earlier entries are replaced by later entries that share the same
+  /// key.
   ///
   /// ## Example
   /// ```dart
@@ -96,34 +96,33 @@ extension Maps<K, V> on Map<K, V> {
   /// final bar = foo.rekey((k) => '$k'); // {'1': 1, '2': 2}
   /// ```
   ///
-  /// See [revalue] for converting values and [map] for converting entries.
+  /// See [revalue] for converting values, and [map] for converting entries.
   @useResult Map<K1, V> rekey<K1>(K1 Function(K key) convert) => {
     for (final MapEntry(:key, :value) in entries)
       convert(key): value,
   };
 
-  /// Returns a copy of this map with its values transformed using [convert].
+  /// Transforms this map's values using [convert].
   ///
   /// ```dart
   /// final foo = {1: 1, 2: 2};
   /// final bar = foo.revalue((v) => '$v'); // {1: '1', 2: '2'}
   /// ```
   ///
-  /// See [rekey] for converting values and [map] for converting entries.
-  @useResult
-  Map<K, V1> revalue<V1>(V1 Function(V value) convert) => {
+  /// See [rekey] for converting values, and [map] for converting entries.
+  @useResult Map<K, V1> revalue<V1>(V1 Function(V value) convert) => {
     for (final MapEntry(:key, :value) in entries)
       key: convert(value),
   };
 
 }
 
-/// Provides functions for working with [Map]s with null-nullable entries.
+/// Provides functions for working with [Map]s of null-nullable entries.
 extension NonNullableMap<K extends Object, V extends Object> on Map<K, V> {
 
-  /// Associates the [key] with the given [value], and returns true, if neither is null.
+  /// Associates [key] with [value] and returns true if neither is null.
   ///
-  /// Replaces an entry if it already exists.
+  /// Existing entries that share the same key are replaced.
   ///
   /// ```dart
   /// <String, int>{}.putIfNotNull('a', 1); // true, {'a': 1}

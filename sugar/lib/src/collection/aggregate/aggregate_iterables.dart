@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:sugar/collection_aggregate.dart';
 import 'package:sugar/core.dart';
 
-/// Provides aggregate functions for [Iterable]s.
+/// Provides aggregate functions, such as [average] and [sum], for [Iterable]s.
 extension AggregateIterable<E> on Iterable<E> {
 
   /// Computes the average of all values. Values are created from this iterable's elements using [select].
@@ -17,12 +17,12 @@ extension AggregateIterable<E> on Iterable<E> {
   /// ```
   ///
   /// ## Implementation details
-  /// Computing values is assumed to be cheap. Hence, values are recomputed each time rather than cached.
+  /// Values are computed each time rather than cached as computation is assumed to be cheap.
   @useResult double average(Select<E, num> select) => sum(select) / length;
 
   /// Computes the sum of all values. Values are created from this iterable's elements using [select].
   ///
-  /// The initial value is 0 if unspecified. Returns [double.nan] if [select] returns [double.nan].
+  /// [initial] defaults to 0 if unspecified. Returns [double.nan] if [select] returns [double.nan].
   ///
   /// ## Example
   /// ```dart
@@ -50,7 +50,7 @@ extension AggregateIterable<E> on Iterable<E> {
 /// See [OrderableIterable] for ordering elements that are not [Comparable].
 extension AggregateComparableIterable<E extends Comparable<Object>> on Iterable<E> {
 
-  /// The minimum element in this iterable, or `null` if empty.
+  /// The minimum element, or `null` if empty.
   ///
   /// ```dart
   /// ['b', 'a', 'c'].min; // 'a'
@@ -72,7 +72,7 @@ extension AggregateComparableIterable<E extends Comparable<Object>> on Iterable<
     return min;
   }
 
-  /// The maximum element in this iterable, or `null` if empty.
+  /// The maximum element, or `null` if empty.
   ///
   /// ```dart
   /// ['a', 'c', 'b'].max; // 'c'
@@ -96,7 +96,7 @@ extension AggregateComparableIterable<E extends Comparable<Object>> on Iterable<
 
 }
 
-/// Provides aggregate functions for [Iterable]s of [num]s.
+/// Provides aggregate functions, such as [average] and [sum], for [Iterable]s of [num]s.
 ///
 /// This is a specialized implementation of [AggregateIterable] and [AggregateComparableIterable] that handles
 /// [double.nan] elements properly.
@@ -109,7 +109,7 @@ extension AggregateNumberIterable<E extends num> on Iterable<E> {
   /// ```
   @useResult double get average => sum / length;
 
-  /// The sum of all elements in this iterable. Returns [double.nan] if present.
+  /// The sum of all elements in this iterable. Returns [double.nan] if it is present.
   ///
   /// ```dart
   /// [1, 2, 3].sum; // 6
@@ -125,7 +125,7 @@ extension AggregateNumberIterable<E extends num> on Iterable<E> {
   }
 
 
-  /// The minimum element in this iterable or `null` if empty. Returns [double.nan] if present.
+  /// The minimum element, or `null` if empty. Returns [double.nan] if it is present.
   ///
   /// ```dart
   /// [1, 2, 3].min; // 1
@@ -157,7 +157,7 @@ extension AggregateNumberIterable<E extends num> on Iterable<E> {
     return min;
   }
 
-  /// The maximum element in this iterable or `null` if empty. Returns [double.nan] if present.
+  /// The maximum element, or `null` if empty. Returns [double.nan] if it is present.
   ///
   /// ```dart
   /// [1, 2, 3].max; // 3
