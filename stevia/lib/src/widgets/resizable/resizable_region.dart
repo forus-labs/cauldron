@@ -18,14 +18,13 @@ final class RegionSnapshot {
   final double max;
 
   /// Creates a [RegionSnapshot].
-  RegionSnapshot({required this.index, required this.selected, required this.constraints, required this.min, required this.max});
-    // TODO: redo assertions with fuzzy equality.
-    // assert(0 <= index, 'Index should be non-negative, but is $index.'),
-    // assert(0 < constraints.min, 'Minimum size should be positive, but is ${constraints.min}'),
-    // assert(0 < constraints.max, 'Maximum size should be positive, but is ${constraints.max}'),
-    // assert(min < max, 'Min offset should be less than the maximum offset, but min is $min and max is $max'),
-    // assert(constraints.min < constraints.max, 'Minimum size should be less than the maximum size, but minimum is ${constraints.min} and maximum is ${constraints.max}'),
-    // assert(constraints.min <= max - min && max - min < constraints.max, 'Region size must be within $constraints. However, it is ${max - min}.');
+  RegionSnapshot({required this.index, required this.selected, required this.constraints, required this.min, required this.max}):
+    assert(0 <= index, 'Index should be non-negative, but is $index.'),
+    assert(-0.1 < constraints.min, 'Minimum size should be positive, but is ${constraints.min}'),
+    assert(-0.1 < constraints.max, 'Maximum size should be positive, but is ${constraints.max}'),
+    assert(min < max, 'Min offset should be less than the maximum offset, but min is $min and max is $max'),
+    assert(constraints.min < constraints.max, 'Minimum size should be less than the maximum size, but minimum is ${constraints.min} and maximum is ${constraints.max}'),
+    assert((constraints.min - 0.1)<= max - min && max - min < (constraints.max + 0.1), 'Region size must be within $constraints. However, it is ${max - min}.');
 
 
   /// Creates a [RegionSnapshot].

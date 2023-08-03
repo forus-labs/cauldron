@@ -59,7 +59,7 @@ void main() {
       children: [top, bottom],
     ),
   ].indexed) {
-    test('[$index] constructor throws error', () => expect(constructor, throwsAssertionError), skip: true);
+    test('[$index] constructor throws error', () => expect(constructor, throwsAssertionError));
   }
   
   testWidgets('vertical drag downwards', (tester) async {

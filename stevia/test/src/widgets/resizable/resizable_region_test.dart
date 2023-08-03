@@ -21,7 +21,7 @@ void main() {
 
       () => RegionSnapshot(index: -1, selected: false, constraints: (min: 1, max: 5), min: 1, max: 3),
     ].indexed) {
-      test('[$index] constructor throws error', () => expect(function, throwsAssertionError), skip: true);
+      test('[$index] constructor throws error', () => expect(function, throwsAssertionError));
     }
 
     for (final (expected, selected, min, max) in [

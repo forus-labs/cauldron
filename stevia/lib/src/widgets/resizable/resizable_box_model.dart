@@ -22,6 +22,7 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
   /// Creates a [ResizableBoxModel].
   ResizableBoxModel(this.notifiers, this.size, this._selected, this._onTap, this._onResizeEnd):
     assert(2 <= notifiers.length, 'A ResizableBox should have at least 2 ResizableRegions.'),
+    assert(0 < size, "A ResizableBox's size should be positive."),
     assert(0 <= _selected && _selected < notifiers.length, 'The selected index should be in 0 <= selected < number of regions, but it is $_selected.');
 
   /// Updates the [ResizableRegionChangeNotifier] and its neighbours' sizes at the given index.

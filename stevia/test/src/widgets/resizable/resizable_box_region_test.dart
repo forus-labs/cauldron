@@ -65,7 +65,6 @@ void main() {
   testWidgets('VerticalResizableBoxRegion', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        theme: ThemeData(useMaterial3: true),
         home: Scaffold(
           body: VerticalResizableBoxRegion(
             model: model,

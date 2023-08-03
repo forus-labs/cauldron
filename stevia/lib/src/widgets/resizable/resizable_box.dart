@@ -17,7 +17,6 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
 ///
 /// A [ResizableBox] should contain at least two children. Passing it less than 2 children will result in undefined behaviour.
 ///
-///
 /// ## Example
 /// To create a vertically resizable box:
 /// ```dart
@@ -140,12 +139,11 @@ sealed class ResizableBox extends StatefulWidget {
       _VerticalResizableBox(height, width, initialIndex, children, onTap, onResizeEnd, key: key);
 
 
-  const ResizableBox._(this.height, this.width, this.initialIndex, this.children, this.onTap, this.onResizeEnd, {super.key});
-    // TODO: redo assertions with fuzzy equality.
-    // assert(0 < height, 'The height should be positive, but it is $height'),
-    // assert(0 < width, 'The width should be positive, but it is $width'),
-    // assert(2 <= children.length, 'A ResizableBox should have at least 2 ResizableRegions.'),
-    // assert(0 <= initialIndex && initialIndex < children.length, 'The initial index should be in 0 < initialIndex < ${children.length}, but it is $initialIndex.');
+  const ResizableBox._(this.height, this.width, this.initialIndex, this.children, this.onTap, this.onResizeEnd, {super.key}):
+    assert(-0.1 < height, 'The height should be positive, but it is $height'),
+    assert(-0.1 < width, 'The width should be positive, but it is $width'),
+    assert(2 <= children.length, 'A ResizableBox should have at least 2 ResizableRegions.'),
+    assert(0 <= initialIndex && initialIndex < children.length, 'The initial index should be in 0 <= initialIndex < ${children.length}, but it is $initialIndex.');
 
 }
 
@@ -201,8 +199,10 @@ class _HorizontalResizableBox extends ResizableBox {
      super.onTap,
      super.onResizeEnd,
      {super.key}
-   ): assert(children.sum((e) => e.initialSize) == width, 'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the width of the RegionBox, $width.'),
-      super._();
+   ): assert(
+    children.sum<double>((e) => e.initialSize).approximately(width, 0.1),
+    'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the width of the RegionBox, $width.',
+   ), super._();
 
 
   @override
@@ -243,8 +243,10 @@ class _VerticalResizableBox extends ResizableBox {
     super.onTap,
     super.onResizeEnd,
     {super.key}
-  ): assert(children.sum((e) => e.initialSize) == height, 'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the height of the RegionBox, $height.'),
-      super._();
+  ): assert(
+    children.sum<double>((e) => e.initialSize).approximately(height, 0.1),
+    'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the height of the RegionBox, $height.',
+  ), super._();
 
 
   @override
