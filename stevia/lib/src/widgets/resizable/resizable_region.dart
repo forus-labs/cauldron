@@ -94,4 +94,15 @@ class ResizableRegion {
     assert (0 < sliderSize, 'The slider size should be positive, but it is $sliderSize.'),
     assert (2 * sliderSize <= initialSize, 'The initial size, $initialSize is less than the required minimum size, ${2 * sliderSize}.');
 
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is ResizableRegion && runtimeType == other.runtimeType
+                && initialSize == other.initialSize && sliderSize == other.sliderSize && builder == other.builder
+                && child == other.child;
+
+  @override
+  int get hashCode => initialSize.hashCode ^ sliderSize.hashCode ^ builder.hashCode ^ child.hashCode;
+
+  @override
+  String toString() => 'ResizableRegion[initialSize: $initialSize, sliderSize: $sliderSize, builder: $builder, child: $child]';
+
 }

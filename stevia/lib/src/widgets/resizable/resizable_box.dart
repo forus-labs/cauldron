@@ -160,7 +160,13 @@ sealed class _ResizableBoxState<T extends ResizableBox> extends State<T> {
   @override
   void didUpdateWidget(T old) {
     super.didUpdateWidget(old);
-    if (widget.height != old.height || widget.width != old.width) {
+    if (widget.height != old.height ||
+        widget.width != old.width ||
+        widget.initialIndex != old.initialIndex ||
+        widget.onTap != widget.onTap ||
+        widget.onResizeEnd != widget.onResizeEnd ||
+        !widget.children.equals(old.children)
+    ) {
       _update(model.selected);
     }
   }
