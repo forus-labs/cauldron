@@ -41,8 +41,10 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
               notifier.snapshot,
               notifier.region.child,
             ),
-            left,
-            right,
+            if (notifier.snapshot.index > 0)
+              left,
+            if (notifier.snapshot.index < model.notifiers.length - 1)
+              right,
           ],
         ),
       ),
@@ -86,8 +88,10 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
               notifier.snapshot,
               notifier.region.child,
             ),
-            top,
-            bottom,
+            if (notifier.snapshot.index > 0)
+              top,
+            if (notifier.snapshot.index < model.notifiers.length - 1)
+              bottom,
           ],
         ),
       ),

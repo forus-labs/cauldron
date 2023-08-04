@@ -20,6 +20,7 @@ import 'package:meta/meta_meta.dart';
 @sealed class Possible {
   /// The possible exceptions or error codes.
   final Set<Object> states;
+
   /// Creates a [Possible].
   const Possible(this.states);
 }
@@ -35,10 +36,11 @@ import 'package:meta/meta_meta.dart';
 @sealed class NotTested {
   /// The reason the annotated location is not tested.
   final String because;
+
   /// Creates a [NotTested] denoting that the annotate element is not tested because it is deeply integrated with a 3rd
   /// party service/platform.
   const NotTested.thirdPartyIntegration(): because = '3rd party integration';
-  ///  Creates a [NotTested].
+  /// Creates a [NotTested].
   const NotTested({required this.because});
 }
 
