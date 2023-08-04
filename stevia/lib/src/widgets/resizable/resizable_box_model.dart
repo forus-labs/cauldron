@@ -15,13 +15,16 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
   final List<ResizableRegionChangeNotifier> notifiers;
   /// The total size of the [ResizableBox].
   final double size;
+  /// Whether to enable or disable haptic feedback, defaults to true.
+  final double? hapticFeedbackVelocity;
+
   final void Function(int)? _onTap;
   final void Function(RegionSnapshot selected, RegionSnapshot neighbour)? _onResizeEnd;
   int _selected;
-  bool _haptic = true;
+  bool _haptic = false;
 
   /// Creates a [ResizableBoxModel].
-  ResizableBoxModel(this.notifiers, this.size, this._selected, this._onTap, this._onResizeEnd):
+  ResizableBoxModel(this.notifiers, this.size, this.hapticFeedbackVelocity, this._selected, this._onTap, this._onResizeEnd):
     assert(2 <= notifiers.length, 'A ResizableBox should have at least 2 ResizableRegions.'),
     assert(0 < size, "A ResizableBox's size should be positive."),
     assert(0 <= _selected && _selected < notifiers.length, 'The selected index should be in 0 <= selected < number of regions, but it is $_selected.');
@@ -48,11 +51,14 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
     if (previous != (shrink.snapshot.min, shrink.snapshot.max)) {
       expand.update(expandDirection, adjusted);
       _haptic = true;
-      return !_haptic;
+      return false;
+
+    } if (_haptic) {
+      _haptic = false;
+      return true;
 
     } else {
-      _haptic = false;
-      return !_haptic;
+      return false;
     }
   }
 

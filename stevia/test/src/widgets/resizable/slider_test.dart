@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:stevia/haptic.dart';
 import 'package:stevia/src/widgets/resizable/direction.dart';
 
 import 'package:stevia/src/widgets/resizable/resizable_box_model.dart';
@@ -15,11 +16,14 @@ import 'slider_test.mocks.dart';
 void main() {
   late MockResizableBoxModel model;
   late MockResizableRegionChangeNotifier notifier;
+  late List<dynamic> calls;
 
   setUp(() {
     model = MockResizableBoxModel();
     notifier = MockResizableRegionChangeNotifier();
     when(model.notifiers).thenReturn([notifier]);
+    when(model.hapticFeedbackVelocity).thenReturn(0.0);
+    calls = Haptic.stubForTesting();
   });
 
 
@@ -70,36 +74,65 @@ void main() {
         const Offset(100, 0),
         const Offset(-100, 0),
       ].indexed) {
-        testWidgets('[$index] enabled horizontal drag', (tester) async {
+        testWidgets('[$index] enabled horizontal drag, causes haptic feedback', (tester) async {
           when(model.selected).thenReturn(0);
+          when(model.update(any, any, any)).thenReturn(true);
 
           await tester.pumpWidget(slider);
           await tester.drag(find.byType(GestureDetector), offset);
 
           verify(model.update(0, direction, any));
+          expect(calls.length, 2);
+        });
+
+        testWidgets('[$index] enabled horizontal drag, causes haptic feedback', (tester) async {
+          when(model.selected).thenReturn(0);
+          when(model.update(any, any, any)).thenReturn(true);
+
+          await tester.pumpWidget(slider);
+          await tester.drag(find.byType(GestureDetector), offset);
+
+          verify(model.update(0, direction, any));
+          expect(calls.length, 2);
+        });
+
+        testWidgets('[$index] enabled horizontal drag, haptic feedback disabled', (tester) async {
+          when(model.selected).thenReturn(0);
+          when(model.hapticFeedbackVelocity).thenReturn(null);
+          when(model.update(any, any, any)).thenReturn(true);
+
+          await tester.pumpWidget(slider);
+          await tester.drag(find.byType(GestureDetector), offset);
+
+          verify(model.update(0, direction, any));
+          expect(calls.length, 0);
         });
 
         testWidgets('[$index] disabled horizontal drag', (tester) async {
+          when(model.update(any, any, any)).thenReturn(true);
           when(model.selected).thenReturn(1);
 
           await tester.pumpWidget(slider);
           await tester.drag(find.byType(GestureDetector), offset);
 
           verifyNever(model.update(0, direction, any));
+          expect(calls.length, 0);
         });
       }
 
       for (final (index, offset) in [
-        const Offset(0, 100),
-        const Offset(0, -100),
+        const Offset(0, 1000),
+        const Offset(0, -1000),
       ].indexed) {
-        testWidgets('[$index] enabled vertical drag', (tester) async {
+        testWidgets('[$index] enabled vertical drag, causes haptic feedback', (tester) async {
           when(model.selected).thenReturn(0);
+          when(model.update(any, any, any)).thenReturn(true);
 
           await tester.pumpWidget(slider);
           await tester.drag(find.byType(GestureDetector), offset);
 
           verifyNever(model.update(0, direction, any));
+          expect(calls.length, 0);
         });
       }
     });
@@ -110,7 +143,7 @@ void main() {
     (() => VerticalSlider.top(model: model, index: 0, size: 50), Direction.top),
     (() => VerticalSlider.bottom(model: model, index: 0, size: 50), Direction.bottom),
   ].indexed) {
-    group('[$index] horizontal slider', () {
+    group('[$index] vertical slider', () {
       late VerticalSlider slider;
 
       setUp(() => slider = function());
@@ -125,25 +158,52 @@ void main() {
       });
 
       for (final (index, offset) in [
-        const Offset(0, 100),
-        const Offset(0, -100),
+        const Offset(0, 1000),
+        const Offset(0, -1000),
       ].indexed) {
         testWidgets('[$index] enabled vertical drag', (tester) async {
+          when(model.update(any, any, any)).thenReturn(true);
           when(model.selected).thenReturn(0);
 
           await tester.pumpWidget(slider);
           await tester.drag(find.byType(GestureDetector), offset);
 
           verify(model.update(0, direction, any));
+          expect(calls.length, 2);
+        });
+
+        testWidgets('[$index] enabled horizontal drag, causes haptic feedback', (tester) async {
+          when(model.selected).thenReturn(0);
+          when(model.update(any, any, any)).thenReturn(true);
+
+          await tester.pumpWidget(slider);
+          await tester.drag(find.byType(GestureDetector), offset);
+
+          verify(model.update(0, direction, any));
+          expect(calls.length, 2);
+        });
+
+        testWidgets('[$index] enabled horizontal drag, haptic feedback disabled', (tester) async {
+          when(model.selected).thenReturn(0);
+          when(model.hapticFeedbackVelocity).thenReturn(null);
+          when(model.update(any, any, any)).thenReturn(true);
+
+          await tester.pumpWidget(slider);
+          await tester.drag(find.byType(GestureDetector), offset);
+
+          verify(model.update(0, direction, any));
+          expect(calls.length, 0);
         });
 
         testWidgets('[$index] disabled vertical drag', (tester) async {
+          when(model.update(any, any, any)).thenReturn(true);
           when(model.selected).thenReturn(1);
 
           await tester.pumpWidget(slider);
           await tester.drag(find.byType(GestureDetector), offset);
 
           verifyNever(model.update(0, direction, any));
+          expect(calls.length, 0);
         });
       }
 
@@ -152,12 +212,14 @@ void main() {
         const Offset(-100, 0),
       ].indexed) {
         testWidgets('[$index] enabled horizontal drag', (tester) async {
+          when(model.update(any, any, any)).thenReturn(true);
           when(model.selected).thenReturn(0);
 
           await tester.pumpWidget(slider);
           await tester.drag(find.byType(GestureDetector), offset);
 
           verifyNever(model.update(0, direction, any));
+          expect(calls.length, 0);
         });
       }
     });

@@ -28,8 +28,12 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
     behavior: HitTestBehavior.translucent,
     onTap: () {
       final index = notifier.snapshot.index;
-      if (model.selected != index) {
-        model.selected = index;
+      if (model.selected == index) {
+        return;
+      }
+
+      model.selected = index;
+      if (model.hapticFeedbackVelocity != null) {
         Haptic.selection();
       }
     },
@@ -78,8 +82,12 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
     behavior: HitTestBehavior.translucent,
     onTap: () {
       final index = notifier.snapshot.index;
-      if (model.selected != index) {
-        model.selected = index;
+      if (model.selected == index) {
+        return;
+      }
+
+      model.selected = index;
+      if (model.hapticFeedbackVelocity != null) {
         Haptic.selection();
       }
     },

@@ -17,6 +17,10 @@ void main() {
     builder: (context, snapshot, child) => const SizedBox(),
   );
 
+  late List<dynamic> calls;
+
+  setUp(() => calls = Haptic.stubForTesting());
+
 
   for (final (index, constructor) in [
     () => ResizableBox(
@@ -61,11 +65,13 @@ void main() {
   ].indexed) {
     test('[$index] constructor throws error', () => expect(constructor, throwsAssertionError));
   }
-  
+
+
   testWidgets('vertical drag downwards', (tester) async {
     final vertical = ResizableBox(
       height: 100,
       width: 50,
+      hapticFeedbackVelocity: 0.0,
       children: [top, bottom],
     );
     
@@ -74,9 +80,10 @@ void main() {
       home: Scaffold(body: Center(child: vertical)),
     ));
 
-    await tester.drag(find.byType(GestureDetector).at(2), const Offset(0, 100));
+    await tester.timedDrag(find.byType(GestureDetector).at(1), const Offset(0, 100), const Duration(seconds: 1));
     await tester.pumpAndSettle();
 
+    expect(calls.length, 1);
     expect(tester.getSize(find.byType(VerticalResizableRegionBox).first), const Size(50, 80));
     expect(tester.getSize(find.byType(VerticalResizableRegionBox).last), const Size(50, 20));
   });
@@ -93,19 +100,22 @@ void main() {
       home: Scaffold(body: Center(child: vertical)),
     ));
 
-    await tester.tap(find.byType(GestureDetector).at(4));
-    await tester.drag(find.byType(GestureDetector).at(2), const Offset(0, 100));
+    await tester.tap(find.byType(GestureDetector).at(3));
+    calls.clear();
+
+    await tester.timedDrag(find.byType(GestureDetector).at(1), const Offset(0, 100), const Duration(seconds: 1));
     await tester.pumpAndSettle();
 
+    expect(calls.length, 0);
     expect(tester.getSize(find.byType(VerticalResizableRegionBox).first), const Size(50, 30));
     expect(tester.getSize(find.byType(VerticalResizableRegionBox).last), const Size(50, 70));
   });
 
-
-  testWidgets('vertical drag upwards', (tester) async {
+  testWidgets('vertical drag when haptic feedback disabled', (tester) async {
     final vertical = ResizableBox(
       height: 100,
       width: 50,
+      hapticFeedbackVelocity: null,
       children: [top, bottom],
     );
 
@@ -114,9 +124,32 @@ void main() {
       home: Scaffold(body: Center(child: vertical)),
     ));
 
-    await tester.drag(find.byType(GestureDetector).at(2), const Offset(0, -100));
+    await tester.timedDrag(find.byType(GestureDetector).at(1), const Offset(0, 100), const Duration(seconds: 1));
     await tester.pumpAndSettle();
 
+    expect(calls.length, 0);
+    expect(tester.getSize(find.byType(VerticalResizableRegionBox).first), const Size(50, 80));
+    expect(tester.getSize(find.byType(VerticalResizableRegionBox).last), const Size(50, 20));
+  });
+
+
+  testWidgets('vertical drag upwards', (tester) async {
+    final vertical = ResizableBox(
+      height: 100,
+      width: 50,
+      hapticFeedbackVelocity: 0.0,
+      children: [top, bottom],
+    );
+
+    await tester.pumpWidget(MaterialApp(
+      theme: ThemeData(useMaterial3: true),
+      home: Scaffold(body: Center(child: vertical)),
+    ));
+
+    await tester.timedDrag(find.byType(GestureDetector).at(1), const Offset(0, -100), const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+
+    expect(calls.length, 1);
     expect(tester.getSize(find.byType(VerticalResizableRegionBox).first), const Size(50, 20));
     expect(tester.getSize(find.byType(VerticalResizableRegionBox).last), const Size(50, 80));
   });
@@ -126,6 +159,7 @@ void main() {
       horizontal: true,
       height: 50,
       width: 100,
+      hapticFeedbackVelocity: 0.0,
       children: [top, bottom],
     );
 
@@ -134,9 +168,10 @@ void main() {
       home: Scaffold(body: Center(child: horizontal)),
     ));
 
-    await tester.drag(find.byType(GestureDetector).at(2), const Offset(100, 0));
+    await tester.timedDrag(find.byType(GestureDetector).at(1), const Offset(100, 0), const Duration(seconds: 1));
     await tester.pumpAndSettle();
 
+    expect(calls.length, 1);
     expect(tester.getSize(find.byType(HorizontalResizableRegionBox).first), const Size(80, 50));
     expect(tester.getSize(find.byType(HorizontalResizableRegionBox).last), const Size(20, 50));
   });
@@ -146,6 +181,7 @@ void main() {
       horizontal: true,
       height: 50,
       width: 100,
+      hapticFeedbackVelocity: 0.0,
       children: [top, bottom],
     );
 
@@ -154,11 +190,34 @@ void main() {
       home: Scaffold(body: Center(child: horizontal)),
     ));
 
-    await tester.drag(find.byType(GestureDetector).at(2), const Offset(-100, 0));
+    await tester.timedDrag(find.byType(GestureDetector).at(1), const Offset(-100, 0), const Duration(seconds: 1));
     await tester.pumpAndSettle();
 
+    expect(calls.length, 1);
     expect(tester.getSize(find.byType(HorizontalResizableRegionBox).first), const Size(20, 50));
     expect(tester.getSize(find.byType(HorizontalResizableRegionBox).last), const Size(80, 50));
+  });
+
+  testWidgets('horizontal drag when disabled', (tester) async {
+    final horizontal = ResizableBox(
+      horizontal: true,
+      height: 50,
+      width: 100,
+      hapticFeedbackVelocity: null,
+      children: [top, bottom],
+    );
+
+    await tester.pumpWidget(MaterialApp(
+      theme: ThemeData(useMaterial3: true),
+      home: Scaffold(body: Center(child: horizontal)),
+    ));
+
+    await tester.timedDrag(find.byType(GestureDetector).at(1), const Offset(100, 0), const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+
+    expect(calls.length, 0);
+    expect(tester.getSize(find.byType(HorizontalResizableRegionBox).first), const Size(80, 50));
+    expect(tester.getSize(find.byType(HorizontalResizableRegionBox).last), const Size(20, 50));
   });
 
   testWidgets('no horizontal drag when disabled', (tester) async {
@@ -174,10 +233,13 @@ void main() {
       home: Scaffold(body: Center(child: horizontal)),
     ));
 
-    await tester.tap(find.byType(GestureDetector).at(4));
-    await tester.drag(find.byType(GestureDetector).at(2), const Offset(-100, 0));
+    await tester.tap(find.byType(GestureDetector).at(3));
+    calls.clear();
+
+    await tester.timedDrag(find.byType(GestureDetector).at(1), const Offset(-100, 0), const Duration(seconds: 1));
     await tester.pumpAndSettle();
 
+    expect(calls.length, 0);
     expect(tester.getSize(find.byType(HorizontalResizableRegionBox).first), const Size(30, 50));
     expect(tester.getSize(find.byType(HorizontalResizableRegionBox).last), const Size(70, 50));
   });

@@ -43,6 +43,7 @@ void main() {
     model = ResizableBoxModel(
       [top, middle, bottom],
       60,
+      0.0,
       0,
       (index) => selectedIndex = index,
       (selected, neighbour) => resize = (selected, neighbour),
@@ -50,29 +51,29 @@ void main() {
   });
 
   for (final (index, constructor) in [
-    () => ResizableBoxModel([top, bottom], 60, -1, null, null),
-    () => ResizableBoxModel([top, bottom], 60, 2, null, null),
-    () => ResizableBoxModel([top], 60, 0, null, null),
+    () => ResizableBoxModel([top, bottom], 60, 0.0, -1, null, null),
+    () => ResizableBoxModel([top, bottom], 60, 0.0, 2, null, null),
+    () => ResizableBoxModel([top], 60, 0.0, 0, null, null),
   ].indexed) {
     test('[$index] constructor throws error', () => expect(constructor, throwsAssertionError));
   }
 
 
-  for (final (i, (index, direction, offset, (topMin, topMax), (middleMin, middleMax))) in [
-    (1, Direction.left, const Offset(-100, 0), (0, 10), (10, 40)),
-    (1, Direction.left, const Offset(100, 0), (0, 30), (30, 40)),
+  for (final (i, (index, direction, offset, (topMin, topMax), (middleMin, middleMax), maximized)) in [
+    (1, Direction.left, const Offset(-100, 0), (0, 10), (10, 40), false),
+    (1, Direction.left, const Offset(100, 0), (0, 30), (30, 40), false),
 
-    (0, Direction.right, const Offset(-100, 0), (0, 10), (10, 40)),
-    (0, Direction.right, const Offset(100, 0), (0, 30), (30, 40)),
+    (0, Direction.right, const Offset(-100, 0), (0, 10), (10, 40), false),
+    (0, Direction.right, const Offset(100, 0), (0, 30), (30, 40), false),
 
-    (1, Direction.top, const Offset(0, -100), (0, 10), (10, 40)),
-    (1, Direction.top, const Offset(0, 100), (0, 30), (30, 40)),
+    (1, Direction.top, const Offset(0, -100), (0, 10), (10, 40), false),
+    (1, Direction.top, const Offset(0, 100), (0, 30), (30, 40), false),
 
-    (0, Direction.bottom, const Offset(0, -100), (0, 10), (10, 40)),
-    (0, Direction.bottom, const Offset(0, 100), (0, 30), (30, 40)),
+    (0, Direction.bottom, const Offset(0, -100), (0, 10), (10, 40), false),
+    (0, Direction.bottom, const Offset(0, 100), (0, 30), (30, 40), false),
   ].indexed) {
     test('[$i] update(...) direction', () {
-      model.update(index, direction, offset);
+      expect(model.update(index, direction, offset), maximized);
 
       expect(top.snapshot.min, topMin);
       expect(top.snapshot.max, topMax);
@@ -86,36 +87,6 @@ void main() {
       expect(bottomCount, 0);
     });
   }
-
-  for (final (i, (index, direction, offset)) in [
-    (0, Direction.left, const Offset(-100, 0)),
-    (0, Direction.left, const Offset(100, 0)),
-
-    (2, Direction.right, const Offset(-100, 0)),
-    (2, Direction.right, const Offset(100, 0)),
-    
-    (0, Direction.top, const Offset(0, -100)),
-    (0, Direction.top, const Offset(0, 100)),
-
-    (2, Direction.bottom, const Offset(0, -100)),
-    (2, Direction.bottom, const Offset(0, 100)),
-  ].indexed) {
-    test('[$i] update(...) edge does not cause update', () {
-      model.update(index, direction, offset);
-
-      expect(top.snapshot.min, 0);
-      expect(top.snapshot.max, 25);
-      expect(middle.snapshot.min, 25);
-      expect(middle.snapshot.max, 40);
-      expect(bottom.snapshot.min, 40);
-      expect(bottom.snapshot.max, 60);
-
-      expect(topCount, 0);
-      expect(middleCount, 0);
-      expect(bottomCount, 0);
-    });
-  }
-
 
   for (final (i, (selected, neighbour, direction)) in [
     (1, 0, Direction.left),

@@ -44,7 +44,11 @@ import 'package:stevia/stevia.dart';
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onHorizontalDragUpdate: (details) {
-          if (model.selected == index && details.delta.dx != 0.0 && model.update(index, direction, details.delta)) {
+          if (model.selected == index &&
+              details.delta.dx != 0.0 &&
+              model.update(index, direction, details.delta) &&
+              (model.hapticFeedbackVelocity ?? double.infinity) <= details.delta.distance
+          ) {
             Haptic.selection();
           }
         },
@@ -73,7 +77,11 @@ import 'package:stevia/stevia.dart';
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onVerticalDragUpdate: (details) {
-          if (model.selected == index && details.delta.dy != 0.0 && model.update(index, direction, details.delta)) {
+          if (model.selected == index &&
+              details.delta.dy != 0.0 &&
+              model.update(index, direction, details.delta) &&
+              (model.hapticFeedbackVelocity ?? double.infinity) <= details.delta.distance
+          ) {
             Haptic.selection();
           }
         },

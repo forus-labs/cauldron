@@ -109,6 +109,16 @@ sealed class ResizableBox extends StatefulWidget {
   final double width;
   /// The initially selected region.
   final int initialIndex;
+  /// The minimum velocity, inclusive, of a drag gesture for haptic feedback to be performed
+  /// on collision between two regions, defaults to 6.5.
+  ///
+  /// Setting it to `null` disables haptic feedback while setting it to 0 will cause
+  /// haptic feedback to always be performed.
+  ///
+  /// ## Contract
+  /// [hapticFeedbackVelocity] should be a positive, finite number. It will otherwise
+  /// result in undefined behaviour.
+  final double? hapticFeedbackVelocity;
   /// The children which may be resized.
   final List<ResizableRegion> children;
   /// A function that is called when a region is selected.
@@ -129,19 +139,30 @@ sealed class ResizableBox extends StatefulWidget {
     required double height,
     required double width,
     required List<ResizableRegion> children,
+    double? hapticFeedbackVelocity = 6.5,
     int initialIndex = 0,
     bool horizontal = false,
     void Function(int index)? onTap,
     void Function(RegionSnapshot selected, RegionSnapshot neighbour)? onResizeEnd,
     Key? key,
   }) => horizontal ?
-      _HorizontalResizableBox(height, width, initialIndex, children, onTap, onResizeEnd, key: key) :
-      _VerticalResizableBox(height, width, initialIndex, children, onTap, onResizeEnd, key: key);
+      _HorizontalResizableBox(height, width, initialIndex, hapticFeedbackVelocity, children, onTap, onResizeEnd, key: key) :
+      _VerticalResizableBox(height, width, initialIndex, hapticFeedbackVelocity, children, onTap, onResizeEnd, key: key);
 
 
-  const ResizableBox._(this.height, this.width, this.initialIndex, this.children, this.onTap, this.onResizeEnd, {super.key}):
+  ResizableBox._(
+    this.height,
+    this.width,
+    this.initialIndex,
+    this.hapticFeedbackVelocity,
+    this.children,
+    this.onTap,
+    this.onResizeEnd, {
+    super.key,
+  }):
     assert(-0.1 < height, 'The height should be positive, but it is $height'),
     assert(-0.1 < width, 'The width should be positive, but it is $width'),
+    assert(hapticFeedbackVelocity == null || (0 <= hapticFeedbackVelocity && hapticFeedbackVelocity.isFinite), 'hapticFeedbackVelocity should be nul or a positive finite double, but is $hapticFeedbackVelocity'),
     assert(2 <= children.length, 'A ResizableBox should have at least 2 ResizableRegions.'),
     assert(0 <= initialIndex && initialIndex < children.length, 'The initial index should be in 0 <= initialIndex < ${children.length}, but it is $initialIndex.');
 
@@ -163,6 +184,7 @@ sealed class _ResizableBoxState<T extends ResizableBox> extends State<T> {
     if (widget.height != old.height ||
         widget.width != old.width ||
         widget.initialIndex != old.initialIndex ||
+        widget.hapticFeedbackVelocity != old.hapticFeedbackVelocity ||
         widget.onTap != widget.onTap ||
         widget.onResizeEnd != widget.onResizeEnd ||
         !widget.children.equals(old.children)
@@ -187,7 +209,14 @@ sealed class _ResizableBoxState<T extends ResizableBox> extends State<T> {
       ));
     }
 
-    model = ResizableBoxModel(notifiers, _size, selected, widget.onTap, widget.onResizeEnd);
+    model = ResizableBoxModel(
+      notifiers,
+      _size,
+      widget.hapticFeedbackVelocity,
+      selected,
+      widget.onTap,
+      widget.onResizeEnd,
+    );
   }
 
   double get _size;
@@ -201,11 +230,12 @@ class _HorizontalResizableBox extends ResizableBox {
      super.height,
      super.width,
      super.initialIndex,
+     super.hapticFeedbackVelocity,
      super.children,
      super.onTap,
-     super.onResizeEnd,
-     {super.key}
-   ): assert(
+     super.onResizeEnd, {
+     super.key,
+   }): assert(
     children.sum<double>((e) => e.initialSize).approximately(width, 0.1),
     'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the width of the RegionBox, $width.',
    ), super._();
@@ -245,11 +275,12 @@ class _VerticalResizableBox extends ResizableBox {
     super.height,
     super.width,
     super.initialIndex,
+    super.hapticFeedbackVelocity,
     super.children,
     super.onTap,
-    super.onResizeEnd,
-    {super.key}
-  ): assert(
+    super.onResizeEnd, {
+    super.key,
+  }): assert(
     children.sum<double>((e) => e.initialSize).approximately(height, 0.1),
     'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the height of the RegionBox, $height.',
   ), super._();
