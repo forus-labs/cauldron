@@ -3,7 +3,7 @@ import 'package:sugar/sugar.dart';
 
 import 'package:stevia/stevia.dart';
 import 'package:stevia/src/widgets/resizable/resizable_box_model.dart';
-import 'package:stevia/src/widgets/resizable/resizable_box_region.dart';
+import 'package:stevia/src/widgets/resizable/resizable_region_box.dart';
 import 'package:stevia/src/widgets/resizable/resizable_region.dart';
 import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.dart';
 
@@ -225,7 +225,7 @@ class _HorizontalResizableBoxState extends _ResizableBoxState<_HorizontalResizab
     child: Row(
       children: [
         for (final notifier in model.notifiers)
-          HorizontalResizableBoxRegion(
+          HorizontalResizableRegionBox(
             model: model,
             notifier: notifier,
           ),
@@ -269,7 +269,7 @@ class _VerticalResizableBoxState extends _ResizableBoxState<_VerticalResizableBo
     child: Column(
       children: [
         for (final notifier in model.notifiers)
-          VerticalResizableBoxRegion(
+          VerticalResizableRegionBox(
             model: model,
             notifier: notifier,
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:stevia/src/widgets/resizable/resizable_box_region.dart';
+import 'package:stevia/src/widgets/resizable/resizable_region_box.dart';
 import 'package:stevia/stevia.dart';
 
 void main() {
@@ -77,8 +77,8 @@ void main() {
     await tester.drag(find.byType(GestureDetector).at(2), const Offset(0, 100));
     await tester.pumpAndSettle();
 
-    expect(tester.getSize(find.byType(VerticalResizableBoxRegion).first), const Size(50, 80));
-    expect(tester.getSize(find.byType(VerticalResizableBoxRegion).last), const Size(50, 20));
+    expect(tester.getSize(find.byType(VerticalResizableRegionBox).first), const Size(50, 80));
+    expect(tester.getSize(find.byType(VerticalResizableRegionBox).last), const Size(50, 20));
   });
 
   testWidgets('no vertical drag when disabled', (tester) async {
@@ -97,8 +97,8 @@ void main() {
     await tester.drag(find.byType(GestureDetector).at(2), const Offset(0, 100));
     await tester.pumpAndSettle();
 
-    expect(tester.getSize(find.byType(VerticalResizableBoxRegion).first), const Size(50, 30));
-    expect(tester.getSize(find.byType(VerticalResizableBoxRegion).last), const Size(50, 70));
+    expect(tester.getSize(find.byType(VerticalResizableRegionBox).first), const Size(50, 30));
+    expect(tester.getSize(find.byType(VerticalResizableRegionBox).last), const Size(50, 70));
   });
 
 
@@ -117,8 +117,8 @@ void main() {
     await tester.drag(find.byType(GestureDetector).at(2), const Offset(0, -100));
     await tester.pumpAndSettle();
 
-    expect(tester.getSize(find.byType(VerticalResizableBoxRegion).first), const Size(50, 20));
-    expect(tester.getSize(find.byType(VerticalResizableBoxRegion).last), const Size(50, 80));
+    expect(tester.getSize(find.byType(VerticalResizableRegionBox).first), const Size(50, 20));
+    expect(tester.getSize(find.byType(VerticalResizableRegionBox).last), const Size(50, 80));
   });
 
   testWidgets('horizontal drag right', (tester) async {
@@ -137,8 +137,8 @@ void main() {
     await tester.drag(find.byType(GestureDetector).at(2), const Offset(100, 0));
     await tester.pumpAndSettle();
 
-    expect(tester.getSize(find.byType(HorizontalResizableBoxRegion).first), const Size(80, 50));
-    expect(tester.getSize(find.byType(HorizontalResizableBoxRegion).last), const Size(20, 50));
+    expect(tester.getSize(find.byType(HorizontalResizableRegionBox).first), const Size(80, 50));
+    expect(tester.getSize(find.byType(HorizontalResizableRegionBox).last), const Size(20, 50));
   });
 
   testWidgets('horizontal drag left', (tester) async {
@@ -157,8 +157,8 @@ void main() {
     await tester.drag(find.byType(GestureDetector).at(2), const Offset(-100, 0));
     await tester.pumpAndSettle();
 
-    expect(tester.getSize(find.byType(HorizontalResizableBoxRegion).first), const Size(20, 50));
-    expect(tester.getSize(find.byType(HorizontalResizableBoxRegion).last), const Size(80, 50));
+    expect(tester.getSize(find.byType(HorizontalResizableRegionBox).first), const Size(20, 50));
+    expect(tester.getSize(find.byType(HorizontalResizableRegionBox).last), const Size(80, 50));
   });
 
   testWidgets('no horizontal drag when disabled', (tester) async {
@@ -178,8 +178,8 @@ void main() {
     await tester.drag(find.byType(GestureDetector).at(2), const Offset(-100, 0));
     await tester.pumpAndSettle();
 
-    expect(tester.getSize(find.byType(HorizontalResizableBoxRegion).first), const Size(30, 50));
-    expect(tester.getSize(find.byType(HorizontalResizableBoxRegion).last), const Size(70, 50));
+    expect(tester.getSize(find.byType(HorizontalResizableRegionBox).first), const Size(30, 50));
+    expect(tester.getSize(find.byType(HorizontalResizableRegionBox).last), const Size(70, 50));
   });
 
 }

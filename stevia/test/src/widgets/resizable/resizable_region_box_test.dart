@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:stevia/src/widgets/resizable/resizable_box_model.dart';
-import 'package:stevia/src/widgets/resizable/resizable_box_region.dart';
+import 'package:stevia/src/widgets/resizable/resizable_region_box.dart';
 import 'package:stevia/src/widgets/resizable/resizable_region.dart';
 import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.dart';
 
@@ -40,12 +40,12 @@ void main() {
     model = ResizableBoxModel([top, bottom], 60, 0, null, null);
   });
 
-  testWidgets('HorizontalResizableBoxRegion', (tester) async {
+  testWidgets('HorizontalResizableRegionBox', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
         theme: ThemeData(useMaterial3: true),
         home: Scaffold(
-          body: HorizontalResizableBoxRegion(
+          body: HorizontalResizableRegionBox(
             model: model,
             notifier: top,
           ),
@@ -53,7 +53,7 @@ void main() {
       ),
     );
 
-    expect(tester.getSize(find.byType(HorizontalResizableBoxRegion)), const Size(40, 600));
+    expect(tester.getSize(find.byType(HorizontalResizableRegionBox)), const Size(40, 600));
     expect(snapshot, (RegionSnapshot(index: 0, selected: true, constraints: (min: 10, max: 60), min: 0, max: 40), true));
 
     model.selected = 1;
@@ -62,11 +62,11 @@ void main() {
     expect(snapshot, (RegionSnapshot(index: 0, selected: false, constraints: (min: 10, max: 60), min: 0, max: 40), true));
   });
 
-  testWidgets('VerticalResizableBoxRegion', (tester) async {
+  testWidgets('VerticalResizableRegionBox', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: VerticalResizableBoxRegion(
+          body: VerticalResizableRegionBox(
             model: model,
             notifier: top,
           ),
@@ -74,7 +74,7 @@ void main() {
       ),
     );
 
-    expect(tester.getSize(find.byType(VerticalResizableBoxRegion)), const Size(800, 40));
+    expect(tester.getSize(find.byType(VerticalResizableRegionBox)), const Size(800, 40));
     expect(snapshot, (RegionSnapshot(index: 0, selected: true, constraints: (min: 10, max: 60), min: 0, max: 40), true));
 
     model.selected = 1;
