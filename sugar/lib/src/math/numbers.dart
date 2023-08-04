@@ -103,13 +103,13 @@ extension Integers on int {
 /// Provides functions for working with [double]s.
 extension Doubles on double {
 
-  /// Returns true if this and [other] are within the [epsilon] of each other.
+  /// Returns true if this and [other] are within the [tolerance] of each other.
   ///
   /// ```dart
   /// 1.0002.approximately(1.0, 0.01); // true
   ///
   /// 1.2.approximately(1.0, 0.01); // false
   /// ```
-  @useResult bool approximately(double other, double epsilon) => (this - other).abs() <= epsilon;
+  @useResult bool approximately(double other, double tolerance) => (this - other).abs() <= tolerance;
 
 }

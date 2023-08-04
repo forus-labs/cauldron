@@ -7,7 +7,7 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
 import 'package:stevia/src/widgets/resizable/slider.dart';
 
 /// A resizable region in a horizontal [ResizableBox].
-@internal class HorizontalResizableBoxRegion extends StatelessWidget {
+@internal class HorizontalResizableRegionBox extends StatelessWidget {
 
   /// The containing resizable box's model.
   final ResizableBoxModel model;
@@ -18,8 +18,8 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
   /// The right slider.
   final HorizontalSlider right;
 
-  /// Creates a [HorizontalResizableBoxRegion].
-  HorizontalResizableBoxRegion({required this.model, required this.notifier}):
+  /// Creates a [HorizontalResizableRegionBox].
+  HorizontalResizableRegionBox({required this.model, required this.notifier}):
     left = HorizontalSlider.left(model: model, index: notifier.snapshot.index, size: notifier.region.sliderSize),
     right = HorizontalSlider.right(model: model, index: notifier.snapshot.index, size: notifier.region.sliderSize);
 
@@ -27,8 +27,15 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
   Widget build(BuildContext context) => GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {
-      Haptic.selection();
-      model.selected = notifier.snapshot.index;
+      final index = notifier.snapshot.index;
+      if (model.selected == index) {
+        return;
+      }
+
+      model.selected = index;
+      if (model.hapticFeedbackVelocity != null) {
+        Haptic.selection();
+      }
     },
     child: ListenableBuilder(
       listenable: notifier,
@@ -41,8 +48,10 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
               notifier.snapshot,
               notifier.region.child,
             ),
-            left,
-            right,
+            if (notifier.snapshot.index > 0)
+              left,
+            if (notifier.snapshot.index < model.notifiers.length - 1)
+              right,
           ],
         ),
       ),
@@ -52,7 +61,7 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
 }
 
 /// A resizable region in a vertical [ResizableBox].
-@internal class VerticalResizableBoxRegion extends StatelessWidget {
+@internal class VerticalResizableRegionBox extends StatelessWidget {
 
   /// The containing resizable box's model.
   final ResizableBoxModel model;
@@ -63,8 +72,8 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
   /// The bottom slider.
   final VerticalSlider bottom;
 
-  /// Creates a [VerticalResizableBoxRegion].
-  VerticalResizableBoxRegion({required this.model, required this.notifier}):
+  /// Creates a [VerticalResizableRegionBox].
+  VerticalResizableRegionBox({required this.model, required this.notifier}):
     top = VerticalSlider.top(model: model, index: notifier.snapshot.index, size: notifier.region.sliderSize),
     bottom = VerticalSlider.bottom(model: model, index: notifier.snapshot.index, size: notifier.region.sliderSize);
 
@@ -72,8 +81,15 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
   Widget build(BuildContext context) => GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {
-      Haptic.selection();
-      model.selected = notifier.snapshot.index;
+      final index = notifier.snapshot.index;
+      if (model.selected == index) {
+        return;
+      }
+
+      model.selected = index;
+      if (model.hapticFeedbackVelocity != null) {
+        Haptic.selection();
+      }
     },
     child: ListenableBuilder(
       listenable: notifier,
@@ -86,8 +102,10 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
               notifier.snapshot,
               notifier.region.child,
             ),
-            top,
-            bottom,
+            if (notifier.snapshot.index > 0)
+              top,
+            if (notifier.snapshot.index < model.notifiers.length - 1)
+              bottom,
           ],
         ),
       ),
