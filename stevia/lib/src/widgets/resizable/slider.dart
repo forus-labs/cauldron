@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 import 'package:stevia/src/widgets/resizable/resizable_box_model.dart';
 import 'package:stevia/src/widgets/resizable/direction.dart';
+import 'package:stevia/stevia.dart';
 
 /// A slider to used resize the containing resizable box region in a single direction.
 @internal sealed class Slider extends StatelessWidget {
@@ -43,8 +44,8 @@ import 'package:stevia/src/widgets/resizable/direction.dart';
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onHorizontalDragUpdate: (details) {
-          if (model.selected == index && details.delta.dx != 0.0) {
-            model.update(index, direction, details.delta);
+          if (model.selected == index && details.delta.dx != 0.0 && model.update(index, direction, details.delta)) {
+            Haptic.selection();
           }
         },
         onHorizontalDragEnd: (details) => model.end(index, direction),
@@ -72,8 +73,8 @@ import 'package:stevia/src/widgets/resizable/direction.dart';
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onVerticalDragUpdate: (details) {
-          if (model.selected == index && details.delta.dy != 0.0) {
-            model.update(index, direction, details.delta);
+          if (model.selected == index && details.delta.dy != 0.0 && model.update(index, direction, details.delta)) {
+            Haptic.selection();
           }
         },
         onVerticalDragEnd: (details) => model.end(index, direction),

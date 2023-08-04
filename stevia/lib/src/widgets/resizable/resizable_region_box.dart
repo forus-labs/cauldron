@@ -27,8 +27,11 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
   Widget build(BuildContext context) => GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {
-      Haptic.selection();
-      model.selected = notifier.snapshot.index;
+      final index = notifier.snapshot.index;
+      if (model.selected != index) {
+        model.selected = index;
+        Haptic.selection();
+      }
     },
     child: ListenableBuilder(
       listenable: notifier,
@@ -74,8 +77,11 @@ import 'package:stevia/src/widgets/resizable/slider.dart';
   Widget build(BuildContext context) => GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {
-      Haptic.selection();
-      model.selected = notifier.snapshot.index;
+      final index = notifier.snapshot.index;
+      if (model.selected != index) {
+        model.selected = index;
+        Haptic.selection();
+      }
     },
     child: ListenableBuilder(
       listenable: notifier,

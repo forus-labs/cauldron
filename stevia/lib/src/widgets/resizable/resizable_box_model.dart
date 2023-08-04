@@ -18,6 +18,7 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
   final void Function(int)? _onTap;
   final void Function(RegionSnapshot selected, RegionSnapshot neighbour)? _onResizeEnd;
   int _selected;
+  bool _haptic = true;
 
   /// Creates a [ResizableBoxModel].
   ResizableBoxModel(this.notifiers, this.size, this._selected, this._onTap, this._onResizeEnd):
@@ -25,8 +26,9 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
     assert(0 < size, "A ResizableBox's size should be positive."),
     assert(0 <= _selected && _selected < notifiers.length, 'The selected index should be in 0 <= selected < number of regions, but it is $_selected.');
 
-  /// Updates the [ResizableRegionChangeNotifier] and its neighbours' sizes at the given index.
-  void update(int index, Direction direction, Offset delta) {
+  /// Updates the [ResizableRegionChangeNotifier] and its neighbours' sizes at the given index, and returns true if the
+  /// [ResizableRegionChangeNotifier] has been minimized or maximized.
+  bool update(int index, Direction direction, Offset delta) {
     final (selected, neighbour) = _find(index, direction);
 
     // We always want to resize the shrunken region first. This allows us to remove any overlaps caused by shrinking a region
@@ -45,12 +47,19 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
     final adjusted = shrink.update(shrinkDirection, delta);
     if (previous != (shrink.snapshot.min, shrink.snapshot.max)) {
       expand.update(expandDirection, adjusted);
+      _haptic = true;
+      return !_haptic;
+
+    } else {
+      _haptic = false;
+      return !_haptic;
     }
   }
 
   /// Notifies the region at the [index] and its neighbour that it has been resized.
   void end(int index, Direction direction) {
     final (selected, neighbour) = _find(index, direction);
+    _haptic = true;
     _onResizeEnd?.call(selected.snapshot, neighbour.snapshot);
   }
 
@@ -69,14 +78,12 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
   int get selected => _selected;
 
   set selected(int value) {
-    if (_selected != value) {
-      final old = _selected;
-      _selected = value;
+    final old = _selected;
+    _selected = value;
 
-      _onTap?.call(value);
-      notifiers[old].selected = false;
-      notifiers[selected].selected = true;
-    }
+    _onTap?.call(value);
+    notifiers[old].selected = false;
+    notifiers[selected].selected = true;
   }
 
 }
