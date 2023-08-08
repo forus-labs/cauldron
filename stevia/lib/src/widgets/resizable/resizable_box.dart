@@ -123,6 +123,11 @@ sealed class ResizableBox extends StatefulWidget {
   final List<ResizableRegion> children;
   /// A function that is called when a region is selected.
   final void Function(int index)? onTap;
+  /// A function that is called when a selected region and its neighbour is being resized.
+  ///
+  /// This function is called *while* the regions are being resized. Most users should prefer [onResizeEnd], which is
+  /// called only when the regions have finished resizing.
+  final void Function(RegionSnapshot selected, RegionSnapshot neighbour)? onResizeUpdate;
   /// A function that is called when a selected region and its neighbour have finished resizing.
   final void Function(RegionSnapshot selected, RegionSnapshot neighbour)? onResizeEnd;
 
@@ -143,11 +148,12 @@ sealed class ResizableBox extends StatefulWidget {
     int initialIndex = 0,
     bool horizontal = false,
     void Function(int index)? onTap,
+    void Function(RegionSnapshot selected, RegionSnapshot neighbour)? onResizeUpdate,
     void Function(RegionSnapshot selected, RegionSnapshot neighbour)? onResizeEnd,
     Key? key,
   }) => horizontal ?
-      _HorizontalResizableBox(height, width, initialIndex, hapticFeedbackVelocity, children, onTap, onResizeEnd, key: key) :
-      _VerticalResizableBox(height, width, initialIndex, hapticFeedbackVelocity, children, onTap, onResizeEnd, key: key);
+    _HorizontalResizableBox(height, width, initialIndex, hapticFeedbackVelocity, children, onTap, onResizeUpdate, onResizeEnd, key: key) :
+    _VerticalResizableBox(height, width, initialIndex, hapticFeedbackVelocity, children, onTap, onResizeUpdate, onResizeEnd, key: key);
 
 
   ResizableBox._(
@@ -157,6 +163,7 @@ sealed class ResizableBox extends StatefulWidget {
     this.hapticFeedbackVelocity,
     this.children,
     this.onTap,
+    this.onResizeUpdate,
     this.onResizeEnd, {
     super.key,
   }):
@@ -186,6 +193,7 @@ sealed class _ResizableBoxState<T extends ResizableBox> extends State<T> {
         widget.initialIndex != old.initialIndex ||
         widget.hapticFeedbackVelocity != old.hapticFeedbackVelocity ||
         widget.onTap != widget.onTap ||
+        widget.onResizeUpdate != widget.onResizeUpdate ||
         widget.onResizeEnd != widget.onResizeEnd ||
         !widget.children.equals(old.children)
     ) {
@@ -215,6 +223,7 @@ sealed class _ResizableBoxState<T extends ResizableBox> extends State<T> {
       widget.hapticFeedbackVelocity,
       selected,
       widget.onTap,
+      widget.onResizeUpdate,
       widget.onResizeEnd,
     );
   }
@@ -233,6 +242,7 @@ class _HorizontalResizableBox extends ResizableBox {
      super.hapticFeedbackVelocity,
      super.children,
      super.onTap,
+     super.onResizeUpdate,
      super.onResizeEnd, {
      super.key,
    }): assert(
@@ -278,6 +288,7 @@ class _VerticalResizableBox extends ResizableBox {
     super.hapticFeedbackVelocity,
     super.children,
     super.onTap,
+    super.onResizeUpdate,
     super.onResizeEnd, {
     super.key,
   }): assert(

@@ -40,7 +40,7 @@ void main() {
       RegionSnapshot(index: 1, selected: true, constraints: (min: 10, max: 60), min: 40, max: 60),
     );
 
-    model = ResizableBoxModel([top, bottom], 60, 0.0, 1, null, null);
+    model = ResizableBoxModel([top, bottom], 60, 0.0, 1, null, null, null);
   });
 
   testWidgets('HorizontalResizableRegionBox, haptic feedback enabled', (tester) async {
@@ -67,7 +67,7 @@ void main() {
   });
 
   testWidgets('HorizontalResizableRegionBox, haptic feedback disabled', (tester) async {
-    model = ResizableBoxModel([top, bottom], 60, null, 1, null, null);
+    model = ResizableBoxModel([top, bottom], 60, null, 1, null, null, null);
     await tester.pumpWidget(
       MaterialApp(
           theme: ThemeData(useMaterial3: true),
@@ -114,7 +114,7 @@ void main() {
   });
 
   testWidgets('VerticalResizableRegionBox, haptic feedback disabled', (tester) async {
-    model = ResizableBoxModel([top, bottom], 60, null, 1, null, null);
+    model = ResizableBoxModel([top, bottom], 60, null, 1, null, null, null);
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(

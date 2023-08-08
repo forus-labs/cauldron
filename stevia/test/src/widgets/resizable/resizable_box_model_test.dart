@@ -16,14 +16,16 @@ void main() {
   late int middleCount;
   late int bottomCount;
   late int selectedIndex;
-  (RegionSnapshot, RegionSnapshot)? resize;
+  (RegionSnapshot, RegionSnapshot)? resizeUpdate;
+  (RegionSnapshot, RegionSnapshot)? resizeEnd;
 
   setUp(() {
     topCount = 0;
     middleCount = 0;
     bottomCount = 0;
     selectedIndex = 0;
-    resize = null;
+    resizeUpdate = null;
+    resizeEnd = null;
 
     top = ResizableRegionChangeNotifier(
       ResizableRegion(initialSize: 25, sliderSize: 5, builder: (_, __, ___) => const SizedBox()),
@@ -46,14 +48,15 @@ void main() {
       0.0,
       0,
       (index) => selectedIndex = index,
-      (selected, neighbour) => resize = (selected, neighbour),
+      (selected, neighbour) => resizeUpdate = (selected, neighbour),
+      (selected, neighbour) => resizeEnd = (selected, neighbour),
     );
   });
 
   for (final (index, constructor) in [
-    () => ResizableBoxModel([top, bottom], 60, 0.0, -1, null, null),
-    () => ResizableBoxModel([top, bottom], 60, 0.0, 2, null, null),
-    () => ResizableBoxModel([top], 60, 0.0, 0, null, null),
+    () => ResizableBoxModel([top, bottom], 60, 0.0, -1, null, null, null),
+    () => ResizableBoxModel([top, bottom], 60, 0.0, 2, null, null, null),
+    () => ResizableBoxModel([top], 60, 0.0, 0, null, null, null),
   ].indexed) {
     test('[$index] constructor throws error', () => expect(constructor, throwsAssertionError));
   }
@@ -85,6 +88,9 @@ void main() {
       expect(topCount, 1);
       expect(middleCount, 1);
       expect(bottomCount, 0);
+
+      expect(resizeUpdate?.$1.index, index);
+      expect(resizeUpdate?.$2.index, index == 1 ? 0 : 1);
     });
   }
 
@@ -104,8 +110,8 @@ void main() {
     test('[$i] end calls callback', () {
       model.end(selected, direction);
 
-      expect(resize?.$1.index, selected);
-      expect(resize?.$2.index, neighbour);
+      expect(resizeEnd?.$1.index, selected);
+      expect(resizeEnd?.$2.index, neighbour);
     });
   }
 
