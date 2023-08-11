@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import 'package:sugar/math.dart'; // documentation
+import 'package:sugar/math.dart';
 
 /// Provides functions for working with booleans.
 extension Bools on bool {

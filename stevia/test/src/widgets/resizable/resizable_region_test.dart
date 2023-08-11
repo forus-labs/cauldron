@@ -37,7 +37,7 @@ void main() {
 
     test('percentage', () => expect(
       RegionSnapshot(index: 1, selected: false, constraints: (min: 1, max: 10), min: 0, max: 5).percentage,
-      (0, 0.5),
+      (min: 0, max: 0.5),
     ));
 
     test('size', () => expect(

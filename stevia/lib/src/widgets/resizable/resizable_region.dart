@@ -1,9 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:stevia/stevia.dart';
 
-/// The signature of a method for building a [ResizableRegion]'s child.
-typedef ResizableRegionBuilder = Widget Function(BuildContext context, RegionSnapshot, Widget? child);
-
 /// A snapshot of a region.
 final class RegionSnapshot {
   /// This region's index.
@@ -12,13 +9,12 @@ final class RegionSnapshot {
   final bool selected;
   /// The's minimum height or width, and the total size of the containing box.
   final ({double min, double max}) constraints;
-  /// This region's minimum as a cartesian coordinate.
-  final double min;
-  /// This region's maximum as a cartesian coordinate.
-  final double max;
+  /// This region's minimum and maximum position.
+  final ({double min, double max}) position;
 
   /// Creates a [RegionSnapshot].
-  RegionSnapshot({required this.index, required this.selected, required this.constraints, required this.min, required this.max}):
+  RegionSnapshot({required this.index, required this.selected, required this.constraints, required double min, required double max}):
+    position = (min: min, max: max),
     assert(0 <= index, 'Index should be non-negative, but is $index.'),
     assert(-0.1 < constraints.min, 'Minimum size should be positive, but is ${constraints.min}'),
     assert(-0.1 < constraints.max, 'Maximum size should be positive, but is ${constraints.max}'),
@@ -32,15 +28,15 @@ final class RegionSnapshot {
     index: index,
     selected: selected ?? this.selected,
     constraints: constraints,
-    min: min ?? this.min,
-    max: max ?? this.max,
+    min: min ?? position.min,
+    max: max ?? position.max,
   );
 
-  /// The [min] and [max] as percentages of the containing box's total size.
-  (double, double) get percentage => (min / constraints.max, max / constraints.max);
+  /// The position as a percentage of the containing box's total size.
+  ({double min, double max}) get percentage => (min: position.min / constraints.max, max: position.max / constraints.max);
 
   /// This region's size.
-  double get size => max - min;
+  double get size => position.max - position.min;
 
 
   @override
@@ -48,14 +44,13 @@ final class RegionSnapshot {
     index == other.index &&
     selected == other.selected &&
     constraints == other.constraints &&
-    min == other.min &&
-    max == other.max;
+    position == other.position;
 
   @override
-  int get hashCode => index.hashCode ^ selected.hashCode ^ constraints.hashCode ^ min.hashCode ^ max.hashCode;
+  int get hashCode => index.hashCode ^ selected.hashCode ^ constraints.hashCode ^ position.hashCode;
 
   @override
-  String toString() => 'RegionSnapshot[index: $index, selected: $selected, constraints: $constraints, min: $min, max: $max]';
+  String toString() => 'RegionSnapshot[index: $index, selected: $selected, constraints: $constraints, position: $position]';
 
 }
 
@@ -81,7 +76,7 @@ class ResizableRegion {
   /// Providing a negative value will result in undefined behaviour.
   final double sliderSize;
   /// The builder used to create a child to display in this region.
-  final ResizableRegionBuilder builder;
+  final ValueWidgetBuilder<RegionSnapshot> builder;
   /// A height or width-independent widget which is passed back to the [builder].
   ///
   /// This argument is optional and can be null if the entire widget subtree the [builder] builds depends on the size of

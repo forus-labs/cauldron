@@ -31,8 +31,7 @@ void main() {
 
       expect(notifier.update(direction, delta), translated);
 
-      expect(notifier.snapshot.min, min);
-      expect(notifier.snapshot.max, max);
+      expect(notifier.snapshot.position, (min: min, max: max));
       expect(count, 1);
     });
   }
@@ -60,8 +59,7 @@ void main() {
 
       expect(notifier.update(direction, delta), Offset.zero);
 
-      expect(notifier.snapshot.min, min);
-      expect(notifier.snapshot.max, max);
+      expect(notifier.snapshot.position, (min: min, max: max));
       expect(notified, false);
     });
   }

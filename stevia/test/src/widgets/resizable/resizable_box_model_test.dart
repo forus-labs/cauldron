@@ -62,7 +62,7 @@ void main() {
   }
 
 
-  for (final (i, (index, direction, offset, (topMin, topMax), (middleMin, middleMax), maximized)) in [
+  for (final (i, (index, direction, offset, topPosition, middlePosition, maximized)) in [
     (1, Direction.left, const Offset(-100, 0), (0, 10), (10, 40), false),
     (1, Direction.left, const Offset(100, 0), (0, 30), (30, 40), false),
 
@@ -78,12 +78,9 @@ void main() {
     test('[$i] update(...) direction', () {
       expect(model.update(index, direction, offset), maximized);
 
-      expect(top.snapshot.min, topMin);
-      expect(top.snapshot.max, topMax);
-      expect(middle.snapshot.min, middleMin);
-      expect(middle.snapshot.max, middleMax);
-      expect(bottom.snapshot.min, 40);
-      expect(bottom.snapshot.max, 60);
+      expect(top.snapshot.position, (min: topPosition.$1, max: topPosition.$2));
+      expect(middle.snapshot.position, (min: middlePosition.$1, max: middlePosition.$2));
+      expect(bottom.snapshot.position, (min: 40, max: 60));
 
       expect(topCount, 1);
       expect(middleCount, 1);
@@ -125,12 +122,9 @@ void main() {
     expect(model.selected, 2);
     expect(selectedIndex, 2);
 
-    expect(top.snapshot.min, 0);
-    expect(top.snapshot.max, 25);
-    expect(middle.snapshot.min, 25);
-    expect(middle.snapshot.max, 40);
-    expect(bottom.snapshot.min, 40);
-    expect(bottom.snapshot.max, 60);
+    expect(top.snapshot.position, (min: 0, max: 25));
+    expect(middle.snapshot.position, (min: 25, max: 40));
+    expect(bottom.snapshot.position, (min: 40, max: 60));
 
     expect(topCount, 1);
     expect(middleCount, 0);

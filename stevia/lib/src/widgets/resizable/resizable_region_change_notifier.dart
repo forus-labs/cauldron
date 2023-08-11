@@ -17,12 +17,13 @@ import 'package:stevia/stevia.dart';
   /// Updates the current height or width and returns an offset with any overlap caused by shrinking beyond the minimum
   /// size removed.
   Offset update(Direction direction, Offset delta) {
+    final (:min, :max) = _snapshot.position;
     final Offset(:dx, :dy) = delta;
     final (x, y) = switch (direction) {
-      Direction.left => (_resize(direction, _snapshot.min + dx, _snapshot.max), 0.0),
-      Direction.right => (-_resize(direction, _snapshot.min, _snapshot.max + dx), 0.0),
-      Direction.top => (0.0, _resize(direction, _snapshot.min + dy, _snapshot.max)),
-      Direction.bottom => (0.0, -_resize(direction, _snapshot.min, _snapshot.max + dy)),
+      Direction.left => (_resize(direction, min + dx, max), 0.0),
+      Direction.right => (-_resize(direction, min, max + dx), 0.0),
+      Direction.top => (0.0, _resize(direction, min + dy, max)),
+      Direction.bottom => (0.0, -_resize(direction, min, max + dy)),
     };
 
     return delta.translate(x, y);
@@ -42,14 +43,14 @@ import 'package:stevia/stevia.dart';
 
     if (direction == Direction.left || direction == Direction.top) {
       final min = max - constraints.min;
-      if (snapshot.min != min) {
+      if (snapshot.position.min != min) {
         _snapshot = snapshot.copyWith(min: min);
         notifyListeners();
       }
 
     } else {
       final max = min + constraints.min;
-      if (snapshot.max != max) {
+      if (snapshot.position.max != max) {
         _snapshot = snapshot.copyWith(max: max);
         notifyListeners();
       }

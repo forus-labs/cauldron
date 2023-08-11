@@ -47,9 +47,9 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
       _ => (neighbour, opposite, selected, direction),
     };
 
-    final previous = (shrink.snapshot.min, shrink.snapshot.max);
+    final previous = shrink.snapshot.position;
     final adjusted = shrink.update(shrinkDirection, delta);
-    if (previous != (shrink.snapshot.min, shrink.snapshot.max)) {
+    if (previous != shrink.snapshot.position) {
       expand.update(expandDirection, adjusted);
       _onResizeUpdate?.call(selected.snapshot, neighbour.snapshot);
       _haptic = true;

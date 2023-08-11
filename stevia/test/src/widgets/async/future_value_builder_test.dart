@@ -18,6 +18,7 @@ void main() {
             expect(state, ConnectionState.done);
             expect(value, 'flutter');
             expect(child, isNull);
+
             return const Placeholder();
 
           default:
