@@ -7,7 +7,6 @@ void main() {
   test('centiseconds(...)', () => expect(TimerController.centiseconds(30120000), '00:00:30.12'));
 
   for (final (i, function) in [
-    () => TimerController(duration: Duration.zero),
     () => TimerController(duration: const Duration(seconds: 1), interval: Duration.zero),
   ].indexed) {
     test('[$i] assertions', () => expect(function, throwsAssertionError));

@@ -82,9 +82,8 @@ sealed class TimerController extends ValueNotifier<int> {
   ///
   /// ## Contract
   /// The following will lead to undefined behaviour:
-  /// * [duration] is non-positive
+  /// * [duration] is negative
   /// * [interval] is non-positive
-  /// * [duration] < [interval]
   factory TimerController({
     required Duration duration,
     Duration interval = const Duration(seconds: 1),
@@ -92,9 +91,8 @@ sealed class TimerController extends ValueNotifier<int> {
   }) => ascending ? _AscendingTimerController(duration, interval, 0) : _DescendingTimerController(duration, interval, duration.inMicroseconds);
 
   TimerController._(this.duration, this.interval, this._initial):
-    assert(0 < duration.inMicroseconds, 'The duration should be positive, but it is $duration.'),
+    assert(0 <= duration.inMicroseconds, 'The duration should be non-negative, but it is $duration.'),
     assert(0 < interval.inMicroseconds, 'The interval should be positive, but it is $interval.'),
-    assert(interval.inMicroseconds <= duration.inMicroseconds, 'The interval should be <= duration, but it is $interval <= $duration.'),
     _state = ValueNotifier(TimerState.idle),
     super(_initial);
 
