@@ -1,3 +1,6 @@
+# 2.8.1 (17/08/2023)
+- Remove `unreachable_from_main`
+
 # 2.8.0 (17/08/2023)
 This update focuses on lint rules introduce in Dart 3.1.0.
 
