@@ -1,3 +1,14 @@
+# 2.8.0 (17/08/2023)
+This update focuses on lint rules introduce in Dart 3.1.0.
+
+- Add `matching_super_parameters`
+- Add `no_literal_bool_comparisons`
+- Add `no_self_assignments`
+- Add `no_wildcard_variable_uses`
+- Add `unreachable_from_main`
+- Remove deprecated `iterable_contains_unrelated_type`
+- Remove deprecated `list_remove_unrelated_type`
+
 # 2.7.0 (13/05/2023)
 This update focuses on lint rules introduce in Dart 3.
 

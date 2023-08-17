@@ -2,54 +2,86 @@ import 'dart:io';
 
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart';
-import 'package:yaml/yaml.dart';
 
 import 'environment.dart';
 
-Future<void> main() async => write(await mature(changes(await fetch())).toSet());
+Future<void> main() async => write(await process(await fetch()));
 
 Future<Set<String>> fetch() async {
-  if (!temp.existsSync() || DateTime.now().difference(temp.lastModifiedSync()) > const Duration(days: 1)) {
-    print('"all_rules.yaml" could not be found/is outdated, downloading from $remote');
+  print('Fetching lint rules from $remote.');
 
-    final response = await get(remote);
-    temp..createSync(recursive: true)..writeAsStringSync(response.body);
-  }
-
-  return Set.from(loadFile(temp)['linter']['rules'] as YamlList);
+  final response = parse((await get(remote)).body);
+  return response.getElementsByClassName('code-excerpt__code').single.innerHtml
+      .split(RegExp('[ ]+-[ ]+'))
+      .skip(1)
+      .map((e) => e.trim())
+      .toSet();
 }
 
-Set<String> changes(Set<String> remote) => remote.difference(<String> {
-  ...rules['linter']['rules'],
-  ...rules['ignore'],
-});
-
-Stream<String> mature(Set<String> changes) async* {
-  for (final change in changes) {
-    final response = await get(Uri.parse('https://dart-lang.github.io/linter/lints/$change.html'));
+Future<(Set<String> released, Set<String> removed)> process(Set<String> remote) async {
+  final existing = <String> { ...rules['linter']['rules'], ...rules['ignore'] };
+  final released = <String>{};
+  final experimental = <String>{};
+  final removed = <String> {};
+  
+  for (final rule in remote) {
+    final response = await get(Uri.parse('https://dart.dev/tools/linter-rules/$rule'));
     if (response.statusCode == 404) {
-      print('Warning: https://dart-lang.github.io/linter/lints/$change.html does not exist (the rule might still be experimental)');
-      return;
+      print('Warning: https://dart.dev/tools/linter-rules/$rule does not exist.');
+      continue;
     }
 
-    final header = parse(response.body).body?.getElementsByClassName('wrapper').first.getElementsByTagName('header').first;
-    final released = !header!.getElementsByClassName('tooltip').first.getElementsByTagName('p').first.innerHtml.contains('unreleased');
-    if (released) {
-      yield change;
+    final content = parse(response.body)
+      .getElementsByClassName('content')[0]
+      .getElementsByTagName('p')[1]
+      .getElementsByTagName('em')[0]
+      .text;
+
+    if (existing.contains(rule) && (content.contains('deprecated') || content.contains('removed'))) {
+      removed.add(rule);
+    } else if (!existing.contains(rule) && !content.contains('experimental') && !content.contains('deprecated') && !content.contains('removed')) {
+      released.add(rule);
+    } if (!existing.contains(rule) && content.contains('experimental')) {
+      experimental.add(rule);
     }
   }
+
+  if (experimental.isNotEmpty) {
+    print('The following rules are experimental:');
+    for (final rule in experimental) {
+      print('https://dart.dev/tools/linter-rules/$rule');
+    }
+  }
+
+  return (released, removed);
 }
 
-void write(Set<String> changes) {
-  if (changes.isNotEmpty) {
-    print('See https://dart-lang.github.io/linter/lints/ for more information on lints');
+void write((Set<String> released, Set<String> removed) rules) {
+  final (Set<String> released, Set<String> removed) = rules;
 
-    options.writeAsStringSync('\nchanges:\n', mode: FileMode.append);
-    for (final change in changes) {
-      options.writeAsStringSync('  - $change\n', mode: FileMode.append);
+  if (released.isNotEmpty) {
+    print('The following rules are stable:');
+    options.writeAsStringSync('\nreleased:\n', mode: FileMode.append);
+
+    for (final rule in released) {
+      print('https://dart.dev/tools/linter-rules/$rule');
+      options.writeAsStringSync('  - $rule\n', mode: FileMode.append);
     }
 
   } else {
-    print('No changes to lints');
+    print('No new stable lint rules released.');
+  }
+
+  if (removed.isNotEmpty) {
+    print('The following rules have been removed:');
+    options.writeAsStringSync('\nremoved:\n', mode: FileMode.append);
+
+    for (final rule in removed) {
+      print('https://dart.dev/tools/linter-rules/$rule');
+      options.writeAsStringSync('  - $rule\n', mode: FileMode.append);
+    }
+
+  } else {
+    print('No new lint rules removed.');
   }
 }

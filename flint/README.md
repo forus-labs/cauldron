@@ -11,7 +11,7 @@ Lint rules used by Forus Labs.
 To use a ruleset, add `flint` as a dev dependency in your `pubspec.yaml`.
 ```yaml
 dev_dependencies:
-  flint: ^2.7.0
+  flint: ^2.8.0
 ```
 
 Then, add a ruleset to your `analysis_options.yaml`. Flint contains a Dart ruleset & a Flutter ruleset.

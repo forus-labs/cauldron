@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:yaml/yaml.dart';
 
-final Uri remote = Uri.parse('https://raw.githubusercontent.com/dart-lang/linter/master/example/all.yaml');
+final Uri remote = Uri.parse('https://dart.dev/tools/linter-rules/all');
 
 final String projectDirectory = (Platform.script.path.split('/')..removeLast()..removeLast()).join('/');
 
