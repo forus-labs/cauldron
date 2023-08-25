@@ -1,9 +1,18 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stevia/stevia.dart';
 
-Widget snapshotText(BuildContext context, Snapshot<String> snapshot, Widget? child) => Text(
-  snapshot.toString(),
+Widget valueText(BuildContext context, String value, Widget? child) => Text(
+  value,
+  textDirection: TextDirection.ltr,
+);
+
+Widget errorText(BuildContext context, (Object error, StackTrace trace) error, Widget? child) => Text(
+  error.toString(),
+  textDirection: TextDirection.ltr,
+);
+
+Widget emptyText(BuildContext context, Widget? child) => const Text(
+  'empty text',
   textDirection: TextDirection.ltr,
 );
 

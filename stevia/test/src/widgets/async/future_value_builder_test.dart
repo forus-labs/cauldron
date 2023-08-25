@@ -1,29 +1,70 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stevia/stevia.dart';
 
 import 'async.dart';
 
+class UnderTest extends StatefulWidget {
+  @override
+  State<UnderTest> createState() => _UnderTestState();
+}
+
+class _UnderTestState extends State<UnderTest> {
+  int memoizedSideEffect = 0;
+  int futureSideEffect = 0;
+
+  @override
+  Widget build(BuildContext context) => MaterialApp(
+    home: Column(
+      children: [
+        FloatingActionButton(onPressed: () => setState(() {})),
+        FutureValueBuilder(
+          future: memoizedBuilder,
+          builder: (_, __, ___) => Container(),
+        ),
+        FutureBuilder(
+          future: futureBuilder(),
+          builder: (_, __) => Container(),
+        ),
+      ],
+    ),
+  );
+
+  Future<void> futureBuilder() async {
+    await Future.delayed(const Duration(milliseconds: 1));
+    futureSideEffect++;
+  }
+
+  Future<void> memoizedBuilder(BuildContext context) async {
+    await Future.delayed(const Duration(milliseconds: 1));
+    memoizedSideEffect++;
+  }
+}
+
+
 void main() {
-  testWidgets('gives expected snapshot with SynchronousFuture', (tester) async {
+  testWidgets('FutureBuilder recomputes multiple times, MemoizedFutureValueBuilder does not recompute', (tester) async {
+    await tester.pumpWidget(UnderTest());
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pumpAndSettle();
+
+    final state = tester.state<_UnderTestState>(find.byType(UnderTest));
+    expect(state.memoizedSideEffect, 1);
+    expect(state.futureSideEffect, 2);
+  });
+
+  testWidgets('gives expected value with SynchronousFuture', (tester) async {
     final future = SynchronousFuture('flutter');
     await tester.pumpWidget(FutureValueBuilder<String>(
-      future: future,
-      builder: (context, snapshot, child) {
-        switch (snapshot) {
-          case ValueSnapshot(:final state, :final value):
-            expect(state, ConnectionState.done);
-            expect(value, 'flutter');
-            expect(child, isNull);
+      future: (_) => future,
+      builder: (context, value, child) {
+        expect(value, 'flutter');
+        expect(child, isNull);
 
-            return const Placeholder();
-
-          default:
-            fail('Unexpected snapshot');
-        }
+        return const Placeholder();
       },
     ));
   });
@@ -32,19 +73,22 @@ void main() {
     final key = GlobalKey();
     await tester.pumpWidget(FutureValueBuilder(
       key: key,
-      future: null,
-      builder: snapshotText,
+      future: (context) => null,
+      builder: valueText,
+      emptyBuilder: emptyText,
     ));
 
-    expect(find.text(EmptySnapshot(ConnectionState.none).toString()), findsOneWidget);
+    expect(find.text('empty text'), findsOneWidget);
 
     final completer = Completer<String>();
     await tester.pumpWidget(FutureValueBuilder(
       key: key,
-      future: completer.future,
-      builder: snapshotText,
+      future: (_) => completer.future,
+      builder: valueText,
+      emptyBuilder: emptyText,
     ));
-    expect(find.text(EmptySnapshot(ConnectionState.waiting).toString()), findsOneWidget);
+
+    expect(find.text('empty text'), findsOneWidget);
   });
 
   testWidgets('gracefully handles transition to null future', (tester) async {
@@ -53,22 +97,24 @@ void main() {
 
     await tester.pumpWidget(FutureValueBuilder(
       key: key,
-      future: completer.future,
-      builder: snapshotText,
+      future: (_) => completer.future,
+      builder: valueText,
+      emptyBuilder: emptyText,
     ));
-    expect(find.text(EmptySnapshot(ConnectionState.waiting).toString()), findsOneWidget);
+    expect(find.text('empty text'), findsOneWidget);
 
     await tester.pumpWidget(FutureValueBuilder(
       key: key,
-      future: null,
-      builder: snapshotText,
+      future: (_) => null,
+      builder: valueText,
+      emptyBuilder: emptyText,
     ));
-    expect(find.text(EmptySnapshot(ConnectionState.none).toString()), findsOneWidget);
+    expect(find.text('empty text'), findsOneWidget);
 
     completer.complete('hello');
 
     await eventFiring(tester);
-    expect(find.text(EmptySnapshot(ConnectionState.none).toString()), findsOneWidget);
+    expect(find.text('empty text'), findsOneWidget);
   });
 
   testWidgets('gracefully handles transition to other future', (tester) async {
@@ -78,85 +124,94 @@ void main() {
 
     await tester.pumpWidget(FutureValueBuilder(
       key: key,
-      future: completerA.future,
-      builder: snapshotText,
+      future: (_) => completerA.future,
+      builder: valueText,
+      emptyBuilder: emptyText,
     ));
-    expect(find.text(EmptySnapshot(ConnectionState.waiting).toString()), findsOneWidget);
+    expect(find.text('empty text'), findsOneWidget);
 
     await tester.pumpWidget(FutureValueBuilder(
       key: key,
-      future: completerB.future,
-      builder: snapshotText,
+      future: (_) => completerB.future,
+      builder: valueText,
+      emptyBuilder: emptyText,
     ));
-    expect(find.text(EmptySnapshot(ConnectionState.waiting).toString()), findsOneWidget);
+    expect(find.text('empty text'), findsOneWidget);
 
     completerB.complete('B');
     completerA.complete('A');
     await eventFiring(tester);
-    expect(find.text(const ValueSnapshot(ConnectionState.done, 'B').toString()), findsOneWidget);
+    expect(find.text('B'), findsOneWidget);
   });
 
   testWidgets('tracks life-cycle of Future to success', (tester) async {
     final completer = Completer<String>();
 
-    await tester.pumpWidget(FutureValueBuilder(future: completer.future, builder: snapshotText));
-    expect(find.text(EmptySnapshot(ConnectionState.waiting).toString()), findsOneWidget);
+    await tester.pumpWidget(FutureValueBuilder(future: (_) => completer.future, builder: valueText, emptyBuilder: emptyText));
+    expect(find.text('empty text'), findsOneWidget);
 
     completer.complete('hello');
     await eventFiring(tester);
-    expect(find.text(const ValueSnapshot(ConnectionState.done, 'hello').toString()), findsOneWidget);
+    expect(find.text('hello'), findsOneWidget);
   });
 
   testWidgets('tracks life-cycle of Future to error', (tester) async {
     final completer = Completer<String>();
 
-    await tester.pumpWidget(FutureValueBuilder(future: completer.future, builder: snapshotText));
-    expect(find.text(EmptySnapshot(ConnectionState.waiting).toString()), findsOneWidget);
+    await tester.pumpWidget(FutureValueBuilder(
+      future: (_) => completer.future,
+      builder: valueText,
+      errorBuilder: errorText,
+      emptyBuilder: emptyText,
+    ));
+    expect(find.text('empty text'), findsOneWidget);
 
     completer.completeError('bad', StackTrace.fromString('trace'));
     await eventFiring(tester);
-    expect(
-      find.text(ErrorSnapshot(ConnectionState.done, 'bad', StackTrace.fromString('trace')).toString()),
-      findsOneWidget,
-    );
+    expect(find.text(('bad', StackTrace.fromString('trace')).toString()), findsOneWidget);
   });
 
   testWidgets('runs the builder using given initial value', (tester) async {
     final key = GlobalKey();
     await tester.pumpWidget(FutureValueBuilder.value(
       key: key,
-      future: null,
+      future: (_) => null,
       initial: 'I',
-      builder: snapshotText,
+      builder: valueText,
     ));
-    expect(find.text(const ValueSnapshot(ConnectionState.none, 'I').toString()), findsOneWidget);
+    expect(find.text('I'), findsOneWidget);
   });
 
   testWidgets('ignores initial value when reconfiguring', (tester) async {
     final key = GlobalKey();
     await tester.pumpWidget(FutureValueBuilder.value(
       key: key,
-      future: null,
+      future: (_) => null,
       initial: 'I',
-      builder: snapshotText,
+      builder: valueText,
     ));
-    expect(find.text(const ValueSnapshot(ConnectionState.none, 'I').toString()), findsOneWidget);
+    expect(find.text('I'), findsOneWidget);
 
     final completer = Completer<String>();
     await tester.pumpWidget(FutureValueBuilder.value(
       key: key,
-      future: completer.future,
+      future: (_) => completer.future,
       initial: 'Ignored',
-      builder: snapshotText,
+      builder: valueText,
     ));
-    expect(find.text(const ValueSnapshot(ConnectionState.waiting, 'I').toString()), findsOneWidget);
+    await eventFiring(tester);
+    expect(find.text('I'), findsOneWidget);
+
+    completer.complete('value');
+    await eventFiring(tester);
+    expect(find.text('value'), findsOneWidget);
   });
 
   testWidgets('shows child', (tester) async {
     final key = GlobalKey();
     await tester.pumpWidget(FutureValueBuilder.value(
       key: key,
-      future: null,
+      future: (_) => null,
       initial: 'I',
       builder: (_, __, child) => child!,
       child: const Text('hello', textDirection: TextDirection.ltr),
