@@ -34,7 +34,7 @@ import 'package:flutter/foundation.dart';
 ///    children: [
 ///      ValueListenableBuilder(
 ///        valueListenable: controller,
-///        builder: (context, microseconds, child) => Text(TimerController.centiseconds(microseconds)),
+///        builder: (context, microseconds, child) => Text(TimerController.seconds(microseconds)),
 ///      ),
 ///      IconButton(icon: const Icon(Icons.play_arrow), onPressed: controller.run),
 ///      IconButton(icon: const Icon(Icons.pause), onPressed: controller.pause),
@@ -52,10 +52,10 @@ import 'package:flutter/foundation.dart';
 /// ```
 sealed class TimerController extends ValueNotifier<int> {
 
-  /// Returns a string representation of the [microseconds], rounded to the nearest centisecond, in the format, "HH:mm:ss.CC".
+  /// Returns a string representation of the [microseconds], rounded to the nearest second, in the format, "HH:mm:ss".
   ///
   /// For example, 30,120,000 microseconds yields `00:00:30.12`.
-  static String centiseconds(int microseconds) {
+  static String seconds(int microseconds) {
     final hours = (microseconds ~/ Duration.microsecondsPerHour).toString().padLeft(2, '0');
     microseconds = microseconds.remainder(Duration.microsecondsPerHour);
 
@@ -65,9 +65,7 @@ sealed class TimerController extends ValueNotifier<int> {
     final seconds = (microseconds ~/ Duration.microsecondsPerSecond).toString().padLeft(2, '0');
     microseconds = microseconds.remainder(Duration.microsecondsPerSecond);
 
-    final centiseconds = (microseconds ~/ 10000).toString().padLeft(2, '0');
-
-    return '$hours:$minutes:$seconds.$centiseconds';
+    return '$hours:$minutes:$seconds';
   }
 
   /// The timer's duration.

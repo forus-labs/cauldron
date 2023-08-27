@@ -8,6 +8,11 @@
 /// * [FutureValueBuilder]
 /// * [StreamValueBuilder]
 ///
+/// ## Foundation
+/// General-purpose widgets.
+///
+/// * [ColorFilters]
+///
 /// ## Resizable
 /// Widgets that contain children which can be resized either horizontally or vertically.
 ///
@@ -23,6 +28,8 @@ import 'package:stevia/widgets.dart';
 
 export 'src/widgets/async/future_value_builder.dart';
 export 'src/widgets/async/stream_value_builder.dart';
+
+export 'src/widgets/foundation/color_filters.dart' hide Matrix5;
 
 export 'src/widgets/resizable/resizable_box.dart';
 export 'src/widgets/resizable/resizable_icon.dart';

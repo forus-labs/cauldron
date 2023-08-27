@@ -39,7 +39,7 @@ class _CountdownState extends State<CountdownExample> {
             children: [
               ValueListenableBuilder(
                 valueListenable: controller,
-                builder: (context, microseconds, child) => Text(TimerController.centiseconds(microseconds)),
+                builder: (context, microseconds, child) => Text(TimerController.seconds(microseconds)),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

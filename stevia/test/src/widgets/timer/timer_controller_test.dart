@@ -4,7 +4,7 @@ import 'package:stevia/stevia.dart';
 
 void main() {
 
-  test('centiseconds(...)', () => expect(TimerController.centiseconds(30120000), '00:00:30.12'));
+  test('seconds(...)', () => expect(TimerController.seconds(30120000), '00:00:30'));
 
   for (final (i, function) in [
     () => TimerController(duration: const Duration(seconds: 1), interval: Duration.zero),
