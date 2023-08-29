@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 
 /// Shows a non-dismissible [ModalBarrier] until the given [future] has completed. 
 /// 
-/// It optionally contains the widget returned by [builder].
+/// It optionally contains the widget returned by [builder], and returns the given [future].
 /// 
 /// ```dart
 /// class SomeWidget extends StatelessWidget {
@@ -20,15 +20,20 @@ import 'package:meta/meta.dart';
 ///   );
 /// }
 /// ```
-Future<void> showFutureBarrier({required BuildContext context, required Future<dynamic> future, WidgetBuilder? builder}) => showDialog(
-  context: context,
-  useRootNavigator: false,
-  barrierDismissible: false,
-  builder: (context) => FutureBarrier(
-    future: future,
-    builder: builder,
-  ),
-);
+Future<T> showFutureBarrier<T>({required BuildContext context, required Future<T> future, WidgetBuilder? builder}) {
+  showDialog(
+    context: context,
+    useRootNavigator: false,
+    barrierDismissible: false,
+    builder: (context) => FutureBarrier(
+      future: future,
+      builder: builder,
+    ),
+  );
+
+  return future;
+}
+
 
 /// A [FutureBarrier]
 @internal class FutureBarrier extends StatefulWidget {
