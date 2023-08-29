@@ -35,6 +35,7 @@ import 'package:flutter/widgets.dart';
 ///     builder: (_, __) => Container(),
 ///   );
 /// }
+/// ```
 ///
 /// ## Working with `FutureValueBuilder`:
 /// To create a `FutureValueBuilder`:
@@ -43,8 +44,9 @@ import 'package:flutter/widgets.dart';
 ///   future: () => computeAsync(),
 ///   builder: (context, value, child) => Text(value),
 ///   errorBuilder: (context, error, child) => Text('Error: $error'), // optional
-///   emptyBuilder: (context, child) => CircularProgressIndicator(), // optional
+///   emptyBuilder: (context, future, child) => CircularProgressIndicator(), // optional
 /// )
+/// ```
 ///
 /// You can also set an initial value:
 /// ```dart
@@ -59,7 +61,7 @@ import 'package:flutter/widgets.dart';
 /// [builder], [errorBuilder] and [emptyBuilder] also accept a [child] widget that is independent of the asynchronous computation:
 /// ```dart
 /// FutureValueBuilder(
-///   future: () => computeAsync(),,
+///   future: () => computeAsync(),
 ///   builder: (context, value, child) => Row(children: [
 ///     Text(value),
 ///     child!,
@@ -87,7 +89,7 @@ class FutureValueBuilder<T> extends StatefulWidget {
   /// The build strategy currently used by this builder when no error or [T] is available.
   ///
   /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
-  final TransitionBuilder? emptyBuilder;
+  final ValueWidgetBuilder<Future<T>?>? emptyBuilder;
 
   /// A future-independent widget which is passed back to the [builder].
   ///
@@ -159,7 +161,7 @@ class _State<T> extends State<FutureValueBuilder<T>> {
   Widget build(BuildContext context) => switch (_snapshot) {
     final T value => widget.builder(context, value, widget.child),
     (final Object error, final StackTrace trace) => widget.errorBuilder?.call(context, (error, trace), widget.child) ?? const SizedBox(),
-    _ => widget.emptyBuilder?.call(context, widget.child) ?? const SizedBox(),
+    _ => widget.emptyBuilder?.call(context, _future, widget.child) ?? const SizedBox(),
   };
 
   void _subscribe() {

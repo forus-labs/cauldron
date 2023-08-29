@@ -5,6 +5,8 @@
 /// ## Async
 /// Widgets that build themselves based on interaction with an asynchronous computation.
 ///
+/// * [showFutureBarrier]
+///
 /// * [FutureValueBuilder]
 /// * [StreamValueBuilder]
 ///
@@ -26,6 +28,7 @@ library stevia.widgets;
 
 import 'package:stevia/widgets.dart';
 
+export 'src/widgets/async/future_barrier.dart' hide FutureBarrier;
 export 'src/widgets/async/future_value_builder.dart';
 export 'src/widgets/async/stream_value_builder.dart';
 

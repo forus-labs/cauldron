@@ -11,8 +11,8 @@ void main() {
     final completer = Completer<String>();
     
     await tester.pumpWidget(Column(children: [
-      FutureValueBuilder(future: (_) => completer.future, builder: valueText, emptyBuilder: emptyText),
-      StreamValueBuilder(stream: completer.future.asStream(), builder: valueText, emptyBuilder: emptyText),
+      FutureValueBuilder(future: (_) => completer.future, builder: valueText, emptyBuilder: emptyFutureText),
+      StreamValueBuilder(stream: completer.future.asStream(), builder: valueText, emptyBuilder: emptyStreamText),
     ]));
     expect(find.text('empty text'), findsNWidgets(2));
     
@@ -25,8 +25,8 @@ void main() {
     final completer = Completer<String>();
 
     await tester.pumpWidget(Column(children: [
-      FutureValueBuilder(future: (_) => completer.future, builder: valueText, errorBuilder: errorText, emptyBuilder: emptyText),
-      StreamValueBuilder(stream: completer.future.asStream(), builder: valueText, errorBuilder: errorText, emptyBuilder: emptyText),
+      FutureValueBuilder(future: (_) => completer.future, builder: valueText, errorBuilder: errorText, emptyBuilder: emptyFutureText),
+      StreamValueBuilder(stream: completer.future.asStream(), builder: valueText, errorBuilder: errorText, emptyBuilder: emptyStreamText),
     ]));
     expect(find.text('empty text'), findsNWidgets(2));
 
@@ -39,8 +39,8 @@ void main() {
     final completer = Completer<String>();
 
     await tester.pumpWidget(Column(children: [
-      FutureValueBuilder(future: (_) => completer.future, builder: valueText, errorBuilder: errorText, emptyBuilder: emptyText),
-      StreamValueBuilder(stream: completer.future.asStream(), builder: valueText, errorBuilder: errorText, emptyBuilder: emptyText),
+      FutureValueBuilder(future: (_) => completer.future, builder: valueText, errorBuilder: errorText, emptyBuilder: emptyFutureText),
+      StreamValueBuilder(stream: completer.future.asStream(), builder: valueText, errorBuilder: errorText, emptyBuilder: emptyStreamText),
     ]));
 
     expect(find.text('empty text'), findsNWidgets(2));
@@ -52,8 +52,8 @@ void main() {
 
   testWidgets('when Future is null', (tester) async {
     await tester.pumpWidget(Column(children: [
-      FutureValueBuilder(future: (_) => null, builder: valueText, emptyBuilder: emptyText),
-      const StreamValueBuilder(stream: null, builder: valueText, emptyBuilder: emptyText),
+      FutureValueBuilder(future: (_) => null, builder: valueText, emptyBuilder: emptyFutureText),
+      const StreamValueBuilder(stream: null, builder: valueText, emptyBuilder: emptyStreamText),
     ]));
 
     expect(find.text('empty text'), findsNWidgets(2));

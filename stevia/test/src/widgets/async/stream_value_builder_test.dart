@@ -11,11 +11,11 @@ import 'async.dart';
 void main() {
   testWidgets('gracefully handles transition from null stream', (tester) async {
     final key = GlobalKey();
-    await tester.pumpWidget(StreamValueBuilder(key: key, stream: null, builder: valueText, emptyBuilder: emptyText));
+    await tester.pumpWidget(StreamValueBuilder(key: key, stream: null, builder: valueText, emptyBuilder: emptyStreamText));
     expect(find.text('empty text'), findsOneWidget);
 
     final controller = StreamController<String>();
-    await tester.pumpWidget(StreamValueBuilder(key: key, stream: controller.stream, builder: valueText, emptyBuilder: emptyText));
+    await tester.pumpWidget(StreamValueBuilder(key: key, stream: controller.stream, builder: valueText, emptyBuilder: emptyStreamText));
     expect(find.text('empty text'), findsOneWidget);
   });
 
@@ -23,10 +23,10 @@ void main() {
     final key = GlobalKey();
     final controller = StreamController<String>();
 
-    await tester.pumpWidget(StreamValueBuilder(key: key, stream: controller.stream, builder: valueText, emptyBuilder: emptyText));
+    await tester.pumpWidget(StreamValueBuilder(key: key, stream: controller.stream, builder: valueText, emptyBuilder: emptyStreamText));
     expect(find.text('empty text'), findsOneWidget);
 
-    await tester.pumpWidget(StreamValueBuilder(key: key, stream: null, builder: valueText, emptyBuilder: emptyText));
+    await tester.pumpWidget(StreamValueBuilder(key: key, stream: null, builder: valueText, emptyBuilder: emptyStreamText));
     expect(find.text('empty text'), findsOneWidget);
   });
 
@@ -35,7 +35,7 @@ void main() {
     final controllerA = StreamController<String>();
     final controllerB = StreamController<String>();
 
-    await tester.pumpWidget(StreamValueBuilder(key: key, stream: controllerA.stream, builder: valueText, emptyBuilder: emptyText));
+    await tester.pumpWidget(StreamValueBuilder(key: key, stream: controllerA.stream, builder: valueText, emptyBuilder: emptyStreamText));
     expect(find.text('empty text'), findsOneWidget);
 
     await tester.pumpWidget(StreamValueBuilder(key: key, stream: controllerB.stream, builder: valueText));
@@ -49,7 +49,7 @@ void main() {
     final key = GlobalKey();
     final controller = StreamController<String>();
 
-    await tester.pumpWidget(StreamValueBuilder(key: key, stream: controller.stream, builder: valueText, errorBuilder: errorText, emptyBuilder: emptyText));
+    await tester.pumpWidget(StreamValueBuilder(key: key, stream: controller.stream, builder: valueText, errorBuilder: errorText, emptyBuilder: emptyStreamText));
     expect(find.text('empty text'), findsOneWidget);
 
     controller..add('1')..add('2');

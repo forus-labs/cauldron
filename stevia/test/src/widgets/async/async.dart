@@ -11,7 +11,12 @@ Widget errorText(BuildContext context, (Object error, StackTrace trace) error, W
   textDirection: TextDirection.ltr,
 );
 
-Widget emptyText(BuildContext context, Widget? child) => const Text(
+Widget emptyFutureText(BuildContext context, Future<String>? future, Widget? child) => const Text(
+  'empty text',
+  textDirection: TextDirection.ltr,
+);
+
+Widget emptyStreamText(BuildContext context, Widget? child) => const Text(
   'empty text',
   textDirection: TextDirection.ltr,
 );

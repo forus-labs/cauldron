@@ -75,7 +75,7 @@ void main() {
       key: key,
       future: (context) => null,
       builder: valueText,
-      emptyBuilder: emptyText,
+      emptyBuilder: emptyFutureText,
     ));
 
     expect(find.text('empty text'), findsOneWidget);
@@ -85,7 +85,7 @@ void main() {
       key: key,
       future: (_) => completer.future,
       builder: valueText,
-      emptyBuilder: emptyText,
+      emptyBuilder: emptyFutureText,
     ));
 
     expect(find.text('empty text'), findsOneWidget);
@@ -99,7 +99,7 @@ void main() {
       key: key,
       future: (_) => completer.future,
       builder: valueText,
-      emptyBuilder: emptyText,
+      emptyBuilder: emptyFutureText,
     ));
     expect(find.text('empty text'), findsOneWidget);
 
@@ -107,7 +107,7 @@ void main() {
       key: key,
       future: (_) => null,
       builder: valueText,
-      emptyBuilder: emptyText,
+      emptyBuilder: emptyFutureText,
     ));
     expect(find.text('empty text'), findsOneWidget);
 
@@ -126,7 +126,7 @@ void main() {
       key: key,
       future: (_) => completerA.future,
       builder: valueText,
-      emptyBuilder: emptyText,
+      emptyBuilder: emptyFutureText,
     ));
     expect(find.text('empty text'), findsOneWidget);
 
@@ -134,7 +134,7 @@ void main() {
       key: key,
       future: (_) => completerB.future,
       builder: valueText,
-      emptyBuilder: emptyText,
+      emptyBuilder: emptyFutureText,
     ));
     expect(find.text('empty text'), findsOneWidget);
 
@@ -147,7 +147,7 @@ void main() {
   testWidgets('tracks life-cycle of Future to success', (tester) async {
     final completer = Completer<String>();
 
-    await tester.pumpWidget(FutureValueBuilder(future: (_) => completer.future, builder: valueText, emptyBuilder: emptyText));
+    await tester.pumpWidget(FutureValueBuilder(future: (_) => completer.future, builder: valueText, emptyBuilder: emptyFutureText));
     expect(find.text('empty text'), findsOneWidget);
 
     completer.complete('hello');
@@ -162,7 +162,7 @@ void main() {
       future: (_) => completer.future,
       builder: valueText,
       errorBuilder: errorText,
-      emptyBuilder: emptyText,
+      emptyBuilder: emptyFutureText,
     ));
     expect(find.text('empty text'), findsOneWidget);
 
