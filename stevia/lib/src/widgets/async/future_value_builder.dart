@@ -91,10 +91,10 @@ class FutureValueBuilder<T> extends StatefulWidget {
   /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
   final ValueWidgetBuilder<Future<T>?>? emptyBuilder;
 
-  /// A future-independent widget which is passed back to the [builder].
+  /// A future-independent widget which is passed back to the builders.
   ///
-  /// This argument is optional and can be null if the entire widget subtree the [builder] builds depends on the value
-  /// of the future. For example, in the case where the future is a [String] and the [builder] returns a [Text] widget
+  /// This argument is optional and can be null if the entire widget subtree the builders build depends on the value
+  /// of the future. For example, in the case where the future is a [String] and the builders return a [Text] widget
   /// with the current [String] value, there would be no useful [child].
   final Widget? child;
 
