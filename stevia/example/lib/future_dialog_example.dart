@@ -28,35 +28,56 @@ class SomeWidget extends StatelessWidget { // This needs to be separated to ensu
         FloatingActionButton(
           onPressed: () => showFutureDialog(
             context: context,
-            future: Future.delayed(const Duration(seconds: 5), () async => ''),
-            emptyBuilder: (context, _, __) => const Text('This barrier will disappear after 5.'),
+            future: () async {
+              await Future.delayed(const Duration(seconds: 5));
+              return '';
+            },
+            emptyBuilder: (context, _, __) => Container(
+              alignment: Alignment.center,
+              child: const Text('This text will disappear after 5s.'),
+            ),
           ),
-          child: const Text('No dialog'),
+          child: const Text('Auto-dismiss', textAlign: TextAlign.center,),
         ),
+        const SizedBox(height: 10),
         FloatingActionButton(
           onPressed: () => showFutureDialog(
             context: context,
-            future: Future.delayed(const Duration(seconds: 5), () async => ''),
+            future: () async {
+              await Future.delayed(const Duration(seconds: 5));
+              return '';
+            },
             builder: (context, _, __) => FloatingActionButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text('Dismiss'),
             ),
-            emptyBuilder: (context, _, __) => const Text('Please wait 5s'),
+            emptyBuilder: (context, _, __) => Container(
+              alignment: Alignment.center,
+              child: const Text('This text will disappear after 5s.'),
+            ),
           ),
-          child: const Text('Has value dialog'),
+          child: const Text('Has value', textAlign: TextAlign.center),
         ),
+        const SizedBox(height: 10),
         FloatingActionButton(
           onPressed: () => showFutureDialog(
             context: context,
-            future: Future.delayed(const Duration(seconds: 5), () async => throw StateError('Error')),
+            future: () async {
+              await Future.delayed(const Duration(seconds: 5));
+              throw StateError('Error');
+            },
             errorBuilder: (context, _, __) => FloatingActionButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text('Dismiss'),
             ),
-            emptyBuilder: (context, _, __) => const Text('Please wait 5s'),
+            emptyBuilder: (context, _, __) => Container(
+              alignment: Alignment.center,
+              child: const Text('This text will disappear after 5s.'),
+            ),
           ),
-          child: const Text('Has error dialog'),
+          child: const Text('Has error', textAlign: TextAlign.center),
         ),
+        const SizedBox(height: 10),
       ],
     ),
   );

@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:stevia/stevia.dart';
 
 class HomeWidget extends StatelessWidget {
-  final Future<String>? future;
+  final Future<String> Function()? future;
   final ValueWidgetBuilder<String>? builder;
   final ValueWidgetBuilder<(Object error, StackTrace stackTrace)>? errorBuilder;
 
@@ -19,7 +19,7 @@ class HomeWidget extends StatelessWidget {
 }
 
 class SomeWidget extends StatelessWidget {
-  final Future<String>? future;
+  final Future<String> Function()? future;
   final ValueWidgetBuilder<String>? builder;
   final ValueWidgetBuilder<(Object error, StackTrace stackTrace)>? errorBuilder;
 
@@ -30,7 +30,10 @@ class SomeWidget extends StatelessWidget {
     child: FloatingActionButton(
       onPressed: () => showFutureDialog<String>(
         context: context,
-        future: future ?? Future.delayed(const Duration(seconds: 5), () async => ''),
+        future: future ?? () async {
+          await Future.delayed(const Duration(seconds: 5));
+          return '';
+        },
         builder: builder,
         errorBuilder: errorBuilder,
         emptyBuilder: (context, _, __) => const Text('L'),
@@ -73,7 +76,10 @@ void main() {
 
     testWidgets('show error builder', (tester) async {
       await tester.pumpWidget(HomeWidget(
-        future: Future.delayed(const Duration(seconds: 5), () async => throw StateError('help')),
+        future: () async {
+          await Future.delayed(const Duration(seconds: 5));
+          throw StateError('help');
+        },
         errorBuilder: (context, _, __) => const Text('E'),
       ));
       await tester.tap(find.text('Button'));

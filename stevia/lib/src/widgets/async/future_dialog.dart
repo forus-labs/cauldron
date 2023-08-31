@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stevia/src/widgets/async/future_value_builder.dart';
+import 'package:stevia/stevia.dart';
 
 /// Shows a dialog that relies on an asynchronous computation.
 ///
@@ -7,46 +7,91 @@ import 'package:stevia/src/widgets/async/future_value_builder.dart';
 /// completed.
 ///
 /// After the [future] has completed:
-/// * If [future] completed successfully and a [builder] is given, the dialog returned by [builder] is shown.
-/// * If [future] completed with an error and a [errorBuilder] is given, the dialog returned by [errorBuilder] is shown.
+/// * If [future] completes successfully and a [builder] is given, the dialog returned by [builder] is shown.
+/// * If [future] completes with an error and a [errorBuilder] is given, the dialog returned by [errorBuilder] is shown.
 /// * It otherwise automatically dismisses the [ModalBarrier].
 ///
+/// The result of the given [future] is always returned.
 ///
 /// ## Working with [showFutureDialog]:
 ///
-/// To show a dialog that is automatically dismissed after the [future] is completed.
+/// To show a dialog that is automatically dismissed after the [future] is completed:
 /// ```dart
 /// FloatingActionButton(
 ///   onPressed: () => showFutureDialog(
 ///     context: context,
-///     future: Future.delayed(const Duration(seconds: 5), () async => ''),
-///     emptyBuilder: (context, _, __) => const Text('This barrier will disappear after 5.'),
+///     future: (context) async {
+///       await Future.delayed(const Duration(seconds: 5));
+///       return '';
+///     },
+///     emptyBuilder: (context, _, __) => const Text('This text will disappear after 5s.'),
 ///   ),
 ///   child: const Text('No dialog'),
-/// ),
+/// );
+/// ```
+/// 
+/// To show a dialog that appears after the [future] has successfully completed:
+/// ```dart
+/// FloatingActionButton(
+///   onPressed: () => showFutureDialog(
+///     context: context,
+///     future: (context) async {
+///       await Future.delayed(const Duration(seconds: 5);
+///       return '';
+///     },
+///     builder: (context, _, __) => FloatingActionButton(
+///       onPressed: () => Navigator.of(context).pop(),
+///       child: Text('Dismiss'),
+///     ),
+///     emptyBuilder: (context, _, __) => const Text('Please wait 5s'),
+///   ),
+///   child: const Text('Has value dialog'),
+/// );
+/// ```
+/// 
+/// To show a dialog that appears after the [future] has completed with an error:
+/// ```dart
+/// FloatingActionButton(
+///   onPressed: () => showFutureDialog(
+///     context: context,
+///     future: (context) async {
+///       await Future.delayed(const Duration(seconds: 5);
+///       throw StateError('Error')
+///     },
+///     errorBuilder: (context, _, __) => FloatingActionButton(
+///       onPressed: () => Navigator.of(context).pop(),
+///       child: Text('Dismiss'),
+///     ),
+///     emptyBuilder: (context, _, __) => const Text('Please wait 5s'),
+///   ),
+///   child: const Text('Has error dialog'),
+/// );
 /// ```
 Future<T> showFutureDialog<T>({
   required BuildContext context,
-  required Future<T> future,
+  required Future<T> Function() future,
   ValueWidgetBuilder<T>? builder,
   ValueWidgetBuilder<(Object error, StackTrace stackTrace)>? errorBuilder,
   ValueWidgetBuilder<Future<T>>? emptyBuilder,
   Widget? child,
 }) async {
-  await showDialog(
+  final result = future();
+  await showAdaptiveDialog(
     context: context,
     useRootNavigator: false,
     barrierDismissible: false,
     builder: (context) => FutureDialog(
-      future: future,
+      future: result,
       builder: builder,
       errorBuilder: errorBuilder,
       emptyBuilder: emptyBuilder,
       child: child,
     ),
   );
-  return future;
+
+  return result;
 }
+
 
 /// A [FutureDialog]. See [showFutureDialog] for more details.
 class FutureDialog<T> extends StatelessWidget {
