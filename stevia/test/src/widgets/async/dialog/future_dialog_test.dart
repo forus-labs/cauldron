@@ -28,7 +28,7 @@ class SomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Center(
     child: FloatingActionButton(
-      onPressed: () => showAdaptiveFutureDialog(
+      onPressed: () => showFutureValueDialog(
         context: context,
         future: future ?? () async {
           await Future.delayed(const Duration(seconds: 5));
@@ -44,7 +44,7 @@ class SomeWidget extends StatelessWidget {
 }
 
 void main() {
-  group('showFutureDialog', () {
+  group('showFutureValueDialog', () {
     testWidgets('automatically dismisses when successful', (tester) async {
       await tester.pumpWidget(const HomeWidget());
       await tester.tap(find.text('Button'));

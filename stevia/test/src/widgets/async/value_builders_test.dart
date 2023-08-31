@@ -11,7 +11,7 @@ void main() {
     final completer = Completer<String>();
     
     await tester.pumpWidget(Column(children: [
-      FutureValueBuilder(future: (_) => completer.future, builder: valueText, emptyBuilder: emptyFutureText),
+      FutureValueBuilder(future: (_) => completer.future, builder: valueText, emptyBuilder: emptyFutureValueText),
       StreamValueBuilder(stream: completer.future.asStream(), builder: valueText, emptyBuilder: emptyStreamText),
     ]));
     expect(find.text('empty text'), findsNWidgets(2));
@@ -25,7 +25,7 @@ void main() {
     final completer = Completer<String>();
 
     await tester.pumpWidget(Column(children: [
-      FutureValueBuilder(future: (_) => completer.future, builder: valueText, errorBuilder: errorText, emptyBuilder: emptyFutureText),
+      FutureValueBuilder(future: (_) => completer.future, builder: valueText, errorBuilder: errorText, emptyBuilder: emptyFutureValueText),
       StreamValueBuilder(stream: completer.future.asStream(), builder: valueText, errorBuilder: errorText, emptyBuilder: emptyStreamText),
     ]));
     expect(find.text('empty text'), findsNWidgets(2));
@@ -39,7 +39,7 @@ void main() {
     final completer = Completer<String>();
 
     await tester.pumpWidget(Column(children: [
-      FutureValueBuilder(future: (_) => completer.future, builder: valueText, errorBuilder: errorText, emptyBuilder: emptyFutureText),
+      FutureValueBuilder(future: (_) => completer.future, builder: valueText, errorBuilder: errorText, emptyBuilder: emptyFutureValueText),
       StreamValueBuilder(stream: completer.future.asStream(), builder: valueText, errorBuilder: errorText, emptyBuilder: emptyStreamText),
     ]));
 
@@ -52,7 +52,7 @@ void main() {
 
   testWidgets('when Future is null', (tester) async {
     await tester.pumpWidget(Column(children: [
-      FutureValueBuilder(future: (_) => null, builder: valueText, emptyBuilder: emptyFutureText),
+      FutureValueBuilder(future: (_) => null, builder: valueText, emptyBuilder: emptyFutureValueText),
       const StreamValueBuilder(stream: null, builder: valueText, emptyBuilder: emptyStreamText),
     ]));
 

@@ -15,12 +15,12 @@ import 'package:stevia/stevia.dart';
 ///
 /// Internally, this function relies on [showAdaptiveDialog].
 ///
-/// ## Working with [showFutureDialog]:
+/// ## Working with [showFutureValueDialog]:
 ///
 /// To show a dialog that is automatically dismissed after the [future] is completed:
 /// ```dart
 /// FloatingActionButton(
-///   onPressed: () => showFutureDialog(
+///   onPressed: () => showFutureValueDialog(
 ///     context: context,
 ///     future: (context) async {
 ///       await Future.delayed(const Duration(seconds: 5));
@@ -35,7 +35,7 @@ import 'package:stevia/stevia.dart';
 /// To show a dialog that appears after the [future] has successfully completed:
 /// ```dart
 /// FloatingActionButton(
-///   onPressed: () => showFutureDialog(
+///   onPressed: () => showFutureValueDialog(
 ///     context: context,
 ///     future: (context) async {
 ///       await Future.delayed(const Duration(seconds: 5);
@@ -54,7 +54,7 @@ import 'package:stevia/stevia.dart';
 /// To show a dialog that appears after the [future] has completed with an error:
 /// ```dart
 /// FloatingActionButton(
-///   onPressed: () => showFutureDialog(
+///   onPressed: () => showFutureValueDialog(
 ///     context: context,
 ///     future: (context) async {
 ///       await Future.delayed(const Duration(seconds: 5);
@@ -69,7 +69,7 @@ import 'package:stevia/stevia.dart';
 ///   child: const Text('Has error dialog'),
 /// );
 /// ```
-Future<T> showAdaptiveFutureDialog<T>({
+Future<T> showFutureValueDialog<T>({
   required BuildContext context,
   required Future<T> Function() future,
   ValueWidgetBuilder<T>? builder,
@@ -82,7 +82,7 @@ Future<T> showAdaptiveFutureDialog<T>({
     context: context,
     useRootNavigator: false,
     barrierDismissible: false,
-    builder: (context) => FutureDialog(
+    builder: (context) => FutureValueDialog._(
       future: result,
       builder: builder,
       errorBuilder: errorBuilder,
@@ -95,8 +95,8 @@ Future<T> showAdaptiveFutureDialog<T>({
 }
 
 
-/// A [FutureDialog]. See [showAdaptiveFutureDialog] for more details.
-class FutureDialog<T> extends StatelessWidget {
+/// A [FutureValueDialog]. See [showFutureValueDialog] for more details.
+class FutureValueDialog<T> extends StatelessWidget {
 
   /// The asynchronous computation.
   final Future<T> future;
@@ -118,9 +118,8 @@ class FutureDialog<T> extends StatelessWidget {
   /// of the future. For example, in the case where the future is a [String] and the [builder] returns a [Text] widget
   /// with the current [String] value, there would be no useful [child].
   final Widget? child;
-
-  /// Creates a [FutureDialog].
-  const FutureDialog({
+  
+  const FutureValueDialog._({
     required this.future,
     this.builder,
     this.errorBuilder,

@@ -1,6 +1,4 @@
-import 'dart:async';
-
-import 'package:flutter/widgets.dart';
+part of 'future_builder_base.dart';
 
 /// A widget that builds itself based on the latest snapshot of interaction with a [Future].
 ///
@@ -58,7 +56,9 @@ import 'package:flutter/widgets.dart';
 /// )
 /// ```
 ///
-/// [builder], [errorBuilder] and [emptyBuilder] also accept a [child] widget that is independent of the asynchronous computation:
+/// [builder], [errorBuilder] and [emptyBuilder] also accept a [child] widget that is independent of the asynchronous computation.
+/// You should use it to provide child widgets that don't depend on the [future]'s result.
+///
 /// ```dart
 /// FutureValueBuilder(
 ///   future: () => computeAsync(),
@@ -69,12 +69,7 @@ import 'package:flutter/widgets.dart';
 ///   child: Text('child widget'),
 /// )
 /// ```
-///
-/// You should use it to provide child widgets that don't depend on the [future]'s result.
-class FutureValueBuilder<T> extends StatefulWidget {
-
-  /// A function that starts an asynchronous computation to which this builder is currently connected.
-  final Future<T>? Function(BuildContext) future;
+final class FutureValueBuilder<T> extends _FutureBuilderBase<T, T> {
 
   /// The build strategy currently used by this builder when an initial value or value produced by [future] is available.
   ///
@@ -86,52 +81,32 @@ class FutureValueBuilder<T> extends StatefulWidget {
   /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
   final ValueWidgetBuilder<(Object error, StackTrace stackTrace)>? errorBuilder;
 
-  /// The build strategy currently used by this builder when no error or [T] is available.
-  ///
-  /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
-  final ValueWidgetBuilder<Future<T>?>? emptyBuilder;
-
-  /// A future-independent widget which is passed back to the builders.
-  ///
-  /// This argument is optional and can be null if the entire widget subtree the builders build depends on the value
-  /// of the future. For example, in the case where the future is a [String] and the builders return a [Text] widget
-  /// with the current [String] value, there would be no useful [child].
-  final Widget? child;
-
-  final (T,)? _initial;
-
   /// Creates an [FutureValueBuilder] with no initial value.
   const FutureValueBuilder({
-    required this.future,
+    required super.future,
     required this.builder,
     this.errorBuilder,
-    this.emptyBuilder,
-    this.child,
+    super.emptyBuilder,
+    super.child,
     super.key,
-  }): _initial = null;
+  }): super();
 
   /// Creates an [FutureValueBuilder] with an initial value.
   const FutureValueBuilder.value({
-    required this.future,
-    required T initial,
+    required super.future,
+    required super.initial,
     required this.builder,
     this.errorBuilder,
-    this.child,
+    super.child,
     super.key,
-  }): emptyBuilder = null, _initial = (initial,);
+  }): super.value();
 
   @override
-  State<FutureValueBuilder<T>> createState() => _State();
+  State<FutureValueBuilder<T>> createState() => _FutureValueBuilderState();
 
 }
 
-class _State<T> extends State<FutureValueBuilder<T>> {
-  /// An object that identifies the currently active callbacks. Used to avoid
-  /// calling setState from stale callbacks, e.g. after disposal of this state,
-  /// or after widget reconfiguration to a new Future.
-  Object? _activeCallbackIdentity;
-  Future<T>? _future;
-  Object? _snapshot;
+final class _FutureValueBuilderState<T> extends _FutureBuilderBaseState<FutureValueBuilder<T>, T, T> {
 
   @override
   void initState() {
@@ -146,24 +121,6 @@ class _State<T> extends State<FutureValueBuilder<T>> {
   }
 
   @override
-  void didUpdateWidget(FutureValueBuilder<T> old) {
-    super.didUpdateWidget(old);
-    if (old.future == widget.future) {
-      return;
-    }
-
-    _future = widget.future(context);
-    _activeCallbackIdentity = null;
-    _subscribe();
-  }
-
-  @override
-  Widget build(BuildContext context) => switch (_snapshot) {
-    final T value => widget.builder(context, value, widget.child),
-    (final Object error, final StackTrace trace) => widget.errorBuilder?.call(context, (error, trace), widget.child) ?? const SizedBox(),
-    _ => widget.emptyBuilder?.call(context, _future, widget.child) ?? const SizedBox(),
-  };
-
   void _subscribe() {
     if (_future case final future when future != null) {
       final callbackIdentity = Object();
@@ -181,9 +138,12 @@ class _State<T> extends State<FutureValueBuilder<T>> {
     }
   }
 
+
   @override
-  void dispose() {
-    _activeCallbackIdentity = null;
-    super.dispose();
-  }
+  Widget build(BuildContext context) => switch (_snapshot) {
+    final T value => widget.builder(context, value, widget.child),
+    (final Object error, final StackTrace trace) => widget.errorBuilder?.call(context, (error, trace), widget.child) ?? const SizedBox(),
+    _ => widget.emptyBuilder?.call(context, _future, widget.child) ?? const SizedBox(),
+  };
+
 }

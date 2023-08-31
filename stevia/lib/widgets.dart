@@ -5,8 +5,9 @@
 /// ## Async
 /// Widgets that build themselves based on interaction with an asynchronous computation.
 ///
-/// * [showAdaptiveFutureDialog]
+/// * [showFutureValueDialog]
 ///
+/// * [FutureResultBuilder]
 /// * [FutureValueBuilder]
 /// * [StreamValueBuilder]
 ///
@@ -28,8 +29,8 @@ library stevia.widgets;
 
 import 'package:stevia/widgets.dart';
 
-export 'src/widgets/async/future_dialog.dart' hide FutureDialog;
-export 'src/widgets/async/future_value_builder.dart';
+export 'src/widgets/async/dialog/future_value_dialog.dart' hide FutureValueDialog;
+export 'src/widgets/async/future_builder_base.dart';
 export 'src/widgets/async/stream_value_builder.dart';
 
 export 'src/widgets/foundation/color_filters.dart' hide Matrix5;

@@ -1,17 +1,23 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sugar/sugar.dart';
 
 Widget valueText(BuildContext context, String value, Widget? child) => Text(
   value,
   textDirection: TextDirection.ltr,
 );
 
-Widget errorText(BuildContext context, (Object error, StackTrace trace) error, Widget? child) => Text(
+Widget errorText(BuildContext context, dynamic error, Widget? child) => Text(
   error.toString(),
   textDirection: TextDirection.ltr,
 );
 
-Widget emptyFutureText(BuildContext context, Future<String>? future, Widget? child) => const Text(
+Widget emptyFutureValueText(BuildContext context, Future<String>? future, Widget? child) => const Text(
+  'empty text',
+  textDirection: TextDirection.ltr,
+);
+
+Widget emptyFutureResultText(BuildContext context, Future<Result<String, String>>? future, Widget? child) => const Text(
   'empty text',
   textDirection: TextDirection.ltr,
 );
