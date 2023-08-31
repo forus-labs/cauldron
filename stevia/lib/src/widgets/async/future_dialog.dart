@@ -13,6 +13,8 @@ import 'package:stevia/stevia.dart';
 ///
 /// The result of the given [future] is always returned.
 ///
+/// Internally, this function relies on [showAdaptiveDialog].
+///
 /// ## Working with [showFutureDialog]:
 ///
 /// To show a dialog that is automatically dismissed after the [future] is completed:
@@ -67,7 +69,7 @@ import 'package:stevia/stevia.dart';
 ///   child: const Text('Has error dialog'),
 /// );
 /// ```
-Future<T> showFutureDialog<T>({
+Future<T> showAdaptiveFutureDialog<T>({
   required BuildContext context,
   required Future<T> Function() future,
   ValueWidgetBuilder<T>? builder,
@@ -93,7 +95,7 @@ Future<T> showFutureDialog<T>({
 }
 
 
-/// A [FutureDialog]. See [showFutureDialog] for more details.
+/// A [FutureDialog]. See [showAdaptiveFutureDialog] for more details.
 class FutureDialog<T> extends StatelessWidget {
 
   /// The asynchronous computation.

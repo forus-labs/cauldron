@@ -26,7 +26,7 @@ class SomeWidget extends StatelessWidget { // This needs to be separated to ensu
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         FloatingActionButton(
-          onPressed: () => showFutureDialog(
+          onPressed: () => showAdaptiveFutureDialog(
             context: context,
             future: () async {
               await Future.delayed(const Duration(seconds: 5));
@@ -41,7 +41,7 @@ class SomeWidget extends StatelessWidget { // This needs to be separated to ensu
         ),
         const SizedBox(height: 10),
         FloatingActionButton(
-          onPressed: () => showFutureDialog(
+          onPressed: () => showAdaptiveFutureDialog(
             context: context,
             future: () async {
               await Future.delayed(const Duration(seconds: 5));
@@ -60,7 +60,7 @@ class SomeWidget extends StatelessWidget { // This needs to be separated to ensu
         ),
         const SizedBox(height: 10),
         FloatingActionButton(
-          onPressed: () => showFutureDialog(
+          onPressed: () => showAdaptiveFutureDialog(
             context: context,
             future: () async {
               await Future.delayed(const Duration(seconds: 5));

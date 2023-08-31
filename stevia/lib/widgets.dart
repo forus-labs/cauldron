@@ -5,7 +5,7 @@
 /// ## Async
 /// Widgets that build themselves based on interaction with an asynchronous computation.
 ///
-/// * [showFutureDialog]
+/// * [showAdaptiveFutureDialog]
 ///
 /// * [FutureValueBuilder]
 /// * [StreamValueBuilder]

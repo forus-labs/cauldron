@@ -28,7 +28,7 @@ class SomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Center(
     child: FloatingActionButton(
-      onPressed: () => showFutureDialog<String>(
+      onPressed: () => showAdaptiveFutureDialog(
         context: context,
         future: future ?? () async {
           await Future.delayed(const Duration(seconds: 5));
