@@ -1,45 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:stevia/stevia.dart';
+import 'package:sugar/sugar.dart';
 
-/// Shows a dialog that relies on an asynchronous computation.
+/// A specialized [showFutureValueDialog] that shows a dialog that relies on an asynchronous computation which returns a
+/// [Result].
 ///
 /// A non-dismissible [ModalBarrier] that contains the dialog returned by [emptyBuilder] is shown until the [future] has
 /// completed.
 ///
 /// After the [future] has completed:
-/// * If [future] completes successfully and a [builder] is given, the dialog returned by [builder] is shown.
-/// * If [future] completes with an error and a [errorBuilder] is given, the dialog returned by [errorBuilder] is shown.
+/// * If [future] returns [Success] and a [builder] is given, the dialog returned by [builder] is shown.
+/// * If [future] returns [Failure] and a [failureBuilder] is given, the dialog returned by [failureBuilder] is shown.
 /// * It otherwise automatically dismisses the [ModalBarrier].
 ///
-/// The result of the given [future] is always returned.
+/// The result of the given [future] is always returned. It is assumed that [future] will never throw an error. Doing so
+/// will result in undefined behaviour.
 ///
-/// Internally, this function relies on [showAdaptiveDialog].
-///
-/// ## Working with [showFutureValueDialog]:
+/// ## Working with [showsFutureResultDialog]:
 ///
 /// To show a dialog that is automatically dismissed after the [future] is completed:
 /// ```dart
 /// FloatingActionButton(
-///   onPressed: () => showFutureValueDialog(
+///   onPressed: () => showsFutureResultDialog(
 ///     context: context,
 ///     future: () async {
 ///       await Future.delayed(const Duration(seconds: 5));
-///       return '';
+///       return const Success('');
 ///     },
 ///     emptyBuilder: (context, _, __) => const Text('This text will disappear after 5s.'),
 ///   ),
 ///   child: const Text('No dialog'),
 /// );
 /// ```
-/// 
+///
 /// To show a dialog that appears after the [future] has successfully completed:
 /// ```dart
 /// FloatingActionButton(
-///   onPressed: () => showFutureValueDialog(
+///   onPressed: () => showsFutureResultDialog(
 ///     context: context,
 ///     future: () async {
 ///       await Future.delayed(const Duration(seconds: 5);
-///       return '';
+///       return const Success('');
 ///     },
 ///     builder: (context, _, __) => FloatingActionButton(
 ///       onPressed: () => Navigator.of(context).pop(),
@@ -50,17 +51,17 @@ import 'package:stevia/stevia.dart';
 ///   child: const Text('Has value dialog'),
 /// );
 /// ```
-/// 
+///
 /// To show a dialog that appears after the [future] has completed with an error:
 /// ```dart
 /// FloatingActionButton(
 ///   onPressed: () => showFutureValueDialog(
 ///     context: context,
-///     future: () async {
+///     future: (context) async {
 ///       await Future.delayed(const Duration(seconds: 5);
-///       throw StateError('Error')
+///       return const Failure('');
 ///     },
-///     errorBuilder: (context, _, __) => FloatingActionButton(
+///     failureBuilder: (context, _, __) => FloatingActionButton(
 ///       onPressed: () => Navigator.of(context).pop(),
 ///       child: Text('Dismiss'),
 ///     ),
@@ -69,12 +70,12 @@ import 'package:stevia/stevia.dart';
 ///   child: const Text('Has error dialog'),
 /// );
 /// ```
-Future<T> showFutureValueDialog<T>({
+Future<Result<S, F>> showFutureResultDialog<S extends Object, F extends Object>({
   required BuildContext context,
-  required Future<T> Function() future,
-  ValueWidgetBuilder<T>? builder,
-  ValueWidgetBuilder<(Object error, StackTrace stackTrace)>? errorBuilder,
-  ValueWidgetBuilder<Future<T>>? emptyBuilder,
+  required Future<Result<S, F>> Function() future,
+  ValueWidgetBuilder<S>? builder,
+  ValueWidgetBuilder<F>? failureBuilder,
+  ValueWidgetBuilder<Future<Result<S, F>>>? emptyBuilder,
   Widget? child,
 }) async {
   final result = future();
@@ -82,10 +83,10 @@ Future<T> showFutureValueDialog<T>({
     context: context,
     useRootNavigator: false,
     barrierDismissible: false,
-    builder: (context) => FutureValueDialog._(
+    builder: (context) => FutureResultDialog._(
       future: result,
       builder: builder,
-      errorBuilder: errorBuilder,
+      failureBuilder: failureBuilder,
       emptyBuilder: emptyBuilder,
       child: child,
     ),
@@ -95,43 +96,43 @@ Future<T> showFutureValueDialog<T>({
 }
 
 
-/// A [FutureValueDialog]. See [showFutureValueDialog] for more details.
-class FutureValueDialog<T> extends StatelessWidget {
+/// A [FutureResultDialog]. See [showFutureValueDialog] for more details.
+class FutureResultDialog<S extends Object, F extends Object> extends StatelessWidget {
 
   /// The asynchronous computation.
-  final Future<T> future;
-  /// The build strategy currently used by this builder when an initial value or value produced by [future] is available.
+  final Future<Result<S, F>> future;
+  /// The build strategy currently used by this builder when an initial value or [Success] produced by [future] is available.
   ///
   /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
-  final ValueWidgetBuilder<T>? builder;
-  /// The build strategy currently used by this builder when [future] produces an error.
+  final ValueWidgetBuilder<S>? builder;
+  /// The build strategy currently used by this builder when [future] produces a [Failure].
   ///
   /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
-  final ValueWidgetBuilder<(Object error, StackTrace stackTrace)>? errorBuilder;
-  /// The build strategy currently used by this builder when no error or [T] is available.
+  final ValueWidgetBuilder<F>? failureBuilder;
+  /// The build strategy currently used by this builder when no [S] or [F] is available.
   ///
   /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
-  final ValueWidgetBuilder<Future<T>>? emptyBuilder;
+  final ValueWidgetBuilder<Future<Result<S, F>>>? emptyBuilder;
   /// A future-independent widget which is passed back to the [builder].
   ///
   /// This argument is optional and can be null if the entire widget subtree the [builder] builds depends on the value
   /// of the future. For example, in the case where the future is a [String] and the [builder] returns a [Text] widget
   /// with the current [String] value, there would be no useful [child].
   final Widget? child;
-  
-  const FutureValueDialog._({
+
+  const FutureResultDialog._({
     required this.future,
     this.builder,
-    this.errorBuilder,
+    this.failureBuilder,
     this.emptyBuilder,
     this.child,
   });
 
   @override
-  Widget build(BuildContext context) => FutureValueBuilder(
+  Widget build(BuildContext context) => FutureResultBuilder(
     future: (_) => future,
     builder: builder ?? _defaultBuilder,
-    errorBuilder: errorBuilder ?? _defaultBuilder,
+    failureBuilder: failureBuilder ?? _defaultBuilder,
     emptyBuilder: (context, future, child) => WillPopScope(
       onWillPop: () async => false,
       child: emptyBuilder?.call(context, future!, child) ?? const SizedBox(),
