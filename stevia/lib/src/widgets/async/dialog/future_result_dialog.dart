@@ -97,7 +97,7 @@ Future<Result<S, F>> showFutureResultDialog<S extends Object, F extends Object>(
 
 
 /// A [FutureResultDialog]. See [showFutureValueDialog] for more details.
-class FutureResultDialog<S extends Object, F extends Object> extends StatelessWidget {
+class FutureResultDialog<S extends Object, F extends Object> extends StatefulWidget {
 
   /// The asynchronous computation.
   final Future<Result<S, F>> future;
@@ -129,19 +129,36 @@ class FutureResultDialog<S extends Object, F extends Object> extends StatelessWi
   });
 
   @override
+  State<FutureResultDialog<S, F>> createState() => _State();
+
+}
+
+class _State<S extends Object, F extends Object> extends State<FutureResultDialog<S, F>> {
+
+  bool popped = false;
+
+  @override
   Widget build(BuildContext context) => FutureResultBuilder(
-    future: (_) => future,
-    builder: builder ?? _defaultBuilder,
-    failureBuilder: failureBuilder ?? _defaultBuilder,
+    future: (_) => widget.future,
+    builder: widget.builder ?? _defaultBuilder,
+    failureBuilder: widget.failureBuilder ?? _defaultBuilder,
     emptyBuilder: (context, future, child) => WillPopScope(
       onWillPop: () async => false,
-      child: emptyBuilder?.call(context, future!, child) ?? const SizedBox(),
+      child: widget.emptyBuilder?.call(context, future!, child) ?? const SizedBox(),
     ),
-    child: child,
+    child: widget.child,
   );
 
   Widget _defaultBuilder(BuildContext context, dynamic value, Widget? child) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => Navigator.of(context).pop());
+    WidgetsBinding.instance.scheduleFrameCallback((_) {
+      // On iOS, additional frames may be rendered between the call to Navigation.pop()
+      // and the actual navigation. The callback needs to be latched to prevent multiple
+      // calls to Navigation.Pop.
+      if (!popped) {
+        popped = true;
+        Navigator.of(context).pop();
+      }
+    });
     return const SizedBox();
   }
 
