@@ -27,7 +27,7 @@ jobs:
       run:
         working-directory: sugar
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
       - run: dart run coverage:test_with_coverage test ./integration_test/
@@ -42,7 +42,7 @@ jobs:
       run:
         working-directory: sugar
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
       - run: chmod +x ./integration_test/src/time/zone/platform/platform_provider_test_macos.sh
@@ -58,7 +58,7 @@ jobs:
       run:
         working-directory: sugar
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
       - run: chmod +x ./integration_test/src/time/zone/platform/platform_provider_test_linux.sh
@@ -74,7 +74,7 @@ jobs:
       run:
         working-directory: sugar
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: stable
