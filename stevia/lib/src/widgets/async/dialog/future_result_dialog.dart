@@ -151,9 +151,8 @@ class _State<S extends Object, F extends Object> extends State<FutureResultDialo
 
   Widget _defaultBuilder(BuildContext context, dynamic value, Widget? child) {
     WidgetsBinding.instance.scheduleFrameCallback((_) {
-      // On iOS, additional frames may be rendered between the call to Navigation.pop()
-      // and the actual navigation. The callback needs to be latched to prevent multiple
-      // calls to Navigation.Pop.
+      // Additional frames may be rendered between the call to Navigation.pop() and the actual navigation. The
+      // callback needs to be latched to prevent multiple calls to Navigation.Pop.
       if (!popped) {
         popped = true;
         Navigator.of(context).pop();

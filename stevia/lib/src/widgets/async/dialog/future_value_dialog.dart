@@ -96,7 +96,7 @@ Future<T> showFutureValueDialog<T>({
 
 
 /// A [FutureValueDialog]. See [showFutureValueDialog] for more details.
-class FutureValueDialog<T> extends StatelessWidget {
+class FutureValueDialog<T> extends StatefulWidget {
 
   /// The asynchronous computation.
   final Future<T> future;
@@ -128,19 +128,35 @@ class FutureValueDialog<T> extends StatelessWidget {
   });
 
   @override
+  State<FutureValueDialog<T>> createState() => _State<T>();
+
+}
+
+class _State<T> extends State<FutureValueDialog<T>> {
+
+  bool popped = false;
+
+  @override
   Widget build(BuildContext context) => FutureValueBuilder<T>(
-    future: (_) => future,
-    builder: builder ?? _defaultBuilder,
-    errorBuilder: errorBuilder ?? _defaultBuilder,
+    future: (_) => widget.future,
+    builder: widget.builder ?? _defaultBuilder,
+    errorBuilder: widget.errorBuilder ?? _defaultBuilder,
     emptyBuilder: (context, future, child) => WillPopScope(
       onWillPop: () async => false,
-      child: emptyBuilder?.call(context, future!, child) ?? const SizedBox(),
+      child: widget.emptyBuilder?.call(context, future!, child) ?? const SizedBox(),
     ),
-    child: child,
+    child: widget.child,
   );
 
   Widget _defaultBuilder(BuildContext context, dynamic value, Widget? child) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => Navigator.of(context).pop());
+    WidgetsBinding.instance.scheduleFrameCallback((_) {
+      // Additional frames may be rendered between the call to Navigation.pop() and the actual navigation. The
+      // callback needs to be latched to prevent multiple calls to Navigation.Pop.
+      if (!popped) {
+        popped = true;
+        Navigator.of(context).pop();
+      }
+    });
     return const SizedBox();
   }
 
