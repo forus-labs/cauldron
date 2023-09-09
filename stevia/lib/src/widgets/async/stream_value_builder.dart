@@ -108,7 +108,7 @@ class _StreamValueBuilderState<T> extends State<StreamValueBuilder<T>> {
   void initState() {
     super.initState();
     if (widget._initial case (final initial,)) {
-      _snapshot = initial;
+      _snapshot = (initial,);
     }
     _subscribe();
   }
@@ -126,7 +126,8 @@ class _StreamValueBuilderState<T> extends State<StreamValueBuilder<T>> {
 
   @override
   Widget build(BuildContext context) => switch (_snapshot) {
-    final T value => widget.builder(context, value, widget.child),
+    // This is wrapped in a record to differentiate between void and null when T is nullable.
+    (final T value,) => widget.builder(context, value, widget.child),
     (final Object error, final StackTrace trace) => widget.errorBuilder?.call(context, (error, trace), widget.child) ?? const SizedBox(),
     _ => widget.emptyBuilder?.call(context, widget.child) ?? const SizedBox(),
   };
@@ -135,7 +136,7 @@ class _StreamValueBuilderState<T> extends State<StreamValueBuilder<T>> {
     if (widget.stream case final stream when stream != null) {
       _subscription = stream.listen((value) {
         setState(() {
-          _snapshot = value;
+          _snapshot = (value,);
         });
       }, onError: (error, stackTrace) {
         setState(() {

@@ -96,6 +96,23 @@ void main() {
     expect(find.text('I'), findsOneWidget);
   });
 
+  testWidgets('differentiate between empty and T when T is nullable', (tester) async {
+    await tester.pumpWidget(StreamValueBuilder<String?>(
+      stream: () async* {
+        await Future.delayed(const Duration(seconds: 5));
+        yield null;
+      }(),
+      builder: (_, __, child) => const Text('V', textDirection: TextDirection.ltr),
+      emptyBuilder: (_, child) => const Text('E', textDirection: TextDirection.ltr),
+    ));
+
+    await eventFiring(tester);
+    expect(find.text('E'), findsOneWidget);
+
+    await tester.pumpAndSettle(const Duration(seconds: 5));
+    expect(find.text('V'), findsOneWidget);
+  });
+
   testWidgets('shows child', (tester) async {
     final key = GlobalKey();
     await tester.pumpWidget(StreamValueBuilder.value(

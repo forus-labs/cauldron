@@ -128,7 +128,7 @@ class FutureValueDialog<T> extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => FutureValueBuilder(
+  Widget build(BuildContext context) => FutureValueBuilder<T>(
     future: (_) => future,
     builder: builder ?? _defaultBuilder,
     errorBuilder: errorBuilder ?? _defaultBuilder,

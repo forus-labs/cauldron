@@ -114,7 +114,7 @@ final class _FutureValueBuilderState<T> extends _FutureBuilderBaseState<FutureVa
 
     _future = widget.future(context);
     if (widget._initial case (final initial,)) {
-      _snapshot = initial;
+      _snapshot = (initial,);
     }
 
     _subscribe();
@@ -128,7 +128,8 @@ final class _FutureValueBuilderState<T> extends _FutureBuilderBaseState<FutureVa
 
       future.then<void>((value) {
         if (_activeCallbackIdentity == callbackIdentity) {
-          setState(() => _snapshot = value);
+          // This is wrapped in a record to differentiate between void and null when T is nullable.
+          setState(() => _snapshot = (value,));
         }
       }, onError: (error, stackTrace) {
         if (_activeCallbackIdentity == callbackIdentity) {
@@ -141,7 +142,7 @@ final class _FutureValueBuilderState<T> extends _FutureBuilderBaseState<FutureVa
 
   @override
   Widget build(BuildContext context) => switch (_snapshot) {
-    final T value => widget.builder(context, value, widget.child),
+    (final T value,) => widget.builder(context, value, widget.child),
     (final Object error, final StackTrace trace) => widget.errorBuilder?.call(context, (error, trace), widget.child) ?? const SizedBox(),
     _ => widget.emptyBuilder?.call(context, _future, widget.child) ?? const SizedBox(),
   };
