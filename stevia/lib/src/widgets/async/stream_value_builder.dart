@@ -134,15 +134,10 @@ class _StreamValueBuilderState<T> extends State<StreamValueBuilder<T>> {
 
   void _subscribe() {
     if (widget.stream case final stream when stream != null) {
-      _subscription = stream.listen((value) {
-        setState(() {
-          _snapshot = (value,);
-        });
-      }, onError: (error, stackTrace) {
-        setState(() {
-          _snapshot = (error, stackTrace);
-        });
-      });
+      _subscription = stream.listen(
+        (value) => setState(() => _snapshot = (value,)),
+        onError: (error, stackTrace) => setState(() => _snapshot = (error, stackTrace)),
+      );
     }
   }
 

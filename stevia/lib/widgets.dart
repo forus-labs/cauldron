@@ -30,9 +30,9 @@ library stevia.widgets;
 
 import 'package:stevia/widgets.dart';
 
-export 'src/widgets/async/dialog/future_result_dialog.dart' hide FutureResultDialog;
-export 'src/widgets/async/dialog/future_value_dialog.dart' hide FutureValueDialog;
-export 'src/widgets/async/future_builder_base.dart';
+export 'src/widgets/async/future/future_result_dialog.dart' hide FutureResultDialog;
+export 'src/widgets/async/future/future_value_dialog.dart' hide FutureValueDialog;
+export 'src/widgets/async/future/future_builder_base.dart';
 export 'src/widgets/async/stream_value_builder.dart';
 
 export 'src/widgets/foundation/color_filters.dart' hide Matrix5;

@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:stevia/stevia.dart';
+part of 'future_builder_base.dart';
 
 /// Shows a dialog that relies on an asynchronous computation.
 ///
@@ -74,7 +73,7 @@ Future<T> showFutureValueDialog<T>({
   required Future<T> Function() future,
   ValueWidgetBuilder<T>? builder,
   ValueWidgetBuilder<(Object error, StackTrace stackTrace)>? errorBuilder,
-  ValueWidgetBuilder<Future<T>>? emptyBuilder,
+  ValueWidgetBuilder<Future<T>?>? emptyBuilder,
   Widget? child,
 }) async {
   final result = future();
@@ -83,7 +82,7 @@ Future<T> showFutureValueDialog<T>({
     useRootNavigator: false,
     barrierDismissible: false,
     builder: (context) => FutureValueDialog._(
-      future: result,
+      future: (_) => result,
       builder: builder,
       errorBuilder: errorBuilder,
       emptyBuilder: emptyBuilder,
@@ -96,10 +95,8 @@ Future<T> showFutureValueDialog<T>({
 
 
 /// A [FutureValueDialog]. See [showFutureValueDialog] for more details.
-class FutureValueDialog<T> extends StatefulWidget {
+final class FutureValueDialog<T> extends _FutureBuilderBase<T, T> {
 
-  /// The asynchronous computation.
-  final Future<T> future;
   /// The build strategy currently used by this builder when an initial value or value produced by [future] is available.
   ///
   /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
@@ -108,56 +105,58 @@ class FutureValueDialog<T> extends StatefulWidget {
   ///
   /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
   final ValueWidgetBuilder<(Object error, StackTrace stackTrace)>? errorBuilder;
-  /// The build strategy currently used by this builder when no error or [T] is available.
-  ///
-  /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
-  final ValueWidgetBuilder<Future<T>>? emptyBuilder;
-  /// A future-independent widget which is passed back to the [builder].
-  ///
-  /// This argument is optional and can be null if the entire widget subtree the [builder] builds depends on the value
-  /// of the future. For example, in the case where the future is a [String] and the [builder] returns a [Text] widget
-  /// with the current [String] value, there would be no useful [child].
-  final Widget? child;
-  
+
   const FutureValueDialog._({
-    required this.future,
+    required super.future,
     this.builder,
     this.errorBuilder,
-    this.emptyBuilder,
-    this.child,
+    super.emptyBuilder,
+    super.child,
   });
 
   @override
-  State<FutureValueDialog<T>> createState() => _State<T>();
+  State<FutureValueDialog<T>> createState() => _FutureValueDialogState<T>();
 
 }
 
-class _State<T> extends State<FutureValueDialog<T>> {
-
-  bool popped = false;
+final class _FutureValueDialogState<T> extends _FutureBuilderBaseState<FutureValueDialog<T>, T, T> {
 
   @override
-  Widget build(BuildContext context) => FutureValueBuilder<T>(
-    future: (_) => widget.future,
-    builder: widget.builder ?? _defaultBuilder,
-    errorBuilder: widget.errorBuilder ?? _defaultBuilder,
-    emptyBuilder: (context, future, child) => WillPopScope(
-      onWillPop: () async => false,
-      child: widget.emptyBuilder?.call(context, future!, child) ?? const SizedBox(),
-    ),
-    child: widget.child,
-  );
+  Object _wrap(T initial) => (initial,);
 
-  Widget _defaultBuilder(BuildContext context, dynamic value, Widget? child) {
-    WidgetsBinding.instance.scheduleFrameCallback((_) {
-      // Additional frames may be rendered between the call to Navigation.pop() and the actual navigation. The
-      // callback needs to be latched to prevent multiple calls to Navigation.Pop.
-      if (!popped) {
-        popped = true;
+  @override
+  void _subscribe(Future<T> future, Object callbackIdentity) {
+    future.then<void>((value) {
+      if (_activeCallbackIdentity != callbackIdentity) {
+        return;
+      }
+
+      if (widget.builder != null) {
+        setState(() => _snapshot = (value,));
+
+      } else {
+        Navigator.of(context).pop();
+      }
+
+    }, onError: (error, stackTrace) {
+      if (_activeCallbackIdentity != callbackIdentity) {
+        return;
+      }
+
+      if (widget.builder != null) {
+        setState(() => _snapshot = (error, stackTrace));
+
+      } else {
         Navigator.of(context).pop();
       }
     });
-    return const SizedBox();
   }
+
+  @override
+  Widget build(BuildContext context) => switch (_snapshot) {
+    (final T value,) => widget.builder?.call(context, value, widget.child) ?? const SizedBox(),
+    (final Object error, final StackTrace trace) => widget.errorBuilder?.call(context, (error, trace), widget.child) ?? const SizedBox(),
+    _ => widget.emptyBuilder?.call(context, _future, widget.child) ?? const SizedBox(),
+  };
 
 }

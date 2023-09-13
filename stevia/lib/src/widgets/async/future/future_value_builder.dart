@@ -109,34 +109,20 @@ final class FutureValueBuilder<T> extends _FutureBuilderBase<T, T> {
 final class _FutureValueBuilderState<T> extends _FutureBuilderBaseState<FutureValueBuilder<T>, T, T> {
 
   @override
-  void initState() {
-    super.initState();
-
-    _future = widget.future(context);
-    if (widget._initial case (final initial,)) {
-      _snapshot = (initial,);
-    }
-
-    _subscribe();
-  }
+  Object _wrap(T initial) => (initial,);
 
   @override
-  void _subscribe() {
-    if (_future case final future when future != null) {
-      final callbackIdentity = Object();
-      _activeCallbackIdentity = callbackIdentity;
-
-      future.then<void>((value) {
-        if (_activeCallbackIdentity == callbackIdentity) {
-          // This is wrapped in a record to differentiate between void and null when T is nullable.
-          setState(() => _snapshot = (value,));
-        }
-      }, onError: (error, stackTrace) {
-        if (_activeCallbackIdentity == callbackIdentity) {
-          setState(() => _snapshot = (error, stackTrace));
-        }
-      });
-    }
+  void _subscribe(Future<T> future, Object callbackIdentity) {
+    future.then<void>((value) {
+      if (_activeCallbackIdentity == callbackIdentity) {
+        // This is wrapped in a record to differentiate between void and null when T is nullable.
+        setState(() => _snapshot = (value,));
+      }
+    }, onError: (error, stackTrace) {
+      if (_activeCallbackIdentity == callbackIdentity) {
+        setState(() => _snapshot = (error, stackTrace));
+      }
+    });
   }
 
 

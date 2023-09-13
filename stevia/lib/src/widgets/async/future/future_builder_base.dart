@@ -3,6 +3,7 @@ import 'package:sugar/core.dart';
 
 part 'future_result_builder.dart';
 part 'future_value_builder.dart';
+part 'future_value_dialog.dart';
 
 abstract base class _FutureBuilderBase<T, U> extends StatefulWidget {
 
@@ -48,6 +49,22 @@ abstract base class _FutureBuilderBaseState<Builder extends _FutureBuilderBase<T
   Object? _snapshot;
 
   @override
+  void initState() {
+    super.initState();
+
+    _future = widget.future(context);
+    if (widget._initial case (final initial,)) {
+      _snapshot = _wrap(initial);
+    }
+
+    if (_future case final future when future != null) {
+      final callbackIdentity = Object();
+      _activeCallbackIdentity = callbackIdentity;
+      _subscribe(future, callbackIdentity);
+    }
+  }
+
+  @override
   void didUpdateWidget(covariant Builder old) {
     super.didUpdateWidget(old);
     if (old.future == widget.future) {
@@ -56,14 +73,23 @@ abstract base class _FutureBuilderBaseState<Builder extends _FutureBuilderBase<T
 
     _future = widget.future(context);
     _activeCallbackIdentity = null;
-    _subscribe();
+
+    if (_future case final future when future != null) {
+      final callbackIdentity = Object();
+      _activeCallbackIdentity = callbackIdentity;
+      _subscribe(future, callbackIdentity);
+    }
   }
 
-  void _subscribe();
+  Object _wrap(U initial);
+
+  void _subscribe(Future<T> future, Object callbackIdentity);
+
 
   @override
   void dispose() {
     _activeCallbackIdentity = null;
     super.dispose();
   }
+
 }

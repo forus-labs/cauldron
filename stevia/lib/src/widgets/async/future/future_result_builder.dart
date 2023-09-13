@@ -113,29 +113,15 @@ final class FutureResultBuilder<S extends Object, F extends Object> extends _Fut
 final class _FutureResultBuilderState<S extends Object, F extends Object> extends _FutureBuilderBaseState<FutureResultBuilder<S, F>, Result<S, F>, S> {
 
   @override
-  void initState() {
-    super.initState();
-
-    _future = widget.future(context);
-    if (widget._initial case (final initial,)) {
-      _snapshot = Success(initial);
-    }
-
-    _subscribe();
-  }
+  Object _wrap(S initial) => Success(initial);
 
   @override
-  void _subscribe() {
-    if (_future case final future when future != null) {
-      final callbackIdentity = Object();
-      _activeCallbackIdentity = callbackIdentity;
-
-      future.then<void>((value) {
-    if (_activeCallbackIdentity == callbackIdentity) {
-      setState(() => _snapshot = value);
-    }
-      });
-    }
+  void _subscribe(Future<Result<S, F>> future, Object callbackIdentity) {
+    future.then<void>((value) {
+      if (_activeCallbackIdentity == callbackIdentity) {
+        setState(() => _snapshot = value);
+      }
+    });
   }
 
 
