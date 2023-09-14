@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:stevia/stevia.dart';
+
+import 'future_value_dialog_test.mocks.dart';
 
 class HomeWidget extends StatelessWidget {
   final Future<String> Function()? future;
   final ValueWidgetBuilder<String>? builder;
   final ValueWidgetBuilder<(Object error, StackTrace stackTrace)>? errorBuilder;
+  final NavigatorObserver? observer;
 
-  const HomeWidget({this.future, this.builder, this.errorBuilder});
+  const HomeWidget({this.future, this.builder, this.errorBuilder, this.observer});
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -15,6 +20,7 @@ class HomeWidget extends StatelessWidget {
     home: Scaffold(
       body: SomeWidget(future: future, builder: builder, errorBuilder: errorBuilder),
     ),
+    navigatorObservers: observer == null ? [] : [observer!],
   );
 }
 
@@ -43,10 +49,15 @@ class SomeWidget extends StatelessWidget {
   );
 }
 
+@GenerateNiceMocks([MockSpec<NavigatorObserver>()])
 void main() {
   group('showFutureValueDialog', () {
+    late MockNavigatorObserver observer;
+
+    setUp(() => observer = MockNavigatorObserver());
+
     testWidgets('automatically dismisses when successful', (tester) async {
-      await tester.pumpWidget(const HomeWidget());
+      await tester.pumpWidget(HomeWidget(observer: observer));
       await tester.tap(find.text('Button'));
 
       await tester.pumpAndSettle();
@@ -55,12 +66,14 @@ void main() {
 
       await tester.pumpAndSettle(const Duration(seconds: 5));
 
+      verify(observer.didPop(any, any)).called(1);
       expect(find.text('L'), findsNothing);
     });
 
     testWidgets('show value builder', (tester) async {
       await tester.pumpWidget(HomeWidget(
         builder: (context, _, __) => const Text('V'),
+        observer: observer,
       ));
       await tester.tap(find.text('Button'));
 
@@ -70,6 +83,7 @@ void main() {
 
       await tester.pumpAndSettle(const Duration(seconds: 5));
 
+      verifyNever(observer.didPop(any, any));
       expect(find.text('V'), findsOneWidget);
       expect(find.text('L'), findsNothing);
     });
@@ -81,6 +95,7 @@ void main() {
           throw StateError('help');
         },
         errorBuilder: (context, _, __) => const Text('E'),
+        observer: observer,
       ));
       await tester.tap(find.text('Button'));
 
@@ -90,6 +105,7 @@ void main() {
 
       await tester.pumpAndSettle(const Duration(seconds: 5));
 
+      verifyNever(observer.didPop(any, any));
       expect(find.text('E'), findsOneWidget);
       expect(find.text('L'), findsNothing);
     });
