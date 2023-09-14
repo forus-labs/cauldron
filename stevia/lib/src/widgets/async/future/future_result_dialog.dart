@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:stevia/stevia.dart';
-import 'package:sugar/sugar.dart';
+part of 'future_builder.dart';
 
 /// A specialized [showFutureValueDialog] that shows a dialog that relies on an asynchronous computation which returns a
 /// [Result].
@@ -75,7 +73,7 @@ Future<Result<S, F>> showFutureResultDialog<S extends Object, F extends Object>(
   required Future<Result<S, F>> Function() future,
   ValueWidgetBuilder<S>? builder,
   ValueWidgetBuilder<F>? failureBuilder,
-  ValueWidgetBuilder<Future<Result<S, F>>>? emptyBuilder,
+  ValueWidgetBuilder<Future<Result<S, F>>?>? emptyBuilder,
   Widget? child,
 }) async {
   final result = future();
@@ -84,10 +82,13 @@ Future<Result<S, F>> showFutureResultDialog<S extends Object, F extends Object>(
     useRootNavigator: false,
     barrierDismissible: false,
     builder: (context) => FutureResultDialog._(
-      future: result,
-      builder: builder,
-      failureBuilder: failureBuilder,
-      emptyBuilder: emptyBuilder,
+      future: (_) => result,
+      builder: builder ?? _FutureBuilder.defaultBuilder,
+      failureBuilder: failureBuilder ?? _FutureBuilder.defaultBuilder,
+      emptyBuilder: (context, future, child) => WillPopScope(
+        onWillPop: () async => false,
+        child: emptyBuilder?.call(context, future, child) ?? const SizedBox(),
+      ),
       child: child,
     ),
   );
@@ -97,68 +98,33 @@ Future<Result<S, F>> showFutureResultDialog<S extends Object, F extends Object>(
 
 
 /// A [FutureResultDialog]. See [showFutureValueDialog] for more details.
-class FutureResultDialog<S extends Object, F extends Object> extends StatefulWidget {
-
-  /// The asynchronous computation.
-  final Future<Result<S, F>> future;
-  /// The build strategy currently used by this builder when an initial value or [Success] produced by [future] is available.
-  ///
-  /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
-  final ValueWidgetBuilder<S>? builder;
-  /// The build strategy currently used by this builder when [future] produces a [Failure].
-  ///
-  /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
-  final ValueWidgetBuilder<F>? failureBuilder;
-  /// The build strategy currently used by this builder when no [S] or [F] is available.
-  ///
-  /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
-  final ValueWidgetBuilder<Future<Result<S, F>>>? emptyBuilder;
-  /// A future-independent widget which is passed back to the [builder].
-  ///
-  /// This argument is optional and can be null if the entire widget subtree the [builder] builds depends on the value
-  /// of the future. For example, in the case where the future is a [String] and the [builder] returns a [Text] widget
-  /// with the current [String] value, there would be no useful [child].
-  final Widget? child;
-
+final class FutureResultDialog<S extends Object, F extends Object> extends _FutureResultBuilder<S, F> {
   const FutureResultDialog._({
-    required this.future,
-    this.builder,
-    this.failureBuilder,
-    this.emptyBuilder,
-    this.child,
+    required super.future,
+    required super.builder,
+    super.failureBuilder,
+    super.emptyBuilder,
+    super.child,
   });
 
   @override
-  State<FutureResultDialog<S, F>> createState() => _State();
-
+  FutureResultDialogState<S, F> createState() => FutureResultDialogState<S, F>();
 }
 
-class _State<S extends Object, F extends Object> extends State<FutureResultDialog<S, F>> {
-
-  bool popped = false;
-
+/// A [FutureResultDialog]'s state.
+final class FutureResultDialogState<S extends Object, F extends Object> extends _FutureResultBuilderState<S, F> {
   @override
-  Widget build(BuildContext context) => FutureResultBuilder(
-    future: (_) => widget.future,
-    builder: widget.builder ?? _defaultBuilder,
-    failureBuilder: widget.failureBuilder ?? _defaultBuilder,
-    emptyBuilder: (context, future, child) => WillPopScope(
-      onWillPop: () async => false,
-      child: widget.emptyBuilder?.call(context, future!, child) ?? const SizedBox(),
-    ),
-    child: widget.child,
-  );
+  void _subscribe(Future<Result<S, F>> future, Object callbackIdentity) {
+    future.then<void>((value) {
+      if (_activeCallbackIdentity != callbackIdentity) {
+        return;
+      }
 
-  Widget _defaultBuilder(BuildContext context, dynamic value, Widget? child) {
-    WidgetsBinding.instance.scheduleFrameCallback((_) {
-      // Additional frames may be rendered between the call to Navigation.pop() and the actual navigation. The
-      // callback needs to be latched to prevent multiple calls to Navigation.Pop.
-      if (!popped) {
-        popped = true;
-        Navigator.of(context).pop();
+      switch (value) {
+        case Success _ when widget.builder == _FutureBuilder.defaultBuilder: Navigator.of(context).pop();
+        case Failure _ when widget.failureBuilder == _FutureBuilder.defaultBuilder: Navigator.of(context).pop();
+        default: setState(() => _snapshot = value);
       }
     });
-    return const SizedBox();
   }
-
 }

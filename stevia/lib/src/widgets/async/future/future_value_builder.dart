@@ -1,4 +1,4 @@
-part of 'future_builder_base.dart';
+part of 'future_builder.dart';
 
 /// A widget that builds itself based on the latest snapshot of interaction with a [Future].
 ///
@@ -69,23 +69,12 @@ part of 'future_builder_base.dart';
 ///   child: Text('child widget'),
 /// )
 /// ```
-final class FutureValueBuilder<T> extends _FutureBuilderBase<T, T> {
-
-  /// The build strategy currently used by this builder when an initial value or value produced by [future] is available.
-  ///
-  /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
-  final ValueWidgetBuilder<T> builder;
-
-  /// The build strategy currently used by this builder when [future] produces an error.
-  ///
-  /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
-  final ValueWidgetBuilder<(Object error, StackTrace stackTrace)>? errorBuilder;
-
+final class FutureValueBuilder<T> extends _FutureValueBuilder<T> {
   /// Creates an [FutureValueBuilder] with no initial value.
   const FutureValueBuilder({
     required super.future,
-    required this.builder,
-    this.errorBuilder,
+    required super.builder,
+    super.errorBuilder,
     super.emptyBuilder,
     super.child,
     super.key,
@@ -95,28 +84,23 @@ final class FutureValueBuilder<T> extends _FutureBuilderBase<T, T> {
   const FutureValueBuilder.value({
     required super.future,
     required super.initial,
-    required this.builder,
-    this.errorBuilder,
+    required super.builder,
+    super.errorBuilder,
     super.child,
     super.key,
   }): super.value();
 
   @override
-  State<FutureValueBuilder<T>> createState() => _FutureValueBuilderState();
-
+  FutureValueBuilderState<T> createState() => FutureValueBuilderState<T>();
 }
 
-final class _FutureValueBuilderState<T> extends _FutureBuilderBaseState<FutureValueBuilder<T>, T, T> {
-
-  @override
-  Object _wrap(T initial) => (initial,);
-
+/// A [FutureValueBuilder]'s state.
+final class FutureValueBuilderState<T> extends _FutureValueBuilderState<T> {
   @override
   void _subscribe(Future<T> future, Object callbackIdentity) {
     future.then<void>((value) {
       if (_activeCallbackIdentity == callbackIdentity) {
-        // This is wrapped in a record to differentiate between void and null when T is nullable.
-        setState(() => _snapshot = (value,));
+        setState(() => _snapshot = _wrap(value));
       }
     }, onError: (error, stackTrace) {
       if (_activeCallbackIdentity == callbackIdentity) {
@@ -124,13 +108,4 @@ final class _FutureValueBuilderState<T> extends _FutureBuilderBaseState<FutureVa
       }
     });
   }
-
-
-  @override
-  Widget build(BuildContext context) => switch (_snapshot) {
-    (final T value,) => widget.builder(context, value, widget.child),
-    (final Object error, final StackTrace trace) => widget.errorBuilder?.call(context, (error, trace), widget.child) ?? const SizedBox(),
-    _ => widget.emptyBuilder?.call(context, _future, widget.child) ?? const SizedBox(),
-  };
-
 }

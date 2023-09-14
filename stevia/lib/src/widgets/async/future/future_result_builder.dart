@@ -1,4 +1,4 @@
-part of 'future_builder_base.dart';
+part of 'future_builder.dart';
 
 /// A specialized [FutureValueBuilder] that builds itself based on the latest snapshot of interaction with a [Future]
 /// which returns a [Result].
@@ -73,23 +73,12 @@ part of 'future_builder_base.dart';
 /// await eventFiring(tester);
 /// expect(find.text('value'), findsOneWidget);
 /// ```
-final class FutureResultBuilder<S extends Object, F extends Object> extends _FutureBuilderBase<Result<S, F>, S> {
-
-  /// The build strategy currently used by this builder when an initial value or [Success] produced by [future] is available.
-  ///
-  /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
-  final ValueWidgetBuilder<S> builder;
-
-  /// The build strategy currently used by this builder when [future] returns a [Failure].
-  ///
-  /// This builder must only return a widget and should not have any side effects as it may be called multiple times.
-  final ValueWidgetBuilder<F>? failureBuilder;
-
+final class FutureResultBuilder<S extends Object, F extends Object> extends _FutureResultBuilder<S, F> {
   /// Creates an [FutureResultBuilder] with no initial value.
   const FutureResultBuilder({
     required super.future,
-    required this.builder,
-    this.failureBuilder,
+    required super.builder,
+    super.failureBuilder,
     super.emptyBuilder,
     super.child,
     super.key,
@@ -99,22 +88,18 @@ final class FutureResultBuilder<S extends Object, F extends Object> extends _Fut
   const FutureResultBuilder.value({
     required super.future,
     required super.initial,
-    required this.builder,
-    this.failureBuilder,
+    required super.builder,
+    super.failureBuilder,
     super.child,
     super.key,
   }): super.value();
 
   @override
-  State<FutureResultBuilder<S, F>> createState() => _FutureResultBuilderState();
-
+  FutureResultBuilderState<S, F> createState() => FutureResultBuilderState();
 }
 
-final class _FutureResultBuilderState<S extends Object, F extends Object> extends _FutureBuilderBaseState<FutureResultBuilder<S, F>, Result<S, F>, S> {
-
-  @override
-  Object _wrap(S initial) => Success(initial);
-
+/// A [FutureResultBuilder]'s state.
+final class FutureResultBuilderState<S extends Object, F extends Object> extends _FutureResultBuilderState<S, F> {
   @override
   void _subscribe(Future<Result<S, F>> future, Object callbackIdentity) {
     future.then<void>((value) {
@@ -123,14 +108,4 @@ final class _FutureResultBuilderState<S extends Object, F extends Object> extend
       }
     });
   }
-
-
-  @override
-  Widget build(BuildContext context) => switch (_snapshot) {
-    Success(:final S success) => widget.builder(context, success, widget.child),
-    Failure(:final F failure) =>  widget.failureBuilder?.call(context, failure, widget.child) ?? const SizedBox(),
-    null => widget.emptyBuilder?.call(context, _future, widget.child) ?? const SizedBox(),
-    final snapshot => throw StateError('Invalid snapshot: $snapshot'),
-  };
-
 }
