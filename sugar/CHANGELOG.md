@@ -1,4 +1,4 @@
-## 3.2.0 (Next)
+## 4.0.0 (Next)
 
 ## `sugar.collection`
 - Add `Lists.toggleAll(...)`
@@ -8,7 +8,7 @@
 - Add `System.epochMilliseconds`
 - Add `System.epochMicroseconds`
 - **Breaking** - Change `Runtime` to `System` 
-- Deprecate `Maybe` extension for removal in Sugar 3.3.0.
+- **Breaking** - Remove `Maybe` extension.
 - Remove `Iterables.indexed` since it already exists in Dart 3.
 
 ## `sugar.time`

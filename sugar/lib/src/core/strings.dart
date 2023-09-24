@@ -408,4 +408,81 @@ extension Strings on String {
   /// See [isBlank].
   @useResult bool get isNotBlank => trim().isNotEmpty;
 
+
+  /// Returns whether this string is lexicographically less than [other].
+  ///
+  /// If one string is a prefix of the other, then the shorter string is less than the longer string. This function does
+  /// not check for Unicode equivalence and is case sensitive.
+  ///
+  /// ```dart
+  /// 'A' < 'B'; // true
+  /// 'B < A'; // false
+  ///
+  /// 'A' < 'A'; // false
+  ///
+  /// 'A' < 'Apple'; // true
+  /// 'Apple' < 'A'; // false
+  ///
+  /// 'a' < 'A'; // true
+  /// 'A' < 'a'; // false
+  /// ```
+  bool operator < (String other) => compareTo(other) < 0;
+
+  /// Returns whether this string is lexicographically less than or equal to [other].
+  ///
+  /// If one string is a prefix of the other, then the shorter string is less than the longer string. This function does
+  /// not check for Unicode equivalence and is case sensitive.
+  ///
+  /// ```dart
+  /// 'A' <= 'B'; // true
+  /// 'B <= A'; // false
+  ///
+  /// 'A' <= 'A'; // true
+  ///
+  /// 'A' <= 'Apple'; // true
+  /// 'Apple' <= 'A'; // false
+  ///
+  /// 'a' <= 'A'; // true
+  /// 'A' <= 'a'; // false
+  /// ```
+  bool operator <= (String other) => compareTo(other) <= 0;
+
+  /// Returns whether this string is lexicographically greater than [other].
+  ///
+  /// If one string is a prefix of the other, then the larger string is greater than the shorter string. This function
+  /// does not check for Unicode equivalence and is case sensitive.
+  ///
+  /// ```dart
+  /// 'B > A'; // true
+  /// 'A' > 'B'; // false
+  ///
+  /// 'A' > 'A'; // false
+  ///
+  /// 'Apple' > 'A'; // true
+  /// 'A' > 'Apple'; // false
+  ///
+  /// 'A' > 'a'; // true
+  /// 'a' > 'A'; // false
+  /// ```
+  bool operator > (String other) => compareTo(other) > 0;
+
+  /// Returns whether this string is lexicographically greater than or equal to [other].
+  ///
+  /// If one string is a prefix of the other, then the larger string is greater than the shorter string. This function
+  /// does not check for Unicode equivalence and is case sensitive.
+  ///
+  /// ```dart
+  /// 'B >= A'; // true
+  /// 'A' >= 'B'; // false
+  ///
+  /// 'A' >= 'A'; // true
+  ///
+  /// 'Apple' >= 'A'; // true
+  /// 'A' >= 'Apple'; // false
+  ///
+  /// 'A' >= 'a'; // true
+  /// 'a' >= 'A'; // false
+  /// ```
+  bool operator >= (String other) => compareTo(other) >= 0;
+
 }
