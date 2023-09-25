@@ -423,8 +423,8 @@ extension Strings on String {
   /// 'A' < 'Apple'; // true
   /// 'Apple' < 'A'; // false
   ///
-  /// 'a' < 'A'; // true
-  /// 'A' < 'a'; // false
+  /// 'A' < 'a'; // true
+  /// 'a' < 'A'; // false
   /// ```
   bool operator < (String other) => compareTo(other) < 0;
 
@@ -442,8 +442,8 @@ extension Strings on String {
   /// 'A' <= 'Apple'; // true
   /// 'Apple' <= 'A'; // false
   ///
-  /// 'a' <= 'A'; // true
-  /// 'A' <= 'a'; // false
+  /// 'A' <= 'a'; // true
+  /// 'a' <= 'A'; // false
   /// ```
   bool operator <= (String other) => compareTo(other) <= 0;
 
@@ -461,8 +461,8 @@ extension Strings on String {
   /// 'Apple' > 'A'; // true
   /// 'A' > 'Apple'; // false
   ///
-  /// 'A' > 'a'; // true
-  /// 'a' > 'A'; // false
+  /// 'a' > 'A'; // true
+  /// 'A' > 'a'; // false
   /// ```
   bool operator > (String other) => compareTo(other) > 0;
 
@@ -480,8 +480,8 @@ extension Strings on String {
   /// 'Apple' >= 'A'; // true
   /// 'A' >= 'Apple'; // false
   ///
-  /// 'A' >= 'a'; // true
-  /// 'a' >= 'A'; // false
+  /// 'a' >= 'A'; // true
+  /// 'A' >= 'a'; // false
   /// ```
   bool operator >= (String other) => compareTo(other) >= 0;
 

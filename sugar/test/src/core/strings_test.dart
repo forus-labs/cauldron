@@ -240,4 +240,68 @@ void main() {
     test('suffix', () => expect('ABC  '.isNotBlank, true));
   });
 
+  group('<', () {
+    test('A < B', () => expect('A' < 'B', true));
+
+    test('B < A', () => expect('B' < 'A', false));
+
+    test('A < A', () => expect('A' < 'A', false));
+
+    test('A < Apple', () => expect('A' < 'Apple', true));
+
+    test('Apple < A', () => expect('Apple' < 'A', false));
+
+    test('a < A', () => expect('a' < 'A', false));
+
+    test('A < a', () => expect('A' < 'a', true));
+  });
+
+  group('<=', () {
+    test('A <= B', () => expect('A' <= 'B', true));
+
+    test('B <= A', () => expect('B' <= 'A', false));
+
+    test('A <= A', () => expect('A' <= 'A', true));
+
+    test('A <= Apple', () => expect('A' <= 'Apple', true));
+
+    test('Apple <= A', () => expect('Apple' <= 'A', false));
+
+    test('a <= A', () => expect('a' <= 'A', false));
+
+    test('A <= a', () => expect('A' <= 'a', true));
+  });
+
+  group('>', () {
+    test('A > B', () => expect('A' > 'B', false));
+
+    test('B > A', () => expect('B' > 'A', true));
+
+    test('A > A', () => expect('A' > 'A', false));
+
+    test('A > Apple', () => expect('A' > 'Apple', false));
+
+    test('Apple > A', () => expect('Apple' > 'A', true));
+
+    test('a > A', () => expect('a' > 'A', true));
+
+    test('A > a', () => expect('A' > 'a', false));
+  });
+
+  group('>=', () {
+    test('A >= B', () => expect('A' >= 'B', false));
+
+    test('B >= A', () => expect('B' >= 'A', true));
+
+    test('A >= A', () => expect('A' >= 'A', true));
+
+    test('A >= Apple', () => expect('A' >= 'Apple', false));
+
+    test('Apple >= A', () => expect('Apple' >= 'A', true));
+
+    test('a >= A', () => expect('a' >= 'A', true));
+
+    test('A >= a', () => expect('A' >= 'a', false));
+  });
+  
 }
