@@ -254,6 +254,8 @@ void main() {
     test('a < A', () => expect('a' < 'A', false));
 
     test('A < a', () => expect('A' < 'a', true));
+
+    test('z11 < z2', () => expect('z11' < 'z2', true));
   });
 
   group('<=', () {
@@ -270,6 +272,8 @@ void main() {
     test('a <= A', () => expect('a' <= 'A', false));
 
     test('A <= a', () => expect('A' <= 'a', true));
+
+    test('z11 <= z2', () => expect('z11' <= 'z2', true));
   });
 
   group('>', () {
@@ -286,6 +290,8 @@ void main() {
     test('a > A', () => expect('a' > 'A', true));
 
     test('A > a', () => expect('A' > 'a', false));
+
+    test('z11 > z2', () => expect('z11' > 'z2', false));
   });
 
   group('>=', () {
@@ -302,6 +308,8 @@ void main() {
     test('a >= A', () => expect('a' >= 'A', true));
 
     test('A >= a', () => expect('A' >= 'a', false));
+
+    test('z11 >= z2', () => expect('z11' >= 'z2', false));
   });
   
 }

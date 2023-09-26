@@ -409,7 +409,7 @@ extension Strings on String {
   @useResult bool get isNotBlank => trim().isNotEmpty;
 
 
-  /// Returns whether this string is lexicographically less than [other].
+  /// Returns whether this string is alphabetically less than [other].
   ///
   /// If one string is a prefix of the other, then the shorter string is less than the longer string. This function does
   /// not check for Unicode equivalence and is case sensitive.
@@ -425,10 +425,12 @@ extension Strings on String {
   ///
   /// 'A' < 'a'; // true
   /// 'a' < 'A'; // false
+  ///
+  /// 'z11' < 'z2'; // true
   /// ```
   bool operator < (String other) => compareTo(other) < 0;
 
-  /// Returns whether this string is lexicographically less than or equal to [other].
+  /// Returns whether this string is alphabetically less than or equal to [other].
   ///
   /// If one string is a prefix of the other, then the shorter string is less than the longer string. This function does
   /// not check for Unicode equivalence and is case sensitive.
@@ -444,10 +446,12 @@ extension Strings on String {
   ///
   /// 'A' <= 'a'; // true
   /// 'a' <= 'A'; // false
+  ///
+  /// 'z11' <= 'z2'; // true
   /// ```
   bool operator <= (String other) => compareTo(other) <= 0;
 
-  /// Returns whether this string is lexicographically greater than [other].
+  /// Returns whether this string is alphabetically greater than [other].
   ///
   /// If one string is a prefix of the other, then the larger string is greater than the shorter string. This function
   /// does not check for Unicode equivalence and is case sensitive.
@@ -463,10 +467,12 @@ extension Strings on String {
   ///
   /// 'a' > 'A'; // true
   /// 'A' > 'a'; // false
+  ///
+  /// 'z11' > 'z2'; // false
   /// ```
   bool operator > (String other) => compareTo(other) > 0;
 
-  /// Returns whether this string is lexicographically greater than or equal to [other].
+  /// Returns whether this string is alphabetically greater than or equal to [other].
   ///
   /// If one string is a prefix of the other, then the larger string is greater than the shorter string. This function
   /// does not check for Unicode equivalence and is case sensitive.
@@ -482,6 +488,8 @@ extension Strings on String {
   ///
   /// 'a' >= 'A'; // true
   /// 'A' >= 'a'; // false
+  ///
+  /// 'z11' >= 'z2'; // false
   /// ```
   bool operator >= (String other) => compareTo(other) >= 0;
 
