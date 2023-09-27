@@ -8,7 +8,7 @@ final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
 
   static void _precondition<T extends Comparable<Object?>>(String start, T min, T max, String end) {
     if (min.compareTo(max) > 0) {
-      throw RangeError("Invalid range: $start$min...$max$end, minimum must be less than or equal to maximum. To fix, try swapping the values of 'min' and 'max'.");
+      throw RangeError("Invalid range: $start$min...$max$end, minimum should be less than or equal to maximum. To fix, try swapping the values of 'min' and 'max'.");
     }
   }
 
@@ -69,18 +69,17 @@ final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
     }
 
     if (value == 0) {
-      throw RangeError('Invalid range: ($min...$max), minimum must be less than maximum. To represent an empty range, create an closed-open/open-closed range instead.');
+      throw RangeError('Invalid range: ($min...$max), minimum should be less than maximum. To represent an empty range, create an closed-open/open-closed range instead.');
 
     } else {
-      throw RangeError("Invalid range: ($min...$max), minimum must be less than maximum. To fix, try swapping the values of 'min' and 'max'.");
+      throw RangeError("Invalid range: ($min...$max), minimum should be less than maximum. To fix, try swapping the values of 'min' and 'max'.");
     }
   }
 
-  // TODO: make const, https://github.com/dart-lang/sdk/issues/52385
   /// Creates an empty [Interval] with [value], i.e. `{ x | value <= x < value }`.
   ///
   /// This is an alias for [Interval.closedOpen].
-  Interval.empty(T value): min = (value: value, open: false), max = (value: value, open: true);
+  const Interval.empty(T value): min = (value: value, open: false), max = (value: value, open: true);
 
   const Interval._(this.min, this.max);
 

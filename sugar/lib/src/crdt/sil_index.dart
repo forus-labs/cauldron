@@ -27,6 +27,9 @@ import 'package:sugar/sugar.dart';
 /// External users are discouraged from enabling the `lenient` flag.
 extension SilIndex on Never {
 
+  /// A regular expression that denotes a SIL index's expected format.
+  static final RegExp format = RegExp(r'(\+|-|[0-9]|[A-Z]|[a-z])+');
+
   /// The minimum character.
   static const min = '+';
   /// The maximum character.
@@ -41,7 +44,6 @@ extension SilIndex on Never {
   ];
 
   static final Random _random = Random();
-  static final RegExp _format = RegExp(r'(\+|-|[0-9]|[A-Z]|[a-z])+');
   static final RegExp _trailing = RegExp(r'(\+)+$');
 
   /// Generates a new SIL index between the given [min], inclusive, and [max], exclusive.
@@ -80,21 +82,21 @@ extension SilIndex on Never {
   }
 
   static void _validate(String min, String max, {required bool strict}) {
-    if (strict && !min.matches(_format)) {
-      throw ArgumentError('SIL index, "$min", is invalid. Should be in the format: ([0-9]|[A-Z]|[a-z]|\\+|-)+');
+    if (strict && !min.matches(format)) {
+      throw ArgumentError('Invalid minimum SIL index: $min, should follow the format: ${format.pattern}.');
     }
 
-    if (strict && !max.matches(_format)) {
-      throw ArgumentError('SIL index, "$max", is invalid. Should be in the format: ([0-9]|[A-Z]|[a-z]|\\+|-)+');
+    if (strict && !max.matches(format)) {
+      throw ArgumentError('Invalid maximum SIL index: $max, should follow the format: ${format.pattern}.');
     }
 
     if ((max.replaceAll(_trailing, '')) <= min.replaceAll(_trailing, '') ) {
-      throw ArgumentError('Minimum SIL index, "$min", is greater than or equal to the maximum SIL index, "$max". Minimum should be less than maximum.');
+      throw ArgumentError('Invalid range: $min - $max, minimum should be less than maximum.');
     }
   }
 
   static String _stripTrailing(String index) {
-    assert(!index.endsWith('+'), 'SIL index, "$index", contains trailing "+"s.');
+    assert(!index.endsWith('+'), 'Invalid SIL index: $index, should not contain trailing "+"s.');
     return index.endsWith('+') ? index.replaceAll(_trailing, '') : index;
   }
 

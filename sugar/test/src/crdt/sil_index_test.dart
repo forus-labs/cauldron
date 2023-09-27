@@ -35,7 +35,8 @@ String generate() {
 
 
 void main() {
-  group('preconditions', () {
+
+  group('validation', () {
     for (final (min, max) in [
       ('b', 'a'),
       ('a', 'a'),
@@ -47,23 +48,23 @@ void main() {
       test('start index >= end index', () => expect(
         () => SilIndex.between(min: min, max: max),
         throwsA(predicate<ArgumentError>(
-          (e) => e.message == 'Minimum SIL index, "$min", is greater than or equal to the maximum SIL index, "$max". Minimum should be less than maximum.'
+          (e) => e.message == 'Invalid range: $min - $max, minimum should be less than maximum.'
         )),
       ));
     }
 
     for (final argument in ['1241=', '20"385r2', '漢字']) {
-      test('invalid format', () => expect(
+      test('invalid min format', () => expect(
         () => SilIndex.between(min: argument),
         throwsA(predicate<ArgumentError>(
-          (e) => e.message == 'SIL index, "$argument", is invalid. Should be in the format: ([0-9]|[A-Z]|[a-z]|\\+|-)+'
+          (e) => e.message == 'Invalid minimum SIL index: $argument, should follow the format: ${SilIndex.format.pattern}.'
         )),
       ));
 
-      test('invalid format', () => expect(
+      test('invalid max format', () => expect(
         () => SilIndex.between(max: argument),
         throwsA(predicate<ArgumentError>(
-          (e) => e.message == 'SIL index, "$argument", is invalid. Should be in the format: ([0-9]|[A-Z]|[a-z]|\\+|-)+'
+          (e) => e.message == 'Invalid maximum SIL index: $argument, should follow the format: ${SilIndex.format.pattern}.'
         )),
       ));
     }
@@ -82,7 +83,7 @@ void main() {
   });
 
   for (final (min, max) in boundaries) {
-    test('insert between $min and $max', () {
+    test('property test: insert between $min and $max', () {
       final value = SilIndex.between(min: min, max: max);
       expect(value.endsWith('+'), false);
       expect(value.compareTo(min), 1, reason: '$value <= $min');
