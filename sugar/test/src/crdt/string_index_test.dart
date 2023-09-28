@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:sugar/src/crdt/sil_index.dart';
+import 'package:sugar/src/crdt/string_index.dart';
 import 'package:sugar/sugar.dart';
 import 'package:test/test.dart';
 
@@ -24,7 +24,7 @@ Iterable<(String, String)> get boundaries sync* {
 String generate() {
   final length = _random.nextInt(8) + 1;
   for (var i = 0; i < length; i++) {
-    _index.writeCharCode(SilIndex.ascii[_random.nextInt(SilIndex.ascii.length)]);
+    _index.writeCharCode(StringIndex.ascii[_random.nextInt(StringIndex.ascii.length)]);
   }
 
   final index =  _index.toString().replaceAll(RegExp(r'(\+)+$'), '');
@@ -46,7 +46,7 @@ void main() {
       ('a++++++', 'a'),
     ]) {
       test('start index >= end index', () => expect(
-        () => SilIndex.between(min: min, max: max),
+        () => StringIndex.between(min: min, max: max),
         throwsA(predicate<ArgumentError>(
           (e) => e.message == 'Invalid range: $min - $max, minimum should be less than maximum.'
         )),
@@ -55,36 +55,36 @@ void main() {
 
     for (final argument in ['1241=', '20"385r2', '漢字']) {
       test('invalid min format', () => expect(
-        () => SilIndex.between(min: argument),
+        () => StringIndex.between(min: argument),
         throwsA(predicate<ArgumentError>(
-          (e) => e.message == 'Invalid minimum SIL index: $argument, should follow the format: ${SilIndex.format.pattern}.'
+          (e) => e.message == 'Invalid minimum string index: $argument, should follow the format: ${StringIndex.format.pattern}.'
         )),
       ));
 
       test('invalid max format', () => expect(
-        () => SilIndex.between(max: argument),
+        () => StringIndex.between(max: argument),
         throwsA(predicate<ArgumentError>(
-          (e) => e.message == 'Invalid maximum SIL index: $argument, should follow the format: ${SilIndex.format.pattern}.'
+          (e) => e.message == 'Invalid maximum string index: $argument, should follow the format: ${StringIndex.format.pattern}.'
         )),
       ));
     }
   });
 
   test('wrap around', () {
-    final value = SilIndex.between(min: '+yzz', max: '-');
+    final value = StringIndex.between(min: '+yzz', max: '-');
     expect(value > '+yzz', true);
     expect(value < '-', true);
   });
 
   test('boundary', () {
-    final value = SilIndex.between(min: '+zzz', max: '-');
+    final value = StringIndex.between(min: '+zzz', max: '-');
     expect(value.compareTo('+zzz'), 1);
     expect(value.compareTo('/'), -1);
   });
 
   for (final (min, max) in boundaries) {
     test('property test: insert between $min and $max', () {
-      final value = SilIndex.between(min: min, max: max);
+      final value = StringIndex.between(min: min, max: max);
       expect(value.endsWith('+'), false);
       expect(value.compareTo(min), 1, reason: '$value <= $min');
       expect(value.compareTo(max), -1, reason: '$value >= $max');

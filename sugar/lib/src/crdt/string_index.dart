@@ -2,13 +2,13 @@ import 'dart:math';
 
 import 'package:sugar/sugar.dart';
 
-/// Provides low-level functions for manipulating indexes in a String Indexed List (SIL).
+/// Provides low-level functions for manipulating string indexes.
 ///
-/// Users should generally prefer the higher-level [SIL] instead.
+/// Users should generally prefer the higher-level collections instead.
 ///
 /// ## Description
-/// SIL indexes are strings compared alphabetically to determine order. For example, 'a' is ordered before 'b' since
-/// `'a' < 'b'`. Each character in a SIL index is one of the allowed 64 characters, `+, -, [0-9], [A-Z] and [a-z]`.
+/// String indexes are strings compared alphabetically to determine order. For example, 'a' is ordered before 'b' since
+/// `'a' < 'b'`. Each character in a string index is one of the allowed 64 characters, `+, -, [0-9], [A-Z] and [a-z]`.
 ///
 /// If two indexes contain different number of characters, the shorter index will be implicitly suffixed with `+`s
 /// (the first allowed character) until its length is equal to the longer index. For example, when comparing `a` and
@@ -18,16 +18,16 @@ import 'package:sugar/sugar.dart';
 /// `aa` can be inserted between `a` and `b`.
 ///
 /// It is still possible for two equivalent indexes without any empty space in-between to be generated concurrently. It
-/// is impossible for the functions in [SilIndex] to prevent that. Such situations should be handled during merging instead.
+/// is impossible for the functions in [StringIndex] to prevent that. Such situations should be handled during merging instead.
 ///
 /// ## The `strict` flag
 /// In the original closed-source implementation, the allowed character set contained `/` instead of `-`. To maintain
 /// backwards-compatibility, most functions accept a `strict` flag which disables index format validation.
 ///
 /// External users are discouraged from enabling the `lenient` flag.
-extension SilIndex on Never {
+extension StringIndex on Never {
 
-  /// A regular expression that denotes a SIL index's expected format.
+  /// A regular expression that denotes a string index's expected format.
   static final RegExp format = RegExp(r'(\+|-|[0-9]|[A-Z]|[a-z])+');
 
   /// The minimum character.
@@ -83,11 +83,11 @@ extension SilIndex on Never {
 
   static void _validate(String min, String max, {required bool strict}) {
     if (strict && !min.matches(format)) {
-      throw ArgumentError('Invalid minimum SIL index: $min, should follow the format: ${format.pattern}.');
+      throw ArgumentError('Invalid minimum string index: $min, should follow the format: ${format.pattern}.');
     }
 
     if (strict && !max.matches(format)) {
-      throw ArgumentError('Invalid maximum SIL index: $max, should follow the format: ${format.pattern}.');
+      throw ArgumentError('Invalid maximum string index: $max, should follow the format: ${format.pattern}.');
     }
 
     if ((max.replaceAll(_trailing, '')) <= min.replaceAll(_trailing, '') ) {
