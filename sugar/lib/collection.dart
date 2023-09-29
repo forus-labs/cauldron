@@ -21,3 +21,4 @@ export 'src/collection/lists.dart';
 export 'src/collection/maps.dart';
 export 'src/collection/move.dart';
 export 'src/collection/sets.dart';
+export 'src/collection/splay_tree_maps.dart';

@@ -16,6 +16,7 @@ export 'collection_aggregate.dart';
 export 'core.dart';
 export 'core_range.dart';
 export 'core_system.dart';
+export 'crdt.dart';
 export 'math.dart';
 export 'time.dart';
 export 'time_interop.dart';
