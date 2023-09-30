@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:sugar/src/crdt/string_index.dart';
 import 'package:sugar/sugar.dart';
 import 'package:test/test.dart';
 
