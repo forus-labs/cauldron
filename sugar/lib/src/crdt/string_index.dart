@@ -19,12 +19,6 @@ import 'package:sugar/sugar.dart';
 ///
 /// It is still possible for two equivalent indexes without any empty space in-between to be generated concurrently. It
 /// is impossible for the functions in [StringIndex] to prevent that. Such situations should be handled during merging instead.
-///
-/// ## The `strict` flag
-/// In the original closed-source implementation, the allowed character set contained `/` instead of `-`. To maintain
-/// backwards-compatibility, most functions accept a `strict` flag which disables index format validation.
-///
-/// External users are discouraged from enabling the `lenient` flag.
 extension StringIndex on Never {
 
   /// A regular expression that denotes a string index's expected format.
@@ -36,7 +30,6 @@ extension StringIndex on Never {
   static const max = 'z';
   /// The allow character set in a SIL index.
   static const ascii = [
-    // The original implementation used / instead of -, however this made working with URLs/escaping troublesome.
     43, 45, // +, -
     48, 49, 50, 51, 52, 53, 54, 55, 56, 57, // 0 - 9
     65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, // A - Z
@@ -48,17 +41,11 @@ extension StringIndex on Never {
 
   /// Generates a new SIL index between the given [min], inclusive, and [max], exclusive.
   ///
-  /// ## The `strict` flag
-  /// In the original closed-source implementation, the allowed character set contained `/` instead of `-`. To maintain
-  /// backwards-compatibility, [between] ] accept a [strict] flag which disables index format validation.
-  ///
   /// ## Contract
-  /// An [ArgumentError] is thrown if
-  /// * [max] <= [min]
-  /// * [strict] is true and either [min] or [max] is not a valid SIL index
+  /// An [ArgumentError] is thrown if [max] <= [min].
   @Possible({ArgumentError})
-  static String between({String min = min, String max = max, bool strict = true}) {
-    _validate(min, max, strict: strict);
+  static String between({String min = min, String max = max}) {
+    _validate(min, max);
 
     final index = StringBuffer();
     for (var i = 0; ; i++) {
@@ -81,12 +68,12 @@ extension StringIndex on Never {
     }
   }
 
-  static void _validate(String min, String max, {required bool strict}) {
-    if (strict && !min.matches(format)) {
+  static void _validate(String min, String max) {
+    if (!min.matches(format)) {
       throw ArgumentError('Invalid minimum string index: $min, should follow the format: ${format.pattern}.');
     }
 
-    if (strict && !max.matches(format)) {
+    if (!max.matches(format)) {
       throw ArgumentError('Invalid maximum string index: $max, should follow the format: ${format.pattern}.');
     }
 
