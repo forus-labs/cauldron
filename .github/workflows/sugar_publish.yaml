@@ -22,7 +22,7 @@ jobs:
       - run: sudo apt-get update -y
       - run: sudo apt-get install -y lcov
       - run: lcov --remove ./coverage/lcov.info '**.g.dart' -o ./coverage/lcov.info
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v3
         with:
           files: ./sugar/coverage/lcov.info
 
@@ -38,7 +38,7 @@ jobs:
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
       - run: dart run coverage:test_with_coverage test ./integration_test/
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v3
         with:
           files: ./sugar/coverage/lcov.info
 
@@ -54,7 +54,7 @@ jobs:
       - run: dart pub get
       - run: chmod +x ./integration_test/src/time/zone/platform/platform_provider_test_macos.sh
       - run: ./integration_test/src/time/zone/platform/platform_provider_test_macos.sh
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v3
         with:
           files: ./sugar/coverage/lcov.info
 
@@ -70,7 +70,7 @@ jobs:
       - run: dart pub get
       - run: chmod +x ./integration_test/src/time/zone/platform/platform_provider_test_linux.sh
       - run: ./integration_test/src/time/zone/platform/platform_provider_test_linux.sh
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v3
         with:
           files: ./sugar/coverage/lcov.info
 
@@ -92,7 +92,7 @@ jobs:
       - run: dart pub get
       - run: chmod +x ./integration_test/src/time/zone/platform/platform_provider_test_browser.sh
       - run: ./integration_test/src/time/zone/platform/platform_provider_test_browser.sh
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v3
         with:
           files: ./sugar/coverage/lcov.info
 
