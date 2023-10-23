@@ -60,9 +60,13 @@ void main() {
   });
 
   group('Doubles', () {
-    test('approximately true', () => expect(1.0002.approximately(1.0, 0.01), true));
+    test('around int in tolerance', () => expect(1.0002.around(1, 0.01), true));
 
-    test('approximately false', () => expect(1.2.approximately(1.0, 0.01), false));
+    test('around int outside tolerance', () => expect(1.2.around(2, 0.01), false));
+
+    test('around double in tolerance', () => expect(1.0002.around(1.0, 0.01), true));
+
+    test('around double outside tolerance', () => expect(1.2.around(1.0, 0.01), false));
   });
 
 }

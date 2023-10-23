@@ -54,7 +54,7 @@ void main() {
     });
 
     group('empty(...)', () {
-      final interval = Interval.empty(1);
+      const interval = Interval.empty(1);
 
       test('empty', () => expect(interval.contains(1), false));
 

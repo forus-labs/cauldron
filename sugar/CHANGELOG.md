@@ -2,6 +2,8 @@
 
 ## `sugar.collection`
 - Add `Lists.toggleAll(...)`
+- Add `SplayTreeMaps.firstValueAfter(...)`
+- Add `SplayTreeMaps.lastValueBefore(...)`
 
 ## `sugar.core`
 - Add `System.currentDateTime`
@@ -10,6 +12,12 @@
 - **Breaking** - Change `Runtime` to `System` 
 - **Breaking** - Remove `Maybe` extension.
 - Remove `Iterables.indexed` since it already exists in Dart 3.
+
+## `sugar.crdt`
+- Add `StringIndex`
+
+## `sugar.math`
+- **Breaking** Change `double.approximately(...)` to `double.around(...)`
 
 ## `sugar.time`
 - Add optional `DateUnit` parameter to `LocalDate.now(...)`

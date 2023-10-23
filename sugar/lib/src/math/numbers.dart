@@ -106,10 +106,10 @@ extension Doubles on double {
   /// Returns true if this and [other] are within the [tolerance] of each other.
   ///
   /// ```dart
-  /// 1.0002.approximately(1.0, 0.01); // true
+  /// 1.0002.around(1.0, 0.01); // true
   ///
-  /// 1.2.approximately(1.0, 0.01); // false
+  /// 1.2.around(1.0, 0.01); // false
   /// ```
-  @useResult bool approximately(double other, double tolerance) => (this - other).abs() <= tolerance;
+  @useResult bool around(num other, double tolerance) => (this - other).abs() <= tolerance;
 
 }

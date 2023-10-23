@@ -6,6 +6,8 @@ dartdoc:
       name: "Core"
     "Collection":
       name: "Collection"
+    "CRDT":
+      name: "CRDT"
     "Time":
       name: "Time"
   categoryOrder:
