@@ -13,9 +13,10 @@
 /// * [StreamValueBuilder]
 ///
 /// ## Foundation
-/// General-purpose widgets.
+/// General-purpose widgets and Flutter services.
 ///
 /// * [ColorFilters]
+/// * [IntTextInputFormatter]
 ///
 /// ## Resizable
 /// Widgets that contain children which can be resized either horizontally or vertically.
@@ -38,6 +39,7 @@ export 'src/widgets/async/future/future_builder.dart' show
 export 'src/widgets/async/stream_value_builder.dart';
 
 export 'src/widgets/foundation/color_filters.dart' hide Matrix5;
+export 'src/widgets/foundation/text_input_formatters.dart';
 
 export 'src/widgets/resizable/resizable_box.dart';
 export 'src/widgets/resizable/resizable_icon.dart';
