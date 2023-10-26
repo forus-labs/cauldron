@@ -1,4 +1,8 @@
 include: package:flint/analysis_options.flutter.yaml
+linter:
+  rules:
+    - avoid_renaming_method_parameters
+    - use_build_context_synchronously
 analyzer:
   errors:
     unused_result: ignore # TODO: enable once https://github.com/dart-lang/sdk/issues/51543 is fixed

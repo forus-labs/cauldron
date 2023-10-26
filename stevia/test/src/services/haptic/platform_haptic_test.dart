@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stevia/haptic.dart';
-import 'package:stevia/src/haptic/platform_haptic.dart';
+import 'package:stevia/services_haptic.dart';
+import 'package:stevia/src/services/haptic/platform_haptic.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

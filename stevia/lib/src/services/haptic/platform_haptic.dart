@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:sugar/sugar.dart';
 
-import 'package:stevia/src/haptic/haptic_pattern.dart';
+import 'package:stevia/src/services/haptic/haptic_pattern.dart';
 
 /// A [PlatformHaptic] that delegates performing haptic feedback to the native platform.
 @internal class PlatformHaptic extends PlatformInterface {

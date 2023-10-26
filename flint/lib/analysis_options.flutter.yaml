@@ -1,6 +1,10 @@
 include: ./analysis_options.dart.yaml
 linter:
   rules:
+    - avoid_web_libraries_in_flutter
+    - no_logic_in_create_state
     - sized_box_for_whitespace
     - sized_box_shrink_expand
+    - use_colored_box
+    - use_decorated_box
     - use_full_hex_values_for_flutter_colors

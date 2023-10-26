@@ -1,4 +1,4 @@
-import 'package:stevia/src/time/platform_timezone.dart';
+import 'package:stevia/src/services/time/platform_timezone.dart';
 import 'package:sugar/sugar.dart';
 
 /// Returns a [Timezone.platformTimezoneProvider] that supports Android and iOS platforms in addition to those supported

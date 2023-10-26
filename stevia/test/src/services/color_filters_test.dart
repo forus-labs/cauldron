@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:stevia/src/widgets/foundation/color_filters.dart';
+import 'package:stevia/src/services/color_filters.dart';
 
 void main() {
 

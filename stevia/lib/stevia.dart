@@ -11,6 +11,5 @@
 /// stevia by browsing through the aggregated classes can be overwhelming.
 library stevia;
 
-export 'package:stevia/haptic.dart';
-export 'package:stevia/time.dart';
+export 'package:stevia/services.dart';
 export 'package:stevia/widgets.dart';

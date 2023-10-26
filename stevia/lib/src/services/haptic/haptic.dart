@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
-import 'package:stevia/haptic.dart';
-import 'package:stevia/src/haptic/platform_haptic.dart';
+import 'package:stevia/services_haptic.dart';
+import 'package:stevia/src/services/haptic/platform_haptic.dart';
 import 'package:sugar/sugar.dart';
 import 'package:flutter/services.dart';
 

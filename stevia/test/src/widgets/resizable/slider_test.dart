@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:stevia/haptic.dart';
+import 'package:stevia/services_haptic.dart';
 import 'package:stevia/src/widgets/resizable/direction.dart';
 
 import 'package:stevia/src/widgets/resizable/resizable_box_model.dart';

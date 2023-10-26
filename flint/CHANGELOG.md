@@ -1,3 +1,11 @@
+# 2.9.0 (NEXT)
+
+Flutter ruleset:
+- Add `avoid_web_libraries_in_flutter`
+- Add `no_logic_in_create_state`
+- Add `use_colored_box`
+- ADd `use_decorated_box`
+
 # 2.8.1 (17/08/2023)
 - Remove `unreachable_from_main`
 

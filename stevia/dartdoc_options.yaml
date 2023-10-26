@@ -2,13 +2,13 @@ dartdoc:
   categories:
     "Stevia":
       name: "Stevia"
-    "Core":
-      name: "Core"
+    "Services":
+      name: "Services"
     "Widgets":
-      name: "Collection"
+      name: "Widgets"
   categoryOrder:
-    - Sugar
-    - Core
+    - Stevia
+    - Services
     - Widgets
   ignore:
     - ambiguous-reexport

@@ -1,8 +1,12 @@
 include: package:flint/analysis_options.dart.yaml
+linter:
+  rules:
+    - avoid_equals_and_hash_code_on_mutable_classes
+
 analyzer:
   errors:
     unused_result: ignore # TODO: enable once https://github.com/dart-lang/sdk/issues/51543 is fixed
-
   exclude:
     - lib/src/time/zone/info/**
     - misc/**
+    - out/**

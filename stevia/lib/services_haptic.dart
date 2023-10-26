@@ -1,4 +1,4 @@
-/// {@category Core}
+/// {@category Services}
 ///
 /// Utilities for performing haptic feedback on devices.
 ///
@@ -50,9 +50,9 @@
 /// [Haptic.heavy].
 ///
 /// TL;DR: Haptic feedback on Android devices is a mess.
-library stevia.haptic;
+library stevia.services.haptic;
 
-import 'package:stevia/src/haptic/haptic.dart';
+import 'package:stevia/src/services/haptic/haptic.dart';
 
-export 'package:stevia/src/haptic/haptic.dart';
-export 'package:stevia/src/haptic/haptic_pattern.dart';
+export 'package:stevia/src/services/haptic/haptic.dart';
+export 'package:stevia/src/services/haptic/haptic_pattern.dart';
