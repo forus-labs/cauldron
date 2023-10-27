@@ -4,8 +4,6 @@ import 'package:stevia/stevia.dart';
 
 void main() {
 
-  test('seconds(...)', () => expect(TimerController.seconds(30120000), '00:00:30'));
-
   for (final (i, function) in [
     () => TimerController(duration: const Duration(seconds: 1), interval: Duration.zero),
   ].indexed) {
@@ -265,6 +263,22 @@ void main() {
   });
 
   group('done', () {
+    test('run() empty', () {
+      fakeAsync((async) {
+        final controller = TimerController(duration: Duration.zero, ascending: true)..run();
+        async.elapse(const Duration(days: 10));
+
+        expect(controller.state.value, TimerState.done);
+        expect(controller.value, 0);
+
+        controller.run();
+        async.elapse(const Duration(seconds: 10));
+
+        expect(controller.state.value, TimerState.done);
+        expect(controller.value, 0);
+      });
+    });
+
     test('run() ascending', () {
       fakeAsync((async) {
         final controller = TimerController(duration: const Duration(days: 1), ascending: true)..run();
@@ -297,6 +311,23 @@ void main() {
       });
     });
 
+
+    test('pause() empty', () {
+      fakeAsync((async) {
+        final controller = TimerController(duration: Duration.zero, ascending: true)..run();
+        async.elapse(const Duration(days: 10));
+
+        expect(controller.state.value, TimerState.done);
+        expect(controller.value, 0);
+
+        controller.pause();
+        async.elapse(const Duration(seconds: 10));
+
+        expect(controller.state.value, TimerState.done);
+        expect(controller.value, 0);
+      });
+    });
+
     test('pause()', () {
       fakeAsync((async) {
         final controller = TimerController(duration: const Duration(days: 1), ascending: true)..run();
@@ -313,7 +344,24 @@ void main() {
       });
     });
 
-    test('reset ascending', () {
+
+    test('reset() empty', () {
+      fakeAsync((async) {
+        final controller = TimerController(duration: Duration.zero, ascending: true)..run();
+        async.elapse(const Duration(days: 10));
+
+        expect(controller.state.value, TimerState.done);
+        expect(controller.value, 0);
+
+        controller.reset();
+        async.elapse(const Duration(seconds: 10));
+
+        expect(controller.state.value, TimerState.done);
+        expect(controller.value, 0);
+      });
+    });
+
+    test('reset() ascending', () {
       fakeAsync((async) {
         final controller = TimerController(duration: const Duration(days: 1), ascending: true)..run();
         async.elapse(const Duration(days: 10));
@@ -329,7 +377,7 @@ void main() {
       });
     });
 
-    test('reset descending', () {
+    test('reset() descending', () {
       fakeAsync((async) {
         final controller = TimerController(duration: const Duration(days: 1))..run();
         async.elapse(const Duration(days: 10));
