@@ -9,7 +9,7 @@ import 'package:stevia/src/widgets/resizable/resizable_region_change_notifier.da
 
 /// A box which children can all be resized either horizontally or vertically.
 ///
-/// Each child must be selected by tapping on it before it can be resized.
+/// Each child is a [ResizableRegion] that must be selected by tapping on it before it can be resized.
 ///
 /// ## Contract
 /// Each child has a minimum size determined by its slider size multiplied by 2. Setting an initial size smaller 

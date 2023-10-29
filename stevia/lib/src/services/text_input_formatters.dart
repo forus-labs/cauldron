@@ -28,23 +28,24 @@ class IntTextInputFormatter extends TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    if (newValue.text.isEmpty || newValue.text == '-') {
+    final TextEditingValue(:text, :selection, :composing) = newValue;
+    if (text.isEmpty || text == '-') {
       return newValue;
     }
 
-    final trimmed = newValue.text.trim().replaceAll(',', '');
+    final trimmed = text.trim().replaceAll(',', '');
     return switch (int.tryParse(trimmed)) {
-      final value? when _range.contains(value) => switch (newValue.text.length == trimmed.length) {
+      final value? when _range.contains(value) => switch (text.length == trimmed.length) {
         true => newValue,
         false => TextEditingValue(
           text: trimmed,
-          selection: newValue.selection.copyWith(
-            baseOffset: math.min(newValue.selection.start, trimmed.length),
-            extentOffset: math.min(newValue.selection.end, trimmed.length),
+          selection: selection.copyWith(
+            baseOffset: math.min(selection.start, trimmed.length),
+            extentOffset: math.min(selection.end, trimmed.length),
           ),
-          composing: !newValue.composing.isCollapsed && trimmed.length > newValue.composing.start ? TextRange(
-            start: newValue.composing.start,
-            end: math.min(newValue.composing.end, trimmed.length),
+          composing: !composing.isCollapsed && trimmed.length > composing.start ? TextRange(
+            start: composing.start,
+            end: math.min(composing.end, trimmed.length),
           ): TextRange.empty,
         )
       },
