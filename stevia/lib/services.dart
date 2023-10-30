@@ -2,8 +2,9 @@
 /// General-purpose widgets and Flutter services.
 ///
 /// * [ColorFilters]
-/// * [IntTextInputFormatter]
 ///
+/// * [CaseTextInputFormatter]
+/// * [IntTextInputFormatter]
 ///
 /// ## Timer
 /// Controllers that simply the implementation of timers.
