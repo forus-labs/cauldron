@@ -1,10 +1,14 @@
 # 2.9.0 (NEXT)
+This update focuses on lint rules introduce in Dart 3.2.0.
+
+Core ruleset:
+- Add `annotate_redeclares`
 
 Flutter ruleset:
 - Add `avoid_web_libraries_in_flutter`
 - Add `no_logic_in_create_state`
 - Add `use_colored_box`
-- ADd `use_decorated_box`
+- Add `use_decorated_box`
 
 # 2.8.1 (17/08/2023)
 - Remove `unreachable_from_main`
