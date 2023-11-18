@@ -15,8 +15,7 @@ It consolidates several micro-packages that provide bits and pieces of date-time
 
 ## Why Sugar's date-time API over other packages?
 
-* Sugar is able to detect the platform's timezone, `ZonedDateTime.now()` synchronously. Other packages such as `flutter_native_timezone`,
-  `timezone` and Dart's standard library don't. `flutter_native_timezone` detects the timezone asynchronously while [`DateTime.timeZoneName`](https://api.dart.dev/stable/dart-core/DateTime/timeZoneName.html) 
+* Sugar is able to detect the platform's timezone, `ZonedDateTime.now()` synchronously. Other packages such as `timezone` don't. `flutter_native_timezone` detects the timezone asynchronously while [`DateTime.timeZoneName`](https://api.dart.dev/stable/dart-core/DateTime/timeZoneName.html) 
   returns an ambiguous abbreviation that can refer to multiple timezones. Sugar provide a TZDB timezone identifier such as `Asia/Singapore`. 
   See [List of timezone abbreviations](https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations).
 
@@ -26,7 +25,7 @@ It consolidates several micro-packages that provide bits and pieces of date-time
   We rely on code generation to eliminate IO during initialization completely. 
 
 * Sugar has a better memory footprint. Other packages often load the entire TZ database into memory. We rely on lazy initialization 
-  to load only timezones you use, reducing memory footprint.
+  to load only timezones actually used.
 
 * Sugar offers more than just `ZonedDateTime`. It aims to be a one-stop for your date-time needs. It offers classes such 
   as `LocalTime` & `Period`, and utilities such as retrieving the ordinal week of the year.
