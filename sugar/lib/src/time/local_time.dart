@@ -130,7 +130,7 @@ class LocalTime extends Time with Orderable<LocalTime> {
   /// ```
   LocalTime([super.hour = 0, super.minute = 0, super.second = 0, super.millisecond = 0, super.microsecond = 0]);
 
-  LocalTime._(super.native): super._();
+  LocalTime._(super._native): super._();
 
 
   /// Returns a copy of this with the [duration] added, wrapping around midnight.

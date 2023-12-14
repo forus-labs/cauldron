@@ -31,7 +31,7 @@ import 'package:sugar/sugar.dart';
   ///
   /// ## Contract
   /// The transitions, offsets, abbreviations and DSTs should be non-empty and have the same length.
-  DynamicTimezone(super._name, this._initial, this._transitions, this._offsets, this._unit, this._abbreviations, this._dsts):
+  DynamicTimezone(super.name, this._initial, this._transitions, this._offsets, this._unit, this._abbreviations, this._dsts):
     _range = const Interval.empty(0),
     _timezone = _initial,
     super.from();
