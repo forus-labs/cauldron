@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:meta/meta.dart';
 import 'package:sugar/sugar.dart';
 
 /// Provides low-level functions for manipulating string indexes.
@@ -44,7 +45,7 @@ extension StringIndex on Never {
   /// ## Contract
   /// An [ArgumentError] is thrown if [max] <= [min].
   @Possible({ArgumentError})
-  static String between({String min = min, String max = max}) {
+  @useResult static String between({String min = min, String max = max}) {
     _validate(min, max);
 
     final index = StringBuffer();
