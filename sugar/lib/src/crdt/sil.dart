@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:sugar/sugar.dart';
 
 part 'sil_by_index.dart';
+part 'sil_by_string_index.dart';
 
 class Sil<E> extends Iterable<E> {
 
@@ -17,8 +18,19 @@ class Sil<E> extends Iterable<E> {
   final bool Function(E, E) _equals;
   final int Function(E) _hash;
   SilByIndex<E>? _byIndex;
+  SilByStringIndex<E>? _byStringIndex;
 
 
+  /// Creates a [Sil] from the given [elements] that uses the [equals] and [hash] function to determine the equality and
+  /// hashcode of elements.
+  ///
+  /// [E]'s `==` and `hashCode` is used by default.
+  ///
+  /// Elements in the given list are ignored if they are already in this SIL.
+  ///
+  /// ```dart
+  /// final sil = Sil.list(['A', 'B', 'C', 'B']); // ['A', 'B', 'C']
+  /// ```
   factory Sil.list(List<E> elements, {bool Function(E, E) equals = _equality, int Function(E) hash = _hashCode}) =>
     Sil<E>(equals: equals, hash: hash)..addAll(elements);
 
@@ -184,8 +196,12 @@ class Sil<E> extends Iterable<E> {
   @override
   @useResult Iterator<E> get iterator => _list.iterator;
 
+
   /// A view that allows the elements to be manipulated using their int indexes.
   @useResult SilByIndex<E> get byIndex => _byIndex ??= SilByIndex._(_map, _inverse, _list, _equals, _hash);
+
+  /// A view that allows the elements to be manipulated using their string indexes.
+  @useResult SilByStringIndex<E> get byStringIndex => _byStringIndex ??= SilByStringIndex._(_map, _inverse, _list, _equals, _hash);
 
 
   set first(E element) {
@@ -208,6 +224,6 @@ class Sil<E> extends Iterable<E> {
 
 
   @override
-  String toString() => '[${_list.map((e) => '(${_inverse[e]}: $e)').join(', ')}]';
+  @useResult String toString() => '[${_list.map((e) => '(${_inverse[e]}: $e)').join(', ')}]';
 
 }

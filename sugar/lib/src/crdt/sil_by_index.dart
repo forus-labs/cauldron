@@ -25,7 +25,7 @@ class SilByIndex<E> extends Iterable<E> {
   ///
   /// sil.byIndex.indexOf('C'); // -1
   /// ```
-  int indexOf(E element) => _list.indexWhere((e) => _equals(element, e));
+  @useResult int indexOf(E element) => _list.indexWhere((e) => _equals(element, e));
 
   /// Returns the index of the first element in this SIL that satisfies the [predicate], or -1 if no such element was not
   /// found.
@@ -41,7 +41,7 @@ class SilByIndex<E> extends Iterable<E> {
   ///
   /// final invalid = sil.indexWhere((e) => e.startsWith('f')); // -1
   /// ```
-  int indexWhere(bool Function(E) predicate, [int start = 0]) => _list.indexWhere(predicate, start);
+  @useResult int indexWhere(bool Function(E) predicate, [int start = 0]) => _list.indexWhere(predicate, start);
 
   /// Returns the index of the last element in this SIL that satisfies the [predicate], or -1 if no such element was not
   /// found.
@@ -57,11 +57,14 @@ class SilByIndex<E> extends Iterable<E> {
   ///
   /// final invalid = sil.lastIndexWhere((e) => e.startsWith('f')); // -1
   /// ```
-  int lastIndexWhere(bool Function(E) predicate, [int end = 0]) => _list.lastIndexWhere(predicate, end);
+  @useResult int lastIndexWhere(bool Function(E) predicate, [int end = 0]) => _list.lastIndexWhere(predicate, end);
 
 
   /// Inserts all the given [elements] at [index] if they are not yet in the SIL, shifting all elements at and after
   /// [index] towards the end of the SIL.
+  ///
+  /// ## Contract
+  /// Throws a [RangeError] if `index < 0` or `length < index`.
   ///
   /// ## Example
   /// ```dart
@@ -82,7 +85,7 @@ class SilByIndex<E> extends Iterable<E> {
   /// Returns `true` if [element] was not in this SIL.
   ///
   /// ## Contract
-  /// Throws a [RangeError] if `index < 0` or `length <= index`.
+  /// Throws a [RangeError] if `index < 0` or `length < index`.
   ///
   /// ## Example
   /// ```dart
@@ -137,7 +140,7 @@ class SilByIndex<E> extends Iterable<E> {
   ///
   /// ## Contract
   /// Throws a [RangeError] if `index < 0` or `length <= index`.
-  E operator [] (int index) => _list[index];
+  @useResult E operator [] (int index) => _list[index];
 
   /// Sets the value at the given [index] to [element] if it is not yet in this SIL.
   ///
@@ -157,7 +160,9 @@ class SilByIndex<E> extends Iterable<E> {
     _list[index] = element;
   }
 
+  @override
+  @useResult E elementAt(int index) => _list.elementAt(index);
 
   @override
-  Iterator<E> get iterator => _list.iterator;
+  @useResult Iterator<E> get iterator => _list.iterator;
 }
