@@ -5,14 +5,12 @@ class SilByIndex<E> extends Iterable<E> {
   final HashMap<E, String> _inverse;
   final List<E> _list;
   final bool Function(E, E) _equals;
-  final int Function(E) _hash;
 
   SilByIndex._(
     this._map,
     this._inverse,
     this._list,
     this._equals,
-    this._hash,
   );
 
 
@@ -33,7 +31,7 @@ class SilByIndex<E> extends Iterable<E> {
   /// Searches the list from index [start] to the end of this SIL.
   ///
   /// ```dart
-  /// final sil = Sil.list(['a', 'b', 'c', bd']);
+  /// final sil = Sil.list(['a', 'b', 'c', bd']).byIndex;
   ///
   /// final first = sil.indexWhere((e) => e.startsWith('b')); // 1
   ///
@@ -49,7 +47,7 @@ class SilByIndex<E> extends Iterable<E> {
   /// Searches the list from index [end] to the start of this SIL.
   ///
   /// ```dart
-  /// final sil = Sil.list(['a', 'b', 'c', bd']);
+  /// final sil = Sil.list(['a', 'b', 'c', 'bd']).byIndex;
   ///
   /// final first = sil.lastIndexWhere((e) => e.startsWith('b')); // 3
   ///
@@ -68,7 +66,7 @@ class SilByIndex<E> extends Iterable<E> {
   ///
   /// ## Example
   /// ```dart
-  /// final sil = Sil.list(['A', 'B', 'C']);
+  /// final sil = Sil.list(['A', 'B', 'C']).byIndex;
   ///
   ///  sil.insert(1, ['D', 'E']); // ['A', 'D', 'E', 'B', 'C'];
   /// ```
@@ -89,7 +87,7 @@ class SilByIndex<E> extends Iterable<E> {
   ///
   /// ## Example
   /// ```dart
-  /// final sil = Sil.list(['A', 'B', 'C']);
+  /// final sil = Sil.list(['A', 'B', 'C']).byIndex;
   ///
   /// sil.insert(1, 'D'); // ['A', 'D', 'B', 'C'];
   /// ```
@@ -123,7 +121,7 @@ class SilByIndex<E> extends Iterable<E> {
   ///
   /// ## Example
   /// ```dart
-  /// final sil = Sil.list(['A', 'B', 'C']);
+  /// final sil = Sil.list(['A', 'B', 'C']).byIndex;
   ///
   /// sil.removeAt(1); // ['A', 'C'];
   /// ```

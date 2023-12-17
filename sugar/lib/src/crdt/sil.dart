@@ -16,12 +16,41 @@ class Sil<E> extends Iterable<E> {
   final HashMap<E, String> _inverse;
   final List<E> _list;
   final bool Function(E, E) _equals;
-  final int Function(E) _hash;
   SilByIndex<E>? _byIndex;
   SilByStringIndex<E>? _byStringIndex;
 
+  /// Creates a [Sil] from the given [map] that uses the [equals] and [hash] function to determine the equality and
+  /// hashcode of elements.
+  ///
+  /// [E]'s `==` and `hashCode` is used by default.
+  ///
+  /// Elements in the given map are ignored if they are already in this SIL.
+  ///
+  /// ## Contract
+  /// Throws an [ArgumentError] if any index in the given [map] is not a valid string index.
+  ///
+  /// ## Example
+  /// ```dart
+  /// final sil = Sil.map({'a': 'A', 'b': 'B', 'c': 'C', 'd': 'B'}); // {'a': 'A', 'b': 'B', 'c': 'C'}
+  /// ```
+  factory Sil.map(Map<String, E> map, {bool Function(E, E) equals = _equality, int Function(E) hash = _hashCode}) {
+    final sil = Sil(equals: equals, hash: hash);
+    for (final MapEntry(:key, :value) in map.entries.order(by: (e) => e.key).ascending) {
+      if (!key.matches(StringIndex.format)) {
+        throw ArgumentError('$key is not a valid string index.');
+      }
 
-  /// Creates a [Sil] from the given [elements] that uses the [equals] and [hash] function to determine the equality and
+      if (!sil._inverse.containsKey(value)) {
+        sil._map[key] = value;
+        sil._inverse[value] = key;
+        sil._list.add(value);
+      }
+    }
+
+    return sil;
+  }
+
+  /// Creates a [Sil] from the given [list] that uses the [equals] and [hash] function to determine the equality and
   /// hashcode of elements.
   ///
   /// [E]'s `==` and `hashCode` is used by default.
@@ -31,8 +60,8 @@ class Sil<E> extends Iterable<E> {
   /// ```dart
   /// final sil = Sil.list(['A', 'B', 'C', 'B']); // ['A', 'B', 'C']
   /// ```
-  factory Sil.list(List<E> elements, {bool Function(E, E) equals = _equality, int Function(E) hash = _hashCode}) =>
-    Sil<E>(equals: equals, hash: hash)..addAll(elements);
+  factory Sil.list(List<E> list, {bool Function(E, E) equals = _equality, int Function(E) hash = _hashCode}) =>
+    Sil<E>(equals: equals, hash: hash)..addAll(list);
 
   /// Creates a [Sil] that uses the [equals] and [hash] function to determine the equality and hashcode of elements in
   /// this SIL.
@@ -42,8 +71,7 @@ class Sil<E> extends Iterable<E> {
     _map = SplayTreeMap(),
     _inverse = HashMap(equals: equals, hashCode: hash),
     _list = [],
-    _equals = equals,
-    _hash = hash;
+    _equals = equals;
 
 
   /// Adds the given [elements] to the end of this SIL if they are not yet in this SIL.
@@ -198,10 +226,10 @@ class Sil<E> extends Iterable<E> {
 
 
   /// A view that allows the elements to be manipulated using their int indexes.
-  @useResult SilByIndex<E> get byIndex => _byIndex ??= SilByIndex._(_map, _inverse, _list, _equals, _hash);
+  @useResult SilByIndex<E> get byIndex => _byIndex ??= SilByIndex._(_map, _inverse, _list, _equals);
 
   /// A view that allows the elements to be manipulated using their string indexes.
-  @useResult SilByStringIndex<E> get byStringIndex => _byStringIndex ??= SilByStringIndex._(_map, _inverse, _list, _equals, _hash);
+  @useResult SilByStringIndex<E> get byStringIndex => _byStringIndex ??= SilByStringIndex._(_map, _inverse, _list, _equals);
 
 
   set first(E element) {
