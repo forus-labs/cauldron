@@ -20,6 +20,7 @@ library stevia.widgets;
 
 import 'package:stevia/widgets.dart';
 
+export 'src/widgets/assets.dart';
 export 'src/widgets/async/future/future_builder.dart' show
   FutureResultBuilder,
   FutureValueBuilder,

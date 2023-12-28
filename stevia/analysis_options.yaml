@@ -5,4 +5,5 @@ linter:
     - use_build_context_synchronously
 analyzer:
   errors:
+    deprecated_member_use: ignore # TODO: enable once they fix the WillPopScope nonsense
     unused_result: ignore # TODO: enable once https://github.com/dart-lang/sdk/issues/51543 is fixed
