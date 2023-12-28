@@ -3,7 +3,7 @@
 targets:
   $default:
     builders:
-      bridgette_runner:
+      stevia_runner:
         enabled: true
 
 builders:
