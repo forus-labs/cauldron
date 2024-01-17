@@ -9,7 +9,6 @@ dependencies:
  build: ^2.4.0
  code_builder: ^4.5.0
  dart_style: ^2.3.0
- googleapis_auth: ^1.4.1
  io: ^1.0.3
  path: ^1.8.0
  sugar: ^3.1.0
