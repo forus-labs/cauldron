@@ -38,5 +38,5 @@ Lint ruleset in our projects.
 
 ```YAML
 dev_dependencies:
-  flint: ^2.7.0
+  flint: ^2.8.0
 ```
