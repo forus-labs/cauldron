@@ -344,7 +344,6 @@ import 'package:sugar/src/time/zone/info/us.g.dart';
   'Asia/Dushanbe',
   'Asia/Famagusta',
   'Asia/Gaza',
-  'Asia/Hanoi',
   'Asia/Harbin',
   'Asia/Hebron',
   'Asia/Ho_Chi_Minh',
@@ -1263,8 +1262,6 @@ import 'package:sugar/src/time/zone/info/us.g.dart';
       return Asia.famagusta;
     case 'Asia/Gaza':
       return Asia.gaza;
-    case 'Asia/Hanoi':
-      return Asia.hanoi;
     case 'Asia/Harbin':
       return Asia.harbin;
     case 'Asia/Hebron':

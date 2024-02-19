@@ -56,32 +56,7 @@ Check out the [documentation](https://pub.dev/documentation/sugar/latest/) to ge
 This section is for maintainers. It describes how to update the embedded IANA database. It assumes that you are on macOS/Linux.
 The current version of the IANA database is 2024a.
 
-Download the latest [Complete Distribution](https://www.iana.org/time-zones). 
-
-Extract the directory from the tarball:
 ```shell
-tar --lzip -xvf tzdb-<version>.tar.lz
-```
-
-Compile the `zic` tool:
-```shell
-cd tzdb-<version>
-make
-```
-
-Create the zoneinfo files:
-```shell
-zic -d ./zoneinfo southamerica northamerica factory europe etcetera backzone backward australasia asia antarctica africa
-```
-
-Replace the zoneinfo folder in `tool/timezone`.
-
-Generate dart representation of TZDB:
-```shell
-dart run tool/timezone/generate_timezones.dart
-```
-
-Generate Windows bindings:
-```shell
-dart run tool/generate_windows_zones.dart
+$ chmod +x tool/refresh.sh
+$ tool/refresh.sh
 ```
