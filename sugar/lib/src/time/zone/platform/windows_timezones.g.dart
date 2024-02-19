@@ -81,7 +81,7 @@ import 'package:meta/meta.dart';
   'Montevideo Standard Time': 'America/Montevideo',
   'Morocco Standard Time': 'Africa/Casablanca',
   'Mountain Standard Time': 'America/Denver',
-  'Mountain Standard Time (Mexico)': 'America/Chihuahua',
+  'Mountain Standard Time (Mexico)': 'America/Mazatlan',
   'Myanmar Standard Time': 'Asia/Rangoon',
   'N. Central Asia Standard Time': 'Asia/Novosibirsk',
   'Namibia Standard Time': 'Africa/Windhoek',

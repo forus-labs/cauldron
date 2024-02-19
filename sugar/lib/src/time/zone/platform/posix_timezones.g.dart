@@ -5,7 +5,6 @@
 // **************************************************************************
 // 
 // ignore_for_file: type=lint
-
 import 'package:meta/meta.dart';
 
 /// The TZ database timezones.
@@ -321,6 +320,7 @@ import 'package:meta/meta.dart';
   'Asia/Dushanbe',
   'Asia/Famagusta',
   'Asia/Gaza',
+  'Asia/Hanoi',
   'Asia/Harbin',
   'Asia/Hebron',
   'Asia/Ho_Chi_Minh',
