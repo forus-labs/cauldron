@@ -29,7 +29,7 @@ extension Lists<E> on List<E> {
   ///
   /// [1, 2, 4, 3, 4]..toggleAll(4); // [1, 2, 3]
   /// ```
-  @useResult void toggleAll(E element) {
+  void toggleAll(E element) {
     final initial = length;
     removeWhere((e) => e == element);
     if (initial == length) {

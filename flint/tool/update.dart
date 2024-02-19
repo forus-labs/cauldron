@@ -11,9 +11,10 @@ Future<Set<String>> fetch() async {
   print('Fetching lint rules from $remote.');
 
   final response = parse((await get(remote)).body);
-  return response.getElementsByClassName('code-excerpt__code').single.innerHtml
+  return response.getElementsByClassName('code-block-body').single.innerHtml
       .split(RegExp('[ ]+-[ ]+'))
       .skip(1)
+      .where((element) => !element.startsWith('<'))
       .map((e) => e.trim())
       .toSet();
 }

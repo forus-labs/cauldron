@@ -10,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg: ^2.0.9
+  lottie: ^3.0.0
   meta: ^1.9.1
   plugin_platform_interface: ^2.0.2
   sugar: ^3.0.0+1

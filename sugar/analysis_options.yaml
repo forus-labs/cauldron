@@ -1,7 +1,7 @@
 include: package:flint/analysis_options.dart.yaml
 linter:
   rules:
-    - avoid_equals_and_hash_code_on_mutable_classes
+    avoid_equals_and_hash_code_on_mutable_classes: false
 
 analyzer:
   errors:

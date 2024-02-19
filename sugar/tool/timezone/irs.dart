@@ -58,7 +58,7 @@ sealed class TimezoneIR {
 /// An intermediate representation of a dynamic timezone.
 final class DynamicTimezoneIR extends TimezoneIR {
 
-  DynamicTimezoneIR(super.path, super.file): super._();
+  DynamicTimezoneIR(super.location, super.variableName): super._();
 
   @override
   String toConstructor(int indentation) {
@@ -128,7 +128,7 @@ final class DynamicTimezoneIR extends TimezoneIR {
 /// An intermediate representation of a fixed timezone.
 final class FixedTimezoneIR extends TimezoneIR {
 
-  FixedTimezoneIR(super.path, super.file): super._();
+  FixedTimezoneIR(super.location, super.variableName): super._();
 
   @override
   String toConstructor(int indentation) {

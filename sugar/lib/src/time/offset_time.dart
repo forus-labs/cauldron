@@ -124,7 +124,7 @@ class OffsetTime extends Time {
   /// ```
   OffsetTime(this.offset, [super.hour = 0, super.minute = 0, super.second = 0, super.millisecond = 0, super.microsecond = 0]);
 
-  OffsetTime._(this.offset, super.time): super._();
+  OffsetTime._(this.offset, super._native): super._();
 
 
   /// Returns a copy of this with the [duration] added, wrapping around midnight.

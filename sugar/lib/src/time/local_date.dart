@@ -127,7 +127,7 @@ class LocalDate extends Date with Orderable<LocalDate> {
   /// ```
   LocalDate(super.year, [super.month = 1, super.day = 1]): super();
 
-  LocalDate._(super.native): super._();
+  LocalDate._(super._native): super._();
 
 
   /// Returns a copy of this with the [duration] added.
