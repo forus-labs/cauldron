@@ -24,11 +24,7 @@ extension SplittableIterable<E> on Iterable<E> {
 /// ```dart
 /// [1, 2, 3, 4].split.by(size: 2); // [ [1, 2], [3, 4], [5] ]
 /// ```
-class Split<E> {
-
-  final Iterable<E> _iterable;
-
-  Split._(this._iterable);
+extension type Split<E>._(Iterable<E> _iterable) {
 
   /// Splits this iterable into lists of the given [size].
   ///

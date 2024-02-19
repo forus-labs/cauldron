@@ -1,6 +1,5 @@
-import 'dart:html';
-
 import 'package:meta/meta.dart';
+import 'package:web/web.dart';
 
 // ignore_for_file: public_member_api_docs
 

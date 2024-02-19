@@ -36,11 +36,7 @@ extension GroupableIterable<E> on Iterable<E> {
 ///
 /// print(aggregate); // {'a': [('a', 1), ('a', 2)], 'b': [('b', 3)]}
 /// ```
-class Group<E> {
-
-  final Iterable<E> _iterable;
-
-  Group._(this._iterable);
+extension type const Group<E>._(Iterable<E> _iterable) {
 
   /// Groups the iterable's elements by keys returned by [by] before being folded using [as].
   ///
