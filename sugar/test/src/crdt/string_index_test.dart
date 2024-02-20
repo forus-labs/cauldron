@@ -45,45 +45,29 @@ void main() {
       ('a++++++', 'a'),
     ]) {
       test('start index >= end index', () => expect(
-        () => StringIndex.between(min: min, max: max),
+        () => StringIndex.between(min: StringIndex(min), max: StringIndex(max)),
         throwsA(predicate<ArgumentError>(
           (e) => e.message == 'Invalid range: $min - $max, minimum should be less than maximum.'
-        )),
-      ));
-    }
-
-    for (final argument in ['1241=', '20"385r2', '漢字']) {
-      test('invalid min format', () => expect(
-        () => StringIndex.between(min: argument),
-        throwsA(predicate<ArgumentError>(
-          (e) => e.message == 'Invalid minimum string index: $argument, should follow the format: ${StringIndex.format.pattern}.'
-        )),
-      ));
-
-      test('invalid max format', () => expect(
-        () => StringIndex.between(max: argument),
-        throwsA(predicate<ArgumentError>(
-          (e) => e.message == 'Invalid maximum string index: $argument, should follow the format: ${StringIndex.format.pattern}.'
         )),
       ));
     }
   });
 
   test('wrap around', () {
-    final value = StringIndex.between(min: '+yzz', max: '-');
+    final value = StringIndex.between(min: StringIndex('+yzz'), max: StringIndex('-'));
     expect(value > '+yzz', true);
     expect(value < '-', true);
   });
 
   test('boundary', () {
-    final value = StringIndex.between(min: '+zzz', max: '-');
+    final value = StringIndex.between(min: StringIndex('+zzz'), max: StringIndex('-'));
     expect(value.compareTo('+zzz'), 1);
     expect(value.compareTo('/'), -1);
   });
 
   for (final (min, max) in boundaries) {
     test('property test: insert between $min and $max', () {
-      final value = StringIndex.between(min: min, max: max);
+      final value = StringIndex.between(min: StringIndex(min), max: StringIndex(max));
       expect(value.endsWith('+'), false);
       expect(value.compareTo(min), 1, reason: '$value <= $min');
       expect(value.compareTo(max), -1, reason: '$value >= $max');

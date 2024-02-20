@@ -6,14 +6,55 @@ import 'package:sugar/sugar.dart';
 part 'sil_by_index.dart';
 part 'sil_by_string_index.dart';
 
+/// A String Index List (SIL) allows elements to be manipulated using a [StringIndex] and int index.
+///
+/// It is a Sequence Conflict-Free Replicated Data Type (CRDT), inspired by Logoot, developed in-house by Forus Labs.
+/// Each element contains a string index that is compared lexicographically to determine order.
+///
+/// Intuitively, we (try to) always allow an element to be inserted between two other elements. Given two elements,
+/// x and z, such that x < z, then x = 'a' and z = 'b'. To insert a element, y, between x and z such that x < y < z,
+/// then a possible value for y is `af`. In this case, `f` can also be substituted for any other allowed character in a
+/// string index. Each character in a string index is one of the allowed 64 characters, `+, -, [0-9], [A-Z] and [a-z]`.
+///
+/// See [StringIndex] for more information on string indexes.
+///
+/// ## Contract
+/// If no equality and hashcode function is supplied, [E]s `==` and `hashCode` cannot change once it is inserted into this
+/// [Sil]""".
+///
+/// ## Motivation
+/// There are many benefits to representing an index as a string instead of a list of integers like in Logoot:
+/// * Serialization and deserialization trivial.
+/// * Sorting is trivial, elements can be compared lexicographically without any complicated logic, i.e. `ORDER BY` in SQL.
+/// * String storage and manipulation is almost always provided out-of-the-box by programming languages and databases.
+///
+/// ## Caveats
+/// Similar to Logoot, it is possible for two equivalent indexes without any empty space in-between to be generated,
+/// i.e. x = 'a' and z = 'a'.
+///
+/// To avoid such cases, we have the following:
+///
+/// The `insert(min, max)` function guarantees that the space between:
+/// * The last positions of `min` and `new index` is not empty.
+/// * The last positions of `new index` and `max` is not empty.
+///
+/// Non-existent positions due to differences in length are treated as implicit `+`s (the first allowed character).
+///
+/// In both cases, a new character is appended to the new index until the space between said index and each boundary is
+/// not empty.
+///
+/// It is still possible for two indexes to be generated without an empty space in-between concurrently. It is impossible
+/// to prevent such situations from occurring. Therefore, such situations need to be handled during merging. This can be
+/// accomplished by adding a `updated_at` timestamp to each element. Subsequently, the less recent element should be
+/// reinserted.
 class Sil<E> extends Iterable<E> {
 
   static bool _equality(Object? a, Object? b) => a == b;
 
   static int _hashCode(Object? e) => e.hashCode;
 
-  final SplayTreeMap<String, E> _map;
-  final HashMap<E, String> _inverse;
+  final SplayTreeMap<StringIndex, E> _map;
+  final HashMap<E, StringIndex> _inverse;
   final List<E> _list;
   final bool Function(E, E) _equals;
   SilByIndex<E>? _byIndex;
@@ -33,7 +74,7 @@ class Sil<E> extends Iterable<E> {
   /// ```dart
   /// final sil = Sil.map({'a': 'A', 'b': 'B', 'c': 'C', 'd': 'B'}); // {'a': 'A', 'b': 'B', 'c': 'C'}
   /// ```
-  factory Sil.map(Map<String, E> map, {bool Function(E, E) equals = _equality, int Function(E) hash = _hashCode}) {
+  factory Sil.map(Map<StringIndex, E> map, {bool Function(E, E) equals = _equality, int Function(E) hash = _hashCode}) {
     final sil = Sil(equals: equals, hash: hash);
     for (final MapEntry(:key, :value) in map.entries.order(by: (e) => e.key).ascending) {
       if (!key.matches(StringIndex.format)) {

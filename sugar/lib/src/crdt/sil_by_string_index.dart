@@ -2,8 +2,8 @@ part of 'sil.dart';
 
 class SilByStringIndex<E> extends Iterable<E> {
 
-  final SplayTreeMap<String, E> _map;
-  final HashMap<E, String> _inverse;
+  final SplayTreeMap<StringIndex, E> _map;
+  final HashMap<E, StringIndex> _inverse;
   final List<E> _list;
   final bool Function(E, E) _equals;
 
@@ -24,7 +24,7 @@ class SilByStringIndex<E> extends Iterable<E> {
   /// 
   /// sil.firstIndexAfter('b'); // null
   /// ```
-  String? firstIndexAfter(String index) => _map.firstKeyAfter(index);
+  String? firstIndexAfter(StringIndex index) => _map.firstKeyAfter(index);
 
   /// Returns the first element after the [index], or `null` if there is no element after [index].
   ///
@@ -35,7 +35,7 @@ class SilByStringIndex<E> extends Iterable<E> {
   /// 
   /// sil.firstElementAfter('b'); // null
   /// ```
-  E? firstElementAfter(String index) => _map.firstValueAfter(index);
+  E? firstElementAfter(StringIndex index) => _map.firstValueAfter(index);
 
   /// Returns the index of the last element before the [index], or `null` if there is no element before [index].
   ///
@@ -46,7 +46,7 @@ class SilByStringIndex<E> extends Iterable<E> {
   /// 
   /// sil.lastIndexBefore('a'); // null
   /// ```
-  String? lastIndexBefore(String index) => _map.lastKeyBefore(index);
+  String? lastIndexBefore(StringIndex index) => _map.lastKeyBefore(index);
 
   /// Returns the last element before the [index], or `null` if there is no element before [index].
   ///
@@ -57,7 +57,7 @@ class SilByStringIndex<E> extends Iterable<E> {
   /// 
   /// sil.lastElementBefore('a'); // null
   /// ```
-  E? lastElementBefore(String index) => _map.lastValueBefore(index);
+  E? lastElementBefore(StringIndex index) => _map.lastValueBefore(index);
 
 
   /// Returns the index of [element] in this SIL, or null if [element] was not found.
@@ -69,7 +69,7 @@ class SilByStringIndex<E> extends Iterable<E> {
   ///
   /// sil.byIndex.indexOf('B'); // null
   /// ```
-  @useResult String? indexOf(E element) => _inverse[element];
+  @useResult StringIndex? indexOf(E element) => _inverse[element];
 
   /// Returns the index of the first element in this SIL that satisfies the [predicate], or `null` if no such element was
   /// not found.
@@ -156,7 +156,7 @@ class SilByStringIndex<E> extends Iterable<E> {
   ///
   /// ## Contract
   /// Throws an [ArgumentError] if the index is not a valid string index.
-  void operator []= (String index, E element) {
+  void operator []= (StringIndex index, E element) {
     if (!index.matches(StringIndex.format)) {
       throw ArgumentError('$index is not a valid string index.');
     }

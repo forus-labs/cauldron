@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:meta/meta.dart';
 import 'package:sugar/sugar.dart';
 
 /// Provides low-level functions for manipulating string indexes.
@@ -20,15 +19,15 @@ import 'package:sugar/sugar.dart';
 ///
 /// It is still possible for two equivalent indexes without any empty space in-between to be generated concurrently. It
 /// is impossible for the functions in [StringIndex] to prevent that. Such situations should be handled during merging instead.
-extension StringIndex on Never {
+extension type const StringIndex._(String index) implements String {
 
   /// A regular expression that denotes a string index's expected format.
   static final RegExp format = RegExp(r'(\+|-|[0-9]|[A-Z]|[a-z])+');
 
   /// The minimum character.
-  static const min = '+';
+  static const min = StringIndex._('+');
   /// The maximum character.
-  static const max = 'z';
+  static const max = StringIndex._('z');
   /// The allow character set in a SIL index.
   static const ascii = [
     43, 45, // +, -
@@ -40,52 +39,47 @@ extension StringIndex on Never {
   static final Random _random = Random();
   static final RegExp _trailing = RegExp(r'(\+)+$');
 
-  /// Generates a new SIL index between the given [min], inclusive, and [max], exclusive.
+  /// Creates a [StringIndex] from the given [index].
+  ///
+  /// ## Contract
+  /// An [ArgumentError] is thrown if [index] does not match the expected [format].
+  StringIndex(this.index) {
+    if (!index.matches(format)) {
+      throw ArgumentError('Invalid string index: $index, should follow the format: ${format.pattern}.');
+    }
+  }
+
+  /// Create a [StringIndex] between the given [min], inclusive, and [max], exclusive.
   ///
   /// ## Contract
   /// An [ArgumentError] is thrown if [max] <= [min].
   @Possible({ArgumentError})
-  @useResult static String between({String min = min, String max = max}) {
-    _validate(min, max);
+  factory StringIndex.between({StringIndex min = min, StringIndex max = max}) {
+    if ((max.replaceAll(_trailing, '')) <= min.replaceAll(_trailing, '') ) {
+      throw ArgumentError('Invalid range: $min - $max, minimum should be less than maximum.');
+    }
 
-    final index = StringBuffer();
+    final buffer = StringBuffer();
     for (var i = 0; ; i++) {
       final first = ascii.indexOf(min.charCodeAt(i, ascii.first));
       final last = ascii.indexOf(max.charCodeAt(i, ascii.last));
 
       if (last - first == 0) {
-        index.writeCharCode(ascii[first]);
+        buffer.writeCharCode(ascii[first]);
         continue;
       }
 
       final between = _random.nextBoundedInt(first, (first < last ? last : ascii.length));
-      index.writeCharCode(ascii[between]);
+      buffer.writeCharCode(ascii[between]);
 
       // This detects cases where between is '+' and first is empty as empty characters in the minimum boundary are treated
       // as implicit `+`s.
       if (between - first != 0) {
-        return _stripTrailing(index.toString());
+        final index = buffer.toString();
+        assert(!index.endsWith('+'), 'Invalid SIL index: $index, should not contain trailing "+"s.');
+        return StringIndex(index.endsWith('+') ? index.replaceAll(_trailing, '') : index);
       }
     }
-  }
-
-  static void _validate(String min, String max) {
-    if (!min.matches(format)) {
-      throw ArgumentError('Invalid minimum string index: $min, should follow the format: ${format.pattern}.');
-    }
-
-    if (!max.matches(format)) {
-      throw ArgumentError('Invalid maximum string index: $max, should follow the format: ${format.pattern}.');
-    }
-
-    if ((max.replaceAll(_trailing, '')) <= min.replaceAll(_trailing, '') ) {
-      throw ArgumentError('Invalid range: $min - $max, minimum should be less than maximum.');
-    }
-  }
-
-  static String _stripTrailing(String index) {
-    assert(!index.endsWith('+'), 'Invalid SIL index: $index, should not contain trailing "+"s.');
-    return index.endsWith('+') ? index.replaceAll(_trailing, '') : index;
   }
 
 }

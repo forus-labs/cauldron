@@ -1,8 +1,11 @@
 part of 'sil.dart';
 
+/// A SIL view for manipulating elements by their integer index.
+///
+/// All changes to this view are reflected in the underlying SIL.
 class SilByIndex<E> extends Iterable<E> {
-  final SplayTreeMap<String, E> _map;
-  final HashMap<E, String> _inverse;
+  final SplayTreeMap<StringIndex, E> _map;
+  final HashMap<E, StringIndex> _inverse;
   final List<E> _list;
   final bool Function(E, E) _equals;
 
