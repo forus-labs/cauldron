@@ -146,7 +146,7 @@ final class FixedTimezoneIR extends TimezoneIR {
       .toString();
   }
 
-  String _offset(TimeZone zone) => "const LiteralOffset('${format(zone.offset)}', ${zone.offset})";
+  String _offset(TimeZone zone) => "const LiteralOffset('${format(zone.offset * Duration.microsecondsPerSecond)}', ${zone.offset})";
 
 }
 

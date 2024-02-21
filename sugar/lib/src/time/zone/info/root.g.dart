@@ -86,7 +86,7 @@ extension Root on Never {
   static final Timezone est = FixedTimezone(
     'EST',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -18000),
+      const LiteralOffset('-05:00', -18000),
       'EST',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -248,7 +248,7 @@ extension Root on Never {
   static final Timezone hst = FixedTimezone(
     'HST',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -36000),
+      const LiteralOffset('-10:00', -36000),
       'HST',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -412,7 +412,7 @@ extension Root on Never {
   static final Timezone mst = FixedTimezone(
     'MST',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -25200),
+      const LiteralOffset('-07:00', -25200),
       'MST',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,

@@ -29,6 +29,7 @@
 - Change `LocalTime.now(...)` to be stubbable
 - Change `OffsetTime.now(...)` to be stubbable
 - Change IANA database from `2023c` to `2024a`
+- Fix `Etc/*` timezones not returning correct string representation.
 
 ## 3.1.0 (19/06/2023)
 

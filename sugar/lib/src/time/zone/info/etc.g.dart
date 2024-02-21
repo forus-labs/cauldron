@@ -40,7 +40,7 @@ extension Etc on Never {
   static final Timezone gmtPlus1 = FixedTimezone(
     'Etc/GMT+1',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -3600),
+      const LiteralOffset('-01:00', -3600),
       '-01',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -51,7 +51,7 @@ extension Etc on Never {
   static final Timezone gmtPlus10 = FixedTimezone(
     'Etc/GMT+10',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -36000),
+      const LiteralOffset('-10:00', -36000),
       '-10',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -62,7 +62,7 @@ extension Etc on Never {
   static final Timezone gmtPlus11 = FixedTimezone(
     'Etc/GMT+11',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -39600),
+      const LiteralOffset('-11:00', -39600),
       '-11',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -73,7 +73,7 @@ extension Etc on Never {
   static final Timezone gmtPlus12 = FixedTimezone(
     'Etc/GMT+12',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -43200),
+      const LiteralOffset('-12:00', -43200),
       '-12',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -84,7 +84,7 @@ extension Etc on Never {
   static final Timezone gmtPlus2 = FixedTimezone(
     'Etc/GMT+2',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -7200),
+      const LiteralOffset('-02:00', -7200),
       '-02',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -95,7 +95,7 @@ extension Etc on Never {
   static final Timezone gmtPlus3 = FixedTimezone(
     'Etc/GMT+3',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -10800),
+      const LiteralOffset('-03:00', -10800),
       '-03',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -106,7 +106,7 @@ extension Etc on Never {
   static final Timezone gmtPlus4 = FixedTimezone(
     'Etc/GMT+4',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -14400),
+      const LiteralOffset('-04:00', -14400),
       '-04',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -117,7 +117,7 @@ extension Etc on Never {
   static final Timezone gmtPlus5 = FixedTimezone(
     'Etc/GMT+5',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -18000),
+      const LiteralOffset('-05:00', -18000),
       '-05',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -128,7 +128,7 @@ extension Etc on Never {
   static final Timezone gmtPlus6 = FixedTimezone(
     'Etc/GMT+6',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -21600),
+      const LiteralOffset('-06:00', -21600),
       '-06',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -139,7 +139,7 @@ extension Etc on Never {
   static final Timezone gmtPlus7 = FixedTimezone(
     'Etc/GMT+7',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -25200),
+      const LiteralOffset('-07:00', -25200),
       '-07',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -150,7 +150,7 @@ extension Etc on Never {
   static final Timezone gmtPlus8 = FixedTimezone(
     'Etc/GMT+8',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -28800),
+      const LiteralOffset('-08:00', -28800),
       '-08',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -161,7 +161,7 @@ extension Etc on Never {
   static final Timezone gmtPlus9 = FixedTimezone(
     'Etc/GMT+9',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', -32400),
+      const LiteralOffset('-09:00', -32400),
       '-09',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -183,7 +183,7 @@ extension Etc on Never {
   static final Timezone gmtMinus1 = FixedTimezone(
     'Etc/GMT-1',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', 3600),
+      const LiteralOffset('+01:00', 3600),
       '+01',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -194,7 +194,7 @@ extension Etc on Never {
   static final Timezone gmtMinus10 = FixedTimezone(
     'Etc/GMT-10',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', 36000),
+      const LiteralOffset('+10:00', 36000),
       '+10',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -205,7 +205,7 @@ extension Etc on Never {
   static final Timezone gmtMinus11 = FixedTimezone(
     'Etc/GMT-11',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', 39600),
+      const LiteralOffset('+11:00', 39600),
       '+11',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -216,7 +216,7 @@ extension Etc on Never {
   static final Timezone gmtMinus12 = FixedTimezone(
     'Etc/GMT-12',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', 43200),
+      const LiteralOffset('+12:00', 43200),
       '+12',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -227,7 +227,7 @@ extension Etc on Never {
   static final Timezone gmtMinus13 = FixedTimezone(
     'Etc/GMT-13',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', 46800),
+      const LiteralOffset('+13:00', 46800),
       '+13',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -238,7 +238,7 @@ extension Etc on Never {
   static final Timezone gmtMinus14 = FixedTimezone(
     'Etc/GMT-14',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', 50400),
+      const LiteralOffset('+14:00', 50400),
       '+14',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -249,7 +249,7 @@ extension Etc on Never {
   static final Timezone gmtMinus2 = FixedTimezone(
     'Etc/GMT-2',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', 7200),
+      const LiteralOffset('+02:00', 7200),
       '+02',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -260,7 +260,7 @@ extension Etc on Never {
   static final Timezone gmtMinus3 = FixedTimezone(
     'Etc/GMT-3',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', 10800),
+      const LiteralOffset('+03:00', 10800),
       '+03',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -271,7 +271,7 @@ extension Etc on Never {
   static final Timezone gmtMinus4 = FixedTimezone(
     'Etc/GMT-4',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', 14400),
+      const LiteralOffset('+04:00', 14400),
       '+04',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -282,7 +282,7 @@ extension Etc on Never {
   static final Timezone gmtMinus5 = FixedTimezone(
     'Etc/GMT-5',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', 18000),
+      const LiteralOffset('+05:00', 18000),
       '+05',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -293,7 +293,7 @@ extension Etc on Never {
   static final Timezone gmtMinus6 = FixedTimezone(
     'Etc/GMT-6',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', 21600),
+      const LiteralOffset('+06:00', 21600),
       '+06',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -304,7 +304,7 @@ extension Etc on Never {
   static final Timezone gmtMinus7 = FixedTimezone(
     'Etc/GMT-7',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', 25200),
+      const LiteralOffset('+07:00', 25200),
       '+07',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -315,7 +315,7 @@ extension Etc on Never {
   static final Timezone gmtMinus8 = FixedTimezone(
     'Etc/GMT-8',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', 28800),
+      const LiteralOffset('+08:00', 28800),
       '+08',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
@@ -326,7 +326,7 @@ extension Etc on Never {
   static final Timezone gmtMinus9 = FixedTimezone(
     'Etc/GMT-9',
     FixedTimezoneSpan(
-      const LiteralOffset('+00:00', 32400),
+      const LiteralOffset('+09:00', 32400),
       '+09',
       TimezoneSpan.range.min.value,
       TimezoneSpan.range.max.value,
