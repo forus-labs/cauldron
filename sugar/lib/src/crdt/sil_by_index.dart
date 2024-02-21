@@ -1,21 +1,10 @@
 part of 'sil.dart';
 
-/// A SIL view for manipulating elements by their integer index.
+/// A view for manipulating elements in an SIL by their integer index.
 ///
 /// All changes to this view are reflected in the underlying SIL.
-class SilByIndex<E> extends Iterable<E> {
-  final SplayTreeMap<StringIndex, E> _map;
-  final HashMap<E, StringIndex> _inverse;
-  final List<E> _list;
-  final bool Function(E, E) _equals;
-
-  SilByIndex._(
-    this._map,
-    this._inverse,
-    this._list,
-    this._equals,
-  );
-
+/// See [Sil] for more information.
+extension type SilByIndex<E>._(Sil<E> _sil) implements Iterable<E> {
 
   /// Returns the index of [element] in this SIL, or -1 if [element] was not found.
   ///
@@ -26,7 +15,7 @@ class SilByIndex<E> extends Iterable<E> {
   ///
   /// sil.byIndex.indexOf('C'); // -1
   /// ```
-  @useResult int indexOf(E element) => _list.indexWhere((e) => _equals(element, e));
+  @useResult int indexOf(E element) => _sil._list.indexWhere((e) => _sil._equals(element, e));
 
   /// Returns the index of the first element in this SIL that satisfies the [predicate], or -1 if no such element was not
   /// found.
@@ -42,7 +31,7 @@ class SilByIndex<E> extends Iterable<E> {
   ///
   /// final invalid = sil.indexWhere((e) => e.startsWith('f')); // -1
   /// ```
-  @useResult int indexWhere(bool Function(E) predicate, [int start = 0]) => _list.indexWhere(predicate, start);
+  @useResult int indexWhere(bool Function(E) predicate, [int start = 0]) => _sil._list.indexWhere(predicate, start);
 
   /// Returns the index of the last element in this SIL that satisfies the [predicate], or -1 if no such element was not
   /// found.
@@ -58,7 +47,7 @@ class SilByIndex<E> extends Iterable<E> {
   ///
   /// final invalid = sil.lastIndexWhere((e) => e.startsWith('f')); // -1
   /// ```
-  @useResult int lastIndexWhere(bool Function(E) predicate, [int end = 0]) => _list.lastIndexWhere(predicate, end);
+  @useResult int lastIndexWhere(bool Function(E) predicate, [int end = 0]) => _sil._list.lastIndexWhere(predicate, end);
 
 
   /// Inserts all the given [elements] at [index] if they are not yet in the SIL, shifting all elements at and after
@@ -100,18 +89,18 @@ class SilByIndex<E> extends Iterable<E> {
   }
 
   bool _insert(int index, E element) {
-    if (_inverse.containsKey(element)) {
+    if (_sil._inverse.containsKey(element)) {
       return false;
     }
 
     final string = StringIndex.between(
-      min: index <= 0 ? StringIndex.min : _inverse[_list[index - 1]]!,
-      max: _inverse[_list[index]]!,
+      min: index <= 0 ? StringIndex.min : _sil._inverse[_sil._list[index - 1]]!,
+      max: _sil._inverse[_sil._list[index]]!,
     );
 
-    _map[string] = element;
-    _inverse[element] = string;
-    _list.insert(index, element);
+    _sil._map[string] = element;
+    _sil._inverse[element] = string;
+    _sil._list.insert(index, element);
 
     return true;
   }
@@ -129,9 +118,9 @@ class SilByIndex<E> extends Iterable<E> {
   /// sil.removeAt(1); // ['A', 'C'];
   /// ```
   E removeAt(int index) {
-    final element = _list.removeAt(index);
-    final string = _inverse.remove(element)!;
-    _map.remove(string);
+    final element = _sil._list.removeAt(index);
+    final string = _sil._inverse.remove(element)!;
+    _sil._map.remove(string);
 
     return element;
   }
@@ -141,7 +130,7 @@ class SilByIndex<E> extends Iterable<E> {
   ///
   /// ## Contract
   /// Throws a [RangeError] if `index < 0` or `length <= index`.
-  @useResult E operator [] (int index) => _list[index];
+  @useResult E operator [] (int index) => _sil._list[index];
 
   /// Sets the value at the given [index] to [element] if it is not yet in this SIL.
   ///
@@ -149,21 +138,15 @@ class SilByIndex<E> extends Iterable<E> {
   /// Throws a [RangeError] if `index < 0` or `length <= index`.
   void operator []= (int index, E element) {
     RangeError.checkValidRange(0, index, length);
-    if (_inverse.containsKey(element)) {
+    if (_sil._inverse.containsKey(element)) {
       return;
     }
 
-    final old = _list[index];
-    final string = _inverse.remove(old)!;
+    final old = _sil._list[index];
+    final string = _sil._inverse.remove(old)!;
 
-    _map[string] = element;
-    _inverse[element] = string;
-    _list[index] = element;
+    _sil._map[string] = element;
+    _sil._inverse[element] = string;
+    _sil._list[index] = element;
   }
-
-  @override
-  @useResult E elementAt(int index) => _list.elementAt(index);
-
-  @override
-  @useResult Iterator<E> get iterator => _list.iterator;
 }

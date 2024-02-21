@@ -50,15 +50,12 @@ part 'sil_by_string_index.dart';
 class Sil<E> extends Iterable<E> {
 
   static bool _equality(Object? a, Object? b) => a == b;
-
   static int _hashCode(Object? e) => e.hashCode;
 
   final SplayTreeMap<StringIndex, E> _map;
   final HashMap<E, StringIndex> _inverse;
   final List<E> _list;
   final bool Function(E, E) _equals;
-  SilByIndex<E>? _byIndex;
-  SilByStringIndex<E>? _byStringIndex;
 
   /// Creates a [Sil] from the given [map] that uses the [equals] and [hash] function to determine the equality and
   /// hashcode of elements.
@@ -267,10 +264,10 @@ class Sil<E> extends Iterable<E> {
 
 
   /// A view that allows the elements to be manipulated using their int indexes.
-  @useResult SilByIndex<E> get byIndex => _byIndex ??= SilByIndex._(_map, _inverse, _list, _equals);
+  @useResult SilByIndex<E> get byIndex => SilByIndex._(this);
 
   /// A view that allows the elements to be manipulated using their string indexes.
-  @useResult SilByStringIndex<E> get byStringIndex => _byStringIndex ??= SilByStringIndex._(_map, _inverse, _list, _equals);
+  @useResult SilByStringIndex<E> get byStringIndex => SilByStringIndex._(this);
 
 
   set first(E element) {

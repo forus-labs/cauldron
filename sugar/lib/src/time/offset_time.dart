@@ -60,8 +60,6 @@ class OffsetTime extends Time {
   final Offset offset;
   String? _string;
 
-  // TODO: https://github.com/dart-lang/linter/issues/3563
-  // ignore: comment_references
   /// Creates a [OffsetTime] with the [offset] and [milliseconds] since midnight, wrapping around midnight.
   ///
   /// ```dart
@@ -71,8 +69,6 @@ class OffsetTime extends Time {
   /// ```
   OffsetTime.fromDayMilliseconds(this.offset, super.milliseconds): super.fromDayMilliseconds();
 
-  // TODO: https://github.com/dart-lang/linter/issues/3563
-  // ignore: comment_references
   /// Creates a [OffsetTime] with the [offset] and [microseconds] since midnight, wrapping around midnight.
   ///
   /// ```dart

@@ -67,8 +67,6 @@ class LocalTime extends Time with Orderable<LocalTime> {
 
   String? _string;
 
-  // TODO: https://github.com/dart-lang/linter/issues/3563
-  // ignore: comment_references
   /// Creates a [LocalTime] from the [milliseconds] since midnight, wrapping around midnight.
   ///
   /// ```dart
@@ -78,8 +76,6 @@ class LocalTime extends Time with Orderable<LocalTime> {
   /// ```
   LocalTime.fromDayMilliseconds(super.milliseconds): super.fromDayMilliseconds();
 
-  // TODO: https://github.com/dart-lang/linter/issues/3563
-  // ignore: comment_references
   /// Creates a [LocalTime] with the [microseconds] since midnight, wrapping around midnight.
   ///
   /// ```dart

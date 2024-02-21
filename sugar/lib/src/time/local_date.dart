@@ -61,8 +61,6 @@ class LocalDate extends Date with Orderable<LocalDate> {
 
   String? _string;
 
-  // TODO: https://github.com/dart-lang/linter/issues/3563
-  // ignore: comment_references
   /// Creates a [LocalDate] with the [days] since Unix epoch (January 1st 1970).
   ///
   /// ```dart
@@ -70,8 +68,6 @@ class LocalDate extends Date with Orderable<LocalDate> {
   /// ```
   LocalDate.fromEpochDays(super.days): super.fromEpochDays();
 
-  // TODO: https://github.com/dart-lang/linter/issues/3563
-  // ignore: comment_references
   /// Creates a [LocalDate] with the [milliseconds] since Unix epoch (January 1st 1970), floored to the nearest day.
   ///
   /// ```dart
@@ -79,8 +75,6 @@ class LocalDate extends Date with Orderable<LocalDate> {
   /// ```
   LocalDate.fromEpochMilliseconds(super.milliseconds): super.fromEpochMilliseconds();
 
-  // TODO: https://github.com/dart-lang/linter/issues/3563
-  // ignore: comment_references
   /// Creates a [LocalDate] with the [microseconds] since Unix epoch (January 1st 1970), floored to the nearest day.
   ///
   /// ```dart

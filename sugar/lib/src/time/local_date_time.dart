@@ -60,8 +60,6 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
 
   String? _string;
 
-  // TODO: https://github.com/dart-lang/linter/issues/3563
-  // ignore: comment_references
   /// Creates a [LocalDateTime] from the [milliseconds] since Unix epoch (January 1st 1970).
   ///
   /// ```dart
@@ -69,9 +67,7 @@ class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
   /// ```
   LocalDateTime.fromEpochMilliseconds(super.milliseconds) : super.fromEpochMilliseconds();
 
-  // TODO: https://github.com/dart-lang/linter/issues/3563
-  // ignore: comment_references
-  /// Creates a [LocalDateTime] from the [milliseconds] since Unix epoch (January 1st 1970).
+  /// Creates a [LocalDateTime] from the [microseconds] since Unix epoch (January 1st 1970).
   ///
   /// ```dart
   /// LocalDateTime.fromEpochMicroseconds(946684800000001); // 2000-01-01 00:00:00.000001

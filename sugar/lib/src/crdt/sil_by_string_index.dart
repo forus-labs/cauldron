@@ -1,19 +1,10 @@
 part of 'sil.dart';
 
-class SilByStringIndex<E> extends Iterable<E> {
-
-  final SplayTreeMap<StringIndex, E> _map;
-  final HashMap<E, StringIndex> _inverse;
-  final List<E> _list;
-  final bool Function(E, E) _equals;
-
-  SilByStringIndex._(
-    this._map,
-    this._inverse,
-    this._list,
-    this._equals,
-  );
-
+/// A view for manipulating elements in an SIL by their string index.
+///
+/// All changes to this view are reflected in the underlying SIL.
+/// See [Sil] for more information.
+extension type SilByStringIndex<E>._(Sil<E> _sil) implements Iterable<E> {
 
   /// Returns the index of the first element after the [index], or `null` if there is no element after [index].
   ///
@@ -24,7 +15,7 @@ class SilByStringIndex<E> extends Iterable<E> {
   /// 
   /// sil.firstIndexAfter('b'); // null
   /// ```
-  String? firstIndexAfter(StringIndex index) => _map.firstKeyAfter(index);
+  String? firstIndexAfter(StringIndex index) => _sil._map.firstKeyAfter(index);
 
   /// Returns the first element after the [index], or `null` if there is no element after [index].
   ///
@@ -35,7 +26,7 @@ class SilByStringIndex<E> extends Iterable<E> {
   /// 
   /// sil.firstElementAfter('b'); // null
   /// ```
-  E? firstElementAfter(StringIndex index) => _map.firstValueAfter(index);
+  E? firstElementAfter(StringIndex index) => _sil._map.firstValueAfter(index);
 
   /// Returns the index of the last element before the [index], or `null` if there is no element before [index].
   ///
@@ -46,7 +37,7 @@ class SilByStringIndex<E> extends Iterable<E> {
   /// 
   /// sil.lastIndexBefore('a'); // null
   /// ```
-  String? lastIndexBefore(StringIndex index) => _map.lastKeyBefore(index);
+  String? lastIndexBefore(StringIndex index) => _sil._map.lastKeyBefore(index);
 
   /// Returns the last element before the [index], or `null` if there is no element before [index].
   ///
@@ -57,7 +48,7 @@ class SilByStringIndex<E> extends Iterable<E> {
   /// 
   /// sil.lastElementBefore('a'); // null
   /// ```
-  E? lastElementBefore(StringIndex index) => _map.lastValueBefore(index);
+  E? lastElementBefore(StringIndex index) => _sil._map.lastValueBefore(index);
 
 
   /// Returns the index of [element] in this SIL, or null if [element] was not found.
@@ -69,7 +60,7 @@ class SilByStringIndex<E> extends Iterable<E> {
   ///
   /// sil.byIndex.indexOf('B'); // null
   /// ```
-  @useResult StringIndex? indexOf(E element) => _inverse[element];
+  @useResult StringIndex? indexOf(E element) => _sil._inverse[element];
 
   /// Returns the index of the first element in this SIL that satisfies the [predicate], or `null` if no such element was
   /// not found.
@@ -86,7 +77,7 @@ class SilByStringIndex<E> extends Iterable<E> {
   /// final invalid = sil.indexWhere((e) => e.startsWith('F')); // null
   /// ```
   @useResult String? indexWhere(bool Function(E) predicate, [String? start]) {
-    for (final MapEntry(:key, :value) in _map.entries) {
+    for (final MapEntry(:key, :value) in _sil._map.entries) {
       if (start != null && key < start) {
         continue;
       }
@@ -114,8 +105,8 @@ class SilByStringIndex<E> extends Iterable<E> {
   /// final invalid = sil.lastIndexWhere((e) => e.startsWith('F')); // -1
   /// ```
   @useResult String? lastIndexWhere(bool Function(E) predicate, [String? end]) {
-    for (final element in _list.reversed) {
-      final index = _inverse[element]!;
+    for (final element in _sil._list.reversed) {
+      final index = _sil._inverse[element]!;
       if (end != null && end < index) {
         continue;
       }
@@ -139,10 +130,10 @@ class SilByStringIndex<E> extends Iterable<E> {
   /// sil.removeAt('b'); // {'a': 'A'}
   /// ```
   E? removeAt(String index) {
-    final element = _map.remove(index);
+    final element = _sil._map.remove(index);
     if (element != null) {
-      _inverse.remove(element);
-      _list.removeWhere((e) => _equals(element, e));
+      _sil._inverse.remove(element);
+      _sil._list.removeWhere((e) => _sil._equals(element, e));
     }
 
     return element;
@@ -150,7 +141,7 @@ class SilByStringIndex<E> extends Iterable<E> {
 
 
   /// Returns the element at the given [index], or `null` if no element at the [index] exists.
-  @useResult E? operator [] (Object? index) => _map[index];
+  @useResult E? operator [] (Object? index) => _sil._map[index];
 
   /// Sets the value at the given [index] to [element] if [element] is not yet in this SIL.
   ///
@@ -161,37 +152,31 @@ class SilByStringIndex<E> extends Iterable<E> {
       throw ArgumentError('$index is not a valid string index.');
     }
 
-    if (_inverse.containsKey(element)) {
+    if (_sil._inverse.containsKey(element)) {
       return;
     }
 
-    final removed = _map.remove(index);
-    _map[index] = element;
+    final removed = _sil._map.remove(index);
+    _sil._map[index] = element;
 
     if (removed == null) {
-      final after = _map.firstValueAfter(index);
-      _inverse[element] = index;
-      _list.insert(after == null ? _list.length : _list.indexWhere((element) => _equals(after, element)), element);
+      final after = _sil._map.firstValueAfter(index);
+      _sil._inverse[element] = index;
+      _sil._list.insert(after == null ? _sil._list.length : _sil._list.indexWhere((element) => _sil._equals(after, element)), element);
 
     } else {
-      _inverse.remove(removed);
-      _inverse[element] = index;
-      _list[_list.indexWhere((element) => _equals(removed, element))] = element;
+      _sil._inverse.remove(removed);
+      _sil._inverse[element] = index;
+      _sil._list[_sil._list.indexWhere((element) => _sil._equals(removed, element))] = element;
     }
   }
 
 
   /// The elements and their associated string indexes.
   Iterable<(String, E)> get indexed sync* {
-    for (final MapEntry(:key, :value) in _map.entries) {
+    for (final MapEntry(:key, :value) in _sil._map.entries) {
       yield (key, value);
     }
   }
-
-  @override
-  @useResult E elementAt(int index) => _list.elementAt(index);
-
-  @override
-  @useResult Iterator<E> get iterator => _list.iterator;
 
 }

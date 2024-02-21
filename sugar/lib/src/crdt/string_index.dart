@@ -19,7 +19,7 @@ import 'package:sugar/sugar.dart';
 ///
 /// It is still possible for two equivalent indexes without any empty space in-between to be generated concurrently. It
 /// is impossible for the functions in [StringIndex] to prevent that. Such situations should be handled during merging instead.
-extension type const StringIndex._(String index) implements String {
+extension type const StringIndex._(String _index) implements String {
 
   /// A regular expression that denotes a string index's expected format.
   static final RegExp format = RegExp(r'(\+|-|[0-9]|[A-Z]|[a-z])+');
@@ -43,9 +43,9 @@ extension type const StringIndex._(String index) implements String {
   ///
   /// ## Contract
   /// An [ArgumentError] is thrown if [index] does not match the expected [format].
-  StringIndex(this.index) {
-    if (!index.matches(format)) {
-      throw ArgumentError('Invalid string index: $index, should follow the format: ${format.pattern}.');
+  StringIndex(this._index) {
+    if (!_index.matches(format)) {
+      throw ArgumentError('Invalid string index: $_index, should follow the format: ${format.pattern}.');
     }
   }
 
