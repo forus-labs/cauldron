@@ -47,7 +47,7 @@ extension type SilByIndex<E>._(Sil<E> _sil) implements Iterable<E> {
   ///
   /// final invalid = sil.lastIndexWhere((e) => e.startsWith('f')); // -1
   /// ```
-  @useResult int lastIndexWhere(bool Function(E) predicate, [int end = 0]) => _sil._list.lastIndexWhere(predicate, end);
+  @useResult int lastIndexWhere(bool Function(E) predicate, [int? end]) => _sil._list.lastIndexWhere(predicate, end);
 
 
   /// Inserts all the given [elements] at [index] if they are not yet in the SIL, shifting all elements at and after
@@ -60,12 +60,16 @@ extension type SilByIndex<E>._(Sil<E> _sil) implements Iterable<E> {
   /// ```dart
   /// final sil = Sil.list(['A', 'B', 'C']).byIndex;
   ///
-  ///  sil.insert(1, ['D', 'E']); // ['A', 'D', 'E', 'B', 'C'];
+  /// sil.insertAll(1, ['D', 'E']); // ['A', 'D', 'E', 'B', 'C'];
   /// ```
   void insertAll(int index, Iterable<E> elements) {
-    RangeError.checkValidRange(0, index, length);
+    RangeError.checkValidRange(0, index, length + 1);
+
+    var shift = 0;
     for (final element in elements) {
-      _insert(index, element);
+      if (_insert(index + shift, element)) {
+        shift++;
+      }
     }
   }
 
@@ -84,7 +88,7 @@ extension type SilByIndex<E>._(Sil<E> _sil) implements Iterable<E> {
   /// sil.insert(1, 'D'); // ['A', 'D', 'B', 'C'];
   /// ```
   bool insert(int index, E element) {
-    RangeError.checkValidRange(0, index, length);
+    RangeError.checkValidRange(0, index, length + 1);
     return _insert(index, element);
   }
 
@@ -95,7 +99,7 @@ extension type SilByIndex<E>._(Sil<E> _sil) implements Iterable<E> {
 
     final string = StringIndex.between(
       min: index <= 0 ? StringIndex.min : _sil._inverse[_sil._list[index - 1]]!,
-      max: _sil._inverse[_sil._list[index]]!,
+      max: index < _sil._list.length ? _sil._inverse[_sil._list[index]]! : StringIndex.max,
     );
 
     _sil._map[string] = element;

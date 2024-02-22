@@ -54,7 +54,7 @@ part of 'time.dart';
 ///   });
 /// }
 /// ```
-class OffsetTime extends Time {
+final class OffsetTime extends Time {
 
   /// The offset.
   final Offset offset;

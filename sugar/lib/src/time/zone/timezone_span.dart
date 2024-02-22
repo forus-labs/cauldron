@@ -6,7 +6,7 @@ import 'package:sugar/sugar.dart';
 abstract class TimezoneSpan {
 
   /// The valid range of the start and end microseconds, inclusive.
-  static final Interval<int> range = Interval.closed(-8640000000000000000, 8640000000000000000);
+  static final Interval<EpochMicroseconds> range = Interval.closed(-8640000000000000000, 8640000000000000000);
 
   /// The abbreviation, i.e. `EST`.
   final String abbreviation;

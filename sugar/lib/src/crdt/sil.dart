@@ -6,7 +6,8 @@ import 'package:sugar/sugar.dart';
 part 'sil_by_index.dart';
 part 'sil_by_string_index.dart';
 
-/// A String Index List (SIL) allows elements to be manipulated using a [StringIndex] and int index.
+/// A String Index List (SIL) allows elements to be manipulated using a [StringIndex] and int index. Elements in a SIL
+/// must be unique.
 ///
 /// It is a Sequence Conflict-Free Replicated Data Type (CRDT), inspired by Logoot, developed in-house by Forus Labs.
 /// Each element contains a string index that is compared lexicographically to determine order.
@@ -62,22 +63,14 @@ class Sil<E> extends Iterable<E> {
   ///
   /// [E]'s `==` and `hashCode` is used by default.
   ///
-  /// Elements in the given map are ignored if they are already in this SIL.
+  /// Elements in the given map are ignored if they are already in this SIL with a smaller string index.
   ///
-  /// ## Contract
-  /// Throws an [ArgumentError] if any index in the given [map] is not a valid string index.
-  ///
-  /// ## Example
   /// ```dart
-  /// final sil = Sil.map({'a': 'A', 'b': 'B', 'c': 'C', 'd': 'B'}); // {'a': 'A', 'b': 'B', 'c': 'C'}
+  /// Sil.map({StringIndex('a'): 'A', StringIndex('d'): 'B', StringIndex('b'): 'B'}); // {'a': 'A', 'b': 'B'}
   /// ```
   factory Sil.map(Map<StringIndex, E> map, {bool Function(E, E) equals = _equality, int Function(E) hash = _hashCode}) {
     final sil = Sil(equals: equals, hash: hash);
     for (final MapEntry(:key, :value) in map.entries.order(by: (e) => e.key).ascending) {
-      if (!key.matches(StringIndex.format)) {
-        throw ArgumentError('$key is not a valid string index.');
-      }
-
       if (!sil._inverse.containsKey(value)) {
         sil._map[key] = value;
         sil._inverse[value] = key;
@@ -93,7 +86,7 @@ class Sil<E> extends Iterable<E> {
   ///
   /// [E]'s `==` and `hashCode` is used by default.
   ///
-  /// Elements in the given list are ignored if they are already in this SIL.
+  /// Elements in the given list are ignored if they are already in this SIL with a smaller string index.
   ///
   /// ```dart
   /// final sil = Sil.list(['A', 'B', 'C', 'B']); // ['A', 'B', 'C']

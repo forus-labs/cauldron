@@ -33,5 +33,5 @@ import 'package:sugar/src/core/system/fake_system.dart';
 
 export 'src/core/system/abstract_system.dart'
   if (dart.library.io) 'package:sugar/src/core/system/native_system.dart'
-  if (dart.library.html) 'package:sugar/src/core/system/web_system.dart';
+  if (dart.library.js_interop) 'package:sugar/src/core/system/web_system.dart';
 export 'src/core/system/fake_system.dart';

@@ -55,7 +55,7 @@ part of 'time.dart';
 ///
 /// ## Other resources
 /// See [OffsetTime] to represent times with offsets.
-class LocalTime extends Time with Orderable<LocalTime> {
+final class LocalTime extends Time with Orderable<LocalTime> {
 
   /// The valid range of [LocalTime]s, from `00:00` to `23:59:59.999999`, inclusive.
   static final Interval<LocalTime> range = Interval.closed(LocalTime(), LocalTime(23, 59, 59, 999, 999));

@@ -57,7 +57,7 @@ part of 'date.dart';
 /// See:
 /// * [LocalDateTime] to represent date -times without timezones.
 /// * [ZonedDateTime] to represent date -times with timezones.
-class LocalDate extends Date with Orderable<LocalDate> {
+final class LocalDate extends Date with Orderable<LocalDate> {
 
   String? _string;
 

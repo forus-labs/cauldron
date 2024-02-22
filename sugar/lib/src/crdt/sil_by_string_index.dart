@@ -173,7 +173,7 @@ extension type SilByStringIndex<E>._(Sil<E> _sil) implements Iterable<E> {
 
 
   /// The elements and their associated string indexes.
-  Iterable<(String, E)> get indexed sync* {
+  Iterable<(StringIndex, E)> get indexed sync* {
     for (final MapEntry(:key, :value) in _sil._map.entries) {
       yield (key, value);
     }

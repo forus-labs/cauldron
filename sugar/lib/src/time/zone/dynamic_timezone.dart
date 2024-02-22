@@ -7,7 +7,7 @@ import 'package:sugar/sugar.dart';
 /// A [Timezone] with abbreviations and offsets that vary throughout points in time.
 ///
 /// This is typically a geographical location.
-@sealed class DynamicTimezone extends Timezone {
+final class DynamicTimezone extends Timezone {
 
   /// The span before the first timezone transition.
   final DynamicTimezoneSpan _initial;
@@ -128,7 +128,7 @@ import 'package:sugar/sugar.dart';
 }
 
 /// A [TimezoneSpan] for a TZ database timezone with varying offsets throughout points in time.
-@sealed class DynamicTimezoneSpan extends TimezoneSpan {
+final class DynamicTimezoneSpan extends TimezoneSpan {
 
   final int _index;
   final int _microseconds;

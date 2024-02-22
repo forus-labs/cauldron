@@ -39,10 +39,10 @@ extension type const StringIndex._(String _index) implements String {
   static final Random _random = Random();
   static final RegExp _trailing = RegExp(r'(\+)+$');
 
-  /// Creates a [StringIndex] from the given [index].
+  /// Creates a [StringIndex] from the given string.
   ///
   /// ## Contract
-  /// An [ArgumentError] is thrown if [index] does not match the expected [format].
+  /// An [ArgumentError] is thrown if string does not match the expected [format].
   StringIndex(this._index) {
     if (!_index.matches(format)) {
       throw ArgumentError('Invalid string index: $_index, should follow the format: ${format.pattern}.');

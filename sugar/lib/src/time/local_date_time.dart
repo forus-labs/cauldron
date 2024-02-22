@@ -56,7 +56,7 @@ part of 'date_time.dart';
 ///
 /// ## Other resources
 /// See [ZonedDateTime] to represent date and times with timezones.
-class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
+final class LocalDateTime extends DateTimeBase with Orderable<LocalDateTime> {
 
   String? _string;
 

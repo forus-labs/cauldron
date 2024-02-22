@@ -124,7 +124,7 @@ part of 'date_time.dart';
 ///   tearDown(() => Timezone.platformTimezoneProvider = defaultPlatformTimezoneProvider);
 /// }
 /// ```
-class ZonedDateTime extends DateTimeBase {
+final class ZonedDateTime extends DateTimeBase {
 
   /// The timezone.
   final Timezone timezone;
