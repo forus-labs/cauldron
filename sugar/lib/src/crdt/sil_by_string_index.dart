@@ -144,14 +144,7 @@ extension type SilByStringIndex<E>._(Sil<E> _sil) implements Iterable<E> {
   @useResult E? operator [] (Object? index) => _sil._map[index];
 
   /// Sets the value at the given [index] to [element] if [element] is not yet in this SIL.
-  ///
-  /// ## Contract
-  /// Throws an [ArgumentError] if the index is not a valid string index.
   void operator []= (StringIndex index, E element) {
-    if (!index.matches(StringIndex.format)) {
-      throw ArgumentError('$index is not a valid string index.');
-    }
-
     if (_sil._inverse.containsKey(element)) {
       return;
     }
@@ -162,12 +155,14 @@ extension type SilByStringIndex<E>._(Sil<E> _sil) implements Iterable<E> {
     if (removed == null) {
       final after = _sil._map.firstValueAfter(index);
       _sil._inverse[element] = index;
-      _sil._list.insert(after == null ? _sil._list.length : _sil._list.indexWhere((element) => _sil._equals(after, element)), element);
+      // We need to use indexWhere since the SIl might have custom equality.
+      _sil._list.insert(after == null ? _sil._list.length : _sil._list.indexWhere((element) => identical(after, element)), element);
 
     } else {
       _sil._inverse.remove(removed);
       _sil._inverse[element] = index;
-      _sil._list[_sil._list.indexWhere((element) => _sil._equals(removed, element))] = element;
+      // We need to use indexWhere since the SIl might have custom equality.
+      _sil._list[_sil._list.indexWhere((element) => identical(removed, element))] = element;
     }
   }
 
