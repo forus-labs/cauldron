@@ -11,10 +11,11 @@
 - Add `System.epochMicroseconds`
 - **Breaking** - Change `Runtime` to `System` 
 - **Breaking** - Remove `Maybe` extension.
-- Remove `Iterables.indexed` since it already exists in Dart 3.
+- Remove `Iterables.indexed` since it already exists in Dart 3
 
 ## `sugar.crdt`
 - Add `StringIndex`
+- Add `Sil`
 
 ## `sugar.math`
 - **Breaking** Change `double.approximately(...)` to `double.around(...)`
@@ -29,7 +30,7 @@
 - Change `LocalTime.now(...)` to be stubbable
 - Change `OffsetTime.now(...)` to be stubbable
 - Change IANA database from `2023c` to `2024a`
-- Fix `Etc/*` timezones not returning correct string representation.
+- Fix `Etc/*` timezones not returning correct string representation
 
 ## 3.1.0 (19/06/2023)
 
