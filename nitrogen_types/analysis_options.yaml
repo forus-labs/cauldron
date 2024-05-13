@@ -3,6 +3,3 @@ linter:
   rules:
     - avoid_renaming_method_parameters
     - use_build_context_synchronously
-analyzer:
-  errors:
-    deprecated_member_use: ignore # TODO: enable once they fix the WillPopScope nonsense

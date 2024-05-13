@@ -632,7 +632,7 @@ import 'package:sugar/src/time/zone/info/us.g.dart';
   'US/Samoa',
 };
 
-/// Returns the [Timezone] associated with the given [name] if it exists. Otherwise returns `null`.
+/// Returns the [Timezone] associated with the given [segment] if it exists. Otherwise returns `null`.
 /// 
 /// ## Implementation details:
 /// A switch statement is used to lazily initialize [Timezone]s. Since most use-cases only require a few [Timezone]s, 

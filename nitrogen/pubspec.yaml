@@ -1,0 +1,29 @@
+name: nitrogen
+description: Type safe Flutter asset generation.
+topics: [assets, generation]
+
+version: 0.1.0
+homepage: https://github.com/forus-labs/cauldron/nitrogen
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: ">=3.3.0"
+
+dependencies:
+  build_runner: ^2.4.6
+  code_builder: ^4.10.0
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.0.9
+  lottie: ^3.0.0
+  meta: ^1.9.1
+  nitrogen_types:
+    path: ../nitrogen_types
+  path: ^1.9.0
+  sugar: ^3.0.0
+
+dev_dependencies:
+  flint: ^2.7.0
+  flutter_test:
+    sdk: flutter
+  mockito: ^5.4.2
