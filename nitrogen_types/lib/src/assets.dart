@@ -5,7 +5,7 @@
 sealed class Asset {
   /// The containing package's name.
   final String? package;
-  /// A key that identifies this asset. All keys in a single package are unique.
+  /// A key that identifies this asset.
   final String key;
   /// A path to this asset, i.e. `assets/icons/application/analysis.svg`.
   final String path;
@@ -20,7 +20,7 @@ sealed class Asset {
 /// This type should with [Nitrogen](https://github.com/forus-labs/cauldron/nitrogen), a type-safe asset generation tool.
 final class ImageAsset extends Asset {
   /// Creates a [ImageAsset].
-  ImageAsset(super.package, super.key, super.path);
+  const ImageAsset(super.package, super.key, super.path);
 }
 
 /// A Lottie animation.
@@ -29,7 +29,7 @@ final class ImageAsset extends Asset {
 /// This type should with [Nitrogen](https://github.com/forus-labs/cauldron/nitrogen), a type-safe asset generation tool.
 final class LottieAsset extends Asset {
   /// Creates a [LottieAsset].
-  LottieAsset(super.package, super.key, super.path);
+  const LottieAsset(super.package, super.key, super.path);
 }
 
 /// An SVG file.
@@ -38,7 +38,7 @@ final class LottieAsset extends Asset {
 /// This type should with [Nitrogen](https://github.com/forus-labs/cauldron/nitrogen), a type-safe asset generation tool.
 final class SvgAsset extends Asset {
   /// Creates a [SvgAsset].
-  SvgAsset(super.package, super.key, super.path);
+  const SvgAsset(super.package, super.key, super.path);
 }
 
 
@@ -48,5 +48,5 @@ final class SvgAsset extends Asset {
 /// This type should with [Nitrogen](https://github.com/forus-labs/cauldron/nitrogen), a type-safe asset generation tool.
 final class UnknownAsset extends Asset {
   /// Creates a [UnknownAsset].
-  UnknownAsset(super.package, super.key, super.path);
+  const UnknownAsset(super.package, super.key, super.path);
 }

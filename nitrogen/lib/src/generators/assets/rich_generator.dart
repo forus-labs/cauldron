@@ -1,15 +1,30 @@
+import 'dart:io';
+
 import 'package:code_builder/code_builder.dart';
 import 'package:nitrogen/src/file_system.dart';
 import 'package:nitrogen/src/generators/assets/basic_generator.dart';
+import 'package:nitrogen/src/generators/utilities.dart';
 import 'package:sugar/sugar.dart';
 
+/// A generator for rich asset classes.
 class RichGenerator {
+  /// The base theme.
   final String base;
 
+  /// Creates a [RichGenerator].
   RichGenerator(this.base);
 
+  /// Generates rich asset classes from the [folder] in the given [file].
+  void generate(Folder folder, File file) {
+    final library = LibraryBuilder()
+      ..directives.add(nitrogenTypes)
+      ..body.add(header)
+      ..body.addAll(_generate(folder));
 
-  Iterable<ClassBuilder> _generate(Folder folder) sync* {
+    file..createSync(recursive: true)..writeAsStringSync(library.build().code);
+  }
+
+  Iterable<Class> _generate(Folder folder) sync* {
     // We store an additional depth field to prevent ambiguity between levels.
     final classes = <(String, String, int), ClassBuilder>{};
 
@@ -23,7 +38,7 @@ class RichGenerator {
         .order(by: (e) => e.key.$2)
         .ascending
     ) {
-      yield builder;
+      yield builder.build();
     }
 
     for (final MapEntry(value: builders) in classes.entries
@@ -34,7 +49,7 @@ class RichGenerator {
           .ascending
     ) {
       for (final MapEntry(value: builder) in builders.order(by: (e) => e.key.$2).ascending) {
-        yield builder;
+        yield builder.build();
       }
     }
   }
@@ -107,7 +122,7 @@ extension type RichChildClass(BasicClass basic) implements Folder {
       ..name = '_map'
       ..assignment = Block.of([
         const Code('{'),
-        Code('...${superClass.name!}._map'),
+        Code('...${superClass.name!}._map,'),
         for (final leaf in children.values.whereType<AssetFile>().map(AssetExpression.new))
           Block.of([literal(leaf.asset.key).code, const Code(': '), leaf.creation.code, const Code(', ')]),
         const Code('}'),

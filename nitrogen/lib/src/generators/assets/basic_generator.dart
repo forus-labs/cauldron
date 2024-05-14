@@ -1,10 +1,27 @@
+import 'dart:io';
+
 import 'package:code_builder/code_builder.dart';
 import 'package:nitrogen/src/file_system.dart';
+import 'package:nitrogen/src/generators/utilities.dart';
 import 'package:path/path.dart';
 import 'package:sugar/sugar.dart';
 
 
+/// A generator for basic asset classes.
 class BasicGenerator {
+
+  /// Generates basic asset classes from the [folder] in the given [file].
+  void generate(Folder folder, File file) {
+    final builders = <ClassBuilder>[];
+    _generate(folder, builders);
+
+    final library = LibraryBuilder()
+      ..directives.add(nitrogenTypes)
+      ..body.add(header)
+      ..body.addAll(builders.map((c) => c.build()));
+
+    file..createSync(recursive: true)..writeAsStringSync(library.build().code);
+  }
 
   void _generate(Folder folder, List<ClassBuilder> classes, [String? prefix]) {
     final name = '${prefix ?? r'$'}${folder.name.toPascalCase()}';
