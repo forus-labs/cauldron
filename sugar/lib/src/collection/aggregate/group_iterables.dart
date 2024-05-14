@@ -5,6 +5,8 @@ import 'package:meta/meta.dart';
 import 'package:sugar/collection.dart';
 import 'package:sugar/core.dart';
 
+// TODO: Add ordered map option.
+
 /// Provides functions for grouping an [Iterable]'s elements.
 ///
 /// See [Group] for more information.

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:nitrogen/src/tree.dart';
+import 'package:nitrogen/src/file_system.dart';
 import 'package:nitrogen_types/nitrogen_types.dart';
 import 'package:path/path.dart';
 
@@ -12,9 +12,9 @@ final class Parser {
 
   Parser(this._package, this._ignored, this._keyer);
 
-  Tree parseTree(Directory directory, String prefix) {
-    final segment = basenameWithoutExtension(directory.path);
-    final tree = Tree(segment);
+  Folder parseFolder(Directory directory, String prefix) {
+    final name = basename(directory.path);
+    final folder = Folder(name);
 
     for (final entity in directory.listSync()) {
       switch (entity) {
@@ -22,24 +22,24 @@ final class Parser {
           continue;
 
         case final Directory directory:
-          final child = parseTree(directory, _keyer(prefix, segment));
-          tree.children[child.segment] = child;
+          final child = parseFolder(directory, _keyer(prefix, name));
+          folder.children[child.name] = child;
 
         case final File file:
-          final child = parseLeaf(file, _keyer(prefix, segment));
-          tree.children[child.segment] = child;
+          final child = parseAsset(file, _keyer(prefix, name));
+          folder.children[child.name] = child;
       }
     }
 
-    return tree;
+    return folder;
   }
 
-  Leaf parseLeaf(File file, String prefix) {
-    final segment = basenameWithoutExtension(file.path);
-    final key = _keyer(prefix, segment);
+  AssetFile parseAsset(File file, String prefix) {
+    final name = basename(file.path);
+    final key = _keyer(prefix, basenameWithoutExtension(file.path));
     final path = file.path.replaceAll(r'\', '/');
-    return Leaf(
-      segment,
+    return AssetFile(
+      name,
         switch (file.path.split('.').last) {
           'jpg' || 'jpeg' || 'png' => ImageAsset(_package, key, path),
           'json' || 'zip' => LottieAsset(_package, key, path),
