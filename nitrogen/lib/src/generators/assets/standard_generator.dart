@@ -18,7 +18,7 @@ class StandardGenerator {
   StandardGenerator(this._assets, this._excluded): _standardClass = StandardClass(excluded: _excluded);
 
   /// Generates basic asset classes in the given [target].
-  void generate(File target) {
+  String generate() {
     final classes = <Class>[];
     _generate(_assets, classes, static: true);
 
@@ -27,7 +27,7 @@ class StandardGenerator {
       ..body.add(Libraries.header)
       ..body.addAll(classes);
 
-    target..createSync(recursive: true)..writeAsStringSync(library.build().format());
+    return library.build().format();
   }
 
   void _generate(AssetDirectory directory, List<Class> classes, {bool static = false}) {
@@ -45,25 +45,6 @@ class StandardClass extends BasicClass {
   /// An [Asset] type.
   static final assetType = refer('Asset', 'package:nitrogen_types/nitrogen_types.dart');
 
-  /// An iterator getter.
-  static final iterator = Method((builder) => builder
-    ..annotations.add(refer('override'))
-    ..returns = TypeReference((builder) => builder..symbol = 'Iterator'..types.add(refer('Asset')))
-    ..type = MethodType.getter
-    ..name = 'iterator'
-    ..lambda = true
-    ..body = const Code('_map.values.iterator')
-  );
-
-  /// A [operator[]] overload.
-  static final operator = Method((builder) => builder
-    ..returns = refer('Asset?')
-    ..name = 'operator []'
-    ..requiredParameters.add(Parameter((builder) => builder..type = refer('String?')..name = 'key'))
-    ..lambda = true
-    ..body = const Code('_map[key]')
-  );
-
   /// Creates a [StandardClass].
   const StandardClass({super.excluded, super.directories, super.files});
 
@@ -71,16 +52,14 @@ class StandardClass extends BasicClass {
   ClassBuilder generate(AssetDirectory directory, {bool static = false, bool sealed = false}) =>
     super.generate(directory, static: static)
       ..sealed = sealed
-      ..extend = TypeReference((builder) => builder..symbol = 'Iterable'..types.add(assetType))
-      ..fields.add(_map(directory))
-      ..methods.insertAll(0, [operator, iterator]);
+      ..fields.add(_contents(directory));
 
 
-  Field _map(AssetDirectory directory) => Field((builder) => builder
+  Field _contents(AssetDirectory directory) => Field((builder) => builder
     ..static = true
     ..modifier = FieldModifier.constant
     ..type = TypeReference((builder) => builder..symbol = 'Map'..types.addAll([refer('String'), assetType]))
-    ..name = '_map'
+    ..name = 'contents'
     ..assignment = Block.of([
       const Code('{'),
       for (final file in directory.children.values.whereType<AssetFile>())

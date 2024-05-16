@@ -112,20 +112,19 @@ class ThemeClass {
   ClassBuilder generate(AssetDirectory directory, Class fallback) => _basic.generate(directory)
     ..extend = refer(fallback.name)
     ..modifier = ClassModifier.final$
-    ..fields.add(_map(directory, fallback))
-    ..methods.insertAll(0, [StandardClass.operator, StandardClass.iterator]);
+    ..fields.add(_contents(directory, fallback));
 
-  Field _map(AssetDirectory directory, Class fallback) => Field((builder) => builder
+  Field _contents(AssetDirectory directory, Class fallback) => Field((builder) => builder
     ..static = true
     ..modifier = FieldModifier.final$
     ..type = TypeReference((builder) => builder..symbol = 'Map'..types.addAll([refer('String'), StandardClass.assetType]))
-    ..name = '_map'
+    ..name = 'contents'
     ..assignment = Block.of([
-      const Code('{'),
-      Code('...${fallback.name}._map,'),
+      const Code('Map.unmodifiable({'),
+      Code('...${fallback.name}.contents,'),
       for (final file in directory.children.values.whereType<AssetFile>())
         Block.of([literal(file.asset.key).code, const Code(': '), _basic.files.invocation(file).code, const Code(', ')]),
-      const Code('}'),
+      const Code('})'),
     ])
   );
 

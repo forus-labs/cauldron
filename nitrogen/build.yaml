@@ -1,0 +1,17 @@
+# Configuration for build runners. See https://github.com/dart-lang/build/blob/master/build_config/README.md
+
+targets:
+  $default:
+    sources:
+      - assets/**
+      - lib/$lib$
+      - pubspec.*
+      - $package$
+
+builders:
+  nitrogen:
+    import: "package:nitrogen/nitrogen.dart"
+    builder_factories: [ "nitrogenBuilder" ]
+    build_extensions: { "$package$": [ "assets.nitrogen.dart" ] }
+    auto_apply: dependents
+    build_to: source
