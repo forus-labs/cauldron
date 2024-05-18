@@ -1,6 +1,5 @@
-name: nitrogen
-description: Type safe Flutter asset generation.
-topics: [assets, generation]
+name: nitrogen_lottie
+description: lottie extension for Nitrogen.
 
 version: 0.1.0
 homepage: https://github.com/forus-labs/cauldron/nitrogen
@@ -13,19 +12,15 @@ dependencies:
   build: ^2.4.1
   build_runner: ^2.4.6
   code_builder: ^4.10.0
-  dart_style: ^2.3.6
   flutter:
     sdk: flutter
-  glob: ^2.1.2
-  meta: ^1.9.1
-  nitrogen_types:
-    path: ../nitrogen_types
+  # We depend on flutter_svg so that users installing this extension will get a version compatible with the flutter_svg
+  # version that they're using.
+  lottie: ^3.1.0
+  nitrogen:
+    path:
+      ../nitrogen
   path: ^1.9.0
-  sugar: ^3.0.0
-  yaml: ^3.1.2
 
 dev_dependencies:
   flint: ^2.7.0
-  flutter_test:
-    sdk: flutter
-  mockito: ^5.4.2

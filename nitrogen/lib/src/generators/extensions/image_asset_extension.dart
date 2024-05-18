@@ -1,19 +1,16 @@
 import 'package:code_builder/code_builder.dart';
-import 'package:nitrogen/src/generators/libraries.dart';
 
 /// The extension to generate for image extension v1.
-extension Image1 on Never {
+extension Image on Never {
 
   /// The imports.
   static final imports = [
     Directive.import('package:flutter/widgets.dart'),
-    Libraries.importNitrogenTypes,
   ];
 
   /// The extension.
   static const extension = Code('''
-/// ImageAsset extension version: 1
-/// Flutter version: 3.19.4
+/// Tested against Flutter 3.19.4.
 ///
 /// Example:
 /// ```dart

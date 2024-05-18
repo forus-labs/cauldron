@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:io';
 
 import 'package:code_builder/code_builder.dart';
 import 'package:nitrogen/src/file_system.dart';
@@ -24,14 +23,14 @@ class ThemeGenerator {
   final AssetDirectory _fallbackTheme;
 
   /// Creates a [ThemeGenerator].
-  ThemeGenerator(this._themes, this._fallbackTheme):
-    _extension = ThemeExtension(),
-    _fallbackClass = StandardClass(directories: FallbackAssetDirectoryExpressions(_fallbackTheme)),
-    _themeSubclass = StandardClass(directories: ThemeAssetDirectoryExpressions(_themes)),
-    _themeClass = ThemeClass(ThemeAssetDirectoryExpressions(_themes));
+  ThemeGenerator(String prefix, this._themes, this._fallbackTheme):
+    _extension = ThemeExtension(prefix),
+    _fallbackClass = StandardClass(directories: FallbackAssetDirectoryExpressions(prefix, _fallbackTheme)),
+    _themeSubclass = StandardClass(directories: ThemeAssetDirectoryExpressions(prefix, _themes)),
+    _themeClass = ThemeClass(ThemeAssetDirectoryExpressions(prefix, _themes));
 
-  /// Generates themed asset classes in the given [target].
-  void generate(File target) {
+  /// Generates themed asset classes.
+  String generate() {
     final fallbackClasses = SplayTreeMap<(String, int), Class>(_depth.and(_name));
     final themeClasses = SplayTreeMap<String, SplayTreeMap<(String, int), Class>>();
 
@@ -47,7 +46,7 @@ class ThemeGenerator {
 
     final library = LibraryBuilder()
       ..directives.add(Libraries.importNitrogenTypes)
-      ..body.add(Libraries.header)
+      ..body.add(Libraries.header())
       ..body.add(_extension.generate(themeClasses).build())
       ..body.addAll(fallbackClasses.values);
 
@@ -55,7 +54,7 @@ class ThemeGenerator {
       library.body.addAll(classes.values);
     }
 
-    target..createSync(recursive: true)..writeAsStringSync(library.build().format());
+    return library.build().format();
   }
 
   void _generateFallbackTheme(AssetDirectory directory, Map<(String, int), Class> classes, int depth) {
@@ -83,9 +82,14 @@ class ThemeGenerator {
 /// Contains functions for generating an extension that contains all generated themes.
 class ThemeExtension {
 
+  final String _prefix;
+
+  /// Creates a [ThemeExtension].
+  ThemeExtension(this._prefix);
+
   /// Generates an extension
   ExtensionBuilder generate(Map<String, Map<(String, int), Class>> themes) => ExtensionBuilder()
-    ..name = 'AssetTheme'
+    ..name = '${_prefix}AssetTheme'
     ..on = refer('Never')
     ..methods.addAll(themes.entries.map((e) => _themeGetter(e.key, e.value[('', 0)]!)));
 
@@ -136,12 +140,12 @@ class FallbackAssetDirectoryExpressions extends AssetDirectoryExpressions {
   final AssetDirectory _fallback;
 
   /// Creates a [FallbackAssetDirectoryExpressions].
-  FallbackAssetDirectoryExpressions(this._fallback);
+  FallbackAssetDirectoryExpressions(super.prefix, this._fallback);
 
   @override
   Reference type(AssetDirectory directory) {
     final path = directory.path.sublist(_fallback.path.length);
-    return refer(path.isEmpty ? 'ThemeAssets' : '\$ThemeAssets${path.join('-').toPascalCase()}');
+    return refer(path.isEmpty ? '${prefix}ThemeAssets' : '\$${prefix}ThemeAssets${path.join('-').toPascalCase()}');
   }
 
 }
@@ -152,12 +156,12 @@ class ThemeAssetDirectoryExpressions extends AssetDirectoryExpressions {
   final AssetDirectory _themes;
 
   /// Creates a [ThemeAssetDirectoryExpressions].
-  ThemeAssetDirectoryExpressions(this._themes);
+  ThemeAssetDirectoryExpressions(super.prefix, this._themes);
 
   @override
   Reference type(AssetDirectory directory) {
     final path = directory.path.sublist(_themes.path.length + 1);
-    return refer('${path.isEmpty ? '' : r'$'}${directory.path[_themes.path.length].toPascalCase()}ThemeAssets${path.join('-').toPascalCase()}');
+    return refer('${path.isEmpty ? '' : r'$'}${directory.path[_themes.path.length].toPascalCase()}${prefix}ThemeAssets${path.join('-').toPascalCase()}');
   }
 
 }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:code_builder/code_builder.dart';
 import 'package:nitrogen/src/file_system.dart';
 import 'package:nitrogen/src/generators/libraries.dart';
@@ -13,19 +11,20 @@ class BasicGenerator {
   final AssetDirectory _assets;
 
   /// Creates a [BasicGenerator].
-  BasicGenerator(this._basicClass, this._assets);
+  BasicGenerator(String prefix, this._assets):
+    _basicClass = BasicClass(directories: AssetDirectoryExpressions(prefix));
 
-  /// Generates basic asset classes in the given [target].
-  void generate(File target) {
+  /// Generates basic asset classes.
+  String generate() {
     final classes = <Class>[];
     _generate(_assets, classes, static: true);
 
     final library = LibraryBuilder()
       ..directives.add(Libraries.importNitrogenTypes)
-      ..body.add(Libraries.header)
+      ..body.add(Libraries.header())
       ..body.addAll(classes);
 
-    target..createSync(recursive: true)..writeAsStringSync(library.build().format());
+    return library.build().format();
   }
 
   void _generate(AssetDirectory directory, List<Class> classes, {bool static = false}) {
@@ -50,8 +49,8 @@ class BasicClass {
 
   /// Creates a [BasicClass].
   const BasicClass({
+    required this.directories,
     this.excluded = const {},
-    this.directories = const AssetDirectoryExpressions(),
     this.files = const AssetFileExpressions(),
   });
 
@@ -93,14 +92,17 @@ class BasicClass {
 /// Contains functions for generating code from a asset directory.
 class AssetDirectoryExpressions {
 
+  /// The prefix for type names.
+  final String prefix;
+
   /// Creates a [AssetDirectoryExpressions].
-  const AssetDirectoryExpressions();
+  const AssetDirectoryExpressions(this.prefix);
 
   /// The variable name.
   String variable(AssetDirectory directory) => directory.rawName.toCamelCase();
 
   /// The asset directory type.
-  Reference type(AssetDirectory directory) => refer('${directory.path.length >  1 ? r'$' : ''}${directory.path.join('-').toPascalCase()}');
+  Reference type(AssetDirectory directory) => refer('${directory.path.length >  1 ? '\$$prefix' : prefix}${directory.path.join('-').toPascalCase()}');
 
 }
 

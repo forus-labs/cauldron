@@ -5,13 +5,13 @@ import 'package:dart_style/dart_style.dart';
 extension Libraries on Library {
 
   /// A header.
-  static const header = Code('''
+  static Code header([String package = 'nitrogen']) => Code('''
   
   
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // 
 // **************************************************************************
-// nitrogen
+// $package
 // **************************************************************************
 //
 // ignore_for_file: type=lint

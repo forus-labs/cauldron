@@ -1,8 +1,8 @@
 import 'package:code_builder/code_builder.dart';
-import 'package:nitrogen/src/generators/libraries.dart';
+import 'package:nitrogen/nitrogen_extension.dart';
 
-/// The extension to generate for Lottie extension v1.
-extension Lottie1 on Never {
+/// A generator for extensions SVG assets.
+class LottieExtensionGenerator {
 
   /// The imports.
   static final imports = [
@@ -13,8 +13,7 @@ extension Lottie1 on Never {
 
   /// The extension.
   static const extension = Code('''
-/// LottieAsset extension version: 1
-/// lottie version: 3.1.1
+/// Tested against lottie version: 3.1.1
 /// 
 /// Example:
 /// ```dart
@@ -88,5 +87,15 @@ extension LottieAssetExtension on LottieAsset {
 
 }
   ''');
+
+  /// Generates extensions for interfacing between assets and 3rd party libraries.
+  String generate() {
+    final library = LibraryBuilder()
+      ..directives.addAll(imports)
+      ..body.add(Libraries.header('nitrogen_flutter_svg'))
+      ..body.add(extension);
+
+    return library.build().format();
+  }
 
 }

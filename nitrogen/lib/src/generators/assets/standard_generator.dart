@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:code_builder/code_builder.dart';
 import 'package:nitrogen/src/file_system.dart';
 import 'package:nitrogen/src/generators/assets/basic_generator.dart';
@@ -15,16 +13,20 @@ class StandardGenerator {
   final Set<AssetDirectory> _excluded;
 
   /// Creates a [StandardGenerator].
-  StandardGenerator(this._assets, this._excluded): _standardClass = StandardClass(excluded: _excluded);
+  StandardGenerator(String prefix, this._assets, this._excluded):
+    _standardClass = StandardClass(
+      directories: AssetDirectoryExpressions(prefix),
+      excluded: _excluded,
+    );
 
-  /// Generates basic asset classes in the given [target].
+  /// Generates basic asset classes.
   String generate() {
     final classes = <Class>[];
     _generate(_assets, classes, static: true);
 
     final library = LibraryBuilder()
       ..directives.add(Libraries.importNitrogenTypes)
-      ..body.add(Libraries.header)
+      ..body.add(Libraries.header())
       ..body.addAll(classes);
 
     return library.build().format();
@@ -46,7 +48,7 @@ class StandardClass extends BasicClass {
   static final assetType = refer('Asset', 'package:nitrogen_types/nitrogen_types.dart');
 
   /// Creates a [StandardClass].
-  const StandardClass({super.excluded, super.directories, super.files});
+  const StandardClass({required super.directories, super.excluded, super.files});
 
   @override
   ClassBuilder generate(AssetDirectory directory, {bool static = false, bool sealed = false}) =>

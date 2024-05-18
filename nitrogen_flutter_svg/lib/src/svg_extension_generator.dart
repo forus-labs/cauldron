@@ -1,8 +1,8 @@
 import 'package:code_builder/code_builder.dart';
-import 'package:nitrogen/src/generators/libraries.dart';
+import 'package:nitrogen/nitrogen_extension.dart';
 
-/// The extension to generate for SVG extension v1.
-extension Svg1 on Never {
+/// A generator for extensions SVG assets.
+class SvgExtensionGenerator {
 
   /// The imports.
   static final imports = [
@@ -13,8 +13,7 @@ extension Svg1 on Never {
 
   /// The extension.
   static const extension = Code('''
-/// SvgAsset extension version: 1
-/// flutter_svg version: 2.0.10+1
+/// Tested against flutter_svg version: 2.0.10+1
 /// 
 /// Example:
 /// ```dart
@@ -72,5 +71,15 @@ extension SvgAssetExtension on SvgAsset {
 
 }
   ''');
+
+  /// Generates extensions for interfacing between assets and 3rd party libraries.
+  String generate() {
+    final library = LibraryBuilder()
+      ..directives.addAll(imports)
+      ..body.add(Libraries.header('nitrogen_lottie'))
+      ..body.add(extension);
+
+    return library.build().format();
+  }
 
 }
