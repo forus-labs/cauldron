@@ -1,6 +1,6 @@
 # Nitrogen
 
-Modern, type-safe code generation for accessing your Flutter assets.
+Modern, type-safe generated bindings for accessing your Flutter assets.
 * Custom prefixes for generated classes.
 * Option for generating additional utilities.
 * Option for generating assets as package dependency.
@@ -36,7 +36,7 @@ Widget build(BuildContext context) => Assets.images.foo();
 
 ## Getting started
 
-3rd party packages are supported via the following 'extension' packages:
+3rd party packages are supported via 'extension' packages:
 
 | Type              | Package       | Extension Package      | 
 |-------------------|---------------|------------------------|
@@ -51,15 +51,15 @@ dependencies:
 dev_dependencies:
   build_runner: <version>
   nitrogen: <version>
-  nitrogen_flutter_svg: <version> # Optional: include if you're using SVG images
-  nitrogen_lottie: <version> # Optional: include if you're using Lottie animations
+  nitrogen_flutter_svg: <version> # Optional: include when using SVG images
+  nitrogen_lottie: <version> # Optional: include when using Lottie animations
 ```
 
 Alternatively:
 ```shell
 dart pub add nitrogen_types
 
-# Include nitrogen_flutter_svg and nitrogen_lottie if you're using SVG images and Lottie animations respectively.
+# Include nitrogen_flutter_svg and nitrogen_lottie when using SVG images and Lottie animations respectively.
 dart pub add --dev build_runner nitrogen nitrogen_flutter_svg nitrogen_lottie
 ```
 
@@ -70,12 +70,12 @@ dart run build_runner build
 
 ## Configuration
 
-Nitrogen can be configured by specifying a `nitrogen` section in your pubspec.yaml. By default, Nitrogen tries to pick
-sensible defaults that works out of the box.
+Nitrogen's configuration can be set in the `nitrogen` section of your pubspec.yaml. For most cases, the default
+configuration works out of the box.
 
 ### Example
 
-A simple nitrogen configuration looks like:
+A simple configuration looks like:
 ```yaml
 nitrogen:
   use-package: true
@@ -89,13 +89,13 @@ nitrogen:
 
 ### `use-package`
 
-Optional. Defaults to `false`. Controls whether to generate assets for use as a package dependency. This should be `true` 
-if you're bundling assets for other projects to use, i.e. [forui-assets](https://github.com/forus-labs/forui).
+Optional. Defaults to `false`. Controls whether to generate assets as a package dependency. This should be `true` if 
+you're bundling assets for other projects to use, i.e. [forui-assets](https://github.com/forus-labs/forui).
 
 ### `prefix`
 
-Optional. Defaults to an empty string. Controls generated classes' prefix. If you specify `MyPrefix`, the generated 
-`assets.nitrogen.dart` will look like:
+Optional. Defaults to an empty string. Controls generated classes' prefixes. Given 'MyPrefix', the generated classes will
+look like:
 ```dart
 class MyPrefixAssets {
   const MyPrefixAssets();
@@ -108,12 +108,12 @@ class MyPrefixAssets {
 
 ### `asset-key`
 
-Optional. Defaults to `file`. Controls the 'key' parameter of generated assets. The following options are supported:
+Optional. Defaults to `file`. Controls the generated assets' key parameters. The following options are supported:
 
-| Option    | Description                                               | Path                    | Generated Key |
-|-----------|-----------------------------------------------------------|-------------------------|---------------|
-| file      | file name, without the extension                          | `assets/images/foo.png` | `foo`         |
-| grpc-enum | the parent directory and file name, without the extension | `assets/images/foo.png` | `IMAGES_FOO`  |
+| Option    | Description                                           | Path                    | Generated Key |
+|-----------|-------------------------------------------------------|-------------------------|---------------|
+| file      | file name, without the extension                      | `assets/images/foo.png` | `foo`         |
+| grpc-enum | parent directory and file name, without the extension | `assets/images/foo.png` | `IMAGES_FOO`  |
 
 
 ### `asset-generation`
@@ -122,7 +122,7 @@ Optional. Defaults to `standard`. Controls the structure of generated classes. T
 
 #### Basic: 
 
-Bare-bones classes without additional utilities.
+Generates bare-bones classes without additional utilities.
 ```yaml
 nitrogen:
   asset-generation: basic
@@ -130,7 +130,7 @@ nitrogen:
 
 #### Standard (default):
 
-Classes with an additional `contents` map for working with assets in that directory.
+Generates classes with an additional `contents` map for working with assets in that directory.
 ```yaml
 nitrogen:
   asset-generation: standard
@@ -144,5 +144,5 @@ nitrogen:
   asset-generation:
     theme:
       path: assets/themes # Path to themes, relative to package root. Assumes all themes are directly under assets/themes.
-      fallback: light # A fallback theme for when a certain theme asset is not specified, relative to 'path'.
+      fallback: light # A fallback theme for when a asset is not specified, relative to 'path', i.e. assets/themes/light.
 ```
