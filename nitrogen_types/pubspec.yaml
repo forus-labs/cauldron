@@ -1,8 +1,9 @@
 name: nitrogen_types
-description: Companion library for Nitrogen.
+description: Companion library for Nitrogen. Provides shared types that generated bindings use.
 
 version: 0.1.0
-homepage: https://github.com/forus-labs/cauldron/nitrogen
+homepage: https://github.com/forus-labs/cauldron/tree/master/nitrogen
+repository: https://github.com/forus-labs/cauldron/
 
 environment:
   sdk: '>=3.3.0 <4.0.0'

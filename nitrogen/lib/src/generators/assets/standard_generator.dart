@@ -54,15 +54,16 @@ class StandardClass extends BasicClass {
   ClassBuilder generate(AssetDirectory directory, {bool static = false, bool sealed = false}) =>
     super.generate(directory, static: static)
       ..sealed = sealed
-      ..fields.add(_contents(directory));
+      ..methods.add(_contents(directory, static: static));
 
 
-  Field _contents(AssetDirectory directory) => Field((builder) => builder
-    ..static = true
-    ..modifier = FieldModifier.constant
-    ..type = TypeReference((builder) => builder..symbol = 'Map'..types.addAll([refer('String'), assetType]))
+  Method _contents(AssetDirectory directory, {bool static = false}) => Method((builder) => builder
+    ..static = static
+    ..returns = TypeReference((builder) => builder..symbol = 'Map'..types.addAll([refer('String'), assetType]))
+    ..type = MethodType.getter
     ..name = 'contents'
-    ..assignment = Block.of([
+    ..lambda = true
+    ..body = Block.of([
       const Code('{'),
       for (final file in directory.children.values.whereType<AssetFile>())
         Block.of([literal(file.asset.key).code, const Code(': '), files.invocation(file).code, const Code(', ')]),

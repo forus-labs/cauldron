@@ -6,7 +6,7 @@ repository: https://github.com/forus-labs/cauldron
 topics: [lints]
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
+  sdk: '>=3.4.0 <4.0.0'
 
 dev_dependencies:
   html: ^0.15.0
