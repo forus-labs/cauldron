@@ -1,6 +1,6 @@
 name: flint
 description: Analyzer lints used internally in Forus Labs' Dart & Flutter projects.
-version: 2.9.0
+version: 2.10.0
 homepage: https://github.com/forus-labs/cauldron
 repository: https://github.com/forus-labs/cauldron
 topics: [lints]

@@ -1,3 +1,7 @@
+# 2.10.0 (25/05/2024)
+Flutter ruleset:
+- Add `diagnostic_describe_all_properties`
+
 # 2.9.0 (17/11/2023)
 This update focuses on lint rules introduce in Dart 3.2.0.
 

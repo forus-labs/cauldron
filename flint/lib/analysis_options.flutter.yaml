@@ -2,6 +2,7 @@ include: ./analysis_options.dart.yaml
 linter:
   rules:
     - avoid_web_libraries_in_flutter
+    - diagnostic_describe_all_properties
     - no_logic_in_create_state
     - sized_box_for_whitespace
     - sized_box_shrink_expand
