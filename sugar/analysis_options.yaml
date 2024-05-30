@@ -5,7 +5,7 @@ linter:
 
 analyzer:
   errors:
-    unused_result: ignore # TODO: enable once https://github.com/dart-lang/sdk/issues/51543 is fixed
+    unused_result: ignore # The rule seems to break almost every release.
   exclude:
     - lib/src/time/zone/info/**
     - misc/**

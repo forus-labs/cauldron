@@ -6,3 +6,4 @@ linter:
 analyzer:
   errors:
     deprecated_member_use: ignore # TODO: enable once they fix the WillPopScope nonsense
+    unused_result: ignore # The rule seems to break almost every release.
