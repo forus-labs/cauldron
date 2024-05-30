@@ -1,0 +1,63 @@
+name: Nitrogen Unit Tests
+on:
+  push:
+    paths: [ nitrogen/**, .github/workflows/nitrogen.yaml ]
+
+  pull_request:
+    paths: [ nitrogen/**, .github/workflows/nitrogen.yaml ]
+
+jobs:
+  test-nitrogen:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: nitrogen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: dart analyze --fatal-warnings
+      - run: dart run coverage:test_with_coverage
+      - run: sudo apt-get update -y
+      - run: sudo apt-get install -y lcov
+      - run: lcov --remove ./coverage/lcov.info '**.g.dart' -o ./coverage/lcov.info
+      - uses: codecov/codecov-action@v4
+        with:
+          files: ./nitrogen/coverage/lcov.info
+
+  test-nitrogen-flutter-svg:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: nitrogen_flutter_svg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: dart analyze --fatal-warnings
+
+  test-nitrogen-lottie:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: nitrogen_lottie
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: dart analyze --fatal-warnings
+
+  test-nitrogen-types:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: nitrogen_types
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: dart analyze --fatal-warnings

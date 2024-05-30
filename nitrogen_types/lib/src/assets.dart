@@ -21,6 +21,21 @@ sealed class Asset {
 final class ImageAsset extends Asset {
   /// Creates a [ImageAsset].
   const ImageAsset(super.package, super.key, super.path);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is ImageAsset &&
+              runtimeType == other.runtimeType &&
+              package == other.package &&
+              key == other.key &&
+              path == other.path;
+
+  @override
+  int get hashCode => package.hashCode ^ key.hashCode ^ path.hashCode;
+
+  @override
+  String toString() => 'ImageAsset{package: $package, key: $key, path: $path}';
 }
 
 /// A Lottie animation.
@@ -30,6 +45,21 @@ final class ImageAsset extends Asset {
 final class LottieAsset extends Asset {
   /// Creates a [LottieAsset].
   const LottieAsset(super.package, super.key, super.path);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is LottieAsset &&
+              runtimeType == other.runtimeType &&
+              package == other.package &&
+              key == other.key &&
+              path == other.path;
+
+  @override
+  int get hashCode => package.hashCode ^ key.hashCode ^ path.hashCode;
+
+  @override
+  String toString() => 'LottieAsset{package: $package, key: $key, path: $path}';
 }
 
 /// An SVG file.
@@ -39,6 +69,21 @@ final class LottieAsset extends Asset {
 final class SvgAsset extends Asset {
   /// Creates a [SvgAsset].
   const SvgAsset(super.package, super.key, super.path);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is SvgAsset &&
+              runtimeType == other.runtimeType &&
+              package == other.package &&
+              key == other.key &&
+              path == other.path;
+
+  @override
+  int get hashCode => package.hashCode ^ key.hashCode ^ path.hashCode;
+
+  @override
+  String toString() => 'SvgAsset{package: $package, key: $key, path: $path}';
 }
 
 
@@ -46,7 +91,22 @@ final class SvgAsset extends Asset {
 ///
 /// **Note: **
 /// This type should with [Nitrogen](https://github.com/forus-labs/cauldron/nitrogen), a type-safe asset generation tool.
-final class UnknownAsset extends Asset {
-  /// Creates a [UnknownAsset].
-  const UnknownAsset(super.package, super.key, super.path);
+final class GenericAsset extends Asset {
+  /// Creates a [GenericAsset].
+  const GenericAsset(super.package, super.key, super.path);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is GenericAsset &&
+              runtimeType == other.runtimeType &&
+              package == other.package &&
+              key == other.key &&
+              path == other.path;
+
+  @override
+  int get hashCode => package.hashCode ^ key.hashCode ^ path.hashCode;
+
+  @override
+  String toString() => 'GenericAsset{package: $package, key: $key, path: $path}';
 }

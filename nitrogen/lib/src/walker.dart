@@ -17,7 +17,7 @@ final class Walker {
   /// Walks through the [id]'s path, creating the necessary
   void walk(AssetDirectory directory, AssetId id) {
     final parent = '${id.pathSegments.sublist(0, id.pathSegments.length - 1).join('/')}/';
-    if (!_allowed.any((p) => p == parent|| p == id.uri.path)) {
+    if (!_allowed.any((p) => p == parent|| p == id.path)) {
       return;
     }
 
@@ -33,7 +33,7 @@ final class Walker {
           '.jpg' || '.jpeg' || '.png' => ImageAsset(_package, _keyer(id.pathSegments), relativePath),
           '.json' => LottieAsset(_package, _keyer(id.pathSegments), relativePath),
           '.svg' => SvgAsset(_package, _keyer(id.pathSegments), relativePath),
-          _ => UnknownAsset(_package, _keyer(id.pathSegments), relativePath),
+          _ => GenericAsset(_package, _keyer(id.pathSegments), relativePath),
         }
     );
   }

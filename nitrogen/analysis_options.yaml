@@ -1,8 +1,4 @@
-include: package:flint/analysis_options.flutter.yaml
-linter:
-  rules:
-    - avoid_renaming_method_parameters
-    - use_build_context_synchronously
+include: package:flint/analysis_options.dart.yaml
 analyzer:
   errors:
     deprecated_member_use: ignore # TODO: enable once they fix the WillPopScope nonsense

@@ -51,9 +51,8 @@ class StandardClass extends BasicClass {
   const StandardClass({required super.directories, super.excluded, super.files});
 
   @override
-  ClassBuilder generate(AssetDirectory directory, {bool static = false, bool sealed = false}) =>
+  ClassBuilder generate(AssetDirectory directory, {bool static = false}) =>
     super.generate(directory, static: static)
-      ..sealed = sealed
       ..methods.add(_contents(directory, static: static));
 
 
@@ -64,7 +63,7 @@ class StandardClass extends BasicClass {
     ..name = 'contents'
     ..lambda = true
     ..body = Block.of([
-      const Code('{'),
+      const Code('const {'),
       for (final file in directory.children.values.whereType<AssetFile>())
         Block.of([literal(file.asset.key).code, const Code(': '), files.invocation(file).code, const Code(', ')]),
       const Code('}'),

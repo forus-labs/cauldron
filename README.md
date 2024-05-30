@@ -2,7 +2,6 @@
 
 Forus Labs' Dart & Flutter open source packages.
 
-***
 ## Sugar - Standard library extension
 
 Standard library extension that includes utilities for date-times, timezones, collections, monads & more.
@@ -18,12 +17,8 @@ dependencies:
 
 ## Nitrogen - Asset Generation
 
-Modern, type-safe generated bindings for accessing your Flutter assets.
+Modern, type-safe generated bindings for accessing your Flutter assets. See the project's [readme](./nitrogen) for more information.
 
-[![Pub Dev](https://img.shields.io/pub/v/nitrogen)](https://pub.dev/packages/nitrogen)
-
-
-***
 ## Flint - Because Pedantic wasn't strict enough
 
 Lint ruleset in our projects.

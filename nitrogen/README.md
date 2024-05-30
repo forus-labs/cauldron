@@ -38,10 +38,11 @@ Widget build(BuildContext context) => Assets.images.foo();
 
 3rd party packages are supported via 'extension' packages:
 
-| Type              | Package       | Extension Package      | 
-|-------------------|---------------|------------------------|
-| SVG images        | `flutter_svg` | `nitrogen_flutter_svg` |
-| Lottie animations | `lottie`      | `nitrogen_lottie`      |
+| Type              | Package       | Extension Package      | Version                                                                                                        |
+|-------------------|---------------|------------------------|----------------------------------------------------------------------------------------------------------------|
+| SVG images        | `flutter_svg` | `nitrogen_flutter_svg` | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_flutter_svg)](https://pub.dev/packages/nitrogen_flutter_svg) |
+| Lottie animations | `lottie`      | `nitrogen_lottie`      | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_lottie)](https://pub.dev/packages/nitrogen_lottie)           |
+
 
 Install the following:
 ```yaml
@@ -78,16 +79,17 @@ configuration works out of the box.
 A simple configuration looks like:
 ```yaml
 nitrogen:
-  use-package: true
+  package: true
   prefix: 'MyPrefix'
+  flutter-extension: true
   asset-key: file
-  asset-generation:
+  assets:
     theme:
       path: assets/themes
       fallback: light
 ```
 
-### `use-package`
+### `package`
 
 Optional. Defaults to `false`. Controls whether to generate assets as a package dependency. This should be `true` if 
 you're bundling assets for other projects to use, i.e. [forui-assets](https://github.com/forus-labs/forui).
@@ -106,17 +108,21 @@ class MyPrefixAssets {
 }
 ```
 
+### `flutter-extension`
+
+Optional. Defaults to `true`. Controls whether to generate the Flutter extension. 
+
 ### `asset-key`
 
 Optional. Defaults to `file`. Controls the generated assets' key parameters. The following options are supported:
 
 | Option    | Description                                           | Path                    | Generated Key |
 |-----------|-------------------------------------------------------|-------------------------|---------------|
-| file      | file name, without the extension                      | `assets/images/foo.png` | `foo`         |
+| file-name | file name, without the extension                      | `assets/images/foo.png` | `foo`         |
 | grpc-enum | parent directory and file name, without the extension | `assets/images/foo.png` | `IMAGES_FOO`  |
 
 
-### `asset-generation`
+### `assets`
 
 Optional. Defaults to `standard`. Controls the structure of generated classes. The following options are supported:
 
@@ -125,7 +131,7 @@ Optional. Defaults to `standard`. Controls the structure of generated classes. T
 Generates bare-bones classes without additional utilities.
 ```yaml
 nitrogen:
-  asset-generation: basic
+  generation: basic
 ```
 
 #### Standard (default):
@@ -133,7 +139,7 @@ nitrogen:
 Generates classes with an additional `contents` map for working with assets in that directory.
 ```yaml
 nitrogen:
-  asset-generation: standard
+  generation: standard
 ```
 
 #### Theme: 
@@ -141,8 +147,8 @@ nitrogen:
 Generates an additional `asset_themes.nitrogen.dart` file. Useful for working with theme-specific assets.
 ```yaml
 nitrogen:
-  asset-generation:
+  assets:
     theme:
       path: assets/themes # Path to themes, relative to package root. Assumes all themes are directly under assets/themes.
-      fallback: light # A fallback theme for when a asset is not specified, relative to 'path', i.e. assets/themes/light.
+      fallback: light # A fallback theme for when an asset is not specified, relative to 'path', i.e. assets/themes/light.
 ```
