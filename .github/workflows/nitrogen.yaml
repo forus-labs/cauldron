@@ -1,14 +1,24 @@
 name: Nitrogen Unit Tests
 on:
   push:
-    paths: [ nitrogen/**, .github/workflows/nitrogen.yaml ]
+    paths:
+      - nitrogen/**
+      - nitrogen_flutter_svg/**
+      - nitrogen_lottie/**
+      - nitrogen_types/**
+      - .github/workflows/nitrogen.yaml
 
   pull_request:
-    paths: [ nitrogen/**, .github/workflows/nitrogen.yaml ]
+    paths:
+      - nitrogen/**
+      - nitrogen_flutter_svg/**
+      - nitrogen_lottie/**
+      - nitrogen_types/**
+      - .github/workflows/nitrogen.yaml
 
 jobs:
   test-nitrogen:
-    name: Run unit tests
+    name: Run nitrogen tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -27,7 +37,7 @@ jobs:
           files: ./nitrogen/coverage/lcov.info
 
   test-nitrogen-flutter-svg:
-    name: Run unit tests
+    name: Run nitrogen_flutter_svg tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -39,7 +49,7 @@ jobs:
       - run: dart analyze --fatal-warnings
 
   test-nitrogen-lottie:
-    name: Run unit tests
+    name: Run nitrogen_lottie tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -51,7 +61,7 @@ jobs:
       - run: dart analyze --fatal-warnings
 
   test-nitrogen-types:
-    name: Run unit tests
+    name: Run nitrogen_types tests
     runs-on: ubuntu-latest
     defaults:
       run:
