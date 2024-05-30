@@ -44,9 +44,9 @@ jobs:
         working-directory: nitrogen_flutter_svg
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
-      - run: dart pub get
-      - run: dart analyze --fatal-warnings
+      - uses: subosito/flutter-action@v2.16.0
+      - run: flutter pub get
+      - run: flutter analyze
 
   test-nitrogen-lottie:
     name: Run nitrogen_lottie tests
@@ -56,9 +56,9 @@ jobs:
         working-directory: nitrogen_lottie
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
-      - run: dart pub get
-      - run: dart analyze --fatal-warnings
+      - uses: subosito/flutter-action@v2.16.0
+      - run: flutter pub get
+      - run: flutter analyze
 
   test-nitrogen-types:
     name: Run nitrogen_types tests
