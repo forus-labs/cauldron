@@ -17,5 +17,6 @@ import 'package:sugar/src/math/numbers.dart';
 import 'package:sugar/src/math/random.dart';
 
 export 'src/math/arithmetic_exception.dart';
+export 'src/math/nullable.dart';
 export 'src/math/numbers.dart';
 export 'src/math/random.dart';

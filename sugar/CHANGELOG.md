@@ -18,6 +18,9 @@
 - Add `Sil`
 
 ## `sugar.math`
+- Add `NullableNumbers`
+- Add `NullableIntegers`
+- Add `NullableDoubles`
 - **Breaking** Change `double.approximately(...)` to `double.around(...)`
 
 ## `sugar.time`

@@ -36,12 +36,13 @@ Widget build(BuildContext context) => Assets.images.foo();
 
 ## Getting started
 
-3rd party packages are supported via 'extension' packages:
+3rd party packages are supported via 'extension' packages. `extension` packages generate `extension`s in separate files.
+These `extension`s provide a `call(...)` function that transforms an `Asset` into a 3rd party type.
 
-| Type              | Package       | Extension Package      | Version                                                                                                        |
-|-------------------|---------------|------------------------|----------------------------------------------------------------------------------------------------------------|
-| SVG images        | `flutter_svg` | `nitrogen_flutter_svg` | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_flutter_svg)](https://pub.dev/packages/nitrogen_flutter_svg) |
-| Lottie animations | `lottie`      | `nitrogen_lottie`      | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_lottie)](https://pub.dev/packages/nitrogen_lottie)           |
+| Type              | Package       | Extension Package      | Version                                                                                                        | Default generated file           |
+|-------------------|---------------|------------------------|----------------------------------------------------------------------------------------------------------------|----------------------------------|
+| SVG images        | `flutter_svg` | `nitrogen_flutter_svg` | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_flutter_svg)](https://pub.dev/packages/nitrogen_flutter_svg) | `svg_extension.nitrogen.dart`    |
+| Lottie animations | `lottie`      | `nitrogen_lottie`      | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_lottie)](https://pub.dev/packages/nitrogen_lottie)           | `lottie_extension.nitrogen.dart` |
 
 
 Install the following:
