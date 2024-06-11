@@ -48,7 +48,7 @@
 /// * [Strings]
 ///
 /// ## Miscellaneous
-///
+/// * [NullableObjects]
 /// * [Disposable]
 /// * [StringBuffers]
 library sugar.core;
@@ -59,6 +59,7 @@ import 'package:sugar/src/core/comparables.dart';
 import 'package:sugar/src/core/disposable.dart';
 import 'package:sugar/src/core/equality.dart';
 import 'package:sugar/src/core/functions.dart';
+import 'package:sugar/src/core/nullable.dart';
 import 'package:sugar/src/core/result.dart';
 import 'package:sugar/src/core/string_buffers.dart';
 import 'package:sugar/src/core/strings.dart';
@@ -69,6 +70,7 @@ export 'src/core/comparables.dart';
 export 'src/core/disposable.dart';
 export 'src/core/equality.dart';
 export 'src/core/functions.dart';
+export 'src/core/nullable.dart';
 export 'src/core/result.dart';
 export 'src/core/string_buffers.dart';
 export 'src/core/strings.dart';
