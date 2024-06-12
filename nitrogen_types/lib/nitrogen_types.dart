@@ -3,3 +3,4 @@
 library nitrogen_types;
 
 export 'src/assets.dart';
+export 'src/image_asset_extension.dart';

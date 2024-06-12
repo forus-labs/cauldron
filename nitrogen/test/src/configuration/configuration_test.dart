@@ -1,13 +1,29 @@
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
-import 'package:nitrogen/src/configuration/assets.dart';
 import 'package:nitrogen/src/configuration/configuration.dart';
-import 'package:nitrogen/src/configuration/configuration_exception.dart';
 import 'package:nitrogen/src/configuration/key.dart';
+import 'package:nitrogen/src/nitrogen_exception.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
 // ignore_for_file: avoid_dynamic_calls
+
+const _invalid = '''
+name: hi
+flutter:
+  assets:
+    - path/to/first/
+    - path/to/second/
+nitrogen:
+  package: true
+  prefix: 'MyPrefix'
+  key: grpc-enum
+  invalid-nitrogen: true
+  themes:
+    fallback: true
+    invalid-theme: true
+''';
+
 
 const _pubspec = '''
 name: hi
@@ -18,9 +34,9 @@ flutter:
 nitrogen:
   package: true
   prefix: 'MyPrefix'
-  flutter-extension: true
-  asset-key: grpc-enum
-  assets: basic
+  key: grpc-enum
+  themes:
+    fallback: assets/path/to/first/fallback
 ''';
 
 const _noNitrogen = '''
@@ -38,15 +54,28 @@ assets:
 ''';
 
 void main() {
+  group('lint(...)', () {
+    test('invalid pubspec', () {
+      expectLater(
+        log.onRecord,
+        emitsInOrder([
+          warningLogOf(contains('Unknown key, "invalid-nitrogen", in pubspec.yaml\'s nitrogen section. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#configuration for valid configuration options.')),
+          warningLogOf(contains('Unknown key, "invalid-theme", in pubspec.yaml\'s nitrogen section. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#themes for valid configuration options.')),
+        ]),
+      );
+
+      Configuration.lint(loadYaml(_invalid));
+    });
+  });
+
   group('parse(...)', () {
     test('valid pubspec', () {
       final configuration = Configuration.parse(loadYaml(_pubspec));
 
       expect(configuration.package, 'hi');
       expect(configuration.prefix, 'MyPrefix');
-      expect(configuration.flutterExtension, true);
       expect(configuration.key, Key.grpcEnum);
-      expect(configuration.assets, isA<BasicAssets>());
+      expect(configuration.fallbackTheme, 'assets/path/to/first/fallback');
       expect(configuration.flutterAssets, { 'path/to/first/', 'path/to/second/' });
     });
 
@@ -55,9 +84,8 @@ void main() {
 
       expect(configuration.package, null);
       expect(configuration.prefix, '');
-      expect(configuration.flutterExtension, true);
       expect(configuration.key, Key.fileName);
-      expect(configuration.assets, isA<StandardAssets>());
+      expect(configuration.fallbackTheme, null);
       expect(configuration.flutterAssets, { 'path/to/first/', 'path/to/second/' });
     });
   });
@@ -68,11 +96,11 @@ void main() {
     test('use package name & invalid name', () {
       expectLater(
         log.onRecord,
-        emits(severeLogOf(contains("Unable to read package name from project's pubspec.yaml. See https://dart.dev/tools/pub/pubspec#name."))),
+        emits(severeLogOf(contains('Unable to read package name in pubspec.yaml. See https://dart.dev/tools/pub/pubspec#name.'))),
       );
       expect(
         () => Configuration.parsePackage(loadYamlNode('true'), loadYamlNode('true')),
-        throwsA(isA<ConfigurationException>()),
+        throwsA(isA<NitrogenException>()),
       );
     });
 
@@ -83,11 +111,11 @@ void main() {
     test('invalid package usage', () {
       expectLater(
         log.onRecord,
-        emits(severeLogOf(contains('Unable to configure package name. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#package.'))),
+        emits(severeLogOf(contains('Unable to read package name. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#package.'))),
       );
       expect(
         () => Configuration.parsePackage(loadYamlNode('nitrogen'), loadYamlNode('invalid')),
-        throwsA(isA<ConfigurationException>()),
+        throwsA(isA<NitrogenException>()),
       );
     });
   });
@@ -100,50 +128,43 @@ void main() {
     test('invalid', () {
       expectLater(
         log.onRecord,
-        emits(severeLogOf(contains('Unable to configure class prefix. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#prefix.'))),
+        emits(severeLogOf(contains('Unable to read prefix. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#prefix.'))),
       );
-      expect(() => Configuration.parsePrefix(loadYamlNode('true')), throwsA(isA<ConfigurationException>()));
+      expect(() => Configuration.parsePrefix(loadYamlNode('true')), throwsA(isA<NitrogenException>()));
     });
   });
 
-  group('parseFlutterExtension(...)', () {
-    test('true', () => expect(Configuration.parseFlutterExtension(loadYamlNode('true')), true));
+  group('parseFallbackTheme(...)', () {
+    test('fallback theme', () => expect(Configuration.parseFallbackTheme(loadYamlNode('fallback: assets/path/to/fallback')), 'assets/path/to/fallback'));
 
-    test('false', () => expect(Configuration.parseFlutterExtension(loadYamlNode('false')), false));
-
-    test('null', () => expect(Configuration.parseFlutterExtension(null), true));
+    test('null', () => expect(Configuration.parseFallbackTheme(null), null));
 
     test('invalid', () {
       expectLater(
         log.onRecord,
-        emits(severeLogOf(contains('Unable to configure flutter extension. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#flutter-extension.'))),
+        emits(severeLogOf(contains('Unable to read themes. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#themes.'))),
       );
-      expect(() => Configuration.parseFlutterExtension(loadYamlNode('invalid')), throwsA(isA<ConfigurationException>()));
+      expect(() => Configuration.parseFallbackTheme(loadYamlNode('true')), throwsA(isA<NitrogenException>()));
     });
   });
 
   group('parseFlutterAssets(...)', () {
     test('assets', () => expect(
-      Configuration.parseFlutterAssets(BasicAssets(), loadYaml(_flutterAssets).nodes['assets']),
+      Configuration.parseFlutterAssets(loadYaml(_flutterAssets).nodes['assets']),
       { 'path/to/first/', 'path/to/second/' },
     ));
 
     test('null', () => expect(
-      Configuration.parseFlutterAssets(BasicAssets(), null),
-      <String>{},
-    ));
-
-    test('NoAssets', () => expect(
-      Configuration.parseFlutterAssets(NoAssets(), loadYaml(_flutterAssets).nodes['assets']),
+      Configuration.parseFlutterAssets(null),
       <String>{},
     ));
 
     test('invalid', () {
       expectLater(
         log.onRecord,
-        emits(severeLogOf(contains('Unable to parse flutter assets. See https://docs.flutter.dev/tools/pubspec#assets.'))),
+        emits(severeLogOf(contains('Unable to read flutter assets. See https://docs.flutter.dev/tools/pubspec#assets.'))),
       );
-      expect(() => Configuration.parseFlutterAssets(StandardAssets(), loadYaml('assets: invalid').nodes['assets']), throwsA(isA<ConfigurationException>()));
+      expect(() => Configuration.parseFlutterAssets(loadYaml('assets: invalid').nodes['assets']), throwsA(isA<NitrogenException>()));
     });
   });
 }

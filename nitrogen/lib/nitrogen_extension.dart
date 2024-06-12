@@ -1,1 +1,1 @@
-export 'package:nitrogen/src/generators/libraries.dart';
+export 'package:nitrogen/src/libraries.dart';

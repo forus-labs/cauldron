@@ -1,7 +1,7 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:nitrogen/src/file_system.dart';
-import 'package:nitrogen/src/generators/assets/basic_generator.dart';
+import 'package:nitrogen/src/generators/asset_generator.dart';
 import 'package:nitrogen_types/nitrogen_types.dart';
 import 'package:test/test.dart';
 
@@ -27,6 +27,14 @@ class $PrefixPathToDirectory {
         'bar',
         'path/to/directory/bar.txt',
       );
+
+  static Map<String, Asset> get contents => const {
+        'bar': const GenericAsset(
+          'test_package',
+          'bar',
+          'path/to/directory/bar.txt',
+        ),
+      };
 }
 
 class $PrefixPathToDirectorySubdirectory {
@@ -37,10 +45,82 @@ class $PrefixPathToDirectorySubdirectory {
         'foo',
         'path/to/directory/subdirectory/foo.png',
       );
+
+  Map<String, Asset> get contents => const {
+        'foo': const ImageAsset(
+          'test_package',
+          'foo',
+          'path/to/directory/subdirectory/foo.png',
+        ),
+      };
 }
 ''';
 
-const _nonStatic = r'''
+const _nonStaticAssetClass = r'''
+class $PrefixPathToDirectory {
+  const $PrefixPathToDirectory();
+
+  $PrefixPathToDirectorySubdirectory get subdirectory => const $PrefixPathToDirectorySubdirectory();
+
+  GenericAsset get bar => const GenericAsset(
+        'test_package',
+        'bar',
+        'path/to/directory/bar.txt',
+      );
+
+  Map<String, Asset> get contents => const {
+        'bar': const GenericAsset(
+          'test_package',
+          'bar',
+          'path/to/directory/bar.txt',
+        ),
+      };
+}
+''';
+
+const _staticAssetClass = r'''
+class $PrefixPathToDirectory {
+  const $PrefixPathToDirectory();
+
+  static $PrefixPathToDirectorySubdirectory get subdirectory => const $PrefixPathToDirectorySubdirectory();
+
+  static GenericAsset get bar => const GenericAsset(
+        'test_package',
+        'bar',
+        'path/to/directory/bar.txt',
+      );
+
+  static Map<String, Asset> get contents => const {
+        'bar': const GenericAsset(
+          'test_package',
+          'bar',
+          'path/to/directory/bar.txt',
+        ),
+      };
+}
+''';
+
+const _excludedAssetClass = r'''
+class $PrefixPathToDirectory {
+  const $PrefixPathToDirectory();
+
+  GenericAsset get bar => const GenericAsset(
+        'test_package',
+        'bar',
+        'path/to/directory/bar.txt',
+      );
+
+  Map<String, Asset> get contents => const {
+        'bar': const GenericAsset(
+          'test_package',
+          'bar',
+          'path/to/directory/bar.txt',
+        ),
+      };
+}
+''';
+
+const _nonStaticBasicClass = r'''
 class $PrefixPathToDirectory {
   const $PrefixPathToDirectory();
 
@@ -54,7 +134,7 @@ class $PrefixPathToDirectory {
 }
 ''';
 
-const _static = r'''
+const _staticBasicClass = r'''
 class $PrefixPathToDirectory {
   const $PrefixPathToDirectory();
 
@@ -68,7 +148,7 @@ class $PrefixPathToDirectory {
 }
 ''';
 
-const _excluded = r'''
+const _excludedBasicClass = r'''
 class $PrefixPathToDirectory {
   const $PrefixPathToDirectory();
 
@@ -97,37 +177,61 @@ void main() {
     const GenericAsset('test_package', 'bar', 'path/to/directory/bar.txt'),
   );
 
-
-  test('BasicGenerator', () {
-    final generator = BasicGenerator('Prefix', directory);
+  test('AssetGenerator', () {
+    final generator = AssetGenerator('Prefix', directory, {});
     expect(formatter.format(generator.generate()), _classes);
   });
 
-  group('BasicClass', () {
+  group('AssetClass', () {
     group('generate(...)', () {
       test('non static', () {
-        const basic = BasicClass(directories: AssetDirectoryExpressions('Prefix'));
+        const basic = AssetClass(directories: AssetDirectoryExpressions('Prefix'));
         final type = basic.generate(directory).build();
 
-        expect(formatter.format(type.accept(emitter).toString()), formatter.format(_nonStatic));
+        expect(formatter.format(type.accept(emitter).toString()), formatter.format(_nonStaticAssetClass));
       });
 
       test('static', () {
-        const basic = BasicClass(directories: AssetDirectoryExpressions('Prefix'));
+        const basic = AssetClass(directories: AssetDirectoryExpressions('Prefix'));
         final type = basic.generate(directory, static: true).build();
 
-        expect(formatter.format(type.accept(emitter).toString()), formatter.format(_static));
+        expect(formatter.format(type.accept(emitter).toString()), formatter.format(_staticAssetClass));
       });
 
       test('excluded', () {
-        final basic = BasicClass(directories: const AssetDirectoryExpressions('Prefix'), excluded: { subdirectory });
+        final basic = AssetClass(directories: const AssetDirectoryExpressions('Prefix'), excluded: { subdirectory });
         final type = basic.generate(directory).build();
 
-        expect(formatter.format(type.accept(emitter).toString()), formatter.format(_excluded));
+        expect(formatter.format(type.accept(emitter).toString()), formatter.format(_excludedAssetClass));
       });
     });
   });
-  
+
+  group('BasicAssetClass', () {
+    group('generate(...)', () {
+      test('non static', () {
+        const basic = BasicAssetClass(directories: AssetDirectoryExpressions('Prefix'));
+        final type = basic.generate(directory).build();
+
+        expect(formatter.format(type.accept(emitter).toString()), formatter.format(_nonStaticBasicClass));
+      });
+
+      test('static', () {
+        const basic = BasicAssetClass(directories: AssetDirectoryExpressions('Prefix'));
+        final type = basic.generate(directory, static: true).build();
+
+        expect(formatter.format(type.accept(emitter).toString()), formatter.format(_staticBasicClass));
+      });
+
+      test('excluded', () {
+        final basic = BasicAssetClass(directories: const AssetDirectoryExpressions('Prefix'), excluded: { subdirectory });
+        final type = basic.generate(directory).build();
+
+        expect(formatter.format(type.accept(emitter).toString()), formatter.format(_excludedBasicClass));
+      });
+    });
+  });
+
   group('AssetDirectoryExpressions', () {
     final directory = AssetDirectory(
       ['path', 'to', 'directory-name'],
@@ -148,7 +252,7 @@ void main() {
     });
 
   });
-  
+
   group('AssetFileExpressions', () {
     final file = AssetFile(
       ['path', 'to', 'file-name.png'],

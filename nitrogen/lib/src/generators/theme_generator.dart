@@ -2,9 +2,8 @@ import 'dart:collection';
 
 import 'package:code_builder/code_builder.dart';
 import 'package:nitrogen/src/file_system.dart';
-import 'package:nitrogen/src/generators/assets/basic_generator.dart';
-import 'package:nitrogen/src/generators/assets/standard_generator.dart';
-import 'package:nitrogen/src/generators/libraries.dart';
+import 'package:nitrogen/src/generators/asset_generator.dart';
+import 'package:nitrogen/src/libraries.dart';
 import 'package:sugar/sugar.dart';
 
 
@@ -16,8 +15,8 @@ class ThemeGenerator {
   static int _name((String, int) a, (String, int) b) => a.$1.compareTo(b.$1);
 
   final ThemeExtension _extension;
-  final StandardClass _fallbackClass;
-  final StandardClass _themeSubclass;
+  final AssetClass _fallbackClass;
+  final AssetClass _themeSubclass;
   final ThemeClass _themeClass;
   final AssetDirectory _themes;
   final AssetDirectory _fallbackTheme;
@@ -25,8 +24,8 @@ class ThemeGenerator {
   /// Creates a [ThemeGenerator].
   ThemeGenerator(String prefix, this._themes, this._fallbackTheme):
     _extension = ThemeExtension(prefix),
-    _fallbackClass = StandardClass(directories: FallbackAssetDirectoryExpressions(prefix, _fallbackTheme)),
-    _themeSubclass = StandardClass(directories: ThemeAssetDirectoryExpressions(prefix, _themes)),
+    _fallbackClass = AssetClass(directories: FallbackAssetDirectoryExpressions(prefix, _fallbackTheme)),
+    _themeSubclass = AssetClass(directories: ThemeAssetDirectoryExpressions(prefix, _themes)),
     _themeClass = ThemeClass(ThemeAssetDirectoryExpressions(prefix, _themes));
 
   /// Generates themed asset classes.
@@ -107,20 +106,20 @@ class ThemeExtension {
 /// Contains functions for generating a theme class representation of a directory.
 class ThemeClass {
 
-  final BasicClass _basic;
+  final BasicAssetClass _assets;
 
   /// Creates a [ThemeClass].
-  ThemeClass(AssetDirectoryExpressions directories): _basic = BasicClass(directories: directories);
+  ThemeClass(AssetDirectoryExpressions directories): _assets = BasicAssetClass(directories: directories);
 
   /// Generates a theme class that extends [fallback].
-  ClassBuilder generate(AssetDirectory directory, Class fallback) => _basic.generate(directory)
+  ClassBuilder generate(AssetDirectory directory, Class fallback) => _assets.generate(directory)
     ..extend = refer(fallback.name)
     ..modifier = ClassModifier.final$
     ..methods.add(_contents(directory, fallback));
 
   Method _contents(AssetDirectory directory, Class fallback, {bool static = false}) => Method((builder) => builder
     ..static = static
-    ..returns = TypeReference((builder) => builder..symbol = 'Map'..types.addAll([refer('String'), StandardClass.assetType]))
+    ..returns = TypeReference((builder) => builder..symbol = 'Map'..types.addAll([refer('String'), AssetClass.assetType]))
     ..type = MethodType.getter
     ..name = 'contents'
     ..lambda = true
@@ -128,7 +127,7 @@ class ThemeClass {
       const Code('Map.unmodifiable({'),
       Code('...${static ? fallback.name : 'const ${fallback.name}()'}.contents,'),
       for (final file in directory.children.values.whereType<AssetFile>())
-        Block.of([literal(file.asset.key).code, const Code(': '), _basic.files.invocation(file).code, const Code(', ')]),
+        Block.of([literal(file.asset.key).code, const Code(': '), _assets.files.invocation(file).code, const Code(', ')]),
       const Code('})'),
     ])
   );

@@ -1,24 +1,39 @@
 import 'package:build/build.dart';
 import 'package:meta/meta.dart';
-import 'package:nitrogen/src/configuration/assets.dart';
-import 'package:nitrogen/src/configuration/configuration_exception.dart';
+import 'package:nitrogen/src/nitrogen_exception.dart';
 import 'package:nitrogen/src/configuration/key.dart';
 import 'package:yaml/yaml.dart';
 
 /// Nitrogen's configuration.
 final class Configuration {
 
+  /// The Nitrogen section's valid keys.
+  static const keys = { 'package', 'prefix', 'key', 'themes' };
+
+  /// Lints the pubspec.
+  static void lint(YamlMap? pubspec) {
+    final nitrogen = pubspec?.nodes['nitrogen'].as<YamlMap>();
+
+    for (final key in {...?nitrogen?.keys }..removeAll(keys)) {
+      log.warning(nitrogen?.nodes[key]!.span.message('Unknown key, "$key", in pubspec.yaml\'s nitrogen section. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#configuration for valid configuration options.'));
+    }
+
+    final themes = nitrogen?.nodes['themes'].as<YamlMap>();
+    for (final key in {...?themes?.keys }..removeAll({ 'fallback' })) {
+      log.warning(themes?.nodes[key]!.span.message('Unknown key, "$key", in pubspec.yaml\'s nitrogen section. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#themes for valid configuration options.'));
+    }
+  }
+
+
   /// Parses the configuration from the project's pubspec.yaml.
   factory Configuration.parse(YamlMap pubspec) {
     final nitrogen = pubspec.nodes['nitrogen'].as<YamlMap>();
-    final assets = Assets.parse(nitrogen?.nodes['assets']);
     return Configuration(
       package: parsePackage(pubspec.nodes['name'], nitrogen?.nodes['package']),
       prefix: parsePrefix(nitrogen?.nodes['prefix']),
-      flutterExtension: parseFlutterExtension(nitrogen?.nodes['flutter-extension']),
-      key: Key.parse(nitrogen?.nodes['asset-key']),
-      assets: assets,
-      flutterAssets: parseFlutterAssets(assets, pubspec.nodes['flutter'].as<YamlMap>()?.nodes['assets']),
+      key: Key.parse(nitrogen?.nodes['key']),
+      fallbackTheme: parseFallbackTheme(nitrogen?.nodes['themes']),
+      flutterAssets: parseFlutterAssets(pubspec.nodes['flutter'].as<YamlMap>()?.nodes['assets']),
     );
   }
 
@@ -30,15 +45,15 @@ final class Configuration {
         return name;
 
       case (_, true):
-        log.severe(name?.span.message("Unable to read package name from project's pubspec.yaml. See https://dart.dev/tools/pub/pubspec#name.") ?? 'Package name is not specified.');
-        throw ConfigurationException();
+        log.severe(name?.span.message('Unable to read package name in pubspec.yaml. See https://dart.dev/tools/pub/pubspec#name.') ?? 'Package name is not specified.');
+        throw NitrogenException();
 
       case (_, bool? _):
         return null;
 
       default:
-        log.severe(enabled?.span.message('Unable to configure package name. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#package.'));
-        throw ConfigurationException();
+        log.severe(enabled?.span.message('Unable to read package name. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#package.'));
+        throw NitrogenException();
     }
   }
 
@@ -50,50 +65,55 @@ final class Configuration {
         return prefix ?? '';
 
       default:
-        log.severe(node!.span.message('Unable to configure class prefix. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#prefix.'));
-        throw ConfigurationException();
+        log.severe(node!.span.message('Unable to read prefix. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#prefix.'));
+        throw NitrogenException();
     }
   }
 
-  /// Parses the flutter extension from the nitrogen section in the project's pubspec.yaml.
+  /// Parses the path to the fallback theme.
   @visibleForTesting
-  static bool parseFlutterExtension(YamlNode? node) {
+  static String? parseFallbackTheme(YamlNode? node) {
     switch (node?.value) {
-      case final bool? extension:
-        return extension ?? true;
+      case null:
+        return null;
 
-      default:
-        log.severe(node!.span.message('Unable to configure flutter extension. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#flutter-extension.'));
-        throw ConfigurationException();
+      case { 'fallback': final String fallback }:
+        return fallback;
+
+      case _:
+        log.severe(node!.span.message('Unable to read themes. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#themes.'));
+        throw NitrogenException();
     }
   }
 
   /// Parses the flutter assets from the project's pubspec.yaml.
   @visibleForTesting
-  static Set<String> parseFlutterAssets(Assets assets, YamlNode? node) {
+  static Set<String> parseFlutterAssets(YamlNode? node) {
     switch (node) {
-      case _ when node == null || assets is NoAssets:
+      case null:
         return {};
 
       case final YamlList list:
         return { ...list };
 
       default:
-        log.severe(node.span.message('Unable to parse flutter assets. See https://docs.flutter.dev/tools/pubspec#assets.'));
-        throw ConfigurationException();
+        log.severe(node.span.message('Unable to read flutter assets. See https://docs.flutter.dev/tools/pubspec#assets.'));
+        throw NitrogenException();
     }
   }
 
   /// The package name.
   final String? package;
+
   /// The class prefix.
   final String prefix;
-  /// Whether to generate the flutter extension.
-  final bool flutterExtension;
+
   /// The function for generating asset keys.
   final String Function(List<String>) key;
-  /// The assets configuration.
-  final Assets assets;
+
+  /// The path to the fallback theme.
+  final String? fallbackTheme;
+
   /// The flutter assets.
   final Set<String> flutterAssets;
 
@@ -101,9 +121,8 @@ final class Configuration {
   Configuration({
     required this.package,
     required this.prefix,
-    required this.flutterExtension,
     required this.key,
-    required this.assets,
+    required this.fallbackTheme,
     required this.flutterAssets,
   });
 

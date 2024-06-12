@@ -1,18 +1,23 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:nitrogen/src/file_system.dart';
-import 'package:nitrogen/src/generators/libraries.dart';
+import 'package:nitrogen/src/libraries.dart';
+import 'package:nitrogen_types/nitrogen_types.dart';
 import 'package:sugar/sugar.dart';
 
 
-/// A generator for basic class representations of asset directories.
-class BasicGenerator {
+/// A generator for standard class representations of asset directories.
+class AssetGenerator {
 
-  final BasicClass _basicClass;
+  final AssetClass _standardClass;
   final AssetDirectory _assets;
+  final Set<AssetDirectory> _excluded;
 
-  /// Creates a [BasicGenerator].
-  BasicGenerator(String prefix, this._assets):
-    _basicClass = BasicClass(directories: AssetDirectoryExpressions(prefix));
+  /// Creates a [AssetGenerator].
+  AssetGenerator(String prefix, this._assets, this._excluded):
+    _standardClass = AssetClass(
+      directories: AssetDirectoryExpressions(prefix),
+      excluded: _excluded,
+    );
 
   /// Generates basic asset classes.
   String generate() {
@@ -28,17 +33,47 @@ class BasicGenerator {
   }
 
   void _generate(AssetDirectory directory, List<Class> classes, {bool static = false}) {
-    classes.add(_basicClass.generate(directory, static: static).build());
-    for (final child in directory.children.values.whereType<AssetDirectory>()) {
+    classes.add(_standardClass.generate(directory, static: static).build());
+    for (final child in directory.children.values.whereType<AssetDirectory>().where((d) => !_excluded.contains(d))) {
       _generate(child, classes);
     }
   }
 
 }
 
+/// Contains functions for generating a standard class representation of a directory.
+class AssetClass extends BasicAssetClass {
+
+  /// An [Asset] type.
+  static final assetType = refer('Asset', 'package:nitrogen_types/nitrogen_types.dart');
+
+  /// Creates a [AssetClass].
+  const AssetClass({required super.directories, super.excluded, super.files});
+
+  /// Generates a basic class that contains only nested folders and assets.
+  @override
+  ClassBuilder generate(AssetDirectory directory, {bool static = false}) => super.generate(directory, static: static)
+    ..methods.add(_contents(directory, static: static));
+
+  /// Returns a
+  Method _contents(AssetDirectory directory, {bool static = false}) => Method((builder) => builder
+    ..static = static
+    ..returns = TypeReference((builder) => builder..symbol = 'Map'..types.addAll([refer('String'), assetType]))
+    ..type = MethodType.getter
+    ..name = 'contents'
+    ..lambda = true
+    ..body = Block.of([
+      const Code('const {'),
+      for (final file in directory.children.values.whereType<AssetFile>())
+        Block.of([literal(file.asset.key).code, const Code(': '), files.invocation(file).code, const Code(', ')]),
+      const Code('}'),
+    ])
+  );
+
+}
 
 /// Contains functions for generating a basic class representation of a directory.
-class BasicClass {
+class BasicAssetClass {
 
   /// The excluded directories.
   final Set<AssetDirectory> excluded;
@@ -47,13 +82,12 @@ class BasicClass {
   /// The file expressions.
   final AssetFileExpressions files;
 
-  /// Creates a [BasicClass].
-  const BasicClass({
+  /// Creates a [BasicAssetClass].
+  const BasicAssetClass({
     required this.directories,
     this.excluded = const {},
     this.files = const AssetFileExpressions(),
   });
-
 
   /// Generates a basic class that contains only nested folders and assets.
   ClassBuilder generate(AssetDirectory directory, {bool static = false}) => ClassBuilder()

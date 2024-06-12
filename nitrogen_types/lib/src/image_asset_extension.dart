@@ -1,16 +1,7 @@
-import 'package:code_builder/code_builder.dart';
+import 'package:flutter/widgets.dart';
+import 'package:nitrogen_types/nitrogen_types.dart';
 
-/// The extension to generate for image extension v1.
-extension Image on Never {
-
-  /// The imports.
-  static final imports = [
-    Directive.import('package:flutter/widgets.dart'),
-  ];
-
-  /// The extension.
-  static const extension = Code('''
-/// Tested against Flutter 3.19.4.
+/// Provides functions for converting an [ImageAsset] to a Flutter [Image].
 ///
 /// Example:
 /// ```dart
@@ -28,6 +19,7 @@ extension Image on Never {
 /// ```
 extension ImageAssetExtension on ImageAsset {
 
+  /// Converts an [ImageAsset] to an [Image].
   Image call({
     Key? key,
     ImageFrameBuilder? frameBuilder,
@@ -75,9 +67,5 @@ extension ImageAssetExtension on ImageAsset {
     cacheHeight: cacheHeight,
     key: key,
   );
-
-}
-  ''');
-
 
 }

@@ -8,12 +8,15 @@ repository: https://github.com/forus-labs/cauldron/
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
+  flutter: ">=3.3.0"
 
 dependencies:
   build: ^2.4.1
   build_runner: ^2.4.6
   code_builder: ^4.10.0
   dart_style: ^2.3.6
+  flutter:
+    sdk: flutter
   glob: ^2.1.2
   meta: ^1.9.1
   nitrogen_types: ^0.2.0

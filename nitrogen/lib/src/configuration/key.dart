@@ -1,5 +1,5 @@
 import 'package:build/build.dart';
-import 'package:nitrogen/src/configuration/configuration_exception.dart';
+import 'package:nitrogen/src/nitrogen_exception.dart';
 import 'package:path/path.dart';
 import 'package:sugar/sugar.dart';
 import 'package:yaml/yaml.dart';
@@ -17,8 +17,8 @@ extension Key on Never {
         return fileName;
 
       default:
-        log.severe(key!.span.message('Unable to configure asset key. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#asset-key.'));
-        throw ConfigurationException();
+        log.severe(key!.span.message('Unable to read asset key. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#key.'));
+        throw NitrogenException();
     }
   }
 

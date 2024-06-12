@@ -1,6 +1,6 @@
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
-import 'package:nitrogen/src/configuration/configuration_exception.dart';
+import 'package:nitrogen/src/nitrogen_exception.dart';
 import 'package:nitrogen/src/configuration/key.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
@@ -10,12 +10,12 @@ import 'package:yaml/yaml.dart';
 void main() {
   group('parse', () {
     test('grpc-enum', () {
-      final key = Key.parse(loadYaml('asset-key: grpc-enum').nodes['asset-key']);
+      final key = Key.parse(loadYaml('key: grpc-enum').nodes['key']);
       expect(key(['path', 'to', 'file.png']), 'TO_FILE');
     });
 
     test('file-name', () {
-      final key = Key.parse(loadYaml('asset-key: file-name').nodes['asset-key']);
+      final key = Key.parse(loadYaml('key: file-name').nodes['key']);
       expect(key(['path', 'to', 'file.png']), 'file');
     });
 
@@ -27,9 +27,9 @@ void main() {
     test('invalid', () {
       expectLater(
         log.onRecord,
-        emits(severeLogOf(contains('Unable to configure asset key. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#asset-key.'))),
+        emits(severeLogOf(contains('Unable to read asset key. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#key.'))),
       );
-      expect(() => Key.parse(loadYaml('asset-key: invalid').nodes['asset-key']), throwsA(isA<ConfigurationException>()));
+      expect(() => Key.parse(loadYaml('key: invalid').nodes['key']), throwsA(isA<NitrogenException>()));
     });
   });
 }

@@ -49,20 +49,20 @@ Install the following:
 ```yaml
 dependencies:
   nitrogen_types: <version>
+  nitrogen_flutter_svg: <version> # Optional: include when using SVG images
+  nitrogen_lottie: <version> # Optional: include when using Lottie animations
 
 dev_dependencies:
   build_runner: <version>
   nitrogen: <version>
-  nitrogen_flutter_svg: <version> # Optional: include when using SVG images
-  nitrogen_lottie: <version> # Optional: include when using Lottie animations
 ```
 
 Alternatively:
 ```shell
-dart pub add nitrogen_types
-
 # Include nitrogen_flutter_svg and nitrogen_lottie when using SVG images and Lottie animations respectively.
-dart pub add --dev build_runner nitrogen nitrogen_flutter_svg nitrogen_lottie
+dart pub add nitrogen_types  nitrogen_flutter_svg nitrogen_lottie
+
+dart pub add --dev build_runner nitrogen
 ```
 
 To generate bindings:
@@ -72,7 +72,7 @@ dart run build_runner build
 
 ## Configuration
 
-Nitrogen's configuration can be set in the `nitrogen` section of your pubspec.yaml. For most cases, the default
+Nitrogen's configuration can be set in the `nitrogen` section of your pubspec.yaml. In most cases, the default
 configuration works out of the box.
 
 ### Example
@@ -82,12 +82,9 @@ A simple configuration looks like:
 nitrogen:
   package: true
   prefix: 'MyPrefix'
-  flutter-extension: true
-  asset-key: file
-  assets:
-    theme:
-      path: assets/themes
-      fallback: light
+  key: file
+  themes:
+    fallback: assets/themes/light
 ```
 
 ### `package`
@@ -109,11 +106,7 @@ class MyPrefixAssets {
 }
 ```
 
-### `flutter-extension`
-
-Optional. Defaults to `true`. Controls whether to generate the Flutter extension. 
-
-### `asset-key`
+### `key`
 
 Optional. Defaults to `file`. Controls the generated assets' key parameters. The following options are supported:
 
@@ -123,33 +116,14 @@ Optional. Defaults to `file`. Controls the generated assets' key parameters. The
 | grpc-enum | parent directory and file name, without the extension | `assets/images/foo.png` | `IMAGES_FOO`  |
 
 
-### `assets`
+### `themes`
 
-Optional. Defaults to `standard`. Controls the structure of generated classes. The following options are supported:
+Optional. Defaults to `null`. Controls whether to generate an additional `asset_themes.nitrogen.dart` file. Useful for 
+working with theme-specific assets.
 
-#### Basic: 
-
-Generates bare-bones classes without additional utilities.
 ```yaml
 nitrogen:
-  generation: basic
-```
-
-#### Standard (default):
-
-Generates classes with an additional `contents` map for working with assets in that directory.
-```yaml
-nitrogen:
-  generation: standard
-```
-
-#### Theme: 
-
-Generates an additional `asset_themes.nitrogen.dart` file. Useful for working with theme-specific assets.
-```yaml
-nitrogen:
-  assets:
-    theme:
-      path: assets/themes # Path to themes, relative to package root. Assumes all themes are directly under assets/themes.
-      fallback: light # A fallback theme for when an asset is not specified, relative to 'path', i.e. assets/themes/light.
+  themes:
+    # Path to fallback theme, relative to package root. Assumes that all themes are under 'assets/themes'.
+    fallback: assets/themes/light
 ```
