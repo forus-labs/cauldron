@@ -25,16 +25,10 @@ jobs:
         working-directory: nitrogen
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
-      - run: dart pub get
-      - run: dart analyze --fatal-warnings
-      - run: dart run coverage:test_with_coverage
-      - run: sudo apt-get update -y
-      - run: sudo apt-get install -y lcov
-      - run: lcov --remove ./coverage/lcov.info '**.g.dart' -o ./coverage/lcov.info
-      - uses: codecov/codecov-action@v4
-        with:
-          files: ./nitrogen/coverage/lcov.info
+      - uses: subosito/flutter-action@v2.16.0
+      - run: flutter pub get
+      - run: flutter analyze --fatal-warnings
+      - run: flutter test
 
   test-nitrogen-flutter-svg:
     name: Run nitrogen_flutter_svg tests

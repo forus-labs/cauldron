@@ -1,3 +1,7 @@
+## 0.3.0
+
+Export `ImageAssetExtension`.
+
 ## 0.2.0+1
 
 * Remove accidental on Flutter SDK
