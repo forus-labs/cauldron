@@ -1,23 +1,23 @@
 import 'package:build/build.dart';
-import 'package:nitrogen/src/nitrogen_exception.dart';
 import 'package:path/path.dart';
 import 'package:sugar/sugar.dart';
-import 'package:yaml/yaml.dart';
+
+import 'package:nitrogen/src/nitrogen_exception.dart';
 
 /// Provides functions for generating asset keys.
 extension Key on Never {
 
   /// Parses the `asset-key` node if valid.
-  static String Function(List<String>) parse(YamlNode? key) {
-    switch (key?.value) {
+  static String Function(List<String>) parse(String key) {
+    switch (key) {
       case 'grpc-enum':
         return grpcEnum;
 
-      case 'file-name' || null:
+      case 'file-name':
         return fileName;
 
       default:
-        log.severe(key!.span.message('Unable to read asset key. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#key.'));
+        log.severe('Unknown asset key: "$key". See https://github.com/forus-labs/cauldron/tree/master/nitrogen#key.');
         throw NitrogenException();
     }
   }

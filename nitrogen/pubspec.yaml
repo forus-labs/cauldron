@@ -27,8 +27,12 @@ dependencies:
 dev_dependencies:
   build_test: ^2.2.2
   flint: ^2.7.0
+  import_sorter: ^4.6.0
   test: ^1.25.2
 
 dependency_overrides:
   nitrogen_types:
     path: ../nitrogen_types
+
+import_sorter:
+  comments: false

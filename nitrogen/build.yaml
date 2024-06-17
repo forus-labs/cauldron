@@ -12,6 +12,15 @@ builders:
   nitrogen:
     import: "package:nitrogen/nitrogen.dart"
     builder_factories: [ "nitrogenBuilder" ]
-    build_extensions: { "$package$": [ "lib/src/assets.nitrogen.dart", "lib/src/asset_themes.nitrogen.dart", "lib/src/flutter_extension.nitrogen.dart"] }
+    build_extensions: { "$package$": [ "lib/src/assets.nitrogen.dart", "lib/src/asset_themes.nitrogen.dart" ] }
+    defaults:
+      options:
+        package: false
+        prefix: ""
+        key: "file-name"
+        assets:
+          output: "lib/src/assets.nitrogen.dart"
+        themes:
+          output: "lib/src/asset_themes.nitrogen.dart"
     auto_apply: dependents
     build_to: source

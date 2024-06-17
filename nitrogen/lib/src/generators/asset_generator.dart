@@ -1,9 +1,9 @@
 import 'package:code_builder/code_builder.dart';
-import 'package:nitrogen/src/file_system.dart';
-import 'package:nitrogen/src/libraries.dart';
 import 'package:nitrogen_types/nitrogen_types.dart';
 import 'package:sugar/sugar.dart';
 
+import 'package:nitrogen/src/file_system.dart';
+import 'package:nitrogen/src/libraries.dart';
 
 /// A generator for standard class representations of asset directories.
 class AssetGenerator {

@@ -1,11 +1,11 @@
 import 'dart:collection';
 
 import 'package:code_builder/code_builder.dart';
+import 'package:sugar/sugar.dart';
+
 import 'package:nitrogen/src/file_system.dart';
 import 'package:nitrogen/src/generators/asset_generator.dart';
 import 'package:nitrogen/src/libraries.dart';
-import 'package:sugar/sugar.dart';
-
 
 /// A generator for theme class representations of asset directories.
 class ThemeGenerator {

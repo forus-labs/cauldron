@@ -1,9 +1,10 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
-import 'package:nitrogen/src/file_system.dart';
-import 'package:nitrogen/src/generators/asset_generator.dart';
 import 'package:nitrogen_types/nitrogen_types.dart';
 import 'package:test/test.dart';
+
+import 'package:nitrogen/src/file_system.dart';
+import 'package:nitrogen/src/generators/asset_generator.dart';
 
 const _classes = r'''
 import 'package:nitrogen_types/nitrogen_types.dart';

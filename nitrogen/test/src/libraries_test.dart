@@ -1,6 +1,7 @@
 import 'package:code_builder/code_builder.dart';
-import 'package:nitrogen/src/libraries.dart';
 import 'package:test/test.dart';
+
+import 'package:nitrogen/src/libraries.dart';
 
 void main() {
   test('format()', () {

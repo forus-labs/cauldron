@@ -36,13 +36,13 @@ Widget build(BuildContext context) => Assets.images.foo();
 
 ## Getting started
 
-3rd party packages are supported via 'extension' packages. `extension` packages generate `extension`s in separate files.
-These `extension`s provide a `call(...)` function that transforms an `Asset` into a 3rd party type.
+3rd party packages are supported via 'extension' packages. `extension` packages contain an `extension` that provide a 
+`call(...)` function that transforms an `Asset` into a 3rd party type.
 
-| Type              | Package       | Extension Package      | Version                                                                                                        | Default generated file           |
-|-------------------|---------------|------------------------|----------------------------------------------------------------------------------------------------------------|----------------------------------|
-| SVG images        | `flutter_svg` | `nitrogen_flutter_svg` | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_flutter_svg)](https://pub.dev/packages/nitrogen_flutter_svg) | `svg_extension.nitrogen.dart`    |
-| Lottie animations | `lottie`      | `nitrogen_lottie`      | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_lottie)](https://pub.dev/packages/nitrogen_lottie)           | `lottie_extension.nitrogen.dart` |
+| Type              | Package       | Extension Package      | Version                                                                                                        |
+|-------------------|---------------|------------------------|----------------------------------------------------------------------------------------------------------------|
+| SVG images        | `flutter_svg` | `nitrogen_flutter_svg` | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_flutter_svg)](https://pub.dev/packages/nitrogen_flutter_svg) |
+| Lottie animations | `lottie`      | `nitrogen_lottie`      | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_lottie)](https://pub.dev/packages/nitrogen_lottie)           |
 
 
 Install the following:
@@ -72,19 +72,26 @@ dart run build_runner build
 
 ## Configuration
 
-Nitrogen's configuration can be set in the `nitrogen` section of your pubspec.yaml. In most cases, the default
+Nitrogen's configuration can be set in the `nitrogen` section of your build.yaml. In most cases, the default
 configuration works out of the box.
 
 ### Example
 
 A simple configuration looks like:
 ```yaml
-nitrogen:
-  package: true
-  prefix: 'MyPrefix'
-  key: file
-  themes:
-    fallback: assets/themes/light
+targets:
+  $default:
+    builders:
+      nitrogen:
+        options:
+          package: true
+          prefix: 'MyPrefix'
+          key: file-name
+          assets:
+            output: 'lib/src/assets.nitrogen.dart'
+          themes:
+            output: 'lib/src/asset_themes.nitrogen.dart'
+            fallback: assets/themes/light
 ```
 
 ### `package`
@@ -115,6 +122,15 @@ Optional. Defaults to `file`. Controls the generated assets' key parameters. The
 | file-name | file name, without the extension                      | `assets/images/foo.png` | `foo`         |
 | grpc-enum | parent directory and file name, without the extension | `assets/images/foo.png` | `IMAGES_FOO`  |
 
+### `assets`
+
+Optional. Controls the location of the generated assets file.
+
+```yaml
+assets:
+  # Path to the generated assets file. Relative to the project root. Defaults to `lib/src/assets.nitrogen.dart`.
+  output: lib/src/my/path/assets.nitrogen.dart
+``` 
 
 ### `themes`
 
@@ -122,8 +138,9 @@ Optional. Defaults to `null`. Controls whether to generate an additional `asset_
 working with theme-specific assets.
 
 ```yaml
-nitrogen:
-  themes:
-    # Path to fallback theme, relative to package root. Assumes that all themes are under 'assets/themes'.
-    fallback: assets/themes/light
+themes:
+  # Path to the generated themes file. Relative to the project root. Defaults to `lib/src/asset_themes.nitrogen.dart`.
+  output: lib/src/my/path/assets_themes.nitrogen.dart
+  # Path to fallback theme, relative to package root. Assumes that all themes are under 'assets/themes'.
+  fallback: assets/themes/light
 ```
