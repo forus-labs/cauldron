@@ -16,6 +16,7 @@ builders:
     defaults:
       options:
         package: false
+        docs: true
         prefix: ""
         key: "file-name"
         assets:

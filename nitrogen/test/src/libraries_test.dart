@@ -12,7 +12,7 @@ void main() {
 
     expect(library.format(), equals(
 '''
-import 'package:nitrogen_types/nitrogen_types.dart';
+import 'package:nitrogen_types/assets.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 //

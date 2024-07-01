@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:nitrogen_types/nitrogen_types.dart';
+import 'package:nitrogen_types/assets.dart';
 import 'package:path/path.dart';
 
 /// An entity in the file system.

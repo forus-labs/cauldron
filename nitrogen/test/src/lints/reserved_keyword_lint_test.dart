@@ -1,6 +1,6 @@
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
-import 'package:nitrogen_types/nitrogen_types.dart';
+import 'package:nitrogen_types/assets.dart';
 import 'package:test/test.dart';
 
 import 'package:nitrogen/src/file_system.dart';

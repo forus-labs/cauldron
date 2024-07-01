@@ -1,6 +1,5 @@
 import 'package:build/build.dart';
 import 'package:meta/meta.dart';
-
 import 'package:nitrogen/src/configuration/key.dart';
 import 'package:nitrogen/src/nitrogen_exception.dart';
 
@@ -8,7 +7,7 @@ import 'package:nitrogen/src/nitrogen_exception.dart';
 final class BuildConfiguration {
 
   /// The Nitrogen configuration's valid keys.
-  static const keys = { 'package', 'prefix', 'key', 'assets', 'themes' };
+  static const keys = { 'package', 'docs', 'prefix', 'key', 'assets', 'themes' };
 
   /// Lints the pubspec.
   static void lint(Map<dynamic, dynamic> configuration) {
@@ -30,7 +29,8 @@ final class BuildConfiguration {
   /// Parses the assets configuration.
   @visibleForTesting
   static ({String output,}) parseAssets(Map<dynamic, dynamic> configuration) {
-    switch (configuration) {
+    final copy = <dynamic, dynamic>{ 'output': 'lib/src/assets.nitrogen.dart' }..addAll(configuration);
+    switch (copy) {
       case { 'output': final String output }:
         return (output: output);
 
@@ -43,7 +43,8 @@ final class BuildConfiguration {
   /// Parses the themes configuration.
   @visibleForTesting
   static ({String fallback, String output})? parseThemes(Map<dynamic, dynamic> configuration) {
-    switch (configuration) {
+    final copy = <dynamic, dynamic>{ 'output': 'lib/src/asset_themes.nitrogen.dart' }..addAll(configuration);
+    switch (copy) {
       case { 'fallback': final String fallback, 'output': final String output }:
         return (fallback: fallback, output: output);
 
@@ -58,6 +59,9 @@ final class BuildConfiguration {
 
   /// Whether to generate assets for a package.
   final bool package;
+
+  /// Whether to generate documentation.
+  final bool docs;
 
   /// The prefix for generated classes.
   final String prefix;
@@ -74,6 +78,7 @@ final class BuildConfiguration {
   /// Parses the build configuration.
   factory BuildConfiguration.parse(Map<dynamic, dynamic> configuration) => BuildConfiguration(
     package: configuration['package'],
+    docs: configuration['docs'] ?? true,
     prefix: configuration['prefix'],
     key: Key.parse(configuration['key']),
     assets: parseAssets(configuration['assets']),
@@ -83,6 +88,7 @@ final class BuildConfiguration {
   /// Creates a [BuildConfiguration].
   BuildConfiguration({
     required this.package,
+    required this.docs,
     required this.prefix,
     required this.key,
     required this.assets,

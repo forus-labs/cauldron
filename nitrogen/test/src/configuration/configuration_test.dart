@@ -27,6 +27,7 @@ assets:
 void main() {
   final buildConfiguration = BuildConfiguration(
     package: true,
+    docs: false,
     prefix: 'MyPrefix',
     key: Key.grpcEnum,
     assets: (output: 'foo-output'),

@@ -85,6 +85,7 @@ targets:
       nitrogen:
         options:
           package: true
+          docs: false
           prefix: 'MyPrefix'
           key: file-name
           assets:
@@ -98,6 +99,10 @@ targets:
 
 Optional. Defaults to `false`. Controls whether to generate assets as a package dependency. This should be `true` if 
 you're bundling assets for other projects to use, i.e. [forui-assets](https://github.com/forus-labs/forui).
+
+### `docs`
+
+Optional. Defaults to `true`. Controls whether to generate docs alongside the classes.
 
 ### `prefix`
 

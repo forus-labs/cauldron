@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:build/build.dart';
-import 'package:nitrogen_types/nitrogen_types.dart';
+import 'package:nitrogen_types/assets.dart';
 
 import 'package:nitrogen/src/file_system.dart';
 

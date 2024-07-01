@@ -2,13 +2,13 @@ name: nitrogen
 description: Type safe Flutter asset generation.
 topics: [assets, generation]
 
-version: 0.2.0
+version: 0.3.0+1
 homepage: https://github.com/forus-labs/cauldron/tree/master/nitrogen
 repository: https://github.com/forus-labs/cauldron/
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
-  flutter: ">=3.3.0"
+  flutter: ">=3.22.0"
 
 dependencies:
   build: ^2.4.1
@@ -19,7 +19,7 @@ dependencies:
     sdk: flutter
   glob: ^2.1.2
   meta: ^1.9.1
-  nitrogen_types: ^0.2.0
+  nitrogen_types: ^0.3.0+1
   path: ^1.9.0
   sugar: ^3.0.0
   yaml: ^3.1.2
@@ -29,10 +29,6 @@ dev_dependencies:
   flint: ^2.7.0
   import_sorter: ^4.6.0
   test: ^1.25.2
-
-dependency_overrides:
-  nitrogen_types:
-    path: ../nitrogen_types
 
 import_sorter:
   comments: false

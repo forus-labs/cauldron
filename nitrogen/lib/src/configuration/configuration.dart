@@ -11,6 +11,7 @@ final class Configuration {
   /// Parses the configuration from the project's pubspec.yaml.
   factory Configuration.merge(BuildConfiguration configuration, YamlMap pubspec) => Configuration(
     package: parsePackage(pubspec.nodes['name'], enabled: configuration.package),
+    docs: configuration.docs,
     prefix: configuration.prefix,
     key: configuration.key,
     assets: configuration.assets,
@@ -53,6 +54,9 @@ final class Configuration {
   /// The package name.
   final String? package;
 
+  /// True if dart docs should be generated.
+  final bool docs;
+
   /// The class prefix.
   final String prefix;
 
@@ -71,6 +75,7 @@ final class Configuration {
   /// Creates a [Configuration].
   Configuration({
     required this.package,
+    required this.docs,
     required this.prefix,
     required this.key,
     required this.assets,

@@ -15,18 +15,18 @@ class ThemeGenerator {
   static int _name((String, int) a, (String, int) b) => a.$1.compareTo(b.$1);
 
   final ThemeExtension _extension;
-  final AssetClass _fallbackClass;
-  final AssetClass _themeSubclass;
+  final FallbackAssetClass _fallbackClass;
+  final FallbackAssetClass _themeSubclass;
   final ThemeClass _themeClass;
   final AssetDirectory _themes;
   final AssetDirectory _fallbackTheme;
 
   /// Creates a [ThemeGenerator].
-  ThemeGenerator(String prefix, this._themes, this._fallbackTheme):
+  ThemeGenerator(String prefix, this._themes, this._fallbackTheme, {required bool docs}):
     _extension = ThemeExtension(prefix),
-    _fallbackClass = AssetClass(directories: FallbackAssetDirectoryExpressions(prefix, _fallbackTheme)),
-    _themeSubclass = AssetClass(directories: ThemeAssetDirectoryExpressions(prefix, _themes)),
-    _themeClass = ThemeClass(ThemeAssetDirectoryExpressions(prefix, _themes));
+    _fallbackClass = FallbackAssetClass(directories: FallbackAssetDirectoryExpressions(prefix, _fallbackTheme), docs: docs),
+    _themeSubclass = FallbackAssetClass(directories: ThemeAssetDirectoryExpressions(prefix, _themes), docs: docs),
+    _themeClass = ThemeClass(ThemeAssetDirectoryExpressions(prefix, _themes), docs: docs);
 
   /// Generates themed asset classes.
   String generate() {
@@ -103,21 +103,83 @@ class ThemeExtension {
 
 }
 
+/// Contains functions for generating a standard class representation of a directory with theme-specific documentation.
+class FallbackAssetClass extends AssetClass {
+
+  /// Creates a [FallbackAssetClass].
+  FallbackAssetClass({required super.directories, required super.docs});
+
+  @override
+  String generateDocs(AssetDirectory directory) => '''
+/// The fallback theme's assets.
+/// 
+/// Contains the assets in the `${directory.path.join('/')}` directory that serve as a fallback for when a theme does not 
+/// contain those specific assets.
+///
+/// To convert an asset into a widget, [call the asset like a function](https://dart.dev/language/callable-objects].
+/// ```dart
+/// final widget = ${directories.type(directory).symbol!}.path.to.asset();
+/// ```
+/// 
+/// The `call(...)` functions are provided by extensions. By default, only the [ImageAsset] extension is bundled.
+///
+/// 3rd party packages are supported via 'extension' packages. `extension` packages contain an `extension` that provide a 
+/// `call(...)` function that transforms an `Asset` into a 3rd party type.
+/// 
+/// | Type              | Package       | Extension Package      | Version                                                                                                        |
+/// |-------------------|---------------|------------------------|----------------------------------------------------------------------------------------------------------------|
+/// | SVG images        | `flutter_svg` | `nitrogen_flutter_svg` | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_flutter_svg)](https://pub.dev/packages/nitrogen_flutter_svg) |
+/// | Lottie animations | `lottie`      | `nitrogen_lottie`      | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_lottie)](https://pub.dev/packages/nitrogen_lottie)           |''';
+
+}
+
 /// Contains functions for generating a theme class representation of a directory.
 class ThemeClass {
 
+  final ThemeAssetDirectoryExpressions _directories;
   final BasicAssetClass _assets;
+  final bool _docs;
 
   /// Creates a [ThemeClass].
-  ThemeClass(AssetDirectoryExpressions directories): _assets = BasicAssetClass(directories: directories);
+  ThemeClass(ThemeAssetDirectoryExpressions directories, {required bool docs}):
+    _directories = directories,
+    _assets = BasicAssetClass(directories: directories, docs: docs),
+    _docs = docs;
 
   /// Generates a theme class that extends [fallback].
   ClassBuilder generate(AssetDirectory directory, Class fallback) => _assets.generate(directory)
+    ..docs.addAll([
+      if (_docs)
+        '''
+/// A `${_directories.theme(directory)}` theme's directory.
+/// 
+/// Contains the assets in the `${directory.path.join('/')}` directory that serve as a fallback for when a theme does not 
+/// contain those specific assets.
+///
+/// To convert an asset into a widget, [call the asset like a function](https://dart.dev/language/callable-objects].
+/// ```dart
+/// final widget = ${_directories.type(directory).symbol!}.path.to.asset();
+/// ```
+/// 
+/// The `call(...)` functions are provided by extensions. By default, only the [ImageAsset] extension is bundled.
+///
+/// 3rd party packages are supported via 'extension' packages. `extension` packages contain an `extension` that provide a 
+/// `call(...)` function that transforms an `Asset` into a 3rd party type.
+/// 
+/// | Type              | Package       | Extension Package      | Version                                                                                                        |
+/// |-------------------|---------------|------------------------|----------------------------------------------------------------------------------------------------------------|
+/// | SVG images        | `flutter_svg` | `nitrogen_flutter_svg` | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_flutter_svg)](https://pub.dev/packages/nitrogen_flutter_svg) |
+/// | Lottie animations | `lottie`      | `nitrogen_lottie`      | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_lottie)](https://pub.dev/packages/nitrogen_lottie)           |''',
+    ])
     ..extend = refer(fallback.name)
     ..modifier = ClassModifier.final$
     ..methods.add(_contents(directory, fallback));
 
   Method _contents(AssetDirectory directory, Class fallback, {bool static = false}) => Method((builder) => builder
+    ..docs.addAll([
+      if (_docs)
+        '/// The contents of this directory.',
+    ])
     ..static = static
     ..returns = TypeReference((builder) => builder..symbol = 'Map'..types.addAll([refer('String'), AssetClass.assetType]))
     ..type = MethodType.getter
@@ -161,7 +223,10 @@ class ThemeAssetDirectoryExpressions extends AssetDirectoryExpressions {
   @override
   Reference type(AssetDirectory directory) {
     final path = directory.path.sublist(_themes.path.length + 1);
-    return refer('${path.isEmpty ? '' : r'$'}${directory.path[_themes.path.length].toPascalCase()}${prefix}ThemeAssets${path.join('-').toPascalCase()}');
+    return refer('${path.isEmpty ? '' : r'$'}${theme(directory).toPascalCase()}${prefix}ThemeAssets${path.join('-').toPascalCase()}');
   }
+
+  /// The theme.
+  String theme(AssetDirectory directory) => directory.path[_themes.path.length];
 
 }

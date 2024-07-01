@@ -1,14 +1,13 @@
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
+import 'package:nitrogen/src/configuration/build_configuration.dart';
+import 'package:nitrogen/src/configuration/key.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
-import 'package:nitrogen/src/configuration/build_configuration.dart';
-import 'package:nitrogen/src/configuration/key.dart';
-import 'package:nitrogen/src/nitrogen_exception.dart';
-
 const valid = '''
 package: true
+docs: false
 prefix: 'MyPrefix'
 key: grpc-enum
 assets:
@@ -49,14 +48,7 @@ void main() {
   group('parseAssets(...)', () {
     test('valid configuration', () => expect(BuildConfiguration.parseAssets({ 'output': 'valid' }).output, 'valid'));
 
-    test('invalid configuration', () {
-      expectLater(
-        log.onRecord,
-        emits(severeLogOf(contains("Unable to read assets configuration in build.yaml's nitrogen configuration. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#assets."))),
-      );
-
-      expect(() => BuildConfiguration.parseAssets({}), throwsA(isA<NitrogenException>()));
-    });
+    test('empty configuration', () => expect(BuildConfiguration.parseAssets({}).output, 'lib/src/assets.nitrogen.dart'));
   });
 
   group('parseThemes(...)', () {
@@ -68,14 +60,10 @@ void main() {
 
     test('no fallback', () => expect(BuildConfiguration.parseThemes({ 'output': 'valid-output' }), null));
 
-    test('invalid configuration', () {
-      expectLater(
-        log.onRecord,
-        emits(severeLogOf(contains("Unable to read themes configuration in build.yaml's nitrogen configuration. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#themes."))),
-      );
-
-      expect(() => BuildConfiguration.parseThemes({}), throwsA(isA<NitrogenException>()));
-    });
+    test('no output', () => expect(
+      BuildConfiguration.parseThemes({ 'fallback': 'valid-fallback'})?.output,
+      'lib/src/asset_themes.nitrogen.dart',
+    ));
   });
 
   group('parse(...)', () {
@@ -83,6 +71,7 @@ void main() {
       final configuration = BuildConfiguration.parse(loadYaml(valid));
 
       expect(configuration.package, true);
+      expect(configuration.docs, false);
       expect(configuration.prefix, 'MyPrefix');
       expect(configuration.key, Key.grpcEnum);
       expect(configuration.assets.output, 'foo-output');

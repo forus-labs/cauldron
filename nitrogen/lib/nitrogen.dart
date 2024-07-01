@@ -57,23 +57,30 @@ class NitrogenBuilder extends Builder {
         var fallbackTheme = assets;
         for (final segment in split(fallback).skip(1)) {
           themes = fallbackTheme;
-          fallbackTheme = fallbackTheme.children[segment]! as AssetDirectory;
+
+          final nested = fallbackTheme.children[segment];
+          if (nested == null) {
+            log.severe('Unable to find path to fallback theme, "$fallback". Did you specify it under flutter.assets in your pubspec.yaml?');
+            return;
+          }
+
+          fallbackTheme = nested as AssetDirectory;
         }
 
         await buildStep.writeAsString(
           assetsOutput,
-          AssetGenerator(configuration.prefix, assets, { themes }).generate(),
+          AssetGenerator(configuration.prefix, assets, { themes }, docs: configuration.docs).generate(),
         );
 
         await buildStep.writeAsString(
           AssetId(buildStep.inputId.package, output),
-          ThemeGenerator(configuration.prefix, themes, fallbackTheme).generate(),
+          ThemeGenerator(configuration.prefix, themes, fallbackTheme, docs: configuration.docs).generate(),
         );
 
       } else {
         await buildStep.writeAsString(
           assetsOutput,
-          AssetGenerator(configuration.prefix, assets, {}).generate(),
+          AssetGenerator(configuration.prefix, assets, {}, docs: configuration.docs).generate(),
         );
       }
 

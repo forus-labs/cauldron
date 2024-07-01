@@ -1,3 +1,6 @@
+## 0.3.0+1
+Fix outdated dependency on `nitrogen_types`.
+
 ## 0.3.0
 
 Export instead of generate extension.

@@ -1,5 +1,6 @@
 import 'package:code_builder/code_builder.dart';
-import 'package:nitrogen_types/nitrogen_types.dart';
+import 'package:meta/meta.dart' show visibleForOverriding;
+import 'package:nitrogen_types/assets.dart';
 import 'package:sugar/sugar.dart';
 
 import 'package:nitrogen/src/file_system.dart';
@@ -13,10 +14,11 @@ class AssetGenerator {
   final Set<AssetDirectory> _excluded;
 
   /// Creates a [AssetGenerator].
-  AssetGenerator(String prefix, this._assets, this._excluded):
+  AssetGenerator(String prefix, this._assets, this._excluded, {required bool docs}):
     _standardClass = AssetClass(
       directories: AssetDirectoryExpressions(prefix),
       excluded: _excluded,
+      docs: docs,
     );
 
   /// Generates basic asset classes.
@@ -48,15 +50,45 @@ class AssetClass extends BasicAssetClass {
   static final assetType = refer('Asset', 'package:nitrogen_types/nitrogen_types.dart');
 
   /// Creates a [AssetClass].
-  const AssetClass({required super.directories, super.excluded, super.files});
+  const AssetClass({required super.directories, required super.docs, super.excluded, super.files});
+
+  /// Generates the documentation for [directory].
+  @visibleForOverriding
+  String generateDocs(AssetDirectory directory) => '''
+/// Contains the assets and nested directories in the `${directory.path.join('/')}` directory.
+///
+/// Besides the assets and nested directories, it also provides a [contents] for querying the assets in the current
+/// directory.
+///
+/// To convert an asset into a widget, [call the asset like a function](https://dart.dev/language/callable-objects].
+/// ```dart
+/// final widget = ${directories.type(directory).symbol!}.path.to.asset();
+/// ```
+/// 
+/// The `call(...)` functions are provided by extensions. By default, only the [ImageAsset] extension is bundled.
+///
+/// 3rd party packages are supported via 'extension' packages. `extension` packages contain an `extension` that provide a 
+/// `call(...)` function that transforms an `Asset` into a 3rd party type.
+/// 
+/// | Type              | Package       | Extension Package      | Version                                                                                                        |
+/// |-------------------|---------------|------------------------|----------------------------------------------------------------------------------------------------------------|
+/// | SVG images        | `flutter_svg` | `nitrogen_flutter_svg` | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_flutter_svg)](https://pub.dev/packages/nitrogen_flutter_svg) |
+/// | Lottie animations | `lottie`      | `nitrogen_lottie`      | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_lottie)](https://pub.dev/packages/nitrogen_lottie)           |''';
 
   /// Generates a basic class that contains only nested folders and assets.
   @override
   ClassBuilder generate(AssetDirectory directory, {bool static = false}) => super.generate(directory, static: static)
+    ..docs.addAll([
+      if (docs)
+        generateDocs(directory),
+    ])
     ..methods.add(_contents(directory, static: static));
 
-  /// Returns a
   Method _contents(AssetDirectory directory, {bool static = false}) => Method((builder) => builder
+    ..docs.addAll([
+      if (docs)
+        '/// The contents of this directory.',
+    ])
     ..static = static
     ..returns = TypeReference((builder) => builder..symbol = 'Map'..types.addAll([refer('String'), assetType]))
     ..type = MethodType.getter
@@ -81,10 +113,13 @@ class BasicAssetClass {
   final AssetDirectoryExpressions directories;
   /// The file expressions.
   final AssetFileExpressions files;
+  /// True if dart docs should be generated.
+  final bool docs;
 
   /// Creates a [BasicAssetClass].
   const BasicAssetClass({
     required this.directories,
+    required this.docs,
     this.excluded = const {},
     this.files = const AssetFileExpressions(),
   });
@@ -103,6 +138,10 @@ class BasicAssetClass {
 
   /// Returns a getter for the nested [directory].
   Method _assetDirectoryGetter(AssetDirectory directory, {bool static = false}) => Method((builder) => builder
+    ..docs.addAll([
+      if (docs)
+        '/// The `${directory.path.join('/')}` directory.'
+    ])
     ..static = static
     ..returns = directories.type(directory)
     ..type = MethodType.getter
@@ -113,6 +152,10 @@ class BasicAssetClass {
 
   /// Returns a getter for the nested [file].
   Method _assetFileGetter(AssetFile file, {bool static = false}) => Method((builder) => builder
+    ..docs.addAll([
+      if (docs)
+        '/// The `${file.path.join('/')}`.'
+    ])
     ..static = static
     ..returns = files.type(file)
     ..type = MethodType.getter

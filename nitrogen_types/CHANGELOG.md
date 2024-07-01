@@ -1,3 +1,8 @@
+## 0.3.0+1
+
+Fix missing `assets` library.
+
+
 ## 0.3.0
 
 Export `ImageAssetExtension`.

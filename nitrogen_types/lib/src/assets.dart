@@ -1,6 +1,6 @@
 /// An asset in a Flutter project's assets directory.
 ///
-/// **Note: **
+/// ## Note:
 /// This type should with [Nitrogen](https://github.com/forus-labs/cauldron/nitrogen), a type-safe asset generation tool.
 sealed class Asset {
   /// The containing package's name.
@@ -16,7 +16,7 @@ sealed class Asset {
 
 /// An image.
 ///
-/// **Note: **
+/// ## Note:
 /// This type should with [Nitrogen](https://github.com/forus-labs/cauldron/nitrogen), a type-safe asset generation tool.
 final class ImageAsset extends Asset {
   /// Creates a [ImageAsset].
@@ -40,7 +40,7 @@ final class ImageAsset extends Asset {
 
 /// A Lottie animation.
 ///
-/// **Note: **
+/// ## Note:
 /// This type should with [Nitrogen](https://github.com/forus-labs/cauldron/nitrogen), a type-safe asset generation tool.
 final class LottieAsset extends Asset {
   /// Creates a [LottieAsset].
@@ -64,7 +64,7 @@ final class LottieAsset extends Asset {
 
 /// An SVG file.
 ///
-/// **Note: **
+/// ## Note:
 /// This type should with [Nitrogen](https://github.com/forus-labs/cauldron/nitrogen), a type-safe asset generation tool.
 final class SvgAsset extends Asset {
   /// Creates a [SvgAsset].
@@ -89,7 +89,7 @@ final class SvgAsset extends Asset {
 
 /// A default asset for file extensions not directly supported by the other [Asset]s.
 ///
-/// **Note: **
+/// ## Note:
 /// This type should with [Nitrogen](https://github.com/forus-labs/cauldron/nitrogen), a type-safe asset generation tool.
 final class GenericAsset extends Asset {
   /// Creates a [GenericAsset].

@@ -1,4 +1,8 @@
+## 0.3.0+1
+* Fix nitrogen erroneously importing Flutter and causing it to crash.
+
 ## 0.3.0
+* Add configuration for documentation generation.
 * Add configuration for output locations.
 * Move configuration from `pubspec.yaml` to `build.yaml`.
 * Remove generation of `flutter_extension`.
