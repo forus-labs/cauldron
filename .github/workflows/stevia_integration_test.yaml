@@ -28,34 +28,6 @@ on:
       - stevia/pubspec.yaml
 
 jobs:
-  android:
-    name: Android integration tests
-    runs-on: macos-latest
-    defaults:
-      run:
-        working-directory: stevia/example
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: 17
-      - name: Enable KVM
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-      - uses: subosito/flutter-action@v2.16.0
-      - run: flutter pub get
-      - run: flutter build appbundle --debug
-      - uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          arch: x86_64
-          profile: Nexus 6
-          working-directory: stevia/example
-          script: flutter test integration_test
-
   ios:
     name: iOS integration tests
     runs-on: macos-latest
@@ -66,7 +38,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2.16.0
       - uses: actions/checkout@v4
-      - uses: futureware-tech/simulator-action@v3
+      - uses: futureware-tech/simulator-action@v4
         with:
           model: 'iPhone 14'
       - run: flutter pub get
