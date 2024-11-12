@@ -40,7 +40,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: futureware-tech/simulator-action@v4
         with:
-          model: 'iPhone 14'
+          model: iPhone 14
       - run: flutter pub get
       - run: flutter build ios --debug --no-codesign
       - run: flutter test integration_test
