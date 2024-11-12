@@ -6,4 +6,6 @@ linter:
 analyzer:
   errors:
     deprecated_member_use: ignore # TODO: enable once they fix the WillPopScope nonsense
+    diagnostic_describe_all_properties: ignore
     unused_result: ignore # The rule seems to break almost every release.
+    use_build_context_synchronously: ignore

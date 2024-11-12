@@ -2,7 +2,7 @@
 @JS('Intl')
 @internal library intl;
 
-import 'package:js/js.dart';
+import 'dart:js_interop';
 import 'package:meta/meta.dart';
 
 // ignore_for_file: public_member_api_docs

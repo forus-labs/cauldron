@@ -35,7 +35,7 @@ import 'package:meta/meta.dart';
   'Caucasus Standard Time': 'Asia/Yerevan',
   'Cen. Australia Standard Time': 'Australia/Adelaide',
   'Central America Standard Time': 'America/Guatemala',
-  'Central Asia Standard Time': 'Asia/Almaty',
+  'Central Asia Standard Time': 'Asia/Bishkek',
   'Central Brazilian Standard Time': 'America/Cuiaba',
   'Central Europe Standard Time': 'Europe/Budapest',
   'Central European Standard Time': 'Europe/Warsaw',
