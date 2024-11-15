@@ -40,6 +40,6 @@ jobs:
       - run: sudo apt-get update -y
       - run: sudo apt-get install -y lcov
       - run: lcov --remove ./coverage/lcov.info '**.g.dart' -o ./coverage/lcov.info
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v5
         with:
           files: ./sugar/coverage/lcov.info
