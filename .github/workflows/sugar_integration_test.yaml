@@ -28,7 +28,6 @@ jobs:
         working-directory: sugar
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
       - uses: subosito/flutter-action@v2.18.0
       - run: dart pub get
       - run: dart run coverage:test_with_coverage test ./integration_test/
@@ -44,7 +43,6 @@ jobs:
         working-directory: sugar
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
       - uses: subosito/flutter-action@v2.18.0
       - run: dart pub get
       - run: chmod +x ./integration_test/src/time/zone/platform/platform_provider_test_macos.sh
@@ -61,7 +59,6 @@ jobs:
         working-directory: sugar
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
       - uses: subosito/flutter-action@v2.18.0
       - run: dart pub get
       - run: chmod +x ./integration_test/src/time/zone/platform/platform_provider_test_linux.sh
@@ -84,7 +81,6 @@ jobs:
       - uses: browser-actions/setup-firefox@v1
         with:
           firefox-version: latest
-      - uses: dart-lang/setup-dart@v1
       - uses: subosito/flutter-action@v2.18.0
       - run: dart pub get
       - run: chmod +x ./integration_test/src/time/zone/platform/platform_provider_test_browser.sh
