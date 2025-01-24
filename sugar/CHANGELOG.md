@@ -1,5 +1,8 @@
 ## 4.0.0 (Next)
 
+Sugar 4 plans to deduplicate efforts with other more well-established "extended std library" packages such as 
+`dart:collection`. This means the removal of duplicated APIs such as `reverse<E>(...)`.
+
 ## `sugar.collection`
 - Add `Lists.toggleAll(...)`
 - Add `SplayTreeMaps.firstValueAfter(...)`
@@ -32,7 +35,8 @@
 - Change `LocalDateTime.now(...)` to be stubbable
 - Change `LocalTime.now(...)` to be stubbable
 - Change `OffsetTime.now(...)` to be stubbable
-- Change IANA database from `2023c` to `2024b`
+- **Breaking**  Change `Offset` to `TimezoneOffset` to avoid naming conflict with Flutter's `Offset`
+- Change IANA database from `2023c` to `2025a`
 - Fix `Etc/*` timezones not returning correct string representation
 
 ## 3.1.0 (19/06/2023)

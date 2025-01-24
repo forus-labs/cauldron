@@ -36,7 +36,7 @@
 /// datetime.add(Duration(days: 1)); // 2023-03-13 01:00 [America/Detroit]
 /// datetime + Period(days: 1);      // 2023-03-13 00:00 [America/Detroit]
 /// ```
-library sugar.time;
+library;
 
 import 'package:sugar/src/time/date.dart';
 import 'package:sugar/src/time/date_time.dart';

@@ -9,7 +9,7 @@
 /// * Move operations that move elements between collections such as [MovableList.move].
 ///
 /// See `sugar.collection.aggregate` for aggregation related utilities.
-library sugar.collection;
+library;
 
 import 'package:sugar/src/collection/iterables.dart';
 import 'package:sugar/src/collection/lists.dart';

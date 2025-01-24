@@ -50,7 +50,7 @@
 /// [Haptic.heavy].
 ///
 /// TL;DR: Haptic feedback on Android devices is a mess.
-library stevia.services.haptic;
+library;
 
 import 'package:stevia/src/services/haptic/haptic.dart';
 

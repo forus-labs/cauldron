@@ -27,7 +27,7 @@ import 'package:sugar/sugar.dart';
 /// }
 /// ```
 Future<String Function()> flutterPlatformTimezoneProvider() async {
-  switch (const Runtime().type) {
+  switch (const System().type) {
     case PlatformType.android || PlatformType.ios:
       final platform = await PlatformTimezone.of();
       return () => platform.current;

@@ -9,7 +9,7 @@
 ///
 /// It is recommended to treat this library as an index and browse through the individual libraries. Trying to understand
 /// Sugar by browsing through the aggregated classes can be overwhelming.
-library sugar;
+library;
 
 export 'collection.dart';
 export 'collection_aggregate.dart';

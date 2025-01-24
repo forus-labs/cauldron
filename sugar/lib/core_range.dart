@@ -43,7 +43,7 @@
 /// print(hoursInDay.contains(12); // true
 /// print(hoursInDay.contains(24); // false
 /// ```
-library sugar.core.range;
+library;
 
 import 'package:sugar/src/core/range/range.dart';
 

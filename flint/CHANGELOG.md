@@ -1,3 +1,12 @@
+# 2.11.0 (24/01/2025)
+Core ruleset:
+- Add `use_truncating_division`
+- Add `invalid_runtime_check_with_js_interop_types`
+- Add `missing_code_block_language_in_doc_comment`
+- Add `unintended_html_in_doc_comment`
+- Add `unnecessary_library_name`
+- Remove deprecated `package_api_docs`
+
 # 2.10.0 (25/05/2024)
 Flutter ruleset:
 - Add `diagnostic_describe_all_properties`

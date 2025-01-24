@@ -9,7 +9,7 @@
 ///
 /// It is recommended to treat this library as an index and browse through the individual libraries. Trying to understand
 /// stevia by browsing through the aggregated classes can be overwhelming.
-library stevia;
+library;
 
 export 'package:stevia/services.dart';
 export 'package:stevia/widgets.dart';

@@ -1,6 +1,7 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:nitrogen_types/assets.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
 import 'package:nitrogen/src/file_system.dart';
@@ -256,7 +257,7 @@ class $PrefixPathToDirectory {
 ''';
 
 void main() {
-  final formatter = DartFormatter(pageWidth: 160);
+  final formatter = DartFormatter(pageWidth: 160, languageVersion: Version(3, 6, 0));
   final emitter = DartEmitter(useNullSafetySyntax: true);
 
   final subdirectory = AssetDirectory(['path', 'to', 'directory', 'subdirectory']);

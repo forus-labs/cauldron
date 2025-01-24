@@ -4,7 +4,7 @@
 ///
 /// This library should be used when it is not feasible to use the types in `sugar.time`. All functions are either
 /// extensions on [DateTime] or accept the units of time.
-library sugar.time.interop;
+library;
 
 export 'src/time/interop/date.dart';
 export 'src/time/interop/date_time.dart';

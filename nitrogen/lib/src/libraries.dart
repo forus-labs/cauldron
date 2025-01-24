@@ -1,5 +1,6 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
+import 'package:pub_semver/pub_semver.dart';
 
 /// Provides utilities for working with libraries.
 extension Libraries on Library {
@@ -23,7 +24,7 @@ extension Libraries on Library {
   static final importNitrogenTypes = Directive.import('package:nitrogen_types/nitrogen_types.dart');
 
   static final _emitter = DartEmitter(orderDirectives: true, useNullSafetySyntax: true);
-  static final _formatter = DartFormatter(pageWidth: 160);
+  static final _formatter = DartFormatter(pageWidth: 160, languageVersion: Version(3, 6, 0));
 
   /// Returns this library, formatted.
   String format() {

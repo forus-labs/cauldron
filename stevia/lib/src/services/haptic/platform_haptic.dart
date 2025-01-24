@@ -11,7 +11,7 @@ import 'package:stevia/src/services/haptic/haptic_pattern.dart';
   static final Object _token = Object();
 
   /// Creates a [PlatformHaptic] for the current platform.
-  factory PlatformHaptic.platform() => switch (const Runtime().type) {
+  factory PlatformHaptic.platform() => switch (const System().type) {
     PlatformType.android => AndroidHaptic(),
     PlatformType.ios => IOSHaptic(),
     _ => PlatformHaptic(),

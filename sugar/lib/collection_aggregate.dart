@@ -10,7 +10,7 @@
 /// Most functions in this library produce a new collection rather than modify the collection in-place.
 ///
 /// See `sugar.collection` for other non-aggregating collection utilities.
-library sugar.collection.aggregate;
+library;
 
 import 'package:sugar/src/collection/aggregate/group_iterables.dart';
 import 'package:sugar/src/collection/aggregate/order_iterables.dart';

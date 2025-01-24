@@ -11,20 +11,28 @@ Future<Set<String>> fetch() async {
   print('Fetching lint rules from $remote.');
 
   final response = parse((await get(remote)).body);
-  return response.getElementsByClassName('code-block-body').single.innerHtml
-      .split(RegExp('[ ]+-[ ]+'))
+
+  final rules = RegExp(r'<span[^>]*>(\w+)</span>')
+      .allMatches(response.getElementsByTagName('code').last.innerHtml)
+      .map((m) => m.group(1))
       .skip(1)
-      .where((element) => !element.startsWith('<'))
-      .map((e) => e.trim())
+      .whereType<String>()
       .toSet();
+
+  if (rules.isEmpty) {
+    throw StateError('No rules found.');
+  }
+
+  return rules;
 }
 
 Future<(Set<String> released, Set<String> removed)> process(Set<String> remote) async {
-  final existing = <String> { ...rules['linter']['rules'], ...rules['ignore'] };
+  final existing = <String>{...rules['linter']['rules'], ...rules['ignore']};
   final released = <String>{};
   final experimental = <String>{};
-  final removed = <String> {};
-  
+  final removed = <String>{};
+
+  print('Checking rules. This might take awhile.');
   for (final rule in remote) {
     final response = await get(Uri.parse('https://dart.dev/tools/linter-rules/$rule'));
     if (response.statusCode == 404) {
@@ -33,16 +41,20 @@ Future<(Set<String> released, Set<String> removed)> process(Set<String> remote) 
     }
 
     final content = parse(response.body)
-      .getElementsByClassName('content')[0]
-      .getElementsByTagName('p')[1]
-      .getElementsByTagName('em')[0]
-      .text;
+        .getElementsByClassName('content')[0]
+        .getElementsByTagName('p')[1]
+        .getElementsByTagName('em')[0]
+        .text;
 
     if (existing.contains(rule) && (content.contains('deprecated') || content.contains('removed'))) {
       removed.add(rule);
-    } else if (!existing.contains(rule) && !content.contains('experimental') && !content.contains('deprecated') && !content.contains('removed')) {
+    } else if (!existing.contains(rule) &&
+        !content.contains('experimental') &&
+        !content.contains('deprecated') &&
+        !content.contains('removed')) {
       released.add(rule);
-    } if (!existing.contains(rule) && content.contains('experimental')) {
+    }
+    if (!existing.contains(rule) && content.contains('experimental')) {
       experimental.add(rule);
     }
   }
@@ -68,7 +80,6 @@ void write((Set<String> released, Set<String> removed) rules) {
       print('https://dart.dev/tools/linter-rules/$rule');
       options.writeAsStringSync('  - $rule\n', mode: FileMode.append);
     }
-
   } else {
     print('No new stable lint rules released.');
   }
@@ -81,7 +92,6 @@ void write((Set<String> released, Set<String> removed) rules) {
       print('https://dart.dev/tools/linter-rules/$rule');
       options.writeAsStringSync('  - $rule\n', mode: FileMode.append);
     }
-
   } else {
     print('No new lint rules removed.');
   }

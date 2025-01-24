@@ -477,7 +477,7 @@ final class ZonedDateTime extends DateTimeBase {
 
   /// Returns true if other is a [ZonedDateTime] at the same moment and in the same timezone.
   ///
-  /// ```
+  /// ```dart
   /// final singapore = ZonedDateTime('Asia/Singapore', 2023, 5, 11, 13, 11);
   /// final tokyo = ZonedDateTime('Asia/Tokyo', 2023, 5, 11, 14, 11);
   ///

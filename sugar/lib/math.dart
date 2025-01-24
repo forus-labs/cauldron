@@ -14,7 +14,7 @@
 /// ## Random
 /// * [Randoms] - functions for using [Random]
 /// * [FakeRandom] - a fake [Random] implementation for testing
-library sugar.math;
+library;
 
 import 'dart:math';
 

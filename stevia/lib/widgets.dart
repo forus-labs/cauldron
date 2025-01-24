@@ -16,7 +16,7 @@
 /// Widgets that contain children which can be resized either horizontally or vertically.
 ///
 /// * [ResizableBox]
-library stevia.widgets;
+library;
 
 import 'package:stevia/widgets.dart';
 

@@ -288,7 +288,7 @@ final class OffsetTime extends Time {
 
   /// Returns true if other is a [OffsetTime] at the same moment and in the same timezone.
   ///
-  /// ```
+  /// ```dart
   /// final foo = OffsetTime(Offset(4), 12); // 12:00+04:00
   /// final bar = OffsetTime(Offset(0), 8);  // 08:00Z
   ///

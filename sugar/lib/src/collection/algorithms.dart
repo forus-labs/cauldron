@@ -53,25 +53,3 @@ import 'package:sugar/core.dart';
 
   return result;
 }
-
-/// Reverses a list, or part of between [start], inclusive and [end], exclusive, in-place.
-///
-/// ## Contract
-/// `0 <= start < end <= list's length`. Throws a [RangeError] otherwise.
-/// 
-/// ## Example
-/// ```dart
-/// final list = [0, 1, 2, 3, 4];
-/// reverse(list, 1, 5);
-/// 
-/// print(list); // [0, 4, 3, 2, 1]
-/// ```
-@Possible({RangeError})
-void reverse(List<Object?> list, [int start = 0, int? end]) {
-  var last = RangeError.checkValidRange(start, end, list.length) - 1;
-  for (; start < last; start++, last--) {
-    final (a, b) = (list[start], list[last]);
-    list[start] = b;
-    list[last] = a;
-  }
-}

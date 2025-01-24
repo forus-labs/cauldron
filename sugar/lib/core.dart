@@ -51,7 +51,7 @@
 /// * [NullableObjects]
 /// * [Disposable]
 /// * [StringBuffers]
-library sugar.core;
+library;
 
 import 'package:sugar/src/core/annotations.dart';
 import 'package:sugar/src/core/booleans.dart';

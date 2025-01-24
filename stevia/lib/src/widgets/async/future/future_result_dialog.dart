@@ -14,12 +14,12 @@ part of 'future_builder.dart';
 /// The result of the given [future] is always returned. It is assumed that [future] will never throw an error. Doing so
 /// will result in undefined behaviour.
 ///
-/// ## Working with [showsFutureResultDialog]:
+/// ## Working with [showFutureResultDialog]:
 ///
 /// To show a dialog that is automatically dismissed after the [future] is completed:
 /// ```dart
 /// FloatingActionButton(
-///   onPressed: () => showsFutureResultDialog(
+///   onPressed: () => showFutureResultDialog(
 ///     context: context,
 ///     future: () async {
 ///       await Future.delayed(const Duration(seconds: 5));
@@ -34,7 +34,7 @@ part of 'future_builder.dart';
 /// To show a dialog that appears after the [future] has successfully completed:
 /// ```dart
 /// FloatingActionButton(
-///   onPressed: () => showsFutureResultDialog(
+///   onPressed: () => showFutureResultDialog(
 ///     context: context,
 ///     future: () async {
 ///       await Future.delayed(const Duration(seconds: 5);

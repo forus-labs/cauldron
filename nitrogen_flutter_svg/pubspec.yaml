@@ -6,13 +6,14 @@ homepage: https://github.com/forus-labs/cauldron/nitrogen
 repository: https://github.com/forus-labs/cauldron/
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: '>=3.6.0 <4.0.0'
+resolution: workspace
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.9
-  nitrogen_types: ^0.3.0+1
+  nitrogen_types:
 
 dev_dependencies:
-  flint: ^2.7.0
+  flint:

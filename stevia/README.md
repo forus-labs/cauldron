@@ -1,7 +1,7 @@
 # Stevia - Assorted utilities for Flutter
 
 Stevia contains utilities for working with Flutter that includes haptic feedback and timezone utilities for Android & iOS.
-It is currently under active development.
+It is under development
 
 ```YAML
 dependencies:

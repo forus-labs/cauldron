@@ -246,7 +246,7 @@ class _HorizontalResizableBox extends ResizableBox {
      super.onResizeEnd, {
      super.key,
    }): assert(
-    children.sum<double>((e) => e.initialSize).approximately(width, 0.1),
+    children.sum<double>((e) => e.initialSize).around(width, 0.1),
     'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the width of the RegionBox, $width.',
    ), super._();
 
@@ -292,7 +292,7 @@ class _VerticalResizableBox extends ResizableBox {
     super.onResizeEnd, {
     super.key,
   }): assert(
-    children.sum<double>((e) => e.initialSize).approximately(height, 0.1),
+    children.sum<double>((e) => e.initialSize).around(height, 0.1),
     'The sum of the initial sizes of all children, ${children.sum((e) => e.initialSize)}, is not equal to the height of the RegionBox, $height.',
   ), super._();
 

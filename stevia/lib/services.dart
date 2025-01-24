@@ -10,7 +10,7 @@
 /// Controllers that simply the implementation of timers.
 ///
 /// * [TimerController]
-library stevia.services;
+library;
 
 import 'package:stevia/services.dart';
 

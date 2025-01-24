@@ -26,7 +26,7 @@
 /// print(const FakeSystem(PlatformType.android).android); true
 /// print(const FakeSystem(PlatformType.android).web); false
 /// ```
-library sugar.core.runtime;
+library;
 
 import 'package:sugar/src/core/system/abstract_system.dart';
 import 'package:sugar/src/core/system/fake_system.dart';

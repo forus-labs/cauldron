@@ -4,7 +4,7 @@
 ///
 /// This includes:
 /// * [Sil], a sequence CRDT for unique elements.
-library sugar.crdt;
+library;
 
 import 'package:sugar/crdt.dart';
 

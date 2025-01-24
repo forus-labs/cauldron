@@ -25,7 +25,7 @@
 ///
 /// After setting [Timezone.platformTimezoneProvider], [ZonedDateTime.now] and other current timezone dependent functions
 /// will return the current platform's timezone on Android and iOS.
-library stevia.services.time;
+library;
 
 import 'package:sugar/sugar.dart';
 import 'package:stevia/src/services/time/flutter_timezone_provider.dart';
