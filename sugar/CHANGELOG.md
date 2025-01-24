@@ -40,6 +40,7 @@ Sugar 4 plans to deduplicate efforts with other more well-established "extended 
 - Change `OffsetTime.now(...)` to be stubbable
 - **Breaking**  Change `Offset` to `TimezoneOffset` to avoid naming conflict with Flutter's `Offset`
 - Change IANA database from `2023c` to `2025a`
+- Fix timezone detection on recent versions of macOS
 - Fix `Etc/*` timezones not returning correct string representation
 
 ## 3.1.0 (19/06/2023)

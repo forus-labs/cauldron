@@ -22,7 +22,13 @@ final _localtime =  File('/etc/localtime');
       return 'Factory';
     }
 
-    final path = _localtime.resolveSymbolicLinksSync().split('zoneinfo/').last;
+    var path = _localtime.resolveSymbolicLinksSync().split('zoneinfo/').last;
+    if (known.contains(path)) {
+      return path;
+    }
+
+    // Recent versions of macOS renamed zoneinfo to zoneinfo.default.
+    path = _localtime.resolveSymbolicLinksSync().split('zoneinfo.default/').last;
     return known.contains(path) ? path : 'Factory';
 
   } on FileSystemException {

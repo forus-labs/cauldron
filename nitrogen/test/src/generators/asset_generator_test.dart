@@ -8,7 +8,7 @@ import 'package:nitrogen/src/file_system.dart';
 import 'package:nitrogen/src/generators/asset_generator.dart';
 
 const _classesDocs =  r'''
-import 'package:nitrogen_types/assets.dart';
+import 'package:nitrogen_types/nitrogen_types.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 //
@@ -102,7 +102,7 @@ class $PrefixPathToDirectorySubdirectory {
 ''';
 
 const _classesNoDocs = r'''
-import 'package:nitrogen_types/assets.dart';
+import 'package:nitrogen_types/nitrogen_types.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 //

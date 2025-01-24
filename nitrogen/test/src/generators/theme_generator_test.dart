@@ -6,7 +6,7 @@ import 'package:nitrogen/src/file_system.dart';
 import 'package:nitrogen/src/generators/theme_generator.dart';
 
 const _classesDocs = r'''
-import 'package:nitrogen_types/assets.dart';
+import 'package:nitrogen_types/nitrogen_types.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 //
@@ -246,7 +246,7 @@ final class $LightPrefixThemeAssetsSubdirectory extends $PrefixThemeAssetsSubdir
 ''';
 
 const _classesNoDocs = r'''
-import 'package:nitrogen_types/assets.dart';
+import 'package:nitrogen_types/nitrogen_types.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 //
