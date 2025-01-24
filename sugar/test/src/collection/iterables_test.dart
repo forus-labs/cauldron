@@ -78,15 +78,4 @@ void main() {
       expect(() => unmodifiable.remove(1), throwsUnsupportedError);
     });
   });
-
-  group('IterableIterable', () {
-    group('flatten(...)', () {
-      test('empty', () => expect([[]].flatten().toList(), []));
-
-      test('single value', () => expect([[1]].flatten().toList(), [1]));
-
-      test('multiple values', () => expect([[1, 2], [3, 4], [5]].flatten().toList(), [1, 2, 3, 4, 5]));
-    });
-  });
-
 }

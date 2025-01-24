@@ -15,7 +15,6 @@ import 'package:sugar/core.dart';
 /// print(foo); // Any of [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2] or [3, 2, 1].
 /// ```
 extension Iterables<E> on Iterable<E> {
-
   /// Returns a lazy iterable with only distinct elements.
   ///
   /// Two elements are distinct if the values produced by [by] are not equal according to [==]. Later elements are ignored
@@ -31,7 +30,9 @@ extension Iterables<E> on Iterable<E> {
   ///
   /// print(unordered); // [('a', 1), ('c', 2)] or [('b', 1), ('c', 2)]
   /// ```
-  @lazy @useResult Iterable<E> distinct({required Select<E, Object?> by}) sync* {
+  @lazy
+  @useResult
+  Iterable<E> distinct({required Select<E, Object?> by}) sync* {
     final existing = <Object?>{};
     for (final element in this) {
       if (existing.add(by(element))) {
@@ -55,7 +56,8 @@ extension Iterables<E> on Iterable<E> {
   ///
   /// print(map); // { 'A': ('A'), 'B': ('B'), 'C': ('C') }
   /// ```
-  @useResult Map<K, E> associate<K>({required Select<E, K> by}) => { for (final element in this) by(element): element };
+  @useResult
+  Map<K, E> associate<K>({required Select<E, K> by}) => {for (final element in this) by(element): element};
 
   /// Returns a modifiable map, using [create] to produce entries from this iterable's elements.
   ///
@@ -73,11 +75,10 @@ extension Iterables<E> on Iterable<E> {
   ///   return someOtherFunction(foo) ?? yetAnotherFunction(foo);
   /// });
   /// ```
-  @useResult Map<K, V> toMap<K, V>((K, V) Function(E element) create) => {
-    for (final (key, value) in map(create))
-      key: value,
-  };
-
+  @useResult
+  Map<K, V> toMap<K, V>((K, V) Function(E element) create) => {
+        for (final (key, value) in map(create)) key: value,
+      };
 
   /// Transforms this iterable into an unmodifiable [List].
   ///
@@ -88,7 +89,8 @@ extension Iterables<E> on Iterable<E> {
   /// ```dart
   /// [1, 2, 3].toUnmodifiableList(); //  [1, 2, 3]
   /// ```
-  @useResult List<E> toUnmodifiableList() => List.unmodifiable(this);
+  @useResult
+  List<E> toUnmodifiableList() => List.unmodifiable(this);
 
   /// Transforms this iterable into an unmodifiable [Set].
   ///
@@ -97,7 +99,8 @@ extension Iterables<E> on Iterable<E> {
   /// ```dart
   /// {1, 2, 3}.toUnmodifiableSet(); //  {1, 2, 3}
   /// ```
-  @useResult Set<E> toUnmodifiableSet() => Set.unmodifiable(this);
+  @useResult
+  Set<E> toUnmodifiableSet() => Set.unmodifiable(this);
 
   /// Returns an unmodifiable map, using [create] to produce entries from this iterable's elements.
   ///
@@ -114,32 +117,8 @@ extension Iterables<E> on Iterable<E> {
   ///   return someOtherFunction(foo) ?? yetAnotherFunction(foo);
   /// );
   /// ```
-  @useResult Map<K, V> toUnmodifiableMap<K, V>((K, V) Function(E element) create) => Map.unmodifiable({
-    for (final (key, value) in map((e) => create(e)))
-      key: value,
-  });
-
-}
-
-/// Provides functions for working with nested iterables.
-///
-/// The provided functions are non-deterministic if this iterable is unordered, e.g. [HashSet].
-extension IterableIterable<E> on Iterable<Iterable<E>> {
-
-  /// Returns a lazy iterable that flattens all nested iterables in this iterable.
-  ///
-  /// This function is non-deterministic if this iterable or its nested iterables are unordered, e.g. [HashSet].
-  ///
-  /// ```dart
-  /// final nested = [[1, 2], [3, 4], [5]];
-  /// print(nested.flatten()); // [1, 2, 3, 4, 5]
-  /// ```
-  @lazy @useResult Iterable<E> flatten() sync* {
-    for (final iterable in this) {
-      for (final element in iterable) {
-        yield element;
-      }
-    }
-  }
-
+  @useResult
+  Map<K, V> toUnmodifiableMap<K, V>((K, V) Function(E element) create) => Map.unmodifiable({
+        for (final (key, value) in map((e) => create(e))) key: value,
+      });
 }

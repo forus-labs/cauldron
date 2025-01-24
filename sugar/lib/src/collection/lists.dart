@@ -6,22 +6,6 @@ import 'package:sugar/core.dart';
 ///
 /// Most functions modify a list in-place rather than produce a new list.
 extension Lists<E> on List<E> {
-
-  /// Swaps the elements at the given indexes.
-  ///
-  /// ```dart
-  /// ['a', 'b', 'c']..swap(0, 2);  // ['c', 'b', 'a']
-  /// ```
-  @Possible({RangeError})
-  void swap(int a, int b) {
-    RangeError.checkValidIndex(a, this, 'a');
-    RangeError.checkValidIndex(b, this, 'b');
-
-    final (a1, b1) = (this[a], this[b]);
-    this[a] = b1;
-    this[b] = a1;
-  }
-
   /// Appends [element] at the end if it is not in this list. Otherwise removes all [element]s from this list.
   ///
   /// ```dart
@@ -56,7 +40,8 @@ extension Lists<E> on List<E> {
   ///
   /// [].containsAll([]); // true
   /// ```
-  @useResult bool containsAll(Iterable<Object?> other) {
+  @useResult
+  bool containsAll(Iterable<Object?> other) {
     for (final element in other) {
       if (!contains(element)) {
         return false;
@@ -128,22 +113,20 @@ extension Lists<E> on List<E> {
   /// ```
   void removeAll(Iterable<Object?> other) => removeWhere(other.contains);
 
-
   /// Repeats this list the give number of times.
   ///
   /// ## Contract
   /// A [RangeError] is thrown if [times] is negative.
   @Possible({RangeError})
-  @useResult List<E> operator * (int times) {
+  @useResult
+  List<E> operator *(int times) {
     RangeError.checkNotNegative(times, 'times');
-    return [ for (var i = 0; i < times; i++) ...this ];
+    return [for (var i = 0; i < times; i++) ...this];
   }
-
 }
 
 /// Provides functions for working with [List]s of null-nullable elements.
 extension NonNullableList<E extends Object> on List<E> {
-
   /// Adds the [element] to this list and returns `true` if it is not null.
   ///
   /// ```dart
@@ -158,5 +141,4 @@ extension NonNullableList<E extends Object> on List<E> {
     }
     return result;
   }
-
 }

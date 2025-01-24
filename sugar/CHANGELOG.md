@@ -7,6 +7,9 @@ Sugar 4 plans to deduplicate efforts with other more well-established "extended 
 - Add `Lists.toggleAll(...)`
 - Add `SplayTreeMaps.firstValueAfter(...)`
 - Add `SplayTreeMaps.lastValueBefore(...)`
+- Remove `reverse(...)`.
+- Remove `IterableIterable`.
+- Remove `Lists.swap(...)`.
 
 ## `sugar.core`
 - Add `System.currentDateTime`
@@ -14,7 +17,7 @@ Sugar 4 plans to deduplicate efforts with other more well-established "extended 
 - Add `System.epochMicroseconds`
 - **Breaking** - Change `Runtime` to `System` 
 - **Breaking** - Remove `Maybe` extension.
-- Remove `Iterables.indexed` since it already exists in Dart 3
+- Remove `Iterables.indexed`
 
 ## `sugar.crdt`
 - Add `StringIndex`

@@ -14,7 +14,8 @@ import 'package:sugar/core.dart';
 ///
 /// ## Implementation details
 /// This function assumes that the iterables have efficient length computations, i.e. the length is cached.
-@useResult bool disjoint(Iterable<Object?> a, Iterable<Object?> b) {
+@useResult
+bool disjoint(Iterable<Object?> a, Iterable<Object?> b) {
   if (a.isEmpty || b.isEmpty) {
     return true;
   }
@@ -41,7 +42,8 @@ import 'package:sugar/core.dart';
 ///
 /// print(list); // [ Fi(), A(), B(), Fo(), A(), B(), Fum() ]
 /// ```
-@useResult List<E> separate<E>(List<E> list, {required List<E> by}) {
+@useResult
+List<E> separate<E>(List<E> list, {required List<E> by}) {
   // No errors are thrown if [list] or [by] is empty as it is extremely disruptive to prototyping UIs in Flutter.
   final result = <E>[];
   for (var i = 0; i < list.length; i++) {

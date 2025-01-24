@@ -34,11 +34,3 @@ new tests, use the existing tests as a guideline for what they should look like.
 
 Before you send your pull request, make sure all the tests pass! Just run 
 `pub run test`.
-
-### The small print
-
-Contributions made by corporations are covered by a different agreement than the
-one above, the
-[Software Grant and Corporate Contributor License Agreement][CCLA].
-
-[CCLA]: <WIP>

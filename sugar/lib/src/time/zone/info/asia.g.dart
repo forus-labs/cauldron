@@ -988,17 +988,17 @@ extension Asia on Never {
     'Asia/Manila',
     DynamicTimezoneSpan(
       -1,
-      -57360000000,
+      -57368000000,
       'LMT',
       TimezoneSpan.range.min.value,
-      -3944621040,
+      -3944621032,
       dst: false,
     ),
-    Int64List.fromList([ -3944621040, -2229321840, -1046678400, -1038733200, -873273600, -794221200, -496224000, -489315600, 259344000, 275151600 ]),
-    Int16List.fromList([ 484, 480, 540, 480, 540, 480, 540, 480, 540, 480 ]),
-    60000000,
-    [ 'LMT', 'PST', 'PDT', 'PST', 'JST', 'PST', 'PDT', 'PST', 'PDT', 'PST' ],
-    [ false, false, true, false, false, false, true, false, true, false ],
+    Int64List.fromList([ -3944621032, -2219083200, -1046678400, -1040115600, -885024000, -880016400, -783594000, -760093200, -496224000, -491562000, 228326400, 243702000, 643219200, 649177200 ]),
+    Int32List.fromList([ 29032, 28800, 32400, 28800, 32400, 32400, 32400, 28800, 32400, 28800, 32400, 28800, 32400, 28800 ]),
+    1000000,
+    [ 'LMT', 'PST', 'PDT', 'PST', 'PDT', 'JST', 'PDT', 'PST', 'PDT', 'PST', 'PDT', 'PST', 'PDT', 'PST' ],
+    [ false, false, true, false, true, false, true, false, true, false, true, false, true, false ],
   );
 
   static final Timezone muscat = DynamicTimezone(

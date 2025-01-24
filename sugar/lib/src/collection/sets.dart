@@ -2,7 +2,6 @@ import 'package:sugar/core.dart';
 
 /// Provides functions for working with [Set]s.
 extension Sets<E> on Set<E> {
-
   /// Adds the [element] to this set if it is not in this set. Otherwise removes the [element] from this set.
   ///
   /// ```dart
@@ -14,7 +13,7 @@ extension Sets<E> on Set<E> {
       add(element);
     }
   }
-  
+
   /// Replaces all elements using [function].
   ///
   /// [function] accepts a [Consume] used to specify an element's zero or more replacements. This function is an in-place
@@ -54,12 +53,10 @@ extension Sets<E> on Set<E> {
     clear();
     addAll(retained);
   }
-
 }
 
 /// Provides functions for working with [Set]s of null-nullable elements.
 extension NonNullableSet<E extends Object> on Set<E> {
-
   /// Adds the [element] to this set and returns `true` if not null.
   ///
   /// ```dart
@@ -68,5 +65,4 @@ extension NonNullableSet<E extends Object> on Set<E> {
   /// {}.addIfNonNull(null); // {}, false
   /// ```
   bool addIfNonNull(E? element) => element != null && add(element);
-
 }

@@ -4,20 +4,6 @@ import 'package:sugar/collection.dart';
 
 void main() {
   group('Lists', () {
-    group('swap(...)', () {
-      test('same index', () => expect([1]..swap(0, 0), [1]));
-
-      test('first < second', () => expect(['a', 'b']..swap(0, 1), ['b', 'a']));
-
-      test('first > second', () => expect(['a', 'b']..swap(1, 0), ['b', 'a']));
-
-      test('same value', () => expect(['a', 'a']..swap(0, 1), ['a', 'a']));
-
-      test('invalid first index', () => expect(() => [1].swap(-1, 0), throwsRangeError));
-
-      test('invalid second index', () => expect(() => [1].swap(0, 1), throwsRangeError));
-    });
-
     group('toggleAll(...)', () {
       test('empty list', () => expect([]..toggleAll(1), [1]));
 

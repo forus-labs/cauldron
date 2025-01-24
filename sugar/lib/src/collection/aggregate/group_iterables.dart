@@ -11,7 +11,6 @@ import 'package:sugar/core.dart';
 ///
 /// See [Group] for more information.
 extension GroupableIterable<E> on Iterable<E> {
-
   /// A [Group] used to group this [Iterable]'s elements.
   ///
   /// ```dart
@@ -20,10 +19,10 @@ extension GroupableIterable<E> on Iterable<E> {
   ///
   /// print(aggregate); // {'a': [('a', 1), ('a', 2)], 'b': [('b', 3)]}
   /// ```
-  @lazy @useResult Group<E> get group => Group._(this);
-
+  @lazy
+  @useResult
+  Group<E> get group => Group._(this);
 }
-
 
 /// A namespace for functions that group an [Iterable]'s elements.
 ///
@@ -39,7 +38,6 @@ extension GroupableIterable<E> on Iterable<E> {
 /// print(aggregate); // {'a': [('a', 1), ('a', 2)], 'b': [('b', 3)]}
 /// ```
 extension type const Group<E>._(Iterable<E> _iterable) {
-
   /// Groups the iterable's elements by keys returned by [by] before being folded using [as].
   ///
   /// The order of elements passed to [as] is non-deterministic when the iterable is unordered, e.g. [HashSet].
@@ -54,7 +52,8 @@ extension type const Group<E>._(Iterable<E> _iterable) {
   ///
   /// ## Implementation details
   /// Computing [K] is assumed to be cheap. Hence, [K]s are recomputed each time rather than cached.
-  @useResult Map<K, V> by<K, V>(Select<E, K> by, {required V Function(V? previous, E current) as}) {
+  @useResult
+  Map<K, V> by<K, V>(Select<E, K> by, {required V Function(V? previous, E current) as}) {
     final results = <K, V>{};
     for (final element in _iterable) {
       final key = by(element);
@@ -78,7 +77,8 @@ extension type const Group<E>._(Iterable<E> _iterable) {
   ///
   /// ## Implementation details
   /// Computing [K] is assumed to be cheap. Hence, [K]s are recomputed each time rather than cached.
-  @useResult Map<K, List<E>> lists<K>({required Select<E, K> by}) {
+  @useResult
+  Map<K, List<E>> lists<K>({required Select<E, K> by}) {
     final results = <K, List<E>>{};
     for (final element in _iterable) {
       (results[by(element)] ??= []).add(element);
@@ -99,7 +99,8 @@ extension type const Group<E>._(Iterable<E> _iterable) {
   ///
   /// ## Implementation details
   /// Computing [K] is assumed to be cheap. Hence, [K]s are recomputed each time rather than cached.
-  @useResult Map<K, Set<E>> sets<K>({required Select<E, K> by}) {
+  @useResult
+  Map<K, Set<E>> sets<K>({required Select<E, K> by}) {
     final results = <K, Set<E>>{};
     for (final element in _iterable) {
       (results[by(element)] ??= {}).add(element);
@@ -107,5 +108,4 @@ extension type const Group<E>._(Iterable<E> _iterable) {
 
     return results;
   }
-
 }

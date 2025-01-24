@@ -7,7 +7,6 @@ import 'package:sugar/core.dart';
 ///
 /// See [AggregateComparableIterable] for working with elements that are [Comparable].
 extension OrderableIterable<E> on Iterable<E> {
-
   /// Returns a [Order] for ordering this iterable's elements.
   ///
   /// ```dart
@@ -16,10 +15,10 @@ extension OrderableIterable<E> on Iterable<E> {
   ///
   /// print(ordered); // [('a', 2), ('b', 1), ('c', 3)]
   /// ```
-  @lazy @useResult Order<E, T> order<T extends Comparable<Object>>({required Select<E, T> by}) => Order._(this, by);
-
+  @lazy
+  @useResult
+  Order<E, T> order<T extends Comparable<Object>>({required Select<E, T> by}) => Order._(this, by);
 }
-
 
 /// A namespace for functions that order an [Iterable]'s elements.
 ///
@@ -35,7 +34,6 @@ extension OrderableIterable<E> on Iterable<E> {
 /// print(ordered); // [('a', 2), ('b', 1), ('c', 3)]
 /// ```
 class Order<E, T extends Comparable<Object>> {
-
   final Iterable<E> _iterable;
   final Select<E, T> _function;
 
@@ -51,7 +49,8 @@ class Order<E, T extends Comparable<Object>> {
   ///
   /// ## Implementation details
   /// This function assumes computing values to be cheap. Hence, the values are recomputed rather than cached.
-  @useResult List<E> get ascending => _iterable.toList()..sort((a, b) => _function(a).compareTo(_function(b)));
+  @useResult
+  List<E> get ascending => _iterable.toList()..sort((a, b) => _function(a).compareTo(_function(b)));
 
   /// A list sorted in descending order of values returned by this [Order]'s function.
   ///
@@ -63,7 +62,8 @@ class Order<E, T extends Comparable<Object>> {
   ///
   /// ## Implementation details
   /// Computing values is assumed to be cheap. Hence, the values are recomputed each time rather than cached.
-  @useResult List<E> get descending => _iterable.toList()..sort((a, b) => _function(b).compareTo(_function(a)));
+  @useResult
+  List<E> get descending => _iterable.toList()..sort((a, b) => _function(b).compareTo(_function(a)));
 
   /// The element with the minimum value returned by this [Order]'s function, or `null` if empty.
   ///
@@ -71,7 +71,8 @@ class Order<E, T extends Comparable<Object>> {
   /// final list = [('a', 2), ('b', 1), ('c', 3)];
   /// list.order(by: (foo) => foo.$2).min; // ('b', 1)
   /// ```
-  @useResult E? get min {
+  @useResult
+  E? get min {
     final iterator = _iterable.iterator;
     if (!iterator.moveNext()) {
       return null;
@@ -97,7 +98,8 @@ class Order<E, T extends Comparable<Object>> {
   /// final list = [('a', 2), ('c', 3), ('b', 1)];
   /// list.order(by: (foo) => foo.$2).min; // ('c', 3)
   /// ```
-  @useResult E? get max {
+  @useResult
+  E? get max {
     final iterator = _iterable.iterator;
     if (!iterator.moveNext()) {
       return null;
@@ -116,5 +118,4 @@ class Order<E, T extends Comparable<Object>> {
 
     return max;
   }
-
 }

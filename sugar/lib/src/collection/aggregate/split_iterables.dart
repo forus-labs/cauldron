@@ -6,14 +6,14 @@ import 'package:sugar/core.dart';
 ///
 /// See [Split] for more information.
 extension SplittableIterable<E> on Iterable<E> {
-
   /// A [Split] used to split this iterable's elements.
   ///
   /// ```dart
   /// [1, 2, 3, 4].split.by(size: 2); // [ [1, 2], [3, 4], [5] ]
   /// ```
-  @lazy @useResult Split<E> get split => Split._(this);
-
+  @lazy
+  @useResult
+  Split<E> get split => Split._(this);
 }
 
 /// A namespace for functions that split an [Iterable]'s elements.
@@ -25,7 +25,6 @@ extension SplittableIterable<E> on Iterable<E> {
 /// [1, 2, 3, 4].split.by(size: 2); // [ [1, 2], [3, 4], [5] ]
 /// ```
 extension type Split<E>._(Iterable<E> _iterable) {
-
   /// Splits this iterable into lists of the given [size].
   ///
   /// ## Contract
@@ -36,7 +35,9 @@ extension type Split<E>._(Iterable<E> _iterable) {
   /// [1, 2, 3, 4, 5].split.by(size: 2); // [[1, 2], [3, 4], [5]]
   /// ```
   @Possible({RangeError})
-  @lazy @useResult Iterable<List<E>> by({required int size}) => window(size: size, by: size, partial: true);
+  @lazy
+  @useResult
+  Iterable<List<E>> by({required int size}) => window(size: size, by: size, partial: true);
 
   /// Splits this iterable's elements into lists before those that satisfy [predicate].
   ///
@@ -48,7 +49,9 @@ extension type Split<E>._(Iterable<E> _iterable) {
   /// print(parts); // [[1], [2], [3, 4], [5, 6], [7, 8, 9]]
   /// //                 ^----^----^-------^-------^---------- prime numbers
   /// ```
-  @lazy @useResult Iterable<List<E>> before(Predicate<E> predicate) sync* {
+  @lazy
+  @useResult
+  Iterable<List<E>> before(Predicate<E> predicate) sync* {
     final iterator = _iterable.iterator;
     if (!iterator.moveNext()) {
       return;
@@ -78,7 +81,9 @@ extension type Split<E>._(Iterable<E> _iterable) {
   /// print(parts); // ([1], [2], [3], [4, 5], [6, 7], [8, 9])
   /// //                 ^----^----^-------^-------^----------- prime numbers
   /// ```
-  @lazy @useResult Iterable<List<E>> after(Predicate<E> predicate) sync* {
+  @lazy
+  @useResult
+  Iterable<List<E>> after(Predicate<E> predicate) sync* {
     List<E>? chunk;
     for (final element in _iterable) {
       (chunk ??= []).add(element);
@@ -92,7 +97,6 @@ extension type Split<E>._(Iterable<E> _iterable) {
       yield chunk;
     }
   }
-
 
   /// Split this iterable using a sliding window.
   ///
@@ -118,7 +122,9 @@ extension type Split<E>._(Iterable<E> _iterable) {
   /// [1, 2, 3, 4].split.window(size: 3, by: 2, partial: true); // [[1, 2, 3], [3, 4]]
   /// ```
   @Possible({RangeError})
-  @lazy @useResult Iterable<List<E>> window({required int size, int by = 1, bool partial = false}) sync* {
+  @lazy
+  @useResult
+  Iterable<List<E>> window({required int size, int by = 1, bool partial = false}) sync* {
     RangeError.checkValidRange(1, null, size);
     RangeError.checkValidRange(1, null, by);
 
@@ -152,5 +158,4 @@ extension type Split<E>._(Iterable<E> _iterable) {
       }
     }
   }
-
 }

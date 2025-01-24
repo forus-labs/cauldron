@@ -54,7 +54,7 @@ Check out the [documentation](https://pub.dev/documentation/sugar/latest/) to ge
 ## Updating timezones
 
 This section is for maintainers. It describes how to update the embedded IANA database. It assumes that you are on macOS/Linux.
-The current version of the IANA database is 2024b.
+The current version of the IANA database is 2025a.
 
 ```shell
 $ chmod +x tool/refresh.sh
