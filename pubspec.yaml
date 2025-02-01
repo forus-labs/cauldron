@@ -8,6 +8,7 @@ workspace:
   - nitrogen_lottie
   - nitrogen_types
   - stevia
+  - stevia/example
   - sugar
 
 dev_dependencies:

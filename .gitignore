@@ -9,6 +9,8 @@
 # Files and directories created by pub
 .dart_tool/
 .packages
+.flutter-plugins
+.flutter-plugins-dependencies
 coverage/
 build/
 out/
