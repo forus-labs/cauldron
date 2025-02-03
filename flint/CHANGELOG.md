@@ -1,3 +1,7 @@
+# 2.11.1 (03/02/2025)
+Core ruleset:
+- Remove `unnecessary_library_name` - this rule introduces too many downsides in practice.
+
 # 2.11.0 (03/02/2025)
 Core ruleset:
 - Add `use_truncating_division`
