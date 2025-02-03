@@ -1,4 +1,4 @@
-# 2.11.0 (24/01/2025)
+# 2.11.0 (03/02/2025)
 Core ruleset:
 - Add `use_truncating_division`
 - Add `invalid_runtime_check_with_js_interop_types`
