@@ -1,3 +1,6 @@
+## 0.4.0
+Align with `nitrogen` release.
+
 ## 0.3.0+1
 Fix outdated dependency on `nitrogen_types`.
 
