@@ -125,14 +125,15 @@ part of 'date_time.dart';
 /// }
 /// ```
 final class ZonedDateTime extends DateTimeBase {
-
   /// The timezone.
   final Timezone timezone;
-  /// The span in which this date-time occurs.
-  final TimezoneSpan span;
+
   /// The microseconds since Unix epoch.
   final EpochMicroseconds epochMicroseconds;
   String? _string;
+
+  Offset get offset => Offset.fromMicroseconds(
+      timezone.offset(epochMicroseconds ~/ 1000) * 1000);
 
   /// Creates a [ZonedDateTime] that represents the [milliseconds] since Unix epoch (January 1st 1970) in the [timezone].
   ///
@@ -144,11 +145,9 @@ final class ZonedDateTime extends DateTimeBase {
   ///
   /// print(date); // 2023-04-30T22:30+08:00[Asia/Singapore]
   /// ```
-  ZonedDateTime.fromEpochMilliseconds(Timezone timezone, EpochMilliseconds milliseconds): this._(
-    timezone,
-    timezone.span(at: milliseconds * 1000),
-    milliseconds * 1000,
-  );
+  ZonedDateTime.fromEpochMilliseconds(
+      Timezone timezone, EpochMilliseconds milliseconds)
+      : this._(timezone, milliseconds * 1000);
 
   /// Creates a [ZonedDateTime] that represents the [microseconds] since Unix epoch (January 1st 1970) in the [timezone].
   ///
@@ -160,11 +159,9 @@ final class ZonedDateTime extends DateTimeBase {
   ///
   /// print(date); // 2023-04-30T22:30+08:00[Asia/Singapore]
   /// ```
-  ZonedDateTime.fromEpochMicroseconds(Timezone timezone, EpochMicroseconds microseconds): this._(
-    timezone,
-    timezone.span(at: microseconds),
-    microseconds,
-  );
+  ZonedDateTime.fromEpochMicroseconds(
+      Timezone timezone, EpochMicroseconds microseconds)
+      : this._(timezone, microseconds);
 
   /// Creates a [ZonedDateTime] that represents the current date-time in the [timezone].
   ///
@@ -176,9 +173,9 @@ final class ZonedDateTime extends DateTimeBase {
   /// If you're feeling adventurous, consider using [stevia](https://github.com/forus-labs/cauldron/tree/master/stevia),
   /// an experimental add-on package for retrieving the timezone on other Android and iOS.
   factory ZonedDateTime.now([Timezone? timezone]) {
-    timezone ??= Timezone.now();
+    timezone ??= Timezone(defaultPlatformTimezoneProvider());
     final now = DateTime.now().microsecondsSinceEpoch;
-    return ZonedDateTime._(timezone, timezone.span(at: now), now);
+    return ZonedDateTime.fromEpochMicroseconds(timezone, now);
   }
 
   /// Creates a [ZonedDateTime].
@@ -187,36 +184,52 @@ final class ZonedDateTime extends DateTimeBase {
   /// final singapore = Timezone('Asia/Singapore');
   /// ZonedDateTime.from(singapore, 2023, 5, 11);
   /// ```
-  factory ZonedDateTime.from(Timezone timezone, int year, [
-    int month = 1, 
-    int day = 1, 
-    int hour = 0, 
-    int minute = 0, 
-    int second = 0, 
-    int millisecond = 0, 
+  factory ZonedDateTime.from(
+    Timezone timezone,
+    int year, [
+    int month = 1,
+    int day = 1,
+    int hour = 0,
+    int minute = 0,
+    int second = 0,
+    int millisecond = 0,
     int microsecond = 0,
-  ]) => ZonedDateTime._convert(timezone, DateTime.utc(year, month, day, hour, minute, second, millisecond, microsecond));
+  ]) =>
+      ZonedDateTime._convert(
+          timezone,
+          DateTime.utc(year, month, day, hour, minute, second, millisecond,
+              microsecond));
 
   /// Creates a [ZonedDateTime].
-  factory ZonedDateTime(String timezone, int year, [
-    int month = 1, 
-    int day = 1, 
-    int hour = 0, 
-    int minute = 0, 
-    int second = 0, 
-    int millisecond = 0, 
+  factory ZonedDateTime(
+    String timezone,
+    int year, [
+    int month = 1,
+    int day = 1,
+    int hour = 0,
+    int minute = 0,
+    int second = 0,
+    int millisecond = 0,
     int microsecond = 0,
-  ]) => ZonedDateTime._convert(Timezone(timezone), DateTime.utc(year, month, day, hour, minute, second, millisecond, microsecond));
+  ]) =>
+      ZonedDateTime._convert(
+          Timezone(timezone),
+          DateTime.utc(year, month, day, hour, minute, second, millisecond,
+              microsecond));
 
   factory ZonedDateTime._convert(Timezone timezone, DateTime date) {
-    final (microseconds, span) = timezone.convert(local: date.microsecondsSinceEpoch);
-    return ZonedDateTime._(timezone, span, microseconds);
+    final microseconds = date.microsecondsSinceEpoch -
+        (timezone.offset(date.microsecondsSinceEpoch ~/ 1000) * 1000);
+    return ZonedDateTime._(timezone, microseconds);
   }
 
-  ZonedDateTime._(this.timezone, this.span, this.epochMicroseconds): super._(
-    DateTime.fromMicrosecondsSinceEpoch(epochMicroseconds + span.offset.inMicroseconds, isUtc: true),
-  );
-
+  ZonedDateTime._(this.timezone, this.epochMicroseconds)
+      : super._(
+          DateTime.fromMicrosecondsSinceEpoch(
+              epochMicroseconds +
+                  (timezone.offset(epochMicroseconds ~/ 1000) * 1000),
+              isUtc: true),
+        );
 
   /// Returns a copy of this with the [duration] added.
   ///
@@ -232,10 +245,11 @@ final class ZonedDateTime extends DateTimeBase {
   /// foo.add(Duration(days: 1)); // 2023-03-13T01:00-04:00[America/Detroit]
   /// foo + Period(days: 1);      // 2023-03-13T00:00-04:00[America/Detroit]
   /// ```
-  @useResult ZonedDateTime add(Duration duration) => ZonedDateTime.fromEpochMicroseconds(
-    timezone,
-    epochMicroseconds + duration.inMicroseconds,
-  );
+  @useResult
+  ZonedDateTime add(Duration duration) => ZonedDateTime.fromEpochMicroseconds(
+        timezone,
+        epochMicroseconds + duration.inMicroseconds,
+      );
 
   /// Returns a copy of this with the [duration] subtracted.
   ///
@@ -251,10 +265,12 @@ final class ZonedDateTime extends DateTimeBase {
   /// foo.subtract(Duration(days: 1)); // 2023-03-11T23:00-04:00
   /// foo - Period(days: 1);           // 2023-03-12T00:00-04:00
   /// ```
-  @useResult ZonedDateTime subtract(Duration duration) => ZonedDateTime.fromEpochMicroseconds(
-    timezone,
-    epochMicroseconds - duration.inMicroseconds,
-  );
+  @useResult
+  ZonedDateTime subtract(Duration duration) =>
+      ZonedDateTime.fromEpochMicroseconds(
+        timezone,
+        epochMicroseconds - duration.inMicroseconds,
+      );
 
   /// Returns a copy of this with the units of time added.
   ///
@@ -269,17 +285,28 @@ final class ZonedDateTime extends DateTimeBase {
   /// foo.plus(days: 1);          // 2023-03-13T00:00-04:00[America/Detroit]
   /// foo.add(Duration(days: 1)); // 2023-03-13T01:00-04:00[America/Detroit]
   /// ```
-  @useResult ZonedDateTime plus({int years = 0, int months = 0, int days = 0, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-    ZonedDateTime._convert(timezone, _native.plus(
-      years: years,
-      months: months,
-      days: days,
-      hours: hours,
-      minutes: minutes,
-      seconds: seconds,
-      milliseconds: milliseconds,
-      microseconds: microseconds,
-    ));
+  @useResult
+  ZonedDateTime plus(
+          {int years = 0,
+          int months = 0,
+          int days = 0,
+          int hours = 0,
+          int minutes = 0,
+          int seconds = 0,
+          int milliseconds = 0,
+          int microseconds = 0}) =>
+      ZonedDateTime._convert(
+          timezone,
+          _native.plus(
+            years: years,
+            months: months,
+            days: days,
+            hours: hours,
+            minutes: minutes,
+            seconds: seconds,
+            milliseconds: milliseconds,
+            microseconds: microseconds,
+          ));
 
   /// Returns a copy of this with the units of time subtracted.
   ///
@@ -294,17 +321,28 @@ final class ZonedDateTime extends DateTimeBase {
   /// datetime.minus(days: 1);              // 2023-03-12T00:00-04:00[America/Detroit]
   /// datetime.subtract(Duration(days: 1)); // 2023-03-11T23:00-04:00[America/Detroit]
   /// ```
-  @useResult ZonedDateTime minus({int years = 0, int months = 0, int days = 0, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-      ZonedDateTime._convert(timezone, _native.minus(
-        years: years,
-        months: months,
-        days: days,
-        hours: hours,
-        minutes: minutes,
-        seconds: seconds,
-        milliseconds: milliseconds,
-        microseconds: microseconds,
-      ));
+  @useResult
+  ZonedDateTime minus(
+          {int years = 0,
+          int months = 0,
+          int days = 0,
+          int hours = 0,
+          int minutes = 0,
+          int seconds = 0,
+          int milliseconds = 0,
+          int microseconds = 0}) =>
+      ZonedDateTime._convert(
+          timezone,
+          _native.minus(
+            years: years,
+            months: months,
+            days: days,
+            hours: hours,
+            minutes: minutes,
+            seconds: seconds,
+            milliseconds: milliseconds,
+            microseconds: microseconds,
+          ));
 
   /// Returns a copy of this with the [period] added.
   ///
@@ -319,7 +357,9 @@ final class ZonedDateTime extends DateTimeBase {
   /// foo + Period(days: 1);      // 2023-03-13T00:00-04:00[America/Detroit]
   /// foo.add(Duration(days: 1)); // 2023-03-13T01:00-04:00[America/Detroit]
   /// ```
-  @useResult ZonedDateTime operator + (Period period) => ZonedDateTime._convert(timezone, _native + period);
+  @useResult
+  ZonedDateTime operator +(Period period) =>
+      ZonedDateTime._convert(timezone, _native + period);
 
   /// Returns a copy of this with the [period] subtracted.
   ///
@@ -334,8 +374,9 @@ final class ZonedDateTime extends DateTimeBase {
   /// foo - Period(days: 1);           // 2023-03-12T00:00-04:00[America/Detroit]
   /// foo.subtract(Duration(days: 1)); // 2023-03-11T23:00-04:00[America/Detroit]
   /// ```
-  @useResult ZonedDateTime operator - (Period period) => ZonedDateTime._convert(timezone, _native - period);
-
+  @useResult
+  ZonedDateTime operator -(Period period) =>
+      ZonedDateTime._convert(timezone, _native - period);
 
   /// Returns a copy of this truncated to the [TemporalUnit].
   ///
@@ -343,7 +384,9 @@ final class ZonedDateTime extends DateTimeBase {
   /// final date = ZonedDateTime('Asia/Singapore', 2023, 4, 15);
   /// date.truncate(to: DateUnit.months); // 2023-04-01T00:00+08:00[Asia/Singapore]
   /// ```
-  @useResult ZonedDateTime truncate({required TemporalUnit to}) => ZonedDateTime._convert(timezone, _native.truncate(to: to));
+  @useResult
+  ZonedDateTime truncate({required TemporalUnit to}) =>
+      ZonedDateTime._convert(timezone, _native.truncate(to: to));
 
   /// Returns a copy of this rounded to the nearest [unit] and [value].
   ///
@@ -359,7 +402,9 @@ final class ZonedDateTime extends DateTimeBase {
   /// bar.round(DateUnit.months, 6); // 2023-06-01T00:00+08:00[Asia/Singapore]
   /// ```
   @Possible({RangeError})
-  @useResult ZonedDateTime round(TemporalUnit unit, int value) => ZonedDateTime._convert(timezone, _native.round(unit, value));
+  @useResult
+  ZonedDateTime round(TemporalUnit unit, int value) =>
+      ZonedDateTime._convert(timezone, _native.round(unit, value));
 
   /// Returns a copy of this ceiled to the nearest [unit] and [value].
   ///
@@ -375,7 +420,9 @@ final class ZonedDateTime extends DateTimeBase {
   /// bar.ceil(DateUnit.months, 6); // 2023-12-01T00:00+08:00[Asia/Singapore]
   /// ```
   @Possible({RangeError})
-  @useResult ZonedDateTime ceil(TemporalUnit unit, int value) => ZonedDateTime._convert(timezone, _native.ceil(unit, value));
+  @useResult
+  ZonedDateTime ceil(TemporalUnit unit, int value) =>
+      ZonedDateTime._convert(timezone, _native.ceil(unit, value));
 
   /// Returns a copy of this floored to the nearest [unit] and [value].
   ///
@@ -392,8 +439,9 @@ final class ZonedDateTime extends DateTimeBase {
   /// bar.floor(DateUnit.months, 6); // 2023-06-01T00:00+08:00[Asia/Singapore]
   /// ```
   @Possible({RangeError})
-  @useResult ZonedDateTime floor(TemporalUnit unit, int value) => ZonedDateTime._convert(timezone, _native.floor(unit, value));
-
+  @useResult
+  ZonedDateTime floor(TemporalUnit unit, int value) =>
+      ZonedDateTime._convert(timezone, _native.floor(unit, value));
 
   /// Returns a copy of this with the updated units of time.
   ///
@@ -401,19 +449,28 @@ final class ZonedDateTime extends DateTimeBase {
   /// final foo = ZonedDateTime('Asia/Singapore', 2023, 4, 15);
   /// foo.copyWith(day: 20); // 2023-04-20T00:00+08:00[Asia/Singapore]
   /// ```
-  @useResult ZonedDateTime copyWith({Timezone? timezone, int? year, int? month, int? day, int? hour, int? minute, int? second, int? millisecond, int? microsecond}) =>
-    ZonedDateTime.from(
-      timezone ?? this.timezone,
-      year ?? this.year,
-      month ?? this.month,
-      day ?? this.day,
-      hour ?? this.hour,
-      minute ?? this.minute,
-      second ?? this.second,
-      millisecond ?? this.millisecond,
-      microsecond ?? this.microsecond,
-    );
-
+  @useResult
+  ZonedDateTime copyWith(
+          {Timezone? timezone,
+          int? year,
+          int? month,
+          int? day,
+          int? hour,
+          int? minute,
+          int? second,
+          int? millisecond,
+          int? microsecond}) =>
+      ZonedDateTime.from(
+        timezone ?? this.timezone,
+        year ?? this.year,
+        month ?? this.month,
+        day ?? this.day,
+        hour ?? this.hour,
+        minute ?? this.minute,
+        second ?? this.second,
+        millisecond ?? this.millisecond,
+        microsecond ?? this.microsecond,
+      );
 
   /// Returns the difference in exact microseconds between this and [other].
   ///
@@ -429,13 +486,15 @@ final class ZonedDateTime extends DateTimeBase {
   /// print(summer.difference(winter)); // 23:00:00.000000
   /// print(winter.difference(summer)); // -23:00:00.000000
   /// ```
-  @useResult Duration difference(ZonedDateTime other) => Duration(microseconds: epochMicroseconds - other.epochMicroseconds);
+  @useResult
+  Duration difference(ZonedDateTime other) =>
+      Duration(microseconds: epochMicroseconds - other.epochMicroseconds);
 
   // TODO: support retrieving earlier and later offsets during overlaps
 
   /// Converts this to a [LocalDateTime].
-  @useResult LocalDateTime toLocal() => LocalDateTime._(_native);
-
+  @useResult
+  LocalDateTime toLocal() => LocalDateTime._(_native);
 
   /// Returns true if this [ZonedDateTime] is before [other].
   ///
@@ -448,7 +507,8 @@ final class ZonedDateTime extends DateTimeBase {
   ///
   /// print(singapore.isBefore(london)); // true
   /// ```
-  bool isBefore(ZonedDateTime other) => epochMicroseconds < other.epochMicroseconds;
+  bool isBefore(ZonedDateTime other) =>
+      epochMicroseconds < other.epochMicroseconds;
 
   /// Returns true if this occurs at the same moment as [other].
   ///
@@ -459,7 +519,8 @@ final class ZonedDateTime extends DateTimeBase {
   /// print(singapore.isSameMomentAs(tokyo); // true;
   /// print(singapore == tokyo); // false
   /// ```
-  bool isSameMomentAs(ZonedDateTime other) => epochMicroseconds == other.epochMicroseconds;
+  bool isSameMomentAs(ZonedDateTime other) =>
+      epochMicroseconds == other.epochMicroseconds;
 
   /// Returns true if this is after [other].
   ///
@@ -472,8 +533,8 @@ final class ZonedDateTime extends DateTimeBase {
   ///
   /// print(london.isAfter(singapore)); // true
   /// ```
-  bool isAfter(ZonedDateTime other) => epochMicroseconds > other.epochMicroseconds;
-
+  bool isAfter(ZonedDateTime other) =>
+      epochMicroseconds > other.epochMicroseconds;
 
   /// Returns true if other is a [ZonedDateTime] at the same moment and in the same timezone.
   ///
@@ -485,9 +546,12 @@ final class ZonedDateTime extends DateTimeBase {
   /// print(singapore == tokyo); // false
   /// ```
   @override
-  bool operator ==(Object other) => identical(this, other) || other is ZonedDateTime && runtimeType == other.runtimeType &&
-    timezone == other.timezone &&
-    epochMicroseconds == other.epochMicroseconds;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ZonedDateTime &&
+          runtimeType == other.runtimeType &&
+          timezone == other.timezone &&
+          epochMicroseconds == other.epochMicroseconds;
 
   @override
   int get hashCode => timezone.hashCode ^ epochMicroseconds.hashCode;
@@ -519,8 +583,8 @@ final class ZonedDateTime extends DateTimeBase {
   /// print(ZonedDateTime('Asia/Singapore', 2023, 4, 30, 12, 15));
   /// ```
   @override
-  String toString() => _string ??= '${_native.toDateString()}T${_native.toTimeString()}${span.offset}[${timezone.name}]';
-
+  String toString() => _string ??=
+      '${_native.toDateString()}T${_native.toTimeString()}$offset[${timezone.id}]';
 
   /// The day of the week.
   ///
@@ -529,8 +593,8 @@ final class ZonedDateTime extends DateTimeBase {
   /// ```dart
   /// ZonedDateTime('Asia/Singapore', 1969, 7, 20).weekday; // Sunday, 7
   /// ```
-  @useResult int get weekday => _native.weekday;
-
+  @useResult
+  int get weekday => _native.weekday;
 
   /// The ordinal week of the year.
   ///
@@ -541,15 +605,16 @@ final class ZonedDateTime extends DateTimeBase {
   /// ```dart
   /// ZonedDateTime('Asia/Singapore', 2023, 4, 1).weekOfYear; // 13
   /// ```
-  @useResult int get weekOfYear => _native.weekOfYear;
+  @useResult
+  int get weekOfYear => _native.weekOfYear;
 
   /// The ordinal day of the year.
   ///
   /// ```dart
   /// ZonedDateTime('Asia/Singapore', 2023, 4, 1).dayOfYear; // 91
   /// ```
-  @useResult int get dayOfYear => _native.dayOfYear;
-
+  @useResult
+  int get dayOfYear => _native.dayOfYear;
 
   /// The first day of the week.
   ///
@@ -557,7 +622,9 @@ final class ZonedDateTime extends DateTimeBase {
   /// final tuesday = ZonedDateTime('Asia/Singapore', 2023, 4, 11);
   /// final monday = tuesday.firstDayOfWeek; // 2023-04-10T00:00+08:00[Asia/Singapore]
   /// ```
-  @useResult ZonedDateTime get firstDayOfWeek => ZonedDateTime._convert(timezone, _native.firstDayOfWeek);
+  @useResult
+  ZonedDateTime get firstDayOfWeek =>
+      ZonedDateTime._convert(timezone, _native.firstDayOfWeek);
 
   /// The last day of the week.
   ///
@@ -565,8 +632,9 @@ final class ZonedDateTime extends DateTimeBase {
   /// final tuesday = ZonedDateTime('Asia/Singapore', 2023, 4, 11);
   /// final sunday = tuesday.lastDayOfWeek; // 2023-04-16T00:00+08:00[Asia/Singapore]
   /// ```
-  @useResult ZonedDateTime get lastDayOfWeek => ZonedDateTime._convert(timezone, _native.lastDayOfWeek);
-
+  @useResult
+  ZonedDateTime get lastDayOfWeek =>
+      ZonedDateTime._convert(timezone, _native.lastDayOfWeek);
 
   /// The first day of the month.
   ///
@@ -574,7 +642,9 @@ final class ZonedDateTime extends DateTimeBase {
   /// // 2023-04-01T00:00+08:00[Asia/Singapore]
   /// ZonedDateTime('Asia/Singapore', 2023, 4, 11).firstDayOfMonth;
   /// ```
-  @useResult ZonedDateTime get firstDayOfMonth => ZonedDateTime._convert(timezone, _native.firstDayOfMonth);
+  @useResult
+  ZonedDateTime get firstDayOfMonth =>
+      ZonedDateTime._convert(timezone, _native.firstDayOfMonth);
 
   /// The last day of the month.
   ///
@@ -582,8 +652,9 @@ final class ZonedDateTime extends DateTimeBase {
   /// // 2023-04-30T00:00+08:00[Asia/Singapore]
   /// ZonedDateTime('Asia/Singapore', 2023, 4, 11).lastDayOfMonth;
   /// ```
-  @useResult ZonedDateTime get lastDayOfMonth => ZonedDateTime._convert(timezone, _native.lastDayOfMonth);
-
+  @useResult
+  ZonedDateTime get lastDayOfMonth =>
+      ZonedDateTime._convert(timezone, _native.lastDayOfMonth);
 
   /// The number of days in the month.
   ///
@@ -591,7 +662,8 @@ final class ZonedDateTime extends DateTimeBase {
   /// ZonedDateTime('Asia/Singapore', 2019, 2).daysInMonth; // 28
   /// ZonedDateTime('Asia/Singapore', 2020, 2).daysInMonth; // 29
   /// ```
-  @useResult int get daysInMonth => _native.daysInMonth;
+  @useResult
+  int get daysInMonth => _native.daysInMonth;
 
   /// Whether this year is a leap year.
   ///
@@ -599,10 +671,9 @@ final class ZonedDateTime extends DateTimeBase {
   /// ZonedDateTime('Asia/Singapore', 2020).leapYear; // true
   /// ZonedDateTime('Asia/Singapore', 2021).leapYear; // false
   /// ```
-  @useResult bool get leapYear => _native.leapYear;
-
+  @useResult
+  bool get leapYear => _native.leapYear;
 
   /// The milliseconds since Unix epoch.
   EpochMilliseconds get epochMilliseconds => epochMicroseconds ~/ 1000;
-
 }

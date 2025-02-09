@@ -6,7 +6,4 @@
 /// version is currently 2024a.
 library;
 
-export 'src/time/zone/timezone.dart';
-export 'src/time/zone/timezone_provider.dart';
-export 'src/time/zone/timezone_span.dart';
-export 'src/time/zone/platform/platform_provider.dart';
+export 'package:tz/tz.dart';

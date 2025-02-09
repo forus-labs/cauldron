@@ -1,4 +1,5 @@
-import 'package:sugar/sugar.dart';
+import 'package:sugar/src/time/zone/platform/platform_provider.dart';
+import 'package:sugar/src/time/zone/timezone_provider.dart';
 import 'package:test/test.dart';
 
 /// These tests should be ran using the shell/bat scripts in the same folder.
@@ -28,7 +29,8 @@ void main() {
       expect(timezone, 'Mexico/BajaSur');
     });
 
-    test('defaultPlatformTimezoneProvider() unknown TZ environment variable', () {
+    test('defaultPlatformTimezoneProvider() unknown TZ environment variable',
+        () {
       final timezones = DefaultTimezoneProvider();
       final timezone = defaultPlatformTimezoneProvider();
 
