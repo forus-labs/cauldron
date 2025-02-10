@@ -5,7 +5,7 @@ import 'package:sugar/sugar.dart';
 // We use ZonedDateTime to test DynamicTimezone since it's easier.
 void main() {
   group('initial timezone', () {
-    final timezone = UniversalTimezoneProvider()['America/Detroit']!;
+    final timezone = EmbeddedTimezoneProvider()['America/Detroit']!;
     final offset =
         timezone.offset(at: DateTime.utc(1900).microsecondsSinceEpoch);
 
@@ -299,7 +299,7 @@ void main() {
   });
 
   test('toString()', () {
-    final singapore = UniversalTimezoneProvider()['Asia/Singapore']!;
+    final singapore = EmbeddedTimezoneProvider()['Asia/Singapore']!;
 
     expect(singapore.name, 'Asia/Singapore');
     expect(singapore.toString(), 'Asia/Singapore');

@@ -221,7 +221,15 @@ final class ZonedDateTime extends DateTimeBase {
               microsecond));
 
   factory ZonedDateTime._convert(Timezone timezone, DateTime date) {
-    final microseconds = timezone.convert(local: date.microsecondsSinceEpoch);
+    final microseconds = timezone.convert(
+        date.year,
+        date.month,
+        date.day,
+        date.hour,
+        date.minute,
+        date.second,
+        date.millisecond,
+        date.microsecond);
     return ZonedDateTime._(timezone, microseconds);
   }
 

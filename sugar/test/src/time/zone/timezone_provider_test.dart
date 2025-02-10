@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('UniversalTimezoneProvider', () {
-    final provider = UniversalTimezoneProvider();
+    final provider = EmbeddedTimezoneProvider();
 
     test('existing timezone',
         () => expect(provider['America/Detroit']?.name, 'America/Detroit'));

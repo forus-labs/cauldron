@@ -103,13 +103,26 @@ void main(List<String> args) async {
     print('The timezone database is not up to date');
     exit(1);
   }
+  // Remove metadata from the timezone database
+  tzDb.removeWhere((key, value) => !_isTimezoneId(key));
+  // The timezone database uses aliases for some timezones
+  // For instance "Africa/Porto-Novo" is an alias for "Africa/Lagos"
+  // Some of these aliases have extra metadata that needs to be removed
+  for (final id in tzDb.keys) {
+    final data = tzDb[id] as String;
+    if (!RegExp('^[+-]').hasMatch(data)) {
+      // Clean up the alias name
+      final aliasName = data.replaceAll(RegExp('^!'), '').split(',').last;
+      tzDb[id] = aliasName;
+    }
+  }
 
   final content = '''
 // ignore_for_file: prefer_single_quotes
-part of 'universal_provider.dart';
+part of 'tzdb.dart';
 
 /// The timezone database.
-const _tzdb = $timezoneContent;
+const _tzdb = ${jsonEncode(tzDb)};
 ''';
   File(p.join(
     Directory.current.path,
@@ -119,10 +132,21 @@ const _tzdb = $timezoneContent;
     'zone',
     'providers',
     'universal',
-    'universal_provider.g.dart',
+    'tzdb.g.dart',
   ))
     ..createSync()
     ..writeAsStringSync(content);
 
   print('Success');
 }
+
+/// Check if a key in the timezone database is an
+/// actual timezone or just metadata.
+bool _isTimezoneId(String key) => [
+      RegExp('^years'),
+      RegExp('^version'),
+      RegExp('^leapSeconds'),
+      RegExp('^deltaTs'),
+      RegExp('^_'),
+      RegExp('^SystemV/'),
+    ].every((k) => !k.hasMatch(key));

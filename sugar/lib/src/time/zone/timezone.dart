@@ -63,7 +63,7 @@ abstract class Timezone {
   ///
   /// The default implementation is unmodifiable and lazy. Iterating over the entries/values is discouraged since it will
   /// initialize the iterated [Timezone]s, thereby increasing memory footprint. However, iterating over the keys is fine.
-  static Map<String, Timezone> timezoneProvider = UniversalTimezoneProvider();
+  static Map<String, Timezone> timezoneProvider = EmbeddedTimezoneProvider();
 
   /// The `Factory` timezone in the TZ database that has no offset.
   ///
@@ -106,9 +106,18 @@ abstract class Timezone {
   /// Creates a [Timezone].
   const Timezone.from(this.name);
 
-  /// Converts the [local] date-time in microseconds to microseconds since Unix epoch (in UTC).
+  /// Converts the local date-time to the number of microseconds since epoch.
   @useResult
-  EpochMicroseconds convert({required int local});
+  EpochMicroseconds convert(
+    int year, [
+    int month = 1,
+    int day = 1,
+    int hour = 0,
+    int minute = 0,
+    int second = 0,
+    int millisecond = 0,
+    int microsecond = 0,
+  ]);
 
   /// Returns the offset of this timezone at the given [at] date-time.
   @useResult
@@ -126,7 +135,15 @@ class FactoryTimezone extends Timezone {
   const FactoryTimezone() : super.from('Factory');
 
   @override
-  EpochMicroseconds convert({required int local}) => 0;
+  EpochMicroseconds convert(int year,
+          [int month = 1,
+          int day = 1,
+          int hour = 0,
+          int minute = 0,
+          int second = 0,
+          int millisecond = 0,
+          int microsecond = 0]) =>
+      0;
 
   @override
   Offset offset({required EpochMicroseconds at}) => Offset();

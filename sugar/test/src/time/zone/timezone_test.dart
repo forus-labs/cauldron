@@ -25,7 +25,7 @@ void main() {
   });
 
   group('Timezone(...)', () {
-    setUp(() => Timezone.timezoneProvider = UniversalTimezoneProvider());
+    setUp(() => Timezone.timezoneProvider = EmbeddedTimezoneProvider());
 
     test('valid', () => expect(Timezone('Asia/Tokyo').name, 'Asia/Tokyo'));
 

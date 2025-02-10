@@ -3,11 +3,10 @@ import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
 
 void main() {
-  final timezone = UniversalTimezoneProvider()['Etc/GMT-8']!;
+  final timezone = EmbeddedTimezoneProvider()['Etc/GMT-8']!;
 
   test('at(...)', () {
-    final microseconds = timezone.convert(
-        local: DateTime.utc(2023, 5, 9, 10).microsecondsSinceEpoch);
+    final microseconds = timezone.convert(2023, 5, 9, 10);
     expect(microseconds, DateTime.utc(2023, 5, 9, 2).microsecondsSinceEpoch);
   });
 
