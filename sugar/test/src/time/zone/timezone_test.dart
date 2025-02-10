@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
 
 void main() {
-  test('factory', () => expect(Timezone.timezoneProvider.factory, 'Factory'));
+  test('factory', () => expect(Timezone.factory.name, 'Factory'));
 
   group('now()', () {
     setUp(() => Timezone.platformTimezoneProvider = () => 'Asia/Tokyo');

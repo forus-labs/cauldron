@@ -1,31 +1,48 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:collection';
 
 import 'package:b/b.dart';
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
+
 import 'package:sugar/src/time/offset.dart';
 import 'package:sugar/src/time/temporal_unit.dart';
-import 'package:sugar/src/time/zone/providers/base_provider.dart';
 import 'package:sugar/src/time/zone/timezone.dart';
+
 part 'universal_provider.g.dart';
 
 /// A [Timezone] provider for the universal timezone database.
 ///
 /// This provider uses a bundled timezone database to provide timezone
 /// information for all known timezones.
-class UniversalTimezoneProvider extends TimezoneProvider {
+class UniversalTimezoneProvider extends UnmodifiableMapBase<String, Timezone> {
   @override
   Timezone? operator [](Object? key) {
     if (key is String && _tzdb.containsKey(key)) {
-      return UniversalTimezone._fromData(name: key, data: _tzdb[key]!);
+      var timezoneData = _tzdb[key]!;
+
+      /// Many timezone are just aliases to other timezones.
+      /// For example "Africa/Porto-Novo" is an alias to "Africa/Lagos".
+      /// These aliases do not start with a "+" or a "-".
+      /// E.G "Africa/Porto-Novo":"Africa/Lagos"
+      ///
+      /// In addition, some of these aliases are pseudo-aliases
+      /// which also contain a leading "!".
+      /// E.G "America/Dominica" : "!43e3,AGAIBLDMGDGPKNLCMFMSTTVCVGVI,America/Puerto_Rico"
+      /// The pseudo-aliases have additional information that needs to be stripped.
+      if (!RegExp('^[+-]').hasMatch(timezoneData)) {
+        final aliasName =
+            timezoneData.replaceAll(RegExp('^!'), '').split(',').last;
+        timezoneData = _tzdb[aliasName]!;
+      }
+      return UniversalTimezone._fromData(name: key, data: timezoneData);
     }
+
     return null;
   }
 
   @override
   Iterable<String> get keys => _tzdb.keys.where(_isTimezoneId);
-
-  @override
-  Timezone get factory => this['GMT']!;
 }
 
 /// Check if a key in the timezone database is an
@@ -37,7 +54,7 @@ bool _isTimezoneId(String key) => [
       RegExp('^deltaTs'),
       RegExp('^_'),
       RegExp('^SystemV/'),
-    ].any((k) => k.hasMatch(key));
+    ].every((k) => !k.hasMatch(key));
 
 /// A [Timezone] that uses the universal timezone database.
 class UniversalTimezone extends Timezone {
@@ -217,11 +234,11 @@ class UniversalTimezone extends Timezone {
       .toList();
 
   /// Get the span for the given time.
-  _Span _getSpan(int millisecondsSinceEpoch) {
+  _Span _getSpan(int microsecondsSinceEpoch) {
     final span = _spans.firstWhere(
       (element) =>
-          millisecondsSinceEpoch >= element.startTime &&
-          millisecondsSinceEpoch < element.endTime,
+          microsecondsSinceEpoch >= element.startTime &&
+          microsecondsSinceEpoch < element.endTime,
     );
     if (_dstRule == null) {
       return span;
@@ -229,20 +246,20 @@ class UniversalTimezone extends Timezone {
     if (!span.isLast) {
       return span;
     }
-    final currentYear = DateTime.fromMillisecondsSinceEpoch(
-      millisecondsSinceEpoch,
+    final currentYear = DateTime.fromMicrosecondsSinceEpoch(
+      microsecondsSinceEpoch,
       isUtc: true,
     ).year;
     final (firstRule, secondRule) = _transitionsFor(currentYear);
-    if (millisecondsSinceEpoch >= firstRule.transition &&
-        millisecondsSinceEpoch < secondRule.transition) {
+    if (microsecondsSinceEpoch >= firstRule.transition &&
+        microsecondsSinceEpoch < secondRule.transition) {
       return _Span(
         offset: _basic.currentStdUtcOffset + firstRule.save,
         startTime: firstRule.transition,
         endTime: secondRule.transition,
       );
     } else {
-      if (millisecondsSinceEpoch < firstRule.transition) {
+      if (microsecondsSinceEpoch < firstRule.transition) {
         final (_, lastYearSecondRule) = _transitionsFor(currentYear - 1);
         return _Span(
           offset: _basic.currentStdUtcOffset + lastYearSecondRule.save,
@@ -262,13 +279,13 @@ class UniversalTimezone extends Timezone {
 
   @override
   Offset offset({required EpochMicroseconds at}) =>
-      Offset.fromMicroseconds(_getSpan(at ~/ 1000).offset * 1000);
+      Offset.fromMicroseconds(_getSpan(at).offset);
   @override
   EpochMicroseconds convert({required int local}) {
     // Adapted from https://github.com/JodaOrg/joda-time/blob/main/src/main/java/org/joda/time/DateTimeZone.java#L951
 
     // Get the offset at local (first estimate).
-    final localInstant = local ~/ 1000;
+    final localInstant = local;
     final localSpan = _getSpan(localInstant);
     final localOffset = localSpan.offset;
 
@@ -277,7 +294,7 @@ class UniversalTimezone extends Timezone {
     final adjustedSpan = _getSpan(adjustedInstant);
     final adjustedOffset = adjustedSpan.offset;
 
-    var milliseconds = localInstant - adjustedOffset;
+    var microseconds = localInstant - adjustedOffset;
 
     // If the offsets differ, we must be near a DST boundary
     if (localOffset != adjustedOffset) {
@@ -286,8 +303,8 @@ class UniversalTimezone extends Timezone {
       // If we just use adjustedOffset then the time is pushed back before the
       // transition, whereas it should be on or after the transition
       if (localOffset - adjustedOffset < 0 &&
-          adjustedOffset != _getSpan(milliseconds).offset) {
-        milliseconds = adjustedInstant;
+          adjustedOffset != _getSpan(microseconds).offset) {
+        microseconds = adjustedInstant;
       }
     } else {
       final previousSpan = adjustedSpan.startTime == _Span.minTime
@@ -297,11 +314,11 @@ class UniversalTimezone extends Timezone {
         final previousOffset = previousSpan.offset;
         final difference = previousOffset - localOffset;
         if (adjustedInstant - adjustedSpan.startTime < difference) {
-          milliseconds = localInstant - previousOffset;
+          microseconds = localInstant - previousOffset;
         }
       }
     }
-    return milliseconds * 1000;
+    return microseconds;
   }
 
   /// Get the DST rules for the given year.
@@ -329,6 +346,15 @@ class UniversalTimezone extends Timezone {
     final secondRule = (ruleA.transition > ruleB.transition ? ruleA : ruleB);
     return (firstRule, secondRule);
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is UniversalTimezone && other.name == name;
+  }
+
+  @override
+  int get hashCode => name.hashCode;
 }
 
 /// A temporary class to hold a span of timezone data.
@@ -340,16 +366,16 @@ class _Span {
     this.startTime = minTime,
     this.endTime = maxTime,
   });
-  static const int maxTime = 8640000000000000;
+  static const int maxTime = 8640000000000000000;
   static const int minTime = -maxTime;
 
-  /// The start time of the span in milliseconds since epoch.
+  /// The start time of the span in microseconds since epoch.
   final int startTime;
 
-  /// The end time of the span in milliseconds since epoch.
+  /// The end time of the span in microseconds since epoch.
   final int endTime;
 
-  /// The offset for the span in milliseconds.
+  /// The offset for the span in microseconds.
   final int offset;
 
   /// Check if this span is the last span in the timezone.
@@ -388,7 +414,7 @@ class _DstRule {
       atHour: int.parse(parts[4]),
       atMinute: int.parse(parts[5]),
       atType: int.parse(parts[6]),
-      save: int.parse(parts[7]) * 60 * Duration.millisecondsPerSecond,
+      save: int.parse(parts[7]) * 60 * Duration.microsecondsPerSecond,
     );
   }
 
@@ -427,12 +453,12 @@ class _DstRule {
   late final transition =
       transitionForYear(_currentYear, _stdOffset, _dstOffset);
 
-  /// Get the time this rule is applied to in milliseconds since epoch
+  /// Get the time this rule is applied to in microseconds since epoch
   /// for a given year. (For example, we can infer from the rule
   /// when we should start Eastern Daylight Time by finding the
   /// second Sunday in March in a given year.)
   int transitionForYear(int year, int stdOffset, int dstOffset) {
-    int millis;
+    int micros;
     if (_dayOfWeek >= 0 && _dayOfMonth != 0) {
       // dayOfMonth is the earliest date that this transition can happen.
       // We then find the next dayOfWeek after that date.
@@ -451,8 +477,8 @@ class _DstRule {
         }
       }
 
-      millis = DateTime.utc(year, _month, tempDate.day, _atHour, _atMinute)
-          .millisecondsSinceEpoch;
+      micros = DateTime.utc(year, _month, tempDate.day, _atHour, _atMinute)
+          .microsecondsSinceEpoch;
     } else if (_dayOfWeek >= 0) {
       /// if dayOfMonth is 0, then we find the last day of the month
       /// that is the dayOfWeek.
@@ -466,13 +492,13 @@ class _DstRule {
       while (tempDate.weekday != effectiveDayOfWeek) {
         tempDate = tempDate.subtract(const Duration(days: 1));
       }
-      millis = DateTime.utc(year, _month, tempDate.day, _atHour, _atMinute)
-          .millisecondsSinceEpoch;
+      micros = DateTime.utc(year, _month, tempDate.day, _atHour, _atMinute)
+          .microsecondsSinceEpoch;
     } else {
       // If dayOfWeek is negative, then dayOfMonth actually
       // represents the day of the month.
-      millis = DateTime.utc(year, _month, _dayOfMonth, _atHour, _atMinute)
-          .millisecondsSinceEpoch;
+      micros = DateTime.utc(year, _month, _dayOfMonth, _atHour, _atMinute)
+          .microsecondsSinceEpoch;
     }
 
     // There are 2 different types of atType.
@@ -480,11 +506,11 @@ class _DstRule {
     // I wish I knew what they meant, but this is how the original
     // code was written.
     if (_atType == 0) {
-      millis -= stdOffset + dstOffset;
+      micros -= stdOffset + dstOffset;
     } else if (_atType == 1) {
-      millis -= stdOffset;
+      micros -= stdOffset;
     }
-    return millis;
+    return micros;
   }
 }
 
@@ -495,7 +521,7 @@ class _Basic {
     return _Basic._(
       initialUtcOffset: _parseHHMMorHHMMSS(parts[0]),
       currentStdUtcOffset: _parseHHMMorHHMMSS(parts[1]),
-      currentDstOffset: Duration(minutes: int.parse(parts[2])).inMilliseconds,
+      currentDstOffset: Duration(minutes: int.parse(parts[2])).inMicroseconds,
     );
   }
   _Basic._({
@@ -512,7 +538,7 @@ class _Basic {
   /// This is the offset that will be used if we are before the
   /// first transition.
   ///
-  /// This value is in milliseconds from the epoch.
+  /// This value is in microseconds from the epoch.
   final int initialUtcOffset;
 
   /// This is what the iana regards as standard time.
@@ -522,7 +548,7 @@ class _Basic {
   /// For instance Africa/Casablanca has permanent DST
   /// of (+1:00), but the iana regards that as standard time.
   ///
-  /// This value is in milliseconds from UTC.
+  /// This value is in microseconds from UTC.
   final int currentStdUtcOffset;
 
   /// When the timezone is in DST, this is the offset
@@ -531,7 +557,7 @@ class _Basic {
   /// For instance, in the timezone America/New_York,
   /// this would be 1 hour.
   ///
-  /// This value is in milliseconds.
+  /// This value is in microseconds.
   final int currentDstOffset;
 }
 
@@ -557,7 +583,7 @@ class _LocalTimeType {
   /// When this class is the current offset, this is the offset from UTC
   /// which is added to the current time to get the local time.
   ///
-  /// This value is in milliseconds.
+  /// This value is in microseconds.
   ///
   /// E.G. In the timezone America/New_York, the current offset is -5:00
   final int utcOffset60;
@@ -565,7 +591,7 @@ class _LocalTimeType {
   /// If the timezone is in DST, this is the offset that is added to the
   /// current offset.
   ///
-  /// This value is in milliseconds.
+  /// This value is in microseconds.
   ///
   ///  E.G. In the timezone America/New_York, the DST offset is 1:00
   final int dstOffset60;
@@ -581,7 +607,7 @@ class _LocalTimeType {
 
 /// Parse a string in the format -|+HHMM or -|+HHMMSS
 ///
-/// Return the results as milliseconds.
+/// Return the results as microseconds.
 /// See https://github.com/kshetline/tubular_time_tzdb#timezone-descriptions for more information.
 int _parseHHMMorHHMMSS(String rawInput) {
   var input = rawInput;
@@ -607,7 +633,7 @@ int _parseHHMMorHHMMSS(String rawInput) {
   } else {
     throw ArgumentError('Invalid input, $input');
   }
-  return (isNegative ? -result : result).inMilliseconds;
+  return (isNegative ? -result : result).inMicroseconds;
 }
 
 /// The timezone databases stores integers and durations in base60
@@ -627,7 +653,7 @@ class _Base60Encoder {
   /// Durations are encoded in base60 with a special format.
   /// See https://github.com/kshetline/tubular_time_tzdb for more information.
   ///
-  /// The result is in milliseconds.
+  /// The result is in microseconds.
   int parseDuration(String rawInput) {
     var input = rawInput;
     final isNegative = input.startsWith('-');
@@ -648,7 +674,7 @@ class _Base60Encoder {
       seconds = 0;
     }
     final result = Duration(minutes: minutes, seconds: seconds);
-    return (isNegative ? -result : result).inMilliseconds;
+    return (isNegative ? -result : result).inMicroseconds;
   }
 }
 

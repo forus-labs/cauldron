@@ -1,6 +1,5 @@
 import 'package:meta/meta.dart';
 
-import 'package:sugar/src/time/zone/providers/base_provider.dart';
 import 'package:sugar/sugar.dart';
 
 /// A timezone that contains rules defining how an offset varies for a single timezone.
@@ -64,10 +63,15 @@ abstract class Timezone {
   ///
   /// The default implementation is unmodifiable and lazy. Iterating over the entries/values is discouraged since it will
   /// initialize the iterated [Timezone]s, thereby increasing memory footprint. However, iterating over the keys is fine.
-  static TimezoneProvider timezoneProvider = UniversalTimezoneProvider();
+  static Map<String, Timezone> timezoneProvider = UniversalTimezoneProvider();
+
+  /// The `Factory` timezone in the TZ database that has no offset.
+  ///
+  /// It is used as a default value for when parsing/retrieving a timezone fails.
+  static Timezone get factory => const FactoryTimezone();
 
   /// The last used timezone.
-  static Timezone _timezone = timezoneProvider.factory;
+  static Timezone _timezone = factory;
 
   /// The timezone name, typically a TZ database timezone identifier such as `Asia/Singapore`.
   final String name;
@@ -97,7 +101,7 @@ abstract class Timezone {
   /// final factory = Timezone('invalid'); // `Factory`
   /// ```
   factory Timezone(String name) =>
-      timezoneProvider[name] ?? timezoneProvider.factory;
+      timezoneProvider[name] ?? const FactoryTimezone();
 
   /// Creates a [Timezone].
   const Timezone.from(this.name);
@@ -112,4 +116,18 @@ abstract class Timezone {
 
   @override
   String toString() => name;
+}
+
+/// A timezone which is used when the platform's timezone could not be retrieved.
+class FactoryTimezone extends Timezone {
+  /// Creates a new instance of [FactoryTimezone].
+  ///
+  /// This constructor calls the super constructor with the string 'Factory'.
+  const FactoryTimezone() : super.from('Factory');
+
+  @override
+  EpochMicroseconds convert({required int local}) => 0;
+
+  @override
+  Offset offset({required EpochMicroseconds at}) => Offset();
 }
