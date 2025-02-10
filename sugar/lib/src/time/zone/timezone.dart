@@ -1,8 +1,7 @@
 import 'package:meta/meta.dart';
 
-import 'package:sugar/src/time/temporal_unit.dart';
-import 'package:sugar/src/time/zone/info/root.g.dart';
-import 'package:sugar/time_zone.dart';
+import 'package:sugar/src/time/zone/providers/base_provider.dart';
+import 'package:sugar/sugar.dart';
 
 /// A timezone that contains rules defining how an offset varies for a single timezone.
 ///
@@ -44,7 +43,6 @@ import 'package:sugar/time_zone.dart';
 /// ![Clock moving backwards](https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/End_CEST.svg/120px-End_CEST.svg.png)
 /// <br>
 abstract class Timezone {
-
   /// A callback that retrieves the platform's timezone.
   ///
   /// A TZ database timezone identifier such as `Asia/Singapore` is always returned. Otherwise returns `Factory` if the
@@ -55,7 +53,8 @@ abstract class Timezone {
   /// Retrieving a timezone directly from this callback is discouraged. Users should prefer [Timezone.now].
   ///
   /// See [defaultPlatformTimezoneProvider] for the default implementation.
-  static String Function() platformTimezoneProvider = defaultPlatformTimezoneProvider;
+  static String Function() platformTimezoneProvider =
+      defaultPlatformTimezoneProvider;
 
   /// All known TZ database timezone identifiers associated with the timezones.
   ///
@@ -65,19 +64,13 @@ abstract class Timezone {
   ///
   /// The default implementation is unmodifiable and lazy. Iterating over the entries/values is discouraged since it will
   /// initialize the iterated [Timezone]s, thereby increasing memory footprint. However, iterating over the keys is fine.
-  static Map<String, Timezone> timezoneProvider = DefaultTimezoneProvider();
-
-  /// The `Factory` timezone in the TZ database that has no offset.
-  ///
-  /// It is used as a default value for when parsing/retrieving a timezone fails.
-  static Timezone get factory => Root.factory;
+  static TimezoneProvider timezoneProvider = UniversalTimezoneProvider();
 
   /// The last used timezone.
-  static Timezone _timezone = factory;
+  static Timezone _timezone = timezoneProvider.factory;
 
   /// The timezone name, typically a TZ database timezone identifier such as `Asia/Singapore`.
   final String name;
-
 
   /// Creates a [Timezone] with the current timezone, or [factory] if the current timezone could not be retrieved.
   ///
@@ -103,20 +96,20 @@ abstract class Timezone {
   /// final singapore = Timezone('Asia/Singapore'); // `Asia/Singapore`
   /// final factory = Timezone('invalid'); // `Factory`
   /// ```
-  factory Timezone(String name) => timezoneProvider[name] ?? factory;
+  factory Timezone(String name) =>
+      timezoneProvider[name] ?? timezoneProvider.factory;
 
   /// Creates a [Timezone].
   const Timezone.from(this.name);
 
+  /// Converts the [local] date-time in microseconds to microseconds since Unix epoch (in UTC).
+  @useResult
+  EpochMicroseconds convert({required int local});
 
-  /// Converts the [local] date-time in microseconds to microseconds since Unix epoch (in UTC). The corresponding
-  /// [TimezoneSpan] is also returned.
-  @useResult (EpochMicroseconds, TimezoneSpan) convert({required int local});
-
-  /// Returns the [TimezoneSpan] at the microseconds since Unix epoch.
-  @useResult TimezoneSpan span({required EpochMicroseconds at});
+  /// Returns the offset of this timezone at the given [at] date-time.
+  @useResult
+  Offset offset({required EpochMicroseconds at});
 
   @override
   String toString() => name;
-
 }

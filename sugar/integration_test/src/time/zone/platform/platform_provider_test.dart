@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 /// These tests should be ran using the shell/bat scripts in the same folder.
 void main() {
   test('defaultPlatformTimezoneProvider() return current timezone', () {
-    final timezones = DefaultTimezoneProvider();
+    final timezones = UniversalTimezoneProvider();
     final timezone = defaultPlatformTimezoneProvider();
 
     expect(timezones.containsKey(timezone), true);
@@ -12,7 +12,7 @@ void main() {
   }, testOn: 'windows');
 
   test('defaultPlatformTimezoneProvider() return current timezone', () {
-    final timezones = DefaultTimezoneProvider();
+    final timezones = UniversalTimezoneProvider();
     final timezone = defaultPlatformTimezoneProvider();
 
     expect(timezones.containsKey(timezone), true);
@@ -21,15 +21,16 @@ void main() {
 
   group('posix', () {
     test('defaultPlatformTimezoneProvider() known TZ environment variable', () {
-      final timezones = DefaultTimezoneProvider();
+      final timezones = UniversalTimezoneProvider();
       final timezone = defaultPlatformTimezoneProvider();
 
       expect(timezones.containsKey(timezone), true);
       expect(timezone, 'Mexico/BajaSur');
     });
 
-    test('defaultPlatformTimezoneProvider() unknown TZ environment variable', () {
-      final timezones = DefaultTimezoneProvider();
+    test('defaultPlatformTimezoneProvider() unknown TZ environment variable',
+        () {
+      final timezones = UniversalTimezoneProvider();
       final timezone = defaultPlatformTimezoneProvider();
 
       expect(timezones.containsKey(timezone), true);

@@ -4,14 +4,15 @@ import 'package:meta/meta.dart';
 
 import 'package:sugar/src/time/zone/platform/posix_timezones.g.dart';
 
-final _localtime =  File('/etc/localtime');
+final _localtime = File('/etc/localtime');
 
 /// The current timezone name on MacOS/Linux, or `Factory` if the timezone name could not be inferred.
 ///
 /// ## Contract
 /// This field should only be accessed on MacOS/Linux. Accessing this field on other platforms will result in undefined
 /// behaviour.
-@internal String get posixTimezone {
+@internal
+String get posixTimezone {
   try {
     final variable = Platform.environment['TZ'];
     if (variable != null && known.contains(variable)) {
@@ -28,9 +29,9 @@ final _localtime =  File('/etc/localtime');
     }
 
     // Recent versions of macOS renamed zoneinfo to zoneinfo.default.
-    path = _localtime.resolveSymbolicLinksSync().split('zoneinfo.default/').last;
+    path =
+        _localtime.resolveSymbolicLinksSync().split('zoneinfo.default/').last;
     return known.contains(path) ? path : 'Factory';
-
   } on FileSystemException {
     return 'Factory';
   }

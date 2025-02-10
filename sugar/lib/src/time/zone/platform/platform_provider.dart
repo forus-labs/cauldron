@@ -1,5 +1,5 @@
 import 'package:sugar/src/time/zone/platform/web_provider.dart'
-  if (dart.library.io) 'package:sugar/src/time/zone/platform/native_provider.dart';
+    if (dart.library.io) 'package:sugar/src/time/zone/platform/native_provider.dart';
 
 /// The default platform timezone provider.
 ///

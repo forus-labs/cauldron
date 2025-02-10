@@ -1,6 +1,7 @@
 /// Inter-op bindings for [`Intl.DateFormat().resolvedOptions().timeZone`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions#description).
 @JS('Intl')
-@internal library;
+@internal
+library;
 
 import 'dart:js_interop';
 import 'package:meta/meta.dart';
@@ -16,7 +17,6 @@ class DateTimeFormat {
 extension DateTimeFormatExtension on DateTimeFormat {
   external Options resolvedOptions();
 }
-
 
 @JS()
 @staticInterop

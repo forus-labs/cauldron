@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
 
 void main() {
-  test('factory', () => expect(Timezone.factory.name, 'Factory'));
+  test('factory', () => expect(Timezone.timezoneProvider.factory, 'Factory'));
 
   group('now()', () {
     setUp(() => Timezone.platformTimezoneProvider = () => 'Asia/Tokyo');
@@ -20,19 +20,15 @@ void main() {
       expect(Timezone.now().name, 'Factory');
     });
 
-    tearDown(() => Timezone.platformTimezoneProvider = defaultPlatformTimezoneProvider);
+    tearDown(() =>
+        Timezone.platformTimezoneProvider = defaultPlatformTimezoneProvider);
   });
-  
+
   group('Timezone(...)', () {
-    setUp(() => Timezone.timezoneProvider = DefaultTimezoneProvider());
+    setUp(() => Timezone.timezoneProvider = UniversalTimezoneProvider());
 
     test('valid', () => expect(Timezone('Asia/Tokyo').name, 'Asia/Tokyo'));
 
     test('invalid', () => expect(Timezone('invalid').name, 'Factory'));
-    
-    test('custom timezoneProvider', () {
-      Timezone.timezoneProvider = {};
-      expect(Timezone('Asia/Tokyo').name, 'Factory');
-    });
   });
 }

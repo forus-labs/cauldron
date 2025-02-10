@@ -3,7 +3,8 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 
-const source = 'https://raw.githubusercontent.com/unicode-org/cldr-json/main/cldr-json/cldr-core/supplemental/windowsZones.json';
+const source =
+    'https://raw.githubusercontent.com/unicode-org/cldr-json/main/cldr-json/cldr-core/supplemental/windowsZones.json';
 const output = 'lib/src/time/zone/platform/windows_timezones.g.dart';
 
 const header = '''
@@ -27,7 +28,8 @@ import 'package:meta/meta.dart';
 void main() async {
   final response = await get(Uri.parse(source));
 
-  final raw = jsonDecode(response.body)['supplemental']['windowsZones']['mapTimezones'] as List<dynamic>;
+  final raw = jsonDecode(response.body)['supplemental']['windowsZones']
+      ['mapTimezones'] as List<dynamic>;
 
   final zones = <String, MapEntry<String, String>>{};
   for (final object in raw) {
@@ -37,7 +39,8 @@ void main() async {
     final territory = zone['_territory'];
 
     final existing = zones[windows];
-    if (existing == null || territory == '001') { // always prefer canonical location
+    if (existing == null || territory == '001') {
+      // always prefer canonical location
       zones[windows] = MapEntry(location, territory);
     }
   }
