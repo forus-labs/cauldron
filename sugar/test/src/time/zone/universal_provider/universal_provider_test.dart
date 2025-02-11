@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:jni/jni.dart';
 import 'package:path/path.dart';
-import 'package:sugar/src/time/zone/providers/embedded/embedded_timezone.dart';
 import 'package:sugar/src/time/zone/providers/embedded/timezone_provider.dart';
 
 import 'package:test/test.dart';

@@ -1,8 +1,4 @@
-import 'package:meta/meta.dart';
-
-import 'package:sugar/src/time/offset.dart';
-import 'package:sugar/src/time/temporal_unit.dart';
-import 'package:sugar/src/time/zone/timezone.dart';
+part of 'timezone_provider.dart';
 
 /// A [Timezone] that uses the embedded timezone database.
 class EmbeddedTimezone extends Timezone {
@@ -12,6 +8,9 @@ class EmbeddedTimezone extends Timezone {
 
   final List<TimezoneSpan> _spans;
   final DSTRules? _dstRules;
+
+  EmbeddedTimezone _withName(String name) =>
+      EmbeddedTimezone(name, _spans, _dstRules);
 
   @override
   EpochMicroseconds convert(
