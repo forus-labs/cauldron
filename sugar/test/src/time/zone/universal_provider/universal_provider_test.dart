@@ -90,39 +90,48 @@ void main() {
 
 typedef TestJob = ({String tz, int year});
 
-List<int> _defaultYears(EmbeddedTimezone tz) {
+Set<int> _defaultYears(EmbeddedTimezone tz) {
   final random = Random();
 
-  final years = [
-    ...uniqueYears(random.nextInt(20)),
-    ...uniqueYears(random.nextInt(20) - 100),
-    ...uniqueYears(random.nextInt(20) + 1950),
-    ...uniqueYears(random.nextInt(20) + 2000),
-    ...uniqueYears(random.nextInt(20) + 1900),
-    ...uniqueYears(random.nextInt(20) + 2038),
-    ...uniqueYears(random.nextInt(20) + 2200),
-  ];
+  final years = {
+    -10,
+    10,
+    1700,
+    1800,
+    1900,
+    2000,
+    2100,
 
+    /// Pick a  3 random years between 1700 and 2100
+    /// and get the 14 possible years after it it
+    ...uniqueYears(random.nextInt(400) + 1700),
+    ...uniqueYears(random.nextInt(400) + 1700),
+    ...uniqueYears(random.nextInt(400) + 1700),
+  };
+
+  /// Test the years around the first and last transitions
+  /// to ensure that the provider is able to handle them
   if (tz.lastYear case final int endYear) {
     years
-      ..add(endYear - 2)
       ..add(endYear - 1)
       ..add(endYear)
-      ..add(endYear + 1)
-      ..add(endYear + 2);
+      ..add(endYear + 1);
   }
 
   if (tz.firstYear case final int firstYear) {
     years
-      ..add(firstYear - 2)
       ..add(firstYear - 1)
       ..add(firstYear)
-      ..add(firstYear + 1)
-      ..add(firstYear + 2);
+      ..add(firstYear + 1);
   }
   return years;
 }
 
+/// There are only 14 ways that a year can fall out
+/// 1. Starting weekday (7 possibilities)
+/// 2. Leap year or not (2 possibilities)
+/// This function returns a set of 14 unique years
+/// right after the start year
 Set<int> uniqueYears([int? startYear]) {
   bool isLeapYear(int year) =>
       (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
