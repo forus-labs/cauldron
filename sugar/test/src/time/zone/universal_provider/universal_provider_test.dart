@@ -22,7 +22,8 @@ void main() {
 
   group('EmbeddedTimezoneProvider', () {
     test('containts known timezones', () {
-      expect(known.difference(embeddedProvider.keys.toSet()), 0);
+      /// All the known timezones should be in the embedded provider
+      expect(known.difference(embeddedProvider.keys.toSet()).length, 0);
     });
 
     final testTimezones = embeddedProvider.keys.toSet().intersection(

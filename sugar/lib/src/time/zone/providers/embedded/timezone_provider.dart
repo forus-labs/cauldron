@@ -15,6 +15,9 @@ class EmbeddedTimezoneProvider extends UnmodifiableMapBase<String, Timezone> {
       if (_cache.containsKey(key)) {
         return _cache[key];
       }
+      if (key == 'Factory') {
+        return const FactoryTimezone();
+      }
       final timezone = parseTimezone(name: key);
       if (timezone != null) {
         _cache[key] = timezone;
@@ -25,5 +28,5 @@ class EmbeddedTimezoneProvider extends UnmodifiableMapBase<String, Timezone> {
   }
 
   @override
-  Iterable<String> get keys => knownTimezones;
+  Iterable<String> get keys => knownTimezones.union({'Factory'});
 }

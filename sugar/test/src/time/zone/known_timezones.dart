@@ -8,6 +8,7 @@ const Set<String> known = {
   'EST5EDT',
   'Egypt',
   'Eire',
+  'Factory',
   'GB',
   'GB-Eire',
   'GMT',

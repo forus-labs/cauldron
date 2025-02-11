@@ -136,7 +136,7 @@ EmbeddedTimezone? parseTimezone({required String name}) {
 }
 
 /// The known timezones in the timezone database.
-final knownTimezones = _tzdb.keys.toList();
+final knownTimezones = _tzdb.keys.toSet();
 
 /// The timezone database stores durations in the format (-|+)HHMM or (-|+)HHMMSS
 /// where HH is hours, MM is minutes, and SS is seconds.
