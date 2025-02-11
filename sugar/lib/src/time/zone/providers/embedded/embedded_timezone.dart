@@ -4,7 +4,7 @@ import 'package:sugar/src/time/offset.dart';
 import 'package:sugar/src/time/temporal_unit.dart';
 import 'package:sugar/src/time/zone/timezone.dart';
 
-/// A [Timezone] that uses the universal timezone database.
+/// A [Timezone] that uses the embedded timezone database.
 class EmbeddedTimezone extends Timezone {
   /// Create a new [EmbeddedTimezone] with the given values.
   const EmbeddedTimezone(super.name, this._spans, this._dstRules)

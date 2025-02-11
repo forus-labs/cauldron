@@ -131,7 +131,7 @@ const _tzdb = ${jsonEncode(tzDb)};
     'time',
     'zone',
     'providers',
-    'universal',
+    'embedded',
     'tzdb.g.dart',
   ))
     ..createSync()

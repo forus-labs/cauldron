@@ -1,5 +1,5 @@
 import 'package:b/b.dart';
-import 'package:sugar/src/time/zone/providers/universal/embedded_timezone.dart';
+import 'package:sugar/src/time/zone/providers/embedded/embedded_timezone.dart';
 import 'package:sugar/sugar.dart';
 
 part 'tzdb.g.dart';

@@ -2,7 +2,7 @@ import 'package:sugar/sugar.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('UniversalTimezoneProvider', () {
+  group('EmbeddedTimezoneProvider', () {
     final provider = EmbeddedTimezoneProvider();
 
     test('existing timezone',

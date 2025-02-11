@@ -4,8 +4,8 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:jni/jni.dart';
 import 'package:path/path.dart';
-import 'package:sugar/src/time/zone/providers/universal/embedded_timezone.dart';
-import 'package:sugar/src/time/zone/providers/universal/lazy_provider.dart';
+import 'package:sugar/src/time/zone/providers/embedded/embedded_timezone.dart';
+import 'package:sugar/src/time/zone/providers/embedded/timezone_provider.dart';
 
 import 'package:test/test.dart';
 
@@ -17,16 +17,16 @@ void main() {
   );
   final tests = <TestJob>[];
   final javaProvider = JavaTimezoneProvider();
-  final universalProvider = EmbeddedTimezoneProvider();
+  final embeddedProvider = EmbeddedTimezoneProvider();
 
-  final testTimezones = universalProvider.keys.toSet().intersection(
+  final testTimezones = embeddedProvider.keys.toSet().intersection(
         javaProvider.keys.toSet(),
       );
 
   for (final tz in testTimezones) {
-    final universalTz = universalProvider[tz]!;
+    final embeddedTz = embeddedProvider[tz]!;
     final effectiveYears =
-        _defaultYears(universalTz as EmbeddedTimezone).shuffled();
+        _defaultYears(embeddedTz as EmbeddedTimezone).shuffled();
     for (final year in effectiveYears) {
       tests.add((tz: tz, year: year));
     }
@@ -34,12 +34,12 @@ void main() {
   tests.shuffle();
 
   group(
-    'test universal provider against java',
+    'test embedded provider against java',
     () {
       for (final t in tests) {
         test('${t.tz} - ${t.year}', () {
           final javaTz = javaProvider[t.tz]!;
-          final uniTz = universalProvider[t.tz]!;
+          final uniTz = embeddedProvider[t.tz]!;
           expect(uniTz.name, javaTz.name);
           var dt = DateTime.utc(t.year);
           while (dt.year < t.year + 1) {
@@ -49,7 +49,7 @@ void main() {
               uniOffset,
               javaOffset,
               reason:
-                  'Date: $dt, UniversalOffset:$uniOffset, JavaConverted:$javaOffset',
+                  'Date: $dt, EmbeddedOffset:$uniOffset, JavaConverted:$javaOffset',
             );
             final localized =
                 dt.add(Duration(microseconds: uniOffset.inMicroseconds));
@@ -78,7 +78,7 @@ void main() {
               uniConverted,
               javaConverted,
               reason:
-                  'Date: $localized, UniversalConverted:$uniConverted, JavaConverted:$javaConverted',
+                  'Date: $localized, EmbeddedConverted:$uniConverted, JavaConverted:$javaConverted',
             );
             dt = dt.add(const Duration(minutes: 30));
           }

@@ -8,16 +8,22 @@ import 'package:sugar/src/time/zone/timezone.dart';
 import 'bindings.dart';
 
 class JavaTimezoneProvider extends UnmodifiableMapBase<String, Timezone> {
+  final _cache = <String, Timezone>{};
   @override
   Timezone? operator [](Object? key) {
     if (key is String && keys.contains(key)) {
-      return JavaTimezone(key);
+      if (_cache.containsKey(key)) {
+        return _cache[key];
+      }
+      final timezone = JavaTimezone(key);
+      _cache[key] = timezone;
+      return timezone;
     }
     return null;
   }
 
   @override
-  Iterable<String> get keys => ZoneId.getAvailableZoneIds()!.use((ids) => ids
+  late final keys = ZoneId.getAvailableZoneIds()!.use((ids) => ids
       .map((element) => element?.toDartString(releaseOriginal: true))
       .nonNulls
       .toSet());
@@ -26,19 +32,21 @@ class JavaTimezoneProvider extends UnmodifiableMapBase<String, Timezone> {
 /// A timezone that uses the Java timezone database.
 class JavaTimezone extends Timezone {
   /// Creates a new Java timezone with the given [name].
-  const JavaTimezone(super.name) : super.from();
+  JavaTimezone(super.name) : super.from();
 
   @override
   Offset offset({required EpochMicroseconds at}) {
     final instant = Instant.ofEpochMilli(at ~/ 1000);
-    final result = _zoneId()
-        .use((p0) => ZonedDateTime.ofInstant(instant, p0))!
+    final result = ZonedDateTime.ofInstant(instant, _zoneId)!
         .use((p0) => p0.getOffset()!.use((offset) => offset.getTotalSeconds()));
     instant!.release();
     return Offset.fromSeconds(result);
   }
 
-  ZoneId _zoneId() => JString.fromString(name).use(ZoneId.of$1)!;
+  /// TODO: When we move this to the main library, we should remove
+  /// this so that we don't have memory leaks. We should instead create
+  /// a new zodeId object each time we need it.
+  late final _zoneId = JString.fromString(name).use(ZoneId.of$1)!;
 
   @override
   EpochMicroseconds convert(
@@ -53,19 +61,19 @@ class JavaTimezone extends Timezone {
   ]) {
     final nanoSeconds = (microsecond * 1000) + (millisecond * 1000000);
 
-    return _zoneId().use(
-      (zone) => ZonedDateTime.of$2(
-        year,
-        month,
-        day,
-        hour,
-        minute,
-        second,
-        nanoSeconds,
-        zone,
-      )!
-          .use((zonedDateTime) => Instant.from(zonedDateTime)!.use((instant) =>
-              instant.getEpochSecond() * Duration.microsecondsPerSecond)),
+    return ZonedDateTime.of$2(
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second,
+      nanoSeconds,
+      _zoneId,
+    )!
+        .use(
+      (zonedDateTime) => Instant.from(zonedDateTime)!.use((instant) =>
+          instant.getEpochSecond() * Duration.microsecondsPerSecond),
     );
   }
 
