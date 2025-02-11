@@ -43,8 +43,6 @@ jobs:
         with:
           distribution: "adopt"
           java-version: "11.0.26+4"
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v5
       - run: dart pub get
       - run: dart run tool/generate_timezones.dart
       - run: dart analyze --fatal-warnings
