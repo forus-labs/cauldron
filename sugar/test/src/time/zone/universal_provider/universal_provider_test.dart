@@ -9,6 +9,7 @@ import 'package:sugar/src/time/zone/providers/embedded/timezone_provider.dart';
 
 import 'package:test/test.dart';
 
+import '../known_timezones.dart';
 import 'java_provider/java_timezone_provider.dart';
 
 void main() {
@@ -19,23 +20,26 @@ void main() {
   final javaProvider = JavaTimezoneProvider();
   final embeddedProvider = EmbeddedTimezoneProvider();
 
-  final testTimezones = embeddedProvider.keys.toSet().intersection(
-        javaProvider.keys.toSet(),
-      );
+  group('EmbeddedTimezoneProvider', () {
+    test('containts known timezones', () {
+      expect(known.difference(embeddedProvider.keys.toSet()), 0);
+    });
 
-  for (final tz in testTimezones) {
-    final embeddedTz = embeddedProvider[tz]!;
-    final effectiveYears =
-        _defaultYears(embeddedTz as EmbeddedTimezone).shuffled();
-    for (final year in effectiveYears) {
-      tests.add((tz: tz, year: year));
+    final testTimezones = embeddedProvider.keys.toSet().intersection(
+          javaProvider.keys.toSet(),
+        );
+
+    for (final tz in testTimezones) {
+      final embeddedTz = embeddedProvider[tz]!;
+      final effectiveYears =
+          _defaultYears(embeddedTz as EmbeddedTimezone).shuffled();
+      for (final year in effectiveYears) {
+        tests.add((tz: tz, year: year));
+      }
     }
-  }
-  tests.shuffle();
+    tests.shuffle();
 
-  group(
-    'test embedded provider against java',
-    () {
+    group('embedded provider against java', () {
       for (final t in tests) {
         test('${t.tz} - ${t.year}', () {
           final javaTz = javaProvider[t.tz]!;
@@ -84,8 +88,8 @@ void main() {
           }
         });
       }
-    },
-  );
+    });
+  });
 }
 
 typedef TestJob = ({String tz, int year});
