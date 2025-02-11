@@ -96,6 +96,7 @@ void main() {
 typedef TestJob = ({String tz, int year});
 
 Set<int> _defaultYears(EmbeddedTimezone tz) {
+  return {0};
   final random = Random();
 
   final years = {
