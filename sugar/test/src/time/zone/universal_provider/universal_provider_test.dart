@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:jni/jni.dart';
@@ -94,7 +95,42 @@ void main() {
 
 typedef TestJob = ({String tz, int year});
 
-Set<int> _defaultYears(EmbeddedTimezone tz) => {0};
+Set<int> _defaultYears(EmbeddedTimezone tz) {
+  final random = Random();
+
+  final years = {
+    -10,
+    10,
+    1700,
+    1800,
+    1900,
+    2000,
+    2100,
+
+    /// Pick a  3 random years between 1700 and 2100
+    /// and get the 14 possible years after it it
+    ...uniqueYears(random.nextInt(400) + 1700),
+    ...uniqueYears(random.nextInt(400) + 1700),
+    ...uniqueYears(random.nextInt(400) + 1700),
+  };
+
+  /// Test the years around the first and last transitions
+  /// to ensure that the provider is able to handle them
+  if (tz.lastYear case final int endYear) {
+    years
+      ..add(endYear - 1)
+      ..add(endYear)
+      ..add(endYear + 1);
+  }
+
+  if (tz.firstYear case final int firstYear) {
+    years
+      ..add(firstYear - 1)
+      ..add(firstYear)
+      ..add(firstYear + 1);
+  }
+  return years;
+}
 
 /// There are only 14 ways that a year can fall out
 /// 1. Starting weekday (7 possibilities)
