@@ -7,10 +7,19 @@ import 'package:sugar/src/time/zone/timezone.dart';
 /// This provider uses a bundled timezone database to provide timezone
 /// information for all known timezones.
 class EmbeddedTimezoneProvider extends UnmodifiableMapBase<String, Timezone> {
+  final _cache = <String, Timezone>{};
+
   @override
   Timezone? operator [](Object? key) {
     if (key is String && keys.contains(key)) {
-      return parseTimezone(name: key);
+      if (_cache.containsKey(key)) {
+        return _cache[key];
+      }
+      final timezone = parseTimezone(name: key);
+      if (timezone != null) {
+        _cache[key] = timezone;
+        return timezone;
+      }
     }
     return null;
   }
