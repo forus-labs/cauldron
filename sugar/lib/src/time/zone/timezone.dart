@@ -107,10 +107,19 @@ abstract class Timezone {
   /// Creates a [Timezone].
   const Timezone.from(this.name);
 
-  /// Converts the [local] date-time in microseconds to microseconds since Unix epoch (in UTC). The corresponding
+  /// Converts the provided date-time in this timezone to microseconds since Unix epoch (in UTC). The corresponding
   /// [TimezoneSpan] is also returned.
   @useResult
-  (EpochMicroseconds, TimezoneSpan) convert({required int local});
+  (EpochMicroseconds, TimezoneSpan) convert(
+    int year, [
+    int month = 1,
+    int day = 1,
+    int hour = 0,
+    int minute = 0,
+    int second = 0,
+    int millisecond = 0,
+    int microsecond = 0,
+  ]);
 
   /// Returns the [TimezoneSpan] at the microseconds since Unix epoch.
   @useResult
