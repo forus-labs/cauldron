@@ -33,9 +33,12 @@ class TimezoneSpan {
 
   /// Whether this span is the final
   /// span in the timezone database.
-  bool get isFinalSpan => start == range.min.value;
+  bool get isFinalSpan => start == range.max.value;
 
   /// Whether this span is the first
   /// span in the timezone database.
-  bool get isInitialSpan => end == range.max.value;
+  bool get isInitialSpan => end == range.min.value;
+
+  @override
+  String toString() => 'TimezoneSpan($abbreviation, $offset, $start, $end, $dst)';
 }
