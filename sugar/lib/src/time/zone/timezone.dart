@@ -1,7 +1,8 @@
 import 'package:meta/meta.dart';
 
 import 'package:sugar/src/time/temporal_unit.dart';
-import 'package:sugar/src/time/zone/info/root.g.dart';
+import 'package:sugar/src/time/zone/factory_timezone.dart';
+import 'package:sugar/src/time/zone/providers/embedded/embedded_timezone_provider.dart';
 import 'package:sugar/time_zone.dart';
 
 /// A timezone that contains rules defining how an offset varies for a single timezone.
@@ -65,12 +66,12 @@ abstract class Timezone {
   ///
   /// The default implementation is unmodifiable and lazy. Iterating over the entries/values is discouraged since it will
   /// initialize the iterated [Timezone]s, thereby increasing memory footprint. However, iterating over the keys is fine.
-  static Map<String, Timezone> timezoneProvider = DefaultTimezoneProvider();
+  static Map<String, Timezone> timezoneProvider = EmbeddedTimezoneProvider();
 
   /// The `Factory` timezone in the TZ database that has no offset.
   ///
   /// It is used as a default value for when parsing/retrieving a timezone fails.
-  static Timezone get factory => Root.factory;
+  static Timezone get factory => const FactoryTimezone();
 
   /// The last used timezone.
   static Timezone _timezone = factory;

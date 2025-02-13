@@ -7,6 +7,6 @@
 library;
 
 export 'src/time/zone/timezone.dart';
-export 'src/time/zone/timezone_provider.dart';
+export 'src/time/zone/providers/embedded/embedded_timezone_provider.dart';
 export 'src/time/zone/timezone_span.dart';
 export 'src/time/zone/platform/platform_provider.dart';
