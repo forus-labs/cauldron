@@ -37,12 +37,20 @@ class JavaTimezone extends Timezone {
   @override
   TimezoneSpan span({required EpochMicroseconds at}) {
     final instant = Instant.ofEpochMilli(at ~/ 1000);
-    final result = ZonedDateTime.ofInstant(
-      instant,
-      _zoneId,
-    )!.use((p0) => p0.getOffset()!.use((offset) => offset.getTotalSeconds()));
+    final (offset, isDst, abbr) = ZonedDateTime.ofInstant(instant, _zoneId)!.use((zdt) {
+      final isDst = zdt.getOffset()!.use(
+        (zoneOffset) =>
+            zoneOffset.getRules()!.use((zoneRules) => Instant.from(zdt)!.use((i) => zoneRules.isDaylightSavings(i))),
+      );
+      final abbr = 'zzz'
+          .toJString()
+          .use(DateTimeFormatter.ofPattern)!
+          .use((f) => f.format(zdt)!.toDartString(releaseOriginal: true));
+      final offset = zdt.getOffset()!.use((p0) => p0.getTotalSeconds());
+      return (offset, isDst, abbr);
+    });
     instant!.release();
-    return JavaTimezoneSpan(offset: Offset.fromSeconds(result), abbreviation: null, dst: false);
+    return JavaTimezoneSpan(offset: Offset.fromSeconds(offset), abbreviation: abbr, dst: isDst);
   }
 
   /// TODO: When we move this to the main library, we should remove
@@ -62,7 +70,6 @@ class JavaTimezone extends Timezone {
     int microsecond = 0,
   ]) {
     final nanoSeconds = (microsecond * 1000) + (millisecond * 1000000);
-
     final micros = ZonedDateTime.of$2(year, month, day, hour, minute, second, nanoSeconds, _zoneId)!.use(
       (zonedDateTime) =>
           Instant.from(zonedDateTime)!.use((instant) => instant.getEpochSecond() * Duration.microsecondsPerSecond),

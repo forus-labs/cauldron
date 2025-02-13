@@ -20,10 +20,11 @@ void main() {
 
   group('EmbeddedTimezoneProvider', () {
     test('containts known timezones', () {
-      /// All the known timezones should be in the embedded provider
+      /// Test that the embedded provider contains all known timezones
       expect(known.difference(embeddedProvider.keys.toSet()).length, 0);
     });
 
+    // Only test time zones that are in both the embedded and java providers
     final testTimezones = embeddedProvider.keys.toSet().intersection(javaProvider.keys.toSet());
 
     for (final tz in testTimezones) {
@@ -35,7 +36,7 @@ void main() {
     }
     tests.shuffle();
 
-    group('embedded provider against java', () {
+    group('against java', () {
       for (final t in tests) {
         test('${t.tz} - ${t.year}', () {
           final javaTz = javaProvider[t.tz]!;
@@ -82,6 +83,30 @@ void main() {
         });
       }
     });
+
+    group('dst and abbr', () {
+      test('timezone with dst', () {
+        final embeddedTz = embeddedProvider['America/New_York']!;
+        // Regular years
+        _testDstAndAbbr(embeddedTz, DateTime.utc(2000), 'EST', false);
+        _testDstAndAbbr(embeddedTz, DateTime.utc(2000, 6), 'EDT', true);
+        _testDstAndAbbr(embeddedTz, DateTime.utc(2000, 12), 'EST', false);
+        // Before the first transition
+        _testDstAndAbbr(embeddedTz, DateTime.utc(1700), 'LMT', false);
+        _testDstAndAbbr(embeddedTz, DateTime.utc(1700, 6), 'LMT', false);
+        _testDstAndAbbr(embeddedTz, DateTime.utc(1700, 12), 'LMT', false);
+        // After the last transition
+        _testDstAndAbbr(embeddedTz, DateTime.utc(2500), null, false);
+        _testDstAndAbbr(embeddedTz, DateTime.utc(2500, 6), null, true);
+        _testDstAndAbbr(embeddedTz, DateTime.utc(2500, 12), null, false);
+      });
+      test('fixed timezone', () {
+        final embeddedTz = embeddedProvider['Etc/GMT+2']!;
+        _testDstAndAbbr(embeddedTz, DateTime.utc(2000), '-0200', false);
+        _testDstAndAbbr(embeddedTz, DateTime.utc(2000, 6), '-0200', false);
+        _testDstAndAbbr(embeddedTz, DateTime.utc(2000, 12), '-0200', false);
+      });
+    });
   });
 }
 
@@ -98,12 +123,13 @@ Set<int> _defaultYears(EmbeddedTimezone tz) {
     1900,
     2000,
     2100,
+    2200,
 
-    /// Pick a  3 random years between 1700 and 2100
+    /// Pick a  3 random years between 1700 and 2200
     /// and get the 14 possible years after it it
-    ...uniqueYears(random.nextInt(400) + 1700),
-    ...uniqueYears(random.nextInt(400) + 1700),
-    ...uniqueYears(random.nextInt(400) + 1700),
+    ...uniqueYears(random.nextInt(500) + 1700),
+    ...uniqueYears(random.nextInt(500) + 1700),
+    ...uniqueYears(random.nextInt(500) + 1700),
   };
 
   /// Test the years around the first and last transitions
@@ -138,4 +164,10 @@ Set<int> uniqueYears([int? startYear]) {
     year++;
   }
   return uniqueYears.values.toSet();
+}
+
+void _testDstAndAbbr(Timezone tz, DateTime dt, String? abbr, bool dst) {
+  final span = tz.span(at: dt.microsecondsSinceEpoch);
+  expect(span.abbreviation, abbr);
+  expect(span.dst, dst);
 }

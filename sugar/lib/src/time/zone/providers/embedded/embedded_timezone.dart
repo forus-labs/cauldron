@@ -158,8 +158,8 @@ class DSTRules {
   factory DSTRules({required Offset std, required Offset dstOffset, required String rules}) {
     final parts = rules.split(',');
     return DSTRules._(
-      stdRule: DSTRule(rule: parts[1], std: std, dstOffset: dstOffset, isDst: false),
-      dstRule: DSTRule(rule: parts[0], std: std, dstOffset: dstOffset, isDst: true),
+      stdRule: DSTRule(rule: parts[0], std: std, dstOffset: dstOffset, isDst: false),
+      dstRule: DSTRule(rule: parts[1], std: std, dstOffset: dstOffset, isDst: true),
     );
   }
 
@@ -265,8 +265,8 @@ class DSTRule {
     final parts = rule.split(RegExp('[ :]'));
     return DSTRule._(
       stdOffset: std,
-      // dstOffset is set to 0 if this rule is for standard time.
-      dstOffset: isDst ? dstOffset : Offset(),
+      // Only set the dstOffset if this rule is NOT for DST
+      dstOffset: !isDst ? dstOffset : Offset(),
       startyear: int.parse(parts[0]),
       month: int.parse(parts[1]),
       dayOfMonth: int.parse(parts[2]),
