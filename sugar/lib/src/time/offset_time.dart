@@ -55,7 +55,6 @@ part of 'time.dart';
 /// }
 /// ```
 final class OffsetTime extends Time {
-
   /// The offset.
   final Offset offset;
   String? _string;
@@ -67,7 +66,7 @@ final class OffsetTime extends Time {
   ///
   /// OffsetTime.fromDayMilliseconds(Offset(8), 86400000); // 00:00+08:00
   /// ```
-  OffsetTime.fromDayMilliseconds(this.offset, super.milliseconds): super.fromDayMilliseconds();
+  OffsetTime.fromDayMilliseconds(this.offset, super.milliseconds) : super.fromDayMilliseconds();
 
   /// Creates a [OffsetTime] with the [offset] and [microseconds] since midnight, wrapping around midnight.
   ///
@@ -76,7 +75,7 @@ final class OffsetTime extends Time {
   ///
   /// OffsetTime.fromDayMicroseconds(Offset(8), 86400000000); // 00:00+08:00
   /// ```
-  OffsetTime.fromDayMicroseconds(this.offset, super.microseconds): super.fromDayMicroseconds();
+  OffsetTime.fromDayMicroseconds(this.offset, super.microseconds) : super.fromDayMicroseconds();
 
   /// Creates a [OffsetTime] that represents the current time.
   ///
@@ -118,10 +117,16 @@ final class OffsetTime extends Time {
   ///
   /// OffsetTime(Offset(8), -1); // '23:00+08:00'
   /// ```
-  OffsetTime(this.offset, [super.hour = 0, super.minute = 0, super.second = 0, super.millisecond = 0, super.microsecond = 0]);
+  OffsetTime(
+    this.offset, [
+    super.hour = 0,
+    super.minute = 0,
+    super.second = 0,
+    super.millisecond = 0,
+    super.microsecond = 0,
+  ]);
 
-  OffsetTime._(this.offset, super._native): super._();
-
+  OffsetTime._(this.offset, super._native) : super._();
 
   /// Returns a copy of this with the [duration] added, wrapping around midnight.
   ///
@@ -130,7 +135,8 @@ final class OffsetTime extends Time {
   ///
   /// OffsetTime(Offset(8), 20).add(Duration(hours: 8)); // 04:00+08:00
   /// ```
-  @useResult OffsetTime add(Duration duration) => OffsetTime._(offset, _native.add(duration));
+  @useResult
+  OffsetTime add(Duration duration) => OffsetTime._(offset, _native.add(duration));
 
   /// Returns a copy of this with the [duration] subtracted, wrapping around midnight.
   ///
@@ -139,7 +145,8 @@ final class OffsetTime extends Time {
   ///
   /// OffsetTime(Offset(8), 4).subtract(Duration(hours: 6)); // 22:00+08:00
   /// ```
-  @useResult OffsetTime subtract(Duration duration) => OffsetTime._(offset, _native.subtract(duration));
+  @useResult
+  OffsetTime subtract(Duration duration) => OffsetTime._(offset, _native.subtract(duration));
 
   /// Returns a copy of this with the units of time added, wrapping around midnight.
   ///
@@ -148,14 +155,18 @@ final class OffsetTime extends Time {
   ///
   /// OffsetTime(Offset(8), 20).plus(hours: 8); // 04:00+08:00
   /// ```
-  @useResult OffsetTime plus({int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-    OffsetTime._(offset, _native.plus(
-      hours: hours,
-      minutes: minutes,
-      seconds: seconds,
-      milliseconds: milliseconds,
-      microseconds: microseconds,
-    ));
+  @useResult
+  OffsetTime plus({int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
+      OffsetTime._(
+        offset,
+        _native.plus(
+          hours: hours,
+          minutes: minutes,
+          seconds: seconds,
+          milliseconds: milliseconds,
+          microseconds: microseconds,
+        ),
+      );
 
   /// Returns a copy of this with the units of time subtracted, wrapping around midnight.
   ///
@@ -164,29 +175,34 @@ final class OffsetTime extends Time {
   ///
   /// OffsetTime(Offset(8), 4).minus(hours: 6); // 22:00+08:00
   /// ```
-  @useResult OffsetTime minus({int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-    OffsetTime._(offset, _native.minus(
-      hours: hours,
-      minutes: minutes,
-      seconds: seconds,
-      milliseconds: milliseconds,
-      microseconds: microseconds,
-    ));
+  @useResult
+  OffsetTime minus({int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
+      OffsetTime._(
+        offset,
+        _native.minus(
+          hours: hours,
+          minutes: minutes,
+          seconds: seconds,
+          milliseconds: milliseconds,
+          microseconds: microseconds,
+        ),
+      );
 
   /// Returns a copy of this with the [period] added.
   ///
   /// ```dart
   /// OffsetTime(Offset(8), 11, 30) + Period(hours: 1); // 12:30+08:00
   /// ```
-  @useResult OffsetTime operator + (Period period) => OffsetTime._(offset, _native + period);
+  @useResult
+  OffsetTime operator +(Period period) => OffsetTime._(offset, _native + period);
 
   /// Returns a copy of this with the [period] subtracted.
   ///
   /// ```dart
   /// OffsetTime(Offset(8), 11, 30) - Period(hours: 1); // 10:30+08:00
   /// ```
-  @useResult OffsetTime operator - (Period period) => OffsetTime._(offset, _native - period);
-
+  @useResult
+  OffsetTime operator -(Period period) => OffsetTime._(offset, _native - period);
 
   /// Returns a copy of this truncated to the [TimeUnit].
   ///
@@ -194,7 +210,8 @@ final class OffsetTime extends Time {
   /// final time = OffsetTime(Offset(8), 12, 39, 59, 999);
   /// time.truncate(to: TimeUnit.minutes); // 12:39+08:00
   /// ```
-  @useResult OffsetTime truncate({required TimeUnit to}) => OffsetTime._(offset, _native.truncate(to: to));
+  @useResult
+  OffsetTime truncate({required TimeUnit to}) => OffsetTime._(offset, _native.truncate(to: to));
 
   /// Returns a copy of this rounded to the nearest [unit] and [value].
   ///
@@ -203,7 +220,8 @@ final class OffsetTime extends Time {
   ///
   /// OffsetTime(Offset(8), 12, 34, 59).round(TimeUnit.minutes, 5); // 12:35+08:00
   /// ```
-  @useResult OffsetTime round(TimeUnit unit, int value) => OffsetTime._(offset, _native.round(unit, value));
+  @useResult
+  OffsetTime round(TimeUnit unit, int value) => OffsetTime._(offset, _native.round(unit, value));
 
   /// Returns a copy of this ceiled to the nearest [unit] and [value].
   ///
@@ -212,7 +230,8 @@ final class OffsetTime extends Time {
   ///
   /// OffsetTime(Offset(8), 12, 34, 59).ceil(TimeUnit.minutes, 5); // 12:35+08:00
   /// ```
-  @useResult OffsetTime ceil(TimeUnit unit, int value) => OffsetTime._(offset, _native.ceil(unit, value));
+  @useResult
+  OffsetTime ceil(TimeUnit unit, int value) => OffsetTime._(offset, _native.ceil(unit, value));
 
   /// Returns a copy of this floored to the nearest [unit] and [value].
   ///
@@ -221,23 +240,24 @@ final class OffsetTime extends Time {
   ///
   /// OffsetTime(Offset(8), 12, 34, 59).floor(TimeUnit.minutes, 5); // 12:30+08:00
   /// ```
-  @useResult OffsetTime floor(TimeUnit unit, int value) => OffsetTime._(offset, _native.floor(unit, value));
-
+  @useResult
+  OffsetTime floor(TimeUnit unit, int value) => OffsetTime._(offset, _native.floor(unit, value));
 
   /// Returns a copy of this with the updated offset and units of time.
   ///
   /// ```dart
   /// OffsetTime(Offset(8), 12).copyWith(offset: Offset(12)); // 12:00+12:00
   /// ```
-  @useResult OffsetTime copyWith({Offset? offset, int? hour, int? minute, int? second, int? millisecond, int? microsecond}) => OffsetTime(
-    offset ?? this.offset,
-    hour ?? this.hour,
-    minute ?? this.minute,
-    second ?? this.second,
-    millisecond ?? this.millisecond,
-    microsecond  ?? this.microsecond,
-  );
-
+  @useResult
+  OffsetTime copyWith({Offset? offset, int? hour, int? minute, int? second, int? millisecond, int? microsecond}) =>
+      OffsetTime(
+        offset ?? this.offset,
+        hour ?? this.hour,
+        minute ?? this.minute,
+        second ?? this.second,
+        millisecond ?? this.millisecond,
+        microsecond ?? this.microsecond,
+      );
 
   /// Returns the difference between this and [other].
   ///
@@ -248,12 +268,12 @@ final class OffsetTime extends Time {
   /// foo.difference(bar); // 14 hours
   /// bar.difference(foo); // -14 hours
   /// ```
-  @useResult Duration difference(OffsetTime other) => Duration(microseconds: _instant - other._instant);
-
+  @useResult
+  Duration difference(OffsetTime other) => Duration(microseconds: _instant - other._instant);
 
   /// Converts this [OffsetTime] to a [LocalTime].
-  @useResult LocalTime toLocal() => LocalTime._(_native);
-  
+  @useResult
+  LocalTime toLocal() => LocalTime._(_native);
 
   /// Returns true if this is before [other].
   ///
@@ -285,7 +305,6 @@ final class OffsetTime extends Time {
   /// ```
   bool isAfter(OffsetTime other) => _instant > other._instant;
 
-
   /// Returns true if other is a [OffsetTime] at the same moment and in the same timezone.
   ///
   /// ```dart
@@ -296,11 +315,17 @@ final class OffsetTime extends Time {
   /// bar.isSameMomentAs(foo); // true
   /// ```
   @override
-  @useResult bool operator ==(Object other) => identical(this, other) || other is OffsetTime && runtimeType == other.runtimeType &&
-      offset == other.offset && _native.microsecondsSinceMidnight == other._native.microsecondsSinceMidnight;
+  @useResult
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is OffsetTime &&
+          runtimeType == other.runtimeType &&
+          offset == other.offset &&
+          _native.microsecondsSinceMidnight == other._native.microsecondsSinceMidnight;
 
   @override
-  @useResult int get hashCode => runtimeType.hashCode ^ offset.hashCode ^ _native.microsecondsSinceMidnight;
+  @useResult
+  int get hashCode => runtimeType.hashCode ^ offset.hashCode ^ _native.microsecondsSinceMidnight;
 
   /// Returns a ISO formatted string representation.
   ///
@@ -312,9 +337,8 @@ final class OffsetTime extends Time {
   /// LocalDateTime(Offset(4), 12, 30); // 12:30+04:00
   /// ```
   @override
-  @useResult String toString() => _string ??= '${_native.toTimeString()}$offset';
-
+  @useResult
+  String toString() => _string ??= '${_native.toTimeString()}$offset';
 
   int get _instant => _native.microsecondsSinceMidnight - offset.inMicroseconds;
-
 }

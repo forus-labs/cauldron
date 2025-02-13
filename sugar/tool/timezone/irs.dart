@@ -8,14 +8,17 @@ import 'package:timezone/tzdata.dart';
 class NamespaceIR {
   /// The name.
   final String name;
+
   /// The namespace in pascal case, i.e. `Asia` will be `Asia`.
   final String typeName;
+
   /// The nested namespaces.
   final List<NamespaceIR> namespaces = [];
+
   /// The locations.
   final List<TimezoneIR> timezones = [];
 
-  NamespaceIR(this.name): typeName = name.toPascalCase();
+  NamespaceIR(this.name) : typeName = name.toPascalCase();
 
   String toPackagePath() => 'package:sugar/src/time/zone/info/${name.toSnakeCase()}.g.dart';
 
@@ -31,9 +34,9 @@ class NamespaceIR {
 
 /// An intermediate representation of a timezone.
 sealed class TimezoneIR {
-
   /// The location derived from the corresponding zic compiled file.
   final Location location;
+
   /// The timezone's name in camel case, i.e. `Asia/Singapore` will be renamed as `singapore`.
   final String variableName;
 
@@ -42,51 +45,60 @@ sealed class TimezoneIR {
     final variableName = path.split('/').last.toEscapedCamelCase();
 
     return switch (location) {
-      _ when location.transitionAt.isNotEmpty && location.transitionZone.isNotEmpty => DynamicTimezoneIR(location, variableName),
-      _ when location.transitionAt.isEmpty && location.transitionZone.isEmpty => FixedTimezoneIR(location, variableName),
-      _ => throw StateError('${location.name} has ${location.transitionAt.length} times and ${location.transitionZone.length} zones'),
+      _ when location.transitionAt.isNotEmpty && location.transitionZone.isNotEmpty => DynamicTimezoneIR(
+        location,
+        variableName,
+      ),
+      _ when location.transitionAt.isEmpty && location.transitionZone.isEmpty => FixedTimezoneIR(
+        location,
+        variableName,
+      ),
+      _ =>
+        throw StateError(
+          '${location.name} has ${location.transitionAt.length} times and ${location.transitionZone.length} zones',
+        ),
     };
-
   }
 
   TimezoneIR._(this.location, this.variableName);
 
   String toConstructor(int indentation);
-
 }
 
 /// An intermediate representation of a dynamic timezone.
 final class DynamicTimezoneIR extends TimezoneIR {
-
-  DynamicTimezoneIR(super.location, super.variableName): super._();
+  DynamicTimezoneIR(super.location, super.variableName) : super._();
 
   @override
   String toConstructor(int indentation) {
     final (offsets, unit) = _offsets;
     return (StringBuffer('DynamicTimezone(\n')
-    ..writeIndented(indentation, "'${location.name}',\n")
-    ..writeIndented(indentation, '${_initial(indentation + 2)},\n')
-    ..writeIndented(indentation, 'Int64List.fromList([ ${location.transitionAt.join(', ')} ]),\n')
-    ..writeIndented(indentation, '$offsets,\n')
-    ..writeIndented(indentation, '$unit,\n')
-    ..writeIndented(indentation, '$_abbreviations,\n')
-    ..writeIndented(indentation, '$_dsts,\n')
-    ..writeIndented(indentation - 2, ');'))
-    .toString();
+          ..writeIndented(indentation, "'${location.name}',\n")
+          ..writeIndented(indentation, '${_initial(indentation + 2)},\n')
+          ..writeIndented(indentation, 'Int64List.fromList([ ${location.transitionAt.join(', ')} ]),\n')
+          ..writeIndented(indentation, '$offsets,\n')
+          ..writeIndented(indentation, '$unit,\n')
+          ..writeIndented(indentation, '$_abbreviations,\n')
+          ..writeIndented(indentation, '$_dsts,\n')
+          ..writeIndented(indentation - 2, ');'))
+        .toString();
   }
 
   (String, int) get _offsets {
     final zones = [
-      for (int i = 0; i < location.transitionAt.length; i++)
-        location.zones[location.transitionZone[i]].offset,
+      for (int i = 0; i < location.transitionAt.length; i++) location.zones[location.transitionZone[i]].offset,
     ];
 
     return switch (zones) {
-      _ when zones.every((z) => z % 3600 == 0) =>
-        ('Int8List.fromList([ ${zones.map((z) => z ~/ 3600).toList().join(', ')} ])', Duration.microsecondsPerHour),
+      _ when zones.every((z) => z % 3600 == 0) => (
+        'Int8List.fromList([ ${zones.map((z) => z ~/ 3600).toList().join(', ')} ])',
+        Duration.microsecondsPerHour,
+      ),
 
-      _ when zones.every((z) => z % 60 == 0) =>
-        ('Int16List.fromList([ ${zones.map((z) => z ~/ 60).toList().join(', ')} ])', Duration.microsecondsPerMinute),
+      _ when zones.every((z) => z % 60 == 0) => (
+        'Int16List.fromList([ ${zones.map((z) => z ~/ 60).toList().join(', ')} ])',
+        Duration.microsecondsPerMinute,
+      ),
 
       _ => ('Int32List.fromList([ ${zones.join(', ')} ])', Duration.microsecondsPerSecond),
     };
@@ -95,13 +107,13 @@ final class DynamicTimezoneIR extends TimezoneIR {
   String _initial(int indentation) {
     final zone = location.first;
     return (StringBuffer('DynamicTimezoneSpan(\n')
-      ..writeIndented(indentation, '-1,\n')
-      ..writeIndented(indentation, '${zone.offset * 1000 * 1000},\n')
-      ..writeIndented(indentation, "'${location.abbreviations[zone.abbreviationIndex]}',\n")
-      ..writeIndented(indentation, 'TimezoneSpan.range.min.value,\n')
-      ..writeIndented(indentation, '${location.transitionAt[0]},\n')
-      ..writeIndented(indentation, 'dst: ${zone.isDst},\n')
-      ..writeIndented(indentation - 2, ')'))
+          ..writeIndented(indentation, '-1,\n')
+          ..writeIndented(indentation, '${zone.offset * 1000 * 1000},\n')
+          ..writeIndented(indentation, "'${location.abbreviations[zone.abbreviationIndex]}',\n")
+          ..writeIndented(indentation, 'TimezoneSpan.range.min.value,\n')
+          ..writeIndented(indentation, '${location.transitionAt[0]},\n')
+          ..writeIndented(indentation, 'dst: ${zone.isDst},\n')
+          ..writeIndented(indentation - 2, ')'))
         .toString();
   }
 
@@ -116,44 +128,39 @@ final class DynamicTimezoneIR extends TimezoneIR {
 
   String get _dsts {
     final dsts = [
-      for (int i = 0; i < location.transitionAt.length; i++)
-        location.zones[location.transitionZone[i]].isDst,
+      for (int i = 0; i < location.transitionAt.length; i++) location.zones[location.transitionZone[i]].isDst,
     ];
 
     return '[ ${dsts.join(', ')} ]';
   }
-
 }
 
 /// An intermediate representation of a fixed timezone.
 final class FixedTimezoneIR extends TimezoneIR {
-
-  FixedTimezoneIR(super.location, super.variableName): super._();
+  FixedTimezoneIR(super.location, super.variableName) : super._();
 
   @override
   String toConstructor(int indentation) {
     final zone = location.zones.single;
     return (StringBuffer('FixedTimezone(\n')
-      ..writeIndented(indentation, "'${location.name}',\n")
-      ..writeIndented(indentation, 'FixedTimezoneSpan(\n')
-      ..writeIndented(indentation + 2, '${_offset(zone)},\n')
-      ..writeIndented(indentation + 2, "'${location.abbreviations.single}',\n")
-      ..writeIndented(indentation + 2, 'TimezoneSpan.range.min.value,\n')
-      ..writeIndented(indentation + 2, 'TimezoneSpan.range.max.value,\n')
-      ..writeIndented(indentation + 2, 'dst: ${zone.isDst},\n')
-      ..writeIndented(indentation, '),\n')
-      ..writeIndented(indentation - 2, ');'))
-      .toString();
+          ..writeIndented(indentation, "'${location.name}',\n")
+          ..writeIndented(indentation, 'FixedTimezoneSpan(\n')
+          ..writeIndented(indentation + 2, '${_offset(zone)},\n')
+          ..writeIndented(indentation + 2, "'${location.abbreviations.single}',\n")
+          ..writeIndented(indentation + 2, 'TimezoneSpan.range.min.value,\n')
+          ..writeIndented(indentation + 2, 'TimezoneSpan.range.max.value,\n')
+          ..writeIndented(indentation + 2, 'dst: ${zone.isDst},\n')
+          ..writeIndented(indentation, '),\n')
+          ..writeIndented(indentation - 2, ');'))
+        .toString();
   }
 
-  String _offset(TimeZone zone) => "const LiteralOffset('${format(zone.offset * Duration.microsecondsPerSecond)}', ${zone.offset})";
-
+  String _offset(TimeZone zone) =>
+      "const LiteralOffset('${format(zone.offset * Duration.microsecondsPerSecond)}', ${zone.offset})";
 }
-
 
 /// Copied from https://github.com/srawlins/timezone/blob/0.9.1/lib/src/location.dart#L183.
 extension on Location {
-
   /// This method returns the [TimeZone] to use for times before the first
   /// transition time, or when there are no transition times.
   ///
@@ -208,16 +215,13 @@ extension on Location {
 
     return false;
   }
-
 }
 
 extension on String {
-
   static final separators = RegExp(r'((\s|_|/)+)|(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])');
 
-  String toEscapedCamelCase() => replaceAll(RegExp(r'-(?=\D)'), '_')
-      .replaceAll(RegExp(r'-(?=\d)'), 'Minus')
-      .replaceAll(RegExp(r'\+(?=\d)'), 'Plus')
-      .toCamelCase(separators);
-
+  String toEscapedCamelCase() => replaceAll(
+    RegExp(r'-(?=\D)'),
+    '_',
+  ).replaceAll(RegExp(r'-(?=\d)'), 'Minus').replaceAll(RegExp(r'\+(?=\d)'), 'Plus').toCamelCase(separators);
 }

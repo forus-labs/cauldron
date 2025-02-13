@@ -29,13 +29,6 @@ void main() {
     const system = FakeSystem(PlatformType.windows);
 
     expect(system.windows, true);
-    expect([
-      system.android,
-      system.fuchsia,
-      system.ios,
-      system.linux,
-      system.macos,
-      system.web,
-    ], List.filled(6, false));
+    expect([system.android, system.fuchsia, system.ios, system.linux, system.macos, system.web], List.filled(6, false));
   });
 }

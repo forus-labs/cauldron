@@ -1,6 +1,5 @@
 /// Provides functions for casting nullable [Object]s.
 extension NullableObjects on Object? {
-
   /// Casts `this` to [T] if it is a [T], and returns `null` otherwise.
   ///
   /// ```dart
@@ -14,5 +13,4 @@ extension NullableObjects on Object? {
     final self = this;
     return self is T ? self : null;
   }
-
 }

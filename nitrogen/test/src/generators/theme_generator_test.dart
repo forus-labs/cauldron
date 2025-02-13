@@ -395,7 +395,6 @@ void main() {
     });
   });
 
-
   group('FallbackAssetDirectoryExpressions', () {
     group('type(...)', () {
       test('root fallback theme directory', () {
@@ -404,7 +403,8 @@ void main() {
       });
 
       test('nested fallback theme directory', () {
-        final type = FallbackAssetDirectoryExpressions('Prefix', themes).type(light.children['subdirectory']! as AssetDirectory);
+        final type =
+            FallbackAssetDirectoryExpressions('Prefix', themes).type(light.children['subdirectory']! as AssetDirectory);
         expect(type.accept(emitter).toString(), r'$PrefixThemeAssetsLightSubdirectory');
       });
     });
@@ -418,7 +418,8 @@ void main() {
       });
 
       test('nested theme directory', () {
-        final type = ThemeAssetDirectoryExpressions('Prefix', themes).type(light.children['subdirectory']! as AssetDirectory);
+        final type =
+            ThemeAssetDirectoryExpressions('Prefix', themes).type(light.children['subdirectory']! as AssetDirectory);
         expect(type.accept(emitter).toString(), r'$LightPrefixThemeAssetsSubdirectory');
       });
     });

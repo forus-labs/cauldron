@@ -17,9 +17,7 @@ import 'package:meta/meta.dart';
 @internal const Set<String> known = {
 ''';
 
-
 extension PosixTimezones on Never {
-
   static void generate(NamespaceIR namespace) {
     final buffer = StringBuffer(_header);
     _traverse(buffer, namespace);
@@ -37,5 +35,4 @@ extension PosixTimezones on Never {
       _traverse(buffer, namespace);
     }
   }
-
 }

@@ -4,7 +4,6 @@ import 'package:pub_semver/pub_semver.dart';
 
 /// Provides utilities for working with libraries.
 extension Libraries on Library {
-
   /// A header.
   static Code header([String package = 'nitrogen']) => Code('''
   
@@ -31,5 +30,4 @@ extension Libraries on Library {
     final code = accept(_emitter).toString();
     return _formatter.format(code);
   }
-
 }

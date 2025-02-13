@@ -49,7 +49,6 @@ part 'sil_by_string_index.dart';
 /// accomplished by adding a `updated_at` timestamp to each element. Subsequently, the less recent element should be
 /// reinserted.
 class Sil<E> extends Iterable<E> {
-
   static bool _equality(Object? a, Object? b) => a == b;
   static int _hashCode(Object? e) => e.hashCode;
 
@@ -92,18 +91,17 @@ class Sil<E> extends Iterable<E> {
   /// final sil = Sil.list(['A', 'B', 'C', 'B']); // ['A', 'B', 'C']
   /// ```
   factory Sil.list(List<E> list, {bool Function(E, E) equals = _equality, int Function(E) hash = _hashCode}) =>
-    Sil<E>(equals: equals, hash: hash)..addAll(list);
+      Sil<E>(equals: equals, hash: hash)..addAll(list);
 
   /// Creates a [Sil] that uses the [equals] and [hash] function to determine the equality and hashcode of elements in
   /// this SIL.
   ///
   /// [E]'s `==` and `hashCode` is used by default.
-  Sil({bool Function(E, E) equals = _equality, int Function(E) hash = _hashCode}):
-    _map = SplayTreeMap(),
-    _inverse = HashMap(equals: equals, hashCode: hash),
-    _list = [],
-    _equals = equals;
-
+  Sil({bool Function(E, E) equals = _equality, int Function(E) hash = _hashCode})
+    : _map = SplayTreeMap(),
+      _inverse = HashMap(equals: equals, hashCode: hash),
+      _list = [],
+      _equals = equals;
 
   /// Adds the given [elements] to the end of this SIL if they are not yet in this SIL.
   ///
@@ -132,12 +130,10 @@ class Sil<E> extends Iterable<E> {
       _inverse[element] = index;
       _list.add(element);
       return true;
-
     } else {
       return false;
     }
   }
-
 
   /// Removes the given [elements] from this SIL.
   ///
@@ -184,12 +180,10 @@ class Sil<E> extends Iterable<E> {
       _map.remove(index);
       _list.remove(element);
       return true;
-
     } else {
       return false;
     }
   }
-
 
   /// Removes elements which satisfy [predicate] from this SIL.
   ///
@@ -204,7 +198,6 @@ class Sil<E> extends Iterable<E> {
       if (predicate(element)) {
         _map.remove(_inverse.remove(element));
         return true;
-
       } else {
         return false;
       }
@@ -223,14 +216,12 @@ class Sil<E> extends Iterable<E> {
     _list.retainWhere((element) {
       if (predicate(element)) {
         return true;
-
       } else {
         _map.remove(_inverse.remove(element));
         return false;
       }
     });
   }
-
 
   /// Removes all elements from this SIL.
   ///
@@ -245,23 +236,25 @@ class Sil<E> extends Iterable<E> {
     _list.clear();
   }
 
+  @override
+  @useResult
+  bool contains(Object? value) => _inverse.containsKey(value);
 
   @override
-  @useResult bool contains(Object? value) => _inverse.containsKey(value);
+  @useResult
+  E elementAt(int index) => _list.elementAt(index);
 
   @override
-  @useResult E elementAt(int index) => _list.elementAt(index);
-
-  @override
-  @useResult Iterator<E> get iterator => _list.iterator;
-
+  @useResult
+  Iterator<E> get iterator => _list.iterator;
 
   /// A view that allows the elements to be manipulated using their int indexes.
-  @useResult SilByIndex<E> get byIndex => SilByIndex._(this);
+  @useResult
+  SilByIndex<E> get byIndex => SilByIndex._(this);
 
   /// A view that allows the elements to be manipulated using their string indexes.
-  @useResult SilByStringIndex<E> get byStringIndex => SilByStringIndex._(this);
-
+  @useResult
+  SilByStringIndex<E> get byStringIndex => SilByStringIndex._(this);
 
   set first(E element) {
     final old = _list.first;
@@ -281,8 +274,7 @@ class Sil<E> extends Iterable<E> {
     _map[index] = element;
   }
 
-
   @override
-  @useResult String toString() => '[${_list.map((e) => '(${_inverse[e]}: $e)').join(', ')}]';
-
+  @useResult
+  String toString() => '[${_list.map((e) => '(${_inverse[e]}: $e)').join(', ')}]';
 }

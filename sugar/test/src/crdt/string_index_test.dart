@@ -26,15 +26,13 @@ String generate() {
     _index.writeCharCode(StringIndex.ascii[_random.nextInt(StringIndex.ascii.length)]);
   }
 
-  final index =  _index.toString().replaceAll(RegExp(r'(\+)+$'), '');
+  final index = _index.toString().replaceAll(RegExp(r'(\+)+$'), '');
   _index.clear();
 
   return index;
 }
 
-
 void main() {
-
   group('validation', () {
     for (final (min, max) in [
       ('b', 'a'),
@@ -44,12 +42,17 @@ void main() {
       ('a', 'a++++'),
       ('a++++++', 'a'),
     ]) {
-      test('start index >= end index', () => expect(
-        () => StringIndex.between(min: StringIndex(min), max: StringIndex(max)),
-        throwsA(predicate<ArgumentError>(
-          (e) => e.message == 'Invalid range: $min - $max, minimum should be less than maximum.'
-        )),
-      ));
+      test(
+        'start index >= end index',
+        () => expect(
+          () => StringIndex.between(min: StringIndex(min), max: StringIndex(max)),
+          throwsA(
+            predicate<ArgumentError>(
+              (e) => e.message == 'Invalid range: $min - $max, minimum should be less than maximum.',
+            ),
+          ),
+        ),
+      );
     }
   });
 

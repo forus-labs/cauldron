@@ -41,17 +41,15 @@ Future<(Set<String> released, Set<String> removed)> process(Set<String> remote) 
     }
 
     final content = parse(response.body)
-        .getElementsByClassName('content')[0]
-        .getElementsByTagName('p')[1]
-        .getElementsByTagName('em')[0]
+        .getElementsByClassName('lint-tags')[0]
         .text;
 
-    if (existing.contains(rule) && (content.contains('deprecated') || content.contains('removed'))) {
+    if (existing.contains(rule) && (content.contains('Deprecated') || content.contains('Removed'))) {
       removed.add(rule);
     } else if (!existing.contains(rule) &&
-        !content.contains('experimental') &&
-        !content.contains('deprecated') &&
-        !content.contains('removed')) {
+        !content.contains('Experimental') &&
+        !content.contains('Deprecated') &&
+        !content.contains('Removed')) {
       released.add(rule);
     }
     if (!existing.contains(rule) && content.contains('experimental')) {

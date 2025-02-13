@@ -10,7 +10,6 @@ void main() {
 
     test('non-existing timezone', () => expect(provider['invalid'], null));
 
-
     test('keys contains timezone', () => expect(provider.keys.contains('America/Detroit'), true));
 
     test('keys does not contain timezone', () => expect(provider.keys.contains('invalid'), false));

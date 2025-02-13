@@ -5,7 +5,6 @@ part of 'sil.dart';
 /// All changes to this view are reflected in the underlying SIL.
 /// See [Sil] for more information.
 extension type SilByIndex<E>._(Sil<E> _sil) implements Iterable<E> {
-
   /// Returns the index of [element] in this SIL, or -1 if [element] was not found.
   ///
   /// ```dart
@@ -15,7 +14,8 @@ extension type SilByIndex<E>._(Sil<E> _sil) implements Iterable<E> {
   ///
   /// sil.byIndex.indexOf('C'); // -1
   /// ```
-  @useResult int indexOf(E element) => _sil._list.indexWhere((e) => _sil._equals(element, e));
+  @useResult
+  int indexOf(E element) => _sil._list.indexWhere((e) => _sil._equals(element, e));
 
   /// Returns the index of the first element in this SIL that satisfies the [predicate], or -1 if no such element was not
   /// found.
@@ -31,7 +31,8 @@ extension type SilByIndex<E>._(Sil<E> _sil) implements Iterable<E> {
   ///
   /// final invalid = sil.indexWhere((e) => e.startsWith('f')); // -1
   /// ```
-  @useResult int indexWhere(bool Function(E) predicate, [int start = 0]) => _sil._list.indexWhere(predicate, start);
+  @useResult
+  int indexWhere(bool Function(E) predicate, [int start = 0]) => _sil._list.indexWhere(predicate, start);
 
   /// Returns the index of the last element in this SIL that satisfies the [predicate], or -1 if no such element was not
   /// found.
@@ -47,8 +48,8 @@ extension type SilByIndex<E>._(Sil<E> _sil) implements Iterable<E> {
   ///
   /// final invalid = sil.lastIndexWhere((e) => e.startsWith('f')); // -1
   /// ```
-  @useResult int lastIndexWhere(bool Function(E) predicate, [int? end]) => _sil._list.lastIndexWhere(predicate, end);
-
+  @useResult
+  int lastIndexWhere(bool Function(E) predicate, [int? end]) => _sil._list.lastIndexWhere(predicate, end);
 
   /// Inserts all the given [elements] at [index] if they are not yet in the SIL, shifting all elements at and after
   /// [index] towards the end of the SIL.
@@ -109,7 +110,6 @@ extension type SilByIndex<E>._(Sil<E> _sil) implements Iterable<E> {
     return true;
   }
 
-
   /// Removes and returns the element at the given [index].
   ///
   /// ## Contract
@@ -129,18 +129,18 @@ extension type SilByIndex<E>._(Sil<E> _sil) implements Iterable<E> {
     return element;
   }
 
-
   /// Returns the element at the given [index].
   ///
   /// ## Contract
   /// Throws a [RangeError] if `index < 0` or `length <= index`.
-  @useResult E operator [] (int index) => _sil._list[index];
+  @useResult
+  E operator [](int index) => _sil._list[index];
 
   /// Sets the value at the given [index] to [element] if it is not yet in this SIL.
   ///
   /// ## Contract
   /// Throws a [RangeError] if `index < 0` or `length <= index`.
-  void operator []= (int index, E element) {
+  void operator []=(int index, E element) {
     RangeError.checkValidRange(0, index, length);
     if (_sil._inverse.containsKey(element)) {
       return;

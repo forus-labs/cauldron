@@ -58,7 +58,6 @@ void main() {
       expect(foo(1), -1);
     });
 
-
     test('operator <', () {
       bool? foo(num? a, num? b) => a < b;
 
@@ -98,7 +97,7 @@ void main() {
       expect(foo(1, 1), true);
     });
   });
-  
+
   group('NullableIntegers', () {
     test('operator &', () {
       int? foo(int? a, int? b) => a & b;
@@ -155,7 +154,6 @@ void main() {
       expect(foo(9, 2), 2);
     });
 
-
     test('operator +', () {
       int? foo(int? a, int? b) => a + b;
 
@@ -195,7 +193,7 @@ void main() {
       expect(foo(1), -1);
     });
   });
-  
+
   group('NullableDoubles', () {
     test('operator +', () {
       double? foo(double? a, double? b) => a + b;

@@ -6,131 +6,162 @@ void main() {
   test('fromDaysSinceEpoch(...)', () => expect(DateTimes.fromDaysSinceEpoch(10000), DateTime.utc(1997, 5, 19)));
 
   group('plus(...)', () {
-    test('positive', () => expect(
-      DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8).plus(
-        years: 2,
-        months: 3,
-        days: 4,
-        hours: 5,
-        minutes: 6,
-        seconds: 7,
-        milliseconds: 8,
-        microseconds: 9,
+    test(
+      'positive',
+      () => expect(
+        DateTime.utc(
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ).plus(years: 2, months: 3, days: 4, hours: 5, minutes: 6, seconds: 7, milliseconds: 8, microseconds: 9),
+        DateTime.utc(3, 5, 7, 9, 11, 13, 15, 17),
       ),
-      DateTime.utc(3, 5, 7, 9, 11, 13, 15, 17),
-    ));
+    );
 
-    test('negative', () => expect(
-      DateTime.utc(8, 7, 6, 5, 40, 30, 20, 10).plus(
-        years: -1,
-        months: -2,
-        days: -3,
-        hours: -5,
-        minutes: -6,
-        seconds: -7,
-        milliseconds: -8,
-        microseconds: -9,
+    test(
+      'negative',
+      () => expect(
+        DateTime.utc(8, 7, 6, 5, 40, 30, 20, 10).plus(
+          years: -1,
+          months: -2,
+          days: -3,
+          hours: -5,
+          minutes: -6,
+          seconds: -7,
+          milliseconds: -8,
+          microseconds: -9,
+        ),
+        DateTime.utc(7, 5, 3, 0, 34, 23, 12, 1),
       ),
-      DateTime.utc(7, 5, 3, 0, 34, 23, 12, 1),
-    ));
+    );
 
     test('nothing', () => expect(DateTime(1, 2, 3, 4, 5, 6, 7, 8).plus(), DateTime(1, 2, 3, 4, 5, 6, 7, 8)));
   });
 
   group('minus(...)', () {
-    test('positive', () => expect(
-      DateTime.utc(8, 7, 6, 5, 40, 30, 20, 10).minus(
-        years: 1,
-        months: 2,
-        days: 3,
-        hours: 5,
-        minutes: 6,
-        seconds: 7,
-        milliseconds: 8,
-        microseconds: 9,
+    test(
+      'positive',
+      () => expect(
+        DateTime.utc(
+          8,
+          7,
+          6,
+          5,
+          40,
+          30,
+          20,
+          10,
+        ).minus(years: 1, months: 2, days: 3, hours: 5, minutes: 6, seconds: 7, milliseconds: 8, microseconds: 9),
+        DateTime.utc(7, 5, 3, 0, 34, 23, 12, 1),
       ),
-      DateTime.utc(7, 5, 3, 0, 34, 23, 12, 1),
-    ));
+    );
 
-    test('negative', () => expect(
-      DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8).minus(
-        years: -2,
-        months: -3,
-        days: -4,
-        hours: -5,
-        minutes: -6,
-        seconds: -7,
-        milliseconds: -8,
-        microseconds: -9,
+    test(
+      'negative',
+      () => expect(
+        DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8).minus(
+          years: -2,
+          months: -3,
+          days: -4,
+          hours: -5,
+          minutes: -6,
+          seconds: -7,
+          milliseconds: -8,
+          microseconds: -9,
+        ),
+        DateTime.utc(3, 5, 7, 9, 11, 13, 15, 17),
       ),
-      DateTime.utc(3, 5, 7, 9, 11, 13, 15, 17),
-    ));
+    );
 
     test('nothing', () => expect(DateTime(1, 2, 3, 4, 5, 6, 7, 8).minus(), DateTime(1, 2, 3, 4, 5, 6, 7, 8)));
   });
 
   group('+', () {
-    test('positive', () => expect(
-      DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8) + const Period(
-        years: 2,
-        months: 3,
-        days: 4,
-        hours: 5,
-        minutes: 6,
-        seconds: 7,
-        milliseconds: 8,
-        microseconds: 9,
+    test(
+      'positive',
+      () => expect(
+        DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8) +
+            const Period(
+              years: 2,
+              months: 3,
+              days: 4,
+              hours: 5,
+              minutes: 6,
+              seconds: 7,
+              milliseconds: 8,
+              microseconds: 9,
+            ),
+        DateTime.utc(3, 5, 7, 9, 11, 13, 15, 17),
       ),
-      DateTime.utc(3, 5, 7, 9, 11, 13, 15, 17),
-    ));
+    );
 
-    test('negative', () => expect(
-      DateTime.utc(8, 7, 6, 5, 40, 30, 20, 10) + const Period(
-        years: -1,
-        months: -2,
-        days: -3,
-        hours: -5,
-        minutes: -6,
-        seconds: -7,
-        milliseconds: -8,
-        microseconds: -9,
+    test(
+      'negative',
+      () => expect(
+        DateTime.utc(8, 7, 6, 5, 40, 30, 20, 10) +
+            const Period(
+              years: -1,
+              months: -2,
+              days: -3,
+              hours: -5,
+              minutes: -6,
+              seconds: -7,
+              milliseconds: -8,
+              microseconds: -9,
+            ),
+        DateTime.utc(7, 5, 3, 0, 34, 23, 12, 1),
       ),
-      DateTime.utc(7, 5, 3, 0, 34, 23, 12, 1),
-    ));
+    );
 
     test('nothing', () => expect(DateTime(1, 2, 3, 4, 5, 6, 7, 8) + const Period(), DateTime(1, 2, 3, 4, 5, 6, 7, 8)));
   });
 
   group('-', () {
-    test('positive', () => expect(
-      DateTime.utc(8, 7, 6, 5, 40, 30, 20, 10) - const Period(
-        years: 1,
-        months: 2,
-        days: 3,
-        hours: 5,
-        minutes: 6,
-        seconds: 7,
-        milliseconds: 8,
-        microseconds: 9,
+    test(
+      'positive',
+      () => expect(
+        DateTime.utc(8, 7, 6, 5, 40, 30, 20, 10) -
+            const Period(
+              years: 1,
+              months: 2,
+              days: 3,
+              hours: 5,
+              minutes: 6,
+              seconds: 7,
+              milliseconds: 8,
+              microseconds: 9,
+            ),
+        DateTime.utc(7, 5, 3, 0, 34, 23, 12, 1),
       ),
-      DateTime.utc(7, 5, 3, 0, 34, 23, 12, 1),
-    ));
+    );
 
-    test('negative', () => expect(
-      DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8) - const Period(
-        years: -2,
-        months: -3,
-        days: -4,
-        hours: -5,
-        minutes: -6,
-        seconds: -7,
-        milliseconds: -8,
-        microseconds: -9,
+    test(
+      'negative',
+      () => expect(
+        DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8) -
+            const Period(
+              years: -2,
+              months: -3,
+              days: -4,
+              hours: -5,
+              minutes: -6,
+              seconds: -7,
+              milliseconds: -8,
+              microseconds: -9,
+            ),
+        DateTime.utc(3, 5, 7, 9, 11, 13, 15, 17),
       ),
-      DateTime.utc(3, 5, 7, 9, 11, 13, 15, 17),
-    ));
+    );
 
-    test('nothing', () => expect(DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8) - const Period(), DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8)));
+    test(
+      'nothing',
+      () => expect(DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8) - const Period(), DateTime.utc(1, 2, 3, 4, 5, 6, 7, 8)),
+    );
   });
 
   for (final (unit, truncated) in [
@@ -225,7 +256,10 @@ void main() {
   group('toLocalDateTime()', () {
     test('local', () => expect(DateTime(2023, 10, 11, 12, 30).toLocalDateTime(), LocalDateTime(2023, 10, 11, 12, 30)));
 
-    test('utc', () => expect(DateTime.utc(2023, 10, 11, 12, 30).toLocalDateTime(), LocalDateTime(2023, 10, 11, 12, 30)));
+    test(
+      'utc',
+      () => expect(DateTime.utc(2023, 10, 11, 12, 30).toLocalDateTime(), LocalDateTime(2023, 10, 11, 12, 30)),
+    );
   });
 
   group('toOffsetTime()', () {
@@ -271,10 +305,8 @@ void main() {
     test('toTimeString()', () => expect(date.toTimeString(), string));
   }
 
-
   test('offset', () => expect(Offset(), DateTime.utc(1).offset));
 
-  
   group('weekOfYear', () {
     test('last week of previous year', () => expect(DateTime(2023).weekOfYear, 52));
 
@@ -303,7 +335,6 @@ void main() {
     test('non-leap year last day', () => expect(DateTime(2021, 12, 31).dayOfYear, 365));
   });
 
-
   group('firstDayOfWeek', () {
     test('current date', () => expect(DateTime(2023, 5, 8, 1).firstDayOfWeek, DateTime(2023, 5, 8)));
 
@@ -320,7 +351,6 @@ void main() {
     test('across months', () => expect(DateTime(2023, 5, 29).lastDayOfWeek, DateTime(2023, 6, 4)));
   });
 
-
   group('firstDayOfMonth', () {
     test('current date', () => expect(DateTime(2023, 5, 1, 1).firstDayOfMonth, DateTime(2023, 5)));
 
@@ -335,7 +365,6 @@ void main() {
     test('leap year', () => expect(DateTime(2020, 2).lastDayOfMonth, DateTime(2020, 2, 29)));
   });
 
-
   group('daysInMonth', () {
     test('leap year', () => expect(DateTime(2020, 2).daysInMonth, 29));
 
@@ -348,10 +377,15 @@ void main() {
     test('non-leap year', () => expect(DateTime(2021).leapYear, false));
   });
 
-
   test('daysSinceEpoch', () => expect(DateTime.utc(2023, 5, 2).daysSinceEpoch, 19479));
 
-  test('millisecondsSinceMidnight', () => expect(DateTime(2023, 5, 2, 1, 2, 3, 4, 5).millisecondsSinceMidnight, 3723004));
+  test(
+    'millisecondsSinceMidnight',
+    () => expect(DateTime(2023, 5, 2, 1, 2, 3, 4, 5).millisecondsSinceMidnight, 3723004),
+  );
 
-  test('microsecondsSinceMidnight', () => expect(DateTime(2023, 5, 2, 1, 2, 3, 4, 5).microsecondsSinceMidnight, 3723004005));
+  test(
+    'microsecondsSinceMidnight',
+    () => expect(DateTime(2023, 5, 2, 1, 2, 3, 4, 5).microsecondsSinceMidnight, 3723004005),
+  );
 }

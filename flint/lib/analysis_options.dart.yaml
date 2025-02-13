@@ -1,3 +1,6 @@
+formatter:
+  page_width: 120
+
 linter:
   rules:
     - always_declare_return_types
@@ -135,6 +138,7 @@ linter:
     - slash_for_doc_comments
     - sort_child_properties_last
     - sort_pub_dependencies
+    - strict_top_level_inference
     - test_types_in_equals
     - throw_in_finally
     - tighten_type_of_initializing_formals
@@ -165,6 +169,7 @@ linter:
     - unnecessary_string_interpolations
     - unnecessary_this
     - unnecessary_to_list_in_spreads
+    - unnecessary_underscores
     - unrelated_type_equality_checks
     - unsafe_html
     - use_enums

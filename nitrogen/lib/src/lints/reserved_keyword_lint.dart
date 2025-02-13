@@ -43,7 +43,7 @@ const _dartKeywords = {
   'yield',
 };
 
-const _nitrogenKeywords = { 'contents' };
+const _nitrogenKeywords = {'contents'};
 
 /// Lints the assets' paths for reserved keywords.
 void lintReservedKeyword(AssetDirectory directory) {
@@ -57,11 +57,13 @@ bool _lintReservedKeyword(AssetDirectory directory) {
   for (final entity in directory.children.values) {
     switch (entity.rawName) {
       case _ when _dartKeywords.contains(entity.rawName):
-        log.severe('"${entity.path.join('/')}" contains a reserved keyword. Please rename the directory/file. See https://dart.dev/language/keywords.');
+        log.severe(
+            '"${entity.path.join('/')}" contains a reserved keyword. Please rename the directory/file. See https://dart.dev/language/keywords.');
         error = true;
 
       case _ when _nitrogenKeywords.contains(entity.rawName):
-        log.severe('"${entity.path.join('/')}" contains a reserved identifier. Please rename the directory/file. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#reserved-keywords.');
+        log.severe(
+            '"${entity.path.join('/')}" contains a reserved identifier. Please rename the directory/file. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#reserved-keywords.');
         error = true;
     }
 

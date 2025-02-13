@@ -7,10 +7,9 @@ import 'package:meta/meta.dart';
 /// ## Motivation
 /// This is in lieu of Dart not providing a standardized [Disposable] interface for the foreseeable future,
 /// https://github.com/dart-lang/sdk/issues/43490.
-abstract interface class Disposable { // ignore: one_member_abstracts
-
+// ignore: one_member_abstracts
+abstract interface class Disposable {
   /// Disposes the held resources.
   @mustCallSuper
   void dispose();
-
 }

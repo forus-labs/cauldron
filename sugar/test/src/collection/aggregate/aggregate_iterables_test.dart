@@ -10,9 +10,15 @@ void main() {
 
         test('single', () => expect(<(num,)>[(1.0,)].average((e) => e.$1), closeTo(1.0, 0.0000000001)));
 
-        test('whole number', () => expect(<(num,)>[(1.0,), (2,), (3,)].average((e) => e.$1), closeTo(2.0, 0.0000000001)));
+        test(
+          'whole number',
+          () => expect(<(num,)>[(1.0,), (2,), (3,)].average((e) => e.$1), closeTo(2.0, 0.0000000001)),
+        );
 
-        test('fraction', () => expect(<(num,)>[(1.0,), (2,), (3.0,), (0.0,)].average((e) => e.$1), closeTo(1.5, 0.0000000001)));
+        test(
+          'fraction',
+          () => expect(<(num,)>[(1.0,), (2,), (3.0,), (0.0,)].average((e) => e.$1), closeTo(1.5, 0.0000000001)),
+        );
 
         test('NaN', () => expect(<(num,)>[(1.0,), (2,), (double.nan,)].average((e) => e.$1).isNaN, true));
       });
@@ -38,7 +44,10 @@ void main() {
 
         test('whole number', () => expect(<(int,)>[(1,), (2,), (3,)].average((e) => e.$1), closeTo(2.0, 0.0000000001)));
 
-        test('fraction', () => expect(<(int,)>[(1,), (2,), (3,), (0,)].average((e) => e.$1), closeTo(1.5, 0.0000000001)));
+        test(
+          'fraction',
+          () => expect(<(int,)>[(1,), (2,), (3,), (0,)].average((e) => e.$1), closeTo(1.5, 0.0000000001)),
+        );
       });
 
       group('sum(...)', () {
@@ -56,9 +65,15 @@ void main() {
 
         test('single', () => expect(<(double,)>[(1.0,)].average((e) => e.$1), closeTo(1.0, 0.0000000001)));
 
-        test('whole number', () => expect(<(double,)>[(1.0,), (2.0,), (3.0,)].average((e) => e.$1), closeTo(2.0, 0.0000000001)));
+        test(
+          'whole number',
+          () => expect(<(double,)>[(1.0,), (2.0,), (3.0,)].average((e) => e.$1), closeTo(2.0, 0.0000000001)),
+        );
 
-        test('fraction', () => expect(<(double,)>[(1.0,), (2.0,), (3.0,), (0.0,)].average((e) => e.$1), closeTo(1.5, 0.0000000001)));
+        test(
+          'fraction',
+          () => expect(<(double,)>[(1.0,), (2.0,), (3.0,), (0.0,)].average((e) => e.$1), closeTo(1.5, 0.0000000001)),
+        );
 
         test('NaN', () => expect(<(double,)>[(1.0,), (2.0,), (double.nan,)].average((e) => e.$1).isNaN, true));
       });
@@ -68,9 +83,15 @@ void main() {
 
         test('single double', () => expect(<(double,)>[(1.0,)].sum((e) => e.$1), closeTo(1.0, 0.0000000001)));
 
-        test('multiple values', () => expect(<(double,)>[(1.0,), (-2.0,)].sum((e) => e.$1), closeTo(-1.0, 0.0000000001)));
+        test(
+          'multiple values',
+          () => expect(<(double,)>[(1.0,), (-2.0,)].sum((e) => e.$1), closeTo(-1.0, 0.0000000001)),
+        );
 
-        test('multiple values, NaN', () => expect(<(double,)>[(1.0,), (2.0,), (double.nan,)].sum((e) => e.$1).isNaN, true));
+        test(
+          'multiple values, NaN',
+          () => expect(<(double,)>[(1.0,), (2.0,), (double.nan,)].sum((e) => e.$1).isNaN, true),
+        );
       });
     });
   });
@@ -200,7 +221,10 @@ void main() {
 
         test('single value', () => expect([1.0].min, closeTo(1.0, 0.0000000001)));
 
-        test('multiple values, duplicate values', () => expect([2.0, 1.0, 3.0, 1.0, 2.0].min, closeTo(1.0, 0.0000000001)));
+        test(
+          'multiple values, duplicate values',
+          () => expect([2.0, 1.0, 3.0, 1.0, 2.0].min, closeTo(1.0, 0.0000000001)),
+        );
 
         test('multiple values, min first', () => expect([1.0, 2.0, 3.0].min, closeTo(1.0, 0.0000000001)));
 
@@ -210,11 +234,17 @@ void main() {
 
         test('multiple values, nan first', () => expect([double.nan, 2.0, 1.0, 3.0].min?.isNaN, true));
 
-        test('multiple values, nan not first', () => expect([ 2.0, 1.0, 3.0, double.nan].min?.isNaN, true));
+        test('multiple values, nan not first', () => expect([2.0, 1.0, 3.0, double.nan].min?.isNaN, true));
 
-        test('multiple values, negative infinity', () => expect([double.negativeInfinity, 2.0, 1.0, 3.0].min, double.negativeInfinity));
+        test(
+          'multiple values, negative infinity',
+          () => expect([double.negativeInfinity, 2.0, 1.0, 3.0].min, double.negativeInfinity),
+        );
 
-        test('multiple values, infinity', () => expect([double.infinity, 2.0, 1.0, 3.0].min, closeTo(1.0, 0.0000000001)));
+        test(
+          'multiple values, infinity',
+          () => expect([double.infinity, 2.0, 1.0, 3.0].min, closeTo(1.0, 0.0000000001)),
+        );
       });
 
       group('max', () {
@@ -222,7 +252,10 @@ void main() {
 
         test('single value', () => expect([1.0].max, closeTo(1.0, 0.0000000001)));
 
-        test('multiple values, duplicate values', () => expect([2.0, 3.0, 1.0, 3.0, 2.0].max, closeTo(3.0, 0.0000000001)));
+        test(
+          'multiple values, duplicate values',
+          () => expect([2.0, 3.0, 1.0, 3.0, 2.0].max, closeTo(3.0, 0.0000000001)),
+        );
 
         test('multiple values, max first', () => expect([3.0, 2.0, 1.0].max, closeTo(3.0, 0.0000000001)));
 
@@ -230,9 +263,12 @@ void main() {
 
         test('multiple values, nan first', () => expect([double.nan, 2.0, 1.0, 3.0].max?.isNaN, true));
 
-        test('multiple values, nan not first', () => expect([ 2.0, 1.0, 3.0, double.nan].max?.isNaN, true));
+        test('multiple values, nan not first', () => expect([2.0, 1.0, 3.0, double.nan].max?.isNaN, true));
 
-        test('multiple values, negative infinity', () => expect([double.negativeInfinity, 2.0, 1.0, 3.0].max, closeTo(3.0, 0.0000000001)));
+        test(
+          'multiple values, negative infinity',
+          () => expect([double.negativeInfinity, 2.0, 1.0, 3.0].max, closeTo(3.0, 0.0000000001)),
+        );
 
         test('multiple values, infinity', () => expect([double.infinity, 2.0, 1.0, 3.0].max, double.infinity));
       });
@@ -244,7 +280,10 @@ void main() {
 
         test('single value', () => expect(<num>[1.0].min, closeTo(1.0, 0.0000000001)));
 
-        test('multiple values, duplicate values', () => expect(<num>[2.0, 1.0, 3.0, 1.0, 2.0].min, closeTo(1.0, 0.0000000001)));
+        test(
+          'multiple values, duplicate values',
+          () => expect(<num>[2.0, 1.0, 3.0, 1.0, 2.0].min, closeTo(1.0, 0.0000000001)),
+        );
 
         test('multiple values, min first', () => expect(<num>[1.0, 2.0, 3.0].min, closeTo(1.0, 0.0000000001)));
 
@@ -254,11 +293,17 @@ void main() {
 
         test('multiple values, nan first', () => expect(<num>[double.nan, 2.0, 1.0, 3.0].min?.isNaN, true));
 
-        test('multiple values, nan not first', () => expect(<num>[ 2.0, 1.0, 3.0, double.nan].min?.isNaN, true));
+        test('multiple values, nan not first', () => expect(<num>[2.0, 1.0, 3.0, double.nan].min?.isNaN, true));
 
-        test('multiple values, negative infinity', () => expect(<num>[double.negativeInfinity, 2.0, 1.0, 3.0].min, double.negativeInfinity));
+        test(
+          'multiple values, negative infinity',
+          () => expect(<num>[double.negativeInfinity, 2.0, 1.0, 3.0].min, double.negativeInfinity),
+        );
 
-        test('multiple values, infinity', () => expect(<num>[double.infinity, 2.0, 1.0, 3.0].min, closeTo(1.0, 0.0000000001)));
+        test(
+          'multiple values, infinity',
+          () => expect(<num>[double.infinity, 2.0, 1.0, 3.0].min, closeTo(1.0, 0.0000000001)),
+        );
       });
 
       group('max', () {
@@ -266,7 +311,10 @@ void main() {
 
         test('single value', () => expect(<num>[1.0].max, closeTo(1.0, 0.0000000001)));
 
-        test('multiple values, duplicate values', () => expect(<num>[2.0, 3.0, 1.0, 3.0, 2.0].max, closeTo(3.0, 0.0000000001)));
+        test(
+          'multiple values, duplicate values',
+          () => expect(<num>[2.0, 3.0, 1.0, 3.0, 2.0].max, closeTo(3.0, 0.0000000001)),
+        );
 
         test('multiple values, max first', () => expect(<num>[3.0, 2.0, 1.0].max, closeTo(3.0, 0.0000000001)));
 
@@ -274,13 +322,15 @@ void main() {
 
         test('multiple values, nan first', () => expect(<num>[double.nan, 2.0, 1.0, 3.0].max?.isNaN, true));
 
-        test('multiple values, nan not first', () => expect(<num>[ 2.0, 1.0, 3.0, double.nan].max?.isNaN, true));
+        test('multiple values, nan not first', () => expect(<num>[2.0, 1.0, 3.0, double.nan].max?.isNaN, true));
 
-        test('multiple values, negative infinity', () => expect(<num>[double.negativeInfinity, 2.0, 1.0, 3.0].max, closeTo(3.0, 0.0000000001)));
+        test(
+          'multiple values, negative infinity',
+          () => expect(<num>[double.negativeInfinity, 2.0, 1.0, 3.0].max, closeTo(3.0, 0.0000000001)),
+        );
 
         test('multiple values, infinity', () => expect(<num>[double.infinity, 2.0, 1.0, 3.0].max, double.infinity));
       });
     });
   });
-
 }

@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 import 'package:nitrogen/src/file_system.dart';
 import 'package:nitrogen/src/generators/asset_generator.dart';
 
-const _classesDocs =  r'''
+const _classesDocs = r'''
 import 'package:nitrogen_types/nitrogen_types.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
@@ -302,7 +302,8 @@ void main() {
       });
 
       test('excluded', () {
-        final basic = AssetClass(docs: false, directories: const AssetDirectoryExpressions('Prefix'), excluded: { subdirectory });
+        final basic =
+            AssetClass(docs: false, directories: const AssetDirectoryExpressions('Prefix'), excluded: {subdirectory});
         final type = basic.generate(directory).build();
 
         expect(formatter.format(type.accept(emitter).toString()), formatter.format(_excludedAssetClass));
@@ -327,7 +328,8 @@ void main() {
       });
 
       test('excluded', () {
-        final basic = BasicAssetClass(docs: false, directories: const AssetDirectoryExpressions('Prefix'), excluded: { subdirectory });
+        final basic = BasicAssetClass(
+            docs: false, directories: const AssetDirectoryExpressions('Prefix'), excluded: {subdirectory});
         final type = basic.generate(directory).build();
 
         expect(formatter.format(type.accept(emitter).toString()), formatter.format(_excludedBasicClass));
@@ -353,7 +355,6 @@ void main() {
         expect(reference.accept(emitter).toString(), 'PrefixDirectoryName');
       });
     });
-
   });
 
   group('AssetFileExpressions', () {

@@ -109,7 +109,6 @@ void main() {
       expect(sil.byStringIndex.indexOf('D')! < sil.byStringIndex.indexOf('E')!, true);
     });
 
-
     test('duplicates in sil', () {
       final sil = Sil.list(['A']);
       sil.byIndex.insertAll(1, ['A', 'B']);
@@ -136,7 +135,6 @@ void main() {
       expect(sil.length, 2);
     });
 
-
     test('custom equality', () {
       final sil = Sil.list(['A'], equals: (a, b) => a.length == b.length, hash: (e) => 1);
       sil.byIndex.insertAll(1, ['BB', 'CC']);
@@ -149,7 +147,6 @@ void main() {
 
       expect(sil.byStringIndex.indexOf('A')! < sil.byStringIndex.indexOf('BB')!, true);
     });
-
 
     test('empty', () {
       final sil = Sil();
@@ -211,7 +208,6 @@ void main() {
       expect(sil.byStringIndex.indexOf('C')! < sil.byStringIndex.indexOf('D')!, true);
     });
 
-
     test('duplicates', () {
       final sil = Sil.list(['A']);
       final before = sil.byStringIndex.indexOf('A');
@@ -227,7 +223,6 @@ void main() {
       expect(sil.length, 1);
     });
 
-
     test('custom equality', () {
       final sil = Sil.list(['A'], equals: (a, b) => a.length == b.length, hash: (e) => 1);
       expect(sil.byIndex.insert(1, 'BB'), true);
@@ -242,7 +237,6 @@ void main() {
 
       expect(sil.byStringIndex.indexOf('A')! < sil.byStringIndex.indexOf('BB')!, true);
     });
-
 
     test('empty', () {
       final sil = Sil();

@@ -5,13 +5,14 @@ import 'dart:io';
 import 'package:meta/meta.dart';
 
 class System {
+  @useResult
+  static DateTime Function() currentDateTime = DateTime.now;
 
-  @useResult static DateTime Function() currentDateTime = DateTime.now;
+  @useResult
+  static int get epochMilliseconds => currentDateTime().millisecondsSinceEpoch;
 
-  @useResult static int get epochMilliseconds => currentDateTime().millisecondsSinceEpoch;
-
-  @useResult static int get epochMicroseconds => currentDateTime().microsecondsSinceEpoch;
-
+  @useResult
+  static int get epochMicroseconds => currentDateTime().microsecondsSinceEpoch;
 
   const System();
 
@@ -32,7 +33,6 @@ class System {
   bool get windows => Platform.isWindows;
 
   bool get web => false;
-
 }
 
 enum PlatformType {
@@ -50,22 +50,16 @@ enum PlatformType {
   static PlatformType get _current {
     if (Platform.isAndroid) {
       return android;
-
     } else if (Platform.isFuchsia) {
       return fuchsia;
-
     } else if (Platform.isIOS) {
       return ios;
-
     } else if (Platform.isLinux) {
       return linux;
-
     } else if (Platform.isMacOS) {
       return macos;
-
     } else if (Platform.isWindows) {
       return windows;
-
     } else {
       return unknown;
     }

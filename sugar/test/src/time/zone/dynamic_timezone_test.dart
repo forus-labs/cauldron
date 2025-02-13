@@ -9,13 +9,13 @@ void main() {
     final span = timezone.span(at: DateTime.utc(1900).microsecondsSinceEpoch);
 
     test('abbreviation', () => expect(span.abbreviation, 'LMT'));
-    
+
     test('start', () => expect(span.start, TimezoneSpan.range.min.value));
 
     test('end', () => expect(span.end, -2051202469));
-    
+
     test('dst', () => expect(span.dst, false));
-    
+
     test('offset', () => expect(span.offset, Offset.fromMicroseconds(-19931000000)));
   });
 
@@ -40,7 +40,7 @@ void main() {
 
     test('offset', () => expect(span.offset, Offset(-4)));
   });
-  
+
   group('convert(...) & span(...)', () {
     group('America/Detroit DST (negative offset)', () {
       // https://www.timeanddate.com/time/change/usa/detroit?year=2023
@@ -231,7 +231,7 @@ void main() {
 
   test('toString()', () {
     final singapore = DefaultTimezoneProvider()['Asia/Singapore']!;
-    
+
     expect(singapore.name, 'Asia/Singapore');
     expect(singapore.toString(), 'Asia/Singapore');
   });

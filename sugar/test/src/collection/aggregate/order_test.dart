@@ -3,7 +3,6 @@ import 'package:test/test.dart';
 import 'package:sugar/collection_aggregate.dart';
 
 void main() {
-
   group('ascending', () {
     test('empty', () => expect(<int>[].order(by: (e) => e).ascending, []));
 
@@ -11,7 +10,10 @@ void main() {
 
     test('multiple values', () => expect([(1,), (3,), (2,)].order(by: (e) => e.$1).ascending, [(1,), (2,), (3,)]));
 
-    test('multiple same values', () => expect([(1,), (3,), (2,), (3,)].order(by: (e) => e.$1).ascending, [(1,), (2,), (3,), (3,)]));
+    test(
+      'multiple same values',
+      () => expect([(1,), (3,), (2,), (3,)].order(by: (e) => e.$1).ascending, [(1,), (2,), (3,), (3,)]),
+    );
   });
 
   group('descending', () {
@@ -21,7 +23,10 @@ void main() {
 
     test('multiple values', () => expect([(1,), (3,), (2,)].order(by: (e) => e.$1).descending, [(3,), (2,), (1,)]));
 
-    test('multiple same values', () => expect([(1,), (3,), (2,), (3,)].order(by: (e) => e.$1).descending, [(3,), (3,), (2,), (1,)]));
+    test(
+      'multiple same values',
+      () => expect([(1,), (3,), (2,), (3,)].order(by: (e) => e.$1).descending, [(3,), (3,), (2,), (1,)]),
+    );
   });
 
   group('min', () {
@@ -47,5 +52,4 @@ void main() {
 
     test('multiple same values', () => expect([(3,), (1,), (2,), (3,)].order(by: (e) => e.$1).max, (3,)));
   });
-
 }

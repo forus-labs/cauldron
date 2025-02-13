@@ -18,7 +18,6 @@ import 'package:nitrogen_types/nitrogen_types.dart';
 /// }
 /// ```
 extension ImageAssetExtension on ImageAsset {
-
   /// Converts an [ImageAsset] to an [Image].
   Image call({
     Key? key,
@@ -42,30 +41,30 @@ extension ImageAssetExtension on ImageAsset {
     FilterQuality filterQuality = FilterQuality.low,
     int? cacheWidth,
     int? cacheHeight,
-  }) => Image.asset(
-    path,
-    package: package,
-    frameBuilder: frameBuilder,
-    errorBuilder: errorBuilder,
-    semanticLabel: semanticLabel,
-    excludeFromSemantics: excludeFromSemantics,
-    scale: scale,
-    width: width,
-    height: height,
-    color: color,
-    opacity: opacity,
-    colorBlendMode: colorBlendMode,
-    fit: fit,
-    alignment: alignment,
-    repeat: repeat,
-    centerSlice: centerSlice,
-    matchTextDirection: matchTextDirection,
-    gaplessPlayback: gaplessPlayback,
-    isAntiAlias: isAntiAlias,
-    filterQuality: filterQuality,
-    cacheWidth: cacheWidth,
-    cacheHeight: cacheHeight,
-    key: key,
-  );
-
+  }) =>
+      Image.asset(
+        path,
+        package: package,
+        frameBuilder: frameBuilder,
+        errorBuilder: errorBuilder,
+        semanticLabel: semanticLabel,
+        excludeFromSemantics: excludeFromSemantics,
+        scale: scale,
+        width: width,
+        height: height,
+        color: color,
+        opacity: opacity,
+        colorBlendMode: colorBlendMode,
+        fit: fit,
+        alignment: alignment,
+        repeat: repeat,
+        centerSlice: centerSlice,
+        matchTextDirection: matchTextDirection,
+        gaplessPlayback: gaplessPlayback,
+        isAntiAlias: isAntiAlias,
+        filterQuality: filterQuality,
+        cacheWidth: cacheWidth,
+        cacheHeight: cacheHeight,
+        key: key,
+      );
 }

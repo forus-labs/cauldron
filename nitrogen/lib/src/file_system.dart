@@ -9,7 +9,7 @@ sealed class Entity {
   final List<String> path;
 
   /// Creates an entity.
-  Entity(this.path): assert(path.isNotEmpty, 'Path to an entity cannot be empty.');
+  Entity(this.path) : assert(path.isNotEmpty, 'Path to an entity cannot be empty.');
 
   /// The name, without an extension.
   String get rawName;
@@ -21,7 +21,7 @@ final class AssetDirectory extends Entity {
   final SplayTreeMap<String, Entity> children = SplayTreeMap();
 
   /// Creates an [AssetDirectory].
-  AssetDirectory(super.path): assert(path.last == basenameWithoutExtension(path.last), 'Path is not a directory.');
+  AssetDirectory(super.path) : assert(path.last == basenameWithoutExtension(path.last), 'Path is not a directory.');
 
   @override
   String get rawName => path.last;
@@ -33,7 +33,7 @@ final class AssetFile extends Entity {
   final Asset asset;
 
   /// Creates an [AssetFile].
-  AssetFile(super.path, this.asset): assert(path.last != basenameWithoutExtension(path.last), 'Path is not a file.');
+  AssetFile(super.path, this.asset) : assert(path.last != basenameWithoutExtension(path.last), 'Path is not a file.');
 
   @override
   String get rawName => basenameWithoutExtension(path.last);

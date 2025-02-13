@@ -1,3 +1,15 @@
+## 2.12. (13/02/2025)
+This update focuses on lint rules introduce in Dart 3.7.0.
+
+Core rulset:
+- Add `strict_top_level_inference`
+- Add `unnecessary_underscores`
+- Set format length to 120
+
+Flutter ruleset:
+- Set format length to 120
+
+
 # 2.11.1 (03/02/2025)
 Core ruleset:
 - Remove `unnecessary_library_name` - this rule introduces too many downsides in practice.

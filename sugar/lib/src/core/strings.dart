@@ -6,7 +6,6 @@ import 'package:sugar/core.dart';
 
 /// Provides functions that manipulate [String]s.
 extension Strings on String {
-
   /// The default separators recognized by [toCamelCase] and other related functions.
   ///
   /// The recognized separators are:
@@ -19,7 +18,9 @@ extension Strings on String {
   /// will be split into `separate`, `by`, `multiple`, `YAML` and `Words`.
   ///
   /// [partialWordSeparators] should be used if this is not camel-cased or pascal-cased.
-  static final Pattern wordSeparators = RegExp(r'((\s|-|_)+)|(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])'); // Adapted from: https://stackoverflow.com/a/7599674/4189771
+  static final Pattern wordSeparators = RegExp(
+    r'((\s|-|_)+)|(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])',
+  ); // Adapted from: https://stackoverflow.com/a/7599674/4189771
 
   /// A subset of [wordSeparators] that do not separate consecutive uppercase characters.
   ///
@@ -32,7 +33,6 @@ extension Strings on String {
   /// `by`, `multiple` and `wordsAndLetters`.
   static final Pattern partialWordSeparators = RegExp(r'(\s|-|_)+');
 
-
   /// Returns `true` if this and [other] are equal, ignoring capitalization.
   ///
   /// ```dart
@@ -40,7 +40,8 @@ extension Strings on String {
   ///
   /// 'aB'.equalsIgnoreCase('aC'); // false
   /// ```
-  @useResult bool equalsIgnoreCase(String other) => toLowerCase() == other.toLowerCase();
+  @useResult
+  bool equalsIgnoreCase(String other) => toLowerCase() == other.toLowerCase();
 
   /// Returns `true` if this matches [pattern].
   ///
@@ -51,11 +52,11 @@ extension Strings on String {
   ///
   /// 'abcabc'.matches('abc'); // false
   /// ```
-  @useResult bool matches(Pattern pattern) => switch(pattern.matchAsPrefix(this)) {
+  @useResult
+  bool matches(Pattern pattern) => switch (pattern.matchAsPrefix(this)) {
     final match? when match.start == 0 && match.end == length => true,
     _ => false,
   };
-
 
   /// Capitalizes the first character.
   ///
@@ -66,8 +67,8 @@ extension Strings on String {
   ///
   /// ''.capitalize(); // ''
   /// ```
-  @useResult String capitalize() => isEmpty ? this : this[0].toUpperCase() + substring(1);
-
+  @useResult
+  String capitalize() => isEmpty ? this : this[0].toUpperCase() + substring(1);
 
   /// Camel-cases this string.
   ///
@@ -88,7 +89,8 @@ extension Strings on String {
   ///
   /// 'Sentence case'.toCamelCase(); // 'sentenceCase'
   /// ```
-  @useResult String toCamelCase([Pattern? separators]) {
+  @useResult
+  String toCamelCase([Pattern? separators]) {
     final words = split(separators ?? wordSeparators).where((e) => e.isNotEmpty);
     if (words.isEmpty) {
       return '';
@@ -97,7 +99,9 @@ extension Strings on String {
     final buffer = StringBuffer()..write(words.first.toLowerCase());
     for (final word in words.skip(1)) {
       if (isNotEmpty) {
-        buffer..write(word[0].toUpperCase())..write(word.substring(1).toLowerCase());
+        buffer
+          ..write(word[0].toUpperCase())
+          ..write(word.substring(1).toLowerCase());
       }
     }
 
@@ -123,11 +127,14 @@ extension Strings on String {
   ///
   /// 'Sentence case'.toPascalCase(); // 'SentenceCase'
   /// ```
-  @useResult String toPascalCase([Pattern? separators]) {
+  @useResult
+  String toPascalCase([Pattern? separators]) {
     final buffer = StringBuffer();
     for (final word in split(separators ?? wordSeparators)) {
       if (isNotEmpty) {
-        buffer..write(word[0].toUpperCase())..write(word.substring(1).toLowerCase());
+        buffer
+          ..write(word[0].toUpperCase())
+          ..write(word.substring(1).toLowerCase());
       }
     }
 
@@ -153,10 +160,9 @@ extension Strings on String {
   ///
   /// 'Sentence case'.toScreamingCase(); // 'SENTENCE_CASE'
   /// ```
-  @useResult String toScreamingCase([Pattern? separators]) => split(separators ?? wordSeparators)
-    .where((e) => e.isNotEmpty)
-    .join('_')
-    .toUpperCase();
+  @useResult
+  String toScreamingCase([Pattern? separators]) =>
+      split(separators ?? wordSeparators).where((e) => e.isNotEmpty).join('_').toUpperCase();
 
   /// Snake-cases this string.
   ///
@@ -177,10 +183,9 @@ extension Strings on String {
   ///
   /// 'Sentence case'.toSnakeCase(); // 'sentence_case'
   /// ```
-  @useResult String toSnakeCase([Pattern? separators]) => split(separators ?? wordSeparators)
-    .where((e) => e.isNotEmpty)
-    .join('_')
-    .toLowerCase();
+  @useResult
+  String toSnakeCase([Pattern? separators]) =>
+      split(separators ?? wordSeparators).where((e) => e.isNotEmpty).join('_').toLowerCase();
 
   /// Kebab-cases this string.
   ///
@@ -201,10 +206,9 @@ extension Strings on String {
   ///
   /// 'Sentence case'.toKebabCase(); // 'sentence-case'
   /// ```
-  @useResult String toKebabCase([Pattern? separators]) => split(separators ?? wordSeparators)
-    .where((e) => e.isNotEmpty)
-    .join('-')
-    .toLowerCase();
+  @useResult
+  String toKebabCase([Pattern? separators]) =>
+      split(separators ?? wordSeparators).where((e) => e.isNotEmpty).join('-').toLowerCase();
 
   /// Title-cases this string.
   ///
@@ -227,10 +231,9 @@ extension Strings on String {
   ///
   /// 'Sentence case'.toTitleCase(); // 'Sentence Case'
   /// ```
-  @useResult String toTitleCase([Pattern? separators]) => split(separators ?? wordSeparators)
-    .where((e) => e.isNotEmpty)
-    .map((e) => e.capitalize())
-    .join(' ');
+  @useResult
+  String toTitleCase([Pattern? separators]) =>
+      split(separators ?? wordSeparators).where((e) => e.isNotEmpty).map((e) => e.capitalize()).join(' ');
 
   /// Sentence-cases this string.
   ///
@@ -253,12 +256,11 @@ extension Strings on String {
   ///
   /// 'Sentence case'.toSentenceCase(); // 'Sentence case'
   /// ```
-  @useResult String toSentenceCase([Pattern? separators]) => split(separators ?? wordSeparators)
-      .where((e) => e.isNotEmpty)
-      .map((e) => e.isUpperCase ? e : e.toLowerCase())
-      .join(' ')
-      .capitalize();
-
+  @useResult
+  String toSentenceCase([Pattern? separators]) =>
+      split(
+        separators ?? wordSeparators,
+      ).where((e) => e.isNotEmpty).map((e) => e.isUpperCase ? e : e.toLowerCase()).join(' ').capitalize();
 
   /// Lazily splits this into individual lines.
   ///
@@ -291,7 +293,8 @@ extension Strings on String {
   ///
   /// This is a lazy alternative to [LineSplitter.convert], which is eager.
   @lazy
-  @useResult Iterable<String> get lines sync* {
+  @useResult
+  Iterable<String> get lines sync* {
     const LF = 10; // ignore: constant_identifier_names
     const CR = 13; // ignore: constant_identifier_names
 
@@ -317,7 +320,6 @@ extension Strings on String {
     }
   }
 
-
   /// Whether this is comprised of only uppercase characters.
   ///
   /// ```dart
@@ -325,7 +327,8 @@ extension Strings on String {
   ///
   /// 'Hello'.isUpperCase; // false
   /// ```
-  @useResult bool get isUpperCase => this == toUpperCase();
+  @useResult
+  bool get isUpperCase => this == toUpperCase();
 
   /// Whether this is comprised of only uppercase characters.
   ///
@@ -334,7 +337,8 @@ extension Strings on String {
   ///
   /// 'Hello'.isLowerCase; // false
   /// ```
-  @useResult bool get isLowerCase => this == toLowerCase();
+  @useResult
+  bool get isLowerCase => this == toLowerCase();
 
   /// Whether this is comprised of only whitespaces.
   ///
@@ -370,7 +374,8 @@ extension Strings on String {
   /// used by the system.
   ///
   /// See [isNotBlank].
-  @useResult bool get isBlank => trim().isEmpty;
+  @useResult
+  bool get isBlank => trim().isEmpty;
 
   /// Whether this string is not comprised of only whitespaces.
   ///
@@ -406,8 +411,8 @@ extension Strings on String {
   /// used by the system.
   ///
   /// See [isBlank].
-  @useResult bool get isNotBlank => trim().isNotEmpty;
-
+  @useResult
+  bool get isNotBlank => trim().isNotEmpty;
 
   /// Returns whether this string is alphabetically less than [other].
   ///
@@ -428,7 +433,7 @@ extension Strings on String {
   ///
   /// 'z11' < 'z2'; // true
   /// ```
-  bool operator < (String other) => compareTo(other) < 0;
+  bool operator <(String other) => compareTo(other) < 0;
 
   /// Returns whether this string is alphabetically less than or equal to [other].
   ///
@@ -449,7 +454,7 @@ extension Strings on String {
   ///
   /// 'z11' <= 'z2'; // true
   /// ```
-  bool operator <= (String other) => compareTo(other) <= 0;
+  bool operator <=(String other) => compareTo(other) <= 0;
 
   /// Returns whether this string is alphabetically greater than [other].
   ///
@@ -470,7 +475,7 @@ extension Strings on String {
   ///
   /// 'z11' > 'z2'; // false
   /// ```
-  bool operator > (String other) => compareTo(other) > 0;
+  bool operator >(String other) => compareTo(other) > 0;
 
   /// Returns whether this string is alphabetically greater than or equal to [other].
   ///
@@ -491,6 +496,5 @@ extension Strings on String {
   ///
   /// 'z11' >= 'z2'; // false
   /// ```
-  bool operator >= (String other) => compareTo(other) >= 0;
-
+  bool operator >=(String other) => compareTo(other) >= 0;
 }

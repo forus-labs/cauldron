@@ -3,7 +3,6 @@ import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
 
 void main() {
-
   test('fromEpochDays(...)', () => expect(LocalDate.fromEpochDays(10957), LocalDate(2000)));
 
   group('fromEpochMilliseconds(...)', () {
@@ -60,19 +59,37 @@ void main() {
   });
 
   group('add(...)', () {
-    test('positive date units', () => expect(LocalDate(2023, 4, 5).add(const Duration(days: 1)), LocalDate(2023, 4, 6)));
+    test(
+      'positive date units',
+      () => expect(LocalDate(2023, 4, 5).add(const Duration(days: 1)), LocalDate(2023, 4, 6)),
+    );
 
-    test('negative date units', () => expect(LocalDate(2023, 4, 5).add(const Duration(days: -1)), LocalDate(2023, 4, 4)));
+    test(
+      'negative date units',
+      () => expect(LocalDate(2023, 4, 5).add(const Duration(days: -1)), LocalDate(2023, 4, 4)),
+    );
 
-    test('time units', () => expect(LocalDate(2023, 4, 5).add(const Duration(days: 1, microseconds: 1)), LocalDate(2023, 4, 6)));
+    test(
+      'time units',
+      () => expect(LocalDate(2023, 4, 5).add(const Duration(days: 1, microseconds: 1)), LocalDate(2023, 4, 6)),
+    );
   });
 
   group('subtract(...)', () {
-    test('positive date units', () => expect(LocalDate(2023, 4, 5).subtract(const Duration(days: 1)), LocalDate(2023, 4, 4)));
+    test(
+      'positive date units',
+      () => expect(LocalDate(2023, 4, 5).subtract(const Duration(days: 1)), LocalDate(2023, 4, 4)),
+    );
 
-    test('negative date units', () => expect(LocalDate(2023, 4, 5).subtract(const Duration(days: -1)), LocalDate(2023, 4, 6)));
+    test(
+      'negative date units',
+      () => expect(LocalDate(2023, 4, 5).subtract(const Duration(days: -1)), LocalDate(2023, 4, 6)),
+    );
 
-    test('time units', () => expect(LocalDate(2023, 4, 5).subtract(const Duration(days: 1, microseconds: 1)), LocalDate(2023, 4, 4)));
+    test(
+      'time units',
+      () => expect(LocalDate(2023, 4, 5).subtract(const Duration(days: 1, microseconds: 1)), LocalDate(2023, 4, 4)),
+    );
   });
 
   group('plus(...)', () {
@@ -92,7 +109,10 @@ void main() {
 
     test('negative date units', () => expect(LocalDate(2023, 4, 5) + const Period(days: -1), LocalDate(2023, 4, 4)));
 
-    test('time units', () => expect(LocalDate(2023, 4, 5) + const Period(days: 1, microseconds: 1), LocalDate(2023, 4, 6)));
+    test(
+      'time units',
+      () => expect(LocalDate(2023, 4, 5) + const Period(days: 1, microseconds: 1), LocalDate(2023, 4, 6)),
+    );
   });
 
   group('-', () {
@@ -100,9 +120,11 @@ void main() {
 
     test('negative date units', () => expect(LocalDate(2023, 4, 5) - const Period(days: -1), LocalDate(2023, 4, 6)));
 
-    test('time units', () => expect(LocalDate(2023, 4, 5) - const Period(days: 1, microseconds: 1), LocalDate(2023, 4, 4)));
+    test(
+      'time units',
+      () => expect(LocalDate(2023, 4, 5) - const Period(days: 1, microseconds: 1), LocalDate(2023, 4, 4)),
+    );
   });
-
 
   for (final (unit, truncated) in [
     (DateUnit.years, LocalDate(10)),
@@ -146,21 +168,23 @@ void main() {
     test('floor $unit to 5', () => expect(date.floor(unit, 5), truncated));
   }
 
-
   group('copyWith(...)', () {
     test('values', () => expect(LocalDate(2023, 5, 2).copyWith(year: 2024, month: 6, day: 3), LocalDate(2024, 6, 3)));
 
     test('nothing', () => expect(LocalDate(2023, 5, 2).copyWith(), LocalDate(2023, 5, 2)));
   });
 
+  test(
+    'difference(...)',
+    () => expect(LocalDate(2023, 5, 10).difference(LocalDate(2022, 3, 7)), const Duration(days: 429)),
+  );
 
-  test('difference(...)', () => expect(LocalDate(2023, 5, 10).difference(LocalDate(2022, 3, 7)), const Duration(days: 429)));
-
-
-  test('at(...)', () => expect(LocalDate(2023, 5, 10).at(LocalTime(1, 2, 3, 4, 5)), LocalDateTime(2023, 5, 10, 1, 2, 3, 4, 5)));
+  test(
+    'at(...)',
+    () => expect(LocalDate(2023, 5, 10).at(LocalTime(1, 2, 3, 4, 5)), LocalDateTime(2023, 5, 10, 1, 2, 3, 4, 5)),
+  );
 
   test('toNative()', () => expect(LocalDate(2023, 5, 10).toNative(), DateTime.utc(2023, 5, 10)));
-
 
   group('compareTo(...) & hashValue', () {
     test('-1', () {
@@ -179,16 +203,14 @@ void main() {
     });
   });
 
-  
   group('toString()', () {
     test('pads year', () => expect(LocalDate(0999, 12, 15).toString(), '0999-12-15'));
 
-    test('pads month', () => expect(LocalDate(2023, 4 ,15).toString(), '2023-04-15'));
+    test('pads month', () => expect(LocalDate(2023, 4, 15).toString(), '2023-04-15'));
 
     test('pads day', () => expect(LocalDate(2023, 12, 5).toString(), '2023-12-05'));
   });
 
-  
   test('weekday', () => expect(LocalDate(2023, 5, 3).weekday, 3));
 
   group('weekOfYear', () {
@@ -219,7 +241,6 @@ void main() {
     test('non-leap year last day', () => expect(LocalDate(2021, 12, 31).dayOfYear, 365));
   });
 
-
   group('firstDayOfWeek', () {
     test('current date', () => expect(LocalDate(2023, 5, 8).firstDayOfWeek, LocalDate(2023, 5, 8)));
 
@@ -236,7 +257,6 @@ void main() {
     test('across months', () => expect(LocalDate(2023, 5, 29).lastDayOfWeek, LocalDate(2023, 6, 4)));
   });
 
-
   group('firstDayOfMonth', () {
     test('current date', () => expect(LocalDate(2023, 5).firstDayOfMonth, LocalDate(2023, 5)));
 
@@ -251,7 +271,6 @@ void main() {
     test('leap year', () => expect(LocalDate(2020, 2).lastDayOfMonth, LocalDate(2020, 2, 29)));
   });
 
-
   group('daysInMonth', () {
     test('leap year', () => expect(LocalDate(2020, 2).daysInMonth, 29));
 
@@ -264,11 +283,15 @@ void main() {
     test('non-leap year', () => expect(LocalDate(2021).leapYear, false));
   });
 
-
   test('epochDays', () => expect(LocalDate(2023, 5, 3).epochDays, 19480));
 
-  test('epochMilliseconds', () => expect(LocalDate(2023, 5, 2).epochMilliseconds, DateTime.utc(2023, 5, 2).millisecondsSinceEpoch));
+  test(
+    'epochMilliseconds',
+    () => expect(LocalDate(2023, 5, 2).epochMilliseconds, DateTime.utc(2023, 5, 2).millisecondsSinceEpoch),
+  );
 
-  test('epochMicroseconds', () => expect(LocalDate(2023, 5, 2).epochMicroseconds, DateTime.utc(2023, 5, 2).microsecondsSinceEpoch));
-
+  test(
+    'epochMicroseconds',
+    () => expect(LocalDate(2023, 5, 2).epochMicroseconds, DateTime.utc(2023, 5, 2).microsecondsSinceEpoch),
+  );
 }

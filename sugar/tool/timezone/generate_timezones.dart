@@ -23,7 +23,6 @@ void traverse(Directory directory, NamespaceIR namespace) {
 
     if (entity is File) {
       namespace.timezones.add(TimezoneIR(path, entity));
-
     } else if (entity is Directory) {
       final child = NamespaceIR(name);
       namespace.namespaces.add(child);

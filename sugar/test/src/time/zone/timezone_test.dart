@@ -22,14 +22,14 @@ void main() {
 
     tearDown(() => Timezone.platformTimezoneProvider = defaultPlatformTimezoneProvider);
   });
-  
+
   group('Timezone(...)', () {
     setUp(() => Timezone.timezoneProvider = DefaultTimezoneProvider());
 
     test('valid', () => expect(Timezone('Asia/Tokyo').name, 'Asia/Tokyo'));
 
     test('invalid', () => expect(Timezone('invalid').name, 'Factory'));
-    
+
     test('custom timezoneProvider', () {
       Timezone.timezoneProvider = {};
       expect(Timezone('Asia/Tokyo').name, 'Factory');

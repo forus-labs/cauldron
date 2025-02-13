@@ -27,18 +27,32 @@ void main() {
 
       test('max', () => expect(FakeRandom(doubles: [0.9]).nextBoundedDouble(5.0, 10.0), closeTo(9.5, 0.00001)));
 
-
-      test('NaN range', () => expect(() => FakeRandom(doubles: [0]).nextBoundedDouble(double.nan, 1.0), throwsRangeError));
+      test(
+        'NaN range',
+        () => expect(() => FakeRandom(doubles: [0]).nextBoundedDouble(double.nan, 1.0), throwsRangeError),
+      );
 
       test('min = max', () => expect(() => FakeRandom(doubles: [0]).nextBoundedDouble(1.0, 1.0), throwsRangeError));
 
-      test('infinite range', () => expect(() => FakeRandom(doubles: [0]).nextBoundedDouble(-double.maxFinite, double.maxFinite), throwsRangeError));
+      test(
+        'infinite range',
+        () => expect(
+          () => FakeRandom(doubles: [0]).nextBoundedDouble(-double.maxFinite, double.maxFinite),
+          throwsRangeError,
+        ),
+      );
 
-      test('min infinity', () => expect(() => FakeRandom(doubles: [0]).nextBoundedDouble(double.negativeInfinity, 1.0), throwsRangeError));
+      test(
+        'min infinity',
+        () => expect(() => FakeRandom(doubles: [0]).nextBoundedDouble(double.negativeInfinity, 1.0), throwsRangeError),
+      );
 
-      test('max infinity', () => expect(() => FakeRandom(doubles: [0]).nextBoundedDouble(0.0, double.infinity), throwsRangeError));
+      test(
+        'max infinity',
+        () => expect(() => FakeRandom(doubles: [0]).nextBoundedDouble(0.0, double.infinity), throwsRangeError),
+      );
     });
-    
+
     group('nextWeightedBool(...)', () {
       test('negative', () => expect(() => Random().nextWeightedBool(-0.1), throwsRangeError));
 
@@ -46,7 +60,10 @@ void main() {
 
       test('positive infinity', () => expect(() => Random().nextWeightedBool(double.infinity), throwsRangeError));
 
-      test('negative infinity', () => expect(() => Random().nextWeightedBool(double.negativeInfinity), throwsRangeError));
+      test(
+        'negative infinity',
+        () => expect(() => Random().nextWeightedBool(double.negativeInfinity), throwsRangeError),
+      );
 
       test('true', () => expect(Random().nextWeightedBool(1), true));
 
@@ -54,7 +71,11 @@ void main() {
     });
 
     group('ints(...)', () {
-      test('values', () async => expect(await FakeRandom(ints: [1, 2, 3, 4]).ints(length: 4, min: -2, max: 10).toList(), [-1, 0, 1, 2]));
+      test(
+        'values',
+        () async =>
+            expect(await FakeRandom(ints: [1, 2, 3, 4]).ints(length: 4, min: -2, max: 10).toList(), [-1, 0, 1, 2]),
+      );
 
       test('negative length', () => expect(() => FakeRandom(ints: [0]).ints(max: 2, length: -3), throwsRangeError));
 
@@ -62,17 +83,40 @@ void main() {
     });
 
     group('doubles(...)', () {
-      test('values', () async => expect(await FakeRandom(doubles: [0.1, 0.2, 0.3, 0.4]).doubles(length: 4, max: 10).toList(), [1.0, 2.0, 3.0, 4.0]));
+      test(
+        'values',
+        () async => expect(await FakeRandom(doubles: [0.1, 0.2, 0.3, 0.4]).doubles(length: 4, max: 10).toList(), [
+          1.0,
+          2.0,
+          3.0,
+          4.0,
+        ]),
+      );
 
-      test('NaN range', () => expect(() => FakeRandom(doubles: [0]).doubles(min: double.nan, max: 2.0), throwsRangeError));
+      test(
+        'NaN range',
+        () => expect(() => FakeRandom(doubles: [0]).doubles(min: double.nan, max: 2.0), throwsRangeError),
+      );
 
       test('min = max', () => expect(() => FakeRandom(doubles: [0]).doubles(min: 2.0, max: 2.0), throwsRangeError));
 
-      test('infinite range', () => expect(() => FakeRandom(doubles: [0]).doubles(min: -double.maxFinite, max: double.maxFinite), throwsRangeError));
+      test(
+        'infinite range',
+        () => expect(
+          () => FakeRandom(doubles: [0]).doubles(min: -double.maxFinite, max: double.maxFinite),
+          throwsRangeError,
+        ),
+      );
 
-      test('min infinity', () => expect(() => FakeRandom(doubles: [0]).doubles(min: double.negativeInfinity, max: 2.0), throwsRangeError));
+      test(
+        'min infinity',
+        () => expect(() => FakeRandom(doubles: [0]).doubles(min: double.negativeInfinity, max: 2.0), throwsRangeError),
+      );
 
-      test('max infinity', () => expect(() => FakeRandom(doubles: [0]).doubles(min: 1.0, max: double.infinity), throwsRangeError));
+      test(
+        'max infinity',
+        () => expect(() => FakeRandom(doubles: [0]).doubles(min: 1.0, max: double.infinity), throwsRangeError),
+      );
     });
   });
 
@@ -89,7 +133,7 @@ void main() {
 
         a.insert(i + 1, 'c');
       });
-      
+
       test('in sequence', () {
         final random = FakeRandom(ints: [1, 3]);
         expect(random.nextInt(5), 1);
@@ -116,7 +160,10 @@ void main() {
 
       test('no more doubles', () => expect(() => FakeRandom().nextDouble(), throwsStateError));
 
-      test('greater than or equal to 1.0', () => expect(() => FakeRandom(doubles: [1.0]).nextDouble(), throwsRangeError));
+      test(
+        'greater than or equal to 1.0',
+        () => expect(() => FakeRandom(doubles: [1.0]).nextDouble(), throwsRangeError),
+      );
 
       test('less than 0', () => expect(() => FakeRandom(doubles: [-0.1]).nextDouble(), throwsRangeError));
     });

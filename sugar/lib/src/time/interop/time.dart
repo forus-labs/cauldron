@@ -3,7 +3,6 @@
 /// These functions should only be used when it is not feasible to use `sugar.time`, such as when working with 3rd-party
 /// date-time types.
 extension Times on Never {
-
   /// Formats the time as a ISO-8601 time.
   ///
   /// ```dart
@@ -15,9 +14,8 @@ extension Times on Never {
 
     final seconds = second == 0 && millisecond == 0 && microsecond == 0 ? '' : ':${second.toString().padLeft(2, '0')}';
     final milliseconds = millisecond == 0 && microsecond == 0 ? '' : '.${millisecond.toString().padLeft(3, '0')}';
-    final microseconds = microsecond == 0 ? '' :  microsecond.toString().padLeft(3, '0');
+    final microseconds = microsecond == 0 ? '' : microsecond.toString().padLeft(3, '0');
 
     return '$hours:$minutes$seconds$milliseconds$microseconds';
   }
-
 }

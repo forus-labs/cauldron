@@ -6,12 +6,11 @@ import 'package:nitrogen/src/libraries.dart';
 void main() {
   test('format()', () {
     final library = Library((b) => b.body.addAll([
-      Libraries.importNitrogenTypes,
-      Libraries.header('test'),
-    ]));
+          Libraries.importNitrogenTypes,
+          Libraries.header('test'),
+        ]));
 
-    expect(library.format(), equals(
-'''
+    expect(library.format(), equals('''
 import 'package:nitrogen_types/nitrogen_types.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND

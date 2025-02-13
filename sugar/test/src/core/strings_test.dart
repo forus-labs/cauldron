@@ -3,7 +3,6 @@ import 'package:test/test.dart';
 import 'package:sugar/core.dart';
 
 void main() {
-
   group('equalsIgnoreCase(...)', () {
     test('equals other, same case', () => expect('abc'.equalsIgnoreCase('abc'), true));
 
@@ -39,7 +38,6 @@ void main() {
 
     test('existing capitalized letters', () => expect('aBc a'.capitalize(), 'ABc a'));
   });
-
 
   group('toCamelCase()', () {
     test('empty string', () => expect(''.toCamelCase(), ''));
@@ -181,7 +179,6 @@ void main() {
     test('sentence case', () => expect('Sentence case'.toSentenceCase(), 'Sentence case'));
   });
 
-
   group('lines', () {
     test('empty', () => expect(''.lines.toList(), []));
 
@@ -311,5 +308,4 @@ void main() {
 
     test('z11 >= z2', () => expect('z11' >= 'z2', false));
   });
-  
 }

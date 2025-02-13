@@ -8,18 +8,17 @@ import 'package:nitrogen/src/libraries.dart';
 
 /// A generator for standard class representations of asset directories.
 class AssetGenerator {
-
   final AssetClass _standardClass;
   final AssetDirectory _assets;
   final Set<AssetDirectory> _excluded;
 
   /// Creates a [AssetGenerator].
-  AssetGenerator(String prefix, this._assets, this._excluded, {required bool docs}):
-    _standardClass = AssetClass(
-      directories: AssetDirectoryExpressions(prefix),
-      excluded: _excluded,
-      docs: docs,
-    );
+  AssetGenerator(String prefix, this._assets, this._excluded, {required bool docs})
+      : _standardClass = AssetClass(
+          directories: AssetDirectoryExpressions(prefix),
+          excluded: _excluded,
+          docs: docs,
+        );
 
   /// Generates basic asset classes.
   String generate() {
@@ -40,12 +39,10 @@ class AssetGenerator {
       _generate(child, classes);
     }
   }
-
 }
 
 /// Contains functions for generating a standard class representation of a directory.
 class AssetClass extends BasicAssetClass {
-
   /// An [Asset] type.
   static final assetType = refer('Asset', 'package:nitrogen_types/nitrogen_types.dart');
 
@@ -79,18 +76,18 @@ class AssetClass extends BasicAssetClass {
   @override
   ClassBuilder generate(AssetDirectory directory, {bool static = false}) => super.generate(directory, static: static)
     ..docs.addAll([
-      if (docs)
-        generateDocs(directory),
+      if (docs) generateDocs(directory),
     ])
     ..methods.add(_contents(directory, static: static));
 
   Method _contents(AssetDirectory directory, {bool static = false}) => Method((builder) => builder
     ..docs.addAll([
-      if (docs)
-        '/// The contents of this directory.',
+      if (docs) '/// The contents of this directory.',
     ])
     ..static = static
-    ..returns = TypeReference((builder) => builder..symbol = 'Map'..types.addAll([refer('String'), assetType]))
+    ..returns = TypeReference((builder) => builder
+      ..symbol = 'Map'
+      ..types.addAll([refer('String'), assetType]))
     ..type = MethodType.getter
     ..name = 'contents'
     ..lambda = true
@@ -99,20 +96,20 @@ class AssetClass extends BasicAssetClass {
       for (final file in directory.children.values.whereType<AssetFile>())
         Block.of([literal(file.asset.key).code, const Code(': '), files.invocation(file).code, const Code(', ')]),
       const Code('}'),
-    ])
-  );
-
+    ]));
 }
 
 /// Contains functions for generating a basic class representation of a directory.
 class BasicAssetClass {
-
   /// The excluded directories.
   final Set<AssetDirectory> excluded;
+
   /// The directory expressions.
   final AssetDirectoryExpressions directories;
+
   /// The file expressions.
   final AssetFileExpressions files;
+
   /// True if dart docs should be generated.
   final bool docs;
 
@@ -131,44 +128,32 @@ class BasicAssetClass {
     ..methods.addAll([
       for (final child in directory.children.values.whereType<AssetDirectory>().where((d) => !excluded.contains(d)))
         _assetDirectoryGetter(child, static: static),
-
-      for (final child in directory.children.values.whereType<AssetFile>())
-        _assetFileGetter(child, static: static),
+      for (final child in directory.children.values.whereType<AssetFile>()) _assetFileGetter(child, static: static),
     ]);
 
   /// Returns a getter for the nested [directory].
   Method _assetDirectoryGetter(AssetDirectory directory, {bool static = false}) => Method((builder) => builder
-    ..docs.addAll([
-      if (docs)
-        '/// The `${directory.path.join('/')}` directory.'
-    ])
+    ..docs.addAll([if (docs) '/// The `${directory.path.join('/')}` directory.'])
     ..static = static
     ..returns = directories.type(directory)
     ..type = MethodType.getter
     ..name = directories.variable(directory)
     ..lambda = true
-    ..body = directories.type(directory).constInstance([]).code
-  );
+    ..body = directories.type(directory).constInstance([]).code);
 
   /// Returns a getter for the nested [file].
   Method _assetFileGetter(AssetFile file, {bool static = false}) => Method((builder) => builder
-    ..docs.addAll([
-      if (docs)
-        '/// The `${file.path.join('/')}`.'
-    ])
+    ..docs.addAll([if (docs) '/// The `${file.path.join('/')}`.'])
     ..static = static
     ..returns = files.type(file)
     ..type = MethodType.getter
     ..name = files.variable(file)
     ..lambda = true
-    ..body = files.invocation(file).code
-  );
-
+    ..body = files.invocation(file).code);
 }
 
 /// Contains functions for generating code from a asset directory.
 class AssetDirectoryExpressions {
-
   /// The prefix for type names.
   final String prefix;
 
@@ -179,13 +164,12 @@ class AssetDirectoryExpressions {
   String variable(AssetDirectory directory) => directory.rawName.toCamelCase();
 
   /// The asset directory type.
-  Reference type(AssetDirectory directory) => refer('${directory.path.length >  1 ? '\$$prefix' : prefix}${directory.path.join('-').toPascalCase()}');
-
+  Reference type(AssetDirectory directory) =>
+      refer('${directory.path.length > 1 ? '\$$prefix' : prefix}${directory.path.join('-').toPascalCase()}');
 }
 
 /// Contains functions for generating code from a asset file.
 class AssetFileExpressions {
-
   /// Creates a [AssetFileExpressions].
   const AssetFileExpressions();
 
@@ -194,12 +178,12 @@ class AssetFileExpressions {
 
   /// An invocation of this asset's constructor.
   Expression invocation(AssetFile file) => type(file).constInstance([
-    literal(file.asset.package),
-    literal(file.asset.key),
-    literal(file.asset.path),
-  ]);
+        literal(file.asset.package),
+        literal(file.asset.key),
+        literal(file.asset.path),
+      ]);
 
   /// The asset type.
-  Reference type(AssetFile file) => refer(file.asset.runtimeType.toString(), 'package:nitrogen_types/nitrogen_types.dart');
-
+  Reference type(AssetFile file) =>
+      refer(file.asset.runtimeType.toString(), 'package:nitrogen_types/nitrogen_types.dart');
 }

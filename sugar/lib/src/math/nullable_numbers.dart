@@ -5,7 +5,6 @@
 /// Chaining functions provided by this extension is not recommended in performance sensitive contexts due to the
 /// repeated null checks with each function call.
 extension NullableNumbers on num? {
-
   /// Returns the sum of this and [other], or `null` if either is `null`.
   ///
   /// ```dart
@@ -76,7 +75,6 @@ extension NullableNumbers on num? {
   /// ```
   num? operator -() => this == null ? null : -this!;
 
-
   /// Returns whether this is less than [other], or `null` if either is `null`.
   ///
   /// ```dart
@@ -105,7 +103,7 @@ extension NullableNumbers on num? {
   /// foo(1, null); // null
   /// foo(1, 2); // false
   /// ```
-  bool? operator >(num? other) =>( this == null || other == null) ? null : this! > other;
+  bool? operator >(num? other) => (this == null || other == null) ? null : this! > other;
 
   /// Returns whether this is greater than or equal to [other], or `null` if either is `null`.
   ///
@@ -115,8 +113,7 @@ extension NullableNumbers on num? {
   /// foo(1, null); // null
   /// foo(1, 2); // true
   /// ```
-  bool? operator >=(num? other) =>( this == null || other == null) ? null : this! >= other;
-
+  bool? operator >=(num? other) => (this == null || other == null) ? null : this! >= other;
 }
 
 /// Provides functions for working with nullable [int]s, specifically their operator overloads which do not work with
@@ -126,7 +123,6 @@ extension NullableNumbers on num? {
 /// Chaining functions provided by this extension is not recommended in performance sensitive contexts due to the
 /// repeated null checks with each function call.
 extension NullableIntegers on int? {
-
   /// Returns the bitwise AND of this and [other], or `null` if either is `null`.
   ///
   /// ```dart
@@ -135,7 +131,7 @@ extension NullableIntegers on int? {
   /// foo(1, null); // null
   /// foo(1, 2); // 0
   /// ```
-  int? operator &(int? other) => (this == null  || other == null) ? null : this! & other;
+  int? operator &(int? other) => (this == null || other == null) ? null : this! & other;
 
   /// Returns the bitwise OR of this and [other], or `null` if either is `null`.
   ///
@@ -219,7 +215,6 @@ extension NullableIntegers on int? {
   /// ```
   int? operator >>>(int? shiftAmount) => (this == null || shiftAmount == null) ? null : this! >> shiftAmount;
 
-
   /// Returns the sum of this and [other], or `null` if either is `null`.
   ///
   /// ```dart
@@ -269,7 +264,6 @@ extension NullableIntegers on int? {
   /// foo(1); // -1
   /// ```
   int? operator -() => this == null ? null : -this!;
-
 }
 
 /// Provides functions for working with nullable [double]s, specifically their operator overloads which do not work with
@@ -279,7 +273,6 @@ extension NullableIntegers on int? {
 /// Chaining functions provided by this extension is not recommended in performance sensitive contexts due to the
 /// repeated null checks with each function call.
 extension NullableDoubles on double? {
-
   /// Returns the sum of this and [other], or `null` if either is `null`.
   ///
   /// ```dart
@@ -349,5 +342,4 @@ extension NullableDoubles on double? {
   /// foo(1.0); // -1.0
   /// ```
   double? operator -() => this == null ? null : -this!;
-
 }

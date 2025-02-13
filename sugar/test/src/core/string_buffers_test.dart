@@ -3,7 +3,6 @@ import 'package:test/test.dart';
 import 'package:sugar/core.dart';
 
 void main() {
-
   group('writeEnclosed(...)', () {
     test('encloses non-empty string', () => expect((StringBuffer()..writeEnclosed(5, '"')).toString(), '"5"'));
 
@@ -15,5 +14,4 @@ void main() {
 
     test('indent empty string', () => expect((StringBuffer()..writeIndented(4)).toString(), '    null'));
   });
-
 }

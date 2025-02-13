@@ -10,7 +10,7 @@ void main() {
     final other = ZonedDateTime.fromEpochMilliseconds(Timezone('America/Detroit'), datetime.epochMilliseconds);
     final timezone = other.timezone;
     final span = other.span;
-    
+
     expect(other.epochMilliseconds, datetime.epochMilliseconds);
     expect(datetime.toString(), '2023-03-12T03:00-04:00[America/Detroit]');
     expect(timezone.name, 'America/Detroit');
@@ -147,82 +147,114 @@ void main() {
     });
   });
 
-
   group('add(...)', () {
-    test('DST', () => expect(
-      ZonedDateTime('America/Detroit', 2023, 3, 12).add(const Duration(days: 1)),
-      ZonedDateTime('America/Detroit', 2023, 3, 13, 1),
-    ));
+    test(
+      'DST',
+      () => expect(
+        ZonedDateTime('America/Detroit', 2023, 3, 12).add(const Duration(days: 1)),
+        ZonedDateTime('America/Detroit', 2023, 3, 13, 1),
+      ),
+    );
 
-    test('non-DST', () => expect(
+    test(
+      'non-DST',
+      () => expect(
         ZonedDateTime('America/Detroit', 2023, 3, 15).add(const Duration(days: 1)),
         ZonedDateTime('America/Detroit', 2023, 3, 16),
-    ));
+      ),
+    );
   });
 
   group('subtract(...)', () {
-    test('DST', () => expect(
+    test(
+      'DST',
+      () => expect(
         ZonedDateTime('America/Detroit', 2023, 3, 13).subtract(const Duration(days: 1)),
         ZonedDateTime('America/Detroit', 2023, 3, 11, 23),
-    ));
+      ),
+    );
 
-    test('non-DST', () => expect(
+    test(
+      'non-DST',
+      () => expect(
         ZonedDateTime('America/Detroit', 2023, 3, 16).subtract(const Duration(days: 1)),
         ZonedDateTime('America/Detroit', 2023, 3, 15),
-    ));
+      ),
+    );
   });
 
-
   group('plus(...)', () {
-    test('DST', () => expect(
+    test(
+      'DST',
+      () => expect(
         ZonedDateTime('America/Detroit', 2023, 3, 12).plus(days: 1),
         ZonedDateTime('America/Detroit', 2023, 3, 13),
-    ));
+      ),
+    );
 
-    test('non-DST', () => expect(
+    test(
+      'non-DST',
+      () => expect(
         ZonedDateTime('America/Detroit', 2023, 3, 15).plus(days: 1),
         ZonedDateTime('America/Detroit', 2023, 3, 16),
-    ));
+      ),
+    );
   });
 
   group('minus(...)', () {
-    test('DST', () => expect(
-      ZonedDateTime('America/Detroit', 2023, 3, 13).minus(days: 1),
-      ZonedDateTime('America/Detroit', 2023, 3, 12),
-    ));
+    test(
+      'DST',
+      () => expect(
+        ZonedDateTime('America/Detroit', 2023, 3, 13).minus(days: 1),
+        ZonedDateTime('America/Detroit', 2023, 3, 12),
+      ),
+    );
 
-    test('non-DST', () => expect(
-      ZonedDateTime('America/Detroit', 2023, 3, 16).minus(days: 1),
-      ZonedDateTime('America/Detroit', 2023, 3, 15),
-    ));
+    test(
+      'non-DST',
+      () => expect(
+        ZonedDateTime('America/Detroit', 2023, 3, 16).minus(days: 1),
+        ZonedDateTime('America/Detroit', 2023, 3, 15),
+      ),
+    );
   });
 
-
   group('+', () {
-    test('DST', () => expect(
-      ZonedDateTime('America/Detroit', 2023, 3, 12) + const Period(days: 1),
-      ZonedDateTime('America/Detroit', 2023, 3, 13),
-    ));
+    test(
+      'DST',
+      () => expect(
+        ZonedDateTime('America/Detroit', 2023, 3, 12) + const Period(days: 1),
+        ZonedDateTime('America/Detroit', 2023, 3, 13),
+      ),
+    );
 
-    test('non-DST', () => expect(
-      ZonedDateTime('America/Detroit', 2023, 3, 15) + const Period(days: 1),
-      ZonedDateTime('America/Detroit', 2023, 3, 16),
-    ));
+    test(
+      'non-DST',
+      () => expect(
+        ZonedDateTime('America/Detroit', 2023, 3, 15) + const Period(days: 1),
+        ZonedDateTime('America/Detroit', 2023, 3, 16),
+      ),
+    );
   });
 
   group('-', () {
-    test('DST', () => expect(
-      ZonedDateTime('America/Detroit', 2023, 3, 13) - const Period(days: 1),
-      ZonedDateTime('America/Detroit', 2023, 3, 12),
-    ));
+    test(
+      'DST',
+      () => expect(
+        ZonedDateTime('America/Detroit', 2023, 3, 13) - const Period(days: 1),
+        ZonedDateTime('America/Detroit', 2023, 3, 12),
+      ),
+    );
 
-    test('non-DST', () => expect(
-      ZonedDateTime('America/Detroit', 2023, 3, 16) - const Period(days: 1),
-      ZonedDateTime('America/Detroit', 2023, 3, 15),
-    ));
+    test(
+      'non-DST',
+      () => expect(
+        ZonedDateTime('America/Detroit', 2023, 3, 16) - const Period(days: 1),
+        ZonedDateTime('America/Detroit', 2023, 3, 15),
+      ),
+    );
   });
 
-  
   for (final (unit, truncated) in [
     (DateUnit.years, ZonedDateTime('America/Detroit', 10)),
     (DateUnit.months, ZonedDateTime('America/Detroit', 10, 2)),
@@ -246,14 +278,46 @@ void main() {
     (ZonedDateTime('America/Detroit', 1, 1, 7, 2), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)),
     (ZonedDateTime('America/Detroit', 1, 1, 1, 3, 2), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)),
     (ZonedDateTime('America/Detroit', 1, 1, 1, 7, 2), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 3, 2), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 7, 2), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 3, 2), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 7, 2), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 3, 2), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 7, 2), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 3), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 7), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 3, 2),
+      TimeUnit.minutes,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 7, 2),
+      TimeUnit.minutes,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 3, 2),
+      TimeUnit.seconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 7, 2),
+      TimeUnit.seconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 3, 2),
+      TimeUnit.milliseconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 7, 2),
+      TimeUnit.milliseconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 3),
+      TimeUnit.microseconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 7),
+      TimeUnit.microseconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5),
+    ),
   ]) {
     test('round $unit to 5', () => expect(date.round(unit as TemporalUnit, 5), truncated));
   }
@@ -267,14 +331,46 @@ void main() {
     (ZonedDateTime('America/Detroit', 1, 1, 4, 9), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)),
     (ZonedDateTime('America/Detroit', 1, 1, 1, 2, 9), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)),
     (ZonedDateTime('America/Detroit', 1, 1, 1, 4, 9), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 2, 9), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 4, 9), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 2, 9), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 4, 9), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 2, 9), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 4, 9), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 2), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 4), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 2, 9),
+      TimeUnit.minutes,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 4, 9),
+      TimeUnit.minutes,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 2, 9),
+      TimeUnit.seconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 4, 9),
+      TimeUnit.seconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 2, 9),
+      TimeUnit.milliseconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 4, 9),
+      TimeUnit.milliseconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 2),
+      TimeUnit.microseconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 4),
+      TimeUnit.microseconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5),
+    ),
   ]) {
     test('ceil $unit to 5', () => expect(date.ceil(unit as TemporalUnit, 5), truncated));
   }
@@ -288,32 +384,77 @@ void main() {
     (ZonedDateTime('America/Detroit', 1, 1, 9, 2), DateUnit.days, ZonedDateTime('America/Detroit', 1, 1, 5)),
     (ZonedDateTime('America/Detroit', 1, 1, 1, 6, 2), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)),
     (ZonedDateTime('America/Detroit', 1, 1, 1, 9, 2), TimeUnit.hours, ZonedDateTime('America/Detroit', 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 6, 2), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 9, 2), TimeUnit.minutes, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 6, 2), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 9, 2), TimeUnit.seconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 6, 2), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 9, 2), TimeUnit.milliseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 6), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)),
-    (ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 9), TimeUnit.microseconds, ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5)),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 6, 2),
+      TimeUnit.minutes,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 9, 2),
+      TimeUnit.minutes,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 6, 2),
+      TimeUnit.seconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 9, 2),
+      TimeUnit.seconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 6, 2),
+      TimeUnit.milliseconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 9, 2),
+      TimeUnit.milliseconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 6),
+      TimeUnit.microseconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5),
+    ),
+    (
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 9),
+      TimeUnit.microseconds,
+      ZonedDateTime('America/Detroit', 1, 1, 1, 1, 1, 1, 1, 5),
+    ),
   ]) {
     test('floor $unit to 5', () => expect(date.floor(unit as TemporalUnit, 5), truncated));
   }
 
-
   group('copyWith(...)', () {
-    test('values', () => expect(
-      ZonedDateTime('America/Detroit', 2023, 1, 2, 3, 4, 5, 6, 7)
-        .copyWith(timezone: Timezone('Asia/Tokyo'), year: 2024, month: 8, day: 9, hour: 10, minute: 11, second: 12, millisecond: 13, microsecond: 14),
-      ZonedDateTime('Asia/Tokyo', 2024, 8, 9, 10, 11, 12, 13, 14),
-    ));
+    test(
+      'values',
+      () => expect(
+        ZonedDateTime('America/Detroit', 2023, 1, 2, 3, 4, 5, 6, 7).copyWith(
+          timezone: Timezone('Asia/Tokyo'),
+          year: 2024,
+          month: 8,
+          day: 9,
+          hour: 10,
+          minute: 11,
+          second: 12,
+          millisecond: 13,
+          microsecond: 14,
+        ),
+        ZonedDateTime('Asia/Tokyo', 2024, 8, 9, 10, 11, 12, 13, 14),
+      ),
+    );
 
-    test('nothing', () => expect(
-      ZonedDateTime('America/Detroit',2023, 1, 2, 3, 4, 5, 6, 7).copyWith(),
-      ZonedDateTime('America/Detroit', 2023, 1, 2, 3, 4, 5, 6, 7),
-    ));
+    test(
+      'nothing',
+      () => expect(
+        ZonedDateTime('America/Detroit', 2023, 1, 2, 3, 4, 5, 6, 7).copyWith(),
+        ZonedDateTime('America/Detroit', 2023, 1, 2, 3, 4, 5, 6, 7),
+      ),
+    );
   });
-
 
   group('difference(...)', () {
     group('DST', () {
@@ -334,9 +475,8 @@ void main() {
       test('negative', () => expect(before.difference(after), const Duration(days: -1)));
     });
   });
-  
-  test('toLocal()', () => expect(ZonedDateTime('America/Detroit', 2023, 5, 13).toLocal(), LocalDateTime(2023, 5, 13)));
 
+  test('toLocal()', () => expect(ZonedDateTime('America/Detroit', 2023, 5, 13).toLocal(), LocalDateTime(2023, 5, 13)));
 
   group('isBefore(...)', () {
     final first = ZonedDateTime('America/Detroit', 2023, 5, 12);
@@ -348,7 +488,6 @@ void main() {
     test('same timezone, same moment', () => expect(first.isBefore(first), false));
 
     test('same timezone, after', () => expect(second.isBefore(first), false));
-
 
     test('different timezone, before', () => expect(first.isBefore(other), true));
 
@@ -368,7 +507,6 @@ void main() {
 
     test('same timezone, after', () => expect(second.isSameMomentAs(first), false));
 
-
     test('different timezone, before', () => expect(first.isSameMomentAs(other), false));
 
     test('different timezone, same moment', () => expect(second.isSameMomentAs(other), true));
@@ -387,14 +525,12 @@ void main() {
 
     test('same timezone, after', () => expect(second.isAfter(first), true));
 
-
     test('different timezone, before', () => expect(first.isAfter(other), false));
 
     test('different timezone, same moment', () => expect(second.isAfter(other), false));
 
     test('different timezone, after', () => expect(other.isAfter(first), true));
   });
-
 
   group('equality', () {
     test('equal', () {
@@ -427,7 +563,6 @@ void main() {
     expect(date.toString(), '2023-03-12T03:03:04.005006-04:00[America/Detroit]');
   });
 
-
   test('weekday', () => expect(ZonedDateTime(singapore, 2023, 5, 3).weekday, 3));
 
   group('weekOfYear', () {
@@ -458,38 +593,68 @@ void main() {
     test('non-leap year last day', () => expect(ZonedDateTime(singapore, 2021, 12, 31).dayOfYear, 365));
   });
 
-
   group('firstDayOfWeek', () {
-    test('current date', () => expect(ZonedDateTime(singapore, 2023, 5, 8, 1).firstDayOfWeek, ZonedDateTime(singapore, 2023, 5, 8)));
+    test(
+      'current date',
+      () => expect(ZonedDateTime(singapore, 2023, 5, 8, 1).firstDayOfWeek, ZonedDateTime(singapore, 2023, 5, 8)),
+    );
 
-    test('last day of week', () => expect(ZonedDateTime(singapore, 2023, 5, 14, 1).firstDayOfWeek, ZonedDateTime(singapore, 2023, 5, 8)));
+    test(
+      'last day of week',
+      () => expect(ZonedDateTime(singapore, 2023, 5, 14, 1).firstDayOfWeek, ZonedDateTime(singapore, 2023, 5, 8)),
+    );
 
-    test('across months', () => expect(ZonedDateTime(singapore, 2023, 6, 2).firstDayOfWeek, ZonedDateTime(singapore, 2023, 5, 29)));
+    test(
+      'across months',
+      () => expect(ZonedDateTime(singapore, 2023, 6, 2).firstDayOfWeek, ZonedDateTime(singapore, 2023, 5, 29)),
+    );
   });
 
   group('lastDayOfWeek', () {
-    test('current date', () => expect(ZonedDateTime(singapore, 2023, 5, 8, 1).lastDayOfWeek, ZonedDateTime(singapore, 2023, 5, 14)));
+    test(
+      'current date',
+      () => expect(ZonedDateTime(singapore, 2023, 5, 8, 1).lastDayOfWeek, ZonedDateTime(singapore, 2023, 5, 14)),
+    );
 
-    test('last day of week', () => expect(ZonedDateTime(singapore, 2023, 5, 14, 1).lastDayOfWeek, ZonedDateTime(singapore, 2023, 5, 14)));
+    test(
+      'last day of week',
+      () => expect(ZonedDateTime(singapore, 2023, 5, 14, 1).lastDayOfWeek, ZonedDateTime(singapore, 2023, 5, 14)),
+    );
 
-    test('across months', () => expect(ZonedDateTime(singapore, 2023, 5, 29).lastDayOfWeek, ZonedDateTime(singapore, 2023, 6, 4)));
+    test(
+      'across months',
+      () => expect(ZonedDateTime(singapore, 2023, 5, 29).lastDayOfWeek, ZonedDateTime(singapore, 2023, 6, 4)),
+    );
   });
 
-
   group('firstDayOfMonth', () {
-    test('current date', () => expect(ZonedDateTime(singapore, 2023, 5, 1, 1).firstDayOfMonth, ZonedDateTime(singapore, 2023, 5)));
+    test(
+      'current date',
+      () => expect(ZonedDateTime(singapore, 2023, 5, 1, 1).firstDayOfMonth, ZonedDateTime(singapore, 2023, 5)),
+    );
 
-    test('last day of the month', () => expect(ZonedDateTime(singapore, 2023, 5, 31).firstDayOfMonth, ZonedDateTime(singapore, 2023, 5)));
+    test(
+      'last day of the month',
+      () => expect(ZonedDateTime(singapore, 2023, 5, 31).firstDayOfMonth, ZonedDateTime(singapore, 2023, 5)),
+    );
   });
 
   group('lastDayOfMonth', () {
-    test('current date', () => expect(ZonedDateTime(singapore, 2023, 2, 28).lastDayOfMonth, ZonedDateTime(singapore, 2023, 2, 28)));
+    test(
+      'current date',
+      () => expect(ZonedDateTime(singapore, 2023, 2, 28).lastDayOfMonth, ZonedDateTime(singapore, 2023, 2, 28)),
+    );
 
-    test('first day of the month', () => expect(ZonedDateTime(singapore, 2023, 2).lastDayOfMonth, ZonedDateTime(singapore, 2023, 2, 28)));
+    test(
+      'first day of the month',
+      () => expect(ZonedDateTime(singapore, 2023, 2).lastDayOfMonth, ZonedDateTime(singapore, 2023, 2, 28)),
+    );
 
-    test('leap year', () => expect(ZonedDateTime(singapore, 2020, 2).lastDayOfMonth, ZonedDateTime(singapore, 2020, 2, 29)));
+    test(
+      'leap year',
+      () => expect(ZonedDateTime(singapore, 2020, 2).lastDayOfMonth, ZonedDateTime(singapore, 2020, 2, 29)),
+    );
   });
-
 
   group('daysInMonth', () {
     test('leap year', () => expect(ZonedDateTime(singapore, 2020, 2).daysInMonth, 29));
@@ -503,15 +668,19 @@ void main() {
     test('non-leap year', () => expect(ZonedDateTime(singapore, 2021).leapYear, false));
   });
 
-
-  test('epochMilliseconds', () => expect(
-    ZonedDateTime(singapore, 2023, 1, 2, 3, 4, 5, 6, 7).epochMilliseconds,
-    DateTime.utc(2023, 1, 1, 19, 4, 5, 6, 7).millisecondsSinceEpoch,
-  ));
-
-  test('epochMicroseconds', () => expect(
-    ZonedDateTime(singapore, 2023, 1, 2, 3, 4, 5, 6, 7).epochMicroseconds,
-    DateTime.utc(2023, 1, 1, 19, 4, 5, 6, 7).microsecondsSinceEpoch),
+  test(
+    'epochMilliseconds',
+    () => expect(
+      ZonedDateTime(singapore, 2023, 1, 2, 3, 4, 5, 6, 7).epochMilliseconds,
+      DateTime.utc(2023, 1, 1, 19, 4, 5, 6, 7).millisecondsSinceEpoch,
+    ),
   );
-  
+
+  test(
+    'epochMicroseconds',
+    () => expect(
+      ZonedDateTime(singapore, 2023, 1, 2, 3, 4, 5, 6, 7).epochMicroseconds,
+      DateTime.utc(2023, 1, 1, 19, 4, 5, 6, 7).microsecondsSinceEpoch,
+    ),
+  );
 }

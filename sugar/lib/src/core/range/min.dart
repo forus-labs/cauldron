@@ -5,9 +5,9 @@ part of 'range.dart';
 /// [T] is expected to be immutable. If [T] is mutable, the value produced by [Comparable.compare] must not change when
 /// used in a [Min]. Doing so will result in undefined behaviour.
 final class Min<T extends Comparable<Object?>> extends IterableRange<T> {
-
   /// The minimum value.
   final T value;
+
   /// Whether the lower bound is open.
   ///
   /// In other words, whether this range excludes [value], i.e. `{ x | value < x }`.
@@ -16,32 +16,36 @@ final class Min<T extends Comparable<Object?>> extends IterableRange<T> {
   /// Creates a [Min] with the open lower bound.
   ///
   /// In other words, this range excludes [value], i.e. `{ x | value < x }`.
-  const Min.open(this.value): open = true;
+  const Min.open(this.value) : open = true;
 
   /// Creates a [Min] with the closed lower bound.
   ///
   /// In other words, this range includes [value], i.e. `{ x | value <= x }`.
-  const Min.closed(this.value): open = false;
+  const Min.closed(this.value) : open = false;
 
   @override
-  @useResult bool contains(T value) => this.value.compareTo(value) <= (closed ? 0 : -1);
+  @useResult
+  bool contains(T value) => this.value.compareTo(value) <= (closed ? 0 : -1);
 
   @override
-  @useResult Iterable<T> iterate({required T Function(T current) by}) sync* {
+  @useResult
+  Iterable<T> iterate({required T Function(T current) by}) sync* {
     for (var current = closed ? value : by(value); contains(current); current = by(current)) {
       yield current;
     }
   }
 
   @override
-  @useResult Interval<T>? gap(Range<T> other) => switch (other) {
+  @useResult
+  Interval<T>? gap(Range<T> other) => switch (other) {
     Max<T> _ => Gaps.minMax(this, other),
     Interval<T> _ => Gaps.minInterval(this, other),
     _ => null,
   };
 
   @override
-  @useResult Range<T>? intersection(Range<T> other) => switch (other) {
+  @useResult
+  Range<T>? intersection(Range<T> other) => switch (other) {
     Min<T> _ => switch (value.compareTo(other.value)) {
       < 0 when other.open => Min.open(other.value),
       < 0 when other.closed => Min.closed(other.value),
@@ -56,14 +60,16 @@ final class Min<T extends Comparable<Object?>> extends IterableRange<T> {
   };
 
   @override
-  @useResult bool besides(Range<T> other) => switch (other) {
+  @useResult
+  bool besides(Range<T> other) => switch (other) {
     Max<T> _ => Besides.minMax(this, other),
     Interval<T> _ => Besides.minInterval(this, other),
     _ => false,
   };
 
   @override
-  @useResult bool encloses(Range<T> other) {
+  @useResult
+  bool encloses(Range<T> other) {
     switch (other) {
       case Min<T> _:
         final comparison = value.compareTo(other.value);
@@ -79,7 +85,8 @@ final class Min<T extends Comparable<Object?>> extends IterableRange<T> {
   }
 
   @override
-  @useResult bool intersects(Range<T> other) => switch (other) {
+  @useResult
+  bool intersects(Range<T> other) => switch (other) {
     Max<T> _ => Intersects.minMax(this, other),
     Interval<T> _ => Intersects.minInterval(this, other),
     _ => true,
@@ -93,15 +100,14 @@ final class Min<T extends Comparable<Object?>> extends IterableRange<T> {
   /// In other words, whether this range includes [value], i.e. `{ x | value <= x }`.
   bool get closed => !open;
 
-
   @override
-  bool operator ==(Object other) => identical(this, other) || other is Min && runtimeType == other.runtimeType
-                && value == other.value && open == other.open;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Min && runtimeType == other.runtimeType && value == other.value && open == other.open;
 
   @override
   int get hashCode => runtimeType.hashCode ^ value.hashCode ^ open.hashCode;
 
   @override
   String toString() => '${open ? '(' : '['}$value..+∞)';
-
 }

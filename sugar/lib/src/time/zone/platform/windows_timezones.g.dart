@@ -10,7 +10,8 @@ import 'package:meta/meta.dart';
 
 /// The mappings for Windows Zone IDs (Standard names) to TZ database names. These mappings are mechanically derived from
 /// the [CLDR-JSON](https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-core/supplemental/windowsZones.json) repository.
-@internal const windowsTimezones = {
+@internal
+const windowsTimezones = {
   'Afghanistan Standard Time': 'Asia/Kabul',
   'Alaskan Standard Time': 'America/Anchorage',
   'Aleutian Standard Time': 'America/Adak',

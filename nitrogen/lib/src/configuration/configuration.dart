@@ -7,17 +7,16 @@ import 'package:nitrogen/src/nitrogen_exception.dart';
 
 /// Nitrogen's configuration.
 final class Configuration {
-
   /// Parses the configuration from the project's pubspec.yaml.
   factory Configuration.merge(BuildConfiguration configuration, YamlMap pubspec) => Configuration(
-    package: parsePackage(pubspec.nodes['name'], enabled: configuration.package),
-    docs: configuration.docs,
-    prefix: configuration.prefix,
-    key: configuration.key,
-    assets: configuration.assets,
-    themes: configuration.themes,
-    flutterAssets: parseFlutterAssets(pubspec.nodes['flutter'].as<YamlMap>()?.nodes['assets']),
-  );
+        package: parsePackage(pubspec.nodes['name'], enabled: configuration.package),
+        docs: configuration.docs,
+        prefix: configuration.prefix,
+        key: configuration.key,
+        assets: configuration.assets,
+        themes: configuration.themes,
+        flutterAssets: parseFlutterAssets(pubspec.nodes['flutter'].as<YamlMap>()?.nodes['assets']),
+      );
 
   /// Parses the package name from the project's pubspec.yaml.
   @visibleForTesting
@@ -27,7 +26,9 @@ final class Configuration {
         return name;
 
       case (_, true):
-        log.severe(name?.span.message('Unable to read package name in pubspec.yaml. See https://dart.dev/tools/pub/pubspec#name.') ?? 'Package name is not specified.');
+        log.severe(name?.span
+                .message('Unable to read package name in pubspec.yaml. See https://dart.dev/tools/pub/pubspec#name.') ??
+            'Package name is not specified.');
         throw NitrogenException();
 
       case (_, bool? _):
@@ -43,10 +44,11 @@ final class Configuration {
         return {};
 
       case final YamlList list:
-        return { ...list };
+        return {...list};
 
       default:
-        log.severe(node.span.message('Unable to read flutter assets. See https://docs.flutter.dev/tools/pubspec#assets.'));
+        log.severe(
+            node.span.message('Unable to read flutter assets. See https://docs.flutter.dev/tools/pubspec#assets.'));
         throw NitrogenException();
     }
   }
@@ -64,7 +66,9 @@ final class Configuration {
   final String Function(List<String>) key;
 
   /// The output location of the generated assets.
-  final ({String output,}) assets;
+  final ({
+    String output,
+  }) assets;
 
   /// The fallback theme and output location of the generated themes.
   final ({String fallback, String output})? themes;
@@ -82,12 +86,9 @@ final class Configuration {
     required this.themes,
     required this.flutterAssets,
   });
-
 }
 
 // TODO: replace with Sugar 4.0.0
 extension on Object? {
-
   T? as<T extends Object>() => this is T ? this! as T : null;
-
 }

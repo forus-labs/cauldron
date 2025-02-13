@@ -7,9 +7,9 @@ import 'package:sugar/sugar.dart';
 ///
 /// These functions should only be used when it is not feasible to use `sugar.time`.
 extension DateTimes on DateTime {
-
   /// Creates a [DateTime], in UTC timezone, from the [days] since Unix epoch.
-  static DateTime fromDaysSinceEpoch(int days) => DateTime.fromMillisecondsSinceEpoch(days * Duration.millisecondsPerDay, isUtc: true);
+  static DateTime fromDaysSinceEpoch(int days) =>
+      DateTime.fromMillisecondsSinceEpoch(days * Duration.millisecondsPerDay, isUtc: true);
 
   /// Returns a copy of this with the units of time added.
   ///
@@ -25,7 +25,8 @@ extension DateTimes on DateTime {
   /// datetime.plus(days: 1);          // 2023-03-13 00:00
   /// datetime.add(Duration(days: 1)); // 2023-03-13 01:00
   /// ```
-  @useResult DateTime plus({
+  @useResult
+  DateTime plus({
     int years = 0,
     int months = 0,
     int days = 0,
@@ -59,7 +60,8 @@ extension DateTimes on DateTime {
   /// datetime.minus(days: 1);              // 2023-03-12 00:00
   /// datetime.subtract(Duration(days: 1)); // 2023-03-11 23:00
   /// ```
-  @useResult DateTime minus({
+  @useResult
+  DateTime minus({
     int years = 0,
     int months = 0,
     int days = 0,
@@ -93,7 +95,8 @@ extension DateTimes on DateTime {
   /// foo + Period(days: 1);      // 2023-03-13 00:00
   /// foo.add(Duration(days: 1)); // 2023-03-13 01:00
   /// ```
-  @useResult DateTime operator + (Period period) => copyWith(
+  @useResult
+  DateTime operator +(Period period) => copyWith(
     year: year + period.years,
     month: month + period.months,
     day: day + period.days,
@@ -118,7 +121,8 @@ extension DateTimes on DateTime {
   /// foo - Period(days: 1);           // 2023-03-12 00:00-04:00
   /// foo.subtract(Duration(days: 1)); // 2023-03-11 23:00-04:00
   /// ```
-  @useResult DateTime operator - (Period period) => copyWith(
+  @useResult
+  DateTime operator -(Period period) => copyWith(
     year: year - period.years,
     month: month - period.months,
     day: day - period.days,
@@ -129,13 +133,13 @@ extension DateTimes on DateTime {
     microsecond: microsecond - period.microseconds,
   );
 
-
   /// Returns a copy of this truncated to the [TemporalUnit].
   ///
   /// ```dart
   /// DateTime(2023, 4, 15).truncate(to: DateUnit.months); // 2023-04-01 00:00
   /// ```
-  @useResult DateTime truncate({required TemporalUnit to}) => _adjust(to, (time) => time);
+  @useResult
+  DateTime truncate({required TemporalUnit to}) => _adjust(to, (time) => time);
 
   /// Returns a copy of this rounded to the nearest [unit] and [value].
   ///
@@ -148,7 +152,8 @@ extension DateTimes on DateTime {
   /// DateTime(2023, 8, 15).round(DateUnit.months, 6); // 2023-06-01 00:00
   /// ```
   @Possible({RangeError})
-  @useResult DateTime round(TemporalUnit unit, int value) => _adjust(unit, (date) => date.roundTo(value));
+  @useResult
+  DateTime round(TemporalUnit unit, int value) => _adjust(unit, (date) => date.roundTo(value));
 
   /// Returns a copy of this ceiled to the nearest [unit] and [value].
   ///
@@ -161,7 +166,8 @@ extension DateTimes on DateTime {
   /// DateTime(2023, 8, 15).ceil(DateUnit.months, 6); // 2023-12-01 00:00
   /// ```
   @Possible({RangeError})
-  @useResult DateTime ceil(TemporalUnit unit, int value) => _adjust(unit, (date) => date.ceilTo(value));
+  @useResult
+  DateTime ceil(TemporalUnit unit, int value) => _adjust(unit, (date) => date.ceilTo(value));
 
   /// Returns a copy of this floored to the nearest [unit] and [value].
   ///
@@ -175,11 +181,29 @@ extension DateTimes on DateTime {
   /// DateTime(2023, 8, 15).floor(DateUnit.months, 6); // 2023-06-01 00:00
   /// ```
   @Possible({RangeError})
-  @useResult DateTime floor(TemporalUnit unit, int value) => _adjust(unit, (date) => date.floorTo(value));
+  @useResult
+  DateTime floor(TemporalUnit unit, int value) => _adjust(unit, (date) => date.floorTo(value));
 
   DateTime _adjust(TemporalUnit unit, int Function(int time) apply) => switch (unit) {
-    DateUnit.years => copyWith(year: apply(year), month: 1, day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0),
-    DateUnit.months => copyWith(month: apply(month), day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0),
+    DateUnit.years => copyWith(
+      year: apply(year),
+      month: 1,
+      day: 1,
+      hour: 0,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+      microsecond: 0,
+    ),
+    DateUnit.months => copyWith(
+      month: apply(month),
+      day: 1,
+      hour: 0,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+      microsecond: 0,
+    ),
     DateUnit.days => copyWith(day: apply(day), hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0),
     TimeUnit.hours => copyWith(hour: apply(hour), minute: 0, second: 0, millisecond: 0, microsecond: 0),
     TimeUnit.minutes => copyWith(minute: apply(minute), second: 0, millisecond: 0, microsecond: 0),
@@ -187,7 +211,6 @@ extension DateTimes on DateTime {
     TimeUnit.milliseconds => copyWith(millisecond: apply(millisecond), microsecond: 0),
     TimeUnit.microseconds => copyWith(microsecond: apply(microsecond)),
   };
-
 
   /// Converts this [DateTime] to a [LocalDate], ignoring the time and timezone.
   ///
@@ -225,11 +248,11 @@ extension DateTimes on DateTime {
   /// DateTime.utc(2023, 10, 10, 10, 30).toOffsetTime(); // 10:30Z
   /// ```
   OffsetTime toOffsetTime() => OffsetTime(
-    Offset.fromMicroseconds(timeZoneOffset.inMicroseconds), 
-    hour, 
-    minute, 
-    second, 
-    millisecond, 
+    Offset.fromMicroseconds(timeZoneOffset.inMicroseconds),
+    hour,
+    minute,
+    second,
+    millisecond,
     microsecond,
   );
 
@@ -244,10 +267,10 @@ extension DateTimes on DateTime {
   ///
   /// **By default, retrieving the platform's timezone is only only supported on Windows, MacOS, Linux & web. The
   /// `Factory` timezone will be returned on all other platforms. See [Timezone.platformTimezoneProvider].**
-  ZonedDateTime toZonedDateTime() => isUtc ?
-    ZonedDateTime('Etc/UTC', year, month, day, hour, minute, second, millisecond, microsecond) :
-    ZonedDateTime.from(Timezone.now(), year, month, day, hour, minute, second, millisecond, microsecond);
-
+  ZonedDateTime toZonedDateTime() =>
+      isUtc
+          ? ZonedDateTime('Etc/UTC', year, month, day, hour, minute, second, millisecond, microsecond)
+          : ZonedDateTime.from(Timezone.now(), year, month, day, hour, minute, second, millisecond, microsecond);
 
   /// Formats this [DateTime]'s date as a ISO-8601 date, ignoring the time.
   ///
@@ -263,10 +286,9 @@ extension DateTimes on DateTime {
   /// ```
   String toTimeString() => Times.format(hour, minute, second, millisecond, microsecond);
 
-
   /// The offset.
-  @useResult Offset get offset => Offset.fromMicroseconds(timeZoneOffset.inMicroseconds);
-
+  @useResult
+  Offset get offset => Offset.fromMicroseconds(timeZoneOffset.inMicroseconds);
 
   /// The ordinal week of the year.
   ///
@@ -277,15 +299,16 @@ extension DateTimes on DateTime {
   /// ```dart
   /// DateTime(2023, 4, 1).weekOfYear; // 13
   /// ```
-  @useResult int get weekOfYear => Dates.weekOfYear(year, month, day);
+  @useResult
+  int get weekOfYear => Dates.weekOfYear(year, month, day);
 
   /// The ordinal day of the year.
   ///
   /// ```dart
   /// DateTime(2023, 4, 1).toDayOfYear(); // 91
   /// ```
-  @useResult int get dayOfYear => Dates.dayOfYear(year, month, day);
-
+  @useResult
+  int get dayOfYear => Dates.dayOfYear(year, month, day);
 
   /// The first day of the week.
   ///
@@ -293,7 +316,9 @@ extension DateTimes on DateTime {
   /// final tuesday = DateTime(2023, 4, 11);
   /// final monday = tuesday.firstDayOfWeek; // 2023-04-10
   /// ```
-  @useResult DateTime get firstDayOfWeek => copyWith(day: day - weekday + 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
+  @useResult
+  DateTime get firstDayOfWeek =>
+      copyWith(day: day - weekday + 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
 
   /// The last day of the week.
   ///
@@ -301,23 +326,26 @@ extension DateTimes on DateTime {
   /// final tuesday = DateTime(2023, 4, 11);
   /// final sunday = tuesday.lastDayOfWeek; // 2023-04-16
   /// ```
-  @useResult DateTime get lastDayOfWeek => copyWith(day: day + 7 - weekday, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
-
+  @useResult
+  DateTime get lastDayOfWeek =>
+      copyWith(day: day + 7 - weekday, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
 
   /// The first day of the month.
   ///
   /// ```dart
   /// DateTime(2023, 4, 11).firstDayOfMonth; // 2023-04-01
   /// ```
-  @useResult DateTime get firstDayOfMonth => copyWith(day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
+  @useResult
+  DateTime get firstDayOfMonth => copyWith(day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
 
   /// The last day of the month.
   ///
   /// ```dart
   /// DateTime(2023, 4, 11).lastDayOfMonth; // 2023-04-30
   /// ```
-  @useResult DateTime get lastDayOfMonth => copyWith(day: daysInMonth, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
-
+  @useResult
+  DateTime get lastDayOfMonth =>
+      copyWith(day: daysInMonth, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
 
   /// The number of days in the month, taking leap years into account.
   ///
@@ -325,7 +353,8 @@ extension DateTimes on DateTime {
   /// DateTime(2019, 2).daysInMonth; // 28
   /// DateTime(2020, 2).daysInMonth; // 29
   /// ```
-  @useResult int get daysInMonth => Dates.daysInMonth(year, month);
+  @useResult
+  int get daysInMonth => Dates.daysInMonth(year, month);
 
   /// Whether the is year is a leap year.
   ///
@@ -333,12 +362,11 @@ extension DateTimes on DateTime {
   /// DateTime(2020).leapYear; // true
   /// DateTime(2021).leapYear; // false
   /// ```
-  @useResult bool get leapYear => Dates.leapYear(year);
-
+  @useResult
+  bool get leapYear => Dates.leapYear(year);
 
   /// The days since Unix epoch.
   int get daysSinceEpoch => millisecondsSinceEpoch ~/ Duration.millisecondsPerDay;
-
 
   /// The time as milliseconds since midnight.
   ///
@@ -346,10 +374,10 @@ extension DateTimes on DateTime {
   /// DateTime(2023, 4, 1, 12).millisecondsSinceMidnight; // 43200000 ('12:00')
   /// ```
   int get millisecondsSinceMidnight =>
-    hour * Duration.millisecondsPerHour +
-    minute * Duration.millisecondsPerMinute +
-    second * Duration.millisecondsPerSecond +
-    millisecond;
+      hour * Duration.millisecondsPerHour +
+      minute * Duration.millisecondsPerMinute +
+      second * Duration.millisecondsPerSecond +
+      millisecond;
 
   /// The time as microseconds since midnight.
   ///
@@ -357,5 +385,4 @@ extension DateTimes on DateTime {
   /// DateTime(2023, 4, 1, 12).microsecondsSinceMidnight; // 43200000000 ('12:00')
   /// ```
   int get microsecondsSinceMidnight => sumMicroseconds(hour, minute, second, millisecond, microsecond);
-
 }

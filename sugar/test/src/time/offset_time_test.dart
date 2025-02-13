@@ -3,10 +3,15 @@ import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
 
 void main() {
+  test(
+    'fromDayMilliseconds(...)',
+    () => expect(OffsetTime.fromDayMilliseconds(Offset(8), 43200000), OffsetTime(Offset(8), 12)),
+  );
 
-  test('fromDayMilliseconds(...)', () => expect(OffsetTime.fromDayMilliseconds(Offset(8), 43200000), OffsetTime(Offset(8), 12)));
-
-  test('fromDayMicroseconds(...)', () => expect(OffsetTime.fromDayMicroseconds(Offset(8), 43200000000), OffsetTime(Offset(8), 12)));
+  test(
+    'fromDayMicroseconds(...)',
+    () => expect(OffsetTime.fromDayMicroseconds(Offset(8), 43200000000), OffsetTime(Offset(8), 12)),
+  );
 
   group('now(...)', () {
     test('real date-time', () {
@@ -57,29 +62,61 @@ void main() {
   });
 
   group('add(...)', () {
-    test('positive time units', () => expect(OffsetTime(Offset(8), 12, 30).add(const Duration(minutes: 5)), OffsetTime(Offset(8), 12, 35)));
+    test(
+      'positive time units',
+      () => expect(OffsetTime(Offset(8), 12, 30).add(const Duration(minutes: 5)), OffsetTime(Offset(8), 12, 35)),
+    );
 
-    test('negative time units', () => expect(OffsetTime(Offset(8), 12, 30).add(const Duration(minutes: -5)), OffsetTime(Offset(8), 12, 25)));
+    test(
+      'negative time units',
+      () => expect(OffsetTime(Offset(8), 12, 30).add(const Duration(minutes: -5)), OffsetTime(Offset(8), 12, 25)),
+    );
 
-    test('overflow wrap around', () => expect(OffsetTime(Offset(8), 23).add(const Duration(hours: 2)), OffsetTime(Offset(8), 1)));
+    test(
+      'overflow wrap around',
+      () => expect(OffsetTime(Offset(8), 23).add(const Duration(hours: 2)), OffsetTime(Offset(8), 1)),
+    );
 
-    test('date units', () => expect(OffsetTime(Offset(8), 12, 30).add(const Duration(days: 1, seconds: 1)), OffsetTime(Offset(8), 12, 30, 1)));
+    test(
+      'date units',
+      () => expect(
+        OffsetTime(Offset(8), 12, 30).add(const Duration(days: 1, seconds: 1)),
+        OffsetTime(Offset(8), 12, 30, 1),
+      ),
+    );
   });
 
   group('subtract(...)', () {
-    test('positive time units', () => expect(OffsetTime(Offset(8), 12, 30).subtract(const Duration(minutes: 5)), OffsetTime(Offset(8), 12, 25)));
+    test(
+      'positive time units',
+      () => expect(OffsetTime(Offset(8), 12, 30).subtract(const Duration(minutes: 5)), OffsetTime(Offset(8), 12, 25)),
+    );
 
-    test('negative time units', () => expect(OffsetTime(Offset(8), 12, 30).subtract(const Duration(minutes: -5)), OffsetTime(Offset(8), 12, 35)));
+    test(
+      'negative time units',
+      () => expect(OffsetTime(Offset(8), 12, 30).subtract(const Duration(minutes: -5)), OffsetTime(Offset(8), 12, 35)),
+    );
 
-    test('underflow wrap around', () => expect(OffsetTime(Offset(8), 1).subtract(const Duration(hours: 2)), OffsetTime(Offset(8), 23)));
+    test(
+      'underflow wrap around',
+      () => expect(OffsetTime(Offset(8), 1).subtract(const Duration(hours: 2)), OffsetTime(Offset(8), 23)),
+    );
 
-    test('date units', () => expect(OffsetTime(Offset(8), 12, 30).subtract(const Duration(days: 1, seconds: 1)), OffsetTime(Offset(8), 12, 29, 59)));
+    test(
+      'date units',
+      () => expect(
+        OffsetTime(Offset(8), 12, 30).subtract(const Duration(days: 1, seconds: 1)),
+        OffsetTime(Offset(8), 12, 29, 59),
+      ),
+    );
   });
-
 
   group('plus(...)', () {
     test('value', () {
-      expect(OffsetTime(Offset(8), 1, 2, 3, 4, 5).plus(hours: 2, minutes: 4, seconds: 6, milliseconds: 8, microseconds: 10), OffsetTime(Offset(8), 3, 6, 9, 12, 15));
+      expect(
+        OffsetTime(Offset(8), 1, 2, 3, 4, 5).plus(hours: 2, minutes: 4, seconds: 6, milliseconds: 8, microseconds: 10),
+        OffsetTime(Offset(8), 3, 6, 9, 12, 15),
+      );
     });
 
     test('nothing', () => expect(OffsetTime(Offset(8), 1, 2, 3, 4, 5).plus(), OffsetTime(Offset(8), 1, 2, 3, 4, 5)));
@@ -87,31 +124,78 @@ void main() {
 
   group('minus(...)', () {
     test('value', () {
-      expect(OffsetTime(Offset(8), 3, 6, 9, 12, 15).minus(hours: 2, minutes: 4, seconds: 6, milliseconds: 8, microseconds: 10), OffsetTime(Offset(8), 1, 2, 3, 4, 5));
+      expect(
+        OffsetTime(
+          Offset(8),
+          3,
+          6,
+          9,
+          12,
+          15,
+        ).minus(hours: 2, minutes: 4, seconds: 6, milliseconds: 8, microseconds: 10),
+        OffsetTime(Offset(8), 1, 2, 3, 4, 5),
+      );
     });
 
     test('nothing', () => expect(OffsetTime(Offset(8), 1, 2, 3, 4, 5).minus(), OffsetTime(Offset(8), 1, 2, 3, 4, 5)));
   });
 
-
   group('+', () {
-    test('positive time units', () => expect(OffsetTime(Offset(8), 1, 2, 3, 4, 5) + const Period(hours: 10), OffsetTime(Offset(8), 11, 2, 3, 4, 5)));
+    test(
+      'positive time units',
+      () =>
+          expect(OffsetTime(Offset(8), 1, 2, 3, 4, 5) + const Period(hours: 10), OffsetTime(Offset(8), 11, 2, 3, 4, 5)),
+    );
 
-    test('negative time units', () => expect(OffsetTime(Offset(8), 1, 2, 3, 4, 5) + const Period(hours: -10), OffsetTime(Offset(8), 15, 2, 3, 4, 5)));
+    test(
+      'negative time units',
+      () => expect(
+        OffsetTime(Offset(8), 1, 2, 3, 4, 5) + const Period(hours: -10),
+        OffsetTime(Offset(8), 15, 2, 3, 4, 5),
+      ),
+    );
 
-    test('overflow wraps around', () => expect(OffsetTime(Offset(8), 23) + const Period(hours: 2), OffsetTime(Offset(8), 1)));
+    test(
+      'overflow wraps around',
+      () => expect(OffsetTime(Offset(8), 23) + const Period(hours: 2), OffsetTime(Offset(8), 1)),
+    );
 
-    test('date units', () => expect(OffsetTime(Offset(8), 1, 2, 3, 4, 5) + const Period(days: 1, seconds: 10), OffsetTime(Offset(8), 1, 2, 13, 4, 5)));
+    test(
+      'date units',
+      () => expect(
+        OffsetTime(Offset(8), 1, 2, 3, 4, 5) + const Period(days: 1, seconds: 10),
+        OffsetTime(Offset(8), 1, 2, 13, 4, 5),
+      ),
+    );
   });
 
   group('-', () {
-    test('positive time units', () => expect(OffsetTime(Offset(8), 11, 2, 3, 4, 5) - const Period(hours: 10), OffsetTime(Offset(8), 1, 2, 3, 4, 5)));
+    test(
+      'positive time units',
+      () =>
+          expect(OffsetTime(Offset(8), 11, 2, 3, 4, 5) - const Period(hours: 10), OffsetTime(Offset(8), 1, 2, 3, 4, 5)),
+    );
 
-    test('negative time units', () => expect(OffsetTime(Offset(8), 1, 2, 3, 4, 5) - const Period(hours: -10), OffsetTime(Offset(8), 11, 2, 3, 4, 5)));
+    test(
+      'negative time units',
+      () => expect(
+        OffsetTime(Offset(8), 1, 2, 3, 4, 5) - const Period(hours: -10),
+        OffsetTime(Offset(8), 11, 2, 3, 4, 5),
+      ),
+    );
 
-    test('underflow wraps around', () => expect(OffsetTime(Offset(8), 1) - const Period(hours: 2), OffsetTime(Offset(8), 23)));
+    test(
+      'underflow wraps around',
+      () => expect(OffsetTime(Offset(8), 1) - const Period(hours: 2), OffsetTime(Offset(8), 23)),
+    );
 
-    test('date units', () => expect(OffsetTime(Offset(8), 1, 2, 3, 4, 5) - const Period(days: 1, seconds: 1), OffsetTime(Offset(8), 1, 2, 2, 4, 5)));
+    test(
+      'date units',
+      () => expect(
+        OffsetTime(Offset(8), 1, 2, 3, 4, 5) - const Period(days: 1, seconds: 1),
+        OffsetTime(Offset(8), 1, 2, 2, 4, 5),
+      ),
+    );
   });
 
   for (final (unit, truncated) in [
@@ -140,7 +224,7 @@ void main() {
     test('round $unit to 5', () => expect(time.round(unit, 5), truncated));
   }
 
-  for (final (time, unit, truncated)  in [
+  for (final (time, unit, truncated) in [
     (OffsetTime(Offset(8), 2, 9), TimeUnit.hours, OffsetTime(Offset(8), 5)),
     (OffsetTime(Offset(8), 4, 9), TimeUnit.hours, OffsetTime(Offset(8), 5)),
     (OffsetTime(Offset(8), 1, 2, 9), TimeUnit.minutes, OffsetTime(Offset(8), 1, 5)),
@@ -155,7 +239,7 @@ void main() {
     test('ceil $unit to 5', () => expect(time.ceil(unit, 5), truncated));
   }
 
-  for (final (time, unit, truncated)  in [
+  for (final (time, unit, truncated) in [
     (OffsetTime(Offset(8), 6, 2), TimeUnit.hours, OffsetTime(Offset(8), 5)),
     (OffsetTime(Offset(8), 9, 2), TimeUnit.hours, OffsetTime(Offset(8), 5)),
     (OffsetTime(Offset(8), 1, 6, 2), TimeUnit.minutes, OffsetTime(Offset(8), 1, 5)),
@@ -170,21 +254,30 @@ void main() {
     test('floor $unit to 5', () => expect(time.floor(unit, 5), truncated));
   }
 
-
   group('copyWith(...)', () {
-    test('values', () => expect(OffsetTime(Offset(8), 1, 3, 5, 7, 9).copyWith(hour: 2, minute: 4, second: 6, millisecond: 8, microsecond: 10), OffsetTime(Offset(8), 2, 4, 6, 8, 10)));
+    test(
+      'values',
+      () => expect(
+        OffsetTime(Offset(8), 1, 3, 5, 7, 9).copyWith(hour: 2, minute: 4, second: 6, millisecond: 8, microsecond: 10),
+        OffsetTime(Offset(8), 2, 4, 6, 8, 10),
+      ),
+    );
 
-    test('nothing', () => expect(OffsetTime(Offset(8), 1, 2, 3, 4, 5).copyWith(), OffsetTime(Offset(8), 1, 2, 3, 4, 5)));
+    test(
+      'nothing',
+      () => expect(OffsetTime(Offset(8), 1, 2, 3, 4, 5).copyWith(), OffsetTime(Offset(8), 1, 2, 3, 4, 5)),
+    );
   });
 
-
-  test('difference(...)', () => expect(
-    OffsetTime(Offset(8), 5, 7, 9, 11, 13).difference(OffsetTime(Offset(8), 2, 3, 4, 5, 6)),
-    const Duration(microseconds: 11045006007),
-  ));
+  test(
+    'difference(...)',
+    () => expect(
+      OffsetTime(Offset(8), 5, 7, 9, 11, 13).difference(OffsetTime(Offset(8), 2, 3, 4, 5, 6)),
+      const Duration(microseconds: 11045006007),
+    ),
+  );
 
   test('toLocal()', () => expect(OffsetTime(Offset(8), 2, 3, 4, 5, 6).toLocal(), LocalTime(2, 3, 4, 5, 6)));
-
 
   group('isBefore()', () {
     test('different offset, before', () => expect(OffsetTime(Offset(12), 6).isBefore(OffsetTime(Offset(), 6)), true));
@@ -199,13 +292,22 @@ void main() {
   });
 
   group('isSameMomentAs()', () {
-    test('different offset, same', () => expect(OffsetTime(Offset(4), 12).isSameMomentAs(OffsetTime(Offset(-4), 4)), true));
+    test(
+      'different offset, same',
+      () => expect(OffsetTime(Offset(4), 12).isSameMomentAs(OffsetTime(Offset(-4), 4)), true),
+    );
 
-    test('different offset, different', () => expect(OffsetTime(Offset(4), 1).isSameMomentAs(OffsetTime(Offset(12), 6)), false));
+    test(
+      'different offset, different',
+      () => expect(OffsetTime(Offset(4), 1).isSameMomentAs(OffsetTime(Offset(12), 6)), false),
+    );
 
     test('same offset, same', () => expect(OffsetTime(Offset(8), 6).isSameMomentAs(OffsetTime(Offset(8), 6)), true));
 
-    test('same offset, different', () => expect(OffsetTime(Offset(8), 7).isSameMomentAs(OffsetTime(Offset(8), 6)), false));
+    test(
+      'same offset, different',
+      () => expect(OffsetTime(Offset(8), 7).isSameMomentAs(OffsetTime(Offset(8), 6)), false),
+    );
   });
 
   group('isAfter()', () {
@@ -219,7 +321,6 @@ void main() {
 
     test('same offset, before', () => expect(OffsetTime(Offset(8), 6).isAfter(OffsetTime(Offset(8), 7)), false));
   });
-
 
   group('equality', () {
     test('not equal', () {
@@ -248,5 +349,4 @@ void main() {
   ]) {
     test('toString()', () => expect(time.toString(), string));
   }
-
 }

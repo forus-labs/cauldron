@@ -68,5 +68,4 @@ void main() {
 
     test('around double outside tolerance', () => expect(1.2.around(1.0, 0.01), false));
   });
-
 }

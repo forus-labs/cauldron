@@ -11,28 +11,68 @@ void main() {
 
       test('single', () => expect([('a', 1)].distinct(by: (e) => e.$1), [('a', 1)]));
 
-      test('multiple unique values', () => expect([('a', 1), ('b', 1), ('c', 1)].distinct(by: (e) => e.$1), [('a', 1), ('b', 1), ('c', 1)]));
+      test(
+        'multiple unique values',
+        () => expect([('a', 1), ('b', 1), ('c', 1)].distinct(by: (e) => e.$1), [('a', 1), ('b', 1), ('c', 1)]),
+      );
 
-      test('multiple deeply equal values', () => expect([[1], [2], [3], [1]].distinct(by: (element) => element), [[1], [2], [3], [1]]));
+      test(
+        'multiple deeply equal values',
+        () => expect(
+          [
+            [1],
+            [2],
+            [3],
+            [1],
+          ].distinct(by: (element) => element),
+          [
+            [1],
+            [2],
+            [3],
+            [1],
+          ],
+        ),
+      );
 
-      test('multiple duplicate values, well-ordered', () => expect([('a', 1), ('b', 1), ('c', 1), ('a', 2)].distinct(by: (e) => e.$1).toList(), [('a', 1), ('b', 1), ('c', 1)]));
+      test(
+        'multiple duplicate values, well-ordered',
+        () => expect([('a', 1), ('b', 1), ('c', 1), ('a', 2)].distinct(by: (e) => e.$1).toList(), [
+          ('a', 1),
+          ('b', 1),
+          ('c', 1),
+        ]),
+      );
 
       test('multiple duplicate values, unordered', () {
         final set = HashSet<(String, int)>()..addAll({('a', 1), ('b', 1), ('c', 1), ('a', 2)});
         final distinct = set.distinct(by: (e) => e.$1).toSet();
 
-        expect(distinct.containsAll(<(String, int)>{('a', 1), ('b', 1), ('c', 1)}) || distinct.containsAll(<(String, int)>{('a', 2), ('b', 1), ('c', 1)}), true);
+        expect(
+          distinct.containsAll(<(String, int)>{('a', 1), ('b', 1), ('c', 1)}) ||
+              distinct.containsAll(<(String, int)>{('a', 2), ('b', 1), ('c', 1)}),
+          true,
+        );
       });
     });
 
     group('associate(...)', () {
       test('empty', () => expect([].associate(by: (e) => e), <dynamic, dynamic>{}));
 
-      test('single value', () => expect([('a',)].associate(by: (e) => e.$1), {'a': ('a', )}));
+      test('single value', () => expect([('a',)].associate(by: (e) => e.$1), {'a': ('a',)}));
 
-      test('multiple unique values', () => expect([('a',), ('b',), ('c',)].associate(by: (e) => e.$1), {'a': ('a',), 'b': ('b',), 'c': ('c',)}));
+      test(
+        'multiple unique values',
+        () => expect([('a',), ('b',), ('c',)].associate(by: (e) => e.$1), {'a': ('a',), 'b': ('b',), 'c': ('c',)}),
+      );
 
-      test('multiple duplicate values', () => expect([('a',), ('a',), ('b',), ('c',)].associate(by: (e) => e.$1), {'a': ('a',), 'b': ('b',), 'c': ('c',)}));
+      test(
+        'multiple duplicate values',
+        () => expect([('a',), ('a',), ('b',), ('c',)].associate(by: (e) => e.$1), {
+          'a': ('a',),
+          'b': ('b',),
+          'c': ('c',),
+        }),
+      );
     });
 
     group('toMap(...)', () {
@@ -40,19 +80,20 @@ void main() {
 
       test('single value', () => expect([('a',)].toMap((e) => (e.$1, e.toString())), {'a': '(a)'}));
 
-      test('multiple unique values', () => expect([('a',), ('b',), ('c',)].toMap((e) => (e.$1, e.toString())), {
-        'a': '(a)',
-        'b': '(b)',
-        'c': '(c)',
-      }));
+      test(
+        'multiple unique values',
+        () => expect([('a',), ('b',), ('c',)].toMap((e) => (e.$1, e.toString())), {'a': '(a)', 'b': '(b)', 'c': '(c)'}),
+      );
 
-      test('multiple duplicate values', () => expect([('a',), ('a',), ('b',), ('c',)].toMap((e) => (e.$1, e.toString())), {
-        'a': '(a)',
-        'b': '(b)',
-        'c': '(c)',
-      }));
+      test(
+        'multiple duplicate values',
+        () => expect([('a',), ('a',), ('b',), ('c',)].toMap((e) => (e.$1, e.toString())), {
+          'a': '(a)',
+          'b': '(b)',
+          'c': '(c)',
+        }),
+      );
     });
-
 
     test('toUnmodifiableList()', () {
       final original = [1, 2, 3];

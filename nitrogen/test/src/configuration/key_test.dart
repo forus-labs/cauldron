@@ -23,7 +23,8 @@ void main() {
     test('invalid', () {
       expectLater(
         log.onRecord,
-        emits(severeLogOf(contains('Unknown asset key: "invalid". See https://github.com/forus-labs/cauldron/tree/master/nitrogen#key.'))),
+        emits(severeLogOf(contains(
+            'Unknown asset key: "invalid". See https://github.com/forus-labs/cauldron/tree/master/nitrogen#key.'))),
       );
       expect(() => Key.parse(loadYaml('key: invalid')['key']), throwsA(isA<NitrogenException>()));
     });

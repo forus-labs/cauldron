@@ -5,8 +5,10 @@
 sealed class Asset {
   /// The containing package's name.
   final String? package;
+
   /// A key that identifies this asset.
   final String key;
+
   /// A path to this asset, i.e. `assets/icons/application/analysis.svg`.
   final String path;
 
@@ -25,11 +27,11 @@ final class ImageAsset extends Asset {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is ImageAsset &&
-              runtimeType == other.runtimeType &&
-              package == other.package &&
-              key == other.key &&
-              path == other.path;
+      other is ImageAsset &&
+          runtimeType == other.runtimeType &&
+          package == other.package &&
+          key == other.key &&
+          path == other.path;
 
   @override
   int get hashCode => package.hashCode ^ key.hashCode ^ path.hashCode;
@@ -49,11 +51,11 @@ final class LottieAsset extends Asset {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is LottieAsset &&
-              runtimeType == other.runtimeType &&
-              package == other.package &&
-              key == other.key &&
-              path == other.path;
+      other is LottieAsset &&
+          runtimeType == other.runtimeType &&
+          package == other.package &&
+          key == other.key &&
+          path == other.path;
 
   @override
   int get hashCode => package.hashCode ^ key.hashCode ^ path.hashCode;
@@ -73,11 +75,11 @@ final class SvgAsset extends Asset {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is SvgAsset &&
-              runtimeType == other.runtimeType &&
-              package == other.package &&
-              key == other.key &&
-              path == other.path;
+      other is SvgAsset &&
+          runtimeType == other.runtimeType &&
+          package == other.package &&
+          key == other.key &&
+          path == other.path;
 
   @override
   int get hashCode => package.hashCode ^ key.hashCode ^ path.hashCode;
@@ -85,7 +87,6 @@ final class SvgAsset extends Asset {
   @override
   String toString() => 'SvgAsset{package: $package, key: $key, path: $path}';
 }
-
 
 /// A default asset for file extensions not directly supported by the other [Asset]s.
 ///
@@ -98,11 +99,11 @@ final class GenericAsset extends Asset {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is GenericAsset &&
-              runtimeType == other.runtimeType &&
-              package == other.package &&
-              key == other.key &&
-              path == other.path;
+      other is GenericAsset &&
+          runtimeType == other.runtimeType &&
+          package == other.package &&
+          key == other.key &&
+          path == other.path;
 
   @override
   int get hashCode => package.hashCode ^ key.hashCode ^ path.hashCode;

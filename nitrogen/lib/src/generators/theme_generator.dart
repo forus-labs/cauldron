@@ -9,7 +9,6 @@ import 'package:nitrogen/src/libraries.dart';
 
 /// A generator for theme class representations of asset directories.
 class ThemeGenerator {
-
   static int _depth((String, int) a, (String, int) b) => a.$2.compareTo(b.$2);
 
   static int _name((String, int) a, (String, int) b) => a.$1.compareTo(b.$1);
@@ -22,11 +21,12 @@ class ThemeGenerator {
   final AssetDirectory _fallbackTheme;
 
   /// Creates a [ThemeGenerator].
-  ThemeGenerator(String prefix, this._themes, this._fallbackTheme, {required bool docs}):
-    _extension = ThemeExtension(prefix),
-    _fallbackClass = FallbackAssetClass(directories: FallbackAssetDirectoryExpressions(prefix, _fallbackTheme), docs: docs),
-    _themeSubclass = FallbackAssetClass(directories: ThemeAssetDirectoryExpressions(prefix, _themes), docs: docs),
-    _themeClass = ThemeClass(ThemeAssetDirectoryExpressions(prefix, _themes), docs: docs);
+  ThemeGenerator(String prefix, this._themes, this._fallbackTheme, {required bool docs})
+      : _extension = ThemeExtension(prefix),
+        _fallbackClass =
+            FallbackAssetClass(directories: FallbackAssetDirectoryExpressions(prefix, _fallbackTheme), docs: docs),
+        _themeSubclass = FallbackAssetClass(directories: ThemeAssetDirectoryExpressions(prefix, _themes), docs: docs),
+        _themeClass = ThemeClass(ThemeAssetDirectoryExpressions(prefix, _themes), docs: docs);
 
   /// Generates themed asset classes.
   String generate() {
@@ -64,7 +64,8 @@ class ThemeGenerator {
     }
   }
 
-  void _generateTheme(AssetDirectory directory, Map<(String, int), Class> current, Map<(String, int), Class> fallbacks, int depth) {
+  void _generateTheme(
+      AssetDirectory directory, Map<(String, int), Class> current, Map<(String, int), Class> fallbacks, int depth) {
     final key = depth == 0 ? '' : directory.rawName;
     current[(key, depth)] = switch (fallbacks[(key, depth)]) {
       final fallback? => _themeClass.generate(directory, fallback).build(),
@@ -77,10 +78,8 @@ class ThemeGenerator {
   }
 }
 
-
 /// Contains functions for generating an extension that contains all generated themes.
 class ThemeExtension {
-
   final String _prefix;
 
   /// Creates a [ThemeExtension].
@@ -98,14 +97,11 @@ class ThemeExtension {
     ..type = MethodType.getter
     ..name = theme
     ..lambda = true
-    ..body = refer(type.name).newInstance([]).code
-  );
-
+    ..body = refer(type.name).newInstance([]).code);
 }
 
 /// Contains functions for generating a standard class representation of a directory with theme-specific documentation.
 class FallbackAssetClass extends AssetClass {
-
   /// Creates a [FallbackAssetClass].
   FallbackAssetClass({required super.directories, required super.docs});
 
@@ -130,21 +126,19 @@ class FallbackAssetClass extends AssetClass {
 /// |-------------------|---------------|------------------------|----------------------------------------------------------------------------------------------------------------|
 /// | SVG images        | `flutter_svg` | `nitrogen_flutter_svg` | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_flutter_svg)](https://pub.dev/packages/nitrogen_flutter_svg) |
 /// | Lottie animations | `lottie`      | `nitrogen_lottie`      | [![Pub Dev](https://img.shields.io/pub/v/nitrogen_lottie)](https://pub.dev/packages/nitrogen_lottie)           |''';
-
 }
 
 /// Contains functions for generating a theme class representation of a directory.
 class ThemeClass {
-
   final ThemeAssetDirectoryExpressions _directories;
   final BasicAssetClass _assets;
   final bool _docs;
 
   /// Creates a [ThemeClass].
-  ThemeClass(ThemeAssetDirectoryExpressions directories, {required bool docs}):
-    _directories = directories,
-    _assets = BasicAssetClass(directories: directories, docs: docs),
-    _docs = docs;
+  ThemeClass(ThemeAssetDirectoryExpressions directories, {required bool docs})
+      : _directories = directories,
+        _assets = BasicAssetClass(directories: directories, docs: docs),
+        _docs = docs;
 
   /// Generates a theme class that extends [fallback].
   ClassBuilder generate(AssetDirectory directory, Class fallback) => _assets.generate(directory)
@@ -177,11 +171,12 @@ class ThemeClass {
 
   Method _contents(AssetDirectory directory, Class fallback, {bool static = false}) => Method((builder) => builder
     ..docs.addAll([
-      if (_docs)
-        '/// The contents of this directory.',
+      if (_docs) '/// The contents of this directory.',
     ])
     ..static = static
-    ..returns = TypeReference((builder) => builder..symbol = 'Map'..types.addAll([refer('String'), AssetClass.assetType]))
+    ..returns = TypeReference((builder) => builder
+      ..symbol = 'Map'
+      ..types.addAll([refer('String'), AssetClass.assetType]))
     ..type = MethodType.getter
     ..name = 'contents'
     ..lambda = true
@@ -189,16 +184,14 @@ class ThemeClass {
       const Code('Map.unmodifiable({'),
       Code('...${static ? fallback.name : 'const ${fallback.name}()'}.contents,'),
       for (final file in directory.children.values.whereType<AssetFile>())
-        Block.of([literal(file.asset.key).code, const Code(': '), _assets.files.invocation(file).code, const Code(', ')]),
+        Block.of(
+            [literal(file.asset.key).code, const Code(': '), _assets.files.invocation(file).code, const Code(', ')]),
       const Code('})'),
-    ])
-  );
-
+    ]));
 }
 
 /// Contains functions for generating code from a asset directory.
 class FallbackAssetDirectoryExpressions extends AssetDirectoryExpressions {
-
   final AssetDirectory _fallback;
 
   /// Creates a [FallbackAssetDirectoryExpressions].
@@ -209,12 +202,10 @@ class FallbackAssetDirectoryExpressions extends AssetDirectoryExpressions {
     final path = directory.path.sublist(_fallback.path.length);
     return refer(path.isEmpty ? '${prefix}ThemeAssets' : '\$${prefix}ThemeAssets${path.join('-').toPascalCase()}');
   }
-
 }
 
 /// Contains functions for generating code from a asset directory.
 class ThemeAssetDirectoryExpressions extends AssetDirectoryExpressions {
-
   final AssetDirectory _themes;
 
   /// Creates a [ThemeAssetDirectoryExpressions].
@@ -223,10 +214,10 @@ class ThemeAssetDirectoryExpressions extends AssetDirectoryExpressions {
   @override
   Reference type(AssetDirectory directory) {
     final path = directory.path.sublist(_themes.path.length + 1);
-    return refer('${path.isEmpty ? '' : r'$'}${theme(directory).toPascalCase()}${prefix}ThemeAssets${path.join('-').toPascalCase()}');
+    return refer(
+        '${path.isEmpty ? '' : r'$'}${theme(directory).toPascalCase()}${prefix}ThemeAssets${path.join('-').toPascalCase()}');
   }
 
   /// The theme.
   String theme(AssetDirectory directory) => directory.path[_themes.path.length];
-
 }

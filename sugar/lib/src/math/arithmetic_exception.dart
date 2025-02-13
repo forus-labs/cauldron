@@ -2,7 +2,6 @@ import 'package:meta/meta.dart';
 
 /// Thrown when an exceptional arithmetic condition has occurred.
 class ArithmeticException implements Exception {
-
   /// The message.
   final String message;
 
@@ -10,6 +9,6 @@ class ArithmeticException implements Exception {
   ArithmeticException([this.message = "''"]);
 
   @override
-  @useResult String toString() => 'ArithmeticException: $message';
-
+  @useResult
+  String toString() => 'ArithmeticException: $message';
 }

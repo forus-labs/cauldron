@@ -76,9 +76,7 @@ extension Iterables<E> on Iterable<E> {
   /// });
   /// ```
   @useResult
-  Map<K, V> toMap<K, V>((K, V) Function(E element) create) => {
-        for (final (key, value) in map(create)) key: value,
-      };
+  Map<K, V> toMap<K, V>((K, V) Function(E element) create) => {for (final (key, value) in map(create)) key: value};
 
   /// Transforms this iterable into an unmodifiable [List].
   ///
@@ -118,7 +116,6 @@ extension Iterables<E> on Iterable<E> {
   /// );
   /// ```
   @useResult
-  Map<K, V> toUnmodifiableMap<K, V>((K, V) Function(E element) create) => Map.unmodifiable({
-        for (final (key, value) in map((e) => create(e))) key: value,
-      });
+  Map<K, V> toUnmodifiableMap<K, V>((K, V) Function(E element) create) =>
+      Map.unmodifiable({for (final (key, value) in map((e) => create(e))) key: value});
 }

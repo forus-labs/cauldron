@@ -26,20 +26,17 @@ void main() {
 
     test('larger < smaller', () => expect(Box(2) < Box(1), false));
 
-
     test('smaller > larger', () => expect(Box(1) > Box(2), false));
 
     test('same > same', () => expect(Box(1) > Box(1), false));
 
     test('larger > smaller', () => expect(Box(2) > Box(1), true));
 
-
     test('smaller <= larger', () => expect(Box(1) <= Box(2), true));
 
     test('same <= same', () => expect(Box(1) <= Box(1), true));
 
     test('larger <= smaller', () => expect(Box(2) <= Box(1), false));
-
 
     test('smaller >= larger', () => expect(Box(1) >= Box(2), false));
 
@@ -88,13 +85,18 @@ void main() {
       test('left equal right', () => expect(min(Box(1), Box(1)), Box(1)));
 
       test('left greater than right', () => expect(min(Box(2), Box(1)), Box(1)));
-      
-      
-      test('by specified, left less than right', () => expect(min(Box(1, 2), Box(2, 1), by: (e) => e.value), Box(2, 1)));
+
+      test(
+        'by specified, left less than right',
+        () => expect(min(Box(1, 2), Box(2, 1), by: (e) => e.value), Box(2, 1)),
+      );
 
       test('by specified, left equal right', () => expect(min(Box(1, 2), Box(1, 2), by: (e) => e.value), Box(1, 2)));
 
-      test('by specified, left greater than right', () => expect(min(Box(2, 1), Box(1, 2), by: (e) => e.value), Box(2, 1)));
+      test(
+        'by specified, left greater than right',
+        () => expect(min(Box(2, 1), Box(1, 2), by: (e) => e.value), Box(2, 1)),
+      );
     });
   });
 
@@ -116,19 +118,24 @@ void main() {
 
       test('left greater than right', () => expect(max(Box(2), Box(1)), Box(2)));
 
-
-      test('by specified, left less than right', () => expect(max(Box(1, 2), Box(2, 1), by: (e) => e.value), Box(1, 2)));
+      test(
+        'by specified, left less than right',
+        () => expect(max(Box(1, 2), Box(2, 1), by: (e) => e.value), Box(1, 2)),
+      );
 
       test('by specified, left equal right', () => expect(max(Box(1, 2), Box(1, 2), by: (e) => e.value), Box(1, 2)));
 
-      test('by specified, left greater than right', () => expect(max(Box(2, 1), Box(1, 2), by: (e) => e.value), Box(1, 2)));
+      test(
+        'by specified, left greater than right',
+        () => expect(max(Box(2, 1), Box(1, 2), by: (e) => e.value), Box(1, 2)),
+      );
     });
   });
 
   group('Comparators', () {
     group('by(...)', () {
       final compare = Comparators.by<(int,)>((e) => e.$1);
-      
+
       test('left less than right', () => expect(compare((1,), (2,)), -1));
 
       test('left equal right', () => expect(compare((1,), (1,)), 0));

@@ -13,7 +13,6 @@ void main() {
       expect(sil.firstIndexAfter(StringIndex('aa')), 'b');
     });
 
-
     test('after last', () {
       final sil = Sil.map({StringIndex('a'): 'A', StringIndex('b'): 'B'}).byStringIndex;
       expect(sil.firstIndexAfter(StringIndex('b')), null);
@@ -36,7 +35,6 @@ void main() {
       expect(sil.firstElementAfter(StringIndex('aa')), 'B');
     });
 
-
     test('after last', () {
       final sil = Sil.map({StringIndex('a'): 'A', StringIndex('b'): 'B'}).byStringIndex;
       expect(sil.firstElementAfter(StringIndex('b')), null);
@@ -48,7 +46,6 @@ void main() {
     });
   });
 
-
   group('lastIndexBefore(...)', () {
     test('after first', () {
       final sil = Sil.map({StringIndex('a'): 'A', StringIndex('b'): 'B'}).byStringIndex;
@@ -59,7 +56,6 @@ void main() {
       final sil = Sil.map({StringIndex('a'): 'A', StringIndex('b'): 'B'}).byStringIndex;
       expect(sil.lastIndexBefore(StringIndex('aa')), 'a');
     });
-
 
     test('after last', () {
       final sil = Sil.map({StringIndex('a'): 'A', StringIndex('b'): 'B'}).byStringIndex;
@@ -83,7 +79,6 @@ void main() {
       expect(sil.lastElementBefore(StringIndex('aa')), 'A');
     });
 
-
     test('after last', () {
       final sil = Sil.map({StringIndex('a'): 'A', StringIndex('b'): 'B'}).byStringIndex;
       expect(sil.lastElementBefore(StringIndex('a')), null);
@@ -95,7 +90,6 @@ void main() {
     });
   });
 
-
   group('indexOf(...)', () {
     test('default equality', () {
       final sil = Sil.map({StringIndex('a'): 'A'}).byStringIndex;
@@ -103,11 +97,8 @@ void main() {
     });
 
     test('custom equality', () {
-      final sil = Sil.map(
-        {StringIndex('a'): 'A'},
-        equals: (a, b) => a.length == b.length,
-        hash: (e) => 1,
-      ).byStringIndex;
+      final sil =
+          Sil.map({StringIndex('a'): 'A'}, equals: (a, b) => a.length == b.length, hash: (e) => 1).byStringIndex;
 
       expect(sil.indexOf('B'), 'a');
     });
@@ -157,7 +148,6 @@ void main() {
     });
   });
 
-
   group('removeAt(...)', () {
     test('remove at start', () {
       final sil = Sil.map({StringIndex('a'): 'A', StringIndex('b'): 'B', StringIndex('c'): 'C'});
@@ -201,8 +191,7 @@ void main() {
       expect(sil.byStringIndex.removeAt('d'), null);
     });
   });
-  
-  
+
   test('E []', () {
     final sil = Sil.map({StringIndex('a'): 'A', StringIndex('b'): 'B', StringIndex('c'): 'C'});
     expect(sil.byStringIndex['a'], 'A');
@@ -246,7 +235,6 @@ void main() {
       expect(sil.byStringIndex.indexOf('C')! < sil.byStringIndex.indexOf('D')!, true);
       expect(sil.length, 4);
     });
-
 
     test('index exists, has element after', () {
       final sil = Sil.map({StringIndex('a'): 'A', StringIndex('b'): 'B', StringIndex('c'): 'C'});

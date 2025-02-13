@@ -24,7 +24,6 @@ import 'package:sugar/src/time/zone/timezone_span.dart';
 ''';
 
 extension ZoneInfo on Never {
-
   static void generate(NamespaceIR namespace) => _namespace(namespace);
 
   static void _namespace(NamespaceIR namespace) {
@@ -33,5 +32,4 @@ extension ZoneInfo on Never {
     File('$_locationFolder/${namespace.name.toSnakeCase()}.g.dart').writeAsStringSync(buffer.toString());
     namespace.namespaces.forEach(_namespace);
   }
-
 }

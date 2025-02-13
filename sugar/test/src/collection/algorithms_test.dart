@@ -70,7 +70,6 @@ void main() {
 
     test('odd number element list', () => expect(separate([1, 5, 6], by: [2, 3, 4]), [1, 2, 3, 4, 5, 2, 3, 4, 6]));
 
-
     test('empty by', () => expect(separate([1, 2, 3], by: []), [1, 2, 3]));
 
     test('single by', () => expect(separate([1, 2, 3], by: [4]), [1, 4, 2, 4, 3]));

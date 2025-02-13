@@ -3,15 +3,14 @@ import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
 
 void main() {
-
   test('leapYearMonths', () => expect(Dates.leapYearMonths[1], 29));
 
   test('nonLeapYearMonths', () => expect(Dates.nonLeapYearMonths[1], 28));
 
   group('format(...)', () {
-    test('pads year', () => expect(Dates.format(999, 12 ,15), '0999-12-15'));
+    test('pads year', () => expect(Dates.format(999, 12, 15), '0999-12-15'));
 
-    test('pads month', () => expect(Dates.format(2023, 4 ,15), '2023-04-15'));
+    test('pads month', () => expect(Dates.format(2023, 4, 15), '2023-04-15'));
 
     test('pads day', () => expect(Dates.format(2023, 12, 5), '2023-12-05'));
   });
@@ -61,5 +60,4 @@ void main() {
 
     test('non-leap year', () => expect(Dates.leapYear(2021), false));
   });
-
 }

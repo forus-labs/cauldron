@@ -2,7 +2,6 @@ part of 'range.dart';
 
 /// An [Unbound] interval represents a convex (contiguous) portion of a domain unbounded on both ends, i.e. `{ x | x }`.
 final class Unbound<T extends Comparable<Object?>> extends Range<T> {
-
   /// Creates an [Unbound].
   const Unbound();
 

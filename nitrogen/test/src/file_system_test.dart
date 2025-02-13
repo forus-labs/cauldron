@@ -17,7 +17,7 @@ void main() {
       expect(AssetDirectory(['path', 'to', 'directory']).rawName, 'directory');
     });
   });
-  
+
   group('AssetFile', () {
     test('empty path', () {
       expect(() => AssetFile([], const GenericAsset(null, 'key', '')), throwsA(isA<StateError>()));

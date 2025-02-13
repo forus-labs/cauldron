@@ -3,7 +3,6 @@ import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
 
 void main() {
-
   group('format(...)', () {
     test('format', () => expect(Times.format(1, 2, 3, 4, 5), '01:02:03.004005'));
 
@@ -13,8 +12,10 @@ void main() {
       (LocalTime(0, 0, 0, 1), '00:00:00.001'),
       (LocalTime(0, 0, 0, 0, 1), '00:00:00.000001'),
     ]) {
-      test('truncates trailing zeros', () => expect(Times.format(hour, minute, second, millisecond, microsecond), string));
+      test(
+        'truncates trailing zeros',
+        () => expect(Times.format(hour, minute, second, millisecond, microsecond), string),
+      );
     }
   });
-
 }

@@ -17,7 +17,6 @@ part 'min.dart';
 /// * [Min] and [Max] for a range that is bound on one end.
 /// * [Interval] for a range that is bound on both ends.
 sealed class Range<T extends Comparable<Object?>> {
-
   /// Creates a [Range].
   const Range();
 
@@ -29,7 +28,8 @@ sealed class Range<T extends Comparable<Object?>> {
   /// min.contains(1); // true
   /// min.contains(-1); // false
   /// ```
-  @useResult bool contains(T value);
+  @useResult
+  bool contains(T value);
 
   /// Returns `true` if this contains all [values].
   ///
@@ -39,7 +39,9 @@ sealed class Range<T extends Comparable<Object?>> {
   /// min.containsAll([1, 2, 3]); // true
   /// min.containsAll([-1, 2, 3]); // false
   /// ```
-  @useResult @nonVirtual bool containsAll(Iterable<T> values) => values.every(contains);
+  @useResult
+  @nonVirtual
+  bool containsAll(Iterable<T> values) => values.every(contains);
 
   /// If this does not intersect [other], returns the gap in between. Otherwise returns `null`.
   ///
@@ -56,7 +58,8 @@ sealed class Range<T extends Comparable<Object?>> {
   ///
   /// Interval.open(1, 5).gap(Interval.closed(3, 7)); // null
   /// ```
-  @useResult Interval<T>? gap(Range<T> other);
+  @useResult
+  Interval<T>? gap(Range<T> other);
 
   /// If this intersects [other], returns the intersection. Otherwise returns `null`.
   ///
@@ -75,8 +78,8 @@ sealed class Range<T extends Comparable<Object?>> {
   ///
   /// Interval.open(1, 5).intersection(Interval.open(7, 9)); // null
   /// ```
-  @useResult Range<T>? intersection(Range<T> other);
-
+  @useResult
+  Range<T>? intersection(Range<T> other);
 
   /// Returns `true` if an empty range exists between this and [other].
   ///
@@ -120,7 +123,8 @@ sealed class Range<T extends Comparable<Object?>> {
   ///
   /// a.besides(b); // false, [1..4] is not beside [5..7], discrete range
   /// ```
-  @useResult bool besides(Range<T> other);
+  @useResult
+  bool besides(Range<T> other);
 
   /// Returns `true` if [other]'s bounds do not extend outside this bounds.
   ///
@@ -183,7 +187,8 @@ sealed class Range<T extends Comparable<Object?>> {
   ///
   /// a.encloses(b); // false, (3..6] does not enclose (1..1]
   /// ```
-  @useResult bool encloses(Range<T> other);
+  @useResult
+  bool encloses(Range<T> other);
 
   /// Returns `true` if a non-empty range exists between this and [other].
   ///
@@ -226,7 +231,8 @@ sealed class Range<T extends Comparable<Object?>> {
   ///
   /// a.besides(b); // false, [1..3) does not intersect [3..5)
   /// ```
-  @useResult bool intersects(Range<T> other);
+  @useResult
+  bool intersects(Range<T> other);
 
   /// Return `true` if this is empty, i.e. `[a..a)`.
   ///
@@ -237,15 +243,14 @@ sealed class Range<T extends Comparable<Object?>> {
   ///
   /// print(interval.empty); // true
   ///```
-  @useResult bool get empty;
-
+  @useResult
+  bool get empty;
 }
 
 /// A [Range] that is also iterable.
 ///
 /// It is possible to iterate over a [Range] using [iterate].
 sealed class IterableRange<T extends Comparable<Object?>> extends Range<T> {
-
   /// Creates an [IterableRange].
   const IterableRange();
 
@@ -257,17 +262,18 @@ sealed class IterableRange<T extends Comparable<Object?>> extends Range<T> {
   /// final range = Interval.closedOpen(0, 5);
   /// range.iterate(by: (e) => e + 1).toList(); // [0, 1, 2, 3, 4]
   /// ```
-  @useResult @lazy Iterable<T> iterate({required T Function(T current) by});
-
+  @useResult
+  @lazy
+  Iterable<T> iterate({required T Function(T current) by});
 }
 
-
 /// A convenience alias for [Comparable].
-@internal typedef C = Comparable<Object?>;
+@internal
+typedef C = Comparable<Object?>;
 
 /// Provides functions for determining whether two [Range]s intersect.
-@internal extension Intersects on Never {
-
+@internal
+extension Intersects on Never {
   /// Returns `true` if the given [min] and [max] intersect.
   static bool minMax<T extends C>(Min<T> min, Max<T> max) {
     final comparison = min.value.compareTo(max.value);
@@ -288,7 +294,7 @@ sealed class IterableRange<T extends Comparable<Object?>> extends Range<T> {
 
   /// Returns `true` if [a] intersects [b].
   static bool intervalInterval<T extends C>(Interval<T> a, Interval<T> b) =>
-    within(a, b.min) || within(a, b.max) || within(b, a.min) || within(b, a.max);
+      within(a, b.min) || within(a, b.max) || within(b, a.min) || within(b, a.max);
 
   /// Returns `true` if the given [interval] contains the given [bound].
   static bool within<T extends C>(Interval<T> interval, ({T value, bool open}) bound) {
@@ -305,20 +311,19 @@ sealed class IterableRange<T extends Comparable<Object?>> extends Range<T> {
 
     return true;
   }
-
 }
 
-
 /// Provides functions for determining whether two [Range]s are besides each other.
-@internal extension Besides on Never {
-
+@internal
+extension Besides on Never {
   /// Returns `true` if the given [min] and [max] are beside each other.
   static bool minMax<T extends C>(Min<T> min, Max<T> max) => min.open == max.closed && min.value == max.value;
 
   /// Returns `true` if the given [min] and [interval] are beside each other.
-  static bool minInterval<T extends C>(Min<T> min, Interval<T> interval) => min.open == !interval.max.open && min.value == interval.max.value;
+  static bool minInterval<T extends C>(Min<T> min, Interval<T> interval) =>
+      min.open == !interval.max.open && min.value == interval.max.value;
 
   /// Returns `true` if the given [max] and [interval] are beside each other.
-  static bool maxInterval<T extends C> (Max<T> max, Interval<T> interval) => max.open == !interval.min.open && max.value == interval.min.value;
-
+  static bool maxInterval<T extends C>(Max<T> max, Interval<T> interval) =>
+      max.open == !interval.min.open && max.value == interval.min.value;
 }

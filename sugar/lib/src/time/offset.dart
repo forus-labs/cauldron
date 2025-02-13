@@ -20,18 +20,20 @@ part 'offsets.dart';
 /// * [OffsetTime] to represent times with fixed offsets.
 /// * [ZonedDateTime] to represent date-times with timezones.
 sealed class Offset with Orderable<Offset> {
-
   /// The valid range of [Offset]s, from `-18:00` to `+18:00`, inclusive.
   ///
   /// As of February 2023, actual offsets range from `-12:00` to `+14:00`, inclusive. The range was last extended in 1995
   /// when the island of Kiribati moved its timezone eastward by one day, leading to the creation of `+14:00`. To ensure
   /// forward compatibility, the range is restricted to `-18:00` to `+18:00`, inclusive.
-  static final Interval<Offset> range = Interval.closed(const LiteralOffset('-18:00', -64800), const LiteralOffset('+18:00', 64800));
+  static final Interval<Offset> range = Interval.closed(
+    const LiteralOffset('-18:00', -64800),
+    const LiteralOffset('+18:00', 64800),
+  );
+
   /// An offset of zero.
   static const Offset utc = LiteralOffset('Z', 0);
 
   final int _microseconds;
-
 
   /// Creates an [Offset] from the formatted [offset].
   ///
@@ -108,7 +110,6 @@ sealed class Offset with Orderable<Offset> {
 
   const Offset._(this._microseconds);
 
-
   /// Returns a copy of this with the [duration] added.
   ///
   /// ## Contract
@@ -121,7 +122,8 @@ sealed class Offset with Orderable<Offset> {
   /// Offset(18).add(Duration(hours: 2)); // throws RangeError
   /// ```
   @Possible({RangeError})
-  @useResult Offset add(Duration duration) => Offset.fromMicroseconds(_microseconds + duration.inSeconds * 1000 * 1000);
+  @useResult
+  Offset add(Duration duration) => Offset.fromMicroseconds(_microseconds + duration.inSeconds * 1000 * 1000);
 
   /// Returns a copy of this with the [duration] subtracted.
   ///
@@ -135,8 +137,8 @@ sealed class Offset with Orderable<Offset> {
   /// Offset(-18).subtract(Duration(hours: 2)); // throws RangeError
   /// ```
   @Possible({RangeError})
-  @useResult Offset subtract(Duration duration) => Offset.fromMicroseconds(_microseconds - duration.inSeconds * 1000 * 1000);
-
+  @useResult
+  Offset subtract(Duration duration) => Offset.fromMicroseconds(_microseconds - duration.inSeconds * 1000 * 1000);
 
   /// Returns a copy of this with the sum of the units of time added.
   ///
@@ -151,7 +153,8 @@ sealed class Offset with Orderable<Offset> {
   /// ```
   @Possible({RangeError})
   @useResult
-  Offset plus({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromMicroseconds(_microseconds + sumMicroseconds(hours, minutes, seconds));
+  Offset plus({int hours = 0, int minutes = 0, int seconds = 0}) =>
+      Offset.fromMicroseconds(_microseconds + sumMicroseconds(hours, minutes, seconds));
 
   /// Returns a copy of this with the sum of the units of time subtracted.
   ///
@@ -166,8 +169,8 @@ sealed class Offset with Orderable<Offset> {
   /// ```
   @Possible({RangeError})
   @useResult
-  Offset minus({int hours = 0, int minutes = 0, int seconds = 0}) => Offset.fromMicroseconds(_microseconds - sumMicroseconds(hours, minutes, seconds));
-
+  Offset minus({int hours = 0, int minutes = 0, int seconds = 0}) =>
+      Offset.fromMicroseconds(_microseconds - sumMicroseconds(hours, minutes, seconds));
 
   /// Returns a copy of this with the sum of the units of time added.
   ///
@@ -178,7 +181,8 @@ sealed class Offset with Orderable<Offset> {
   ///
   /// Offset(18).tryPlus(hours: 2); // null
   /// ```
-  @useResult Offset? tryPlus({int hours = 0, int minutes = 0, int seconds = 0}) {
+  @useResult
+  Offset? tryPlus({int hours = 0, int minutes = 0, int seconds = 0}) {
     final total = _microseconds + sumMicroseconds(hours, minutes, seconds);
     if (-18 * Duration.microsecondsPerHour <= total && total <= 18 * Duration.microsecondsPerHour) {
       return Offset.fromMicroseconds(total);
@@ -196,7 +200,8 @@ sealed class Offset with Orderable<Offset> {
   ///
   /// Offset(-18).tryMinus(hours: 2); // null
   /// ```
-  @useResult Offset? tryMinus({int hours = 0, int minutes = 0, int seconds = 0}) {
+  @useResult
+  Offset? tryMinus({int hours = 0, int minutes = 0, int seconds = 0}) {
     final total = _microseconds - sumMicroseconds(hours, minutes, seconds);
     if (-18 * Duration.microsecondsPerHour <= total && total <= 18 * Duration.microsecondsPerHour) {
       return Offset.fromMicroseconds(total);
@@ -205,7 +210,6 @@ sealed class Offset with Orderable<Offset> {
     }
   }
 
-
   /// Returns the difference between this and [other].
   ///
   /// The difference may be negative.
@@ -213,15 +217,16 @@ sealed class Offset with Orderable<Offset> {
   /// ```dart
   /// Offset(-1).difference(Offset(2)); // Duration(hours: -3)
   /// ```
-  @useResult Duration difference(Offset other) => Duration(microseconds: _microseconds - other._microseconds);
+  @useResult
+  Duration difference(Offset other) => Duration(microseconds: _microseconds - other._microseconds);
 
   /// Convert this to a [Duration].
   ///
   /// ```dart
   /// Offset(1, 2, 3).toDuration(); // Duration(hours: 1, minutes: 2, seconds: 3)
   /// ```
-  @useResult Duration toDuration() => Duration(microseconds: _microseconds);
-
+  @useResult
+  Duration toDuration() => Duration(microseconds: _microseconds);
 
   /// This offset in seconds.
   int get inSeconds => _microseconds ~/ 1000 ~/ 1000;
@@ -232,22 +237,21 @@ sealed class Offset with Orderable<Offset> {
   /// This offset in microseconds.
   int get inMicroseconds => _microseconds;
 
-
   // This method is overridden to allow equality between [_Offset]s and [RawOffset]s.
   @override
   @nonVirtual
-  @useResult bool operator ==(Object other) => // ignore: hash_and_equals, invalid_override_of_non_virtual_member
-      identical(this, other)
-          || other is Offset
-          && (runtimeType == _Offset || runtimeType == LiteralOffset)
-          && compareTo(other) == 0;
+  @useResult
+  bool operator ==(Object other) => // ignore: hash_and_equals, invalid_override_of_non_virtual_member
+      identical(this, other) ||
+      other is Offset && (runtimeType == _Offset || runtimeType == LiteralOffset) && compareTo(other) == 0;
 
   @override
-  @useResult int compareTo(Offset other) => _microseconds.compareTo(other._microseconds);
-
+  @useResult
+  int compareTo(Offset other) => _microseconds.compareTo(other._microseconds);
 
   @override
-  @useResult int get hashValue => _microseconds.hashCode;
+  @useResult
+  int get hashValue => _microseconds.hashCode;
 
   /// Returns an offset ID. The ID is a minor variation of an ISO-8601 formatted offset string.
   ///
@@ -265,6 +269,6 @@ sealed class Offset with Orderable<Offset> {
   /// ```
   @override
   @mustBeOverridden
-  @useResult String toString();
-
+  @useResult
+  String toString();
 }

@@ -5,9 +5,9 @@ import 'package:meta/meta.dart';
 /// These functions should only be used when it is not feasible to use `sugar.time`, such as when working with 3rd-party
 /// date-time types.
 extension Dates on Never {
-
   /// The months in a leap year.
   static const leapYearMonths = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
   /// The months in a non-leap year.
   static const nonLeapYearMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
@@ -18,7 +18,8 @@ extension Dates on Never {
   /// ```dart
   /// print(Dates.format(2023, 4, 1)); // '2023-04-01'
   /// ```
-  @useResult static String format(int year, [int month = 1, int day = 1]) {
+  @useResult
+  static String format(int year, [int month = 1, int day = 1]) {
     final sign = year < 0 ? '-' : '';
     final yyyy = year.abs().toString().padLeft(4, '0');
     final mm = month.toString().padLeft(2, '0');
@@ -26,7 +27,6 @@ extension Dates on Never {
 
     return '$sign$yyyy-$mm-$dd';
   }
-
 
   /// Computes the ordinal day of the week.
   ///
@@ -41,10 +41,12 @@ extension Dates on Never {
   /// This function uses a modified version of of Tomohiko Sakamoto's algorithm where Monday = 1 and Sunday = 7.
   ///
   /// See [Sakamoto's methods](https://en.wikipedia.org/wiki/Determination_of_the_day_of_the_week#Sakamoto's_methods).
-  @useResult static int weekday(int year, int month, int day) {
+  @useResult
+  static int weekday(int year, int month, int day) {
     const table = [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4];
     final adjustedYear = month < 3 ? year - 1 : year;
-    final weekday = (adjustedYear + adjustedYear ~/4 - adjustedYear ~/100 + adjustedYear ~/400 + table[month - 1] + day) % 7;
+    final weekday =
+        (adjustedYear + adjustedYear ~/ 4 - adjustedYear ~/ 100 + adjustedYear ~/ 400 + table[month - 1] + day) % 7;
     return weekday == 0 ? 7 : weekday;
   }
 
@@ -57,19 +59,22 @@ extension Dates on Never {
   /// ```dart
   /// Dates.weekOfYear(2023, 4, 1); // 13
   /// ```
-  @useResult static int weekOfYear(int year, int month, int day) => switch ((dayOfYear(year, month, day) - weekday(year, month, day) + 10) ~/ 7) {
-    0 => weekOfYear(year - 1, 12, 28),
-    53 when weekday(year, 1, 1) != 4 && weekday(year, 12, 31) != 4 => 1,
-    final ordinal => ordinal,
-  };
+  @useResult
+  static int weekOfYear(int year, int month, int day) =>
+      switch ((dayOfYear(year, month, day) - weekday(year, month, day) + 10) ~/ 7) {
+        0 => weekOfYear(year - 1, 12, 28),
+        53 when weekday(year, 1, 1) != 4 && weekday(year, 12, 31) != 4 => 1,
+        final ordinal => ordinal,
+      };
 
   /// Computes the ordinal day of the year.
   ///
   /// ```dart
   /// Dates.dayOfYear(2023, 4, 1); // 91
   /// ```
-  @useResult static int dayOfYear(int year, int month, int day) => _cumulative[month - 1] + day + (leapYear(year) && month > 2 ? 1 : 0);
-
+  @useResult
+  static int dayOfYear(int year, int month, int day) =>
+      _cumulative[month - 1] + day + (leapYear(year) && month > 2 ? 1 : 0);
 
   /// Computes the number of days in the given month taking leap years into account.
   ///
@@ -77,7 +82,8 @@ extension Dates on Never {
   /// Dates.daysInMonth(2019, 2); // 28
   /// Dates.daysInMonth(2020, 2); // 29
   /// ```
-  @useResult static int daysInMonth(int year, int month) => (leapYear(year) ? leapYearMonths : nonLeapYearMonths)[month - 1];
+  @useResult
+  static int daysInMonth(int year, int month) => (leapYear(year) ? leapYearMonths : nonLeapYearMonths)[month - 1];
 
   /// Returns true if the [year] is a leap year.
   ///
@@ -85,6 +91,6 @@ extension Dates on Never {
   /// Dates.leapYear(2020); // true
   /// Dates.leapYear(2022); // false
   /// ```
-  @useResult static bool leapYear(int year) => year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
-
+  @useResult
+  static bool leapYear(int year) => year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
 }

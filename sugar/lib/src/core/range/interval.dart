@@ -5,10 +5,11 @@ part of 'range.dart';
 /// [T] is expected to be immutable. If [T] is mutable, the value produced by [Comparable.compare] must not change when
 /// used in an `Interval`. Doing so will result in undefined behaviour.
 final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
-
   static void _precondition<T extends Comparable<Object?>>(String start, T min, T max, String end) {
     if (min.compareTo(max) > 0) {
-      throw RangeError("Invalid range: $start$min...$max$end, minimum should be less than or equal to maximum. To fix, try swapping the values of 'min' and 'max'.");
+      throw RangeError(
+        "Invalid range: $start$min...$max$end, minimum should be less than or equal to maximum. To fix, try swapping the values of 'min' and 'max'.",
+      );
     }
   }
 
@@ -29,7 +30,7 @@ final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
   /// ## Contract
   /// Throws a [RangeError] if `min >= max`.
   @Possible({RangeError})
-  Interval.closedOpen(T min, T max): min = (value: min, open: false), max = (value: max, open: true) {
+  Interval.closedOpen(T min, T max) : min = (value: min, open: false), max = (value: max, open: true) {
     _precondition('[', min, max, ')');
   }
 
@@ -40,7 +41,7 @@ final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
   /// ## Contract
   /// Throws a [RangeError] if `min > max`.
   @Possible({RangeError})
-  Interval.closed(T min, T max): min = (value: min, open: false), max = (value: max, open: false) {
+  Interval.closed(T min, T max) : min = (value: min, open: false), max = (value: max, open: false) {
     _precondition('[', min, max, ']');
   }
 
@@ -51,7 +52,7 @@ final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
   /// ## Contract
   /// Throws a [RangeError] if `min >= max`.
   @Possible({RangeError})
-  Interval.openClosed(T min, T max): min = (value: min, open: true), max = (value: max, open: false) {
+  Interval.openClosed(T min, T max) : min = (value: min, open: true), max = (value: max, open: false) {
     _precondition('(', min, max, ']');
   }
 
@@ -62,34 +63,38 @@ final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
   /// ## Contract
   /// Throws a [RangeError] if `min >= max`.
   @Possible({RangeError})
-  Interval.open(T min, T max): min = (value: min, open: true), max = (value: max, open: true) {
+  Interval.open(T min, T max) : min = (value: min, open: true), max = (value: max, open: true) {
     final value = min.compareTo(max);
     if (value < 0) {
       return;
     }
 
     if (value == 0) {
-      throw RangeError('Invalid range: ($min...$max), minimum should be less than maximum. To represent an empty range, create an closed-open/open-closed range instead.');
-
+      throw RangeError(
+        'Invalid range: ($min...$max), minimum should be less than maximum. To represent an empty range, create an closed-open/open-closed range instead.',
+      );
     } else {
-      throw RangeError("Invalid range: ($min...$max), minimum should be less than maximum. To fix, try swapping the values of 'min' and 'max'.");
+      throw RangeError(
+        "Invalid range: ($min...$max), minimum should be less than maximum. To fix, try swapping the values of 'min' and 'max'.",
+      );
     }
   }
 
   /// Creates an empty [Interval] with [value], i.e. `{ x | value <= x < value }`.
   ///
   /// This is an alias for [Interval.closedOpen].
-  const Interval.empty(T value): min = (value: value, open: false), max = (value: value, open: true);
+  const Interval.empty(T value) : min = (value: value, open: false), max = (value: value, open: true);
 
   const Interval._(this.min, this.max);
 
+  @override
+  @useResult
+  bool contains(T value) =>
+      min.value.compareTo(value) <= (min.open ? -1 : 0) && max.value.compareTo(value) >= (max.open ? 1 : 0);
 
   @override
-  @useResult bool contains(T value) => min.value.compareTo(value) <= (min.open ? -1 : 0)
-                                    && max.value.compareTo(value) >= (max.open ? 1 : 0);
-
-  @override
-  @useResult Iterable<T> iterate({required T Function(T current) by, bool ascending = true}) sync* {
+  @useResult
+  Iterable<T> iterate({required T Function(T current) by, bool ascending = true}) sync* {
     final initial = ascending ? (min.open ? by(min.value) : min.value) : (max.open ? by(max.value) : max.value);
     for (var current = initial; contains(current); current = by(current)) {
       yield current;
@@ -97,7 +102,8 @@ final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
   }
 
   @override
-  @useResult Interval<T>? gap(Range<T> other) => switch (other) {
+  @useResult
+  Interval<T>? gap(Range<T> other) => switch (other) {
     Min<T> _ => Gaps.minInterval(other, this),
     Interval<T> _ => Gaps.intervalInterval(this, other),
     Max<T> _ => Gaps.maxInterval(other, this),
@@ -105,7 +111,8 @@ final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
   };
 
   @override
-  @useResult Interval<T>? intersection(Range<T> other) => switch (other) {
+  @useResult
+  Interval<T>? intersection(Range<T> other) => switch (other) {
     Min<T> _ => Intersections.minInterval(other, this),
     Interval<T> _ => Intersections.intervalInterval(this, other),
     Max<T> _ => Intersections.maxInterval(other, this),
@@ -113,24 +120,27 @@ final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
   };
 
   @override
-  @useResult bool besides(Range<T> other) => switch (other) {
+  @useResult
+  bool besides(Range<T> other) => switch (other) {
     Min<T> _ => Besides.minInterval(other, this),
     Max<T> _ => Besides.maxInterval(other, this),
-    Interval<T>(:final min, : final max) => (this.min.open == !max.open && this.min.value == max.value)
-                                         || (this.max.open == !min.open && this.max.value == min.value),
+    Interval<T>(:final min, :final max) =>
+      (this.min.open == !max.open && this.min.value == max.value) ||
+          (this.max.open == !min.open && this.max.value == min.value),
     Unbound<T> _ => false,
   };
 
   @override
-  @useResult bool encloses(Range<T> other) {
+  @useResult
+  bool encloses(Range<T> other) {
     switch (other) {
       case Interval<T> _:
-        final minimum =  min.value.compareTo(other.min.value);
+        final minimum = min.value.compareTo(other.min.value);
         if (minimum > 0 || (minimum == 0 && min.open && !other.min.open)) {
           return false;
         }
 
-        final maximum =  max.value.compareTo(other.max.value);
+        final maximum = max.value.compareTo(other.max.value);
         if (maximum < 0 || (maximum == 0 && max.open && !other.max.open)) {
           return false;
         }
@@ -142,18 +152,15 @@ final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
     }
   }
 
-
   @override
-  @useResult bool intersects(Range<T> other) {
+  @useResult
+  bool intersects(Range<T> other) {
     if (other is Min<T>) {
       return Intersects.minInterval(other, this);
-
     } else if (other is Max<T>) {
       return Intersects.maxInterval(other, this);
-
     } else if (other is Interval<T>) {
       return Intersects.intervalInterval(this, other);
-
     } else {
       return true;
     }
@@ -163,8 +170,9 @@ final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
   bool get empty => min.open == !max.open && min.value == max.value;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is Interval && runtimeType == other.runtimeType
-                                 && min == other.min && max == other.max;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Interval && runtimeType == other.runtimeType && min == other.min && max == other.max;
 
   @override
   int get hashCode => runtimeType.hashCode ^ min.hashCode ^ max.hashCode;
@@ -175,32 +183,35 @@ final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
     final end = max.open ? ')' : ']';
     return '$start${min.value}..${max.value}$end';
   }
-
 }
 
 /// Provides functions for computing the gap between two [Range]s.
-@internal extension Gaps on Never {
-
+@internal
+extension Gaps on Never {
   /// If [min] does not intersect [max], return the gap in between. Otherwise returns `null`.
-  @useResult static Interval<T>? minMax<T extends C>(Min<T> min, Max<T> max) => Intersects.minMax(min, max) ? null : Interval._(
-    (value: max.value, open: !max.open),
-    (value: min.value, open: !min.open),
-  );
+  @useResult
+  static Interval<T>? minMax<T extends C>(Min<T> min, Max<T> max) =>
+      Intersects.minMax(min, max)
+          ? null
+          : Interval._((value: max.value, open: !max.open), (value: min.value, open: !min.open));
 
   /// If [min] does not intersect [interval], return the gap in between. Otherwise returns `null`.
-  @useResult static Interval<T>? minInterval<T extends C>(Min<T> min, Interval<T> interval) => Intersects.minInterval(min, interval) ? null : Interval._(
-    (value: interval.max.value, open: !interval.max.open),
-    (value: min.value, open: !min.open),
-  );
+  @useResult
+  static Interval<T>? minInterval<T extends C>(Min<T> min, Interval<T> interval) =>
+      Intersects.minInterval(min, interval)
+          ? null
+          : Interval._((value: interval.max.value, open: !interval.max.open), (value: min.value, open: !min.open));
 
   /// If max does not intersect [interval], return the gap in between. Otherwise returns `null`.
-  @useResult static Interval<T>? maxInterval<T extends C>(Max<T> max, Interval<T> interval) => Intersects.maxInterval(max, interval) ? null : Interval._(
-    (value: max.value, open: !max.open),
-    (value: interval.min.value, open: !interval.min.open),
-  );
+  @useResult
+  static Interval<T>? maxInterval<T extends C>(Max<T> max, Interval<T> interval) =>
+      Intersects.maxInterval(max, interval)
+          ? null
+          : Interval._((value: max.value, open: !max.open), (value: interval.min.value, open: !interval.min.open));
 
   /// If [a] does not intersect [b], return the gap in between. Otherwise returns `null`.
-  @useResult static Interval<T>? intervalInterval<T extends C>(Interval<T> a, Interval<T> b) {
+  @useResult
+  static Interval<T>? intervalInterval<T extends C>(Interval<T> a, Interval<T> b) {
     if (Intersects.intervalInterval(a, b)) {
       return null;
     }
@@ -219,29 +230,24 @@ final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
       },
     );
   }
-
 }
 
 /// Provides functions for computing the intersection of two [Range]s.
-@internal extension Intersections on Never {
-
+@internal
+extension Intersections on Never {
   /// If [min] intersects [max], returns the intersection. Otherwise returns `null`.
-  static Interval<T>? minMax<T extends C>(Min<T> min, Max<T> max) => Intersects.minMax(min, max) ? Interval._(
-    (value: min.value, open: min.open),
-    (value: max.value, open: max.open),
-  ) : null;
+  static Interval<T>? minMax<T extends C>(Min<T> min, Max<T> max) =>
+      Intersects.minMax(min, max)
+          ? Interval._((value: min.value, open: min.open), (value: max.value, open: max.open))
+          : null;
 
   /// If [min] intersects [interval], returns the intersection. Otherwise returns `null`.
-  static Interval<T>? minInterval<T extends C>(Min<T> min, Interval<T> interval) => Intersects.minInterval(min, interval) ? Interval._(
-    (value: min.value, open: min.open),
-    interval.max,
-  ) : null;
+  static Interval<T>? minInterval<T extends C>(Min<T> min, Interval<T> interval) =>
+      Intersects.minInterval(min, interval) ? Interval._((value: min.value, open: min.open), interval.max) : null;
 
   /// If [max] intersects [interval], returns the intersection. Otherwise returns `null`.
-  static Interval<T>? maxInterval<T extends C>(Max<T> max, Interval<T> interval) => Intersects.maxInterval(max, interval) ? Interval._(
-    interval.min,
-    (value: max.value, open: max.open),
-  ) : null;
+  static Interval<T>? maxInterval<T extends C>(Max<T> max, Interval<T> interval) =>
+      Intersects.maxInterval(max, interval) ? Interval._(interval.min, (value: max.value, open: max.open)) : null;
 
   /// If [a] intersects [b], returns the intersection. Otherwise returns `null`.
   static Interval<T>? intervalInterval<T extends C>(Interval<T> a, Interval<T> b) {
@@ -263,5 +269,4 @@ final class Interval<T extends Comparable<Object?>> extends IterableRange<T> {
       },
     );
   }
-
 }

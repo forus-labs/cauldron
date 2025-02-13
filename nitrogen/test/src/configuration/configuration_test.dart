@@ -43,17 +43,19 @@ void main() {
       expect(configuration.key, buildConfiguration.key);
       expect(configuration.assets, buildConfiguration.assets);
       expect(configuration.themes, buildConfiguration.themes);
-      expect(configuration.flutterAssets, { 'path/to/first/', 'path/to/second/' });
+      expect(configuration.flutterAssets, {'path/to/first/', 'path/to/second/'});
     });
   });
 
   group('parsePackage(...)', () {
-    test('use package name', () => expect(Configuration.parsePackage(loadYamlNode('nitrogen'), enabled: true), 'nitrogen'));
+    test('use package name',
+        () => expect(Configuration.parsePackage(loadYamlNode('nitrogen'), enabled: true), 'nitrogen'));
 
     test('use package name & invalid name', () {
       expectLater(
         log.onRecord,
-        emits(severeLogOf(contains('Unable to read package name in pubspec.yaml. See https://dart.dev/tools/pub/pubspec#name.'))),
+        emits(severeLogOf(
+            contains('Unable to read package name in pubspec.yaml. See https://dart.dev/tools/pub/pubspec#name.'))),
       );
       expect(
         () => Configuration.parsePackage(loadYamlNode('true'), enabled: true),
@@ -61,26 +63,33 @@ void main() {
       );
     });
 
-    test('do not use package name & invalid name', () => expect(Configuration.parsePackage(loadYamlNode('true'), enabled: false), null));
+    test('do not use package name & invalid name',
+        () => expect(Configuration.parsePackage(loadYamlNode('true'), enabled: false), null));
   });
 
   group('parseFlutterAssets(...)', () {
-    test('assets', () => expect(
-      Configuration.parseFlutterAssets(loadYaml(_flutterAssets).nodes['assets']),
-      { 'path/to/first/', 'path/to/second/' },
-    ));
+    test(
+        'assets',
+        () => expect(
+              Configuration.parseFlutterAssets(loadYaml(_flutterAssets).nodes['assets']),
+              {'path/to/first/', 'path/to/second/'},
+            ));
 
-    test('null', () => expect(
-      Configuration.parseFlutterAssets(null),
-      <String>{},
-    ));
+    test(
+        'null',
+        () => expect(
+              Configuration.parseFlutterAssets(null),
+              <String>{},
+            ));
 
     test('invalid', () {
       expectLater(
         log.onRecord,
-        emits(severeLogOf(contains('Unable to read flutter assets. See https://docs.flutter.dev/tools/pubspec#assets.'))),
+        emits(
+            severeLogOf(contains('Unable to read flutter assets. See https://docs.flutter.dev/tools/pubspec#assets.'))),
       );
-      expect(() => Configuration.parseFlutterAssets(loadYaml('assets: invalid').nodes['assets']), throwsA(isA<NitrogenException>()));
+      expect(() => Configuration.parseFlutterAssets(loadYaml('assets: invalid').nodes['assets']),
+          throwsA(isA<NitrogenException>()));
     });
   });
 }

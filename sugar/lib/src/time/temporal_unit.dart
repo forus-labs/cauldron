@@ -12,7 +12,6 @@ typedef EpochMilliseconds = int;
 /// The microseconds since Unix epoch, 1st January 1970.
 typedef EpochMicroseconds = int;
 
-
 /// The seconds in a day since midnight.
 typedef DaySeconds = int;
 
@@ -22,7 +21,6 @@ typedef DayMilliseconds = int;
 /// The microseconds in a day since midnight.
 typedef DayMicroseconds = int;
 
-
 /// A unit of date-time, such as days or hours.
 sealed class TemporalUnit {}
 
@@ -30,8 +28,10 @@ sealed class TemporalUnit {}
 enum DateUnit implements TemporalUnit {
   /// The years.
   years,
+
   /// The months.
   months,
+
   /// The days.
   days,
 }
@@ -40,22 +40,26 @@ enum DateUnit implements TemporalUnit {
 enum TimeUnit implements TemporalUnit {
   /// The hours.
   hours,
+
   /// The minutes.
   minutes,
+
   /// The seconds.
   seconds,
+
   /// The milliseconds.
   milliseconds,
+
   /// The microseconds.
   microseconds,
 }
 
-
 /// Converts the sum of all individual parts to microseconds.
 @internal
-@useResult int sumMicroseconds(int hours, [int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0]) =>
-  hours * Duration.microsecondsPerHour +
-  minutes * Duration.microsecondsPerMinute +
-  seconds * Duration.microsecondsPerSecond +
-  milliseconds * Duration.microsecondsPerMillisecond +
-  microseconds;
+@useResult
+int sumMicroseconds(int hours, [int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0]) =>
+    hours * Duration.microsecondsPerHour +
+    minutes * Duration.microsecondsPerMinute +
+    seconds * Duration.microsecondsPerSecond +
+    milliseconds * Duration.microsecondsPerMillisecond +
+    microseconds;

@@ -41,7 +41,7 @@ dart pub add sugar
 Alternatively, add Sugar as a dependency in your pubspec:
 ```yaml
 dependencies:
-  sugar: ^3.1.0
+  sugar: ^4.0.0
 ```
 
 Import the library:

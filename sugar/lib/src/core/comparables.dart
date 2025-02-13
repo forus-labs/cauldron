@@ -39,34 +39,36 @@ import 'package:sugar/core.dart';
 /// Foo('a', 1).hashCode == Foo('a', 2).hashCode; // false, violates hash code contract
 /// ```
 mixin Orderable<T extends Orderable<T>> implements Comparable<T> {
-
   /// Returns true if this is less than [other].
   @nonVirtual
-  @useResult bool operator < (T other) => compareTo(other) < 0;
+  @useResult
+  bool operator <(T other) => compareTo(other) < 0;
 
   /// Returns true if this is more than [other].
   @nonVirtual
-  @useResult bool operator > (T other) => compareTo(other) > 0;
+  @useResult
+  bool operator >(T other) => compareTo(other) > 0;
 
   /// Returns true if this is equal to or less than [other].
   @nonVirtual
-  @useResult bool operator <= (T other) => compareTo(other) <= 0;
+  @useResult
+  bool operator <=(T other) => compareTo(other) <= 0;
 
   /// Returns `true` if this is equal to or more than [other].
   @nonVirtual
-  @useResult bool operator >= (T other) => compareTo(other) >= 0;
+  @useResult
+  bool operator >=(T other) => compareTo(other) >= 0;
 
   @override
   @nonVirtual
-  @useResult bool operator ==(Object other) =>
-      identical(this, other)
-      || other is T
-      && runtimeType == other.runtimeType
-      && compareTo(other) == 0;
+  @useResult
+  bool operator ==(Object other) =>
+      identical(this, other) || other is T && runtimeType == other.runtimeType && compareTo(other) == 0;
 
   @override
   @nonVirtual
-  @useResult int get hashCode => hashValue;
+  @useResult
+  int get hashCode => hashValue;
 
   /// This object's hash.
   ///
@@ -92,10 +94,9 @@ mixin Orderable<T extends Orderable<T>> implements Comparable<T> {
   ///
   /// Foo('a', 1).hashCode == Foo('a', 2).hashCode; // false, violates hash code contract
   /// ```
-  @protected int get hashValue;
-
+  @protected
+  int get hashValue;
 }
-
 
 /// Returns the lesser of [a] and [b].
 ///
@@ -120,11 +121,11 @@ mixin Orderable<T extends Orderable<T>> implements Comparable<T> {
 /// math.min(1.0, double.nan); // double.nan
 /// ```
 @Possible({TypeError})
-@useResult T min<T>(T a, T b, {Select<T, Comparable<Object>>? by}) => switch (by) {
+@useResult
+T min<T>(T a, T b, {Select<T, Comparable<Object>>? by}) => switch (by) {
   _? => by(a).compareTo(by(b)) < 0 ? a : b,
   _ => (a as Comparable).compareTo(b) < 0 ? a : b,
 };
-
 
 /// Returns the greater of [a] and [b].
 ///
@@ -139,22 +140,22 @@ mixin Orderable<T extends Orderable<T>> implements Comparable<T> {
 /// max(1, 2); // 2
 /// ```
 @Possible({TypeError})
-@useResult T max<T>(T a, T b, {Select<T, Comparable<Object>>? by}) => switch (by) {
+@useResult
+T max<T>(T a, T b, {Select<T, Comparable<Object>>? by}) => switch (by) {
   _? => by(a).compareTo(by(b)) > 0 ? a : b,
   _ => (a as Comparable).compareTo(b) > 0 ? a : b,
 };
 
-
 /// Provides functions for working with [Comparator]s.
 extension Comparators<T> on Comparator<T> {
-
   /// Returns a [Comparator] that compares two [T]s using the values produced by [select].
   ///
   /// ```dart
   /// final compare = Comparators.by<(String, int)>((e) => e.$2);
   /// compare(('b', 1), MapEntry('a', 2)); // -1
   /// ```
-  @useResult static Comparator<T> by<T>(Select<T, Comparable<Object>> select) => (a, b) => select(a).compareTo(select(b));
+  @useResult
+  static Comparator<T> by<T>(Select<T, Comparable<Object>> select) => (a, b) => select(a).compareTo(select(b));
 
   /// Reverses the ordering of this `Comparator`.
   ///
@@ -165,7 +166,8 @@ extension Comparators<T> on Comparator<T> {
   ///
   /// compare.reverse()(1, 2); // 1
   /// ```
-  @useResult Comparator<T> reverse() => (a, b) => this(a, b) * -1;
+  @useResult
+  Comparator<T> reverse() => (a, b) => this(a, b) * -1;
 
   /// Returns a [Comparator] that uses [tiebreaker] to break ties.
   ///
@@ -176,9 +178,10 @@ extension Comparators<T> on Comparator<T> {
   /// final bar = foo.and((a, b) => a.$2.compareTo(b.$2));
   /// bar((1, 1), (1, 2)); // -1
   /// ```
-  @useResult Comparator<T> and(Comparator<T> tiebreaker) => (a, b) => switch(this(a, b)) {
-    0 => tiebreaker(a, b),
-    final value => value,
-  };
-
+  @useResult
+  Comparator<T> and(Comparator<T> tiebreaker) =>
+      (a, b) => switch (this(a, b)) {
+        0 => tiebreaker(a, b),
+        final value => value,
+      };
 }

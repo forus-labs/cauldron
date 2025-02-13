@@ -23,13 +23,11 @@ void main() {
 
       test('does not contain intersecting', () => expect([1, 2, 3].containsAll([1, 2, 4]), false));
 
-
       test('duplicates contains subset', () => expect([1, 2, 3, 1].containsAll([1, 2]), true));
 
       test('contains duplicate subset', () => expect([1, 2, 3].containsAll([1, 2, 1]), true));
 
       test('duplicates contains duplicate subset', () => expect([1, 2, 3, 1].containsAll([1, 2, 1]), true));
-
 
       test('contains empty set', () => expect([1].containsAll([]), true));
 
@@ -39,20 +37,35 @@ void main() {
     });
 
     group('replaceAll(...)', () {
-      test('single replacement', () => expect([1, 3, 5]..replaceAll((replace, element) => replace(element + 1)), [2, 4, 6]));
+      test(
+        'single replacement',
+        () => expect([1, 3, 5]..replaceAll((replace, element) => replace(element + 1)), [2, 4, 6]),
+      );
 
-      test('zero replacement', () => expect([1, 2, 3]..replaceAll((replace, element) {
-        if (element.isOdd) {
-          replace(element + 2);
-        }
-      }), [3, 5]));
+      test(
+        'zero replacement',
+        () => expect(
+          [1, 2, 3]..replaceAll((replace, element) {
+            if (element.isOdd) {
+              replace(element + 2);
+            }
+          }),
+          [3, 5],
+        ),
+      );
 
-      test('several replacement', () => expect([1, 2, 3]..replaceAll((replace, element) {
-        if (element.isOdd) {
-          replace(element + 2);
-          replace(element + 4);
-        }
-      }), [3, 5, 5, 7]));
+      test(
+        'several replacement',
+        () => expect(
+          [1, 2, 3]..replaceAll((replace, element) {
+            if (element.isOdd) {
+              replace(element + 2);
+              replace(element + 4);
+            }
+          }),
+          [3, 5, 5, 7],
+        ),
+      );
 
       test('function modifies underlying list', () {
         final list = [1, 2, 3, 4, 5];
@@ -69,13 +82,11 @@ void main() {
 
       test('superset', () => expect([1, 2, 3]..retainAll([1, 2, 3, 4]), [1, 2, 3]));
 
-
       test('duplicates retain non-duplicates', () => expect([1, 2, 3, 1]..retainAll([1, 2]), [1, 2, 1]));
 
       test('non-duplicates retain duplicates', () => expect([1, 2, 3]..retainAll([1, 2, 1]), [1, 2]));
 
       test('duplicates retain duplicates', () => expect([1, 2, 3, 1]..retainAll([1, 2, 1]), [1, 2, 1]));
-
 
       test('empty retain non-empty', () => expect([]..retainAll([1, 2, 3]), []));
 
@@ -93,13 +104,11 @@ void main() {
 
       test('superset', () => expect([1, 2, 3]..removeAll([1, 2, 3, 4]), []));
 
-
       test('duplicates remove non-duplicates', () => expect([1, 2, 3, 1]..removeAll([1, 2]), [3]));
 
       test('non-duplicates remove duplicates', () => expect([1, 2, 3]..removeAll([1, 2, 1]), [3]));
 
       test('duplicates remove duplicates', () => expect([1, 2, 3, 1]..removeAll([1, 2, 1]), [3]));
-
 
       test('empty remove non-empty', () => expect([]..removeAll([1, 2, 3]), []));
 
@@ -113,7 +122,7 @@ void main() {
 
       test('zero', () => expect([1] * 0, []));
 
-      test('negative number', () => expect(() => [1] * - 1, throwsRangeError));
+      test('negative number', () => expect(() => [1] * -1, throwsRangeError));
     });
   });
 

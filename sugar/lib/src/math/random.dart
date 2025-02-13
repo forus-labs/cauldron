@@ -6,7 +6,6 @@ import 'package:sugar/core.dart';
 
 /// Provides functions for using [Random]s.
 extension Randoms on Random {
-
   /// Generates a random integer uniformly distributed in the range, `[min] <= value < [max]`.
   ///
   /// ## Contract
@@ -19,7 +18,8 @@ extension Randoms on Random {
   /// Random().nextBoundedInt(3, 3) // throws RangeError
   /// ```
   @Possible({RangeError})
-  @useResult int nextBoundedInt(int min, int max) => switch (min < max) {
+  @useResult
+  int nextBoundedInt(int min, int max) => switch (min < max) {
     true => nextInt(max - min) + min,
     false => throw RangeError.range(max, min, null, 'max'),
   };
@@ -49,11 +49,11 @@ extension Randoms on Random {
   /// This function scales the result of [nextDouble]. If the given range is sufficiently larger than `[0.0 - 1.0)`,
   /// certain doubles in the given range will never be returned, Pigeonhole Principle.
   @Possible({RangeError})
-  @useResult double nextBoundedDouble(double min, double max) {
+  @useResult
+  double nextBoundedDouble(double min, double max) {
     _check(min, max);
     return nextDouble() * (max - min) + min;
   }
-
 
   /// Returns a weighted boolean value based on [probability].
   ///
@@ -72,14 +72,14 @@ extension Randoms on Random {
   /// Random().nextWeightedBool(0); // Always returns false
   /// ```
   @Possible({RangeError})
-  @useResult bool nextWeightedBool(double probability) {
+  @useResult
+  bool nextWeightedBool(double probability) {
     if (!(0 <= probability && probability <= 1)) {
       throw RangeError.range(probability, 0, 1, 'probability');
     }
 
     return nextDouble() < probability;
   }
-
 
   /// Returns a [Stream] of [length] that produces random integers in the range, `[min] <= value < [max]`.
   ///
@@ -97,7 +97,9 @@ extension Randoms on Random {
   /// Random.ints(length: 1, min: 3, max: 2); // throws RangeError
   /// ```
   @Possible({RangeError})
-  @useResult Stream<int> ints({int? length, int min = 0, required int max}) { // ignore: always_put_required_named_parameters_first
+  @useResult
+  // ignore: always_put_required_named_parameters_first
+  Stream<int> ints({int? length, int min = 0, required int max}) {
     if (length != null) {
       RangeError.checkNotNegative(length, 'length');
     }
@@ -131,7 +133,8 @@ extension Randoms on Random {
   /// This function scales the result of [nextDouble]. If the given range is sufficiently larger than `[0.0 - 1.0)`,
   /// certain doubles in the given range will never be returned, Pigeonhole Principle.
   @Possible({RangeError})
-  @useResult Stream<double> doubles({int? length, double min = 0.0, double max = 1.0}) {
+  @useResult
+  Stream<double> doubles({int? length, double min = 0.0, double max = 1.0}) {
     if (length != null) {
       RangeError.checkNotNegative(length, 'length');
     }
@@ -139,7 +142,6 @@ extension Randoms on Random {
     _check(min, max);
     return _generate(length, () => nextDouble() * (max - min) + min);
   }
-
 
   void _check(double min, double max) {
     if (!(min < max && (max - min) < double.infinity)) {
@@ -152,16 +154,13 @@ extension Randoms on Random {
       while (true) {
         yield next();
       }
-
     } else {
       for (var i = 0; i < length; i++) {
         yield next();
       }
     }
   }
-
 }
-
 
 /// A fake [Random] implementation that always produces a given sequence of values. It should only be used in tests.
 ///
@@ -171,17 +170,15 @@ extension Randoms on Random {
 /// cumbersome.
 @visibleForTesting
 class FakeRandom implements Random {
-
   final Iterator<int> _ints;
   final Iterator<double> _doubles;
   final Iterator<bool> _bools;
 
   /// Creates a [FakeRandom] with the `Iterable`s used by the various function to produce values.
-  FakeRandom({
-    Iterable<int> ints = const [],
-    Iterable<double> doubles = const [],
-    Iterable<bool> bools = const [],
-  }): _ints = ints.iterator, _doubles = doubles.iterator, _bools = bools.iterator;
+  FakeRandom({Iterable<int> ints = const [], Iterable<double> doubles = const [], Iterable<bool> bools = const []})
+    : _ints = ints.iterator,
+      _doubles = doubles.iterator,
+      _bools = bools.iterator;
 
   /// Returns the next integer in the iterable.
   ///
@@ -199,9 +196,12 @@ class FakeRandom implements Random {
   /// ```
   @override
   @Possible({StateError, RangeError})
-  @useResult int nextInt(int max) {
+  @useResult
+  int nextInt(int max) {
     if (!_ints.moveNext()) {
-      throw StateError('FakeRandom presently does not contain an integer. Try supply more integers to `FakeRandom(ints: [...])`.');
+      throw StateError(
+        'FakeRandom presently does not contain an integer. Try supply more integers to `FakeRandom(ints: [...])`.',
+      );
     }
 
     if (max <= 0) {
@@ -209,7 +209,9 @@ class FakeRandom implements Random {
     }
 
     if (_ints.current < 0 || max <= _ints.current) {
-      throw RangeError('The current integer, ${_ints.current} is outside the range, `0 <= ${_ints.current} < $max`. Try change the integers supplied to `FakeRandom(ints: [...])`.');
+      throw RangeError(
+        'The current integer, ${_ints.current} is outside the range, `0 <= ${_ints.current} < $max`. Try change the integers supplied to `FakeRandom(ints: [...])`.',
+      );
     }
 
     return _ints.current;
@@ -230,13 +232,18 @@ class FakeRandom implements Random {
   /// random.nextDouble(); // throws StateError
   /// ```
   @override
-  @useResult double nextDouble() {
+  @useResult
+  double nextDouble() {
     if (!_doubles.moveNext()) {
-      throw StateError('FakeRandom presently does not contain a double. Try supply more doubles to `FakeRandom(doubles: [...])`.');
+      throw StateError(
+        'FakeRandom presently does not contain a double. Try supply more doubles to `FakeRandom(doubles: [...])`.',
+      );
     }
 
     if (_doubles.current < 0.0 || 1.0 <= _doubles.current) {
-      throw RangeError('The current double, ${_doubles.current} is outside the range, `0.0 <= ${_doubles.current} < 1.0`. Try change the doubles supplied to `FakeRandom(doubles: [...])`.');
+      throw RangeError(
+        'The current double, ${_doubles.current} is outside the range, `0.0 <= ${_doubles.current} < 1.0`. Try change the doubles supplied to `FakeRandom(doubles: [...])`.',
+      );
     }
 
     return _doubles.current;
@@ -255,12 +262,14 @@ class FakeRandom implements Random {
   /// random.nextBool(); // throws StateError
   /// ```
   @override
-  @useResult bool nextBool() {
+  @useResult
+  bool nextBool() {
     if (!_bools.moveNext()) {
-      throw StateError('FakeRandom presently does not contain a boolean. Try supply more booleans to `FakeRandom(bools: [...])`.');
+      throw StateError(
+        'FakeRandom presently does not contain a boolean. Try supply more booleans to `FakeRandom(bools: [...])`.',
+      );
     }
 
     return _bools.current;
   }
-
 }

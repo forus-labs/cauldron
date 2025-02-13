@@ -3,7 +3,6 @@ import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
 
 void main() {
-
   test('Min.open(...)', () {
     expect(const Min.open(1).open, true);
     expect(const Min.open(1).closed, false);
@@ -50,38 +49,69 @@ void main() {
 
   group('intersection(...)', () {
     group('min', () {
-      test('closed open lesser greater', () => expect(const Min.closed(3).intersection(const Min.open(4)), const Min.open(4)));
+      test(
+        'closed open lesser greater',
+        () => expect(const Min.closed(3).intersection(const Min.open(4)), const Min.open(4)),
+      );
 
-      test('open closed lesser greater', () => expect(const Min.open(3).intersection(const Min.closed(4)), const Min.closed(4)));
+      test(
+        'open closed lesser greater',
+        () => expect(const Min.open(3).intersection(const Min.closed(4)), const Min.closed(4)),
+      );
 
-      test('both open lesser greater', () => expect(const Min.open(3).intersection(const Min.open(4)), const Min.open(4)));
+      test(
+        'both open lesser greater',
+        () => expect(const Min.open(3).intersection(const Min.open(4)), const Min.open(4)),
+      );
 
-      test('both closed lesser greater', () => expect(const Min.closed(3).intersection(const Min.closed(4)), const Min.closed(4)));
+      test(
+        'both closed lesser greater',
+        () => expect(const Min.closed(3).intersection(const Min.closed(4)), const Min.closed(4)),
+      );
 
+      test(
+        'closed open greater lesser',
+        () => expect(const Min.closed(4).intersection(const Min.open(3)), const Min.closed(4)),
+      );
 
-      test('closed open greater lesser', () => expect(const Min.closed(4).intersection(const Min.open(3)), const Min.closed(4)));
+      test(
+        'open closed greater lesser',
+        () => expect(const Min.open(4).intersection(const Min.closed(3)), const Min.open(4)),
+      );
 
-      test('open closed greater lesser', () => expect(const Min.open(4).intersection(const Min.closed(3)), const Min.open(4)));
+      test(
+        'both open greater lesser',
+        () => expect(const Min.open(4).intersection(const Min.open(3)), const Min.open(4)),
+      );
 
-      test('both open greater lesser', () => expect(const Min.open(4).intersection(const Min.open(3)), const Min.open(4)));
-      
-      test('both closed greater lesser', () => expect(const Min.closed(4).intersection(const Min.closed(3)), const Min.closed(4)));
+      test(
+        'both closed greater lesser',
+        () => expect(const Min.closed(4).intersection(const Min.closed(3)), const Min.closed(4)),
+      );
 
-      
       test('closed open same', () => expect(const Min.closed(4).intersection(const Min.open(4)), const Min.open(4)));
 
       test('open closed same', () => expect(const Min.open(4).intersection(const Min.closed(4)), const Min.open(4)));
 
       test('both open same', () => expect(const Min.open(4).intersection(const Min.open(4)), const Min.open(4)));
 
-      test('both closed same', () => expect(const Min.closed(4).intersection(const Min.closed(4)), const Min.closed(4)));
+      test(
+        'both closed same',
+        () => expect(const Min.closed(4).intersection(const Min.closed(4)), const Min.closed(4)),
+      );
     });
 
-    test('interval intersection', () => expect(const Min.closed(5).intersection(Interval.open(4, 6)), Interval.closedOpen(5, 6)));
+    test(
+      'interval intersection',
+      () => expect(const Min.closed(5).intersection(Interval.open(4, 6)), Interval.closedOpen(5, 6)),
+    );
 
     test('interval no intersection', () => expect(const Min.closed(5).intersection(Interval.open(1, 3)), null));
 
-    test('max intersection', () => expect(const Min.closed(3).intersection(const Max.open(4)), Interval.closedOpen(3, 4)));
+    test(
+      'max intersection',
+      () => expect(const Min.closed(3).intersection(const Max.open(4)), Interval.closedOpen(3, 4)),
+    );
 
     test('max no intersection', () => expect(const Min.closed(3).intersection(const Max.closed(1)), null));
 
@@ -115,7 +145,6 @@ void main() {
 
     test('not encloses min', () => expect(const Min.open(0).encloses(const Min.closed(-5)), false));
 
-
     test('encloses interval', () => expect(const Min.open(0).encloses(Interval.open(1, 3)), true));
 
     test('partially encloses interval', () => expect(const Min.open(5).encloses(Interval.open(1, 7)), false));
@@ -130,9 +159,7 @@ void main() {
 
     test('not enclose interval', () => expect(const Min.open(5).encloses(Interval.open(1, 3)), false));
 
-
     test('not enclose max', () => expect(const Min.open(1).encloses(const Max.open(3)), false));
-
 
     test('not enclose all', () => expect(const Min.open(1).encloses(const Unbound()), false));
   });
@@ -164,11 +191,10 @@ void main() {
       expect(const Min.open(1).hashCode == range.hashCode, expected);
     });
   }
-  
+
   group('toString()', () {
     test('open', () => expect(const Min.open(-1).toString(), '(-1..+∞)'));
 
     test('closed', () => expect(const Min.closed(-1).toString(), '[-1..+∞)'));
   });
-
 }

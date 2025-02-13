@@ -54,7 +54,7 @@ extension Maps<K, V> on Map<K, V> {
     // We remove all elements at the end to ensure atomicity.
     [
       for (final MapEntry(:key, :value) in entries)
-        if (!predicate(key, value)) key
+        if (!predicate(key, value)) key,
     ].forEach(remove);
   }
 
@@ -82,9 +82,9 @@ extension Maps<K, V> on Map<K, V> {
   /// ```
   @useResult
   Map<K, V> where(bool Function(K key, V value) predicate) => {
-        for (final MapEntry(:key, :value) in entries)
-          if (predicate(key, value)) key: value,
-      };
+    for (final MapEntry(:key, :value) in entries)
+      if (predicate(key, value)) key: value,
+  };
 
   /// Transforms this map's keys using [convert].
   ///
@@ -101,8 +101,8 @@ extension Maps<K, V> on Map<K, V> {
   /// See [revalue] for converting values, and [map] for converting entries.
   @useResult
   Map<K1, V> rekey<K1>(K1 Function(K key) convert) => {
-        for (final MapEntry(:key, :value) in entries) convert(key): value,
-      };
+    for (final MapEntry(:key, :value) in entries) convert(key): value,
+  };
 
   /// Transforms this map's values using [convert].
   ///
@@ -114,8 +114,8 @@ extension Maps<K, V> on Map<K, V> {
   /// See [rekey] for converting values, and [map] for converting entries.
   @useResult
   Map<K, V1> revalue<V1>(V1 Function(V value) convert) => {
-        for (final MapEntry(:key, :value) in entries) key: convert(value),
-      };
+    for (final MapEntry(:key, :value) in entries) key: convert(value),
+  };
 }
 
 /// Provides functions for working with [Map]s of null-nullable entries.

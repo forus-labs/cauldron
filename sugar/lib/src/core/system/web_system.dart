@@ -4,7 +4,6 @@ import 'package:web/web.dart';
 // ignore_for_file: public_member_api_docs
 
 class System {
-
   /// The system's current date-time that can be modified for testing.
   ///
   /// ## Contract
@@ -19,7 +18,8 @@ class System {
   ///   });
   /// }
   /// ```
-  @useResult static DateTime Function() currentDateTime = DateTime.now;
+  @useResult
+  static DateTime Function() currentDateTime = DateTime.now;
 
   /// The current milliseconds since Unix epoch that can be modified for testing by setting [currentDateTime].
   ///
@@ -31,7 +31,8 @@ class System {
   ///   });
   /// }
   /// ```
-  @useResult static int get epochMilliseconds => currentDateTime().millisecondsSinceEpoch;
+  @useResult
+  static int get epochMilliseconds => currentDateTime().millisecondsSinceEpoch;
 
   /// The current microseconds since Unix epoch that can be modified for testing by setting [currentDateTime].
   ///
@@ -43,7 +44,8 @@ class System {
   ///   });
   /// }
   /// ```
-  @useResult static int get epochMicroseconds => currentDateTime().microsecondsSinceEpoch;
+  @useResult
+  static int get epochMicroseconds => currentDateTime().microsecondsSinceEpoch;
 
   const System();
 
@@ -64,16 +66,6 @@ class System {
   bool get windows => false;
 
   bool get web => true;
-
 }
 
-enum PlatformType {
-  android,
-  fuchsia,
-  ios,
-  linux,
-  macos,
-  windows,
-  web,
-  unknown,
-}
+enum PlatformType { android, fuchsia, ios, linux, macos, windows, web, unknown }

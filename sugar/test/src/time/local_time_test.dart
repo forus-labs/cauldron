@@ -6,9 +6,9 @@ void main() {
   for (final argument in [LocalTime(), LocalTime(12), LocalTime(23, 59, 59, 999, 999)]) {
     test('range allow $argument', () => expect(LocalTime.range.contains(argument), true));
   }
-  
+
   test('midnight', () => expect(LocalTime(), LocalTime.midnight));
-  
+
   test('noon', () => expect(LocalTime(12), LocalTime.noon));
 
   test('fromDayMilliseconds(...)', () => expect(LocalTime.fromDayMilliseconds(43200000), LocalTime(12)));
@@ -73,19 +73,30 @@ void main() {
   });
 
   group('subtract(...)', () {
-    test('positive time units', () => expect(LocalTime(12, 30).subtract(const Duration(minutes: 5)), LocalTime(12, 25)));
+    test(
+      'positive time units',
+      () => expect(LocalTime(12, 30).subtract(const Duration(minutes: 5)), LocalTime(12, 25)),
+    );
 
-    test('negative time units', () => expect(LocalTime(12, 30).subtract(const Duration(minutes: -5)), LocalTime(12, 35)));
+    test(
+      'negative time units',
+      () => expect(LocalTime(12, 30).subtract(const Duration(minutes: -5)), LocalTime(12, 35)),
+    );
 
     test('underflow wrap around', () => expect(LocalTime(1).subtract(const Duration(hours: 2)), LocalTime(23)));
 
-    test('date units', () => expect(LocalTime(12, 30).subtract(const Duration(days: 1, seconds: 1)), LocalTime(12, 29, 59)));
+    test(
+      'date units',
+      () => expect(LocalTime(12, 30).subtract(const Duration(days: 1, seconds: 1)), LocalTime(12, 29, 59)),
+    );
   });
 
-  
   group('plus(...)', () {
     test('value', () {
-      expect(LocalTime(1, 2, 3, 4, 5).plus(hours: 2, minutes: 4, seconds: 6, milliseconds: 8, microseconds: 10), LocalTime(3, 6, 9, 12, 15));
+      expect(
+        LocalTime(1, 2, 3, 4, 5).plus(hours: 2, minutes: 4, seconds: 6, milliseconds: 8, microseconds: 10),
+        LocalTime(3, 6, 9, 12, 15),
+      );
     });
 
     test('nothing', () => expect(LocalTime(1, 2, 3, 4, 5).plus(), LocalTime(1, 2, 3, 4, 5)));
@@ -93,31 +104,51 @@ void main() {
 
   group('minus(...)', () {
     test('value', () {
-      expect(LocalTime(3, 6, 9, 12, 15).minus(hours: 2, minutes: 4, seconds: 6, milliseconds: 8, microseconds: 10), LocalTime(1, 2, 3, 4, 5));
+      expect(
+        LocalTime(3, 6, 9, 12, 15).minus(hours: 2, minutes: 4, seconds: 6, milliseconds: 8, microseconds: 10),
+        LocalTime(1, 2, 3, 4, 5),
+      );
     });
 
     test('nothing', () => expect(LocalTime(1, 2, 3, 4, 5).minus(), LocalTime(1, 2, 3, 4, 5)));
   });
 
-
   group('+', () {
-    test('positive time units', () => expect(LocalTime(1, 2, 3, 4, 5) + const Period(hours: 10), LocalTime(11, 2, 3, 4, 5)));
+    test(
+      'positive time units',
+      () => expect(LocalTime(1, 2, 3, 4, 5) + const Period(hours: 10), LocalTime(11, 2, 3, 4, 5)),
+    );
 
-    test('negative time units', () => expect(LocalTime(1, 2, 3, 4, 5) + const Period(hours: -10), LocalTime(15, 2, 3, 4, 5)));
+    test(
+      'negative time units',
+      () => expect(LocalTime(1, 2, 3, 4, 5) + const Period(hours: -10), LocalTime(15, 2, 3, 4, 5)),
+    );
 
     test('overflow wraps around', () => expect(LocalTime(23) + const Period(hours: 2), LocalTime(1)));
 
-    test('date units', () => expect(LocalTime(1, 2, 3, 4, 5) + const Period(days: 1, seconds: 10), LocalTime(1, 2, 13, 4, 5)));
+    test(
+      'date units',
+      () => expect(LocalTime(1, 2, 3, 4, 5) + const Period(days: 1, seconds: 10), LocalTime(1, 2, 13, 4, 5)),
+    );
   });
 
   group('-', () {
-    test('positive time units', () => expect(LocalTime(11, 2, 3, 4, 5) - const Period(hours: 10), LocalTime(1, 2, 3, 4, 5)));
+    test(
+      'positive time units',
+      () => expect(LocalTime(11, 2, 3, 4, 5) - const Period(hours: 10), LocalTime(1, 2, 3, 4, 5)),
+    );
 
-    test('negative time units', () => expect(LocalTime(1, 2, 3, 4, 5) - const Period(hours: -10), LocalTime(11, 2, 3, 4, 5)));
+    test(
+      'negative time units',
+      () => expect(LocalTime(1, 2, 3, 4, 5) - const Period(hours: -10), LocalTime(11, 2, 3, 4, 5)),
+    );
 
     test('underflow wraps around', () => expect(LocalTime(1) - const Period(hours: 2), LocalTime(23)));
 
-    test('date units', () => expect(LocalTime(1, 2, 3, 4, 5) - const Period(days: 1, seconds: 1), LocalTime(1, 2, 2, 4, 5)));
+    test(
+      'date units',
+      () => expect(LocalTime(1, 2, 3, 4, 5) - const Period(days: 1, seconds: 1), LocalTime(1, 2, 2, 4, 5)),
+    );
   });
 
   for (final (unit, truncated) in [
@@ -176,20 +207,26 @@ void main() {
     test('floor $unit to 5', () => expect(time.floor(unit, 5), truncated));
   }
 
-
   group('copyWith(...)', () {
-    test('values', () => expect(LocalTime(1, 3, 5, 7, 9).copyWith(hour: 2, minute: 4, second: 6, millisecond: 8, microsecond: 10), LocalTime(2, 4, 6, 8, 10)));
+    test(
+      'values',
+      () => expect(
+        LocalTime(1, 3, 5, 7, 9).copyWith(hour: 2, minute: 4, second: 6, millisecond: 8, microsecond: 10),
+        LocalTime(2, 4, 6, 8, 10),
+      ),
+    );
 
     test('nothing', () => expect(LocalTime(1, 2, 3, 4, 5).copyWith(), LocalTime(1, 2, 3, 4, 5)));
   });
 
+  test(
+    'difference(...)',
+    () => expect(
+      LocalTime(5, 7, 9, 11, 13).difference(LocalTime(2, 3, 4, 5, 6)),
+      const Duration(microseconds: 11045006007),
+    ),
+  );
 
-  test('difference(...)', () => expect(
-    LocalTime(5, 7, 9, 11, 13).difference(LocalTime(2, 3, 4, 5, 6)),
-    const Duration(microseconds: 11045006007),
-  ));
-  
-  
   test('at(...)', () => expect(LocalTime(1, 2, 3, 4, 5).at(Offset(8)), OffsetTime(Offset(8), 1, 2, 3, 4, 5)));
 
   test('toNative()', () => expect(LocalTime(2, 3, 4, 5, 6).toNative(), DateTime.utc(1970, 1, 1, 2, 3, 4, 5, 6)));
@@ -226,7 +263,6 @@ void main() {
   ]) {
     test('toString()', () => expect(time.toString(), string));
   }
-
 
   test('dayMilliseconds', () => expect(LocalTime(1, 2, 3, 4, 5).dayMilliseconds, 3723004));
 

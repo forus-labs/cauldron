@@ -56,14 +56,14 @@ part of 'time.dart';
 /// ## Other resources
 /// See [OffsetTime] to represent times with offsets.
 final class LocalTime extends Time with Orderable<LocalTime> {
-
   /// The valid range of [LocalTime]s, from `00:00` to `23:59:59.999999`, inclusive.
   static final Interval<LocalTime> range = Interval.closed(LocalTime(), LocalTime(23, 59, 59, 999, 999));
+
   /// Midnight, `00:00`.
   static final LocalTime midnight = LocalTime();
+
   /// Noon, `12:00`.
   static final LocalTime noon = LocalTime(12);
-
 
   String? _string;
 
@@ -74,7 +74,7 @@ final class LocalTime extends Time with Orderable<LocalTime> {
   ///
   /// LocalTime.fromDayMilliseconds(Duration.millisecondsPerDay + 1); // 00:00:00.001
   /// ```
-  LocalTime.fromDayMilliseconds(super.milliseconds): super.fromDayMilliseconds();
+  LocalTime.fromDayMilliseconds(super.milliseconds) : super.fromDayMilliseconds();
 
   /// Creates a [LocalTime] with the [microseconds] since midnight, wrapping around midnight.
   ///
@@ -83,7 +83,7 @@ final class LocalTime extends Time with Orderable<LocalTime> {
   ///
   /// LocalTime.fromDayMicroseconds(Duration.microsecondsPerDay + 1); // 00:00:00.000001
   /// ```
-  LocalTime.fromDayMicroseconds(super.microseconds): super.fromDayMicroseconds();
+  LocalTime.fromDayMicroseconds(super.microseconds) : super.fromDayMicroseconds();
 
   /// Creates a [LocalTime] that represents the current time.
   ///
@@ -126,8 +126,7 @@ final class LocalTime extends Time with Orderable<LocalTime> {
   /// ```
   LocalTime([super.hour = 0, super.minute = 0, super.second = 0, super.millisecond = 0, super.microsecond = 0]);
 
-  LocalTime._(super._native): super._();
-
+  LocalTime._(super._native) : super._();
 
   /// Returns a copy of this with the [duration] added, wrapping around midnight.
   ///
@@ -136,7 +135,8 @@ final class LocalTime extends Time with Orderable<LocalTime> {
   ///
   /// LocalTime(20).add(Duration(hours: 8)); // 04:00
   /// ```
-  @useResult LocalTime add(Duration duration) => LocalTime._(_native.add(duration));
+  @useResult
+  LocalTime add(Duration duration) => LocalTime._(_native.add(duration));
 
   /// Returns a copy of this with the [duration] subtracted, wrapping around midnight.
   ///
@@ -145,7 +145,8 @@ final class LocalTime extends Time with Orderable<LocalTime> {
   ///
   /// LocalTime(4).minus(Duration(hours: 6)); // 22:00
   /// ```
-  @useResult LocalTime subtract(Duration duration) => LocalTime._(_native.subtract(duration));
+  @useResult
+  LocalTime subtract(Duration duration) => LocalTime._(_native.subtract(duration));
 
   /// Returns a copy of this with the time units added, wrapping around midnight.
   ///
@@ -154,14 +155,17 @@ final class LocalTime extends Time with Orderable<LocalTime> {
   ///
   /// LocalTime(20).plus(hours: 8); // 04:00
   /// ```
-  @useResult LocalTime plus({int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-    LocalTime._(_native.plus(
-      hours: hours,
-      minutes: minutes,
-      seconds: seconds,
-      milliseconds: milliseconds,
-      microseconds: microseconds,
-    ));
+  @useResult
+  LocalTime plus({int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
+      LocalTime._(
+        _native.plus(
+          hours: hours,
+          minutes: minutes,
+          seconds: seconds,
+          milliseconds: milliseconds,
+          microseconds: microseconds,
+        ),
+      );
 
   /// Returns a copy of this with the time units subtracted, wrapping around midnight.
   ///
@@ -170,36 +174,41 @@ final class LocalTime extends Time with Orderable<LocalTime> {
   ///
   /// LocalTime(4).minus(hours: 6); // 22:00
   /// ```
-  @useResult LocalTime minus({int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
-    LocalTime._(_native.minus(
-      hours: hours,
-      minutes: minutes,
-      seconds: seconds,
-      milliseconds: milliseconds,
-      microseconds: microseconds,
-    ));
+  @useResult
+  LocalTime minus({int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0}) =>
+      LocalTime._(
+        _native.minus(
+          hours: hours,
+          minutes: minutes,
+          seconds: seconds,
+          milliseconds: milliseconds,
+          microseconds: microseconds,
+        ),
+      );
 
   /// Returns a copy of this with the [period] added.
   ///
   /// ```dart
   /// LocalTime(11, 30) + Period(hours: 1); // 12:30
   /// ```
-  @useResult LocalTime operator + (Period period) => LocalTime._(_native + period);
+  @useResult
+  LocalTime operator +(Period period) => LocalTime._(_native + period);
 
   /// Returns a copy of this with the [period] subtracted.
   ///
   /// ```dart
   /// LocalTime(11, 30) - Period(hours: 1); // 10:30
   /// ```
-  @useResult LocalTime operator - (Period period) => LocalTime._(_native - period);
-
+  @useResult
+  LocalTime operator -(Period period) => LocalTime._(_native - period);
 
   /// Returns a copy of this truncated to the [TimeUnit].
   ///
   /// ```dart
   /// LocalTime(12, 39, 59).truncate(to: TimeUnit.minutes); // 12:39
   /// ```
-  @useResult LocalTime truncate({required TimeUnit to}) => LocalTime._(_native.truncate(to: to));
+  @useResult
+  LocalTime truncate({required TimeUnit to}) => LocalTime._(_native.truncate(to: to));
 
   /// Returns a copy of this rounded to the nearest [unit] and [value].
   ///
@@ -213,7 +222,8 @@ final class LocalTime extends Time with Orderable<LocalTime> {
   /// LocalTime(12, 34, 59).round(TimeUnit.minutes, 5); // 12:35
   /// ```
   @Possible({RangeError})
-  @useResult LocalTime round(TimeUnit unit, int value) => LocalTime._(_native.round(unit, value));
+  @useResult
+  LocalTime round(TimeUnit unit, int value) => LocalTime._(_native.round(unit, value));
 
   /// Returns a copy of this ceiled to the nearest [unit] and [value].
   ///
@@ -227,7 +237,8 @@ final class LocalTime extends Time with Orderable<LocalTime> {
   /// LocalTime(12, 34, 59).round(TimeUnit.minutes, 5); // 12:35
   /// ```
   @Possible({RangeError})
-  @useResult LocalTime ceil(TimeUnit unit, int value) => LocalTime._(_native.ceil(unit, value));
+  @useResult
+  LocalTime ceil(TimeUnit unit, int value) => LocalTime._(_native.ceil(unit, value));
 
   /// Returns a copy of this floored to the nearest [unit] and [value].
   ///
@@ -241,22 +252,22 @@ final class LocalTime extends Time with Orderable<LocalTime> {
   /// LocalTime(12, 34, 59).round(5, TimeUnit.minutes); // 12:30
   /// ```
   @Possible({RangeError})
-  @useResult LocalTime floor(TimeUnit unit, int value) => LocalTime._(_native.floor(unit, value));
-
+  @useResult
+  LocalTime floor(TimeUnit unit, int value) => LocalTime._(_native.floor(unit, value));
 
   /// Returns a copy of this with the updated units of time.
   ///
   /// ```dart
   /// LocalTime(12).copyWith(minute: 30); // 12:30
   /// ```
-  @useResult LocalTime copyWith({int? hour, int? minute, int? second, int? millisecond, int? microsecond}) => LocalTime(
+  @useResult
+  LocalTime copyWith({int? hour, int? minute, int? second, int? millisecond, int? microsecond}) => LocalTime(
     hour ?? this.hour,
     minute ?? this.minute,
     second ?? this.second,
     millisecond ?? this.millisecond,
-    microsecond  ?? this.microsecond,
+    microsecond ?? this.microsecond,
   );
-
 
   /// Returns the difference between this and [other].
   ///
@@ -265,21 +276,23 @@ final class LocalTime extends Time with Orderable<LocalTime> {
   ///
   /// LocalTime(13).difference(LocalTime(23)); // -10 hours
   /// ```
-  @useResult Duration difference(LocalTime other) => Duration(microseconds: dayMicroseconds - other.dayMicroseconds);
-
+  @useResult
+  Duration difference(LocalTime other) => Duration(microseconds: dayMicroseconds - other.dayMicroseconds);
 
   /// Converts this to a [OffsetTime].
   ///
   /// ```dart
   /// LocalTime(12).at(Offset(8)); // 12:00+08:00
   /// ```
-  @useResult OffsetTime at(Offset offset) => OffsetTime._(offset, _native);
+  @useResult
+  OffsetTime at(Offset offset) => OffsetTime._(offset, _native);
 
   /// Converts this to a [DateTime] in UTC.
   ///
   /// The date is always set to Unix epoch (1970 January 1st).
-  @useResult DateTime toNative() => DateTime.utc(1970, 1, 1, _native.hour, _native.minute, _native.second, _native.millisecond, _native.microsecond);
-
+  @useResult
+  DateTime toNative() =>
+      DateTime.utc(1970, 1, 1, _native.hour, _native.minute, _native.second, _native.millisecond, _native.microsecond);
 
   @override
   int compareTo(LocalTime other) => dayMicroseconds.compareTo(other.dayMicroseconds);
@@ -299,19 +312,19 @@ final class LocalTime extends Time with Orderable<LocalTime> {
   @override
   String toString() => _string ??= _native.toTimeString();
 
-
   /// The milliseconds since midnight.
   ///
   /// ```dart
   /// LocalTime(12).dayMicroseconds; // 43200000 (12:00)
   /// ```
-  @useResult DayMilliseconds get dayMilliseconds => _native.millisecondsSinceMidnight;
+  @useResult
+  DayMilliseconds get dayMilliseconds => _native.millisecondsSinceMidnight;
 
   /// The microseconds since midnight.
   ///
   /// ```dart
   /// LocalTime(12).dayMicroseconds; // 43200000000 (12:00)
   /// ```
-  @useResult DayMicroseconds get dayMicroseconds => _native.microsecondsSinceMidnight;
-
+  @useResult
+  DayMicroseconds get dayMicroseconds => _native.microsecondsSinceMidnight;
 }

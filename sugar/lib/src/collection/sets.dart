@@ -24,7 +24,7 @@ extension Sets<E> on Set<E> {
   ///
   /// ```dart
   /// final foo = {1};
-  /// foo.replaceAll((_, __) => foo.remove(0)); // throws ConcurrentModificationError
+  /// foo.replaceAll((_, _) => foo.remove(0)); // throws ConcurrentModificationError
   /// ```
   ///
   /// ## Example

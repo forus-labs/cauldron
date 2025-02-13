@@ -19,7 +19,6 @@ Builder nitrogenBuilder(BuilderOptions options) {
   try {
     BuildConfiguration.lint(options.config);
     return NitrogenBuilder(BuildConfiguration.parse(options.config));
-
   } on NitrogenException {
     return EmptyBuilder();
   }
@@ -27,7 +26,6 @@ Builder nitrogenBuilder(BuilderOptions options) {
 
 /// A Nitrogen builder.
 class NitrogenBuilder extends Builder {
-
   static final _pubspec = Glob('pubspec.yaml');
   static final _assets = Glob('assets/**');
 
@@ -35,7 +33,7 @@ class NitrogenBuilder extends Builder {
 
   /// Creates a [NitrogenBuilder].
   NitrogenBuilder(this._configuration);
-  
+
   @override
   FutureOr<void> build(BuildStep buildStep) async {
     try {
@@ -60,7 +58,8 @@ class NitrogenBuilder extends Builder {
 
           final nested = fallbackTheme.children[segment];
           if (nested == null) {
-            log.severe('Unable to find path to fallback theme, "$fallback". Did you specify it under flutter.assets in your pubspec.yaml?');
+            log.severe(
+                'Unable to find path to fallback theme, "$fallback". Did you specify it under flutter.assets in your pubspec.yaml?');
             return;
           }
 
@@ -69,21 +68,19 @@ class NitrogenBuilder extends Builder {
 
         await buildStep.writeAsString(
           assetsOutput,
-          AssetGenerator(configuration.prefix, assets, { themes }, docs: configuration.docs).generate(),
+          AssetGenerator(configuration.prefix, assets, {themes}, docs: configuration.docs).generate(),
         );
 
         await buildStep.writeAsString(
           AssetId(buildStep.inputId.package, output),
           ThemeGenerator(configuration.prefix, themes, fallbackTheme, docs: configuration.docs).generate(),
         );
-
       } else {
         await buildStep.writeAsString(
           assetsOutput,
           AssetGenerator(configuration.prefix, assets, {}, docs: configuration.docs).generate(),
         );
       }
-
     } on NitrogenException {
       return;
     }
@@ -91,13 +88,11 @@ class NitrogenBuilder extends Builder {
 
   @override
   Map<String, List<String>> get buildExtensions => {
-    r'$package$': [
-      _configuration.assets.output,
-      if (_configuration.themes != null)
-        _configuration.themes!.output,
-    ],
-  };
-  
+        r'$package$': [
+          _configuration.assets.output,
+          if (_configuration.themes != null) _configuration.themes!.output,
+        ],
+      };
 }
 
 /// A stub builder for when Nitrogen fails to build.

@@ -45,7 +45,6 @@ import 'package:sugar/time_zone.dart';
 /// ![Clock moving backwards](https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/End_CEST.svg/120px-End_CEST.svg.png)
 /// <br>
 abstract class Timezone {
-
   /// A callback that retrieves the platform's timezone.
   ///
   /// A TZ database timezone identifier such as `Asia/Singapore` is always returned. Otherwise returns `Factory` if the
@@ -79,7 +78,6 @@ abstract class Timezone {
   /// The timezone name, typically a TZ database timezone identifier such as `Asia/Singapore`.
   final String name;
 
-
   /// Creates a [Timezone] with the current timezone, or [factory] if the current timezone could not be retrieved.
   ///
   /// **By default, this only works on Windows, MacOS, Linux & web. See [platformTimezoneProvider].**
@@ -109,15 +107,15 @@ abstract class Timezone {
   /// Creates a [Timezone].
   const Timezone.from(this.name);
 
-
   /// Converts the [local] date-time in microseconds to microseconds since Unix epoch (in UTC). The corresponding
   /// [TimezoneSpan] is also returned.
-  @useResult (EpochMicroseconds, TimezoneSpan) convert({required int local});
+  @useResult
+  (EpochMicroseconds, TimezoneSpan) convert({required int local});
 
   /// Returns the [TimezoneSpan] at the microseconds since Unix epoch.
-  @useResult TimezoneSpan span({required EpochMicroseconds at});
+  @useResult
+  TimezoneSpan span({required EpochMicroseconds at});
 
   @override
   String toString() => name;
-
 }

@@ -34,7 +34,7 @@ void main() {
       expect(sil.byStringIndex.indexed.toList(), [(StringIndex('a'), 'A'), (StringIndex('b'), 'BB')]);
     });
   });
-  
+
   group('Sil.list(...)', () {
     test('default equality and hash code', () {
       final sil = Sil.list(['A', 'B', 'B']);
@@ -48,10 +48,7 @@ void main() {
     });
 
     test('custom equality and hash code', () {
-      final sil = Sil.list(['A', 'BB', 'BD'],
-        equals: (a, b) => a.length == b.length,
-        hash: (e) => 1,
-      );
+      final sil = Sil.list(['A', 'BB', 'BD'], equals: (a, b) => a.length == b.length, hash: (e) => 1);
 
       expect(sil.toList(), ['A', 'BB']);
 
@@ -75,10 +72,7 @@ void main() {
     });
 
     test('custom equality and hash code', () {
-      final sil = Sil<String>(
-        equals: (a, b) => a.length == b.length,
-        hash: (e) => 1,
-      )..addAll(['A', 'BB', 'BD']);
+      final sil = Sil<String>(equals: (a, b) => a.length == b.length, hash: (e) => 1)..addAll(['A', 'BB', 'BD']);
 
       expect(sil.toList(), ['A', 'BB']);
 
@@ -88,7 +82,7 @@ void main() {
       expect(sil.byStringIndex.indexOf('A')! < sil.byStringIndex.indexOf('BB')!, true);
     });
   });
-  
+
   group('addAll(...)', () {
     test('duplicates in list', () {
       final sil = Sil()..addAll(['B', 'A', 'C', 'B']);
@@ -217,7 +211,10 @@ void main() {
 
   group('removeWhere(...)', () {
     test('exists', () {
-      final sil = Sil()..addAll(['B', 'A', 'C'])..removeWhere((value) => value == 'B' || value == 'C');
+      final sil =
+          Sil()
+            ..addAll(['B', 'A', 'C'])
+            ..removeWhere((value) => value == 'B' || value == 'C');
 
       expect(sil.toList(), ['A']);
       expect(sil.byStringIndex[sil.byStringIndex.indexOf('A')!], 'A');
@@ -238,7 +235,10 @@ void main() {
 
   group('retainWhere(...)', () {
     test('exists', () {
-      final sil = Sil()..addAll(['B', 'A', 'C'])..retainWhere((value) => value == 'B' || value == 'C');
+      final sil =
+          Sil()
+            ..addAll(['B', 'A', 'C'])
+            ..retainWhere((value) => value == 'B' || value == 'C');
 
       expect(sil.toList(), ['B', 'C']);
       expect(sil.byStringIndex[sil.byStringIndex.indexOf('B')!], 'B');
@@ -258,7 +258,10 @@ void main() {
   });
 
   test('clear()', () {
-    final sil = Sil()..addAll(['B', 'A', 'C'])..clear();
+    final sil =
+        Sil()
+          ..addAll(['B', 'A', 'C'])
+          ..clear();
 
     expect(sil.toList(), []);
     expect(sil.byStringIndex.indexOf('B'), null);
@@ -276,11 +279,7 @@ void main() {
     });
 
     test('custom equality', () {
-      final sil = Sil<String>(
-        equals: (a, b) => a.length == b.length,
-        hash: (e) => 1,
-      )..add('B');
-
+      final sil = Sil<String>(equals: (a, b) => a.length == b.length, hash: (e) => 1)..add('B');
 
       expect(sil.contains('B'), true);
       expect(sil.contains('C'), true);
@@ -318,7 +317,10 @@ void main() {
 
   group('first', () {
     test('exists', () {
-      final sil = Sil()..addAll(['B', 'A', 'C'])..first = 'D';
+      final sil =
+          Sil()
+            ..addAll(['B', 'A', 'C'])
+            ..first = 'D';
 
       expect(sil.first, 'D');
       expect(sil.byStringIndex.indexOf('B'), null);
@@ -343,7 +345,10 @@ void main() {
 
   group('last', () {
     test('exists', () {
-      final sil = Sil()..addAll(['B', 'A', 'C'])..last = 'D';
+      final sil =
+          Sil()
+            ..addAll(['B', 'A', 'C'])
+            ..last = 'D';
 
       expect(sil.last, 'D');
       expect(sil.byStringIndex.indexOf('C'), null);

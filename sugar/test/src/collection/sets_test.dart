@@ -9,31 +9,52 @@ void main() {
 
       test('remove element', () => expect({1, 2}..toggle(2), {1}));
     });
-    
+
     group('replaceAll(...)', () {
-      test('single replacement', () => expect({1, 3, 5}..replaceAll((replace, element) => replace(element + 1)), {2, 4, 6}));
+      test(
+        'single replacement',
+        () => expect({1, 3, 5}..replaceAll((replace, element) => replace(element + 1)), {2, 4, 6}),
+      );
 
-      test('zero replacement', () => expect({1, 2, 3}..replaceAll((replace, element) {
-        if (element.isOdd) {
-          replace(element + 2);
-        }
-      }), {3, 5}));
+      test(
+        'zero replacement',
+        () => expect(
+          {1, 2, 3}..replaceAll((replace, element) {
+            if (element.isOdd) {
+              replace(element + 2);
+            }
+          }),
+          {3, 5},
+        ),
+      );
 
-      test('several replacement', () => expect({1, 2, 3}..replaceAll((replace, element) {
-        if (element.isOdd) {
-          replace(element + 2);
-          replace(element + 4);
-        }
-      }), {3, 5, 7}));
+      test(
+        'several replacement',
+        () => expect(
+          {1, 2, 3}..replaceAll((replace, element) {
+            if (element.isOdd) {
+              replace(element + 2);
+              replace(element + 4);
+            }
+          }),
+          {3, 5, 7},
+        ),
+      );
 
       test('function modifies underlying list', () {
         final list = {1, 2, 3, 4, 5};
         expect(() => list.replaceAll((replace, element) => list.remove(element)), throwsConcurrentModificationError);
       });
 
-      test("replace function's return value", () => expect({1, 2, 3}..replaceAll((replace, element) {
-        expect(replace(1), element == 1);
-      }), {1}));
+      test(
+        "replace function's return value",
+        () => expect(
+          {1, 2, 3}..replaceAll((replace, element) {
+            expect(replace(1), element == 1);
+          }),
+          {1},
+        ),
+      );
     });
   });
 

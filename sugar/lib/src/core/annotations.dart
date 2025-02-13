@@ -17,14 +17,14 @@ import 'package:meta/meta_meta.dart';
 /// void foo() => throw ArgumentError();
 /// ```
 // @Target({TargetKind.function, TargetKind.method, TargetKind.field, TargetKind.getter, TargetKind.setter}) See: https://github.com/dart-lang/sdk/issues/47421
-@sealed class Possible {
+@sealed
+class Possible {
   /// The possible exceptions or error codes.
   final Set<Object> states;
 
   /// Creates a [Possible].
   const Possible(this.states);
 }
-
 
 /// Denotes that the annotated element is not tested.
 ///
@@ -33,17 +33,18 @@ import 'package:meta/meta_meta.dart';
 /// int foo() => Random().nextInt(100);
 /// ```
 @Target({...TargetKind.values})
-@sealed class NotTested {
+@sealed
+class NotTested {
   /// The reason the annotated location is not tested.
   final String because;
 
   /// Creates a [NotTested] denoting that the annotate element is not tested because it is deeply integrated with a 3rd
   /// party service/platform.
-  const NotTested.thirdPartyIntegration(): because = '3rd party integration';
+  const NotTested.thirdPartyIntegration() : because = '3rd party integration';
+
   /// Creates a [NotTested].
   const NotTested({required this.because});
 }
-
 
 /// Denotes that the annotated element is lazy.
 ///
@@ -53,7 +54,14 @@ import 'package:meta/meta_meta.dart';
 /// ```
 const lazy = _Lazy();
 
-@Target({TargetKind.type, TargetKind.function, TargetKind.method, TargetKind.getter, TargetKind.setter, TargetKind.field})
+@Target({
+  TargetKind.type,
+  TargetKind.function,
+  TargetKind.method,
+  TargetKind.getter,
+  TargetKind.setter,
+  TargetKind.field,
+})
 class _Lazy {
   const _Lazy();
 }

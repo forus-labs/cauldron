@@ -3,14 +3,14 @@ import 'package:test/test.dart';
 import 'package:sugar/sugar.dart';
 
 void main() {
-  test('fromEpochMilliseconds(...)', () => expect(
-    LocalDateTime.fromEpochMilliseconds(946782245006),
-    LocalDateTime(2000, 1, 2, 3, 4, 5, 6),
-  ));
+  test(
+    'fromEpochMilliseconds(...)',
+    () => expect(LocalDateTime.fromEpochMilliseconds(946782245006), LocalDateTime(2000, 1, 2, 3, 4, 5, 6)),
+  );
 
-  test('fromEpochMicroseconds(...)', () => expect(
-    LocalDateTime.fromEpochMicroseconds(946782245006007),
-    LocalDateTime(2000, 1, 2, 3, 4, 5, 6, 7)),
+  test(
+    'fromEpochMicroseconds(...)',
+    () => expect(LocalDateTime.fromEpochMicroseconds(946782245006007), LocalDateTime(2000, 1, 2, 3, 4, 5, 6, 7)),
   );
 
   group('now(...)', () {
@@ -44,8 +44,6 @@ void main() {
     }
   });
 
-
-
   group('LocalDateTime', () {
     test('value', () {
       final date = LocalDateTime(2000, 1, 2, 3, 4, 5, 6, 7);
@@ -72,115 +70,169 @@ void main() {
     });
   });
 
-
   group('add(...)', () {
-    test('positive time units', () => expect(
-      LocalDateTime(2023, 1, 5, 12, 30).add(const Duration(days: 1, minutes: 5)),
-      LocalDateTime(2023, 1, 6, 12, 35),
-    ));
+    test(
+      'positive time units',
+      () => expect(
+        LocalDateTime(2023, 1, 5, 12, 30).add(const Duration(days: 1, minutes: 5)),
+        LocalDateTime(2023, 1, 6, 12, 35),
+      ),
+    );
 
-    test('negative time units', () => expect(
-      LocalDateTime(2023, 1, 5, 12, 30).add(const Duration(days: -1, minutes: -5)),
-      LocalDateTime(2023, 1, 4, 12, 25),
-    ));
+    test(
+      'negative time units',
+      () => expect(
+        LocalDateTime(2023, 1, 5, 12, 30).add(const Duration(days: -1, minutes: -5)),
+        LocalDateTime(2023, 1, 4, 12, 25),
+      ),
+    );
   });
 
   group('subtract(...)', () {
-    test('positive time units', () => expect(
-      LocalDateTime(2023, 1, 5, 12, 30).subtract(const Duration(days: 1, minutes: 5)),
-      LocalDateTime(2023, 1, 4, 12, 25),
-    ));
+    test(
+      'positive time units',
+      () => expect(
+        LocalDateTime(2023, 1, 5, 12, 30).subtract(const Duration(days: 1, minutes: 5)),
+        LocalDateTime(2023, 1, 4, 12, 25),
+      ),
+    );
 
-    test('negative time units', () => expect(
-      LocalDateTime(2023, 1, 5, 12, 30).subtract(const Duration(days: -1, minutes: -5)),
-      LocalDateTime(2023, 1, 6, 12, 35),
-    ));
+    test(
+      'negative time units',
+      () => expect(
+        LocalDateTime(2023, 1, 5, 12, 30).subtract(const Duration(days: -1, minutes: -5)),
+        LocalDateTime(2023, 1, 6, 12, 35),
+      ),
+    );
   });
 
-
   group('plus(...)', () {
-    test('value', () => expect(
-      LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8).plus(years: 2, months: 3, days: 4, hours: 5, minutes: 6, seconds: 7, milliseconds: 8, microseconds: 9),
-      LocalDateTime(3, 5, 7, 9, 11, 13, 15, 17),
-    ));
+    test(
+      'value',
+      () => expect(
+        LocalDateTime(
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ).plus(years: 2, months: 3, days: 4, hours: 5, minutes: 6, seconds: 7, milliseconds: 8, microseconds: 9),
+        LocalDateTime(3, 5, 7, 9, 11, 13, 15, 17),
+      ),
+    );
 
     test('nothing', () => expect(LocalDateTime(1, 2, 3, 4, 5).plus(), LocalDateTime(1, 2, 3, 4, 5)));
   });
 
   group('minus(...)', () {
-    test('value', () => expect(
-      LocalDateTime(3, 5, 7, 9, 11, 13, 15, 17).minus(years: 2, months: 3, days: 4, hours: 5, minutes: 6, seconds: 7, milliseconds: 8, microseconds: 9),
-      LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8),
-    ));
+    test(
+      'value',
+      () => expect(
+        LocalDateTime(
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+        ).minus(years: 2, months: 3, days: 4, hours: 5, minutes: 6, seconds: 7, milliseconds: 8, microseconds: 9),
+        LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8),
+      ),
+    );
 
     test('nothing', () => expect(LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8).minus(), LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8)));
   });
 
-
   group('+', () {
-    test('positive', () => expect(
-      LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8) + const Period(
-        years: 2,
-        months: 3,
-        days: 4,
-        hours: 5,
-        minutes: 6,
-        seconds: 7,
-        milliseconds: 8,
-        microseconds: 9,
+    test(
+      'positive',
+      () => expect(
+        LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8) +
+            const Period(
+              years: 2,
+              months: 3,
+              days: 4,
+              hours: 5,
+              minutes: 6,
+              seconds: 7,
+              milliseconds: 8,
+              microseconds: 9,
+            ),
+        LocalDateTime(3, 5, 7, 9, 11, 13, 15, 17),
       ),
-      LocalDateTime(3, 5, 7, 9, 11, 13, 15, 17),
-    ));
+    );
 
-    test('negative', () => expect(
-      LocalDateTime(8, 7, 6, 5, 40, 30, 20, 10) + const Period(
-        years: -1,
-        months: -2,
-        days: -3,
-        hours: -5,
-        minutes: -6,
-        seconds: -7,
-        milliseconds: -8,
-        microseconds: -9,
+    test(
+      'negative',
+      () => expect(
+        LocalDateTime(8, 7, 6, 5, 40, 30, 20, 10) +
+            const Period(
+              years: -1,
+              months: -2,
+              days: -3,
+              hours: -5,
+              minutes: -6,
+              seconds: -7,
+              milliseconds: -8,
+              microseconds: -9,
+            ),
+        LocalDateTime(7, 5, 3, 0, 34, 23, 12, 1),
       ),
-      LocalDateTime(7, 5, 3, 0, 34, 23, 12, 1),
-    ));
+    );
 
-    test('nothing', () => expect(LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8) + const Period(), LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8)));
+    test(
+      'nothing',
+      () => expect(LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8) + const Period(), LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8)),
+    );
   });
 
   group('-', () {
-    test('positive', () => expect(
-      LocalDateTime(8, 7, 6, 5, 40, 30, 20, 10) - const Period(
-        years: 1,
-        months: 2,
-        days: 3,
-        hours: 5,
-        minutes: 6,
-        seconds: 7,
-        milliseconds: 8,
-        microseconds: 9,
+    test(
+      'positive',
+      () => expect(
+        LocalDateTime(8, 7, 6, 5, 40, 30, 20, 10) -
+            const Period(
+              years: 1,
+              months: 2,
+              days: 3,
+              hours: 5,
+              minutes: 6,
+              seconds: 7,
+              milliseconds: 8,
+              microseconds: 9,
+            ),
+        LocalDateTime(7, 5, 3, 0, 34, 23, 12, 1),
       ),
-      LocalDateTime(7, 5, 3, 0, 34, 23, 12, 1),
-    ));
+    );
 
-    test('negative', () => expect(
-      LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8) - const Period(
-        years: -2,
-        months: -3,
-        days: -4,
-        hours: -5,
-        minutes: -6,
-        seconds: -7,
-        milliseconds: -8,
-        microseconds: -9,
+    test(
+      'negative',
+      () => expect(
+        LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8) -
+            const Period(
+              years: -2,
+              months: -3,
+              days: -4,
+              hours: -5,
+              minutes: -6,
+              seconds: -7,
+              milliseconds: -8,
+              microseconds: -9,
+            ),
+        LocalDateTime(3, 5, 7, 9, 11, 13, 15, 17),
       ),
-      LocalDateTime(3, 5, 7, 9, 11, 13, 15, 17),
-    ));
+    );
 
-    test('nothing', () => expect(LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8) - const Period(), LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8)));
+    test(
+      'nothing',
+      () => expect(LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8) - const Period(), LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8)),
+    );
   });
-
 
   for (final (unit, truncated) in [
     (DateUnit.years, LocalDateTime(10)),
@@ -259,35 +311,54 @@ void main() {
     test('floor $unit to 5', () => expect(date.floor(unit as TemporalUnit, 5), truncated));
   }
 
-  
   group('copyWith(...)', () {
-    test('values', () => expect(
-      LocalDateTime(2023, 1, 2, 3, 4, 5, 6, 7).copyWith(year: 2024, month: 8, day: 9, hour: 10, minute: 11, second: 12, millisecond: 13, microsecond: 14),
-      LocalDateTime(2024, 8, 9, 10, 11, 12, 13, 14),
-    ));
+    test(
+      'values',
+      () => expect(
+        LocalDateTime(
+          2023,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+        ).copyWith(year: 2024, month: 8, day: 9, hour: 10, minute: 11, second: 12, millisecond: 13, microsecond: 14),
+        LocalDateTime(2024, 8, 9, 10, 11, 12, 13, 14),
+      ),
+    );
 
-    test('nothing', () => expect(LocalDateTime(2023, 1, 2, 3, 4, 5, 6, 7).copyWith(), LocalDateTime(2023, 1, 2, 3, 4, 5, 6, 7)));
+    test(
+      'nothing',
+      () => expect(LocalDateTime(2023, 1, 2, 3, 4, 5, 6, 7).copyWith(), LocalDateTime(2023, 1, 2, 3, 4, 5, 6, 7)),
+    );
   });
 
+  test(
+    'difference(...)',
+    () => expect(
+      LocalDateTime(5, 7, 9, 11, 13, 14, 15, 16).difference(LocalDateTime(2, 3, 4, 5, 6, 7, 8, 9)),
+      const Duration(microseconds: 105689227007007),
+    ),
+  );
 
-  test('difference(...)', () => expect(
-    LocalDateTime(5, 7, 9, 11, 13, 14, 15, 16).difference(LocalDateTime(2, 3, 4, 5, 6, 7, 8, 9)),
-    const Duration(microseconds: 105689227007007),
-  ));
+  test(
+    'at(...)',
+    () => expect(
+      LocalDateTime(2023, 1, 2, 3, 4, 5, 6, 7).at(Timezone('Asia/Singapore')),
+      ZonedDateTime('Asia/Singapore', 2023, 1, 2, 3, 4, 5, 6, 7),
+    ),
+  );
 
-
-  test('at(...)', () => expect(
-    LocalDateTime(2023, 1, 2, 3, 4, 5, 6, 7).at(Timezone('Asia/Singapore')),
-    ZonedDateTime('Asia/Singapore', 2023, 1, 2, 3, 4, 5, 6, 7),
-  ));
-  
-  test('toNative()', () => expect(LocalDateTime(2023, 1, 2, 3, 4, 5, 6, 7).toNative(), DateTime.utc(2023, 1, 2, 3, 4, 5, 6, 7)));
-
+  test(
+    'toNative()',
+    () => expect(LocalDateTime(2023, 1, 2, 3, 4, 5, 6, 7).toNative(), DateTime.utc(2023, 1, 2, 3, 4, 5, 6, 7)),
+  );
 
   test('date', () => expect(LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8).date, LocalDate(1, 2, 3)));
 
   test('time', () => expect(LocalDateTime(1, 2, 3, 4, 5, 6, 7, 8).time, LocalTime(4, 5, 6, 7, 8)));
-
 
   group('compareTo(...) & hashValue', () {
     test('-1', () {
@@ -347,7 +418,6 @@ void main() {
     test('non-leap year last day', () => expect(LocalDateTime(2021, 12, 31).dayOfYear, 365));
   });
 
-
   group('firstDayOfWeek', () {
     test('current date', () => expect(LocalDateTime(2023, 5, 8, 1).firstDayOfWeek, LocalDateTime(2023, 5, 8)));
 
@@ -364,7 +434,6 @@ void main() {
     test('across months', () => expect(LocalDateTime(2023, 5, 29).lastDayOfWeek, LocalDateTime(2023, 6, 4)));
   });
 
-
   group('firstDayOfMonth', () {
     test('current date', () => expect(LocalDateTime(2023, 5, 1, 1).firstDayOfMonth, LocalDateTime(2023, 5)));
 
@@ -379,7 +448,6 @@ void main() {
     test('leap year', () => expect(LocalDateTime(2020, 2).lastDayOfMonth, LocalDateTime(2020, 2, 29)));
   });
 
-
   group('daysInMonth', () {
     test('leap year', () => expect(LocalDateTime(2020, 2).daysInMonth, 29));
 
@@ -392,15 +460,19 @@ void main() {
     test('non-leap year', () => expect(LocalDateTime(2021).leapYear, false));
   });
 
-
-  test('epochMilliseconds', () => expect(
-    LocalDateTime(2023, 1, 2, 3, 4, 5, 6, 7).epochMilliseconds,
-    DateTime.utc(2023, 1, 2, 3, 4, 5, 6, 7).millisecondsSinceEpoch,
-  ));
-
-  test('epochMicroseconds', () => expect(
-      LocalDateTime(2023, 1, 2, 3, 4, 5, 6, 7).epochMicroseconds,
-    DateTime.utc(2023, 1, 2, 3, 4, 5, 6, 7).microsecondsSinceEpoch),
+  test(
+    'epochMilliseconds',
+    () => expect(
+      LocalDateTime(2023, 1, 2, 3, 4, 5, 6, 7).epochMilliseconds,
+      DateTime.utc(2023, 1, 2, 3, 4, 5, 6, 7).millisecondsSinceEpoch,
+    ),
   );
-  
+
+  test(
+    'epochMicroseconds',
+    () => expect(
+      LocalDateTime(2023, 1, 2, 3, 4, 5, 6, 7).epochMicroseconds,
+      DateTime.utc(2023, 1, 2, 3, 4, 5, 6, 7).microsecondsSinceEpoch,
+    ),
+  );
 }

@@ -8,7 +8,6 @@ import 'package:sugar/core.dart';
 ///
 ///
 extension DeepEqualityIterable on Iterable<Object?> {
-
   /// Determines if this and [other] are deeply equal.
   ///
   /// A list is only equal to another list if they contain the same elements in the same order. All other iterables only
@@ -26,16 +25,16 @@ extension DeepEqualityIterable on Iterable<Object?> {
   /// a.equals([]); // Throws StackOverflowError
   /// ```
   @Possible({StackOverflowError})
-  @useResult bool equals(Object? other) => Equality.deep(this, other);
+  @useResult
+  bool equals(Object? other) => Equality.deep(this, other);
 
   /// The deep hash-code.
-  @useResult int get hashValue => HashCodes.deep(this);
-
+  @useResult
+  int get hashValue => HashCodes.deep(this);
 }
 
 /// Provides functions for determining the deep equality of [Map]s.
 extension DeepEqualityMap on Map<Object?, Object?> {
-
   /// Determines if this and [other] are deeply equal.
   ///
   /// This function is unlike [Map.==] which is identity-based.
@@ -50,16 +49,16 @@ extension DeepEqualityMap on Map<Object?, Object?> {
   /// a.equals(<int, dynamic>{}) // Throws StackOverflowError
   /// ```
   @Possible({StackOverflowError})
-  @useResult bool equals(Object? other) => Equality.deep(this, other);
+  @useResult
+  bool equals(Object? other) => Equality.deep(this, other);
 
   /// The deep hash-code.
-  @useResult int get hashValue => HashCodes.deep(this);
-
+  @useResult
+  int get hashValue => HashCodes.deep(this);
 }
 
 /// Provides functions for determining the deep equality of [MapEntry]s.
 extension DeepEqualityMapEntry on MapEntry<Object?, Object?> {
-
   /// Determines if this and [other] are deeply equal.
   ///
   /// This function is unlike [MapEntry.==] which is identity-based.
@@ -67,16 +66,16 @@ extension DeepEqualityMapEntry on MapEntry<Object?, Object?> {
   /// ## Contract
   /// A [StackOverflowError] is thrown if this or [other] contain themselves.
   @Possible({StackOverflowError})
-  @useResult bool equals(Object? other) => Equality.deep(this, other);
+  @useResult
+  bool equals(Object? other) => Equality.deep(this, other);
 
   /// The deep hash-code.
-  @useResult int get hashValue => HashCodes.deep(this);
-
+  @useResult
+  int get hashValue => HashCodes.deep(this);
 }
 
 /// Provides functions that determine the deep equality of objects.
 extension Equality on Never {
-
   /// Determines if [a] and [b] are deeply equal.
   ///
   /// This function handles lists, maps, sets, iterables and map entries specially. A list is only equal to another list
@@ -95,9 +94,10 @@ extension Equality on Never {
   /// Equality.deep(a, ['some other list']) // Throws StackOverflowError
   /// ```
   @Possible({StackOverflowError})
-  @useResult static bool deep(Object? a, Object? b) => switch ((a, b)) {
+  @useResult
+  static bool deep(Object? a, Object? b) => switch ((a, b)) {
     (_, _) when identical(a, b) => true,
-    (final List a, final List b) =>  _ordered(a, b),
+    (final List a, final List b) => _ordered(a, b),
     (final Iterable a, final Iterable b) => _unordered(a, b),
     (Map(entries: final a), Map(entries: final b)) => _unordered(a, b),
     (final MapEntry a, final MapEntry b) => deep(a.key, b.key) && deep(a.value, b.value),
@@ -142,12 +142,10 @@ extension Equality on Never {
 
     return true;
   }
-
 }
 
 /// Provides functions that compute the deep hashcodes of objects.
 extension HashCodes on Never {
-
   static const Type _list = List;
   static const Type _set = Set;
   static const Type _iterable = Iterable;
@@ -170,7 +168,8 @@ extension HashCodes on Never {
   /// HashCodes.deep(a) // Throws a StackOverflowError
   /// ```
   @Possible({StackOverflowError})
-  @useResult static int deep(Object? value) => switch (value) {
+  @useResult
+  static int deep(Object? value) => switch (value) {
     List _ => _ordered(_list, value),
     Set _ => _unordered(_set, value),
     Iterable _ => _unordered(_iterable, value),
@@ -194,5 +193,4 @@ extension HashCodes on Never {
     }
     return value;
   }
-
 }

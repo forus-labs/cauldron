@@ -8,22 +8,26 @@ import 'package:sugar/sugar.dart';
 ///
 /// This is typically a geographical location.
 final class DynamicTimezone extends Timezone {
-
   /// The span before the first timezone transition.
   final DynamicTimezoneSpan _initial;
+
   /// The seconds since epoch at which the timezone transition. It should never be empty. Stored as seconds to reduce memory usage.
   final Int64List _transitions;
+
   /// The offsets in seconds. It should never be empty. The offset may be stored in hours, minutes or seconds depending on
   /// [_unit]. This is done to reduce memory footprint.
   final List<int> _offsets;
+
   /// The amount used to convert an offset to microseconds, i.e. [Duration.microsecondsPerSecond].
   final int _unit;
+
   /// The abbreviations. It should never be empty.
   final List<String> _abbreviations; // TODO: replace with int map to reduce memory footprint
   /// Whether the timezone is daylight savings time. It should never be empty.
   final List<bool> _dsts; // TODO: replace with more bitfield to reduce memory footprint
   /// The range of the least recently used offset in seconds.
   late Range<int> _range;
+
   /// The last used span.
   DynamicTimezoneSpan _timezone;
 
@@ -31,13 +35,21 @@ final class DynamicTimezone extends Timezone {
   ///
   /// ## Contract
   /// The transitions, offsets, abbreviations and DSTs should be non-empty and have the same length.
-  DynamicTimezone(super.name, this._initial, this._transitions, this._offsets, this._unit, this._abbreviations, this._dsts):
-    _range = const Interval.empty(0),
-    _timezone = _initial,
-    super.from();
+  DynamicTimezone(
+    super.name,
+    this._initial,
+    this._transitions,
+    this._offsets,
+    this._unit,
+    this._abbreviations,
+    this._dsts,
+  ) : _range = const Interval.empty(0),
+      _timezone = _initial,
+      super.from();
 
   @override
-  @useResult (EpochMicroseconds, DynamicTimezoneSpan) convert({required int local}) {
+  @useResult
+  (EpochMicroseconds, DynamicTimezoneSpan) convert({required int local}) {
     // Adapted from https://github.com/JodaOrg/joda-time/blob/main/src/main/java/org/joda/time/DateTimeZone.java#L951
     // Get the offset at local (first estimate).
     final localInstant = local;
@@ -77,13 +89,15 @@ final class DynamicTimezone extends Timezone {
   }
 
   @override
-  @useResult DynamicTimezoneSpan span({required EpochMicroseconds at}) {
+  @useResult
+  DynamicTimezoneSpan span({required EpochMicroseconds at}) {
     final atSeconds = at ~/ Duration.microsecondsPerSecond;
     if (_range.contains(atSeconds)) {
       return _timezone;
     }
 
-    if (atSeconds < _transitions.first) { // initial span is computed at compile-time instead of runtime.
+    if (atSeconds < _transitions.first) {
+      // initial span is computed at compile-time instead of runtime.
       _range = Max.open(at);
       return _timezone = _initial;
     }
@@ -109,7 +123,6 @@ final class DynamicTimezone extends Timezone {
     if (max == _transitions.length) {
       _range = Min.closed(_transitions[min]);
       end = TimezoneSpan.range.max.value;
-
     } else {
       _range = Interval.closedOpen(_transitions[min], _transitions[max]);
       end = _transitions[max] * Duration.microsecondsPerSecond;
@@ -124,20 +137,24 @@ final class DynamicTimezone extends Timezone {
       dst: _dsts[min],
     );
   }
-
 }
 
 /// A [TimezoneSpan] for a TZ database timezone with varying offsets throughout points in time.
 final class DynamicTimezoneSpan extends TimezoneSpan {
-
   final int _index;
   final int _microseconds;
   Offset? _offset;
 
   /// Creates a [DynamicTimezoneSpan].
-  DynamicTimezoneSpan(this._index, this._microseconds, super.abbreviation, super.start, super.end, {required super.dst});
+  DynamicTimezoneSpan(
+    this._index,
+    this._microseconds,
+    super.abbreviation,
+    super.start,
+    super.end, {
+    required super.dst,
+  });
 
   @override
   Offset get offset => _offset ??= Offset.fromMicroseconds(_microseconds);
-
 }

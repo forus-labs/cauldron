@@ -23,7 +23,6 @@ void main() {
         const GenericAsset('test_package', 'bar', 'path/to/directory/bar.txt'),
       );
 
-
       expect(() => lintReservedKeyword(directory), returnsNormally);
     });
 
@@ -43,7 +42,8 @@ void main() {
 
       expectLater(
         log.onRecord,
-        emits(severeLogOf(contains('contains a reserved keyword. Please rename the directory/file. See https://dart.dev/language/keywords.'))),
+        emits(severeLogOf(contains(
+            'contains a reserved keyword. Please rename the directory/file. See https://dart.dev/language/keywords.'))),
       );
 
       expect(() => lintReservedKeyword(directory), throwsA(isA<NitrogenException>()));
@@ -65,7 +65,8 @@ void main() {
 
       expectLater(
         log.onRecord,
-        emits(severeLogOf(contains('contains a reserved identifier. Please rename the directory/file. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#reserved-keywords.'))),
+        emits(severeLogOf(contains(
+            'contains a reserved identifier. Please rename the directory/file. See https://github.com/forus-labs/cauldron/tree/master/nitrogen#reserved-keywords.'))),
       );
 
       expect(() => lintReservedKeyword(directory), throwsA(isA<NitrogenException>()));

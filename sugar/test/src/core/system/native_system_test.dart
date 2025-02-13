@@ -31,14 +31,7 @@ void main() {
   });
 
   test('booleans', () {
-    final types = [
-      system.android,
-      system.fuchsia,
-      system.ios,
-      system.linux,
-      system.macos,
-      system.windows,
-    ];
+    final types = [system.android, system.fuchsia, system.ios, system.linux, system.macos, system.windows];
 
     expect(types.where((e) => e).length, 1);
     expect(system.web, false);

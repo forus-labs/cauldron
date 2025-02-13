@@ -5,25 +5,24 @@ import 'package:test/test.dart';
 import 'package:sugar/collection.dart';
 
 void main() {
-
   group('Maps', () {
     group('merge(...)', () {
       test('empty', () => expect(Maps.merge({}, {}, resolve: (key, a, b) => a), {}));
 
-      test('no conflicts', () => expect(
-        Maps.merge({'a': 1}, {'b': 2}, resolve: (key, a, b) => min(a, b)),
-        {'a': 1, 'b': 2},
-      ));
+      test(
+        'no conflicts',
+        () => expect(Maps.merge({'a': 1}, {'b': 2}, resolve: (key, a, b) => min(a, b)), {'a': 1, 'b': 2}),
+      );
 
-      test('first wins', () => expect(
-        Maps.merge({'a': 1}, {'a': 2, 'b': 2}, resolve: (key, a, b) => min(a, b)),
-        {'a': 1, 'b': 2},
-      ));
+      test(
+        'first wins',
+        () => expect(Maps.merge({'a': 1}, {'a': 2, 'b': 2}, resolve: (key, a, b) => min(a, b)), {'a': 1, 'b': 2}),
+      );
 
-      test('second wins', () => expect(
-        Maps.merge({'a': 2}, {'a': 1, 'b': 2}, resolve: (key, a, b) => min(a, b)),
-        {'a': 1, 'b': 2},
-      ));
+      test(
+        'second wins',
+        () => expect(Maps.merge({'a': 2}, {'a': 1, 'b': 2}, resolve: (key, a, b) => min(a, b)), {'a': 1, 'b': 2}),
+      );
     });
 
     group('putAll(...)', () {
@@ -32,20 +31,17 @@ void main() {
         expect(a..putAll({}, resolve: (k, a, b) => min(a, b)), <String, int>{});
       });
 
-      test('no conflicts', () => expect(
-        {'a': 1}..putAll({'b': 2}, resolve: (k, a, b) => min(a, b)),
-        {'a': 1, 'b': 2},
-      ));
+      test('no conflicts', () => expect({'a': 1}..putAll({'b': 2}, resolve: (k, a, b) => min(a, b)), {'a': 1, 'b': 2}));
 
-      test('first wins', () => expect(
-        {'a': 1}..putAll({'a': 2, 'b': 2}, resolve: (k, a, b) => min(a, b)),
-        {'a': 1, 'b': 2},
-      ));
+      test(
+        'first wins',
+        () => expect({'a': 1}..putAll({'a': 2, 'b': 2}, resolve: (k, a, b) => min(a, b)), {'a': 1, 'b': 2}),
+      );
 
-      test('second wins', () => expect(
-        {'a': 2}..putAll({'a': 1, 'b': 2}, resolve: (k, a, b) => min(a, b)),
-        {'a': 1, 'b': 2},
-      ));
+      test(
+        'second wins',
+        () => expect({'a': 2}..putAll({'a': 1, 'b': 2}, resolve: (k, a, b) => min(a, b)), {'a': 1, 'b': 2}),
+      );
     });
 
     group('retainWhere(...)', () {
@@ -61,9 +57,21 @@ void main() {
     group('inverse()', () {
       test('empty', () => expect(<String, int>{}.inverse(), <int, List<String>>{}));
 
-      test('injective', () => expect({'a': 1, 'b': 2}.inverse(), <int, List<String>>{1: ['a'], 2: ['b']}));
+      test(
+        'injective',
+        () => expect({'a': 1, 'b': 2}.inverse(), <int, List<String>>{
+          1: ['a'],
+          2: ['b'],
+        }),
+      );
 
-      test('non-injective', () => expect({'a': 1, 'b': 1, 'c': 2}.inverse(), <int, List<String>>{1: ['a', 'b'], 2: ['c']}));
+      test(
+        'non-injective',
+        () => expect({'a': 1, 'b': 1, 'c': 2}.inverse(), <int, List<String>>{
+          1: ['a', 'b'],
+          2: ['c'],
+        }),
+      );
     });
 
     group('where(...)', () {
@@ -81,7 +89,10 @@ void main() {
 
       test('injective', () => expect({'1': 'a', '2': 'b'}.rekey(int.parse), {1: 'a', 2: 'b'}));
 
-      test('override previous keys', () => expect({'1': 'a', '2': 'b', '1.0': 'c'}.rekey((k) => int.tryParse(k) ?? 1), {1: 'c', 2: 'b'}));
+      test(
+        'override previous keys',
+        () => expect({'1': 'a', '2': 'b', '1.0': 'c'}.rekey((k) => int.tryParse(k) ?? 1), {1: 'c', 2: 'b'}),
+      );
     });
 
     group('revalue', () {
@@ -118,5 +129,4 @@ void main() {
       });
     });
   });
-
 }

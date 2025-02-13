@@ -68,35 +68,32 @@ void main() {
 
     group('fromSeconds(...)', () {
       for (final (seconds, output) in [
-        ((-18 * Duration.secondsPerHour), '-18:00'),
-        ((18 * Duration.secondsPerHour), '+18:00'),
+        (-18 * Duration.secondsPerHour, '-18:00'),
+        (18 * Duration.secondsPerHour, '+18:00'),
         (123, '+00:02:03'),
       ]) {
         test('accepts $seconds', () => expect(Offset.fromSeconds(seconds).toString(), output));
       }
 
-      for (final seconds in [
-        (-18 * Duration.secondsPerHour) - 1,
-        (18 * Duration.secondsPerHour) + 1,
-      ]) {
+      for (final seconds in [(-18 * Duration.secondsPerHour) - 1, (18 * Duration.secondsPerHour) + 1]) {
         test('with $seconds throws error', () => expect(() => Offset.fromSeconds(seconds), throwsRangeError));
       }
     });
 
     group('fromMicroseconds(...)', () {
       for (final (microseconds, output) in [
-        ((-18 * Duration.microsecondsPerHour), '-18:00'),
-        ((18 * Duration.microsecondsPerHour), '+18:00'),
+        (-18 * Duration.microsecondsPerHour, '-18:00'),
+        (18 * Duration.microsecondsPerHour, '+18:00'),
         (123 * Duration.microsecondsPerSecond, '+00:02:03'),
       ]) {
         test('accepts $microseconds', () => expect(Offset.fromMicroseconds(microseconds).toString(), output));
       }
 
-      for (final microseconds in [
-        (-18 * Duration.microsecondsPerHour) - 1,
-        (18 * Duration.microsecondsPerHour) + 1,
-      ]) {
-        test('with $microseconds throws error', () => expect(() => Offset.fromMicroseconds(microseconds), throwsRangeError));
+      for (final microseconds in [(-18 * Duration.microsecondsPerHour) - 1, (18 * Duration.microsecondsPerHour) + 1]) {
+        test(
+          'with $microseconds throws error',
+          () => expect(() => Offset.fromMicroseconds(microseconds), throwsRangeError),
+        );
       }
     });
 
@@ -132,7 +129,6 @@ void main() {
       }
     });
 
-
     group('add', () {
       test('succeeds', () => expect(Offset().add(const Duration(hours: 1, minutes: 2, seconds: 3)), Offset(1, 2, 3)));
 
@@ -140,11 +136,13 @@ void main() {
     });
 
     group('subtract', () {
-      test('succeeds', () => expect(Offset().subtract(const Duration(hours: 1, minutes: 2, seconds: 3)), Offset(-1, 2, 3)));
+      test(
+        'succeeds',
+        () => expect(Offset().subtract(const Duration(hours: 1, minutes: 2, seconds: 3)), Offset(-1, 2, 3)),
+      );
 
       test('fails', () => expect(() => Offset(-10).subtract(const Duration(hours: 10)), throwsRangeError));
     });
-
 
     group('plus', () {
       test('succeeds', () => expect(Offset().plus(hours: 1, minutes: 2, seconds: 3), Offset(1, 2, 3)));
@@ -158,7 +156,6 @@ void main() {
       test('fails', () => expect(() => Offset(-10).minus(hours: 10), throwsRangeError));
     });
 
-
     group('tryPlus', () {
       test('succeeds', () => expect(Offset().tryPlus(hours: 1, minutes: 2, seconds: 3), Offset(1, 2, 3)));
 
@@ -171,11 +168,12 @@ void main() {
       test('fails', () => expect(Offset(-10).tryMinus(hours: 10), null));
     });
 
-
     test('difference(...)', () => expect(Offset(10).difference(Offset(-10)), const Duration(hours: 20)));
 
-    test('toDuration()', () => expect(Offset(-1, 2, 3).toDuration(), const Duration(hours: -1, minutes: -2, seconds: -3)));
-
+    test(
+      'toDuration()',
+      () => expect(Offset(-1, 2, 3).toDuration(), const Duration(hours: -1, minutes: -2, seconds: -3)),
+    );
 
     test('inSeconds', () => expect(Offset(1, 2, 3).inSeconds, 3723));
 
@@ -183,12 +181,11 @@ void main() {
 
     test('inMicroseconds', () => expect(Offset(1, 2, 3).inMicroseconds, 3723000000));
 
-
     for (final (other, expected) in [
       (Offset(1, 2, 3), true),
       (Offset(1, 2, 4), false),
       (Offset(-1, 2, 3), false),
-      (const LiteralOffset('+01:02:03', 3723), true)
+      (const LiteralOffset('+01:02:03', 3723), true),
     ]) {
       test('equality ', () {
         expect(Offset(1, 2, 3) == other, expected);
@@ -196,7 +193,6 @@ void main() {
         expect(Offset(1, 2, 3).hashCode == other.hashCode, expected);
       });
     }
-
   });
 
   group('LiteralOffset', () {
@@ -212,7 +208,7 @@ void main() {
       (Offset(1, 2, 3), true),
       (Offset(1, 2, 4), false),
       (Offset(-1, 2, 3), false),
-      (const LiteralOffset('+01:02:03', 3723), true)
+      (const LiteralOffset('+01:02:03', 3723), true),
     ]) {
       test('equality ', () {
         expect(const LiteralOffset('+01:02:03', 3723) == other, expected);

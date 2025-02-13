@@ -3,7 +3,6 @@ import 'package:test/test.dart';
 import 'package:sugar/collection.dart';
 
 void main() {
-
   group('ListMove', () {
     group('toList()', () {
       test('empty source', () {
@@ -272,5 +271,4 @@ void main() {
       });
     });
   });
-
 }

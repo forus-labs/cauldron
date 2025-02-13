@@ -30,9 +30,7 @@ const _functionHeader = '''
   switch (timezone) {
 ''';
 
-
 extension Timezones on Never {
-
   static void generate(NamespaceIR namespace) {
     final buffer = StringBuffer(_header)..writeln();
     _import(buffer, namespace);
@@ -52,7 +50,6 @@ extension Timezones on Never {
     }
   }
 
-
   static void _set(StringBuffer buffer, NamespaceIR namespace) {
     buffer.writeln(_setHeader);
     _traverse(buffer, namespace);
@@ -68,7 +65,6 @@ extension Timezones on Never {
       _traverse(buffer, namespace);
     }
   }
-
 
   static void _function(StringBuffer buffer, NamespaceIR namespace) {
     buffer.writeln(_functionHeader);
@@ -91,5 +87,4 @@ extension Timezones on Never {
       _cases(buffer, namespace);
     }
   }
-
 }
