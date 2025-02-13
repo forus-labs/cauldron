@@ -99,11 +99,13 @@ void main(List<String> args) async {
   }
 
   final content = '''
+// dart format off
 // ignore_for_file: prefer_single_quotes
 part of 'tzdb.dart';
 
 /// The timezone database.
 const _tzdb = ${jsonEncode(tzDb)};
+// dart format on
 ''';
   File(p.join(Directory.current.path, 'lib', 'src', 'time', 'zone', 'providers', 'embedded', 'tzdb.g.dart'))
     ..createSync()
