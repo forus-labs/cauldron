@@ -98,18 +98,21 @@ void main() {
     });
 
     group('unnamed constructor', () {
-      for (final (hour, minute, second, output) in [
-        (-18, 0, 0, '-18:00'),
-        (18, 0, 0, '+18:00'),
-        (18, 0, 0, '+18:00'),
-        (0, 59, 0, '+00:59'),
-        (0, 0, 59, '+00:00:59'),
-        (17, 59, 59, '+17:59:59'),
-        (-17, 59, 59, '-17:59:59'),
-        (-1, 30, 30, '-01:30:30'),
-        (0, 0, 0, 'Z'),
+      for (final (hour, minute, second, output, timezoneAbbr) in [
+        (-18, 0, 0, '-18:00', '-1800'),
+        (18, 0, 0, '+18:00', '+1800'),
+        (0, 59, 0, '+00:59', '+0059'),
+        (0, 0, 59, '+00:00:59', '+0000'),
+        (17, 59, 59, '+17:59:59', '+1759'),
+        (-17, 59, 59, '-17:59:59', '-1759'),
+        (-1, 30, 30, '-01:30:30', '-0130'),
+        (0, 0, 0, 'Z', '+0000'),
       ]) {
-        test('accepts $hour $minute $second', () => expect(Offset(hour, minute, second).toString(), output));
+        test('accepts $hour $minute $second', () {
+          final offset = Offset(hour, minute, second);
+          expect(offset.toString(), output);
+          expect(offset.toTimezoneAbbreviation(), timezoneAbbr);
+        });
       }
 
       for (final (hour, minute, second) in [
@@ -200,6 +203,7 @@ void main() {
       const offset = LiteralOffset('+01:02:03', 3723);
       expect(offset.inSeconds, 3723);
       expect(offset.toString(), '+01:02:03');
+      expect(offset.toTimezoneAbbreviation(), '+0102');
     });
 
     test('constructor throws exception', () => expect(() => LiteralOffset('+01:02:03', -100000000), throwsA(anything)));

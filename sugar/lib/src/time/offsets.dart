@@ -31,6 +31,25 @@ String format(int microseconds) {
   return '$sign$hours:$minutes$suffix';
 }
 
+/// Format a duration of microseconds into a timezone abbreviation.
+///
+/// ```dart
+/// print(toTimezoneAbbreviation(0)); // '+0000'
+/// print(toTimezoneAbbreviation(1)); // '+0100'
+/// print(toTimezoneAbbreviation(-1)); // '-0100'
+/// ```
+String formatTimezoneAbbreviation(int microseconds) {
+  var value = microseconds ~/ 1000 ~/ 1000 ~/ 60;
+  final sign = value.isNegative ? '-' : '+';
+  value = value.abs();
+  final minute = value % 60;
+  value ~/= 60;
+  final hour = value % 60;
+  final hours = hour.toString().padLeft(2, '0');
+  final minutes = minute.toString().padLeft(2, '0');
+  return '$sign$hours$minutes';
+}
+
 const _allowed = '''
 The following offset formats are accepted:
   * Z - for UTC
@@ -102,7 +121,9 @@ final class _Offset extends Offset {
       return parsed;
     }
 
-    late final int hour, minute, second; // ignore: avoid_multiple_declarations_per_line
+    late final int hour;
+    late final int minute;
+    late final int second; // ignore: avoid_multiple_declarations_per_line
     switch (offset.length) {
       case 2:
         offset = '${offset[0]}0${offset[1]}';
