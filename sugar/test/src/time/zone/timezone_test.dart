@@ -1,3 +1,4 @@
+import 'package:sugar/src/time/zone/providers/embedded/embedded_timezone_provider.dart';
 import 'package:test/test.dart';
 
 import 'package:sugar/sugar.dart';
@@ -24,7 +25,7 @@ void main() {
   });
 
   group('Timezone(...)', () {
-    setUp(() => Timezone.timezoneProvider = DefaultTimezoneProvider());
+    setUp(() => Timezone.timezoneProvider = EmbeddedTimezoneProvider());
 
     test('valid', () => expect(Timezone('Asia/Tokyo').name, 'Asia/Tokyo'));
 
