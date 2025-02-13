@@ -1,4 +1,4 @@
-## 2.12. (13/02/2025)
+## 2.12.0+1 (13/02/2025)
 This update focuses on lint rules introduce in Dart 3.7.0.
 
 Core rulset:
