@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/src/time/zone/providers/embedded/embedded_timezone.dart';
 import 'package:b/b.dart';
+import 'package:sugar/src/time/zone/providers/embedded/embedded_timezone_span.dart';
 import 'package:sugar/sugar.dart';
 
 part 'tzdb.g.dart';
@@ -83,12 +84,12 @@ EmbeddedTimezone? parseTimezone({required String name}) {
     deltaOffsets = null;
   }
 
-  final spans = <TimezoneSpan>[];
+  final spans = <EmbeddedTimezoneSpan>[];
   if (deltaOffsets == null) {
     /// If there is no deltaOffsets, then the timezone is fixed
     /// and only has one offset.
     spans.add(
-      TimezoneSpan(
+      EmbeddedTimezoneSpan(
         start: TimezoneSpan.range.min.value,
         end: TimezoneSpan.range.max.value,
         offset: offsetsData.first.utcOffset,
@@ -119,7 +120,7 @@ EmbeddedTimezone? parseTimezone({required String name}) {
     /// in the list. (For instance, LMT is used from the beginning of time
     /// until 1883 in New York)
     spans.add(
-      TimezoneSpan(
+      EmbeddedTimezoneSpan(
         start: TimezoneSpan.range.min.value,
         end: transitionDeltas[0],
         offset: offsetsData.first.utcOffset,
@@ -135,7 +136,7 @@ EmbeddedTimezone? parseTimezone({required String name}) {
       // Use the offset that is at the index of the delta.
       final offset = offsetsData[deltaOffsets[index - 1]];
       spans.add(
-        TimezoneSpan(
+        EmbeddedTimezoneSpan(
           start: transition,
           end: nextTransition,
           offset: offset.utcOffset,
@@ -150,7 +151,7 @@ EmbeddedTimezone? parseTimezone({required String name}) {
     /// in the list until the end of time.
     final offset = offsetsData[deltaOffsets.last];
     spans.add(
-      TimezoneSpan(
+      EmbeddedTimezoneSpan(
         start: transition,
         end: TimezoneSpan.range.max.value,
         offset: offset.utcOffset,

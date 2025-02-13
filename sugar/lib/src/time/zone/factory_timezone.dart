@@ -22,11 +22,15 @@ class FactoryTimezone extends Timezone {
   ]) => (0, span(at: 0));
 
   @override
-  TimezoneSpan span({required EpochMicroseconds at}) => TimezoneSpan(
-    offset: Offset(),
-    abbreviation: '+0000',
-    start: TimezoneSpan.range.min.value,
-    end: TimezoneSpan.range.max.value,
-    dst: false,
-  );
+  TimezoneSpan span({required EpochMicroseconds at}) => _FactoryTimezoneSpan(offset: Offset());
+}
+
+class _FactoryTimezoneSpan extends TimezoneSpan {
+  @override
+  EpochMicroseconds get start => TimezoneSpan.range.min.value;
+  @override
+  EpochMicroseconds get end => TimezoneSpan.range.max.value;
+
+  /// Creates a new instance of [_FactoryTimezoneSpan].
+  _FactoryTimezoneSpan({required super.offset, super.abbreviation = '+0000', super.dst = false});
 }

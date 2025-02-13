@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:sugar/src/time/offset.dart';
 import 'package:sugar/src/time/temporal_unit.dart';
+import 'package:sugar/src/time/zone/providers/embedded/embedded_timezone_span.dart';
 import 'package:sugar/src/time/zone/timezone.dart';
 import 'package:sugar/src/time/zone/timezone_span.dart';
 
@@ -9,7 +10,7 @@ class EmbeddedTimezone extends Timezone {
   /// Create a new [EmbeddedTimezone] with the given values.
   const EmbeddedTimezone(super.name, this._spans, this._dstRules) : super.from();
 
-  final List<TimezoneSpan> _spans;
+  final List<EmbeddedTimezoneSpan> _spans;
   final DSTRules? _dstRules;
 
   @override
@@ -62,7 +63,7 @@ class EmbeddedTimezone extends Timezone {
   }
 
   @override
-  TimezoneSpan span({required EpochMicroseconds at}) {
+  EmbeddedTimezoneSpan span({required EpochMicroseconds at}) {
     final span = _spans.firstWhere((element) => at >= element.start && at < element.end);
     // If the timezone is not at the end of our database,
     // or we don't have a DST rule, then we can return the span as is.
@@ -74,7 +75,7 @@ class EmbeddedTimezone extends Timezone {
     final currentYear = DateTime.fromMicrosecondsSinceEpoch(at, isUtc: true).year;
     final (firstRule, secondRule) = _dstRules.spansForYear(currentYear);
     if (at >= firstRule.start && at < secondRule.start) {
-      return TimezoneSpan(
+      return EmbeddedTimezoneSpan(
         offset: firstRule.offset,
         start: firstRule.start,
         end: secondRule.start,
@@ -84,7 +85,7 @@ class EmbeddedTimezone extends Timezone {
     } else {
       if (at < firstRule.start) {
         final (_, lastYearSecondRule) = _dstRules.spansForYear(currentYear - 1);
-        return TimezoneSpan(
+        return EmbeddedTimezoneSpan(
           abbreviation: null,
           offset: lastYearSecondRule.offset,
           start: lastYearSecondRule.start,
@@ -93,7 +94,7 @@ class EmbeddedTimezone extends Timezone {
         );
       } else {
         final (nextYearFirstRule, _) = _dstRules.spansForYear(currentYear + 1);
-        return TimezoneSpan(
+        return EmbeddedTimezoneSpan(
           abbreviation: null,
           offset: secondRule.offset,
           start: secondRule.start,
