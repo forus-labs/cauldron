@@ -172,22 +172,6 @@ EmbeddedTimezone? parseTimezone({required String name}) {
 @internal
 final knownTimezones = _tzdb.keys.toSet();
 
-/// If [name] is an alias for another timzone
-/// then the name of the original timezone is returned.
-///
-/// If no alias is found, null is returned.
-String? getOriginalForAlias(String name) {
-  final data = _tzdb[name];
-  if (data == null) {
-    return null;
-  }
-  // If the data does not start with a sign, then it is an alias.
-  if (!RegExp('^[+-]').hasMatch(data)) {
-    return data;
-  }
-  return null;
-}
-
 /// The timezone database stores durations in the format (-|+)HHMM or (-|+)HHMMSS
 /// where HH is hours, MM is minutes, and SS is seconds.
 ///
