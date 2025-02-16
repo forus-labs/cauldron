@@ -162,7 +162,7 @@ EmbeddedTimezone? parseTimezone({required String name}) {
   }
 
   final dstRules = switch (parts.elementAtOrNull(4)) {
-    final String rules when rules.isNotEmpty => DSTRules(rules: rules, dstOffset: dstOffset, std: std),
+    final String rules when rules.isNotEmpty => DstRules(rules: rules, dstOffset: dstOffset, std: std),
     _ => null,
   };
   return EmbeddedTimezone(name, spans, dstRules);

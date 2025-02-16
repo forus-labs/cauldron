@@ -11,7 +11,7 @@ class EmbeddedTimezone extends Timezone {
   const EmbeddedTimezone(super.name, this._spans, this._dstRules) : super.from();
 
   final List<EmbeddedTimezoneSpan> _spans;
-  final DSTRules? _dstRules;
+  final DstRules? _dstRules;
 
   @override
   (EpochMicroseconds, TimezoneSpan) convert(
@@ -145,19 +145,19 @@ class EmbeddedTimezone extends Timezone {
 }
 
 /// The daylight/standard time rules for a timezone.
-class DSTRules {
+class DstRules {
   /// The standard time rule.
   final DSTRule stdRule;
 
   /// The daylight saving time rule.
   final DSTRule dstRule;
-  DSTRules._({required this.stdRule, required this.dstRule});
+  DstRules._({required this.stdRule, required this.dstRule});
 
   /// Create a new DST rules from the
   /// rules as it appears in the TZDB
-  factory DSTRules({required Offset std, required Offset dstOffset, required String rules}) {
+  factory DstRules({required Offset std, required Offset dstOffset, required String rules}) {
     final parts = rules.split(',');
-    return DSTRules._(
+    return DstRules._(
       stdRule: DSTRule(rule: parts[0], std: std, dstOffset: dstOffset, isDst: false),
       dstRule: DSTRule(rule: parts[1], std: std, dstOffset: dstOffset, isDst: true),
     );
