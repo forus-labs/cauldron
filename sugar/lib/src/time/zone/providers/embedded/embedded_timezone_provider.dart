@@ -1,5 +1,6 @@
-import 'package:sugar/src/time/zone/providers/base_provider.dart';
-import 'package:sugar/src/time/zone/providers/embedded/embedded_timezone.dart';
+import 'dart:collection';
+
+import 'package:sugar/src/time/zone/factory_timezone.dart';
 import 'package:sugar/src/time/zone/providers/embedded/tzdb.dart';
 import 'package:sugar/src/time/zone/timezone.dart';
 
@@ -7,10 +8,32 @@ import 'package:sugar/src/time/zone/timezone.dart';
 ///
 /// This provider uses a bundled timezone database to provide timezone
 /// information for all known timezones.
-class EmbeddedTimezoneProvider extends BaseTimezoneProvider {
-  @override
-  EmbeddedTimezone? fetchTimezone(String name) => parseTimezone(name: name);
+class EmbeddedTimezoneProvider extends UnmodifiableMapBase<String, Timezone> {
+  final _cache = <String, Timezone>{};
 
   @override
-  Set<String> listTimezones() => knownTimezones;
+  Timezone? operator [](Object? key) {
+    if (key is! String) {
+      return null;
+    }
+    if (!keys.contains(key)) {
+      return null;
+    }
+    if (key == 'Factory') {
+      return const FactoryTimezone();
+    }
+    var timezone = _cache[key];
+    if (timezone == null) {
+      timezone = parseTimezone(name: key);
+      if (timezone != null) {
+        _cache[key] = timezone;
+      }
+    }
+    return timezone;
+  }
+
+  @override
+  // Factory is a special timezone that is not in any
+  // timezone database which is handled separately
+  late final keys = knownTimezones.union({'Factory'});
 }
