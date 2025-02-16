@@ -166,35 +166,31 @@ class DstRules {
   /// Get the DST spans for a given year.
   ///
   /// The spans are returned in the order they occur.
-  (DSTSpan, DSTSpan) spansForYear(int year) {
-    final spanA = DSTSpan(
+  (DstSpan, DstSpan) spansForYear(int year) {
+    final spanA = DstSpan(
       start: stdRule._transitionForYear(year),
       offset: stdRule.save.add(stdRule.stdOffset.toDuration()),
       isDst: false,
     );
 
-    final spanB = DSTSpan(
+    final spanB = DstSpan(
       start: dstRule._transitionForYear(year),
       offset: dstRule.save.add(dstRule.stdOffset.toDuration()),
       isDst: true,
     );
-    if (spanA.start < spanB.start) {
-      return (spanA, spanB);
-    } else {
-      return (spanB, spanA);
-    }
+    return spanA.start < spanB.start ? (spanA, spanB) : (spanB, spanA);
   }
 }
 
-/// A [DSTSpan] is similar to a [TimezoneSpan] however
+/// A [DstSpan] is similar to a [TimezoneSpan] however
 /// it does not contain an end time.
 ///
-/// The primary difference is that a [DSTSpan] generated
+/// The primary difference is that a [DstSpan] generated
 /// by using the rules in the TZDB. (e.g "last Sunday in March")
 ///
 /// However, a [TimezoneSpan] is are created directly from the TZDB,
 /// which contains the exact start and end times with the offsets.
-class DSTSpan {
+class DstSpan {
   /// The time that this span starts.
   final EpochMicroseconds start;
 
@@ -204,8 +200,8 @@ class DSTSpan {
   /// Whether this span is for daylight saving time.
   final bool isDst;
 
-  /// Create a new [DSTSpan] with the given values.
-  DSTSpan({required this.start, required this.offset, required this.isDst});
+  /// Create a new [DstSpan] with the given values.
+  DstSpan({required this.start, required this.offset, required this.isDst});
 }
 
 /// A single DST rule.
