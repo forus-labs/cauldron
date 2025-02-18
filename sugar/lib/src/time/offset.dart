@@ -241,7 +241,8 @@ sealed class Offset with Orderable<Offset> {
   @override
   @nonVirtual
   @useResult
-  bool operator ==(Object other) => // ignore: hash_and_equals, invalid_override_of_non_virtual_member
+  // ignore: hash_and_equals, invalid_override_of_non_virtual_member
+  bool operator ==(Object other) =>
       identical(this, other) ||
       other is Offset && (runtimeType == _Offset || runtimeType == LiteralOffset) && compareTo(other) == 0;
 
@@ -268,7 +269,17 @@ sealed class Offset with Orderable<Offset> {
   /// print(Offset(1, 2, 3)); // '+01:02:03'
   /// ```
   @override
-  @mustBeOverridden
   @useResult
   String toString();
+
+  /// Returns the offset represented as a timezone abbreviation, adhering to
+  /// the ISO 8601 standard.
+  ///
+  /// See: https://en.wikipedia.org/wiki/ISO_8601#Time_offsets_from_UTC
+  ///
+  /// Example:
+  /// ```dart
+  /// print(Offset(1).toTimezoneAbbreviation()); // '+0100'
+  /// ```
+  String toTimezoneAbbreviation() => formatTimezoneAbbreviation(_microseconds);
 }

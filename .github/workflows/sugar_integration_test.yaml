@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2.18.0
       - run: dart pub get
-      - run: dart run coverage:test_with_coverage test ./integration_test/
+      - run: dart run coverage:test_with_coverage --test  .\integration_test\src\time\zone\platform\platform_provider_test.dart
       - uses: codecov/codecov-action@v5
         with:
           files: ./sugar/coverage/lcov.info

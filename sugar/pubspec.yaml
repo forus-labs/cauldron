@@ -9,11 +9,14 @@ issue_tracker: https://github.com/forus-labs/cauldron/issues
 documentation: https://pub.dev/documentation/sugar/latest/
 
 environment:
-  sdk: '>=3.7.0 <4.0.0'
+  sdk: ">=3.7.0 <4.0.0"
 resolution: workspace
 
 dependencies:
+  b: ^0.2.0
+  collection: ^1.19.0
   ffi: ^2.0.1
+  jni: ^0.14.0
   meta: ^1.11.0
   web: ^1.1.0
 

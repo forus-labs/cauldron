@@ -1,14 +1,13 @@
+import 'package:sugar/src/time/zone/providers/embedded/embedded_timezone_provider.dart';
 import 'package:test/test.dart';
 
 import 'package:sugar/sugar.dart';
 
 void main() {
-  final timezone = DefaultTimezoneProvider()['Etc/GMT-8']!;
+  final timezone = EmbeddedTimezoneProvider()['Etc/GMT-8']!;
 
   test('at(...)', () {
-    final (microseconds, TimezoneSpan(:offset)) = timezone.convert(
-      local: DateTime.utc(2023, 5, 9, 10).microsecondsSinceEpoch,
-    );
+    final (microseconds, TimezoneSpan(:offset)) = timezone.convert(2023, 5, 9, 10);
     expect(microseconds, DateTime.utc(2023, 5, 9, 2).microsecondsSinceEpoch);
     expect(offset, Offset(8));
   });
@@ -16,7 +15,7 @@ void main() {
   group('span(...)', () {
     final span = timezone.span(at: DateTime.utc(2023, 5, 4).microsecond);
 
-    test('abbreviation', () => expect(span.abbreviation, '+08'));
+    test('abbreviation', () => expect(span.abbreviation, '+0800'));
 
     test('start', () => expect(span.start, TimezoneSpan.range.min.value));
 

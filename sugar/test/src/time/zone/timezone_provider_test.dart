@@ -1,10 +1,9 @@
+import 'package:sugar/src/time/zone/providers/embedded/embedded_timezone_provider.dart';
 import 'package:test/test.dart';
 
-import 'package:sugar/src/time/zone/timezone_provider.dart';
-
 void main() {
-  group('DefaultTimezoneProvider', () {
-    final provider = DefaultTimezoneProvider();
+  group('EmbeddedTimezoneProvider', () {
+    final provider = EmbeddedTimezoneProvider();
 
     test('existing timezone', () => expect(provider['America/Detroit']?.name, 'America/Detroit'));
 

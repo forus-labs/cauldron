@@ -8,20 +8,23 @@ abstract class TimezoneSpan {
   static final Interval<EpochMicroseconds> range = Interval.closed(-8640000000000000000, 8640000000000000000);
 
   /// The abbreviation, i.e. `EST`.
-  final String abbreviation;
+  final String? abbreviation;
 
   /// This span's starting time in microseconds since Unix epoch.
-  final EpochMicroseconds start;
+  EpochMicroseconds? get start;
 
   /// This span's ending time in microseconds since Unix epoch.
-  final EpochMicroseconds end;
+  EpochMicroseconds? get end;
 
   /// Whether this span is currently daylight savings time.
   final bool dst;
 
-  /// Creates a [TimezoneSpan].
-  const TimezoneSpan(this.abbreviation, this.start, this.end, {required this.dst});
+  /// The offset of this span.
+  final Offset offset;
 
-  /// The offset.
-  Offset get offset;
+  /// Creates a [TimezoneSpan].
+  const TimezoneSpan({required this.offset, required this.abbreviation, required this.dst});
+
+  @override
+  String toString() => 'TimezoneSpan($abbreviation, $offset, $start, $end, $dst)';
 }

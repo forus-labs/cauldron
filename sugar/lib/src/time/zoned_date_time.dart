@@ -206,13 +206,44 @@ final class ZonedDateTime extends DateTimeBase {
     int second = 0,
     int millisecond = 0,
     int microsecond = 0,
-  ]) => ZonedDateTime._convert(
+  ]) => ZonedDateTime._convertFromDateTimeParts(
     Timezone(timezone),
-    DateTime.utc(year, month, day, hour, minute, second, millisecond, microsecond),
+    year,
+    month,
+    day,
+    hour,
+    minute,
+    second,
+    millisecond,
+    microsecond,
   );
 
   factory ZonedDateTime._convert(Timezone timezone, DateTime date) {
-    final (microseconds, span) = timezone.convert(local: date.microsecondsSinceEpoch);
+    final (microseconds, span) = timezone.convert(
+      date.year,
+      date.month,
+      date.day,
+      date.hour,
+      date.minute,
+      date.second,
+      date.millisecond,
+      date.microsecond,
+    );
+    return ZonedDateTime._(timezone, span, microseconds);
+  }
+
+  factory ZonedDateTime._convertFromDateTimeParts(
+    Timezone timezone,
+    int year,
+    int month,
+    int day,
+    int hour,
+    int minute,
+    int second,
+    int millisecond,
+    int microsecond,
+  ) {
+    final (microseconds, span) = timezone.convert(year, month, day, hour, minute, second, millisecond, microsecond);
     return ZonedDateTime._(timezone, span, microseconds);
   }
 

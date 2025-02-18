@@ -34,12 +34,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2.18.0
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "adopt"
+          java-version: "11.0.26+4"
       - run: dart pub get
       - run: dart analyze --fatal-warnings
+      - run: dart format . --set-exit-if-changed --output none
+      - run: dart run tool/generate_timezones.dart
       - run: dart run coverage:test_with_coverage
       - run: sudo apt-get update -y
       - run: sudo apt-get install -y lcov
-      - run: lcov --remove ./coverage/lcov.info '**.g.dart' -o ./coverage/lcov.info
+      - run: lcov --remove ./coverage/lcov.info '**.g.dart' -o ./coverage/lcov.info --ignore-errors unused
       - uses: codecov/codecov-action@v5
         with:
           files: ./sugar/coverage/lcov.info
