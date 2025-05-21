@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:yaml/yaml.dart';
+
 import 'environment.dart';
 
 void main() {
@@ -13,13 +15,23 @@ void main() {
 void sort(File file) {
   final yaml = loadFile(file);
   final include = yaml['include'] as String?;
+  final formatter = yaml['formatter'] as YamlMap?;
   final applied = <String>[...?yaml['linter']['rules']]..sort();
   final ignored = <String>[...?yaml['ignore']]..sort();
 
   file.writeAsStringSync('');
 
   if (include != null) {
-    file.writeAsStringSync('include: $include\n', mode: FileMode.append);
+    file.writeAsStringSync('include: $include\n\n', mode: FileMode.append);
+
+  }
+
+  if (formatter != null) {
+    file.writeAsStringSync('formatter:\n', mode: FileMode.append);
+    for (final key in formatter.keys) {
+      file.writeAsStringSync('  $key: ${formatter[key]}\n', mode: FileMode.append);
+    }
+    file.writeAsStringSync('\n', mode: FileMode.append);
   }
 
   if (applied.isNotEmpty) {

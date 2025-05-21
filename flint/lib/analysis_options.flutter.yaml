@@ -1,4 +1,8 @@
 include: ./analysis_options.dart.yaml
+
+formatter:
+  page_width: 120
+
 linter:
   rules:
     - avoid_web_libraries_in_flutter

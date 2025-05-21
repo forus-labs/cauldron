@@ -1,3 +1,7 @@
+## 2.13.1 (21/05/2025)
+Fix accidental removal of page_width formatting.
+
+
 ## 2.13.0 (21/05/2025)
 This update focuses on lint rules introduced in Dart 3.8.0.
 
