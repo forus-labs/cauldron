@@ -123,7 +123,7 @@ final class _Offset extends Offset {
 
     late final int hour;
     late final int minute;
-    late final int second; // ignore: avoid_multiple_declarations_per_line
+    late final int second;
     switch (offset.length) {
       case 2:
         offset = '${offset[0]}0${offset[1]}';

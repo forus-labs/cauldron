@@ -101,7 +101,7 @@ class StreamValueBuilder<T> extends StatefulWidget {
 
 /// This implementation is ported from [StreamBuilderBase].
 class _StreamValueBuilderState<T> extends State<StreamValueBuilder<T>> {
-  StreamSubscription<T>? _subscription; // ignore: cancel_subscriptions
+  StreamSubscription<T>? _subscription;
   Object? _snapshot;
 
   @override

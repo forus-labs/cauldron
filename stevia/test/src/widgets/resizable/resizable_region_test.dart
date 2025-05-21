@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stevia/stevia.dart';
 
-Widget stub(BuildContext context, RegionSnapshot snapshot, Widget? child) => child!; // ignore: avoid_positional_boolean_parameters
+Widget stub(BuildContext context, RegionSnapshot snapshot, Widget? child) => child!;
 
 void main() {
   group('RegionSnapshot', () {

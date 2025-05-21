@@ -60,9 +60,8 @@ void main() {
   });
 
   testWidgets('when initialData is used with null Future and Stream', (tester) async {
-    // ignore: prefer_const_constructors, prefer_const_literals_to_create_immutables
     await tester.pumpWidget(Column(children: [
-      FutureValueBuilder.value(future: (_) => null, initial: 'I', builder: valueText), // ignore: prefer_const_constructors
+      FutureValueBuilder.value(future: (_) => null, initial: 'I', builder: valueText),
       StreamValueBuilder.value(stream: null, initial: 'I', builder: valueText), // ignore: prefer_const_constructors
     ]));
 
@@ -72,8 +71,8 @@ void main() {
   testWidgets('when using initialData and completing with data', (tester) async {
     final completer = Completer<String>();
     await tester.pumpWidget(Column(children: [
-      FutureValueBuilder.value(future: (_) => completer.future, initial: 'I', builder: valueText), // ignore: prefer_const_constructors
-      StreamValueBuilder.value(stream: completer.future.asStream(), initial: 'I', builder: valueText), // ignore: prefer_const_constructors
+      FutureValueBuilder.value(future: (_) => completer.future, initial: 'I', builder: valueText),
+      StreamValueBuilder.value(stream: completer.future.asStream(), initial: 'I', builder: valueText),
     ]));
     expect(find.text('I'), findsNWidgets(2));
 
