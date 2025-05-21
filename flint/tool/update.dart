@@ -34,6 +34,7 @@ Future<(Set<String> released, Set<String> removed)> process(Set<String> remote) 
 
   print('Checking rules. This might take awhile.');
   for (final rule in remote) {
+    print('https://dart.dev/tools/linter-rules/$rule');
     final response = await get(Uri.parse('https://dart.dev/tools/linter-rules/$rule'));
     if (response.statusCode == 404) {
       print('Warning: https://dart.dev/tools/linter-rules/$rule does not exist.');
@@ -41,7 +42,7 @@ Future<(Set<String> released, Set<String> removed)> process(Set<String> remote) 
     }
 
     final content = parse(response.body)
-        .getElementsByClassName('lint-tags')[0]
+        .getElementsByClassName('tags')[0]
         .text;
 
     if (existing.contains(rule) && (content.contains('Deprecated') || content.contains('Removed'))) {

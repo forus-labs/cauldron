@@ -1,3 +1,11 @@
+## 2.13.0 (21/05/2025)
+This update focuses on lint rules introduced in Dart 3.8.0.
+
+Core ruleset:
+- Add `unnecessary_ignore`
+- Add `use_null_aware_elements`
+
+
 ## 2.12.0+1 (13/02/2025)
 This update focuses on lint rules introduce in Dart 3.7.0.
 
