@@ -24,7 +24,7 @@ jobs:
       run:
         working-directory: nitrogen
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: subosito/flutter-action@v2.21.0
       - run: flutter pub get
       - run: flutter analyze --fatal-warnings
@@ -37,7 +37,7 @@ jobs:
       run:
         working-directory: nitrogen_flutter_svg
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: subosito/flutter-action@v2.21.0
       - run: flutter pub get
       - run: flutter analyze
@@ -49,7 +49,7 @@ jobs:
       run:
         working-directory: nitrogen_lottie
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: subosito/flutter-action@v2.21.0
       - run: flutter pub get
       - run: flutter analyze
@@ -61,7 +61,7 @@ jobs:
       run:
         working-directory: nitrogen_types
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: subosito/flutter-action@v2.21.0
       - run: flutter pub get
       - run: flutter analyze --fatal-warnings
