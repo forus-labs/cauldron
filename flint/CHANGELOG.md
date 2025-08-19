@@ -1,3 +1,12 @@
+## 2.14.0 (19/08/2025)
+This update focuses on lint rules introduced in Dart 3.9.0.
+
+Core ruleset:
+- Add `avoid_web_libraries_in_flutter`
+- Add `switch_on_type`
+- Add `unnecessary_unawaited`
+
+
 ## 2.13.1 (21/05/2025)
 Fix accidental removal of page_width formatting.
 

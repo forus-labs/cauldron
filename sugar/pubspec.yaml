@@ -11,6 +11,8 @@ documentation: https://pub.dev/documentation/sugar/latest/
 environment:
   sdk: ">=3.7.0 <4.0.0"
 resolution: workspace
+workspace:
+  - example
 
 dependencies:
   b: ^0.2.0

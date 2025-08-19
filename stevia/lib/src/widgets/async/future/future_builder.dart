@@ -53,7 +53,7 @@ abstract base class _FutureBuilder<T, U> extends StatefulWidget {
 ///
 /// When creating a new [FutureBuilder], you should prefer either the [_FutureValueBuilderState] or [_FutureResultBuilderState]
 /// subclasses.
-abstract base class _FutureBuilderState<Wrapped, Snapshot, Value, Builder extends _FutureBuilder<Wrapped, Value>> extends State<Builder> {
+abstract base class _FutureBuilderState<Wrapped, Snapshot, Value, B extends _FutureBuilder<Wrapped, Value>> extends State<B> {
   /// An object that identifies the currently active callbacks. Used to avoid
   /// calling setState from stale callbacks, e.g. after disposal of this state,
   /// or after widget reconfiguration to a new Future.
@@ -78,7 +78,7 @@ abstract base class _FutureBuilderState<Wrapped, Snapshot, Value, Builder extend
   }
 
   @override
-  void didUpdateWidget(Builder old) {
+  void didUpdateWidget(B old) {
     super.didUpdateWidget(old);
     if (old.future == widget.future) {
       return;

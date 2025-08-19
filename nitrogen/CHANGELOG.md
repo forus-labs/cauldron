@@ -1,3 +1,7 @@
+## 0.4.1
+* Bump dependencies
+
+
 ## 0.4.0
 * Bump `dart_style` from 2.0.0 to 3.0.0.
 

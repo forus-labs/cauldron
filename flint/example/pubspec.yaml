@@ -6,7 +6,8 @@ homepage: https://github.com/forus-labs/cauldron
 repository: https://github.com/forus-labs/cauldron
 
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: '>=3.9.0 <4.0.0'
+resolution: workspace
 
 dependencies:
   flint: ^2.1.0

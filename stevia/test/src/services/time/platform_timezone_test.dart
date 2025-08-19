@@ -1,3 +1,6 @@
+// ignore_for_file: switch_on_type
+// TODO: Remove once https://github.com/dart-lang/sdk/issues/61355 is fixed
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stevia/src/services/time/platform_timezone.dart';

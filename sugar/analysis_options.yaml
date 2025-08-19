@@ -8,5 +8,6 @@ analyzer:
     unused_result: ignore # The rule seems to break almost every release.
   exclude:
     - lib/src/time/zone/info/**
+    - test/src/time/zone/providers/embedded/java_provider/bindings.dart
     - misc/**
     - out/**
