@@ -32,7 +32,7 @@ jobs:
         working-directory: stevia
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: subosito/flutter-action@v2.21.0
       - run: flutter pub get
       - run: dart run build_runner build --delete-conflicting-outputs
