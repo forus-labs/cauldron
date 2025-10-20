@@ -1,0 +1,68 @@
+name: nitrogen_lottie Presubmit Format
+
+on:
+  workflow_dispatch: {}
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/nitrogen_lottie_presubmit*.yaml'
+      - 'nitrogen_lottie/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  format:
+    if: github.actor != 'auto-maid[bot]' && github.event.pull_request.draft == false && !contains(github.event.head_commit.message, 'Prepare nitrogen_lottie for review')
+    name: Format & Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: nitrogen_lottie
+    steps:
+      - uses: actions/checkout@v5
+      - uses: subosito/flutter-action@v2.21.0
+        with:
+          cache: true
+
+      - run: dart pub get
+      - run: dart run ../tool/sort.dart nitrogen_lottie
+      - run: dart run build_runner build --delete-conflicting-outputs
+      - run: dart format .
+      - run: dart fix --apply
+        # We format the code again since the required trailing comma lint fixes causes code to be formatted differently
+      - run: dart format .
+
+      - id: changes
+        working-directory: .
+        run: |
+          git diff --exit-code -- nitrogen_lottie && echo "changes=false" >> $GITHUB_OUTPUT || {
+            git diff -- nitrogen_lottie > changes.patch
+            echo "changes=true" >> $GITHUB_OUTPUT
+          }
+
+      - if: steps.changes.outputs.changes == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: format-changes
+          path: changes.patch
+          retention-days: 1
+
+      - if: steps.changes.outputs.changes == 'true'
+        working-directory: .
+        run: |
+          echo "${{ github.event.number }}" > pr-number.txt
+          echo "${{ github.event.pull_request.head.ref }}" > pr-head-ref.txt
+          echo "${{ github.event.pull_request.head.sha }}" > pr-head-sha.txt
+          echo "${{ github.event.pull_request.head.repo.full_name }}" > pr-head-repo.txt
+
+      - if: steps.changes.outputs.changes == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-metadata
+          path: |
+            pr-number.txt
+            pr-head-ref.txt
+            pr-head-sha.txt
+            pr-head-repo.txt
+          retention-days: 1
