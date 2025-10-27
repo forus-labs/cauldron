@@ -12,7 +12,7 @@ environment:
 resolution: workspace
 
 dependencies:
-  build: ^3.0.0
+  build: 4.0.2
   build_runner: ^2.4.6
   code_builder: ^4.10.0
   dart_style: ^3.0.0
